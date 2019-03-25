@@ -1,7 +1,6 @@
 export const roleHarvester: any = {
 
-    /** @param {Creep} creep **/
-    run: function (creep: any) {
+    run: function (creep: Creep) {
         if (creep.memory.unloading && creep.carry.energy == 0) {
             creep.memory.unloading = false;
             creep.say("harvesting");
