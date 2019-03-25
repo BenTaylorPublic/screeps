@@ -1,14 +1,14 @@
-import { FIND_SOURCES_ACTIVE, ERR_NOT_IN_RANGE, FIND_STRUCTURES, STRUCTURE_EXTENSION, STRUCTURE_SPAWN, STRUCTURE_TOWER, RESOURCE_ENERGY } from "constants";
-export const roleHarvester = {
+export const roleHarvester: any = {
+
     /** @param {Creep} creep **/
-    run: function (creep) {
+    run: function (creep: any) {
         if (creep.memory.unloading && creep.carry.energy == 0) {
             creep.memory.unloading = false;
-            creep.say('harvesting');
+            creep.say("harvesting");
         }
         if (!creep.memory.unloading && creep.carry.energy == creep.carryCapacity) {
             creep.memory.unloading = true;
-            creep.say('unloading');
+            creep.say("unloading");
         }
         if (!creep.memory.unloading) {
             var source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
@@ -18,7 +18,7 @@ export const roleHarvester = {
         }
         else {
             var target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-                filter: (structure) => {
+                filter: (structure: any) => {
                     return (structure.structureType == STRUCTURE_EXTENSION ||
                         structure.structureType == STRUCTURE_SPAWN ||
                         structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity;
