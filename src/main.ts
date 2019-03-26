@@ -18,11 +18,13 @@ export const loop: any = function () {
     if (Memory.myMemory.rclStage <= 1) {
         for (let name in Game.creeps) {
             let creep: Creep = Game.creeps[name];
+            rcl1RoleAll.run(creep);
             creepCount++;
         }
 
         if (creepCount < 6) {
             let newCreep: Creep = spawnBasicWorker(Game.spawns.Spawn1);
+            console.log("spawning new creep");
             rcl1RoleAll.run(newCreep);
         }
     }
