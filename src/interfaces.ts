@@ -1,7 +1,5 @@
 interface CreepMemory {
-    upgrading?: boolean;
-    unloading?: boolean;
-    building?: boolean;
+    harvesting?: boolean;
     role?: string;
 };
 interface FlagMemory { };

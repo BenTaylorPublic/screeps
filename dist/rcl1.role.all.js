@@ -1,11 +1,12 @@
-export const roleHarvester: any = {
-
-    run: function (creep: Creep) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.rcl1RoleAll = {
+    run: function (creep) {
         if (creep.memory.unloading && creep.carry.energy == 0) {
             creep.memory.unloading = false;
             creep.say("harvesting");
         }
-        if (!creep.memory.unloading && creep.carry.energy == creep.carryCapacity) {
+        else if (!creep.memory.unloading && creep.carry.energy == creep.carryCapacity) {
             creep.memory.unloading = true;
             creep.say("unloading");
         }
@@ -17,7 +18,7 @@ export const roleHarvester: any = {
         }
         else {
             var target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-                filter: (structure: any) => {
+                filter: (structure) => {
                     return (structure.structureType == STRUCTURE_EXTENSION ||
                         structure.structureType == STRUCTURE_SPAWN ||
                         structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity;
