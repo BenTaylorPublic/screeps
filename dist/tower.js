@@ -1,4 +1,6 @@
-export var tower = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.tower = {
     run: function (tower) {
         var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
             filter: function (structure) { return structure.hits < structure.hitsMax; }

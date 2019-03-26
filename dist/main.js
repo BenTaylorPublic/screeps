@@ -1,40 +1,42 @@
-import { roleHarvester } from "role.harvester";
-import { roleUpgrader } from "role.upgrader";
-import { roleBuilder } from "role.builder";
-import { tower } from "tower";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var role_harvester_1 = require("role.harvester");
+var role_upgrader_1 = require("role.upgrader");
+var role_builder_1 = require("role.builder");
+var tower_1 = require("tower");
 var globalId = 0;
-export var loop = function () {
+exports.loop = function () {
     var towers = Game.spawns.Spawn1.room.find(FIND_STRUCTURES, { filter: { structureType: STRUCTURE_TOWER, my: true } });
-    towers.forEach(tower.run);
+    towers.forEach(tower_1.tower.run);
     var harvesterCount = 0;
     var upgraderCount = 0;
     var builderCount = 0;
     for (var name in Game.creeps) {
         var creep = Game.creeps[name];
         if (creep.memory.role === "harvester") {
-            roleHarvester.run(creep);
+            role_harvester_1.roleHarvester.run(creep);
             harvesterCount++;
         }
         else if (creep.memory.role === "upgrader") {
-            roleUpgrader.run(creep);
+            role_upgrader_1.roleUpgrader.run(creep);
             upgraderCount++;
         }
         else if (creep.memory.role === "builder") {
-            roleBuilder.run(creep);
+            role_builder_1.roleBuilder.run(creep);
             builderCount++;
         }
     }
     if (harvesterCount < 2) {
         var newCreep = spawnHarvester(Game.spawns.Spawn1);
-        roleHarvester.run(newCreep);
+        role_harvester_1.roleHarvester.run(newCreep);
     }
     else if (upgraderCount < 2) {
         var newCreep = spawnUpgrader(Game.spawns.Spawn1);
-        roleUpgrader.run(newCreep);
+        role_upgrader_1.roleUpgrader.run(newCreep);
     }
     else if (builderCount < 2) {
         var newCreep = spawnBuilder(Game.spawns.Spawn1);
-        roleBuilder.run(newCreep);
+        role_builder_1.roleBuilder.run(newCreep);
     }
 };
 function spawnHarvester(spawn) {

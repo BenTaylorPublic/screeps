@@ -1,4 +1,6 @@
-export var roleHarvester = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.roleHarvester = {
     run: function (creep) {
         if (creep.memory.unloading && creep.carry.energy == 0) {
             creep.memory.unloading = false;

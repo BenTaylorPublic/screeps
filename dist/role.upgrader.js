@@ -1,4 +1,6 @@
-export var roleUpgrader = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.roleUpgrader = {
     run: function (creep) {
         if (creep.memory.upgrading && creep.carry.energy == 0) {
             creep.memory.upgrading = false;
