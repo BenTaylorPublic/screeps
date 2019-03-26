@@ -9,7 +9,8 @@
         "experimentalDecorators": true,
         "target": "esnext",
         "lib": [
-            "esnext"
+            "esnext",
+            "dom"
         ],
         "baseUrl": "src/",
         "paths": {},
