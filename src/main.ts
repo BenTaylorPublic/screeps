@@ -1,6 +1,6 @@
 import { rcl1RoleAll } from "rcl1.role.all";
 import { tower } from "tower";
-console.log("Starting script v1.0.1");
+console.log("Starting script v2");
 export const loop: any = function () {
     let towers: AnyStructure[] = Game.spawns.Spawn1.room.find(FIND_STRUCTURES, { filter: { structureType: STRUCTURE_TOWER, my: true } });
     towers.forEach(tower.run);
