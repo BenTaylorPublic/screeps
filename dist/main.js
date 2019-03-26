@@ -11,6 +11,11 @@ exports.loop = function () {
     let harvesterCount = 0;
     let upgraderCount = 0;
     let builderCount = 0;
+    for (var i in Memory.creeps) {
+        if (!Game.creeps[i]) {
+            delete Memory.creeps[i];
+        }
+    }
     for (let name in Game.creeps) {
         let creep = Game.creeps[name];
         if (creep.memory.role === "harvester") {
