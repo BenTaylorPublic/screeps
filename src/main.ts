@@ -13,6 +13,12 @@ export const loop: any = function () {
     let upgraderCount: number = 0;
     let builderCount: number = 0;
 
+    for (var i in Memory.creeps) {
+        if (!Game.creeps[i]) {
+            delete Memory.creeps[i];
+        }
+    }
+
     for (let name in Game.creeps) {
         let creep: Creep = Game.creeps[name];
 
