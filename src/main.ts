@@ -15,7 +15,7 @@ export const loop: any = function () {
         }
     }
 
-    if (Memory.myMemory.rclStage <= 1) {
+    if (Memory.myMemory.stage <= 1) {
         for (let name in Game.creeps) {
             let creep: Creep = Game.creeps[name];
             rcl1RoleAll.run(creep);
@@ -28,7 +28,7 @@ export const loop: any = function () {
             rcl1RoleAll.run(newCreep);
         }
     }
-    else if (Memory.myMemory.rclStage >= 2) {
+    else if (Memory.myMemory.stage >= 2) {
         for (let roomName in Game.rooms) {
             let room: Room = Game.rooms[roomName];
             let creepsInThisRoom: Creep[] = [];
