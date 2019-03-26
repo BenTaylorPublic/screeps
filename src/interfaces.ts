@@ -7,4 +7,5 @@ interface SpawnMemory { };
 interface RoomMemory { };
 interface MyMemory {
     globalId: number;
+    rclStage: number;
 };
