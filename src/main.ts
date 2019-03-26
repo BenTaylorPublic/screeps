@@ -1,7 +1,5 @@
 import { rcl1RoleAll } from "rcl1.role.all";
 import { tower } from "tower";
-
-let globalId: number = 0;
 console.log("Starting script v1.0.0");
 export const loop: any = function () {
     let towers: AnyStructure[] = Game.spawns.Spawn1.room.find(FIND_STRUCTURES, { filter: { structureType: STRUCTURE_TOWER, my: true } });
@@ -35,7 +33,7 @@ function spawnHarvester(spawn: StructureSpawn): Creep {
 }
 
 function getId(): number {
-    let toReturn: number = globalId;
-    globalId++;
+    let toReturn: number = Memory.myMemory.globalId;
+    Memory.myMemory.globalId++;
     return toReturn;
 }

@@ -5,3 +5,6 @@ interface CreepMemory {
 interface FlagMemory { };
 interface SpawnMemory { };
 interface RoomMemory { };
+interface MyMemory {
+    globalId: number;
+};
