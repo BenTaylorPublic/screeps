@@ -13,6 +13,7 @@ export const loop: any = function () {
     let upgraderCount: number = 0;
     let builderCount: number = 0;
 
+    //Clear all dead creeps
     for (var i in Memory.creeps) {
         if (!Game.creeps[i]) {
             delete Memory.creeps[i];
