@@ -1,6 +1,10 @@
 export const rcl1RoleAll: any = {
     run: function (creep: Creep) {
         //Swapping state
+        if (creep == null) {
+            console.log("A creep was null");
+            return;
+        }
         if (!creep.memory.harvesting && creep.carry.energy == 0) {
             creep.memory.harvesting = true;
             creep.say("harvesting");
