@@ -16,6 +16,7 @@ exports.loop = function () {
     for (let name in Game.creeps) {
         let creep = Game.creeps[name];
         rcl1_role_all_1.rcl1RoleAll.run(creep);
+        creepCount++;
     }
     if (creepCount < 6) {
         let newCreep = spawnHarvester(Game.spawns.Spawn1);
@@ -24,7 +25,7 @@ exports.loop = function () {
 };
 function spawnHarvester(spawn) {
     let id = getId();
-    spawn.spawnCreep([MOVE, CARRY, WORK], "Creep" + id, { memory: { role: "rcl1" } });
+    spawn.spawnCreep([MOVE, CARRY, WORK], "Creep" + id, { memory: { role: "rcl1", harvesting: true } });
     return Game.creeps["Creep" + id];
 }
 function getId() {
