@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const rcl1_role_all_1 = require("rcl1.role.all");
 const tower_1 = require("tower");
 let globalId = 0;
+console.log("Starting script v1.0.0");
 exports.loop = function () {
     let towers = Game.spawns.Spawn1.room.find(FIND_STRUCTURES, { filter: { structureType: STRUCTURE_TOWER, my: true } });
     towers.forEach(tower_1.tower.run);
