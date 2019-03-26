@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const rcl1_role_all_1 = require("rcl1.role.all");
 const tower_1 = require("tower");
 const rcl2_controller_1 = require("rcl2.controller");
-console.log("Starting script v3");
+console.log("Starting script v4");
 exports.loop = function () {
     let towers = Game.spawns.Spawn1.room.find(FIND_STRUCTURES, { filter: { structureType: STRUCTURE_TOWER, my: true } });
     towers.forEach(tower_1.tower.run);
@@ -17,10 +17,12 @@ exports.loop = function () {
     if (Memory.myMemory.rclStage <= 1) {
         for (let name in Game.creeps) {
             let creep = Game.creeps[name];
+            rcl1_role_all_1.rcl1RoleAll.run(creep);
             creepCount++;
         }
         if (creepCount < 6) {
             let newCreep = spawnBasicWorker(Game.spawns.Spawn1);
+            console.log("spawning new creep");
             rcl1_role_all_1.rcl1RoleAll.run(newCreep);
         }
     }
