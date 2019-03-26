@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.tower = {
     run: function (tower) {
         var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-            filter: function (structure) { return structure.hits < structure.hitsMax; }
+            filter: (structure) => structure.hits < structure.hitsMax
         });
         if (closestDamagedStructure) {
             tower.repair(closestDamagedStructure);
