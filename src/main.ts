@@ -19,6 +19,7 @@ export const loop: any = function () {
     for (let name in Game.creeps) {
         let creep: Creep = Game.creeps[name];
         rcl1RoleAll.run(creep);
+        creepCount++;
     }
 
     if (creepCount < 6) {
@@ -29,7 +30,7 @@ export const loop: any = function () {
 
 function spawnHarvester(spawn: StructureSpawn): Creep {
     let id = getId();
-    spawn.spawnCreep([MOVE, CARRY, WORK], "Creep" + id, { memory: { role: "rcl1" } });
+    spawn.spawnCreep([MOVE, CARRY, WORK], "Creep" + id, { memory: { role: "rcl1", harvesting: true } });
     return Game.creeps["Creep" + id];
 }
 
