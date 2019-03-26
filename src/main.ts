@@ -1,6 +1,6 @@
-import { roleHarvester } from "roles/role.harvester";
-import { roleUpgrader } from "roles/role.upgrader";
-import { roleBuilder } from "roles/role.builder";
+import { roleHarvester } from "role.harvester";
+import { roleUpgrader } from "role.upgrader";
+import { roleBuilder } from "role.builder";
 import { tower } from "tower";
 
 let globalId: number = 0;

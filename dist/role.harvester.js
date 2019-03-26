@@ -1,4 +1,4 @@
-export const roleHarvester = {
+export var roleHarvester = {
     run: function (creep) {
         if (creep.memory.unloading && creep.carry.energy == 0) {
             creep.memory.unloading = false;
@@ -16,7 +16,7 @@ export const roleHarvester = {
         }
         else {
             var target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-                filter: (structure) => {
+                filter: function (structure) {
                     return (structure.structureType == STRUCTURE_EXTENSION ||
                         structure.structureType == STRUCTURE_SPAWN ||
                         structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity;
