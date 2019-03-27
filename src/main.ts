@@ -10,7 +10,7 @@ export const loop: any = function () {
         }
     }
 
-    if (Memory.myMemory.prod === true) {
+    if (Memory.myMemory.prod === false) {
         //Prod
         let creepCount: number = 0;
         for (const name in Game.creeps) {
@@ -24,7 +24,7 @@ export const loop: any = function () {
             console.log("spawning new creep");
             basicWorkerRole.run(newCreep);
         }
-    } else if (Memory.myMemory.prod === false) {
+    } else if (Memory.myMemory.prod === true) {
         //Dev
 
         //Ensuring all the rooms are in Memory.myMemory.myRooms
