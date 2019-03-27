@@ -1,6 +1,6 @@
 import { basicWorkerRole } from "basicworker.role.all";
 import { devController } from "dev.controller";
-console.log("Starting script v11");
+console.log("Starting script v12");
 export const loop: any = function () {
 
     //Clear all dead creeps
@@ -77,6 +77,7 @@ export const loop: any = function () {
                         assignedRoomName: roomName
                     });
                 }
+                Memory.myMemory.myRooms.push(newMyRoom);
             }
         }
 

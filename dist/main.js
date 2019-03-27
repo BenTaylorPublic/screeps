@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const basicworker_role_all_1 = require("basicworker.role.all");
 const dev_controller_1 = require("dev.controller");
-console.log("Starting script v11");
+console.log("Starting script v12");
 exports.loop = function () {
     //Clear all dead creeps
     for (const i in Memory.creeps) {
@@ -72,6 +72,7 @@ exports.loop = function () {
                         assignedRoomName: roomName
                     });
                 }
+                Memory.myMemory.myRooms.push(newMyRoom);
             }
         }
         //Validation of the myRooms
