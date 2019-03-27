@@ -1,6 +1,6 @@
 import { basicWorkerRole } from "basicworker.role.all";
 import { devController } from "dev.controller";
-console.log("Starting script v10");
+console.log("Starting script v11");
 export const loop: any = function () {
 
     //Clear all dead creeps

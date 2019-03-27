@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const basicworker_role_all_1 = require("basicworker.role.all");
 const dev_controller_1 = require("dev.controller");
-console.log("Starting script v10");
+console.log("Starting script v11");
 exports.loop = function () {
     //Clear all dead creeps
     for (const i in Memory.creeps) {
@@ -28,21 +28,18 @@ exports.loop = function () {
         //Dev
         //Ensuring all the rooms are in Memory.myMemory.myRooms
         for (const roomName in Game.rooms) {
-            console.log("checking room " + roomName);
             const room = Game.rooms[roomName];
             let alreadyInMemory = false;
             if (room.controller == null ||
-                room.controller.my) {
+                room.controller.my === false) {
                 //No need to process rooms that don't have controllers or are not mine
                 //We only have access to these rooms through travelers (probs)
                 alreadyInMemory = true;
-                console.log("room controller is null or it's not mine");
             }
             for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
                 const myRoom = Memory.myMemory.myRooms[i];
                 if (myRoom.name === roomName) {
                     alreadyInMemory = true;
-                    console.log("found room already in memory");
                 }
             }
             if (!alreadyInMemory) {
