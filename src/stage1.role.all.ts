@@ -1,4 +1,4 @@
-export const rcl1RoleAll: any = {
+export const stage1RoleAll: any = {
     run: function (creep: Creep) {
         //Swapping state
         if (creep == null) {

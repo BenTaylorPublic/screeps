@@ -1,11 +1,7 @@
-import { rcl1RoleAll } from "rcl1.role.all";
-import { tower } from "tower";
-import { rcl2Controller } from "rcl2.controller";
+import { stage1RoleAll } from "stage1.role.all";
+import { stage2Controller } from "stage2.controller";
 console.log("Starting script v4");
 export const loop: any = function () {
-    let towers: AnyStructure[] = Game.spawns.Spawn1.room.find(FIND_STRUCTURES, { filter: { structureType: STRUCTURE_TOWER, my: true } });
-    towers.forEach(tower.run);
-
     let creepCount: number = 0;
 
     //Clear all dead creeps
@@ -18,26 +14,24 @@ export const loop: any = function () {
     if (Memory.myMemory.stage <= 1) {
         for (let name in Game.creeps) {
             let creep: Creep = Game.creeps[name];
-            rcl1RoleAll.run(creep);
+            stage1RoleAll.run(creep);
             creepCount++;
         }
 
         if (creepCount < 6) {
             let newCreep: Creep = spawnBasicWorker(Game.spawns.Spawn1);
             console.log("spawning new creep");
-            rcl1RoleAll.run(newCreep);
+            stage1RoleAll.run(newCreep);
         }
     }
     else if (Memory.myMemory.stage >= 2) {
         for (let roomName in Game.rooms) {
             let room: Room = Game.rooms[roomName];
             let creepsInThisRoom: Creep[] = [];
-            for (let creepName in Game.creeps) {
-                if (Game.creeps[creepName].room.name == roomName) {
-                    creepsInThisRoom.push(Game.creeps[creepName]);
-                }
+            for (let roomWithAssignedData in Memory.myMemory.rooms) {
+
             }
-            rcl2Controller.run(room, creepsInThisRoom);
+            stage2Controller.run(room, creepsInThisRoom);
         }
     }
 
@@ -45,7 +39,7 @@ export const loop: any = function () {
 
 function spawnBasicWorker(spawn: StructureSpawn): Creep {
     let id = getId();
-    spawn.spawnCreep([MOVE, CARRY, WORK], "Creep" + id, { memory: { role: "BasicWorker", harvesting: true } });
+    spawn.spawnCreep([MOVE, CARRY, WORK], "Creep" + id, { memory: { stage: 1, role: "BasicWorker", harvesting: true } });
     return Game.creeps["Creep" + id];
 }
 
