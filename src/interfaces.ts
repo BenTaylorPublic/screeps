@@ -9,7 +9,7 @@ interface SpawnMemory { }
 interface RoomMemory { }
 interface MyMemory {
     globalId: number;
-    stage: number;
+    prod: boolean;
     rooms: RoomWithAssignedData[];
 }
 

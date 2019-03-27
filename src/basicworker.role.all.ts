@@ -1,4 +1,4 @@
-export const stage1RoleAll: any = {
+export const basicWorkerRole: any = {
     run: function (creep: Creep) {
         //Swapping state
         if (creep == null) {

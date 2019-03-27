@@ -1,5 +1,5 @@
-import { stage1RoleAll } from "stage1.role.all";
-import { stage2Controller } from "stage2.controller";
+import { basicWorkerRole } from "basicworker.role.all";
+import { devController } from "dev.controller";
 console.log("Starting script v4");
 export const loop: any = function () {
     let creepCount: number = 0;
@@ -11,26 +11,28 @@ export const loop: any = function () {
         }
     }
 
-    if (Memory.myMemory.stage <= 1) {
+    if (Memory.myMemory.prod) {
+        //Prod
         for (const name in Game.creeps) {
             const creep: Creep = Game.creeps[name];
-            stage1RoleAll.run(creep);
+            basicWorkerRole.run(creep);
             creepCount++;
         }
 
         if (creepCount < 6) {
             const newCreep: Creep = spawnBasicWorker(Game.spawns.Spawn1);
             console.log("spawning new creep");
-            stage1RoleAll.run(newCreep);
+            basicWorkerRole.run(newCreep);
         }
-    } else if (Memory.myMemory.stage >= 2) {
+    } else if (!Memory.myMemory.prod) {
+        //Dev
         for (const roomName in Game.rooms) {
             const room: Room = Game.rooms[roomName];
             const creepsInThisRoom: Creep[] = [];
             for (const roomWithAssignedData in Memory.myMemory.rooms) {
 
             }
-            stage2Controller.run(room, creepsInThisRoom);
+            devController.run(room, creepsInThisRoom);
         }
     }
 

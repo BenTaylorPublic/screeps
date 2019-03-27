@@ -1,4 +1,4 @@
-export const stage2Controller: any = {
+export const devController: any = {
     run: function (myRoom: RoomWithAssignedData) {
 
         if (Game.rooms[myRoom.name] == null) {
