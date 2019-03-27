@@ -70,7 +70,6 @@ function ensureAllRoomsInMyMemory(): void {
                 if (creep.memory.role == null) {
                     creep.memory.role = "BasicWorker";
                 }
-                creep.memory.assignedRoomName = roomName;
                 newMyRoom.myCreeps.push({
                     name: creepName,
                     role: creep.memory.role,

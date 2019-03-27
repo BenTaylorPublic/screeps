@@ -71,8 +71,12 @@ export const controllerLogic1: any = {
         }
         if (creepCount < 6) {
             const newCreep: Creep = spawnBasicWorker(Game.spawns.Spawn1);
+            myRoom.myCreeps.push({
+                name: newCreep.name,
+                role: newCreep.memory.role,
+                assignedRoomName: myRoom.name
+            });
             console.log("spawning new creep");
-            roleBasicWorker.run(newCreep);
         }
     }
 };
