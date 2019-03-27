@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const basicworker_role_all_1 = require("basicworker.role.all");
 exports.devController = {
     run: function (myRoom) {
         if (Game.rooms[myRoom.name] == null) {
@@ -10,10 +11,10 @@ exports.devController = {
         const room = Game.rooms[myRoom.name];
         //Can still see the room
         //Check if containers are setup
-        if (myRoom.myContainers.length < myRoom.sources.length) {
+        if (myRoom.myContainers.length < myRoom.mySources.length) {
             //Containers aren't set up
-            for (let i = 0; i < myRoom.sources.length; i++) {
-                const mySource = myRoom.sources[i];
+            for (let i = 0; i < myRoom.mySources.length; i++) {
+                const mySource = myRoom.mySources[i];
                 if (mySource.cacheContainerId == null) {
                     //No container cache
                     const source = Game.getObjectById(mySource.id);
@@ -67,7 +68,20 @@ exports.devController = {
             }
         }
         //TODO: Check if there's a bank
-        //TODO: Control the creeps
+        let creepCount = 0;
+        for (let i = 0; i < myRoom.myCreeps.length; i++) {
+            const myCreep = myRoom.myCreeps[i];
+            if (myCreep.role === "BasicWorker") {
+                // Use the basicworker.role
+                basicworker_role_all_1.basicWorkerRole.run(Game.creeps[myCreep.name]);
+            }
+            creepCount++;
+        }
+        if (creepCount < 6) {
+            const newCreep = spawnBasicWorker(Game.spawns.Spawn1);
+            console.log("spawning new creep");
+            basicworker_role_all_1.basicWorkerRole.run(newCreep);
+        }
     }
 };
 function placeSourceContainerCache(myRoom, mySource, x, y) {
@@ -76,4 +90,14 @@ function placeSourceContainerCache(myRoom, mySource, x, y) {
     //room.createConstructionSite(x, y)
     //Set mySource.cacheContainerId
     //Set myContainer.assignedSourceId
+}
+function spawnBasicWorker(spawn) {
+    const id = getId();
+    spawn.spawnCreep([MOVE, CARRY, WORK], "Creep" + id, { memory: { assignedRoomName: spawn.room.name, role: "BasicWorker", harvesting: true } });
+    return Game.creeps["Creep" + id];
+}
+function getId() {
+    const toReturn = Memory.myMemory.globalId;
+    Memory.myMemory.globalId++;
+    return toReturn;
 }
