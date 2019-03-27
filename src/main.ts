@@ -1,6 +1,7 @@
 import { basicWorkerRole } from "basicworker.role.all";
 import { devController } from "dev.controller";
 console.log("Starting script v5");
+Memory.myMemory.prod = true;
 export const loop: any = function () {
     let creepCount: number = 0;
 
