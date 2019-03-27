@@ -33,5 +33,5 @@ interface MyContainer {
     1- Bank
     */
     role: number;
-    assignedSource?: string;
+    assignedSourceId?: string;
 }

@@ -55,10 +55,18 @@ export const devController: any = {
                 }
             }
         }
+
+        //TODO: Check if there's a bank
+
+        //TODO: Control the creeps
     }
 };
 
 function placeSourceContainerCache(myRoom: MyRoom, mySource: MySource, x: number, y: number): void {
     //TODO: Code this
+    console.log("Placing source container cache at " + x.toString() + ", " + y.toString());
     //room.createConstructionSite(x, y)
+    //Set mySource.cacheContainerId
+    //Set myContainer.assignedSourceId
+
 }
