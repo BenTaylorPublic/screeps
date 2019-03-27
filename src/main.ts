@@ -1,6 +1,6 @@
 import { basicWorkerRole } from "basicworker.role.all";
 import { devController } from "dev.controller";
-console.log("Starting script v5");
+console.log("Starting script v6");
 Memory.myMemory.prod = true;
 export const loop: any = function () {
     let creepCount: number = 0;
@@ -12,7 +12,7 @@ export const loop: any = function () {
         }
     }
 
-    if (Memory.myMemory.prod) {
+    if (true) {
         //Prod
         for (const name in Game.creeps) {
             const creep: Creep = Game.creeps[name];
@@ -25,7 +25,7 @@ export const loop: any = function () {
             console.log("spawning new creep");
             basicWorkerRole.run(newCreep);
         }
-    } else if (!Memory.myMemory.prod) {
+    } else if (!true) {
         //Dev
 
         //Ensuring all the rooms are in Memory.myMemory.myRooms
