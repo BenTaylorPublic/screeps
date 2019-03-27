@@ -2,7 +2,6 @@ import { basicWorkerRole } from "basicworker.role.all";
 import { devController } from "dev.controller";
 console.log("Starting script v7");
 export const loop: any = function () {
-    let creepCount: number = 0;
 
     //Clear all dead creeps
     for (const i in Memory.creeps) {
@@ -13,6 +12,7 @@ export const loop: any = function () {
 
     if (Memory.myMemory.prod === true) {
         //Prod
+        let creepCount: number = 0;
         for (const name in Game.creeps) {
             const creep: Creep = Game.creeps[name];
             basicWorkerRole.run(creep);
@@ -62,6 +62,21 @@ export const loop: any = function () {
                     newMyRoom.mySources.push({ id: source.id, cacheContainerId: undefined });
                 }
                 //myCreeps, spawnId, myContainers will be populated by logic when they're created
+
+                //Initially add all existing creeps
+                for (const creepName in Game.creeps) {
+                    const creep: Creep = Game.creeps[creepName];
+                    creep.memory.assignedRoomName = roomName;
+                    if (creep.memory.role == null) {
+                        creep.memory.role = "BasicWorker";
+                    }
+                    creep.memory.assignedRoomName = roomName;
+                    newMyRoom.myCreeps.push({
+                        name: creepName,
+                        role: creep.memory.role,
+                        assignedRoomName: roomName
+                    });
+                }
             }
         }
 
@@ -95,7 +110,7 @@ export const loop: any = function () {
 
 function spawnBasicWorker(spawn: StructureSpawn): Creep {
     const id = getId();
-    spawn.spawnCreep([MOVE, CARRY, WORK], "Creep" + id, { memory: { stage: 1, role: "BasicWorker", harvesting: true } });
+    spawn.spawnCreep([MOVE, CARRY, WORK], "Creep" + id, { memory: { assignedRoomName: spawn.room.name, role: "BasicWorker", harvesting: true } });
     return Game.creeps["Creep" + id];
 }
 

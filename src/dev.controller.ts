@@ -1,3 +1,5 @@
+import { basicWorkerRole } from "basicworker.role.all";
+
 export const devController: any = {
     run: function (myRoom: MyRoom) {
 
@@ -57,8 +59,13 @@ export const devController: any = {
         }
 
         //TODO: Check if there's a bank
-
-        //TODO: Control the creeps
+        for (let i = 0; i < myRoom.myCreeps.length; i++) {
+            const myCreep: MyCreep = myRoom.myCreeps[i];
+            if (myCreep.role === "BasicWorker") {
+                // Use the basicworker.role
+                basicWorkerRole.run(Game.creeps[myCreep.name]);
+            }
+        }
     }
 };
 

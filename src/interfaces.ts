@@ -1,8 +1,7 @@
 interface CreepMemory {
-    stage: number;
     harvesting?: boolean;
-    role?: string;
-    assignedRoomName?: string;
+    role: string;
+    assignedRoomName: string;
 }
 interface FlagMemory { }
 interface SpawnMemory { }
@@ -36,6 +35,8 @@ interface MyContainer {
     assignedSourceId?: string;
 }
 
-interface MyCreep extends CreepMemory {
+interface MyCreep {
     name: string;
+    role: string;
+    assignedRoomName: string;
 }
