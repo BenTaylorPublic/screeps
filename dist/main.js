@@ -2,7 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const basicworker_role_all_1 = require("basicworker.role.all");
 const dev_controller_1 = require("dev.controller");
-console.log("Starting script v8");
+console.log("Starting script v9");
+Memory.myMemory.myRooms = [];
 exports.loop = function () {
     //Clear all dead creeps
     for (const i in Memory.creeps) {
