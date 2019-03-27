@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const controller_logic1_1 = require("controller.logic1");
-console.log("Starting script v13");
+console.log("Starting script v14");
+Memory.myMemory.myRooms = [];
 exports.loop = function () {
     clearDeadCreeps();
     ensureAllRoomsInMyMemory();
