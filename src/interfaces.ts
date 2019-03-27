@@ -10,19 +10,24 @@ interface RoomMemory { }
 interface MyMemory {
     globalId: number;
     prod: boolean;
-    rooms: RoomWithAssignedData[];
+    myRooms: MyRoom[];
 }
 
-interface RoomWithAssignedData {
+interface MyRoom {
     name: string;
     creepNames: string[];
-    spawn: string;
-    sources: string[];
-    containers: ContainerWithAssignedData[];
+    spawn?: string;
+    sources: MySource[];
+    myContainers: MyContainer[];
 }
 
-interface ContainerWithAssignedData {
-    name: string;
+interface MySource {
+    id: string;
+    cacheContainerId?: string;
+}
+
+interface MyContainer {
+    id: string;
     /*
     0- Source cache
     1- Bank
