@@ -3,15 +3,15 @@ interface CreepMemory {
     harvesting?: boolean;
     role?: string;
     assignedRoomName?: string;
-};
-interface FlagMemory { };
-interface SpawnMemory { };
-interface RoomMemory { };
+}
+interface FlagMemory { }
+interface SpawnMemory { }
+interface RoomMemory { }
 interface MyMemory {
     globalId: number;
     stage: number;
     rooms: RoomWithAssignedData[];
-};
+}
 
 interface RoomWithAssignedData {
     name: string;

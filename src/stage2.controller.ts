@@ -40,4 +40,4 @@ export const stage2Controller: any = {
             */
         }
     }
-}
+};
