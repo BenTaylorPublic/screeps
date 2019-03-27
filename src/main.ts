@@ -1,6 +1,7 @@
 import { basicWorkerRole } from "basicworker.role.all";
 import { devController } from "dev.controller";
 console.log("Starting script v8");
+Memory.myMemory.myRooms = [];
 export const loop: any = function () {
 
     //Clear all dead creeps
