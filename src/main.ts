@@ -48,31 +48,20 @@ export const loop: any = function () {
 
             if (!alreadyInMemory) {
                 //Add it
-                console.log("Adding a new room");
+                console.log("Adding a new room " + roomName);
                 const newMyRoom: MyRoom = {
                     name: roomName,
-                    creepNames: [],
+                    myCreeps: [],
                     spawnId: undefined,
-                    sources: [],
+                    mySources: [],
                     myContainers: []
                 };
-                for (const creepName in Game.creeps) {
-                    if (Game.creeps[creepName].memory.assignedRoomName === roomName) {
-                        newMyRoom.creepNames.push(creepName);
-                    }
-                }
                 const sources: Source[] = room.find(FIND_SOURCES);
                 for (let i = 0; i < sources.length; i++) {
                     const source: Source = sources[i];
-                    newMyRoom.sources.push({ id: source.id, cacheContainerId: undefined });
+                    newMyRoom.mySources.push({ id: source.id, cacheContainerId: undefined });
                 }
-                const spawns: StructureSpawn[] = room.find(FIND_MY_SPAWNS);
-                if (spawns.length >= 1) {
-                    newMyRoom.spawnId = spawns[0].id;
-                }
-                //Containers is left as an empty array
-                //If a room isn't in memory, and has my containers
-                //Idk what happened to it lol
+                //myCreeps, spawnId, myContainers will be populated by logic when they're created
             }
         }
 
@@ -85,11 +74,11 @@ export const loop: any = function () {
                 continue;
             }
 
-            for (let j = 0; j < myRoom.creepNames.length; j++) {
-                const creepName: string = myRoom.creepNames[j];
+            for (let j = 0; j < myRoom.myCreeps.length; j++) {
+                const creepName: string = myRoom.myCreeps[j].name;
                 if (Game.creeps[creepName] == null) {
                     //Creep is dead
-                    delete myRoom.creepNames[j];
+                    delete myRoom.myCreeps[j];
                     j--;
                     console.log("Creep is dead and has been removed from a room");
                 }

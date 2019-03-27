@@ -15,9 +15,9 @@ interface MyMemory {
 
 interface MyRoom {
     name: string;
-    creepNames: string[];
+    myCreeps: MyCreep[];
     spawnId?: string;
-    sources: MySource[];
+    mySources: MySource[];
     myContainers: MyContainer[];
 }
 
@@ -34,4 +34,8 @@ interface MyContainer {
     */
     role: number;
     assignedSourceId?: string;
+}
+
+interface MyCreep extends CreepMemory {
+    name: string;
 }

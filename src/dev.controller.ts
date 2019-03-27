@@ -11,10 +11,10 @@ export const devController: any = {
 
         //Can still see the room
         //Check if containers are setup
-        if (myRoom.myContainers.length < myRoom.sources.length) {
+        if (myRoom.myContainers.length < myRoom.mySources.length) {
             //Containers aren't set up
-            for (let i = 0; i < myRoom.sources.length; i++) {
-                const mySource: MySource = myRoom.sources[i];
+            for (let i = 0; i < myRoom.mySources.length; i++) {
+                const mySource: MySource = myRoom.mySources[i];
                 if (mySource.cacheContainerId == null) {
                     //No container cache
                     const source: Source = Game.getObjectById<Source>(mySource.id) as Source;
