@@ -1,6 +1,6 @@
 import { basicWorkerRole } from "basicworker.role.all";
 import { devController } from "dev.controller";
-console.log("Starting script v6");
+console.log("Starting script v7");
 export const loop: any = function () {
     let creepCount: number = 0;
 
