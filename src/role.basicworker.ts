@@ -1,6 +1,5 @@
-export const basicWorkerRole: any = {
+export const roleBasicWorker: any = {
     run: function (creep: Creep) {
-        //Swapping state
         if (creep == null) {
             console.log("A creep was null");
             return;
