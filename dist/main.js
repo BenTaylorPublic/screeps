@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const controller_logic1_1 = require("controller.logic1");
-console.log("Starting script v14");
+console.log("Starting script v15");
 Memory.myMemory.myRooms = [];
 exports.loop = function () {
     clearDeadCreeps();
@@ -80,7 +80,7 @@ function validateRoomsInMyMemory() {
             console.error("Lost vision of a room " + name);
             continue;
         }
-        for (let j = myRoom.myCreeps.length; j >= 0; j--) {
+        for (let j = myRoom.myCreeps.length - 1; j >= 0; j--) {
             const creepName = myRoom.myCreeps[j].name;
             if (Game.creeps[creepName] == null) {
                 //Creep is dead

@@ -1,6 +1,6 @@
 import { controllerLogic1 } from "controller.logic1";
 
-console.log("Starting script v14");
+console.log("Starting script v15");
 
 Memory.myMemory.myRooms = [];
 
@@ -92,7 +92,7 @@ function validateRoomsInMyMemory(): void {
             continue;
         }
 
-        for (let j = myRoom.myCreeps.length; j >= 0; j--) {
+        for (let j = myRoom.myCreeps.length - 1; j >= 0; j--) {
             const creepName: string = myRoom.myCreeps[j].name;
             if (Game.creeps[creepName] == null) {
                 //Creep is dead
