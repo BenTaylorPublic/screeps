@@ -52,7 +52,7 @@ export const loop: any = function () {
                 const newMyRoom: MyRoom = {
                     name: roomName,
                     creepNames: [],
-                    spawn: undefined,
+                    spawnId: undefined,
                     sources: [],
                     myContainers: []
                 };
@@ -68,7 +68,7 @@ export const loop: any = function () {
                 }
                 const spawns: StructureSpawn[] = room.find(FIND_MY_SPAWNS);
                 if (spawns.length >= 1) {
-                    newMyRoom.spawn = spawns[0].id;
+                    newMyRoom.spawnId = spawns[0].id;
                 }
                 //Containers is left as an empty array
                 //If a room isn't in memory, and has my containers
@@ -76,20 +76,24 @@ export const loop: any = function () {
             }
         }
 
+        //Validation of the myRooms
         for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
             const myRoom: MyRoom = Memory.myMemory.myRooms[i];
-            if (Game.rooms[myRoom.name] == null) {
+            const room: Room = Game.rooms[myRoom.name];
+            if (room == null) {
                 console.error("Lost vision of a room " + name);
                 continue;
             }
-            /*
-            TODO: Do some validation on the myRoom.
-            Ensure all of these are correct:
-                creepNames
-                spawn
-                sources
-                containers
-            */
+
+            for (let j = 0; j < myRoom.creepNames.length; j++) {
+                const creepName: string = myRoom.creepNames[j];
+                if (Game.creeps[creepName] == null) {
+                    //Creep is dead
+                    delete myRoom.creepNames[j];
+                    j--;
+                    console.log("Creep is dead and has been removed from a room");
+                }
+            }
         }
 
         for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {

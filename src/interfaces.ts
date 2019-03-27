@@ -16,7 +16,7 @@ interface MyMemory {
 interface MyRoom {
     name: string;
     creepNames: string[];
-    spawn?: string;
+    spawnId?: string;
     sources: MySource[];
     myContainers: MyContainer[];
 }
