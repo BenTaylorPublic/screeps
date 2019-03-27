@@ -1,8 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.basicWorkerRole = {
+exports.roleBasicWorker = {
     run: function (creep) {
-        //Swapping state
         if (creep == null) {
             console.log("A creep was null");
             return;

@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const basicworker_role_all_1 = require("basicworker.role.all");
-exports.devController = {
+const role_basicworker_1 = require("role.basicworker");
+exports.controllerLogic1 = {
     run: function (myRoom) {
         if (Game.rooms[myRoom.name] == null) {
             //No longer have vision of this room
@@ -73,20 +73,20 @@ exports.devController = {
             const myCreep = myRoom.myCreeps[i];
             if (myCreep.role === "BasicWorker") {
                 // Use the basicworker.role
-                basicworker_role_all_1.basicWorkerRole.run(Game.creeps[myCreep.name]);
+                role_basicworker_1.roleBasicWorker.run(Game.creeps[myCreep.name]);
             }
             creepCount++;
         }
         if (creepCount < 6) {
             const newCreep = spawnBasicWorker(Game.spawns.Spawn1);
             console.log("spawning new creep");
-            basicworker_role_all_1.basicWorkerRole.run(newCreep);
+            role_basicworker_1.roleBasicWorker.run(newCreep);
         }
     }
 };
 function placeSourceContainerCache(myRoom, mySource, x, y) {
     //TODO: Code this
-    console.log("Placing source container cache at " + x.toString() + ", " + y.toString());
+    // console.log("Placing source container cache at " + x.toString() + ", " + y.toString());
     //room.createConstructionSite(x, y)
     //Set mySource.cacheContainerId
     //Set myContainer.assignedSourceId

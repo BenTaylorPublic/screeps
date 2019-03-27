@@ -1,6 +1,6 @@
 import { controllerLogic1 } from "controller.logic1";
 
-console.log("Starting script v12");
+console.log("Starting script v13");
 
 export const loop: any = function () {
     clearDeadCreeps();
