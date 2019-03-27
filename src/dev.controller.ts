@@ -59,12 +59,20 @@ export const devController: any = {
         }
 
         //TODO: Check if there's a bank
+
+        let creepCount = 0;
         for (let i = 0; i < myRoom.myCreeps.length; i++) {
             const myCreep: MyCreep = myRoom.myCreeps[i];
             if (myCreep.role === "BasicWorker") {
                 // Use the basicworker.role
                 basicWorkerRole.run(Game.creeps[myCreep.name]);
             }
+            creepCount++;
+        }
+        if (creepCount < 6) {
+            const newCreep: Creep = spawnBasicWorker(Game.spawns.Spawn1);
+            console.log("spawning new creep");
+            basicWorkerRole.run(newCreep);
         }
     }
 };
@@ -76,4 +84,16 @@ function placeSourceContainerCache(myRoom: MyRoom, mySource: MySource, x: number
     //Set mySource.cacheContainerId
     //Set myContainer.assignedSourceId
 
+}
+
+function spawnBasicWorker(spawn: StructureSpawn): Creep {
+    const id = getId();
+    spawn.spawnCreep([MOVE, CARRY, WORK], "Creep" + id, { memory: { assignedRoomName: spawn.room.name, role: "BasicWorker", harvesting: true } });
+    return Game.creeps["Creep" + id];
+}
+
+function getId(): number {
+    const toReturn: number = Memory.myMemory.globalId;
+    Memory.myMemory.globalId++;
+    return toReturn;
 }
