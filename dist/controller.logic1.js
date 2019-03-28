@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const role_basicworker_1 = require("role.basicworker");
+const role_minerAndWorker_1 = require("role.minerAndWorker");
 exports.controllerLogic1 = {
     run: function (myRoom) {
         if (Game.rooms[myRoom.name] == null) {
@@ -14,14 +14,13 @@ exports.controllerLogic1 = {
         let creepCount = 0;
         for (let i = 0; i < myRoom.myCreeps.length; i++) {
             const myCreep = myRoom.myCreeps[i];
-            if (myCreep.role === "BasicWorker") {
-                // Use the basicworker.role
-                role_basicworker_1.roleBasicWorker.run(Game.creeps[myCreep.name]);
+            if (myCreep.role === "MinerAndWorker") {
+                role_minerAndWorker_1.roleMinerAndWorker.run(Game.creeps[myCreep.name]);
             }
             creepCount++;
         }
         if (creepCount < 6) {
-            const newCreep = spawnBasicWorker(Game.spawns.Spawn1);
+            const newCreep = spawnMinerAndWorker(Game.spawns.Spawn1);
             myRoom.myCreeps.push({
                 name: newCreep.name,
                 role: newCreep.memory.role,
@@ -125,9 +124,9 @@ function placeSourceContainerCache(myRoom, mySource, x, y) {
 function isNotWall(terrain, x, y) {
     return terrain.get(x, y) !== TERRAIN_MASK_WALL;
 }
-function spawnBasicWorker(spawn) {
+function spawnMinerAndWorker(spawn) {
     const id = getId();
-    spawn.spawnCreep([MOVE, CARRY, WORK], "Creep" + id, { memory: { assignedRoomName: spawn.room.name, role: "BasicWorker", harvesting: true } });
+    spawn.spawnCreep([MOVE, CARRY, WORK], "Creep" + id, { memory: { assignedRoomName: spawn.room.name, role: "MinerAndWorker", harvesting: true } });
     return Game.creeps["Creep" + id];
 }
 function getId() {

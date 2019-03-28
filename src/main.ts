@@ -1,7 +1,7 @@
 import { controllerLogic1 } from "controller.logic1";
 
-console.log("Starting script v16");
-//TODO: Remove on v17
+console.log("Starting script v17");
+//TODO: Remove on v18
 for (const creepName in Game.creeps) {
     const creep: Creep = Game.creeps[creepName];
     if (creep.memory.role === "BasicWorker") {

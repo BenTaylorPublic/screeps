@@ -1,8 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const controller_logic1_1 = require("controller.logic1");
-console.log("Starting script v16");
-Memory.myMemory.myRooms = [];
+console.log("Starting script v17");
+//TODO: Remove on v18
+for (const creepName in Game.creeps) {
+    const creep = Game.creeps[creepName];
+    if (creep.memory.role === "BasicWorker") {
+        creep.memory.role = "MinerAndWorker";
+    }
+}
 exports.loop = function () {
     clearDeadCreeps();
     ensureAllRoomsInMyMemory();
@@ -58,7 +64,7 @@ function ensureAllRoomsInMyMemory() {
                 const creep = Game.creeps[creepName];
                 creep.memory.assignedRoomName = roomName;
                 if (creep.memory.role == null) {
-                    creep.memory.role = "BasicWorker";
+                    creep.memory.role = "MinerAndWorker";
                 }
                 newMyRoom.myCreeps.push({
                     name: creepName,
