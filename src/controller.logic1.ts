@@ -66,69 +66,34 @@ function ensureTheCachesAreSetup(myRoom: MyRoom) {
             const sourcePosY: number = source.pos.y;
             const terrain: RoomTerrain = room.getTerrain();
 
-            if (isNotWall(terrain, sourcePosX, sourcePosY + 1) &&
-                isNotWall(terrain, sourcePosX, sourcePosY + 2)) { //TM
-                placeSourceContainerCache(myRoom, mySource, sourcePosX, sourcePosY + 2);
-            } else if (isNotWall(terrain, sourcePosX - 1, sourcePosY) &&
-                isNotWall(terrain, sourcePosX - 2, sourcePosY)) { //ML
-                placeSourceContainerCache(myRoom, mySource, sourcePosX - 2, sourcePosY);
-            } else if (isNotWall(terrain, sourcePosX + 1, sourcePosY) &&
-                isNotWall(terrain, sourcePosX + 2, sourcePosY)) { //MR
-                placeSourceContainerCache(myRoom, mySource, sourcePosX + 2, sourcePosY);
-            } else if (isNotWall(terrain, sourcePosX, sourcePosY - 1)
-                && isNotWall(terrain, sourcePosX, sourcePosY - 2)) { //BM
-                placeSourceContainerCache(myRoom, mySource, sourcePosX, sourcePosY - 2);
+            if (tryPlaceSourceContainerCache(myRoom, mySource, terrain, sourcePosX - 1, sourcePosY + 1)) { //TL
+            } else if (tryPlaceSourceContainerCache(myRoom, mySource, terrain, sourcePosX, sourcePosY + 1)) { //TM
+            } else if (tryPlaceSourceContainerCache(myRoom, mySource, terrain, sourcePosX + 1, sourcePosY + 1)) { //TR
+            } else if (tryPlaceSourceContainerCache(myRoom, mySource, terrain, sourcePosX - 1, sourcePosY)) { //ML
+            } else if (tryPlaceSourceContainerCache(myRoom, mySource, terrain, sourcePosX + 1, sourcePosY)) { //MR
+            } else if (tryPlaceSourceContainerCache(myRoom, mySource, terrain, sourcePosX - 1, sourcePosY - 1)) { //BL
+            } else if (tryPlaceSourceContainerCache(myRoom, mySource, terrain, sourcePosX, sourcePosY - 1)) { //BM
+            } else if (tryPlaceSourceContainerCache(myRoom, mySource, terrain, sourcePosX + 1, sourcePosY - 1)) { //BR
             } else {
-                if (isNotWall(terrain, sourcePosX - 1, sourcePosY + 1)) { //TL
-                    if (isNotWall(terrain, sourcePosX - 1, sourcePosY + 2)) {
-                        placeSourceContainerCache(myRoom, mySource, sourcePosX - 1, sourcePosY + 2);
-                        continue;
-                    } else if (isNotWall(terrain, sourcePosX - 2, sourcePosY + 1)) {
-                        placeSourceContainerCache(myRoom, mySource, sourcePosX - 2, sourcePosY + 1);
-                        continue;
-                    }
-                }
-                if (isNotWall(terrain, sourcePosX + 1, sourcePosY + 1)) { //TR
-                    if (isNotWall(terrain, sourcePosX + 1, sourcePosY + 2)) {
-                        placeSourceContainerCache(myRoom, mySource, sourcePosX + 1, sourcePosY + 2);
-                        continue;
-                    } else if (isNotWall(terrain, sourcePosX + 2, sourcePosY + 1)) {
-                        placeSourceContainerCache(myRoom, mySource, sourcePosX + 2, sourcePosY + 1);
-                        continue;
-                    }
-                }
-                if (isNotWall(terrain, sourcePosX - 1, sourcePosY - 1)) { //BL
-                    if (isNotWall(terrain, sourcePosX - 2, sourcePosY - 1)) {
-                        placeSourceContainerCache(myRoom, mySource, sourcePosX - 2, sourcePosY - 1);
-                        continue;
-                    } else if (isNotWall(terrain, sourcePosX - 1, sourcePosY - 2)) {
-                        placeSourceContainerCache(myRoom, mySource, sourcePosX - 1, sourcePosY - 2);
-                        continue;
-                    }
-                }
-
-                if (isNotWall(terrain, sourcePosX + 1, sourcePosY - 1)) { //BR
-                    if (isNotWall(terrain, sourcePosX + 1, sourcePosY - 2)) {
-                        placeSourceContainerCache(myRoom, mySource, sourcePosX + 1, sourcePosY - 2);
-                        continue;
-                    } else if (isNotWall(terrain, sourcePosX + 2, sourcePosY - 1)) {
-                        placeSourceContainerCache(myRoom, mySource, sourcePosX + 2, sourcePosY - 1);
-                        continue;
-                    }
-                }
-
                 console.error("Couldn't find a viable spot to place a container");
             }
+
         }
     }
 }
 
-function placeSourceContainerCache(myRoom: MyRoom, mySource: MySource, x: number, y: number): void {
+
+function tryPlaceSourceContainerCache(myRoom: MyRoom, mySource: MySource, terrain: RoomTerrain, x: number, y: number): boolean {
     //TODO: Code this
-    // console.log("Placing source container cache at " + x.toString() + ", " + y.toString());
-    //room.createConstructionSite(x, y)
-    //Set mySource.cacheContainerId
-    //Set myContainer.assignedSourceId
+    if (isNotWall(terrain, x, y)) {
+        // console.log("Placing source container cache at " + x.toString() + ", " + y.toString());
+        //room.createConstructionSite(x, y)
+        //Set mySource.cacheContainerId
+        //Set myContainer.assignedSourceId
+        return true;
+    } else {
+        return false;
+    }
 
 }
 
