@@ -25,7 +25,8 @@ exports.controllerLogic1 = {
                 myRoom.myCreeps.push({
                     name: newCreep.name,
                     role: newCreep.memory.role,
-                    assignedRoomName: myRoom.name
+                    assignedRoomName: myRoom.name,
+                    mining: true
                 });
                 console.log("spawning new creep");
             }

@@ -2,6 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const controller_logic1_1 = require("controller.logic1");
 console.log("Starting script v18");
+for (let i = 0; i < Memory.myMemory.myRooms[0].myCreeps.length; i++) {
+    const element = Memory.myMemory.myRooms[0].myCreeps[i];
+    element.mining = true;
+}
 exports.loop = function () {
     clearDeadCreeps();
     ensureAllRoomsInMyMemory();
