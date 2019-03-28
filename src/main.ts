@@ -1,7 +1,7 @@
 import { controllerLogic1 } from "controller.logic1";
 
 console.log("Starting script v18");
-
+Memory.myMemory.myRooms = [];
 export const loop: any = function () {
     clearDeadCreeps();
     ensureAllRoomsInMyMemory();
@@ -85,7 +85,7 @@ function validateRoomsInMyMemory(): void {
         const myRoom: MyRoom = Memory.myMemory.myRooms[i];
         const room: Room = Game.rooms[myRoom.name];
         if (room == null) {
-            console.error("Lost vision of a room " + name);
+            console.error("Lost vision of a room " + myRoom.name);
             continue;
         }
 
