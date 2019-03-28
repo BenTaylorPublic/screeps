@@ -2,6 +2,17 @@ import { controllerLogic1 } from "controller.logic1";
 
 console.log("Starting script v18");
 
+//Once off logic
+for (let i = 0; i < Memory.myMemory.myRooms[0].myCreeps.length; i++) {
+    const myCreep: MyCreep = Memory.myMemory.myRooms[0].myCreeps[i];
+    if (myCreep.harvesting != null) {
+        delete myCreep.harvesting;
+    }
+    if (Game.creeps[myCreep.name].memory.harvesting != null) {
+        delete Game.creeps[myCreep.name].memory.harvesting;
+    }
+}
+
 export const loop: any = function () {
     clearDeadCreeps();
     ensureAllRoomsInMyMemory();

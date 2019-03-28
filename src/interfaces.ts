@@ -36,4 +36,5 @@ interface MyCreep {
     role: string;
     assignedRoomName: string;
     mining?: boolean; //Only used on minerAndWorker creeps
+    harvesting?: boolean;
 }

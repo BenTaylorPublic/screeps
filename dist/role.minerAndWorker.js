@@ -1,28 +1,29 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.roleMinerAndWorker = {
-    run: function (creep) {
+    run: function (myCreep) {
+        const creep = Game.creeps[myCreep.name];
         if (creep == null) {
-            console.log("A creep was null");
+            console.error("A creep was null");
             return;
         }
-        if (!creep.memory.harvesting && creep.carry.energy === 0) {
-            creep.memory.harvesting = true;
-            creep.say("harvesting");
+        if (!myCreep.mining && creep.carry.energy === 0) {
+            myCreep.mining = true;
+            creep.say("mining");
         }
-        else if (creep.memory.harvesting && creep.carry.energy === creep.carryCapacity) {
-            creep.memory.harvesting = false;
-            creep.say("not harvesting");
+        else if (myCreep.mining && creep.carry.energy === creep.carryCapacity) {
+            myCreep.mining = false;
+            creep.say("working");
         }
-        if (creep.memory.harvesting) {
-            //Harvesting
+        if (myCreep.mining) {
+            //mining
             const source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
             if (source && creep.harvest(source) === ERR_NOT_IN_RANGE) {
                 creep.moveTo(source);
             }
         }
         else {
-            //Not harvesting
+            //Not mining
             //Check if controller is anywhere close to downgrading
             let forceUpdateController = false;
             if (creep.room.controller != null &&
@@ -59,5 +60,7 @@ exports.roleMinerAndWorker = {
                 return; //Don't need to look at other things to do
             }
         }
+        //Sync memory
+        creep.memory = myCreep;
     }
 };
