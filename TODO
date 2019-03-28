@@ -14,3 +14,14 @@ Lvl Req         Buildings
 6	3,645,000	Roads, 5 Containers, 1 Spawn, 40 Extensions (50 capacity), Ramparts (30M max hits), Walls, 2 Towers, Storage, 3 Links, Extractor, 3 Labs, Terminal
 7	10,935,000	Roads, 5 Containers, 2 Spawns, 50 Extensions (100 capacity), Ramparts (100M max hits), Walls, 3 Towers, Storage, 4 Links, Extractor, 6 Labs, Terminal
 8	-	        Roads, 5 Containers, 3 Spawns, 60 Extensions (200 capacity), Ramparts (300M max hits), Walls, 6 Towers, Storage, 6 Links, Extractor, 10 Labs, Terminal, Observer, Power Spawn
+
+WORK 100
+MOVE 50
+CARRY 50
+
+10 Works clears a source
+Target miner per RCL:
+1: WORK CARRY MOVE
+2: WORK*4 CARRY MOVE
+3: WORK*7 CARRY MOVE
+
