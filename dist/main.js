@@ -2,16 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const controller_logic1_1 = require("controller.logic1");
 console.log("Starting script v18");
-//Once off logic
-for (let i = 0; i < Memory.myMemory.myRooms[0].myCreeps.length; i++) {
-    const myCreep = Memory.myMemory.myRooms[0].myCreeps[i];
-    if (myCreep.harvesting != null) {
-        delete myCreep.harvesting;
-    }
-    if (Game.creeps[myCreep.name].memory.harvesting != null) {
-        delete Game.creeps[myCreep.name].memory.harvesting;
-    }
-}
 exports.loop = function () {
     clearDeadCreeps();
     ensureAllRoomsInMyMemory();

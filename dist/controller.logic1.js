@@ -21,12 +21,17 @@ exports.controllerLogic1 = {
         }
         if (creepCount < 6) {
             const newCreep = spawnMinerAndWorker(Game.spawns.Spawn1);
-            myRoom.myCreeps.push({
-                name: newCreep.name,
-                role: newCreep.memory.role,
-                assignedRoomName: myRoom.name
-            });
-            console.log("spawning new creep");
+            if (newCreep != null) {
+                myRoom.myCreeps.push({
+                    name: newCreep.name,
+                    role: newCreep.memory.role,
+                    assignedRoomName: myRoom.name
+                });
+                console.log("spawning new creep");
+            }
+            else {
+                console.log("failed to spawn new creep");
+            }
         }
     }
 };
