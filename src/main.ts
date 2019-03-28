@@ -1,6 +1,13 @@
 import { controllerLogic1 } from "controller.logic1";
 
 console.log("Starting script v16");
+//TODO: Remove on v17
+for (const creepName in Game.creeps) {
+    const creep: Creep = Game.creeps[creepName];
+    if (creep.memory.role === "BasicWorker") {
+        creep.memory.role = "MinerAndWorker";
+    }
+}
 
 export const loop: any = function () {
     clearDeadCreeps();
@@ -66,7 +73,7 @@ function ensureAllRoomsInMyMemory(): void {
                 const creep: Creep = Game.creeps[creepName];
                 creep.memory.assignedRoomName = roomName;
                 if (creep.memory.role == null) {
-                    creep.memory.role = "BasicWorker";
+                    creep.memory.role = "MinerAndWorker";
                 }
                 newMyRoom.myCreeps.push({
                     name: creepName,

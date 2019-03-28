@@ -1,4 +1,4 @@
-export const roleBasicWorker: any = {
+export const roleMinerAndWorker: any = {
     run: function (creep: Creep) {
         if (creep == null) {
             console.log("A creep was null");
