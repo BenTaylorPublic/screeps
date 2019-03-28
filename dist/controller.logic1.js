@@ -116,7 +116,7 @@ function ensureTheCachesAreSetup(myRoom) {
 }
 function placeSourceContainerCache(myRoom, mySource, x, y) {
     //TODO: Code this
-    console.log("Placing source container cache at " + x.toString() + ", " + y.toString());
+    // console.log("Placing source container cache at " + x.toString() + ", " + y.toString());
     //room.createConstructionSite(x, y)
     //Set mySource.cacheContainerId
     //Set myContainer.assignedSourceId
