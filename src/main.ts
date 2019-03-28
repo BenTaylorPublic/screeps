@@ -1,13 +1,6 @@
 import { controllerLogic1 } from "controller.logic1";
 
 console.log("Starting script v18");
-//TODO: Remove on v19
-for (let i = 0; i < Memory.myMemory.myRooms[0].myCreeps.length; i++) {
-    const myCreep: MyCreep = Memory.myMemory.myRooms[0].myCreeps[i];
-    if (myCreep.role === "BasicWorker") {
-        myCreep.role = "MinerAndWorker";
-    }
-}
 
 export const loop: any = function () {
     clearDeadCreeps();
