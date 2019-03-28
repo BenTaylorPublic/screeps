@@ -1,6 +1,6 @@
 import { controllerLogic1 } from "controller.logic1";
 
-console.log("Starting script v15");
+console.log("Starting script v16");
 
 Memory.myMemory.myRooms = [];
 
