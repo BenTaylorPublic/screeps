@@ -35,5 +35,7 @@ interface MyCreep {
     name: string;
     role: string;
     assignedRoomName: string;
-    mining?: boolean; //Only used on minerAndWorker creeps
+    mining?: boolean; //Only used on MinerAndWorker creeps
+    cacheContainerIdToPutIn?: string; //Only used on Miner creeps
+    cacheContainerIdToGrabFrom?: string; //Only used on Hauler creeps
 }
