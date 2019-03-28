@@ -18,6 +18,6 @@
         "strict": true,
         "noImplicitReturns": true,
         "allowSyntheticDefaultImports": true,
-        "allowUnreachableCode": false
+        "allowUnreachableCode": true
     }
 }
