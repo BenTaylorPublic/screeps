@@ -1,21 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.roleMinerAndWorker = {
-    run: function (myCreep) {
-        const creep = Game.creeps[myCreep.name];
+    run: function (minerAndWorker) {
+        const creep = Game.creeps[minerAndWorker.name];
         if (creep == null) {
             console.error("A creep was null");
             return;
         }
-        if (myCreep.mining === false && creep.carry.energy === 0) {
-            myCreep.mining = true;
+        if (minerAndWorker.mining === false && creep.carry.energy === 0) {
+            minerAndWorker.mining = true;
             creep.say("mining");
         }
-        else if (myCreep.mining === true && creep.carry.energy === creep.carryCapacity) {
-            myCreep.mining = false;
+        else if (minerAndWorker.mining === true && creep.carry.energy === creep.carryCapacity) {
+            minerAndWorker.mining = false;
             creep.say("working");
         }
-        if (myCreep.mining === true) {
+        if (minerAndWorker.mining === true) {
             //mining
             const source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
             if (source && creep.harvest(source) === ERR_NOT_IN_RANGE) {
@@ -65,6 +65,6 @@ exports.roleMinerAndWorker = {
             }
         }
         //Sync memory
-        creep.memory = myCreep;
+        creep.memory = minerAndWorker;
     }
 };

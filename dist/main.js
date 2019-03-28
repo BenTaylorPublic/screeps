@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const controller_logic1_1 = require("controller.logic1");
 console.log("Starting script v18");
+Memory.myMemory.myRooms = [];
 exports.loop = function () {
     clearDeadCreeps();
     ensureAllRoomsInMyMemory();
@@ -49,7 +50,7 @@ function ensureAllRoomsInMyMemory() {
             const sources = room.find(FIND_SOURCES);
             for (let i = 0; i < sources.length; i++) {
                 const source = sources[i];
-                newMyRoom.mySources.push({ id: source.id, cacheContainerId: undefined });
+                newMyRoom.mySources.push({ id: source.id, cacheContainerId: undefined, minerName: undefined });
             }
             //myCreeps, spawnId, myContainers will be populated by logic when they're created
             //Initially add all existing creeps
@@ -75,7 +76,7 @@ function validateRoomsInMyMemory() {
         const myRoom = Memory.myMemory.myRooms[i];
         const room = Game.rooms[myRoom.name];
         if (room == null) {
-            console.error("Lost vision of a room " + name);
+            console.error("Lost vision of a room " + myRoom.name);
             continue;
         }
         for (let j = myRoom.myCreeps.length - 1; j >= 0; j--) {
