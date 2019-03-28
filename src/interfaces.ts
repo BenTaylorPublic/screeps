@@ -1,8 +1,4 @@
-interface CreepMemory {
-    harvesting?: boolean;
-    role: string;
-    assignedRoomName: string;
-}
+interface CreepMemory extends MyCreep { }
 interface FlagMemory { }
 interface SpawnMemory { }
 interface RoomMemory { }
@@ -39,4 +35,5 @@ interface MyCreep {
     name: string;
     role: string;
     assignedRoomName: string;
+    mining?: boolean; //Only used on minerAndWorker creeps
 }

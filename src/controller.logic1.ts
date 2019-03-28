@@ -133,7 +133,7 @@ function isNotWall(terrain: RoomTerrain, x: number, y: number): boolean {
 
 function spawnMinerAndWorker(spawn: StructureSpawn): Creep {
     const id = getId();
-    spawn.spawnCreep([MOVE, CARRY, WORK], "Creep" + id, { memory: { assignedRoomName: spawn.room.name, role: "MinerAndWorker", harvesting: true } });
+    spawn.spawnCreep([MOVE, CARRY, WORK], "Creep" + id, { memory: { name: "Creep" + id, assignedRoomName: spawn.room.name, role: "MinerAndWorker", mining: true } });
     return Game.creeps["Creep" + id];
 }
 

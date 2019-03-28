@@ -4,15 +4,15 @@ export const roleMinerAndWorker: any = {
             console.log("A creep was null");
             return;
         }
-        if (!creep.memory.harvesting && creep.carry.energy === 0) {
-            creep.memory.harvesting = true;
-            creep.say("harvesting");
-        } else if (creep.memory.harvesting && creep.carry.energy === creep.carryCapacity) {
-            creep.memory.harvesting = false;
-            creep.say("not harvesting");
+        if (!creep.memory.mining && creep.carry.energy === 0) {
+            creep.memory.mining = true;
+            creep.say("mining");
+        } else if (creep.memory.mining && creep.carry.energy === creep.carryCapacity) {
+            creep.memory.mining = false;
+            creep.say("working");
         }
 
-        if (creep.memory.harvesting) {
+        if (creep.memory.mining) {
             //Harvesting
             const source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
             if (source && creep.harvest(source) === ERR_NOT_IN_RANGE) {
