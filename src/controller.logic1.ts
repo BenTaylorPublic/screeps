@@ -25,15 +25,10 @@ export const controllerLogic1: any = {
             creepCount++;
         }
         if (creepCount < 6) {
-            const newCreep: Creep = spawnMinerAndWorker(Game.spawns.Spawn1);
+            const newCreep: MinerAndWorker | null = spawnMinerAndWorker(Game.spawns.Spawn1);
             if (newCreep != null) {
-                myRoom.myCreeps.push({
-                    name: newCreep.name,
-                    role: newCreep.memory.role,
-                    assignedRoomName: myRoom.name,
-                    mining: true
-                });
-                console.log("spawning new creep");
+                myRoom.myCreeps.push(newCreep);
+                console.log("spawned a new creep");
             } else {
                 console.log("failed to spawn new creep");
             }
@@ -102,10 +97,29 @@ function isNotWall(terrain: RoomTerrain, x: number, y: number): boolean {
     return terrain.get(x, y) !== TERRAIN_MASK_WALL;
 }
 
-function spawnMinerAndWorker(spawn: StructureSpawn): Creep {
+function spawnMinerAndWorker(spawn: StructureSpawn): MinerAndWorker | null {
     const id = getId();
-    spawn.spawnCreep([MOVE, CARRY, WORK], "Creep" + id, { memory: { name: "Creep" + id, assignedRoomName: spawn.room.name, role: "MinerAndWorker", mining: true } });
-    return Game.creeps["Creep" + id];
+    if (spawn.spawnCreep(
+        [MOVE, CARRY, WORK],
+        "Creep" + id,
+        {
+            memory:
+            {
+                name: "Creep" + id,
+                assignedRoomName: spawn.room.name,
+                role: "MinerAndWorker",
+                mining: true
+            }
+        }) === OK) {
+        return {
+            name: "Creep" + id,
+            role: "MinerAndWorker",
+            assignedRoomName: spawn.room.name,
+            mining: true
+        };
+    }
+
+    return null;
 }
 
 function getId(): number {

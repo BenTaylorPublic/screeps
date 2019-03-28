@@ -57,7 +57,7 @@ function ensureAllRoomsInMyMemory(): void {
             const sources: Source[] = room.find(FIND_SOURCES);
             for (let i = 0; i < sources.length; i++) {
                 const source: Source = sources[i];
-                newMyRoom.mySources.push({ id: source.id, cacheContainerId: undefined });
+                newMyRoom.mySources.push({ id: source.id, cacheContainerId: undefined, minerName: undefined });
             }
             //myCreeps, spawnId, myContainers will be populated by logic when they're created
 

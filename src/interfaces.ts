@@ -1,4 +1,6 @@
-interface CreepMemory extends MyCreep { }
+interface CreepMemory extends MyCreep {
+    [key: string]: any;
+}
 interface FlagMemory { }
 interface SpawnMemory { }
 interface RoomMemory { }
@@ -19,6 +21,7 @@ interface MyRoom {
 interface MySource {
     id: string;
     cacheContainerId?: string;
+    minerName?: string; //Null when miner is dead or not assigned
 }
 
 interface MyContainer {
@@ -35,7 +38,17 @@ interface MyCreep {
     name: string;
     role: string;
     assignedRoomName: string;
-    mining?: boolean; //Only used on MinerAndWorker creeps
-    cacheContainerIdToPutIn?: string; //Only used on Miner creeps
-    cacheContainerIdToGrabFrom?: string; //Only used on Hauler creeps
+}
+
+interface MinerAndWorker extends MyCreep {
+    mining: boolean;
+}
+
+interface Miner extends MyCreep {
+    cacheContainerIdToPutIn: string;
+    sourceId: string;
+}
+
+interface Hauler extends MyCreep {
+    cacheContainerIdToGrabFrom: string;
 }
