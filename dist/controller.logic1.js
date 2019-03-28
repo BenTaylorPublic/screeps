@@ -15,7 +15,7 @@ exports.controllerLogic1 = {
         for (let i = 0; i < myRoom.myCreeps.length; i++) {
             const myCreep = myRoom.myCreeps[i];
             if (myCreep.role === "MinerAndWorker") {
-                role_minerAndWorker_1.roleMinerAndWorker.run(Game.creeps[myCreep.name]);
+                role_minerAndWorker_1.roleMinerAndWorker.run(myCreep);
             }
             creepCount++;
         }
