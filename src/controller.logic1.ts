@@ -15,6 +15,7 @@ export const controllerLogic1: any = {
         //Can still see the room
         ensureTheRoomIsSetup(myRoom);
 
+        //MinerAndWorker logic
         let creepCount = 0;
         for (let i = 0; i < myRoom.myCreeps.length; i++) {
             const myCreep: MyCreep = myRoom.myCreeps[i];
