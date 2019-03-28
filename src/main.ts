@@ -2,11 +2,6 @@ import { controllerLogic1 } from "controller.logic1";
 
 console.log("Starting script v18");
 
-for (let i = 0; i < Memory.myMemory.myRooms[0].myCreeps.length; i++) {
-    const element = Memory.myMemory.myRooms[0].myCreeps[i];
-    element.mining = true;
-}
-
 export const loop: any = function () {
     clearDeadCreeps();
     ensureAllRoomsInMyMemory();
