@@ -145,23 +145,23 @@ function getId(): number {
 function spawnMiner(myRoom: MyRoom, mySource: MySource): Miner | null {
 
     if (myRoom.spawnName == null) {
-        console.log("attempted to spawn miner in a room with no spawner (1)");
+        // console.log("attempted to spawn miner in a room with no spawner (1)");
         return null;
     }
     const spawn: StructureSpawn = Game.spawns[myRoom.spawnName];
 
     if (spawn == null) {
-        console.log("attempted to spawn miner in a room with no spawner (2)");
+        // console.log("attempted to spawn miner in a room with no spawner (2)");
         return null;
     }
 
     if (mySource.cacheContainerId == null) {
-        console.log("attempted to spawn miner to a source with no cache container id");
+        // console.log("attempted to spawn miner to a source with no cache container id");
         return null;
     }
 
     if (true) { //TODO: Remove this when you want to spawn miners
-        console.log("Logic wants to spawn a miner for source ID " + mySource.id);
+        // console.log("Logic wants to spawn a miner for source ID " + mySource.id);
         return null;
     }
 

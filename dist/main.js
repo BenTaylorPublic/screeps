@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const controller_logic1_1 = require("controller.logic1");
 console.log("Script reloaded");
-Memory.myMemory.myRooms = [];
 exports.loop = function () {
     clearDeadCreeps();
     ensureAllRoomsInMyMemory();
@@ -52,7 +51,7 @@ function ensureAllRoomsInMyMemory() {
                 const source = sources[i];
                 newMyRoom.mySources.push({ id: source.id, cacheContainerId: undefined, minerName: undefined });
             }
-            //myCreeps, spawnId, myContainers will be populated by logic when they're created
+            //TODO: Somehow check for a container cache nearby
             //Initially add all existing creeps
             for (const creepName in Game.creeps) {
                 const creep = Game.creeps[creepName];

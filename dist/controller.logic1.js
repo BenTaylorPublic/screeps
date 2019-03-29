@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const role_minerAndWorker_1 = require("role.minerAndWorker");
+const towerController_1 = require("towerController");
 exports.controllerLogic1 = {
     run: function (myRoom) {
         if (Game.rooms[myRoom.name] == null) {
@@ -12,6 +13,9 @@ exports.controllerLogic1 = {
         //Can still see the room
         ensureTheRoomIsSetup(myRoom);
         ensureMinersArePlaced(myRoom);
+        //Tower logic
+        const towers = room.find(FIND_STRUCTURES, { filter: { structureType: STRUCTURE_TOWER, my: true } });
+        towers.forEach(towerController_1.towerController.run);
         //MinerAndWorker logic
         let creepCount = 0;
         for (let i = 0; i < myRoom.myCreeps.length; i++) {
@@ -128,20 +132,20 @@ function getId() {
 }
 function spawnMiner(myRoom, mySource) {
     if (myRoom.spawnName == null) {
-        console.log("attempted to spawn miner in a room with no spawner (1)");
+        // console.log("attempted to spawn miner in a room with no spawner (1)");
         return null;
     }
     const spawn = Game.spawns[myRoom.spawnName];
     if (spawn == null) {
-        console.log("attempted to spawn miner in a room with no spawner (2)");
+        // console.log("attempted to spawn miner in a room with no spawner (2)");
         return null;
     }
     if (mySource.cacheContainerId == null) {
-        console.log("attempted to spawn miner to a source with no cache container id");
+        // console.log("attempted to spawn miner to a source with no cache container id");
         return null;
     }
     if (true) { //TODO: Remove this when you want to spawn miners
-        console.log("Logic wants to spawn a miner for source ID " + mySource.id);
+        // console.log("Logic wants to spawn a miner for source ID " + mySource.id);
         return null;
     }
     //Have a valid spawn now
