@@ -50,7 +50,7 @@ function ensureAllRoomsInMyMemory(): void {
             const newMyRoom: MyRoom = {
                 name: roomName,
                 myCreeps: [],
-                spawnId: undefined,
+                spawnName: undefined,
                 mySources: [],
                 myContainers: []
             };
@@ -90,9 +90,18 @@ function validateRoomsInMyMemory(): void {
         }
 
         for (let j = myRoom.myCreeps.length - 1; j >= 0; j--) {
-            const creepName: string = myRoom.myCreeps[j].name;
-            if (Game.creeps[creepName] == null) {
+            const myCreep: MyCreep = myRoom.myCreeps[j];
+            if (Game.creeps[myCreep.name] == null) {
                 //Creep is dead
+                if (myCreep.role === "Miner") {
+                    //Need to check what source it was on
+                    for (let k = 0; k < myRoom.mySources.length; k++) {
+                        const mySource: MySource = myRoom.mySources[k];
+                        if (mySource.minerName === myCreep.name) {
+                            mySource.minerName = undefined;
+                        }
+                    }
+                }
                 myRoom.myCreeps.splice(j, 1);
                 console.log("Creep is dead and has been removed from a room");
             }

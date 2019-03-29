@@ -13,7 +13,7 @@ interface MyMemory {
 interface MyRoom {
     name: string;
     myCreeps: MyCreep[];
-    spawnId?: string;
+    spawnName?: string;
     mySources: MySource[];
     myContainers: MyContainer[];
 }
@@ -51,4 +51,5 @@ interface Miner extends MyCreep {
 
 interface Hauler extends MyCreep {
     cacheContainerIdToGrabFrom: string;
+    bankContainerIdToPutIn: string;
 }
