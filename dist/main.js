@@ -45,7 +45,7 @@ function ensureAllRoomsInMyMemory() {
                 myCreeps: [],
                 spawnName: undefined,
                 mySources: [],
-                myContainers: []
+                myContainers: [],
             };
             const sources = room.find(FIND_SOURCES);
             for (let i = 0; i < sources.length; i++) {
@@ -57,14 +57,14 @@ function ensureAllRoomsInMyMemory() {
             for (const creepName in Game.creeps) {
                 const creep = Game.creeps[creepName];
                 creep.memory.assignedRoomName = roomName;
-                if (creep.memory.role == null) {
-                    creep.memory.role = "MinerAndWorker";
-                }
-                newMyRoom.myCreeps.push({
-                    name: creepName,
-                    role: creep.memory.role,
-                    assignedRoomName: roomName
-                });
+                newMyRoom.myCreeps.push(creep.memory);
+            }
+            //Check the spawn
+            const spawns = room.find(FIND_MY_STRUCTURES, {
+                filter: { structureType: STRUCTURE_SPAWN }
+            });
+            if (spawns.length >= 1) {
+                newMyRoom.spawnName = spawns[0].name;
             }
             Memory.myMemory.myRooms.push(newMyRoom);
         }
