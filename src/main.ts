@@ -1,6 +1,6 @@
 import { controllerLogic1 } from "controller.logic1";
 
-console.log("Starting script v18");
+console.log("Script reloaded");
 Memory.myMemory.myRooms = [];
 export const loop: any = function () {
     clearDeadCreeps();

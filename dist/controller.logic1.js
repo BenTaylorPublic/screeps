@@ -11,6 +11,7 @@ exports.controllerLogic1 = {
         const room = Game.rooms[myRoom.name];
         //Can still see the room
         ensureTheRoomIsSetup(myRoom);
+        ensureMinersArePlaced(myRoom);
         //MinerAndWorker logic
         let creepCount = 0;
         for (let i = 0; i < myRoom.myCreeps.length; i++) {
@@ -111,8 +112,56 @@ function spawnMinerAndWorker(spawn) {
     }
     return null;
 }
+function ensureMinersArePlaced(myRoom) {
+    for (let i = 0; i < myRoom.mySources.length; i++) {
+        const mySource = myRoom.mySources[i];
+        if (mySource.minerName == null) {
+            //Needs a new miner
+            spawnMiner(myRoom, mySource);
+        }
+    }
+}
 function getId() {
     const toReturn = Memory.myMemory.globalId;
     Memory.myMemory.globalId++;
     return toReturn;
+}
+function spawnMiner(myRoom, mySource) {
+    if (myRoom.spawnName == null) {
+        console.error("attempted to spawn miner in a room with no spawner (1)");
+        return null;
+    }
+    const spawn = Game.spawns[myRoom.spawnName];
+    if (spawn == null) {
+        console.error("attempted to spawn miner in a room with no spawner (2)");
+        return null;
+    }
+    if (mySource.cacheContainerId == null) {
+        console.error("attempted to spawn miner to a source with no cache container id");
+        return null;
+    }
+    if (true) { //TODO: Remove this when you want to spawn miners
+        console.log("Logic wants to spawn a miner for source ID " + mySource.id);
+        return null;
+    }
+    //Have a valid spawn now
+    const id = getId();
+    if (spawn.spawnCreep([MOVE, CARRY, WORK], "Creep" + id, {
+        memory: {
+            name: "Creep" + id,
+            role: "Miner",
+            assignedRoomName: spawn.room.name,
+            cacheContainerIdToPutIn: mySource.cacheContainerId,
+            sourceId: mySource.id
+        }
+    }) === OK) {
+        return {
+            name: "Creep" + id,
+            role: "Miner",
+            assignedRoomName: spawn.room.name,
+            cacheContainerIdToPutIn: mySource.cacheContainerId,
+            sourceId: mySource.id
+        };
+    }
+    return null;
 }

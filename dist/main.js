@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const controller_logic1_1 = require("controller.logic1");
-console.log("Starting script v18");
+console.log("Script reloaded");
 Memory.myMemory.myRooms = [];
 exports.loop = function () {
     clearDeadCreeps();
@@ -43,7 +43,7 @@ function ensureAllRoomsInMyMemory() {
             const newMyRoom = {
                 name: roomName,
                 myCreeps: [],
-                spawnId: undefined,
+                spawnName: undefined,
                 mySources: [],
                 myContainers: []
             };
@@ -80,9 +80,18 @@ function validateRoomsInMyMemory() {
             continue;
         }
         for (let j = myRoom.myCreeps.length - 1; j >= 0; j--) {
-            const creepName = myRoom.myCreeps[j].name;
-            if (Game.creeps[creepName] == null) {
+            const myCreep = myRoom.myCreeps[j];
+            if (Game.creeps[myCreep.name] == null) {
                 //Creep is dead
+                if (myCreep.role === "Miner") {
+                    //Need to check what source it was on
+                    for (let k = 0; k < myRoom.mySources.length; k++) {
+                        const mySource = myRoom.mySources[k];
+                        if (mySource.minerName === myCreep.name) {
+                            mySource.minerName = undefined;
+                        }
+                    }
+                }
                 myRoom.myCreeps.splice(j, 1);
                 console.log("Creep is dead and has been removed from a room");
             }
