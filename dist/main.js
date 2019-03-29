@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const controller_logic1_1 = require("controller.logic1");
 console.log("Script reloaded");
+Memory.myMemory.myRooms = [];
 exports.loop = function () {
     clearDeadCreeps();
     ensureAllRoomsInMyMemory();
