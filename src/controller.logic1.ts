@@ -54,7 +54,7 @@ function ensureTheCachesAreSetup(myRoom: MyRoom) {
             //No container cache
             const source: Source = Game.getObjectById<Source>(mySource.id) as Source;
             if (source == null) {
-                console.error("Couldn't get a source with ID " + mySource.id);
+                console.log("Couldn't get a source with ID " + mySource.id);
                 continue;
             }
             const sourcePosX: number = source.pos.x;
@@ -70,7 +70,7 @@ function ensureTheCachesAreSetup(myRoom: MyRoom) {
             } else if (tryPlaceSourceContainerCache(myRoom, mySource, terrain, sourcePosX, sourcePosY - 1)) { //BM
             } else if (tryPlaceSourceContainerCache(myRoom, mySource, terrain, sourcePosX + 1, sourcePosY - 1)) { //BR
             } else {
-                console.error("Couldn't find a viable spot to place a container");
+                console.log("Couldn't find a viable spot to place a container");
             }
 
         }
@@ -139,18 +139,18 @@ function getId(): number {
 function spawnMiner(myRoom: MyRoom, mySource: MySource): Miner | null {
 
     if (myRoom.spawnName == null) {
-        console.error("attempted to spawn miner in a room with no spawner (1)");
+        console.log("attempted to spawn miner in a room with no spawner (1)");
         return null;
     }
     const spawn: StructureSpawn = Game.spawns[myRoom.spawnName];
 
     if (spawn == null) {
-        console.error("attempted to spawn miner in a room with no spawner (2)");
+        console.log("attempted to spawn miner in a room with no spawner (2)");
         return null;
     }
 
     if (mySource.cacheContainerId == null) {
-        console.error("attempted to spawn miner to a source with no cache container id");
+        console.log("attempted to spawn miner to a source with no cache container id");
         return null;
     }
 
