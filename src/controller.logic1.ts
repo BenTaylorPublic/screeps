@@ -1,5 +1,6 @@
 import { roleMinerAndWorker } from "role.minerAndWorker";
 import { towerController } from "towerController";
+import { roleMiner } from "role.miner";
 
 
 export const controllerLogic1: any = {
@@ -21,15 +22,17 @@ export const controllerLogic1: any = {
         towers.forEach(towerController.run);
 
         //MinerAndWorker logic
-        let creepCount = 0;
+        let minerAndWorkerCount = 0;
         for (let i = 0; i < myRoom.myCreeps.length; i++) {
             const myCreep: MyCreep = myRoom.myCreeps[i];
             if (myCreep.role === "MinerAndWorker") {
                 roleMinerAndWorker.run(myCreep);
+                minerAndWorkerCount++;
+            } else if (myCreep.role === "Miner") {
+                roleMiner.run(myCreep);
             }
-            creepCount++;
         }
-        if (creepCount < 6) {
+        if (minerAndWorkerCount < 6) {
             const newCreep: MinerAndWorker | null = spawnMinerAndWorker(Game.spawns.Spawn1);
             if (newCreep != null) {
                 myRoom.myCreeps.push(newCreep);
