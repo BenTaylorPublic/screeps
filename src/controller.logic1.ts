@@ -168,21 +168,33 @@ function spawnMiner(myRoom: MyRoom, mySource: MySource): Miner | null {
         return null;
     }
 
+    const bodyParts: BodyPartConstant[] = [MOVE];
+    for (let i = 0; i < 5; i++) {
+        if (calcBodyCost(bodyParts) + calcBodyCost([WORK]) < spawn.room.energyCapacityAvailable) {
+            bodyParts.concat([WORK]);
+        }
+
+    }
+
     //Have a valid spawn now
     const id = getId();
-    if (spawn.spawnCreep(
-        [MOVE, CARRY, WORK],
-        "Creep" + id,
-        {
-            memory:
+    const result: ScreepsReturnCode =
+        spawn.spawnCreep(
+            bodyParts,
+            "Creep" + id,
             {
-                name: "Creep" + id,
-                role: "Miner",
-                assignedRoomName: spawn.room.name,
-                cacheContainerIdToPutIn: mySource.cacheContainerId,
-                sourceId: mySource.id
+                memory:
+                {
+                    name: "Creep" + id,
+                    role: "Miner",
+                    assignedRoomName: spawn.room.name,
+                    cacheContainerIdToPutIn: mySource.cacheContainerId,
+                    sourceId: mySource.id
+                }
             }
-        }) === OK) {
+        );
+
+    if (result === OK) {
         return {
             name: "Creep" + id,
             role: "Miner",
@@ -193,4 +205,10 @@ function spawnMiner(myRoom: MyRoom, mySource: MySource): Miner | null {
     }
 
     return null;
+}
+
+function calcBodyCost(body: BodyPartConstant[]) {
+    return body.reduce(function (cost: number, part: BodyPartConstant) {
+        return cost + BODYPART_COST[part];
+    }, 0);
 }
