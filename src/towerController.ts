@@ -1,15 +1,16 @@
 
 export const towerController: any = {
     run: function (tower: StructureTower) {
-        const closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+        const closestDamagedStructure: Structure | null = tower.pos.findClosestByRange(FIND_STRUCTURES, {
             filter: (structure) => structure.hits < structure.hitsMax
         });
-        if (closestDamagedStructure) {
+        if (closestDamagedStructure != null) {
             tower.repair(closestDamagedStructure);
         }
 
-        const closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
-        if (closestHostile) {
+        const closestHostile: Creep | null = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+        if (closestHostile != null &&
+            closestHostile.owner.username !== "mooseyman") {
             tower.attack(closestHostile);
         }
     }

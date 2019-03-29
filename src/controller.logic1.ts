@@ -1,4 +1,6 @@
 import { roleMinerAndWorker } from "role.minerAndWorker";
+import { towerController } from "towerController";
+
 
 export const controllerLogic1: any = {
     run: function (myRoom: MyRoom) {
@@ -13,6 +15,10 @@ export const controllerLogic1: any = {
         //Can still see the room
         ensureTheRoomIsSetup(myRoom);
         ensureMinersArePlaced(myRoom);
+
+        //Tower logic
+        const towers: StructureTower[] = room.find<StructureTower>(FIND_STRUCTURES, { filter: { structureType: STRUCTURE_TOWER, my: true } });
+        towers.forEach(towerController.run);
 
         //MinerAndWorker logic
         let creepCount = 0;

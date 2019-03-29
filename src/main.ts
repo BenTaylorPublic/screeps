@@ -1,7 +1,6 @@
 import { controllerLogic1 } from "controller.logic1";
 
 console.log("Script reloaded");
-Memory.myMemory.myRooms = [];
 export const loop: any = function () {
     clearDeadCreeps();
     ensureAllRoomsInMyMemory();
@@ -59,7 +58,7 @@ function ensureAllRoomsInMyMemory(): void {
                 const source: Source = sources[i];
                 newMyRoom.mySources.push({ id: source.id, cacheContainerId: undefined, minerName: undefined });
             }
-            //myCreeps, spawnId, myContainers will be populated by logic when they're created
+            //TODO: Somehow check for a container cache nearby
 
             //Initially add all existing creeps
             for (const creepName in Game.creeps) {
