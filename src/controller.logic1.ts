@@ -168,19 +168,11 @@ function spawnMiner(myRoom: MyRoom, mySource: MySource): Miner | null {
         return null;
     }
 
-    const bodyParts: BodyPartConstant[] = [MOVE];
-    for (let i = 0; i < 5; i++) {
-        if (calcBodyCost(bodyParts) + calcBodyCost([WORK]) < spawn.room.energyCapacityAvailable) {
-            bodyParts.concat([WORK]);
-        }
-
-    }
-
     //Have a valid spawn now
     const id = getId();
     const result: ScreepsReturnCode =
         spawn.spawnCreep(
-            bodyParts,
+            [MOVE, WORK, WORK, WORK, WORK, WORK],
             "Creep" + id,
             {
                 memory:
@@ -205,10 +197,4 @@ function spawnMiner(myRoom: MyRoom, mySource: MySource): Miner | null {
     }
 
     return null;
-}
-
-function calcBodyCost(body: BodyPartConstant[]) {
-    return body.reduce(function (cost: number, part: BodyPartConstant) {
-        return cost + BODYPART_COST[part];
-    }, 0);
 }
