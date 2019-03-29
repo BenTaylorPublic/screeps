@@ -64,10 +64,12 @@ function ensureAllRoomsInMyMemory(): void {
             for (const creepName in Game.creeps) {
                 const creep: Creep = Game.creeps[creepName];
                 creep.memory.assignedRoomName = roomName;
+                console.log(JSON.stringify(creep.memory));
                 newMyRoom.myCreeps.push(
                     creep.memory
                 );
             }
+            console.log(JSON.stringify(newMyRoom.myCreeps));
 
             //Check the spawn
             const spawns: StructureSpawn[] = room.find<StructureSpawn>(FIND_MY_STRUCTURES,
