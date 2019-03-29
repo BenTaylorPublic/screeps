@@ -65,6 +65,9 @@ function ensureAllRoomsInMyMemory(): void {
             for (const creepName in Game.creeps) {
                 const creep: Creep = Game.creeps[creepName];
                 creep.memory.assignedRoomName = roomName;
+                if (creep.memory.mining == null) {
+                    creep.memory.mining = true;
+                }
                 console.log(JSON.stringify(creep.memory));
                 newMyRoom.myCreeps.push(
                     creep.memory
