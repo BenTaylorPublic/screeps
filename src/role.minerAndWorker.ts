@@ -15,7 +15,7 @@ export const roleMinerAndWorker: any = {
 
         if (minerAndWorker.mining === true) {
             //mining
-            const source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
+            const source: Source | null = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
             if (source && creep.harvest(source) === ERR_NOT_IN_RANGE) {
                 creep.moveTo(source);
             }
@@ -33,14 +33,14 @@ export const roleMinerAndWorker: any = {
             }
             if (!givenCommand) {
                 //Adding energy to structures that need it
-                const structureToAddTo = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+                const structureToAddTo: Structure | null = creep.pos.findClosestByPath(FIND_STRUCTURES, {
                     filter: (structure: any) => {
                         return (structure.structureType === STRUCTURE_EXTENSION ||
                             structure.structureType === STRUCTURE_SPAWN ||
                             structure.structureType === STRUCTURE_TOWER) && structure.energy < structure.energyCapacity;
                     }
                 });
-                if (structureToAddTo) {
+                if (structureToAddTo != null) {
                     if (creep.transfer(structureToAddTo, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                         creep.moveTo(structureToAddTo);
                         givenCommand = true;
@@ -50,7 +50,8 @@ export const roleMinerAndWorker: any = {
 
             //Building construction sites
             if (!givenCommand) {
-                const constructionSites = creep.room.find(FIND_CONSTRUCTION_SITES);
+                const constructionSites: ConstructionSite<BuildableStructureConstant>[]
+                    = creep.room.find(FIND_CONSTRUCTION_SITES);
                 if (constructionSites.length) {
                     if (creep.build(constructionSites[0]) === ERR_NOT_IN_RANGE) {
                         creep.moveTo(constructionSites[0]);
