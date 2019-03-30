@@ -4,6 +4,7 @@ const role_minerAndWorker_1 = require("role.minerAndWorker");
 const towerController_1 = require("towerController");
 const role_miner_1 = require("role.miner");
 const role_hauler_1 = require("role.hauler");
+const controller_roomStages_1 = require("controller.roomStages");
 exports.controllerLogic1 = {
     run: function (myRoom) {
         if (Game.rooms[myRoom.name] == null) {
@@ -11,12 +12,13 @@ exports.controllerLogic1 = {
             console.log("No longer have vision of room " + myRoom.name);
             return;
         }
-        const room = Game.rooms[myRoom.name];
         //Can still see the room
+        const room = Game.rooms[myRoom.name];
+        controller_roomStages_1.controllerRoomStages.run(myRoom);
         ensureTheBuildingsAreSetup(myRoom);
         //TODO: Uncomment when you want to spawn miners and haulers (once caches and bank are placed)
-        // ensureMinersArePlaced(myRoom);
-        // ensureHaulersArePlaced(myRoom);
+        ensureMinersArePlaced(myRoom);
+        ensureHaulersArePlaced(myRoom);
         //Tower logic
         const towers = room.find(FIND_STRUCTURES, { filter: { structureType: STRUCTURE_TOWER, my: true } });
         towers.forEach(towerController_1.towerController.run);
@@ -48,12 +50,17 @@ exports.controllerLogic1 = {
     }
 };
 function ensureTheBuildingsAreSetup(myRoom) {
+    if (myRoom.roomStage < 1.2) {
+        return; //No need to setup any buildings yet
+    }
     //Check if containers are setup
     if (myRoom.myContainers.length <= myRoom.mySources.length) {
         //Containers aren't set up
         ensureTheCachesAreSetup(myRoom);
     }
-    //TODO: Check if there's a bank
+    //TODO: Automate building bank
+    //TODO: Automate building extensions
+    //TODO: Automate building tower
 }
 function ensureTheCachesAreSetup(myRoom) {
     const room = Game.rooms[myRoom.name];
@@ -146,6 +153,9 @@ function spawnMinerAndWorker(spawn) {
     return null;
 }
 function ensureMinersArePlaced(myRoom) {
+    if (myRoom.roomStage < 1.4) {
+        return;
+    }
     for (let i = 0; i < myRoom.mySources.length; i++) {
         const mySource = myRoom.mySources[i];
         if (mySource.minerName == null) {
@@ -197,9 +207,12 @@ function spawnMiner(myRoom, mySource) {
     return null;
 }
 function ensureHaulersArePlaced(myRoom) {
+    if (myRoom.roomStage < 1.4) {
+        return;
+    }
     for (let i = 0; i < myRoom.myContainers.length; i++) {
         const myContainer = myRoom.myContainers[i];
-        if (myContainer.role === 0) { //Source cache
+        if (myContainer.role === "SourceCache") {
             if (myContainer.haulerNames != null &&
                 myContainer.haulerNames.length === 0) {
                 //Spawn a new hauler
@@ -243,7 +256,7 @@ function spawnHauler(myRoom, myContainer) {
     }
     let bankId = "";
     for (let i = 0; i < myRoom.myContainers.length; i++) {
-        if (myRoom.myContainers[i].role === 1) { //Bank
+        if (myRoom.myContainers[i].role === "Bank") {
             bankId = myRoom.myContainers[i].id;
         }
     }

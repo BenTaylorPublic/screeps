@@ -2,6 +2,16 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const controller_logic1_1 = require("controller.logic1");
 console.log("Script reloaded");
+Memory.myMemory.myRooms[0].roomStage = 1.2;
+for (let i = 0; i < Memory.myMemory.myRooms[0].myContainers.length; i++) {
+    const container = Memory.myMemory.myRooms[0].myContainers[i];
+    if (container.role === 1) {
+        container.role = "Bank";
+    }
+    else {
+        container.role = "SourceCache";
+    }
+}
 exports.loop = function () {
     clearDeadCreeps();
     ensureAllRoomsInMyMemory();
@@ -45,6 +55,7 @@ function ensureAllRoomsInMyMemory() {
                 spawnName: undefined,
                 mySources: [],
                 myContainers: [],
+                roomStage: 0
             };
             const sources = room.find(FIND_SOURCES);
             for (let i = 0; i < sources.length; i++) {
@@ -107,7 +118,7 @@ function handleCreepDying(myRoom, myCreep) {
     else if (myCreep.role === "Hauler") {
         for (let i = 0; i < myRoom.mySources.length; i++) {
             const myContainer = myRoom.myContainers[i];
-            if (myContainer.role === 0 &&
+            if (myContainer.role === "SourceCache" &&
                 myContainer.haulerNames != null) { //source cache
                 for (let j = myContainer.haulerNames.length - 1; j >= 0; j--) {
                     if (myContainer.haulerNames[j] === myCreep.name) {
