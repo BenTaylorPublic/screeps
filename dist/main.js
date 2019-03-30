@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const controller_logic1_1 = require("controller.logic1");
 console.log("Script reloaded");
-console.log("5c9f1f00169cd65147c3c7ea");
+Memory.myMemory.myRooms[0].myContainers = [];
 const myContainer = {
     role: 1,
     id: "5c9f1f00169cd65147c3c7ea"

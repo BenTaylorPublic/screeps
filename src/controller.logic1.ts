@@ -105,6 +105,7 @@ function tryPlaceSourceContainerCache(myRoom: MyRoom, mySource: MySource, terrai
         if (constructionSites === [] ||
             constructionSites.length !== 1) {
             console.log("Construction sites was an empty array");
+            console.log(JSON.stringify(constructionSites));
             return true; //Returning true anyway because otherwise it'll try build another
         }
 
