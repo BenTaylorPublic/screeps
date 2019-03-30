@@ -119,7 +119,7 @@ function handleCreepDying(myRoom: MyRoom, myCreep: MyCreep): void {
                 mySource.minerName = undefined;
             }
         }
-        console.log("A miner has died");
+        console.log("A Miner has died");
     } else if (myCreep.role === "Hauler") {
         for (let i = 0; i < myRoom.mySources.length; i++) {
             const myContainer: MyContainer = myRoom.myContainers[i];
@@ -133,6 +133,8 @@ function handleCreepDying(myRoom: MyRoom, myCreep: MyCreep): void {
                 }
             }
         }
-        console.log("A hauler has died");
+        console.log("A Hauler has died");
+    } else if (myCreep.role === "MinerAndWorker") {
+        console.log("A MinerAndWorker has died");
     }
 }
