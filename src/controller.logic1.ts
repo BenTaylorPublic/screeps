@@ -16,8 +16,9 @@ export const controllerLogic1: any = {
         const room: Room = Game.rooms[myRoom.name];
         //Can still see the room
         ensureTheBuildingsAreSetup(myRoom);
-        ensureMinersArePlaced(myRoom);
-        ensureHaulersArePlaced(myRoom);
+        //TODO: Uncomment when you want to spawn miners and haulers (once caches and bank are placed)
+        // ensureMinersArePlaced(myRoom);
+        // ensureHaulersArePlaced(myRoom);
 
         //Tower logic
         const towers: StructureTower[] = room.find<StructureTower>(FIND_STRUCTURES, { filter: { structureType: STRUCTURE_TOWER, my: true } });
