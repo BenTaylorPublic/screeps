@@ -104,7 +104,6 @@ function validateRoomsInMyMemory(): void {
             if (Game.creeps[myCreep.name] == null) {
                 handleCreepDying(myRoom, myCreep);
                 myRoom.myCreeps.splice(j, 1);
-                console.log("Creep is dead and has been removed from a room");
             }
         }
     }
@@ -120,6 +119,7 @@ function handleCreepDying(myRoom: MyRoom, myCreep: MyCreep): void {
                 mySource.minerName = undefined;
             }
         }
+        console.log("A miner has died");
     } else if (myCreep.role === "Hauler") {
         for (let i = 0; i < myRoom.mySources.length; i++) {
             const myContainer: MyContainer = myRoom.myContainers[i];
@@ -133,5 +133,6 @@ function handleCreepDying(myRoom: MyRoom, myCreep: MyCreep): void {
                 }
             }
         }
+        console.log("A hauler has died");
     }
 }
