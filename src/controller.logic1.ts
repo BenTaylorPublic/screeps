@@ -75,7 +75,6 @@ function ensureTheCachesAreSetup(myRoom: MyRoom) {
             const sourcePosY: number = source.pos.y;
             const terrain: RoomTerrain = room.getTerrain();
 
-            /*
             if (tryPlaceSourceContainerCache(myRoom, mySource, terrain, sourcePosX - 1, sourcePosY + 1)) { //TL
             } else if (tryPlaceSourceContainerCache(myRoom, mySource, terrain, sourcePosX, sourcePosY + 1)) { //TM
             } else if (tryPlaceSourceContainerCache(myRoom, mySource, terrain, sourcePosX + 1, sourcePosY + 1)) { //TR
@@ -87,8 +86,6 @@ function ensureTheCachesAreSetup(myRoom: MyRoom) {
             } else {
                 console.log("Couldn't find a viable spot to place a container");
             }
-            */
-
         }
     }
 }
