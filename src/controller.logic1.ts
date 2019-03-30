@@ -102,7 +102,8 @@ function tryPlaceSourceContainerCache(myRoom: MyRoom, mySource: MySource, terrai
         }
 
         const constructionSites: ConstructionSite<BuildableStructureConstant>[] = room.lookForAt(LOOK_CONSTRUCTION_SITES, x, y);
-        if (constructionSites === []) {
+        if (constructionSites === [] ||
+            constructionSites.length !== 1) {
             console.log("Construction sites was an empty array");
             return true; //Returning true anyway because otherwise it'll try build another
         }
