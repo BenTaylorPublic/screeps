@@ -1,6 +1,7 @@
 import { controllerLogic1 } from "controller.logic1";
 
 console.log("Script reloaded");
+Memory.myMemory.myRooms[0].roomStage = 1.2;
 
 export const loop: any = function () {
     clearDeadCreeps();
@@ -53,6 +54,7 @@ function ensureAllRoomsInMyMemory(): void {
                 spawnName: undefined,
                 mySources: [],
                 myContainers: [],
+                roomStage: 0
             };
             const sources: Source[] = room.find(FIND_SOURCES);
             for (let i = 0; i < sources.length; i++) {
