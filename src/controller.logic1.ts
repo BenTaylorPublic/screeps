@@ -152,7 +152,7 @@ function spawnMinerAndWorker(spawnName: string | undefined): MinerAndWorker | nu
     const spawn: StructureSpawn = Game.spawns[spawnName];
     const id = getId();
     if (spawn.spawnCreep(
-        [MOVE, CARRY, WORK],
+        [MOVE, MOVE, CARRY, WORK],
         "Creep" + id,
         {
             memory:
