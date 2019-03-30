@@ -96,29 +96,30 @@ function ensureTheCachesAreSetup(myRoom: MyRoom) {
 function tryPlaceSourceContainerCache(myRoom: MyRoom, mySource: MySource, terrain: RoomTerrain, x: number, y: number): boolean {
     if (isNotWall(terrain, x, y)) {
         console.log("Placing source container cache at " + x.toString() + ", " + y.toString());
+
         const room: Room = Game.rooms[myRoom.name];
-        const result: ScreepsReturnCode = room.createConstructionSite(x, y, STRUCTURE_CONTAINER);
-        if (result !== OK) {
-            console.log("Placing source cache returned not OK");
-            return false;
-        }
 
         const constructionSites: ConstructionSite<BuildableStructureConstant>[] = room.lookForAt(LOOK_CONSTRUCTION_SITES, x, y);
-        if (constructionSites === []) {
-            console.log("Construction sites was an empty array");
-            return false;
+        if (constructionSites !== []) {
+            //Something is already there
+            //That means that it was placed in a previous tick, and now we can get the construction site ID
+            const myContainer: MyContainer = {
+                id: constructionSites[0].id,
+                role: 0,
+                assignedSourceId: mySource.id,
+                haulerNames: []
+            };
+            mySource.cacheContainerId = myContainer.id;
+            myRoom.myContainers.push(myContainer);
+            return true;
+        } else {
+            const result: ScreepsReturnCode = room.createConstructionSite(x, y, STRUCTURE_CONTAINER);
+            if (result !== OK) {
+                console.log("Placing source cache returned not OK");
+                return false;
+            }
+            return true;
         }
-
-        const myContainer: MyContainer = {
-            id: constructionSites[0].id,
-            role: 0,
-            assignedSourceId: mySource.id,
-            haulerNames: []
-        };
-        mySource.cacheContainerId = myContainer.id;
-
-        myRoom.myContainers.push(myContainer);
-        return true;
     } else {
         return false;
     }
