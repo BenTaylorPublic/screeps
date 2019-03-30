@@ -31,7 +31,8 @@ interface MyContainer {
     1- Bank
     */
     role: number;
-    assignedSourceId?: string;
+    assignedSourceId?: string; //For caches
+    haulerNames?: string[]; //For caches
 }
 
 interface MyCreep {

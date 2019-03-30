@@ -102,18 +102,35 @@ function validateRoomsInMyMemory(): void {
         for (let j = myRoom.myCreeps.length - 1; j >= 0; j--) {
             const myCreep: MyCreep = myRoom.myCreeps[j];
             if (Game.creeps[myCreep.name] == null) {
-                //Creep is dead
-                if (myCreep.role === "Miner") {
-                    //Need to check what source it was on
-                    for (let k = 0; k < myRoom.mySources.length; k++) {
-                        const mySource: MySource = myRoom.mySources[k];
-                        if (mySource.minerName === myCreep.name) {
-                            mySource.minerName = undefined;
-                        }
-                    }
-                }
+                handleCreepDying(myRoom, myCreep);
                 myRoom.myCreeps.splice(j, 1);
                 console.log("Creep is dead and has been removed from a room");
+            }
+        }
+    }
+}
+
+function handleCreepDying(myRoom: MyRoom, myCreep: MyCreep): void {
+    //Creep is dead
+    if (myCreep.role === "Miner") {
+        //Need to check what source it was on
+        for (let i = 0; i < myRoom.mySources.length; i++) {
+            const mySource: MySource = myRoom.mySources[i];
+            if (mySource.minerName === myCreep.name) {
+                mySource.minerName = undefined;
+            }
+        }
+    } else if (myCreep.role === "Hauler") {
+        for (let i = 0; i < myRoom.mySources.length; i++) {
+            const myContainer: MyContainer = myRoom.myContainers[i];
+            if (myContainer.role === 0 &&
+                myContainer.haulerNames != null) { //source cache
+                for (let j = myContainer.haulerNames.length; j >= 0; j--) {
+                    if (myContainer.haulerNames[j] === myCreep.name) {
+                        myContainer.haulerNames.splice(j, 1);
+                    }
+
+                }
             }
         }
     }

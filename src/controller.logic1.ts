@@ -14,8 +14,9 @@ export const controllerLogic1: any = {
 
         const room: Room = Game.rooms[myRoom.name];
         //Can still see the room
-        ensureTheRoomIsSetup(myRoom);
+        ensureTheBuildingsAreSetup(myRoom);
         ensureMinersArePlaced(myRoom);
+        ensureHaulersArePlaced(myRoom);
 
         //Tower logic
         const towers: StructureTower[] = room.find<StructureTower>(FIND_STRUCTURES, { filter: { structureType: STRUCTURE_TOWER, my: true } });
@@ -44,7 +45,7 @@ export const controllerLogic1: any = {
     }
 };
 
-function ensureTheRoomIsSetup(myRoom: MyRoom): void {
+function ensureTheBuildingsAreSetup(myRoom: MyRoom): void {
     //Check if containers are setup
     if (myRoom.myContainers.length <= myRoom.mySources.length) {
         //Containers aren't set up
@@ -197,4 +198,7 @@ function spawnMiner(myRoom: MyRoom, mySource: MySource): Miner | null {
     }
 
     return null;
+}
+
+function ensureHaulersArePlaced(myRoom: MyRoom): void {
 }
