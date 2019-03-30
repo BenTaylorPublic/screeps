@@ -51,15 +51,16 @@ function ensureAllRoomsInMyMemory(): void {
             const newMyRoom: MyRoom = {
                 name: roomName,
                 myCreeps: [],
-                spawnName: undefined,
+                spawnName: null,
                 mySources: [],
                 myContainers: [],
-                roomStage: 0
+                roomStage: 0,
+                baseCenter: null
             };
             const sources: Source[] = room.find(FIND_SOURCES);
             for (let i = 0; i < sources.length; i++) {
                 const source: Source = sources[i];
-                newMyRoom.mySources.push({ id: source.id, cacheContainerId: undefined, minerName: undefined });
+                newMyRoom.mySources.push({ id: source.id, cacheContainerId: null, minerName: null });
             }
 
             //Initially add all existing creeps
@@ -117,7 +118,7 @@ function handleCreepDying(myRoom: MyRoom, myCreep: MyCreep): void {
         for (let i = 0; i < myRoom.mySources.length; i++) {
             const mySource: MySource = myRoom.mySources[i];
             if (mySource.minerName === myCreep.name) {
-                mySource.minerName = undefined;
+                mySource.minerName = null;
             }
         }
         console.log("A Miner has died");

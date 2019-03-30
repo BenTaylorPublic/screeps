@@ -12,23 +12,24 @@ interface MyMemory {
 interface MyRoom {
     name: string;
     myCreeps: MyCreep[];
-    spawnName?: string;
+    spawnName: string | null;
     mySources: MySource[];
     myContainers: MyContainer[];
     roomStage: number;
+    baseCenter: RoomPosition | null;
 }
 
 interface MySource {
     id: string;
-    cacheContainerId?: string;
-    minerName?: string; //Null when miner is dead or not assigned
+    cacheContainerId: string | null;
+    minerName: string | null; //Null when miner is dead or not assigned
 }
 
 interface MyContainer {
     id: string;
     role: string;
-    assignedSourceId?: string; //For caches
-    haulerNames?: string[]; //For caches
+    assignedSourceId: string | null; //For caches
+    haulerNames: string[] | null; //For caches
 }
 
 interface MyCreep {

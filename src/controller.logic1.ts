@@ -145,7 +145,7 @@ function isNotWall(terrain: RoomTerrain, x: number, y: number): boolean {
     return terrain.get(x, y) !== TERRAIN_MASK_WALL;
 }
 
-function spawnMinerAndWorker(spawnName: string | undefined): MinerAndWorker | null {
+function spawnMinerAndWorker(spawnName: string | null): MinerAndWorker | null {
     if (spawnName == null) {
         return null; //spawn name not set
     }
