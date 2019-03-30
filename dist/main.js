@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const controller_logic1_1 = require("controller.logic1");
 console.log("Script reloaded");
+setupMyMemory();
 exports.loop = function () {
     clearDeadCreeps();
     ensureAllRoomsInMyMemory();
@@ -118,5 +119,13 @@ function handleCreepDying(myRoom, myCreep) {
     }
     else if (myCreep.role === "MinerAndWorker") {
         console.log("A MinerAndWorker has died");
+    }
+}
+function setupMyMemory() {
+    if (Memory.myMemory == null) {
+        Memory.myMemory = {
+            globalId: 0,
+            myRooms: []
+        };
     }
 }

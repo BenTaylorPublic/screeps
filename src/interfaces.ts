@@ -6,7 +6,6 @@ interface SpawnMemory { }
 interface RoomMemory { }
 interface MyMemory {
     globalId: number;
-    prod: boolean;
     myRooms: MyRoom[];
 }
 

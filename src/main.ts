@@ -1,6 +1,7 @@
 import { controllerLogic1 } from "controller.logic1";
 
 console.log("Script reloaded");
+setupMyMemory();
 
 export const loop: any = function () {
     clearDeadCreeps();
@@ -135,5 +136,13 @@ function handleCreepDying(myRoom: MyRoom, myCreep: MyCreep): void {
         console.log("A Hauler has died");
     } else if (myCreep.role === "MinerAndWorker") {
         console.log("A MinerAndWorker has died");
+    }
+}
+function setupMyMemory(): void {
+    if (Memory.myMemory == null) {
+        Memory.myMemory = {
+            globalId: 0,
+            myRooms: []
+        };
     }
 }
