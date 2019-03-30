@@ -5,15 +5,15 @@ exports.controllerRoomStages = {
         const room = Game.rooms[myRoom.name];
         /*
             Loosely based on RCL
-            -1: No controller
-            0: RCL 0
-            1: RCL 1, fixed amount of MinerAndWorkers
-            1.2: RCL 2, Using MinerAndWorker creeps to build source caches and bank
-            1.4: Creating Miners and haulers
-            1.6: Miners and haulers are fully assigned
-            2: Start spawning builders when bank hits cap, only spawn MinerAndWorker on panic mode
-            2.5: RCL 3, Start constructing tower
-            3: Tower complete, Haulers place road when they walk
+            -1  = no controller
+            0   = rcl 0
+            1   = rcl 1
+            2   = rcl 2
+            2.2 = rcl 3, start building tower
+            2.4 = tower built, start building containers
+            2.6 = caches and bank built, start creating miners and haulers
+            2.8 = miners and haulers all assigned
+            3   = bank hit cap, spawn builders
             TODO: Define more stages
          */
         if (room.controller == null ||

@@ -108,7 +108,7 @@ function tryPlaceSourceContainerCache(myRoom, mySource, terrain, x, y) {
             //That means that it was placed in a previous tick, and now we can get the construction site ID
             const myContainer = {
                 id: constructionSites[0].id,
-                role: 0,
+                role: "SourceCache",
                 assignedSourceId: mySource.id,
                 haulerNames: []
             };
