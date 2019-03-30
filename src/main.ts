@@ -1,6 +1,14 @@
 import { controllerLogic1 } from "controller.logic1";
 
 console.log("Script reloaded");
+
+console.log("5c9f1f00169cd65147c3c7ea");
+const myContainer: MyContainer = {
+    role: 1,
+    id: "5c9f1f00169cd65147c3c7ea"
+};
+Memory.myMemory.myRooms[0].myContainers.push(myContainer);
+
 export const loop: any = function () {
     clearDeadCreeps();
     ensureAllRoomsInMyMemory();
