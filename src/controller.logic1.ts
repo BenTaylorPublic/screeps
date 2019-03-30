@@ -1,6 +1,7 @@
 import { roleMinerAndWorker } from "role.minerAndWorker";
 import { towerController } from "towerController";
 import { roleMiner } from "role.miner";
+import { roleHauler } from "role.hauler";
 
 
 export const controllerLogic1: any = {
@@ -31,6 +32,8 @@ export const controllerLogic1: any = {
                 minerAndWorkerCount++;
             } else if (myCreep.role === "Miner") {
                 roleMiner.run(myCreep);
+            } else if (myCreep.role === "Hauler") {
+                roleHauler.run(myCreep);
             }
         }
         if (minerAndWorkerCount < 6) {
@@ -259,6 +262,19 @@ function spawnHauler(myRoom: MyRoom, myContainer: MyContainer): Hauler | null {
             }
         }
     }
+
+    let bankId: string = "";
+    for (let i = 0; i < myRoom.myContainers.length; i++) {
+        if (myRoom.myContainers[i].role === 1) { //Bank
+            bankId = myRoom.myContainers[i].id;
+        }
+    }
+
+    if (bankId === "") {
+        console.log("Not spawning a hauler because the room bas no bank");
+        return null;
+    }
+
     const id = getId();
     const result: ScreepsReturnCode =
         spawn.spawnCreep(
@@ -271,7 +287,8 @@ function spawnHauler(myRoom: MyRoom, myContainer: MyContainer): Hauler | null {
                     role: "Hauler",
                     assignedRoomName: spawn.room.name,
                     cacheContainerIdToGrabFrom: myContainer.id,
-                    bankContainerIdToPutIn: "" //TODO: Need to do bank logic before I set this
+                    bankContainerIdToPutIn: bankId,
+                    pickup: true
                 }
             }
         );
@@ -282,7 +299,8 @@ function spawnHauler(myRoom: MyRoom, myContainer: MyContainer): Hauler | null {
             role: "Hauler",
             assignedRoomName: spawn.room.name,
             cacheContainerIdToGrabFrom: myContainer.id,
-            bankContainerIdToPutIn: "" //TODO: Need to do bank logic before I set this
+            bankContainerIdToPutIn: bankId,
+            pickup: true
         };
     }
     return null;

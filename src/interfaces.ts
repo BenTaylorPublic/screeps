@@ -53,4 +53,5 @@ interface Miner extends MyCreep {
 interface Hauler extends MyCreep {
     cacheContainerIdToGrabFrom: string;
     bankContainerIdToPutIn: string;
+    pickup: boolean;
 }
