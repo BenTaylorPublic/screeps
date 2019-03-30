@@ -60,7 +60,6 @@ function ensureAllRoomsInMyMemory(): void {
                 const source: Source = sources[i];
                 newMyRoom.mySources.push({ id: source.id, cacheContainerId: undefined, minerName: undefined });
             }
-            //TODO: Somehow check for a container cache nearby
 
             //Initially add all existing creeps
             for (const creepName in Game.creeps) {
@@ -69,12 +68,10 @@ function ensureAllRoomsInMyMemory(): void {
                 if (creep.memory.mining == null) {
                     creep.memory.mining = true;
                 }
-                console.log(JSON.stringify(creep.memory));
                 newMyRoom.myCreeps.push(
                     creep.memory
                 );
             }
-            console.log(JSON.stringify(newMyRoom.myCreeps));
 
             //Check the spawn
             const spawns: StructureSpawn[] = room.find<StructureSpawn>(FIND_MY_STRUCTURES,
