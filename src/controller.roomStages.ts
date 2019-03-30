@@ -6,7 +6,8 @@ export const controllerRoomStages: any = {
             Loosely based on RCL
             -1  = no controller
             0   = rcl 0
-            1   = rcl 1
+            0.5 = rcl 1, make spawn
+            1   = spawn made
             2   = rcl 2
             2.2 = rcl 3, start building tower
             2.4 = tower built, start building containers
@@ -24,10 +25,19 @@ export const controllerRoomStages: any = {
         }
 
         if (myRoom.roomStage === 0) {
-            //From 0 -> 1, the room must have a RCL 1
             if (room.controller.level === 1) {
-                myRoom.roomStage = 1;
-                console.log("Room " + myRoom.name + " advanced to room stage 1");
+                myRoom.roomStage = 0.5;
+                console.log("Room " + myRoom.name + " advanced to room stage 0.5");
+            }
+        }
+
+        if (myRoom.roomStage === 0.5) {
+            for (const spawnName in Game.spawns) {
+                if (Game.spawns[spawnName].room.name === myRoom.name) {
+                    //Spawn has been made
+                    myRoom.roomStage = 1;
+                    console.log("Room " + myRoom.name + " advanced to room stage 1");
+                }
             }
         }
 
