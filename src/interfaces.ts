@@ -27,11 +27,7 @@ interface MySource {
 
 interface MyContainer {
     id: string;
-    /*
-    0- Source cache
-    1- Bank
-    */
-    role: number;
+    role: any; //TODO: string
     assignedSourceId?: string; //For caches
     haulerNames?: string[]; //For caches
 }

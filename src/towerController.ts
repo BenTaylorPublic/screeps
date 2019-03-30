@@ -10,7 +10,8 @@ export const towerController: any = {
 
         const closestHostile: Creep | null = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
         if (closestHostile != null &&
-            closestHostile.owner.username !== "mooseyman") {
+            closestHostile.owner.username.toLowerCase() !== "mooseyman" &&
+            closestHostile.owner.username.toLowerCase() !== "nimphious") {
             tower.attack(closestHostile);
         }
     }
