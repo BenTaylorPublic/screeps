@@ -75,11 +75,12 @@ function ensureAllRoomsInMyMemory() {
 }
 function validateRoomsInMyMemory() {
     //Validation of the myRooms
-    for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
+    for (let i = Memory.myMemory.myRooms.length - 1; i >= 0; i--) {
         const myRoom = Memory.myMemory.myRooms[i];
         const room = Game.rooms[myRoom.name];
         if (room == null) {
             console.log("Lost vision of a room " + myRoom.name);
+            Memory.myMemory.myRooms.splice(i, 1);
             continue;
         }
         for (let j = myRoom.myCreeps.length - 1; j >= 0; j--) {
