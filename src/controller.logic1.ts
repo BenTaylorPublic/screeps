@@ -113,7 +113,7 @@ function tryPlaceSourceContainerCache(myRoom: MyRoom, mySource: MySource, terrai
             //That means that it was placed in a previous tick, and now we can get the construction site ID
             const myContainer: MyContainer = {
                 id: constructionSites[0].id,
-                role: 0,
+                role: "SourceCache",
                 assignedSourceId: mySource.id,
                 haulerNames: []
             };
