@@ -50,7 +50,11 @@ exports.controllerLogic1 = {
     }
 };
 function ensureTheBuildingsAreSetup(myRoom) {
-    if (myRoom.roomStage < 1.2) {
+    if (myRoom.roomStage < 2.2) {
+        return; //No need to setup any buildings yet
+    }
+    //TODO: Automate building tower
+    if (myRoom.roomStage < 2.4) {
         return; //No need to setup any buildings yet
     }
     //Check if containers are setup
@@ -60,7 +64,6 @@ function ensureTheBuildingsAreSetup(myRoom) {
     }
     //TODO: Automate building bank
     //TODO: Automate building extensions
-    //TODO: Automate building tower
 }
 function ensureTheCachesAreSetup(myRoom) {
     const room = Game.rooms[myRoom.name];
@@ -139,7 +142,7 @@ function spawnMinerAndWorker(spawnName) {
     }
     const spawn = Game.spawns[spawnName];
     const id = getId();
-    if (spawn.spawnCreep([MOVE, CARRY, WORK], "Creep" + id, {
+    if (spawn.spawnCreep([MOVE, MOVE, CARRY, WORK], "Creep" + id, {
         memory: {
             name: "Creep" + id,
             assignedRoomName: spawn.room.name,
@@ -157,7 +160,7 @@ function spawnMinerAndWorker(spawnName) {
     return null;
 }
 function ensureMinersArePlaced(myRoom) {
-    if (myRoom.roomStage < 1.4) {
+    if (myRoom.roomStage < 2.6) {
         return;
     }
     for (let i = 0; i < myRoom.mySources.length; i++) {
@@ -211,7 +214,7 @@ function spawnMiner(myRoom, mySource) {
     return null;
 }
 function ensureHaulersArePlaced(myRoom) {
-    if (myRoom.roomStage < 1.4) {
+    if (myRoom.roomStage < 2.6) {
         return;
     }
     for (let i = 0; i < myRoom.myContainers.length; i++) {
