@@ -1,16 +1,4 @@
-1. Rework room stage logic.
-Because caches have 500 decay time, MinerAndWorker must be used till RCL 3.
--1  = no controller
-0   = rcl 0
-1   = rcl 1
-2   = rcl 2
-2.2 = rcl 3, start building tower
-2.4 = tower built, start building containers
-2.6 = caches and bank built, start creating miners and haulers
-2.8 = miners and haulers all assigned
-3   = bank hit cap, spawn builders
-
-
+Start from scratch logic
 
 RCL LEVELS:
 Lvl Req         Buildings
