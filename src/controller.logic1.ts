@@ -96,7 +96,7 @@ function tryPlaceSourceContainerCache(myRoom: MyRoom, mySource: MySource, terrai
         const room: Room = Game.rooms[myRoom.name];
 
         const constructionSites: ConstructionSite<BuildableStructureConstant>[] = room.lookForAt(LOOK_CONSTRUCTION_SITES, x, y);
-        if (constructionSites !== []) {
+        if (constructionSites.length === 1) {
             console.log("Found source container cache at " + x.toString() + ", " + y.toString());
             //Something is already there
             //That means that it was placed in a previous tick, and now we can get the construction site ID

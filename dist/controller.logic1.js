@@ -95,7 +95,7 @@ function tryPlaceSourceContainerCache(myRoom, mySource, terrain, x, y) {
     if (isNotWall(terrain, x, y)) {
         const room = Game.rooms[myRoom.name];
         const constructionSites = room.lookForAt(LOOK_CONSTRUCTION_SITES, x, y);
-        if (constructionSites !== []) {
+        if (constructionSites.length === 1) {
             console.log("Found source container cache at " + x.toString() + ", " + y.toString());
             //Something is already there
             //That means that it was placed in a previous tick, and now we can get the construction site ID
