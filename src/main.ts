@@ -125,7 +125,7 @@ function handleCreepDying(myRoom: MyRoom, myCreep: MyCreep): void {
             const myContainer: MyContainer = myRoom.myContainers[i];
             if (myContainer.role === 0 &&
                 myContainer.haulerNames != null) { //source cache
-                for (let j = myContainer.haulerNames.length; j >= 0; j--) {
+                for (let j = myContainer.haulerNames.length - 1; j >= 0; j--) {
                     if (myContainer.haulerNames[j] === myCreep.name) {
                         myContainer.haulerNames.splice(j, 1);
                     }
