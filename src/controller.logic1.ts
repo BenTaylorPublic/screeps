@@ -92,14 +92,15 @@ function ensureTheCachesAreSetup(myRoom: MyRoom) {
 
 function tryPlaceSourceContainerCache(myRoom: MyRoom, mySource: MySource, terrain: RoomTerrain, x: number, y: number): boolean {
     if (isNotWall(terrain, x, y)) {
-        console.log("Placing source container cache at " + x.toString() + ", " + y.toString());
 
         const room: Room = Game.rooms[myRoom.name];
 
         const constructionSites: ConstructionSite<BuildableStructureConstant>[] = room.lookForAt(LOOK_CONSTRUCTION_SITES, x, y);
         if (constructionSites !== []) {
+            console.log("Found source container cache at " + x.toString() + ", " + y.toString());
             //Something is already there
             //That means that it was placed in a previous tick, and now we can get the construction site ID
+            console.log(JSON.stringify(constructionSites));
             const myContainer: MyContainer = {
                 id: constructionSites[0].id,
                 role: 0,
@@ -115,6 +116,7 @@ function tryPlaceSourceContainerCache(myRoom: MyRoom, mySource: MySource, terrai
                 console.log("Placing source cache returned not OK");
                 return false;
             }
+            console.log("Placed source container cache at " + x.toString() + ", " + y.toString());
             return true;
         }
     } else {
