@@ -69,25 +69,19 @@ function ensureTheCachesAreSetup(myRoom) {
             const sourcePosX = source.pos.x;
             const sourcePosY = source.pos.y;
             const terrain = room.getTerrain();
+            /*
             if (tryPlaceSourceContainerCache(myRoom, mySource, terrain, sourcePosX - 1, sourcePosY + 1)) { //TL
-            }
-            else if (tryPlaceSourceContainerCache(myRoom, mySource, terrain, sourcePosX, sourcePosY + 1)) { //TM
-            }
-            else if (tryPlaceSourceContainerCache(myRoom, mySource, terrain, sourcePosX + 1, sourcePosY + 1)) { //TR
-            }
-            else if (tryPlaceSourceContainerCache(myRoom, mySource, terrain, sourcePosX - 1, sourcePosY)) { //ML
-            }
-            else if (tryPlaceSourceContainerCache(myRoom, mySource, terrain, sourcePosX + 1, sourcePosY)) { //MR
-            }
-            else if (tryPlaceSourceContainerCache(myRoom, mySource, terrain, sourcePosX - 1, sourcePosY - 1)) { //BL
-            }
-            else if (tryPlaceSourceContainerCache(myRoom, mySource, terrain, sourcePosX, sourcePosY - 1)) { //BM
-            }
-            else if (tryPlaceSourceContainerCache(myRoom, mySource, terrain, sourcePosX + 1, sourcePosY - 1)) { //BR
-            }
-            else {
+            } else if (tryPlaceSourceContainerCache(myRoom, mySource, terrain, sourcePosX, sourcePosY + 1)) { //TM
+            } else if (tryPlaceSourceContainerCache(myRoom, mySource, terrain, sourcePosX + 1, sourcePosY + 1)) { //TR
+            } else if (tryPlaceSourceContainerCache(myRoom, mySource, terrain, sourcePosX - 1, sourcePosY)) { //ML
+            } else if (tryPlaceSourceContainerCache(myRoom, mySource, terrain, sourcePosX + 1, sourcePosY)) { //MR
+            } else if (tryPlaceSourceContainerCache(myRoom, mySource, terrain, sourcePosX - 1, sourcePosY - 1)) { //BL
+            } else if (tryPlaceSourceContainerCache(myRoom, mySource, terrain, sourcePosX, sourcePosY - 1)) { //BM
+            } else if (tryPlaceSourceContainerCache(myRoom, mySource, terrain, sourcePosX + 1, sourcePosY - 1)) { //BR
+            } else {
                 console.log("Couldn't find a viable spot to place a container");
             }
+            */
         }
     }
 }
@@ -101,11 +95,9 @@ function tryPlaceSourceContainerCache(myRoom, mySource, terrain, x, y) {
             return false;
         }
         const constructionSites = room.lookForAt(LOOK_CONSTRUCTION_SITES, x, y);
-        if (constructionSites === [] ||
-            constructionSites.length !== 1) {
+        if (constructionSites === []) {
             console.log("Construction sites was an empty array");
-            console.log(JSON.stringify(constructionSites));
-            return true; //Returning true anyway because otherwise it'll try build another
+            return false;
         }
         const myContainer = {
             id: constructionSites[0].id,

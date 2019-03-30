@@ -75,6 +75,7 @@ function ensureTheCachesAreSetup(myRoom: MyRoom) {
             const sourcePosY: number = source.pos.y;
             const terrain: RoomTerrain = room.getTerrain();
 
+            /*
             if (tryPlaceSourceContainerCache(myRoom, mySource, terrain, sourcePosX - 1, sourcePosY + 1)) { //TL
             } else if (tryPlaceSourceContainerCache(myRoom, mySource, terrain, sourcePosX, sourcePosY + 1)) { //TM
             } else if (tryPlaceSourceContainerCache(myRoom, mySource, terrain, sourcePosX + 1, sourcePosY + 1)) { //TR
@@ -86,6 +87,7 @@ function ensureTheCachesAreSetup(myRoom: MyRoom) {
             } else {
                 console.log("Couldn't find a viable spot to place a container");
             }
+            */
 
         }
     }
@@ -102,11 +104,9 @@ function tryPlaceSourceContainerCache(myRoom: MyRoom, mySource: MySource, terrai
         }
 
         const constructionSites: ConstructionSite<BuildableStructureConstant>[] = room.lookForAt(LOOK_CONSTRUCTION_SITES, x, y);
-        if (constructionSites === [] ||
-            constructionSites.length !== 1) {
+        if (constructionSites === []) {
             console.log("Construction sites was an empty array");
-            console.log(JSON.stringify(constructionSites));
-            return true; //Returning true anyway because otherwise it'll try build another
+            return false;
         }
 
         const myContainer: MyContainer = {
