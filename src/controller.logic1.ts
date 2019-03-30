@@ -55,7 +55,14 @@ export const controllerLogic1: any = {
 
 function ensureTheBuildingsAreSetup(myRoom: MyRoom): void {
 
-    if (myRoom.roomStage < 1.2) {
+    if (myRoom.roomStage < 2.2) {
+        return; //No need to setup any buildings yet
+    }
+
+    //TODO: Automate building tower
+
+
+    if (myRoom.roomStage < 2.4) {
         return; //No need to setup any buildings yet
     }
 
@@ -67,7 +74,6 @@ function ensureTheBuildingsAreSetup(myRoom: MyRoom): void {
 
     //TODO: Automate building bank
     //TODO: Automate building extensions
-    //TODO: Automate building tower
 }
 
 function ensureTheCachesAreSetup(myRoom: MyRoom) {
@@ -169,7 +175,7 @@ function spawnMinerAndWorker(spawnName: string | undefined): MinerAndWorker | nu
 }
 
 function ensureMinersArePlaced(myRoom: MyRoom): void {
-    if (myRoom.roomStage < 1.4) {
+    if (myRoom.roomStage < 2.6) {
         return;
     }
 
@@ -240,7 +246,7 @@ function spawnMiner(myRoom: MyRoom, mySource: MySource): Miner | null {
 
 function ensureHaulersArePlaced(myRoom: MyRoom): void {
 
-    if (myRoom.roomStage < 1.4) {
+    if (myRoom.roomStage < 2.6) {
         return;
     }
 
