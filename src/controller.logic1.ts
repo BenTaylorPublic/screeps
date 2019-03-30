@@ -42,7 +42,7 @@ export const controllerLogic1: any = {
             }
         }
         if (minerAndWorkerCount < 6) {
-            const newCreep: MinerAndWorker | null = spawnMinerAndWorker(Game.spawns.Spawn1);
+            const newCreep: MinerAndWorker | null = spawnMinerAndWorker(myRoom.spawnName);
             if (newCreep != null) {
                 myRoom.myCreeps.push(newCreep);
                 console.log("spawned a new creep");
@@ -139,7 +139,11 @@ function isNotWall(terrain: RoomTerrain, x: number, y: number): boolean {
     return terrain.get(x, y) !== TERRAIN_MASK_WALL;
 }
 
-function spawnMinerAndWorker(spawn: StructureSpawn): MinerAndWorker | null {
+function spawnMinerAndWorker(spawnName: string | undefined): MinerAndWorker | null {
+    if (spawnName == null) {
+        return null; //spawn name not set
+    }
+    const spawn: StructureSpawn = Game.spawns[spawnName];
     const id = getId();
     if (spawn.spawnCreep(
         [MOVE, CARRY, WORK],
