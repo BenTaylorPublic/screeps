@@ -88,12 +88,30 @@ function ensureTheCachesAreSetup(myRoom: MyRoom) {
 }
 
 function tryPlaceSourceContainerCache(myRoom: MyRoom, mySource: MySource, terrain: RoomTerrain, x: number, y: number): boolean {
-    //TODO: Code this
     if (isNotWall(terrain, x, y)) {
-        // console.log("Placing source container cache at " + x.toString() + ", " + y.toString());
-        //room.createConstructionSite(x, y)
-        //Set mySource.cacheContainerId
-        //Set myContainer.assignedSourceId
+        console.log("Placing source container cache at " + x.toString() + ", " + y.toString());
+        const room: Room = Game.rooms[myRoom.name];
+        const result: ScreepsReturnCode = room.createConstructionSite(x, y, STRUCTURE_CONTAINER);
+        if (result !== OK) {
+            console.log("Placing source cache returned not OK");
+            return false;
+        }
+
+        const constructionSites: ConstructionSite<BuildableStructureConstant>[] = room.lookForAt(LOOK_CONSTRUCTION_SITES, x, y);
+        if (constructionSites === []) {
+            console.log("Construction sites was an empty array");
+            return true; //Returning true anyway because otherwise it'll try build another
+        }
+
+        const myContainer: MyContainer = {
+            id: constructionSites[0].id,
+            role: 0,
+            assignedSourceId: mySource.id,
+            haulerNames: []
+        };
+        mySource.cacheContainerId = myContainer.id;
+
+        myRoom.myContainers.push(myContainer);
         return true;
     } else {
         return false;
@@ -164,11 +182,6 @@ function spawnMiner(myRoom: MyRoom, mySource: MySource): Miner | null {
         return null;
     }
 
-    if (true) { //TODO: Remove this when you want to spawn miners
-        // console.log("Logic wants to spawn a miner for source ID " + mySource.id);
-        return null;
-    }
-
     //Have a valid spawn now
     const id = getId();
     const result: ScreepsReturnCode =
@@ -225,11 +238,6 @@ function spawnHauler(myRoom: MyRoom, myContainer: MyContainer): Hauler | null {
         // console.log("attempted to spawn hauler in a room with no spawner (2)");
         return null;
     }
-
-    // if (true) { //TODO: Remove this when you want to spawn hauler
-    //     // console.log("Logic wants to spawn a hauler for cache ID " + myContainer.id);
-    //     return null;
-    // }
 
     //Have a valid spawn now
     const body: BodyPartConstant[] = [MOVE];
