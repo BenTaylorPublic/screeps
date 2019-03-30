@@ -188,6 +188,7 @@ function spawnMiner(myRoom: MyRoom, mySource: MySource): Miner | null {
         );
 
     if (result === OK) {
+        mySource.minerName = "Creep" + id;
         return {
             name: "Creep" + id,
             role: "Miner",
@@ -201,4 +202,86 @@ function spawnMiner(myRoom: MyRoom, mySource: MySource): Miner | null {
 }
 
 function ensureHaulersArePlaced(myRoom: MyRoom): void {
+    for (let i = 0; i < myRoom.myContainers.length; i++) {
+        const myContainer: MyContainer = myRoom.myContainers[i];
+        if (myContainer.role === 0) { //Source cache
+            if (myContainer.haulerNames != null &&
+                myContainer.haulerNames.length === 0) {
+                //Spawn a new hauler
+                spawnHauler(myRoom, myContainer);
+            }
+        }
+    }
+}
+
+function spawnHauler(myRoom: MyRoom, myContainer: MyContainer): Hauler | null {
+    if (myRoom.spawnName == null) {
+        // console.log("attempted to spawn hauler in a room with no spawner (1)");
+        return null;
+    }
+    const spawn: StructureSpawn = Game.spawns[myRoom.spawnName];
+
+    if (spawn == null) {
+        // console.log("attempted to spawn hauler in a room with no spawner (2)");
+        return null;
+    }
+
+    // if (true) { //TODO: Remove this when you want to spawn hauler
+    //     // console.log("Logic wants to spawn a hauler for cache ID " + myContainer.id);
+    //     return null;
+    // }
+
+    //Have a valid spawn now
+    const body: BodyPartConstant[] = [MOVE];
+    let addCarry: boolean = true;
+    while (true) {
+        if (addCarry) {
+            addCarry = false;
+            if (calcBodyCost(body) + calcBodyCost([CARRY]) < spawn.room.energyCapacityAvailable) {
+                body.concat([CARRY]);
+            } else {
+                break;
+            }
+        } else {
+            addCarry = true;
+            if (calcBodyCost(body) + calcBodyCost([MOVE]) < spawn.room.energyCapacityAvailable) {
+                body.concat([MOVE]);
+            } else {
+                break;
+            }
+        }
+    }
+    const id = getId();
+    const result: ScreepsReturnCode =
+        spawn.spawnCreep(
+            body,
+            "Creep" + id,
+            {
+                memory:
+                {
+                    name: "Creep" + id,
+                    role: "Hauler",
+                    assignedRoomName: spawn.room.name,
+                    cacheContainerIdToGrabFrom: myContainer.id,
+                    bankContainerIdToPutIn: "" //TODO: Need to do bank logic before I set this
+                }
+            }
+        );
+
+    if (result === OK) {
+        return {
+            name: "Creep" + id,
+            role: "Hauler",
+            assignedRoomName: spawn.room.name,
+            cacheContainerIdToGrabFrom: myContainer.id,
+            bankContainerIdToPutIn: "" //TODO: Need to do bank logic before I set this
+        };
+    }
+    return null;
+}
+
+function calcBodyCost(body: BodyPartConstant[]): number {
+    return body.reduce(function (cost: number, part: BodyPartConstant) {
+        return cost + BODYPART_COST[part];
+    }, 0);
 }
