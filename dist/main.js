@@ -2,7 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const controller_logic1_1 = require("controller.logic1");
 console.log("Script reloaded");
-Memory.myMemory.myRooms = [];
+console.log("5c9f1f00169cd65147c3c7ea");
+const myContainer = {
+    role: 1,
+    id: "5c9f1f00169cd65147c3c7ea"
+};
+Memory.myMemory.myRooms[0].myContainers.push(myContainer);
 exports.loop = function () {
     clearDeadCreeps();
     ensureAllRoomsInMyMemory();
@@ -87,19 +92,39 @@ function validateRoomsInMyMemory() {
         for (let j = myRoom.myCreeps.length - 1; j >= 0; j--) {
             const myCreep = myRoom.myCreeps[j];
             if (Game.creeps[myCreep.name] == null) {
-                //Creep is dead
-                if (myCreep.role === "Miner") {
-                    //Need to check what source it was on
-                    for (let k = 0; k < myRoom.mySources.length; k++) {
-                        const mySource = myRoom.mySources[k];
-                        if (mySource.minerName === myCreep.name) {
-                            mySource.minerName = undefined;
-                        }
-                    }
-                }
+                handleCreepDying(myRoom, myCreep);
                 myRoom.myCreeps.splice(j, 1);
-                console.log("Creep is dead and has been removed from a room");
             }
         }
+    }
+}
+function handleCreepDying(myRoom, myCreep) {
+    //Creep is dead
+    if (myCreep.role === "Miner") {
+        //Need to check what source it was on
+        for (let i = 0; i < myRoom.mySources.length; i++) {
+            const mySource = myRoom.mySources[i];
+            if (mySource.minerName === myCreep.name) {
+                mySource.minerName = undefined;
+            }
+        }
+        console.log("A Miner has died");
+    }
+    else if (myCreep.role === "Hauler") {
+        for (let i = 0; i < myRoom.mySources.length; i++) {
+            const myContainer = myRoom.myContainers[i];
+            if (myContainer.role === 0 &&
+                myContainer.haulerNames != null) { //source cache
+                for (let j = myContainer.haulerNames.length - 1; j >= 0; j--) {
+                    if (myContainer.haulerNames[j] === myCreep.name) {
+                        myContainer.haulerNames.splice(j, 1);
+                    }
+                }
+            }
+        }
+        console.log("A Hauler has died");
+    }
+    else if (myCreep.role === "MinerAndWorker") {
+        console.log("A MinerAndWorker has died");
     }
 }

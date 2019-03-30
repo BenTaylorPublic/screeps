@@ -7,11 +7,13 @@ exports.roleMinerAndWorker = {
             console.error("A creep was null");
             return;
         }
-        if (minerAndWorker.mining === false && creep.carry.energy === 0) {
+        if (minerAndWorker.mining === false &&
+            creep.carry.energy === 0) {
             minerAndWorker.mining = true;
             creep.say("mining");
         }
-        else if (minerAndWorker.mining === true && creep.carry.energy === creep.carryCapacity) {
+        else if (minerAndWorker.mining === true &&
+            creep.carry.energy === creep.carryCapacity) {
             minerAndWorker.mining = false;
             creep.say("working");
         }
@@ -41,7 +43,7 @@ exports.roleMinerAndWorker = {
                             structure.structureType === STRUCTURE_TOWER) && structure.energy < structure.energyCapacity;
                     }
                 });
-                if (structureToAddTo) {
+                if (structureToAddTo != null) {
                     if (creep.transfer(structureToAddTo, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                         creep.moveTo(structureToAddTo);
                         givenCommand = true;
