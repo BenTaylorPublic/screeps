@@ -2,7 +2,7 @@ export const roleMinerAndWorker: any = {
     run: function (minerAndWorker: MinerAndWorker) {
         const creep: Creep = Game.creeps[minerAndWorker.name];
         if (creep == null) {
-            console.error("A creep was null");
+            console.log("A creep was null");
             return;
         }
         if (minerAndWorker.mining === false &&

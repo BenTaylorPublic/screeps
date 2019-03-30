@@ -79,7 +79,7 @@ function validateRoomsInMyMemory() {
         const myRoom = Memory.myMemory.myRooms[i];
         const room = Game.rooms[myRoom.name];
         if (room == null) {
-            console.error("Lost vision of a room " + myRoom.name);
+            console.log("Lost vision of a room " + myRoom.name);
             continue;
         }
         for (let j = myRoom.myCreeps.length - 1; j >= 0; j--) {

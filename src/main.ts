@@ -95,7 +95,7 @@ function validateRoomsInMyMemory(): void {
         const myRoom: MyRoom = Memory.myMemory.myRooms[i];
         const room: Room = Game.rooms[myRoom.name];
         if (room == null) {
-            console.error("Lost vision of a room " + myRoom.name);
+            console.log("Lost vision of a room " + myRoom.name);
             continue;
         }
 
