@@ -1,16 +1,6 @@
 import { controllerLogic1 } from "controller.logic1";
 
 console.log("Script reloaded");
-Memory.myMemory.myRooms[0].roomStage = 1.2;
-
-for (let i = 0; i < Memory.myMemory.myRooms[0].myContainers.length; i++) {
-    const container = Memory.myMemory.myRooms[0].myContainers[i];
-    if (container.role === 1) {
-        container.role = "Bank";
-    } else  {
-        container.role = "SourceCache";
-    }
-}
 
 export const loop: any = function () {
     clearDeadCreeps();
