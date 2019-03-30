@@ -99,7 +99,6 @@ function tryPlaceSourceContainerCache(myRoom, mySource, terrain, x, y) {
             console.log("Found source container cache at " + x.toString() + ", " + y.toString());
             //Something is already there
             //That means that it was placed in a previous tick, and now we can get the construction site ID
-            console.log(JSON.stringify(constructionSites));
             const myContainer = {
                 id: constructionSites[0].id,
                 role: 0,
