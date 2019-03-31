@@ -3,9 +3,6 @@ import { controllerLogic1 } from "controller.logic1";
 console.log("Script reloaded");
 setupMyMemory();
 
-Memory.myMemory.myRooms[0].baseCenter = null;
-Memory.myMemory.myRooms[0].manuallyPlacedBase = true;
-
 export const loop: any = function () {
     clearDeadCreeps();
     ensureAllRoomsInMyMemory();
