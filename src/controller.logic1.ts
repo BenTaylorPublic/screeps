@@ -365,13 +365,11 @@ function calcBodyCost(body: BodyPartConstant[]): number {
 
 function findBaseCenter(myRoom: MyRoom): void {
     const room: Room = Game.rooms[myRoom.name];
-    const terrain: RoomTerrain = room.getTerrain();
-    const valid: boolean = checkIfValidBaseCenter(terrain, 25, 25);
     const options: RoomPosition[] = [];
     for (let x = 0; x < 50; x++) {
         for (let y = 0; y < 50; y++) {
-            if (checkIfValidBaseCenter(terrain, x, y)) {
-                const newRoomPos: RoomPosition = new RoomPosition(x, y, myRoom.name);
+            const newRoomPos: RoomPosition = new RoomPosition(x, y, myRoom.name);
+            if (checkIfValidBaseCenter(newRoomPos)) {
                 options.push(newRoomPos);
             }
         }
@@ -402,8 +400,75 @@ function findBaseCenter(myRoom: MyRoom): void {
 
 }
 
-function checkIfValidBaseCenter(terrain: RoomTerrain, x: number, y: number): boolean {
-    //TODO: Check if it's all non walls or other buildings
+function checkIfValidBaseCenter(roomPos: RoomPosition): boolean {
+    const x: number = roomPos.x;
+    const y: number = roomPos.y;
+    const roomName: string = roomPos.roomName;
+    const terrain: RoomTerrain = Game.rooms[roomName].getTerrain();
+    if (isConstructable(terrain, roomName, x - 1, y - 3) &&
+        isConstructable(terrain, roomName, x, y - 3) &&
+        isConstructable(terrain, roomName, x + 1, y - 3) &&
+        isConstructable(terrain, roomName, x - 3, y - 2) &&
+        isConstructable(terrain, roomName, x - 2, y - 2) &&
+        isConstructable(terrain, roomName, x - 1, y - 2) &&
+        isConstructable(terrain, roomName, x, y - 2) &&
+        isConstructable(terrain, roomName, x + 1, y - 2) &&
+        isConstructable(terrain, roomName, x + 2, y - 2) &&
+        isConstructable(terrain, roomName, x + 3, y - 2) &&
+        isConstructable(terrain, roomName, x - 4, y - 1) &&
+        isConstructable(terrain, roomName, x - 3, y - 1) &&
+        isConstructable(terrain, roomName, x - 2, y - 1) &&
+        isConstructable(terrain, roomName, x - 1, y - 1) &&
+        isConstructable(terrain, roomName, x, y - 1) &&
+        isConstructable(terrain, roomName, x + 1, y - 1) &&
+        isConstructable(terrain, roomName, x + 2, y - 1) &&
+        isConstructable(terrain, roomName, x + 3, y - 1) &&
+        isConstructable(terrain, roomName, x + 4, y - 1) &&
+        isConstructable(terrain, roomName, x - 4, y) &&
+        isConstructable(terrain, roomName, x - 3, y) &&
+        isConstructable(terrain, roomName, x - 2, y) &&
+        isConstructable(terrain, roomName, x - 1, y) &&
+        isConstructable(terrain, roomName, x, y) &&
+        isConstructable(terrain, roomName, x + 1, y) &&
+        isConstructable(terrain, roomName, x + 2, y) &&
+        isConstructable(terrain, roomName, x + 3, y) &&
+        isConstructable(terrain, roomName, x + 4, y) &&
+        isConstructable(terrain, roomName, x - 1, y + 3) &&
+        isConstructable(terrain, roomName, x, y + 3) &&
+        isConstructable(terrain, roomName, x + 1, y + 3) &&
+        isConstructable(terrain, roomName, x - 3, y + 2) &&
+        isConstructable(terrain, roomName, x - 2, y + 2) &&
+        isConstructable(terrain, roomName, x - 1, y + 2) &&
+        isConstructable(terrain, roomName, x, y + 2) &&
+        isConstructable(terrain, roomName, x + 1, y + 2) &&
+        isConstructable(terrain, roomName, x + 2, y + 2) &&
+        isConstructable(terrain, roomName, x + 3, y + 2) &&
+        isConstructable(terrain, roomName, x - 4, y + 1) &&
+        isConstructable(terrain, roomName, x - 3, y + 1) &&
+        isConstructable(terrain, roomName, x - 2, y + 1) &&
+        isConstructable(terrain, roomName, x - 1, y + 1) &&
+        isConstructable(terrain, roomName, x, y + 1) &&
+        isConstructable(terrain, roomName, x + 1, y + 1) &&
+        isConstructable(terrain, roomName, x + 2, y + 1) &&
+        isConstructable(terrain, roomName, x + 3, y + 1) &&
+        isConstructable(terrain, roomName, x + 4, y + 1)
+    ) {
+        return true;
+    }
+    return false;
+}
+
+function isConstructable(terrain: RoomTerrain, roomName: string, x: number, y: number): boolean {
+    if (isNotWall(terrain, x, y)) {
+        const roomPos: RoomPosition = new RoomPosition(x, y, roomName);
+        const structures: Structure<StructureConstant>[] = roomPos.lookFor(LOOK_STRUCTURES);
+        if (structures.length !== 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     return false;
 }
 
