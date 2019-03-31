@@ -50,12 +50,24 @@ exports.controllerLogic1 = {
     }
 };
 function ensureTheBuildingsAreSetup(myRoom) {
+    if (myRoom.roomStage === 0.5 &&
+        myRoom.manuallyPlacedBase === false) {
+        //Room needs a spawn
+        if (myRoom.baseCenter == null) {
+            findBaseCenter(myRoom);
+            if (myRoom.baseCenter == null) {
+                console.log("Couldn't find a base center");
+            }
+        }
+        ensureSpawnIsSetup(myRoom);
+        return;
+    }
     if (myRoom.roomStage < 2.2) {
-        return; //No need to setup any buildings yet
+        return;
     }
     //TODO: Automate building tower
     if (myRoom.roomStage < 2.4) {
-        return; //No need to setup any buildings yet
+        return;
     }
     //Check if containers are setup
     if (myRoom.myContainers.length <= myRoom.mySources.length) {
@@ -298,4 +310,26 @@ function calcBodyCost(body) {
     return body.reduce(function (cost, part) {
         return cost + BODYPART_COST[part];
     }, 0);
+}
+function findBaseCenter(myRoom) {
+    const room = Game.rooms[myRoom.name];
+    const terrain = room.getTerrain();
+    const valid = checkIfValidBaseCenter(terrain, 25, 25);
+    const options = [];
+    for (let x = 0; x < 50; x++) {
+        for (let y = 0; y < 50; y++) {
+            if (checkIfValidBaseCenter(terrain, x, y)) {
+                const newRoomPos = new RoomPosition(x, y, myRoom.name);
+                options.push(newRoomPos);
+            }
+        }
+    }
+    //TODO: Weight up options using manhattan distance
+}
+function checkIfValidBaseCenter(terrain, x, y) {
+    //TODO: Check if it's all non walls or other buildings
+    return false;
+}
+function ensureSpawnIsSetup(myRoom) {
+    //TODO: do it
 }

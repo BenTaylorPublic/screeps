@@ -3,6 +3,9 @@ import { controllerLogic1 } from "controller.logic1";
 console.log("Script reloaded");
 setupMyMemory();
 
+Memory.myMemory.myRooms[0].baseCenter = null;
+Memory.myMemory.myRooms[0].manuallyPlacedBase = true;
+
 export const loop: any = function () {
     clearDeadCreeps();
     ensureAllRoomsInMyMemory();
@@ -55,6 +58,7 @@ function ensureAllRoomsInMyMemory(): void {
                 mySources: [],
                 myContainers: [],
                 roomStage: 0,
+                manuallyPlacedBase: false,
                 baseCenter: null
             };
             const sources: Source[] = room.find(FIND_SOURCES);

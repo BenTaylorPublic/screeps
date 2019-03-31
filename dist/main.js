@@ -3,6 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const controller_logic1_1 = require("controller.logic1");
 console.log("Script reloaded");
 setupMyMemory();
+Memory.myMemory.myRooms[0].baseCenter = null;
+Memory.myMemory.myRooms[0].manuallyPlacedBase = true;
 exports.loop = function () {
     clearDeadCreeps();
     ensureAllRoomsInMyMemory();
@@ -43,15 +45,17 @@ function ensureAllRoomsInMyMemory() {
             const newMyRoom = {
                 name: roomName,
                 myCreeps: [],
-                spawnName: undefined,
+                spawnName: null,
                 mySources: [],
                 myContainers: [],
-                roomStage: 0
+                roomStage: 0,
+                manuallyPlacedBase: false,
+                baseCenter: null
             };
             const sources = room.find(FIND_SOURCES);
             for (let i = 0; i < sources.length; i++) {
                 const source = sources[i];
-                newMyRoom.mySources.push({ id: source.id, cacheContainerId: undefined, minerName: undefined });
+                newMyRoom.mySources.push({ id: source.id, cacheContainerId: null, minerName: null });
             }
             //Initially add all existing creeps
             for (const creepName in Game.creeps) {
@@ -99,7 +103,7 @@ function handleCreepDying(myRoom, myCreep) {
         for (let i = 0; i < myRoom.mySources.length; i++) {
             const mySource = myRoom.mySources[i];
             if (mySource.minerName === myCreep.name) {
-                mySource.minerName = undefined;
+                mySource.minerName = null;
             }
         }
         console.log("A Miner has died");

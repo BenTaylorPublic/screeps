@@ -16,6 +16,7 @@ interface MyRoom {
     mySources: MySource[];
     myContainers: MyContainer[];
     roomStage: number;
+    manuallyPlacedBase: boolean;
     baseCenter: RoomPosition | null;
 }
 
