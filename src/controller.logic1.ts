@@ -61,6 +61,7 @@ function ensureTheBuildingsAreSetup(myRoom: MyRoom): void {
             findBaseCenter(myRoom);
             if (myRoom.baseCenter == null) {
                 console.log("Couldn't find a base center");
+                return;
             }
         }
         ensureSpawnIsSetup(myRoom);
@@ -373,7 +374,28 @@ function findBaseCenter(myRoom: MyRoom): void {
         }
     }
 
-    //TODO: Weight up options using manhattan distance
+    if (options.length === 0) {
+        return;
+    }
+
+    let bestManhattanDistance: number = 50;
+    let bestOption: RoomPosition | null = null;
+
+    for (let i = 0; i < options.length; i++) {
+        const potentialLocation: RoomPosition = options[i];
+        const manhattanDistance: number = Math.abs(25 - potentialLocation.x) + Math.abs(25 - potentialLocation.y);
+        if (manhattanDistance < bestManhattanDistance) {
+            bestOption = potentialLocation;
+            bestManhattanDistance = manhattanDistance;
+        }
+    }
+
+    if (bestOption == null) {
+        return;
+    }
+
+    console.log("Setting a rooms base location to " + bestOption.x + ", " + bestOption.y);
+    //TODO: Set it
 
 }
 
