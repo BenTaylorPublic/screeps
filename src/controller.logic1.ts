@@ -85,9 +85,9 @@ function ensureTheBuildingsAreSetup(myRoom: MyRoom): void {
     if (myRoom.myContainers.length <= myRoom.mySources.length) {
         //Containers aren't set up
         ensureTheCachesAreSetup(myRoom);
+        //TODO: Automate building container bank
     }
 
-    //TODO: Automate building bank
     //TODO: Automate building extensions
 }
 

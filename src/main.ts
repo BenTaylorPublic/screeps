@@ -3,6 +3,7 @@ import { controllerLogic1 } from "controller.logic1";
 console.log("Script reloaded");
 setupMyMemory();
 
+Memory.myMemory.myRooms[0].roomStage = 2.6;
 export const loop: any = function () {
     clearDeadCreeps();
     ensureAllRoomsInMyMemory();
