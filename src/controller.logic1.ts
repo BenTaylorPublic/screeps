@@ -20,7 +20,6 @@ export const controllerLogic1: any = {
         controllerRoomStages.run(myRoom);
 
         ensureTheBuildingsAreSetup(myRoom);
-        //TODO: Uncomment when you want to spawn miners and haulers (once caches and bank are placed)
         ensureMinersArePlaced(myRoom);
         ensureHaulersArePlaced(myRoom);
 
