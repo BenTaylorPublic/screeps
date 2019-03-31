@@ -157,6 +157,9 @@ function tryPlaceSourceContainerCache(myRoom: MyRoom, mySource: MySource, terrai
 }
 
 function isNotWall(terrain: RoomTerrain, x: number, y: number): boolean {
+    if (x < 0 || x > 49 || y < 0 || y > 49) {
+        return false;
+    }
     return terrain.get(x, y) !== TERRAIN_MASK_WALL;
 }
 
