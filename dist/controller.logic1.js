@@ -42,9 +42,6 @@ exports.controllerLogic1 = {
                 myRoom.myCreeps.push(newCreep);
                 console.log("spawned a new creep");
             }
-            else {
-                console.log("failed to spawn new creep");
-            }
         }
     }
 };
@@ -215,9 +212,6 @@ function ensureMinersArePlaced(myRoom) {
                 myRoom.myCreeps.push(newCreep);
                 console.log("spawned a new miner");
             }
-            else {
-                console.log("failed to spawn new miner");
-            }
         }
     }
 }
@@ -277,9 +271,6 @@ function ensureHaulersArePlaced(myRoom) {
                 if (newCreep != null) {
                     myRoom.myCreeps.push(newCreep);
                     console.log("spawned a new hauler");
-                }
-                else {
-                    console.log("failed to spawn new hauler");
                 }
             }
         }
