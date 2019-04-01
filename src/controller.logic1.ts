@@ -58,6 +58,7 @@ function ensureTheBuildingsAreSetup(myRoom: MyRoom): void {
         myRoom.manuallyPlacedBase === false) {
         //Room needs a spawn
         if (myRoom.baseCenter == null) {
+
             findBaseCenter(myRoom);
             if (myRoom.baseCenter == null) {
                 console.log("Couldn't find a base center");
@@ -365,6 +366,7 @@ function calcBodyCost(body: BodyPartConstant[]): number {
 
 
 function findBaseCenter(myRoom: MyRoom): void {
+    console.log("Finding a base center");
     const room: Room = Game.rooms[myRoom.name];
     const options: RoomPosition[] = [];
     for (let x = 0; x < 50; x++) {

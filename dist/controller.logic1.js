@@ -316,6 +316,7 @@ function calcBodyCost(body) {
     }, 0);
 }
 function findBaseCenter(myRoom) {
+    console.log("Finding a base center");
     const room = Game.rooms[myRoom.name];
     const options = [];
     for (let x = 0; x < 50; x++) {
