@@ -3,7 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const controller_logic1_1 = require("controller.logic1");
 console.log("Script reloaded");
 setupMyMemory();
-// const myRoom2: MyRoom = Memory.myMemory.myRooms[0];
+const myRoom2 = Memory.myMemory.myRooms[0];
+spawnLaborer(myRoom2);
 exports.loop = function () {
     clearDeadCreeps();
     ensureAllRoomsInMyMemory();
@@ -124,6 +125,9 @@ function handleCreepDying(myRoom, myCreep) {
     else if (myCreep.role === "MinerAndWorker") {
         console.log("A MinerAndWorker has died");
     }
+    else if (myCreep.role === "Laborer") {
+        console.log("A Laborer has died");
+    }
 }
 function setupMyMemory() {
     if (Memory.myMemory == null) {
@@ -132,4 +136,43 @@ function setupMyMemory() {
             myRooms: []
         };
     }
+}
+function spawnLaborer(myRoom) {
+    if (myRoom.spawnName == null) {
+        console.log("XYZ1");
+        return;
+    }
+    const spawn = Game.spawns[myRoom.spawnName];
+    if (spawn == null) {
+        console.log("XYZ2");
+        return;
+    }
+    //Have a valid spawn now
+    const body = [MOVE, MOVE, CARRY, WORK, MOVE, MOVE, CARRY, WORK];
+    const id = getId();
+    const result = spawn.spawnCreep(body, "Creep" + id, {
+        memory: {
+            name: "Creep" + id,
+            role: "Laborer",
+            assignedRoomName: spawn.room.name,
+            pickup: true
+        }
+    });
+    const newCreep = {
+        name: "Creep" + id,
+        role: "Laborer",
+        assignedRoomName: spawn.room.name,
+        pickup: true
+    };
+    if (result === OK) {
+        myRoom.myCreeps.push(newCreep);
+        console.log("Spawned a fukn laborer");
+        return;
+    }
+    return;
+}
+function getId() {
+    const toReturn = Memory.myMemory.globalId;
+    Memory.myMemory.globalId++;
+    return toReturn;
 }
