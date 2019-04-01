@@ -167,6 +167,7 @@ function tryPlaceSourceContainerCache(myRoom, mySource, terrain, x, y) {
                     haulerNames: []
                 };
                 myRoom.myContainers.push(myContainer);
+                return true;
             }
         }
         return false;

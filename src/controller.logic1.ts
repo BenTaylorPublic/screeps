@@ -180,6 +180,7 @@ function tryPlaceSourceContainerCache(myRoom: MyRoom, mySource: MySource, terrai
                     haulerNames: []
                 };
                 myRoom.myContainers.push(myContainer);
+                return true;
             }
         }
         return false;
