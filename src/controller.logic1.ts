@@ -66,7 +66,7 @@ export const controllerLogic1: any = {
             }
         }
         if (minerAndWorkerCount < 6 &&
-            myRoom.roomStage < 2.6) {
+            myRoom.roomStage < 3) {
             const newCreep: MinerAndWorker | null = spawnMinerAndWorker(myRoom.spawnName);
             if (newCreep != null) {
                 myRoom.myCreeps.push(newCreep);
