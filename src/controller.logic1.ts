@@ -24,19 +24,23 @@ export const controllerLogic1: any = {
         ensureMinersArePlaced(myRoom);
         ensureHaulersArePlaced(myRoom);
 
-        for (let i = 0; i < myRoom.myContainers.length; i++) {
-            const myContainer: MyContainer = myRoom.myContainers[i];
-            if (myContainer.role === "Bank") {
-                const bankContainer: StructureContainer | null =
-                    Game.getObjectById<StructureContainer>(myContainer.id);
-                if (bankContainer != null) {
-                    if (bankContainer.store[RESOURCE_ENERGY] === bankContainer.storeCapacity) {
-                        //If the bank is capped, spawn another laborer
-                        const newCreep: Laborer | null = spawnLaborer(myRoom);
-                        if (newCreep != null) {
-                            myRoom.myCreeps.push(newCreep);
-                            console.log("spawned a new laborer");
+        if (myRoom.roomStage >= 3) {
+            for (let i = 0; i < myRoom.myContainers.length; i++) {
+                const myContainer: MyContainer = myRoom.myContainers[i];
+                if (myContainer.role === "Bank") {
+                    const bankContainer: StructureContainer | null =
+                        Game.getObjectById<StructureContainer>(myContainer.id);
+                    if (bankContainer != null) {
+                        if (bankContainer.store[RESOURCE_ENERGY] === bankContainer.storeCapacity) {
+                            //If the bank is capped, spawn another laborer
+                            const newCreep: Laborer | null = spawnLaborer(myRoom);
+                            if (newCreep != null) {
+                                myRoom.myCreeps.push(newCreep);
+                                console.log("spawned a new laborer");
+                            }
                         }
+                    } else {
+                        console.log("Bank is null");
                     }
                 }
             }
