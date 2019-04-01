@@ -3,20 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const controller_logic1_1 = require("controller.logic1");
 console.log("Script reloaded");
 setupMyMemory();
-const myRoom2 = Memory.myMemory.myRooms[0];
-for (let i = myRoom2.myContainers.length - 1; i >= 0; i--) {
-    const myContainer = myRoom2.myContainers[i];
-    if (myContainer.id === "5c9f42cde2fe140d3ade904b") {
-        myRoom2.myContainers.splice(i, 1);
-    }
-}
-const myBank = {
-    id: "5c9f42cde2fe140d3ade904b",
-    role: "Bank",
-    assignedSourceId: null,
-    haulerNames: null
-};
-myRoom2.myContainers.push(myBank);
+// const myRoom2: MyRoom = Memory.myMemory.myRooms[0];
 exports.loop = function () {
     clearDeadCreeps();
     ensureAllRoomsInMyMemory();

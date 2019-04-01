@@ -3,23 +3,7 @@ import { controllerLogic1 } from "controller.logic1";
 console.log("Script reloaded");
 setupMyMemory();
 
-const myRoom2: MyRoom = Memory.myMemory.myRooms[0];
-
-for (let i = myRoom2.myContainers.length - 1; i >= 0; i--) {
-    const myContainer: MyContainer = myRoom2.myContainers[i];
-    if (myContainer.id === "5c9f42cde2fe140d3ade904b") {
-        myRoom2.myContainers.splice(i, 1);
-    }
-}
-
-const myBank: MyContainer = {
-    id: "5c9f42cde2fe140d3ade904b",
-    role: "Bank",
-    assignedSourceId: null,
-    haulerNames: null
-};
-
-myRoom2.myContainers.push(myBank);
+// const myRoom2: MyRoom = Memory.myMemory.myRooms[0];
 
 export const loop: any = function () {
     clearDeadCreeps();
