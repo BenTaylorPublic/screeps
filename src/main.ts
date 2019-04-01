@@ -3,9 +3,6 @@ import { controllerLogic1 } from "controller.logic1";
 console.log("Script reloaded");
 setupMyMemory();
 
-const myRoom2: MyRoom = Memory.myMemory.myRooms[0];
-spawnLaborer(myRoom2);
-
 export const loop: any = function () {
     clearDeadCreeps();
     ensureAllRoomsInMyMemory();
@@ -153,59 +150,4 @@ function setupMyMemory(): void {
             myRooms: []
         };
     }
-}
-
-
-
-
-function spawnLaborer(myRoom: MyRoom): void {
-    if (myRoom.spawnName == null) {
-        console.log("XYZ1");
-        return;
-    }
-    const spawn: StructureSpawn = Game.spawns[myRoom.spawnName];
-
-    if (spawn == null) {
-        console.log("XYZ2");
-        return;
-    }
-
-    //Have a valid spawn now
-    const body: BodyPartConstant[] = [MOVE, MOVE, CARRY, WORK, MOVE, MOVE, CARRY, WORK];
-
-    const id = getId();
-    const result: ScreepsReturnCode =
-        spawn.spawnCreep(
-            body,
-            "Creep" + id,
-            {
-                memory:
-                {
-                    name: "Creep" + id,
-                    role: "Laborer",
-                    assignedRoomName: spawn.room.name,
-                    pickup: true
-                }
-            }
-        );
-
-    const newCreep: Laborer = {
-        name: "Creep" + id,
-        role: "Laborer",
-        assignedRoomName: spawn.room.name,
-        pickup: true
-    };
-
-    if (result === OK) {
-        myRoom.myCreeps.push(newCreep);
-        console.log("Spawned a fukn laborer")
-        return;
-    }
-    return;
-}
-
-function getId(): number {
-    const toReturn: number = Memory.myMemory.globalId;
-    Memory.myMemory.globalId++;
-    return toReturn;
 }
