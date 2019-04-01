@@ -359,6 +359,9 @@ function spawnHauler(myRoom: MyRoom, myContainer: MyContainer): Hauler | null {
 }
 
 function calcBodyCost(body: BodyPartConstant[]): number {
+    console.log(body.reduce(function (cost: number, part: BodyPartConstant) {
+        return cost + BODYPART_COST[part];
+    }, 0));
     return body.reduce(function (cost: number, part: BodyPartConstant) {
         return cost + BODYPART_COST[part];
     }, 0);

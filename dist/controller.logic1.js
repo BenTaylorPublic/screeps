@@ -311,6 +311,9 @@ function spawnHauler(myRoom, myContainer) {
     return null;
 }
 function calcBodyCost(body) {
+    console.log(body.reduce(function (cost, part) {
+        return cost + BODYPART_COST[part];
+    }, 0));
     return body.reduce(function (cost, part) {
         return cost + BODYPART_COST[part];
     }, 0);
