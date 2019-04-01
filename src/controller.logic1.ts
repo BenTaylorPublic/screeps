@@ -3,6 +3,7 @@ import { towerController } from "towerController";
 import { roleMiner } from "role.miner";
 import { roleHauler } from "role.hauler";
 import { controllerRoomStages } from "controller.roomStages";
+import { roleLaborer } from "role.worker";
 
 
 export const controllerLogic1: any = {
@@ -23,6 +24,24 @@ export const controllerLogic1: any = {
         ensureMinersArePlaced(myRoom);
         ensureHaulersArePlaced(myRoom);
 
+        for (let i = 0; i < myRoom.myContainers.length; i++) {
+            const myContainer: MyContainer = myRoom.myContainers[i];
+            if (myContainer.role === "Bank") {
+                const bankContainer: StructureContainer | null =
+                    Game.getObjectById<StructureContainer>(myContainer.id);
+                if (bankContainer != null) {
+                    if (bankContainer.store[RESOURCE_ENERGY] === bankContainer.storeCapacity) {
+                        //If the bank is capped, spawn another laborer
+                        const newCreep: Laborer | null = spawnLaborer(myRoom);
+                        if (newCreep != null) {
+                            myRoom.myCreeps.push(newCreep);
+                            console.log("spawned a new laborer");
+                        }
+                    }
+                }
+            }
+        }
+
         //Tower logic
         const towers: StructureTower[] = room.find<StructureTower>(FIND_STRUCTURES, { filter: { structureType: STRUCTURE_TOWER, my: true } });
         towers.forEach(towerController.run);
@@ -38,6 +57,8 @@ export const controllerLogic1: any = {
                 roleMiner.run(myCreep);
             } else if (myCreep.role === "Hauler") {
                 roleHauler.run(myCreep);
+            } else if (myCreep.role === "Laborer") {
+                roleLaborer.run(myCreep);
             }
         }
         if (minerAndWorkerCount < 6) {
@@ -246,21 +267,71 @@ function getId(): number {
     return toReturn;
 }
 
-function spawnMiner(myRoom: MyRoom, mySource: MySource): Miner | null {
-
+function spawnLaborer(myRoom: MyRoom): Laborer | null {
     if (myRoom.spawnName == null) {
-        // console.log("attempted to spawn miner in a room with no spawner (1)");
+        console.log("attempted to spawn miner in a room with no spawner (1)");
         return null;
     }
     const spawn: StructureSpawn = Game.spawns[myRoom.spawnName];
 
     if (spawn == null) {
-        // console.log("attempted to spawn miner in a room with no spawner (2)");
+        console.log("attempted to spawn miner in a room with no spawner (2)");
+        return null;
+    }
+
+    //Have a valid spawn now
+    let body: BodyPartConstant[] = [MOVE, MOVE, CARRY, WORK];
+    let breakLoop: boolean = false;
+    while (!breakLoop) {
+        if (calcBodyCost(body) + calcBodyCost([MOVE, MOVE, CARRY, WORK]) < spawn.room.energyCapacityAvailable) {
+            body = body.concat([MOVE, MOVE, CARRY, WORK]);
+        } else {
+            breakLoop = true;
+        }
+    }
+
+    const id = getId();
+    const result: ScreepsReturnCode =
+        spawn.spawnCreep(
+            body,
+            "Creep" + id,
+            {
+                memory:
+                {
+                    name: "Creep" + id,
+                    role: "Laborer",
+                    assignedRoomName: spawn.room.name,
+                    pickup: true
+                }
+            }
+        );
+
+    if (result === OK) {
+        return {
+            name: "Creep" + id,
+            role: "Laborer",
+            assignedRoomName: spawn.room.name,
+            pickup: true
+        };
+    }
+    return null;
+}
+
+function spawnMiner(myRoom: MyRoom, mySource: MySource): Miner | null {
+
+    if (myRoom.spawnName == null) {
+        console.log("attempted to spawn miner in a room with no spawner (1)");
+        return null;
+    }
+    const spawn: StructureSpawn = Game.spawns[myRoom.spawnName];
+
+    if (spawn == null) {
+        console.log("attempted to spawn miner in a room with no spawner (2)");
         return null;
     }
 
     if (mySource.cacheContainerId == null) {
-        // console.log("attempted to spawn miner to a source with no cache container id");
+        console.log("attempted to spawn miner to a source with no cache container id");
         return null;
     }
 
@@ -320,13 +391,13 @@ function ensureHaulersArePlaced(myRoom: MyRoom): void {
 
 function spawnHauler(myRoom: MyRoom, myContainer: MyContainer): Hauler | null {
     if (myRoom.spawnName == null) {
-        // console.log("attempted to spawn hauler in a room with no spawner (1)");
+        console.log("attempted to spawn hauler in a room with no spawner (1)");
         return null;
     }
     const spawn: StructureSpawn = Game.spawns[myRoom.spawnName];
 
     if (spawn == null) {
-        // console.log("attempted to spawn hauler in a room with no spawner (2)");
+        console.log("attempted to spawn hauler in a room with no spawner (2)");
         return null;
     }
 

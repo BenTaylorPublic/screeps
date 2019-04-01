@@ -53,3 +53,7 @@ interface Hauler extends MyCreep {
     bankContainerIdToPutIn: string;
     pickup: boolean;
 }
+
+interface Laborer extends MyCreep {
+    pickup: boolean;
+}
