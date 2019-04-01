@@ -70,18 +70,28 @@ function ensureTheBuildingsAreSetup(myRoom) {
         return;
     }
     //Check if containers are setup
-    if (myRoom.myContainers.length <= myRoom.mySources.length) {
-        //Containers aren't set up
-        ensureTheCachesAreSetup(myRoom);
-        //TODO: Automate building container bank
-    }
+    ensureTheCachesAreSetup(myRoom);
+    //TODO: Automate building container bank
     //TODO: Automate building extensions
 }
 function ensureTheCachesAreSetup(myRoom) {
     const room = Game.rooms[myRoom.name];
     for (let i = 0; i < myRoom.mySources.length; i++) {
         const mySource = myRoom.mySources[i];
+        let makeNewCache = false;
         if (mySource.cacheContainerId == null) {
+            makeNewCache = true;
+        }
+        else if (Game.getObjectById(mySource.cacheContainerId) == null) {
+            makeNewCache = true;
+            for (let j = myRoom.myContainers.length - 1; j >= 0; j--) {
+                const myContainer = myRoom.myContainers[i];
+                if (myContainer.id === mySource.cacheContainerId) {
+                    myRoom.myContainers.splice(j, 1);
+                }
+            }
+        }
+        if (makeNewCache) {
             //No container cache
             const source = Game.getObjectById(mySource.id);
             if (source == null) {
@@ -114,11 +124,11 @@ function ensureTheCachesAreSetup(myRoom) {
     }
 }
 function tryPlaceSourceContainerCache(myRoom, mySource, terrain, x, y) {
-    if (isNotWall(terrain, x, y)) {
+    if (isConstructable(terrain, myRoom.name, x, y)) {
         const room = Game.rooms[myRoom.name];
         const constructionSites = room.lookForAt(LOOK_CONSTRUCTION_SITES, x, y);
         if (constructionSites.length === 1) {
-            console.log("Found source container cache at " + x.toString() + ", " + y.toString());
+            console.log("Found source container cache construction site at " + x.toString() + ", " + y.toString());
             //Something is already there
             //That means that it was placed in a previous tick, and now we can get the construction site ID
             const myContainer = {
@@ -142,6 +152,23 @@ function tryPlaceSourceContainerCache(myRoom, mySource, terrain, x, y) {
         }
     }
     else {
+        let foundExistingCache = false;
+        const roomPos = new RoomPosition(x, y, myRoom.name);
+        const structures = roomPos.lookFor(LOOK_STRUCTURES);
+        for (let i = 0; i < structures.length; i++) {
+            const structure = structures[i];
+            if (structure.structureType === STRUCTURE_CONTAINER) {
+                foundExistingCache = true;
+                mySource.cacheContainerId = structure.id;
+                const myContainer = {
+                    id: structure.id,
+                    role: "SourceCache",
+                    assignedSourceId: mySource.id,
+                    haulerNames: []
+                };
+                myRoom.myContainers.push(myContainer);
+            }
+        }
         return false;
     }
 }
