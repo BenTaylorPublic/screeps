@@ -30,10 +30,6 @@ export const roleLaborer: any = {
                     }
                 }
             }
-            const source: Source | null = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
-            if (source && creep.harvest(source) === ERR_NOT_IN_RANGE) {
-                creep.moveTo(source);
-            }
         } else {
 
             let givenCommand: boolean = false;

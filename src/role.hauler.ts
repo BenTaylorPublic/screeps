@@ -1,5 +1,5 @@
 export const roleHauler: any = {
-    run: function (hauler: Hauler) {
+    run: function (hauler: Hauler, myRoom: MyRoom) {
         const creep: Creep = Game.creeps[hauler.name];
         if (creep == null) {
             console.log("Hauler creep is null. Creep ID: " + hauler.name);
@@ -29,10 +29,23 @@ export const roleHauler: any = {
             }
         } else {
             //Deliver
+            let bankId: string | null = null;
+            for (let i = 0; i < myRoom.myContainers.length; i++) {
+                const myContainer: MyContainer = myRoom.myContainers[i];
+                if (myContainer.role === "Bank") {
+                    bankId = myContainer.id;
+                }
+            }
+
+            if (bankId == null) {
+                console.log("bankId was null");
+                return;
+            }
+
             const bankContainerToPutIn: StructureContainer | null =
-                Game.getObjectById<StructureContainer>(hauler.bankContainerIdToPutIn);
+                Game.getObjectById<StructureContainer>(bankId);
             if (bankContainerToPutIn == null) {
-                console.log("bankContainerToPutIn was null for a hauler");
+                console.log("bankContainer was null for a hauler");
                 return;
             }
             if (creep.transfer(bankContainerToPutIn, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {

@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.roleHauler = {
-    run: function (hauler) {
+    run: function (hauler, myRoom) {
         const creep = Game.creeps[hauler.name];
         if (creep == null) {
             console.log("Hauler creep is null. Creep ID: " + hauler.name);
@@ -30,9 +30,20 @@ exports.roleHauler = {
         }
         else {
             //Deliver
-            const bankContainerToPutIn = Game.getObjectById(hauler.bankContainerIdToPutIn);
+            let bankId = null;
+            for (let i = 0; i < myRoom.myContainers.length; i++) {
+                const myContainer = myRoom.myContainers[i];
+                if (myContainer.role === "Bank") {
+                    bankId = myContainer.id;
+                }
+            }
+            if (bankId == null) {
+                console.log("bankId was null");
+                return;
+            }
+            const bankContainerToPutIn = Game.getObjectById(bankId);
             if (bankContainerToPutIn == null) {
-                console.log("bankContainerToPutIn was null for a hauler");
+                console.log("bankContainer was null for a hauler");
                 return;
             }
             if (creep.transfer(bankContainerToPutIn, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {

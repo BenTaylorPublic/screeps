@@ -55,13 +55,14 @@ exports.controllerLogic1 = {
                 role_miner_1.roleMiner.run(myCreep);
             }
             else if (myCreep.role === "Hauler") {
-                role_hauler_1.roleHauler.run(myCreep);
+                role_hauler_1.roleHauler.run(myCreep, myRoom);
             }
             else if (myCreep.role === "Laborer") {
                 role_laborer_1.roleLaborer.run(myCreep, myRoom);
             }
         }
-        if (minerAndWorkerCount < 6) {
+        if (minerAndWorkerCount < 6 &&
+            myRoom.roomStage < 2.6) {
             const newCreep = spawnMinerAndWorker(myRoom.spawnName);
             if (newCreep != null) {
                 myRoom.myCreeps.push(newCreep);
@@ -375,16 +376,6 @@ function spawnHauler(myRoom, myContainer) {
             }
         }
     }
-    let bankId = "";
-    for (let i = 0; i < myRoom.myContainers.length; i++) {
-        if (myRoom.myContainers[i].role === "Bank") {
-            bankId = myRoom.myContainers[i].id;
-        }
-    }
-    if (bankId === "") {
-        console.log("Not spawning a hauler because the room bas no bank");
-        return null;
-    }
     const id = getId();
     const result = spawn.spawnCreep(body, "Creep" + id, {
         memory: {
@@ -392,7 +383,6 @@ function spawnHauler(myRoom, myContainer) {
             role: "Hauler",
             assignedRoomName: spawn.room.name,
             cacheContainerIdToGrabFrom: myContainer.id,
-            bankContainerIdToPutIn: bankId,
             pickup: true
         }
     });
@@ -402,7 +392,6 @@ function spawnHauler(myRoom, myContainer) {
             role: "Hauler",
             assignedRoomName: spawn.room.name,
             cacheContainerIdToGrabFrom: myContainer.id,
-            bankContainerIdToPutIn: bankId,
             pickup: true
         };
     }
