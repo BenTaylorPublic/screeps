@@ -3,7 +3,7 @@ import { towerController } from "towerController";
 import { roleMiner } from "role.miner";
 import { roleHauler } from "role.hauler";
 import { controllerRoomStages } from "controller.roomStages";
-import { roleLaborer } from "role.worker";
+import { roleLaborer } from "role.laborer";
 
 
 export const controllerLogic1: any = {
@@ -62,7 +62,7 @@ export const controllerLogic1: any = {
             } else if (myCreep.role === "Hauler") {
                 roleHauler.run(myCreep);
             } else if (myCreep.role === "Laborer") {
-                roleLaborer.run(myCreep);
+                roleLaborer.run(myCreep, myRoom);
             }
         }
         if (minerAndWorkerCount < 6) {

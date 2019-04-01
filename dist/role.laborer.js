@@ -1,31 +1,43 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.roleMinerAndWorker = {
-    run: function (minerAndWorker) {
-        const creep = Game.creeps[minerAndWorker.name];
+exports.roleLaborer = {
+    run: function (laborer, myRoom) {
+        const creep = Game.creeps[laborer.name];
         if (creep == null) {
-            console.log("A creep was null");
+            console.log("Laborer creep is null. Creep ID: " + laborer.name);
             return;
         }
-        if (minerAndWorker.mining === false &&
+        if (laborer.pickup === false &&
             creep.carry.energy === 0) {
-            minerAndWorker.mining = true;
-            creep.say("mining");
+            laborer.pickup = true;
+            creep.say("pickup");
         }
-        else if (minerAndWorker.mining === true &&
+        else if (laborer.pickup === true &&
             creep.carry.energy === creep.carryCapacity) {
-            minerAndWorker.mining = false;
+            laborer.pickup = false;
             creep.say("working");
         }
-        if (minerAndWorker.mining === true) {
-            //mining
+        if (laborer.pickup === true) {
+            for (let i = 0; i < myRoom.myContainers.length; i++) {
+                const myContainer = myRoom.myContainers[i];
+                if (myContainer.role === "Bank") {
+                    const bankContainer = Game.getObjectById(myContainer.id);
+                    if (bankContainer != null) {
+                        if (creep.withdraw(bankContainer, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+                            creep.moveTo(bankContainer);
+                        }
+                    }
+                    else {
+                        console.log("Bank is null");
+                    }
+                }
+            }
             const source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
             if (source && creep.harvest(source) === ERR_NOT_IN_RANGE) {
                 creep.moveTo(source);
             }
         }
         else {
-            //Not mining
             let givenCommand = false;
             //Check if controller is anywhere close to downgrading
             let forceUpgradeController = false;

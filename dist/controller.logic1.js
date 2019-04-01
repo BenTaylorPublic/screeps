@@ -5,7 +5,7 @@ const towerController_1 = require("towerController");
 const role_miner_1 = require("role.miner");
 const role_hauler_1 = require("role.hauler");
 const controller_roomStages_1 = require("controller.roomStages");
-const role_worker_1 = require("role.worker");
+const role_laborer_1 = require("role.laborer");
 exports.controllerLogic1 = {
     run: function (myRoom) {
         if (Game.rooms[myRoom.name] == null) {
@@ -58,7 +58,7 @@ exports.controllerLogic1 = {
                 role_hauler_1.roleHauler.run(myCreep);
             }
             else if (myCreep.role === "Laborer") {
-                role_worker_1.roleLaborer.run(myCreep);
+                role_laborer_1.roleLaborer.run(myCreep, myRoom);
             }
         }
         if (minerAndWorkerCount < 6) {
