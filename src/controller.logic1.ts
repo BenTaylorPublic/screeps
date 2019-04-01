@@ -295,20 +295,21 @@ function spawnHauler(myRoom: MyRoom, myContainer: MyContainer): Hauler | null {
     //Have a valid spawn now
     const body: BodyPartConstant[] = [MOVE];
     let addCarry: boolean = true;
-    while (true) {
+    let breakLoop: boolean = false;
+    while (!breakLoop) {
         if (addCarry) {
             addCarry = false;
             if (calcBodyCost(body) + calcBodyCost([CARRY]) < spawn.room.energyCapacityAvailable) {
                 body.concat([CARRY]);
             } else {
-                break;
+                breakLoop = true;
             }
         } else {
             addCarry = true;
             if (calcBodyCost(body) + calcBodyCost([MOVE]) < spawn.room.energyCapacityAvailable) {
                 body.concat([MOVE]);
             } else {
-                break;
+                breakLoop = true;
             }
         }
     }

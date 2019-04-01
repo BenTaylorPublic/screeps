@@ -256,14 +256,15 @@ function spawnHauler(myRoom, myContainer) {
     //Have a valid spawn now
     const body = [MOVE];
     let addCarry = true;
-    while (true) {
+    let breakLoop = false;
+    while (!breakLoop) {
         if (addCarry) {
             addCarry = false;
             if (calcBodyCost(body) + calcBodyCost([CARRY]) < spawn.room.energyCapacityAvailable) {
                 body.concat([CARRY]);
             }
             else {
-                break;
+                breakLoop = true;
             }
         }
         else {
@@ -272,7 +273,7 @@ function spawnHauler(myRoom, myContainer) {
                 body.concat([MOVE]);
             }
             else {
-                break;
+                breakLoop = true;
             }
         }
     }
