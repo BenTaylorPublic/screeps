@@ -3,7 +3,13 @@ import { controllerLogic1 } from "controller.logic1";
 console.log("Script reloaded");
 setupMyMemory();
 
-// const myRoom2: MyRoom = Memory.myMemory.myRooms[0];
+const myRoom2: MyRoom = Memory.myMemory.myRooms[0];
+for (let i = 0; i < myRoom2.mySources.length; i++) {
+    const mySource = myRoom2.mySources[i];
+    if (mySource.minerName === "Creep4945") {
+        mySource.minerName = null;
+    }
+}
 
 export const loop: any = function () {
     clearDeadCreeps();
