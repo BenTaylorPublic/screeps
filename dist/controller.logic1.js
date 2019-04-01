@@ -17,29 +17,9 @@ exports.controllerLogic1 = {
         const room = Game.rooms[myRoom.name];
         controller_roomStages_1.controllerRoomStages.run(myRoom);
         ensureTheBuildingsAreSetup(myRoom);
+        ensureLaborersSpawnIfNeeded(myRoom);
         ensureMinersArePlaced(myRoom);
         ensureHaulersArePlaced(myRoom);
-        if (myRoom.roomStage >= 3) {
-            for (let i = 0; i < myRoom.myContainers.length; i++) {
-                const myContainer = myRoom.myContainers[i];
-                if (myContainer.role === "Bank") {
-                    const bankContainer = Game.getObjectById(myContainer.id);
-                    if (bankContainer != null) {
-                        if (bankContainer.store[RESOURCE_ENERGY] === bankContainer.storeCapacity) {
-                            //If the bank is capped, spawn another laborer
-                            const newCreep = spawnLaborer(myRoom);
-                            if (newCreep != null) {
-                                myRoom.myCreeps.push(newCreep);
-                                console.log("spawned a new laborer");
-                            }
-                        }
-                    }
-                    else {
-                        console.log("Bank is null");
-                    }
-                }
-            }
-        }
         //Tower logic
         const towers = room.find(FIND_STRUCTURES, { filter: { structureType: STRUCTURE_TOWER, my: true } });
         towers.forEach(towerController_1.towerController.run);
@@ -505,4 +485,27 @@ function isConstructable(terrain, roomName, x, y) {
 }
 function ensureSpawnIsSetup(myRoom) {
     //TODO: do it
+}
+function ensureLaborersSpawnIfNeeded(myRoom) {
+    if (myRoom.roomStage >= 3) {
+        for (let i = 0; i < myRoom.myContainers.length; i++) {
+            const myContainer = myRoom.myContainers[i];
+            if (myContainer.role === "Bank") {
+                const bankContainer = Game.getObjectById(myContainer.id);
+                if (bankContainer != null) {
+                    if (bankContainer.store[RESOURCE_ENERGY] === bankContainer.storeCapacity) {
+                        //If the bank is capped, spawn another laborer
+                        const newCreep = spawnLaborer(myRoom);
+                        if (newCreep != null) {
+                            myRoom.myCreeps.push(newCreep);
+                            console.log("spawned a new laborer");
+                        }
+                    }
+                }
+                else {
+                    console.log("Bank is null");
+                }
+            }
+        }
+    }
 }
