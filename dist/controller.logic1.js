@@ -336,6 +336,7 @@ function ensureHaulersArePlaced(myRoom) {
                 const newCreep = spawnHauler(myRoom, myContainer);
                 if (newCreep != null) {
                     myRoom.myCreeps.push(newCreep);
+                    myContainer.haulerNames.push(newCreep.name);
                     console.log("spawned a new hauler");
                 }
             }
