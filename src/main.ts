@@ -141,6 +141,8 @@ function handleCreepDying(myRoom: MyRoom, myCreep: MyCreep): void {
         console.log("A Hauler has died");
     } else if (myCreep.role === "MinerAndWorker") {
         console.log("A MinerAndWorker has died");
+    } else if (myCreep.role === "Laborer") {
+        console.log("A Laborer has died");
     }
 }
 function setupMyMemory(): void {
