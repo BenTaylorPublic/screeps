@@ -3,8 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const controller_logic1_1 = require("controller.logic1");
 console.log("Script reloaded");
 setupMyMemory();
-Memory.myMemory.myRooms[0].baseCenter = null;
-Memory.myMemory.myRooms[0].manuallyPlacedBase = true;
+Memory.myMemory.myRooms[0].roomStage = 2.6;
 exports.loop = function () {
     clearDeadCreeps();
     ensureAllRoomsInMyMemory();

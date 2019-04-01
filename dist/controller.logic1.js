@@ -16,7 +16,6 @@ exports.controllerLogic1 = {
         const room = Game.rooms[myRoom.name];
         controller_roomStages_1.controllerRoomStages.run(myRoom);
         ensureTheBuildingsAreSetup(myRoom);
-        //TODO: Uncomment when you want to spawn miners and haulers (once caches and bank are placed)
         ensureMinersArePlaced(myRoom);
         ensureHaulersArePlaced(myRoom);
         //Tower logic
@@ -57,6 +56,7 @@ function ensureTheBuildingsAreSetup(myRoom) {
             findBaseCenter(myRoom);
             if (myRoom.baseCenter == null) {
                 console.log("Couldn't find a base center");
+                return;
             }
         }
         ensureSpawnIsSetup(myRoom);
@@ -73,8 +73,8 @@ function ensureTheBuildingsAreSetup(myRoom) {
     if (myRoom.myContainers.length <= myRoom.mySources.length) {
         //Containers aren't set up
         ensureTheCachesAreSetup(myRoom);
+        //TODO: Automate building container bank
     }
-    //TODO: Automate building bank
     //TODO: Automate building extensions
 }
 function ensureTheCachesAreSetup(myRoom) {
@@ -146,6 +146,9 @@ function tryPlaceSourceContainerCache(myRoom, mySource, terrain, x, y) {
     }
 }
 function isNotWall(terrain, x, y) {
+    if (x < 0 || x > 49 || y < 0 || y > 49) {
+        return false;
+    }
     return terrain.get(x, y) !== TERRAIN_MASK_WALL;
 }
 function spawnMinerAndWorker(spawnName) {
@@ -313,21 +316,101 @@ function calcBodyCost(body) {
 }
 function findBaseCenter(myRoom) {
     const room = Game.rooms[myRoom.name];
-    const terrain = room.getTerrain();
-    const valid = checkIfValidBaseCenter(terrain, 25, 25);
     const options = [];
     for (let x = 0; x < 50; x++) {
         for (let y = 0; y < 50; y++) {
-            if (checkIfValidBaseCenter(terrain, x, y)) {
-                const newRoomPos = new RoomPosition(x, y, myRoom.name);
+            const newRoomPos = new RoomPosition(x, y, myRoom.name);
+            if (checkIfValidBaseCenter(newRoomPos)) {
                 options.push(newRoomPos);
             }
         }
     }
-    //TODO: Weight up options using manhattan distance
+    if (options.length === 0) {
+        return;
+    }
+    let bestManhattanDistance = 50;
+    let bestOption = null;
+    for (let i = 0; i < options.length; i++) {
+        const potentialLocation = options[i];
+        const manhattanDistance = Math.abs(25 - potentialLocation.x) + Math.abs(25 - potentialLocation.y);
+        if (manhattanDistance < bestManhattanDistance) {
+            bestOption = potentialLocation;
+            bestManhattanDistance = manhattanDistance;
+        }
+    }
+    if (bestOption == null) {
+        return;
+    }
+    console.log("Setting a rooms base location to " + bestOption.x + ", " + bestOption.y);
+    //TODO: Set it
 }
-function checkIfValidBaseCenter(terrain, x, y) {
-    //TODO: Check if it's all non walls or other buildings
+function checkIfValidBaseCenter(roomPos) {
+    const x = roomPos.x;
+    const y = roomPos.y;
+    const roomName = roomPos.roomName;
+    const terrain = Game.rooms[roomName].getTerrain();
+    if (isConstructable(terrain, roomName, x - 1, y - 3) &&
+        isConstructable(terrain, roomName, x, y - 3) &&
+        isConstructable(terrain, roomName, x + 1, y - 3) &&
+        isConstructable(terrain, roomName, x - 3, y - 2) &&
+        isConstructable(terrain, roomName, x - 2, y - 2) &&
+        isConstructable(terrain, roomName, x - 1, y - 2) &&
+        isConstructable(terrain, roomName, x, y - 2) &&
+        isConstructable(terrain, roomName, x + 1, y - 2) &&
+        isConstructable(terrain, roomName, x + 2, y - 2) &&
+        isConstructable(terrain, roomName, x + 3, y - 2) &&
+        isConstructable(terrain, roomName, x - 4, y - 1) &&
+        isConstructable(terrain, roomName, x - 3, y - 1) &&
+        isConstructable(terrain, roomName, x - 2, y - 1) &&
+        isConstructable(terrain, roomName, x - 1, y - 1) &&
+        isConstructable(terrain, roomName, x, y - 1) &&
+        isConstructable(terrain, roomName, x + 1, y - 1) &&
+        isConstructable(terrain, roomName, x + 2, y - 1) &&
+        isConstructable(terrain, roomName, x + 3, y - 1) &&
+        isConstructable(terrain, roomName, x + 4, y - 1) &&
+        isConstructable(terrain, roomName, x - 4, y) &&
+        isConstructable(terrain, roomName, x - 3, y) &&
+        isConstructable(terrain, roomName, x - 2, y) &&
+        isConstructable(terrain, roomName, x - 1, y) &&
+        isConstructable(terrain, roomName, x, y) &&
+        isConstructable(terrain, roomName, x + 1, y) &&
+        isConstructable(terrain, roomName, x + 2, y) &&
+        isConstructable(terrain, roomName, x + 3, y) &&
+        isConstructable(terrain, roomName, x + 4, y) &&
+        isConstructable(terrain, roomName, x - 1, y + 3) &&
+        isConstructable(terrain, roomName, x, y + 3) &&
+        isConstructable(terrain, roomName, x + 1, y + 3) &&
+        isConstructable(terrain, roomName, x - 3, y + 2) &&
+        isConstructable(terrain, roomName, x - 2, y + 2) &&
+        isConstructable(terrain, roomName, x - 1, y + 2) &&
+        isConstructable(terrain, roomName, x, y + 2) &&
+        isConstructable(terrain, roomName, x + 1, y + 2) &&
+        isConstructable(terrain, roomName, x + 2, y + 2) &&
+        isConstructable(terrain, roomName, x + 3, y + 2) &&
+        isConstructable(terrain, roomName, x - 4, y + 1) &&
+        isConstructable(terrain, roomName, x - 3, y + 1) &&
+        isConstructable(terrain, roomName, x - 2, y + 1) &&
+        isConstructable(terrain, roomName, x - 1, y + 1) &&
+        isConstructable(terrain, roomName, x, y + 1) &&
+        isConstructable(terrain, roomName, x + 1, y + 1) &&
+        isConstructable(terrain, roomName, x + 2, y + 1) &&
+        isConstructable(terrain, roomName, x + 3, y + 1) &&
+        isConstructable(terrain, roomName, x + 4, y + 1)) {
+        return true;
+    }
+    return false;
+}
+function isConstructable(terrain, roomName, x, y) {
+    if (isNotWall(terrain, x, y)) {
+        const roomPos = new RoomPosition(x, y, roomName);
+        const structures = roomPos.lookFor(LOOK_STRUCTURES);
+        if (structures.length !== 0) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
     return false;
 }
 function ensureSpawnIsSetup(myRoom) {
