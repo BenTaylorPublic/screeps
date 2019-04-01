@@ -294,21 +294,21 @@ function spawnHauler(myRoom: MyRoom, myContainer: MyContainer): Hauler | null {
     }
 
     //Have a valid spawn now
-    const body: BodyPartConstant[] = [MOVE];
+    let body: BodyPartConstant[] = [MOVE];
     let addCarry: boolean = true;
     let breakLoop: boolean = false;
     while (!breakLoop) {
         if (addCarry) {
             addCarry = false;
             if (calcBodyCost(body) + calcBodyCost([CARRY]) < spawn.room.energyCapacityAvailable) {
-                body.concat([CARRY]);
+                body = body.concat([CARRY]);
             } else {
                 breakLoop = true;
             }
         } else {
             addCarry = true;
             if (calcBodyCost(body) + calcBodyCost([MOVE]) < spawn.room.energyCapacityAvailable) {
-                body.concat([MOVE]);
+                body = body.concat([MOVE]);
             } else {
                 breakLoop = true;
             }
@@ -359,9 +359,6 @@ function spawnHauler(myRoom: MyRoom, myContainer: MyContainer): Hauler | null {
 }
 
 function calcBodyCost(body: BodyPartConstant[]): number {
-    console.log(body.reduce(function (cost: number, part: BodyPartConstant) {
-        return cost + BODYPART_COST[part];
-    }, 0));
     return body.reduce(function (cost: number, part: BodyPartConstant) {
         return cost + BODYPART_COST[part];
     }, 0);
