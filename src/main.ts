@@ -3,7 +3,16 @@ import { controllerLogic1 } from "controller.logic1";
 console.log("Script reloaded");
 setupMyMemory();
 
-Memory.myMemory.myRooms[0].roomStage = 2.6;
+const miner: Miner = {
+    name: "Creep4946",
+    role: "Miner",
+    assignedRoomName: "W48S8",
+    cacheContainerIdToPutIn: "5c9f2416c727645d1f0f30e3",
+    sourceId: "5bbcaa719099fc012e6315f9"
+};
+
+Memory.myMemory.myRooms[0].myCreeps.push(miner);
+
 export const loop: any = function () {
     clearDeadCreeps();
     ensureAllRoomsInMyMemory();

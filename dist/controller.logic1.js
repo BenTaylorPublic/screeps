@@ -182,7 +182,14 @@ function ensureMinersArePlaced(myRoom) {
         const mySource = myRoom.mySources[i];
         if (mySource.minerName == null) {
             //Needs a new miner
-            spawnMiner(myRoom, mySource);
+            const newCreep = spawnMiner(myRoom, mySource);
+            if (newCreep != null) {
+                myRoom.myCreeps.push(newCreep);
+                console.log("spawned a new miner");
+            }
+            else {
+                console.log("failed to spawn new miner");
+            }
         }
     }
 }
@@ -238,7 +245,14 @@ function ensureHaulersArePlaced(myRoom) {
             if (myContainer.haulerNames != null &&
                 myContainer.haulerNames.length === 0) {
                 //Spawn a new hauler
-                spawnHauler(myRoom, myContainer);
+                const newCreep = spawnHauler(myRoom, myContainer);
+                if (newCreep != null) {
+                    myRoom.myCreeps.push(newCreep);
+                    console.log("spawned a new hauler");
+                }
+                else {
+                    console.log("failed to spawn new hauler");
+                }
             }
         }
     }
