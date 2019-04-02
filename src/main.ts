@@ -143,6 +143,7 @@ function handleCreepDying(myRoom: MyRoom, myCreep: MyCreep): void {
         console.log("A Laborer has died");
     }
 }
+
 function setupMyMemory(): void {
     if (Memory.myMemory == null) {
         Memory.myMemory = {

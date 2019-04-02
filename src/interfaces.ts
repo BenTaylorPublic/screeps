@@ -33,6 +33,12 @@ interface MyContainer {
     haulerNames: string[] | null; //For caches
 }
 
+/*
+====================
+    CREEPS:
+====================
+*/
+
 interface MyCreep {
     name: string;
     role: string;

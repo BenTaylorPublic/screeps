@@ -46,6 +46,7 @@ export const controllerLogic1: any = {
             }
         }
 
+        //Force spawn a miner and worker if there are no creeps alive
         const forceSpawnMinerAndWorkers: boolean = myRoom.myCreeps.length === 0;
 
         if (forceSpawnMinerAndWorkers ||
@@ -53,7 +54,7 @@ export const controllerLogic1: any = {
             const newCreep: MinerAndWorker | null = spawnMinerAndWorker(myRoom.spawnName);
             if (newCreep != null) {
                 myRoom.myCreeps.push(newCreep);
-                console.log("spawned a new creep");
+                console.log("spawned a new miner and worker");
             }
         }
     }
@@ -69,6 +70,8 @@ function ensureTheBuildingsAreSetup(myRoom: MyRoom): void {
             findBaseCenter(myRoom);
             if (myRoom.baseCenter == null) {
                 console.log("Couldn't find a base center");
+                //Will need to manually place this base
+                myRoom.manuallyPlacedBase = true;
                 return;
             }
         }
