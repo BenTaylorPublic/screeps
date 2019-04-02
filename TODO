@@ -12,9 +12,6 @@ I really need to split up controller.logic1.ts
 In fact controller.logic should be nothing but calling other modules
 main:
 memory.controller
-room.controller
-room.roomStages.controller
-room.building.controller
 room.creepSpawning.controller
 
 RCL LEVELS:
