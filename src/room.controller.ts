@@ -7,7 +7,6 @@ import { laborerRole } from "laborer.role";
 import { roomBuildingController } from "room.building.controller";
 import { roomSpawningController } from "room.spawning.controller";
 
-
 export const roomController: any = {
     run: function (myRoom: MyRoom) {
 

@@ -4,7 +4,6 @@ export const roomBuildingController: any = {
     }
 };
 
-
 function ensureTheBuildingsAreSetup(myRoom: MyRoom): void {
 
     if (myRoom.roomStage < 2.2) {
@@ -24,8 +23,6 @@ function ensureTheBuildingsAreSetup(myRoom: MyRoom): void {
 
     //TODO: Automate building extensions
 }
-
-
 
 function ensureTheCachesAreSetup(myRoom: MyRoom) {
     const room: Room = Game.rooms[myRoom.name];
@@ -73,7 +70,6 @@ function ensureTheCachesAreSetup(myRoom: MyRoom) {
 
     }
 }
-
 
 function tryPlaceSourceContainerCache(myRoom: MyRoom, mySource: MySource, terrain: RoomTerrain, x: number, y: number): boolean {
     if (isConstructable(terrain, myRoom.name, x, y)) {

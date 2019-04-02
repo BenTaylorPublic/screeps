@@ -26,7 +26,6 @@ export const roomSpawningController: any = {
     }
 };
 
-
 function ensureMinersArePlaced(myRoom: MyRoom): void {
     if (myRoom.roomStage < 2.6) {
         return;
@@ -44,7 +43,6 @@ function ensureMinersArePlaced(myRoom: MyRoom): void {
         }
     }
 }
-
 
 function spawnLaborer(myRoom: MyRoom): Laborer | null {
     if (myRoom.spawnName == null) {
@@ -95,7 +93,6 @@ function spawnLaborer(myRoom: MyRoom): Laborer | null {
     }
     return null;
 }
-
 
 function spawnMiner(myRoom: MyRoom, mySource: MySource): Miner | null {
 
@@ -153,9 +150,6 @@ function getId(): number {
     return toReturn;
 }
 
-
-
-
 function ensureHaulersArePlaced(myRoom: MyRoom): void {
 
     if (myRoom.roomStage < 2.6) {
@@ -178,8 +172,6 @@ function ensureHaulersArePlaced(myRoom: MyRoom): void {
         }
     }
 }
-
-
 
 function spawnHauler(myRoom: MyRoom, myContainer: MyContainer): Hauler | null {
     if (myRoom.spawnName == null) {

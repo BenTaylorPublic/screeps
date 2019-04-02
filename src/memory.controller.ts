@@ -6,7 +6,6 @@ export const memoryController: any = {
     }
 };
 
-
 function clearDeadCreeps(): void {
     //Clear all dead creeps
     for (const i in Memory.creeps) {
