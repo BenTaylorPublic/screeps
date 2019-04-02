@@ -1,12 +1,12 @@
-import { roleMinerAndWorker } from "role.minerAndWorker";
-import { towerController } from "towerController";
-import { roleMiner } from "role.miner";
-import { roleHauler } from "role.hauler";
-import { controllerRoomStages } from "controller.roomStages";
-import { roleLaborer } from "role.laborer";
+import { minerAndWorkerRole } from "minerAndWorker.role";
+import { towerController } from "tower.controller";
+import { minerRole } from "miner.role";
+import { haulerRole } from "hauler.role";
+import { roomStageController } from "roomStage.controller";
+import { laborerRole } from "laborer.role";
 
 
-export const controllerLogic1: any = {
+export const roomController: any = {
     run: function (myRoom: MyRoom) {
 
         if (Game.rooms[myRoom.name] == null) {
@@ -18,7 +18,7 @@ export const controllerLogic1: any = {
 
         const room: Room = Game.rooms[myRoom.name];
 
-        controllerRoomStages.run(myRoom);
+        roomStageController.run(myRoom);
 
         ensureTheBuildingsAreSetup(myRoom);
         ensureLaborersSpawnIfNeeded(myRoom);
@@ -35,14 +35,14 @@ export const controllerLogic1: any = {
         for (let i = 0; i < myRoom.myCreeps.length; i++) {
             const myCreep: MyCreep = myRoom.myCreeps[i];
             if (myCreep.role === "MinerAndWorker") {
-                roleMinerAndWorker.run(myCreep);
+                minerAndWorkerRole.run(myCreep);
                 minerAndWorkerCount++;
             } else if (myCreep.role === "Miner") {
-                roleMiner.run(myCreep);
+                minerRole.run(myCreep);
             } else if (myCreep.role === "Hauler") {
-                roleHauler.run(myCreep, myRoom);
+                haulerRole.run(myCreep, myRoom);
             } else if (myCreep.role === "Laborer") {
-                roleLaborer.run(myCreep, myRoom);
+                laborerRole.run(myCreep, myRoom);
             }
         }
 

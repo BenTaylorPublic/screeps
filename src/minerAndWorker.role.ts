@@ -1,36 +1,28 @@
-export const roleLaborer: any = {
-    run: function (laborer: Laborer, myRoom: MyRoom) {
-        const creep: Creep = Game.creeps[laborer.name];
+export const minerAndWorkerRole: any = {
+    run: function (minerAndWorker: MinerAndWorker) {
+        const creep: Creep = Game.creeps[minerAndWorker.name];
         if (creep == null) {
-            console.log("Laborer creep is null. Creep ID: " + laborer.name);
+            console.log("A creep was null");
             return;
         }
-        if (laborer.pickup === false &&
+        if (minerAndWorker.mining === false &&
             creep.carry.energy === 0) {
-            laborer.pickup = true;
-            creep.say("pickup");
-        } else if (laborer.pickup === true &&
+            minerAndWorker.mining = true;
+            creep.say("mining");
+        } else if (minerAndWorker.mining === true &&
             creep.carry.energy === creep.carryCapacity) {
-            laborer.pickup = false;
+            minerAndWorker.mining = false;
             creep.say("working");
         }
 
-        if (laborer.pickup === true) {
-            for (let i = 0; i < myRoom.myContainers.length; i++) {
-                const myContainer: MyContainer = myRoom.myContainers[i];
-                if (myContainer.role === "Bank") {
-                    const bankContainer: StructureContainer | null =
-                        Game.getObjectById<StructureContainer>(myContainer.id);
-                    if (bankContainer != null) {
-                        if (creep.withdraw(bankContainer, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                            creep.moveTo(bankContainer);
-                        }
-                    } else {
-                        console.log("Bank is null");
-                    }
-                }
+        if (minerAndWorker.mining === true) {
+            //mining
+            const source: Source | null = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
+            if (source && creep.harvest(source) === ERR_NOT_IN_RANGE) {
+                creep.moveTo(source);
             }
         } else {
+            //Not mining
 
             let givenCommand: boolean = false;
 

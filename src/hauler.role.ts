@@ -1,4 +1,4 @@
-export const roleHauler: any = {
+export const haulerRole: any = {
     run: function (hauler: Hauler, myRoom: MyRoom) {
         const creep: Creep = Game.creeps[hauler.name];
         if (creep == null) {

@@ -1,4 +1,4 @@
-import { controllerLogic1 } from "controller.logic1";
+import { roomController } from "room.controller";
 
 console.log("Script reloaded");
 setupMyMemory();
@@ -10,7 +10,7 @@ export const loop: any = function () {
 
     for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
         const myRoom: MyRoom = Memory.myMemory.myRooms[i];
-        controllerLogic1.run(myRoom);
+        roomController.run(myRoom);
     }
 
 };

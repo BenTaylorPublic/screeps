@@ -1,4 +1,4 @@
-export const roleMiner: any = {
+export const minerRole: any = {
     run: function (miner: Miner) {
         if (miner.cacheContainerIdToPutIn == null) {
             console.log("Miner hasn't been given a cache container id. Creep ID: " + miner.name);

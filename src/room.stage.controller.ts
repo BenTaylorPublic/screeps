@@ -1,4 +1,4 @@
-export const controllerRoomStages: any = {
+export const roomStageController: any = {
     run: function (myRoom: MyRoom) {
         const room: Room = Game.rooms[myRoom.name];
 
