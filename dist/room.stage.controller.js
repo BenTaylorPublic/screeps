@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.controllerRoomStages = {
+exports.roomStageController = {
     run: function (myRoom) {
         const room = Game.rooms[myRoom.name];
         /*

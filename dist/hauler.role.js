@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.roleHauler = {
+exports.haulerRole = {
     run: function (hauler, myRoom) {
         const creep = Game.creeps[hauler.name];
         if (creep == null) {

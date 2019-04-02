@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.roleMiner = {
+exports.minerRole = {
     run: function (miner) {
         if (miner.cacheContainerIdToPutIn == null) {
             console.log("Miner hasn't been given a cache container id. Creep ID: " + miner.name);
