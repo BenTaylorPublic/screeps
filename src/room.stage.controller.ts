@@ -24,124 +24,246 @@ export const roomStageController: any = {
             return; //Do not continue
         }
 
+        //You can only go up if you are on the one being tested
         if (myRoom.roomStage === 0) {
-            if (room.controller.level === 1) {
-                myRoom.roomStage = 0.5;
-                console.log("Room " + myRoom.name + " advanced to room stage 0.5");
-            }
+            stage0Up(myRoom, room);
         }
-
         if (myRoom.roomStage === 0.5) {
-            for (const spawnName in Game.spawns) {
-                if (Game.spawns[spawnName].room.name === myRoom.name) {
-                    //Spawn has been made
-                    myRoom.roomStage = 1;
-                    console.log("Room " + myRoom.name + " advanced to room stage 1");
-                }
-            }
+            stage0_5Up(myRoom, room);
         }
-
         if (myRoom.roomStage === 1) {
-            if (room.controller.level === 2) {
-                myRoom.roomStage = 2;
-                console.log("Room " + myRoom.name + " advanced to room stage 2");
-            }
+            stage1Up(myRoom, room);
         }
-
         if (myRoom.roomStage === 2) {
-            if (room.controller.level === 3) {
-                myRoom.roomStage = 2.2;
-                console.log("Room " + myRoom.name + " advanced to room stage 2.2");
-            }
+            stage2Up(myRoom, room);
         }
-
         if (myRoom.roomStage === 2.2) {
-            const towers: StructureTower[] = room.find<StructureTower>(FIND_STRUCTURES, {
-                filter: (structure: Structure) => {
-                    return structure.structureType === STRUCTURE_TOWER;
-                }
-            });
-
-            if (towers.length === 1) {
-                //Tower has been built
-                myRoom.roomStage = 2.4;
-                console.log("Room " + myRoom.name + " advanced to room stage 2.4");
-            }
+            stage2_2Up(myRoom, room);
         }
-
         if (myRoom.roomStage === 2.4) {
-
-            const containers: StructureContainer[] = room.find<StructureContainer>(FIND_STRUCTURES, {
-                filter: (structure: Structure) => {
-                    return structure.structureType === STRUCTURE_CONTAINER;
-                }
-            });
-
-            if (containers.length === room.find(FIND_SOURCES_ACTIVE).length + 1) {
-                //Caches and bank must be built
-                myRoom.roomStage = 2.6;
-                console.log("Room " + myRoom.name + " advanced to room stage 2.6");
-            }
-
+            stage2_4Up(myRoom, room);
         }
-
         if (myRoom.roomStage === 2.6) {
-            let haulerAmount: number = 0;
-            let minerAmount: number = 0;
-            for (let i = 0; i < myRoom.myCreeps.length; i++) {
-                const myCreep: MyCreep = myRoom.myCreeps[i];
-                if (myCreep.role === "Hauler") {
-                    haulerAmount++;
-                } else if (myCreep.role === "Miner") {
-                    minerAmount++;
-                }
-            }
-            const amountOfSources: number = room.find(FIND_SOURCES_ACTIVE).length;
-            if (haulerAmount === amountOfSources &&
-                minerAmount === amountOfSources) {
-                myRoom.roomStage = 2.8;
-                console.log("Room " + myRoom.name + " advanced to room stage 2.8");
-            }
-
+            stage2_6Up(myRoom, room);
         }
-
         if (myRoom.roomStage === 2.8) {
-
-            let myBankContainer: MyContainer | null = null;
-
-            for (let i = 0; i < myRoom.myContainers.length; i++) {
-                const myContainer = myRoom.myContainers[i];
-                if (myContainer.role === "Bank") {
-                    myBankContainer = myContainer;
-                }
-            }
-
-            if (myBankContainer != null) {
-                const bankContainer: StructureContainer | null =
-                    Game.getObjectById<StructureContainer>(myBankContainer.id);
-                if (bankContainer != null) {
-                    if (bankContainer.store[RESOURCE_ENERGY] === bankContainer.storeCapacity) {
-                        //Bank is full
-                        myRoom.roomStage = 3;
-                        console.log("Room " + myRoom.name + " advanced to room stage 3");
-                    }
-                }
-            }
-
+            stage2_8Up(myRoom, room);
         }
 
-
-        if (myRoom.roomStage === 3) {
-            //TODO:
-        }
+        //You can always go down, to any stage
+        stage3Down(myRoom, room);
+        stage2_8Down(myRoom, room);
+        stage2_6Down(myRoom, room);
+        stage2_4Down(myRoom, room);
+        stage2_2Down(myRoom, room);
+        stage2Down(myRoom, room);
+        stage1Down(myRoom, room);
+        stage0_5Down(myRoom, room);
     }
 };
 
+function stage0Up(myRoom: MyRoom, room: Room): boolean {
+    if (room.controller != null &&
+        room.controller.level >= 1) {
+        myRoom.roomStage = 0.5;
+        console.log("LOG: Room " + myRoom.name + " increased to room stage 0.5");
+        return true;
+    }
+    return false;
+}
 
+function stage0_5Down(myRoom: MyRoom, room: Room): boolean {
+    if (room.controller == null ||
+        room.controller.level === 0) {
+        myRoom.roomStage = 0;
+        console.log("LOG: Room " + myRoom.name + " decreased to room stage 0");
+        return true;
+    }
+    return false;
+}
 
+function stage0_5Up(myRoom: MyRoom, room: Room): boolean {
+    for (const spawnName in Game.spawns) {
+        if (Game.spawns[spawnName].room.name === myRoom.name) {
+            //Spawn has been made
+            myRoom.roomStage = 1;
+            console.log("LOG: Room " + myRoom.name + " increased to room stage 1");
+            return true;
+        }
+    }
+    return false;
+}
 
+function stage1Down(myRoom: MyRoom, room: Room): boolean {
+    for (const spawnName in Game.spawns) {
+        if (Game.spawns[spawnName].room.name === myRoom.name) {
+            //Spawn has been made
+            return false;
+        }
+    }
+    myRoom.roomStage = 0.5;
+    console.log("LOG: Room " + myRoom.name + " decreased to room stage 0.5");
+    return true;
+}
 
+function stage1Up(myRoom: MyRoom, room: Room): boolean {
+    if (room.controller != null &&
+        room.controller.level >= 2) {
+        myRoom.roomStage = 2;
+        console.log("LOG: Room " + myRoom.name + " increased to room stage 2");
+        return true;
+    }
+    return false;
+}
 
+function stage2Down(myRoom: MyRoom, room: Room): boolean {
+    if (room.controller == null ||
+        room.controller.level <= 1) {
+        myRoom.roomStage = 1;
+        console.log("LOG: Room " + myRoom.name + " decreased to room stage 1");
+        return true;
+    }
+    return false;
+}
 
+function stage2Up(myRoom: MyRoom, room: Room): boolean {
+    if (room.controller != null &&
+        room.controller.level >= 3) {
+        myRoom.roomStage = 2.2;
+        console.log("LOG: Room " + myRoom.name + " increased to room stage 2.2");
+        return true;
+    }
+    return false;
+}
 
+function stage2_2Down(myRoom: MyRoom, room: Room): boolean {
+    if (room.controller == null ||
+        room.controller.level <= 2) {
+        myRoom.roomStage = 2;
+        console.log("LOG: Room " + myRoom.name + " decreased to room stage 2");
+        return true;
+    }
+    return false;
+}
 
+function stage2_2Up(myRoom: MyRoom, room: Room): boolean {
+    const towers: StructureTower[] = room.find<StructureTower>(FIND_STRUCTURES, {
+        filter: (structure: Structure) => {
+            return structure.structureType === STRUCTURE_TOWER;
+        }
+    });
+
+    if (towers.length >= 1) {
+        //Tower has been built
+        myRoom.roomStage = 2.4;
+        console.log("LOG: Room " + myRoom.name + " increased to room stage 2.4");
+        return true;
+    }
+    return false;
+}
+
+function stage2_4Down(myRoom: MyRoom, room: Room): boolean {
+    const towers: StructureTower[] = room.find<StructureTower>(FIND_STRUCTURES, {
+        filter: (structure: Structure) => {
+            return structure.structureType === STRUCTURE_TOWER;
+        }
+    });
+
+    if (towers.length === 0) {
+        //Tower has been built
+        myRoom.roomStage = 2.2;
+        console.log("LOG: Room " + myRoom.name + " decreased to room stage 2.4");
+        return true;
+    }
+    return false;
+}
+
+function stage2_4Up(myRoom: MyRoom, room: Room): boolean {
+    const containers: StructureContainer[] = room.find<StructureContainer>(FIND_STRUCTURES, {
+        filter: (structure: Structure) => {
+            return structure.structureType === STRUCTURE_CONTAINER;
+        }
+    });
+
+    //TODO: Doesn't work with storage bank
+    if (containers.length >= room.find(FIND_SOURCES_ACTIVE).length + 1) {
+        //Caches and bank must be built
+        myRoom.roomStage = 2.6;
+        console.log("LOG: Room " + myRoom.name + " increased to room stage 2.6");
+        return true;
+    }
+    return false;
+}
+
+function stage2_6Down(myRoom: MyRoom, room: Room): boolean {
+    const containers: StructureContainer[] = room.find<StructureContainer>(FIND_STRUCTURES, {
+        filter: (structure: Structure) => {
+            return structure.structureType === STRUCTURE_CONTAINER;
+        }
+    });
+
+    //TODO: Doesn't work with storage bank
+    if (containers.length <= room.find(FIND_SOURCES_ACTIVE).length + 1) {
+        //Caches and bank must be built
+        myRoom.roomStage = 2.4;
+        console.log("LOG: Room " + myRoom.name + " decreased to room stage 2.4");
+        return true;
+    }
+    return false;
+}
+
+function stage2_6Up(myRoom: MyRoom, room: Room): boolean {
+    let haulerAmount: number = 0;
+    let minerAmount: number = 0;
+    for (let i = 0; i < myRoom.myCreeps.length; i++) {
+        const myCreep: MyCreep = myRoom.myCreeps[i];
+        if (myCreep.role === "Hauler") {
+            haulerAmount++;
+        } else if (myCreep.role === "Miner") {
+            minerAmount++;
+        }
+    }
+    const amountOfSources: number = room.find(FIND_SOURCES_ACTIVE).length;
+    if (haulerAmount >= amountOfSources &&
+        minerAmount >= amountOfSources) {
+        myRoom.roomStage = 2.8;
+        console.log("LOG: Room " + myRoom.name + " increased to room stage 2.8");
+        return true;
+    }
+    return false;
+}
+
+function stage2_8Down(myRoom: MyRoom, room: Room): boolean {
+    //Impossible to downgrade from this
+    return false;
+}
+
+function stage2_8Up(myRoom: MyRoom, room: Room): boolean {
+    let myBankContainer: MyContainer | null = null;
+
+    for (let i = 0; i < myRoom.myContainers.length; i++) {
+        const myContainer = myRoom.myContainers[i];
+        if (myContainer.role === "Bank") {
+            myBankContainer = myContainer;
+        }
+    }
+
+    if (myBankContainer != null) {
+        const bankContainer: StructureContainer | null =
+            Game.getObjectById<StructureContainer>(myBankContainer.id);
+        if (bankContainer != null) {
+            if (bankContainer.store[RESOURCE_ENERGY] === bankContainer.storeCapacity) {
+                //Bank is full
+                myRoom.roomStage = 3;
+                console.log("LOG: Room " + myRoom.name + " increased to room stage 3");
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+function stage3Down(myRoom: MyRoom, room: Room): boolean {
+    //Impossible to downgrade from this
+    return false;
+}
