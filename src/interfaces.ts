@@ -7,6 +7,7 @@ interface RoomMemory { }
 interface MyMemory {
     globalId: number;
     myRooms: MyRoom[];
+    prod: boolean; //TODO: DELETE AFTER NEXT RELEASE
 }
 
 interface MyRoom {
@@ -14,19 +15,19 @@ interface MyRoom {
     myCreeps: MyCreep[];
     spawnName: string | null;
     mySources: MySource[];
-    myContainers: MyContainer[];
+    myContainers: MyContainer[]; //TODO: DELETE AFTER NEXT RELEASE
     roomStage: number;
-    manuallyPlacedBase: boolean;
-    baseCenter: RoomPosition | null;
+    manuallyPlacedBase: boolean; //TODO: DELETE AFTER NEXT RELEASE
+    baseCenter: RoomPosition | null; //TODO: DELETE AFTER NEXT RELEASE
 }
 
 interface MySource {
     id: string;
-    cacheContainerId: string | null;
+    cacheContainerId: string | null; //TODO: DELETE AFTER NEXT RELEASE
     minerName: string | null; //Null when miner is dead or not assigned
 }
 
-interface MyContainer {
+interface MyContainer { //TODO: DELETE AFTER NEXT RELEASE
     id: string;
     role: string;
     assignedSourceId: string | null; //For caches
@@ -50,12 +51,12 @@ interface MinerAndWorker extends MyCreep {
 }
 
 interface Miner extends MyCreep {
-    cacheContainerIdToPutIn: string;
+    cacheContainerIdToPutIn: string; //TODO: DELETE AFTER NEXT RELEASE
     sourceId: string;
 }
 
 interface Hauler extends MyCreep {
-    cacheContainerIdToGrabFrom: string;
+    cacheContainerIdToGrabFrom: string; //TODO: DELETE AFTER NEXT RELEASE
     pickup: boolean;
 }
 
