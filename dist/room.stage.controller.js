@@ -156,9 +156,8 @@ function stage2_4Down(myRoom, room) {
         }
     });
     if (towers.length === 0) {
-        //Tower has been built
         myRoom.roomStage = 2.2;
-        console.log("LOG: Room " + myRoom.name + " decreased to room stage 2.4");
+        console.log("LOG: Room " + myRoom.name + " decreased to room stage 2.2");
         return true;
     }
     return false;
@@ -185,7 +184,7 @@ function stage2_6Down(myRoom, room) {
         }
     });
     //TODO: Doesn't work with storage bank
-    if (containers.length <= room.find(FIND_SOURCES_ACTIVE).length + 1) {
+    if (containers.length < room.find(FIND_SOURCES_ACTIVE).length + 1) {
         //Caches and bank must be built
         myRoom.roomStage = 2.4;
         console.log("LOG: Room " + myRoom.name + " decreased to room stage 2.4");
