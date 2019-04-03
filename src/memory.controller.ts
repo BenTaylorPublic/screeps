@@ -38,7 +38,7 @@ function ensureAllRoomsInMyMemory(): void {
 
         if (!alreadyInMemory) {
             //Add it
-            console.log("Adding a new room " + roomName);
+            console.log("LOG: Adding a new room " + roomName);
             const newMyRoom: MyRoom = {
                 name: roomName,
                 myCreeps: [],
@@ -88,7 +88,7 @@ function validateRoomsInMyMemory(): void {
         const myRoom: MyRoom = Memory.myMemory.myRooms[i];
         const room: Room = Game.rooms[myRoom.name];
         if (room == null) {
-            console.log("Lost vision of a room " + myRoom.name);
+            console.log("LOG: Lost vision of a room " + myRoom.name);
             Memory.myMemory.myRooms.splice(i, 1);
             continue;
         }
@@ -113,7 +113,7 @@ function handleCreepDying(myRoom: MyRoom, myCreep: MyCreep): void {
                 mySource.minerName = null;
             }
         }
-        console.log("A Miner has died");
+        console.log("LOG: A Miner has died");
     } else if (myCreep.role === "Hauler") {
         for (let i = 0; i < myRoom.mySources.length; i++) {
             const myContainer: MyContainer = myRoom.myContainers[i];
@@ -127,10 +127,12 @@ function handleCreepDying(myRoom: MyRoom, myCreep: MyCreep): void {
                 }
             }
         }
-        console.log("A Hauler has died");
+        console.log("LOG: A Hauler has died");
     } else if (myCreep.role === "MinerAndWorker") {
-        console.log("A MinerAndWorker has died");
+        console.log("LOG: A MinerAndWorker has died");
     } else if (myCreep.role === "Laborer") {
-        console.log("A Laborer has died");
+        console.log("LOG: A Laborer has died");
+    } else {
+        console.log("LOG: A Creep with a weird role has died: " + myCreep.role);
     }
 }

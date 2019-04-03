@@ -16,7 +16,7 @@ export const roomSpawningController: any = {
             const newCreep: MinerAndWorker | null = spawnMinerAndWorker(myRoom.spawnName);
             if (newCreep != null) {
                 myRoom.myCreeps.push(newCreep);
-                console.log("spawned a new miner and worker");
+                console.log("LOG: Spawned a new MinerAndWorker");
             }
         } else {
             ensureLaborersSpawnIfNeeded(myRoom);
@@ -38,7 +38,7 @@ function ensureMinersArePlaced(myRoom: MyRoom): void {
             const newCreep: Miner | null = spawnMiner(myRoom, mySource);
             if (newCreep != null) {
                 myRoom.myCreeps.push(newCreep);
-                console.log("spawned a new miner");
+                console.log("LOG: Spawned a new Miner");
             }
         }
     }
@@ -46,13 +46,13 @@ function ensureMinersArePlaced(myRoom: MyRoom): void {
 
 function spawnLaborer(myRoom: MyRoom): Laborer | null {
     if (myRoom.spawnName == null) {
-        console.log("attempted to spawn miner in a room with no spawner (1)");
+        console.log("ERR: Attempted to spawn miner in a room with no spawner (1)");
         return null;
     }
     const spawn: StructureSpawn = Game.spawns[myRoom.spawnName];
 
     if (spawn == null) {
-        console.log("attempted to spawn miner in a room with no spawner (2)");
+        console.log("ERR: Attempted to spawn miner in a room with no spawner (2)");
         return null;
     }
 
@@ -97,18 +97,18 @@ function spawnLaborer(myRoom: MyRoom): Laborer | null {
 function spawnMiner(myRoom: MyRoom, mySource: MySource): Miner | null {
 
     if (myRoom.spawnName == null) {
-        console.log("attempted to spawn miner in a room with no spawner (1)");
+        console.log("ERR: Attempted to spawn miner in a room with no spawner (1)");
         return null;
     }
     const spawn: StructureSpawn = Game.spawns[myRoom.spawnName];
 
     if (spawn == null) {
-        console.log("attempted to spawn miner in a room with no spawner (2)");
+        console.log("ERR: Attempted to spawn miner in a room with no spawner (2)");
         return null;
     }
 
     if (mySource.cacheContainerId == null) {
-        console.log("attempted to spawn miner to a source with no cache container id");
+        console.log("ERR: Attempted to spawn miner to a source with no cache container id");
         return null;
     }
 
@@ -166,7 +166,7 @@ function ensureHaulersArePlaced(myRoom: MyRoom): void {
                 if (newCreep != null) {
                     myRoom.myCreeps.push(newCreep);
                     myContainer.haulerNames.push(newCreep.name);
-                    console.log("spawned a new hauler");
+                    console.log("LOG: Spawned a new hauler");
                 }
             }
         }
@@ -175,13 +175,13 @@ function ensureHaulersArePlaced(myRoom: MyRoom): void {
 
 function spawnHauler(myRoom: MyRoom, myContainer: MyContainer): Hauler | null {
     if (myRoom.spawnName == null) {
-        console.log("attempted to spawn hauler in a room with no spawner (1)");
+        console.log("ERR: Attempted to spawn hauler in a room with no spawner (1)");
         return null;
     }
     const spawn: StructureSpawn = Game.spawns[myRoom.spawnName];
 
     if (spawn == null) {
-        console.log("attempted to spawn hauler in a room with no spawner (2)");
+        console.log("ERR: Attempted to spawn hauler in a room with no spawner (2)");
         return null;
     }
 
@@ -249,11 +249,11 @@ function ensureLaborersSpawnIfNeeded(myRoom: MyRoom): void {
                         const newCreep: Laborer | null = spawnLaborer(myRoom);
                         if (newCreep != null) {
                             myRoom.myCreeps.push(newCreep);
-                            console.log("spawned a new laborer");
+                            console.log("LOG: Spawned a new Laborer");
                         }
                     }
                 } else {
-                    console.log("Bank is null");
+                    console.log("ERR: Bank is null");
                 }
             }
         }

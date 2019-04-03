@@ -12,7 +12,7 @@ export const roomController: any = {
 
         if (Game.rooms[myRoom.name] == null) {
             //No longer have vision of this room
-            console.log("No longer have vision of room " + myRoom.name);
+            console.log("ERR: No longer have vision of room " + myRoom.name);
             return;
         }
         //Can still see the room

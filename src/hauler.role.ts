@@ -2,7 +2,7 @@ export const haulerRole: any = {
     run: function (hauler: Hauler, myRoom: MyRoom) {
         const creep: Creep = Game.creeps[hauler.name];
         if (creep == null) {
-            console.log("Hauler creep is null. Creep ID: " + hauler.name);
+            console.log("ERR: Hauler creep is null. Creep ID: " + hauler.name);
             return;
         }
         if (hauler.pickup === false &&
@@ -20,7 +20,7 @@ export const haulerRole: any = {
             const cacheToGrabFrom: StructureContainer | null =
                 Game.getObjectById<StructureContainer>(hauler.cacheContainerIdToGrabFrom);
             if (cacheToGrabFrom == null) {
-                console.log("CacheToGrabFrom was null for a hauler");
+                console.log("ERR: CacheToGrabFrom was null for a hauler");
                 return;
             }
 
@@ -38,14 +38,14 @@ export const haulerRole: any = {
             }
 
             if (bankId == null) {
-                console.log("bankId was null");
+                console.log("ERR: bankId was null");
                 return;
             }
 
             const bankContainerToPutIn: StructureContainer | null =
                 Game.getObjectById<StructureContainer>(bankId);
             if (bankContainerToPutIn == null) {
-                console.log("bankContainer was null for a hauler");
+                console.log("ERR: bankContainer was null for a hauler");
                 return;
             }
             if (creep.transfer(bankContainerToPutIn, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {

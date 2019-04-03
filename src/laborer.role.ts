@@ -2,7 +2,7 @@ export const laborerRole: any = {
     run: function (laborer: Laborer, myRoom: MyRoom) {
         const creep: Creep = Game.creeps[laborer.name];
         if (creep == null) {
-            console.log("Laborer creep is null. Creep ID: " + laborer.name);
+            console.log("ERR: Laborer creep is null. Creep ID: " + laborer.name);
             return;
         }
         if (laborer.pickup === false &&
@@ -26,7 +26,7 @@ export const laborerRole: any = {
                             creep.moveTo(bankContainer);
                         }
                     } else {
-                        console.log("Bank is null");
+                        console.log("ERR: Bank is null");
                     }
                 }
             }
