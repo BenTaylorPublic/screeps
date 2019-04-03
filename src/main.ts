@@ -5,10 +5,7 @@ console.log("Script reloaded");
 setupMyMemory();
 
 const room: MyRoom = Memory.myMemory.myRooms[0];
-delete room.baseCenter;
-delete room.manuallyPlacedBase;
-delete room.myContainers;
-delete Memory.myMemory.prod;
+room.myContainers = [];
 
 export const loop: any = function () {
     memoryController.run();
