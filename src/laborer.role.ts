@@ -51,9 +51,9 @@ export const laborerRole: any = {
                     }
                 });
                 if (structureToAddTo != null) {
+                    givenCommand = true;
                     if (creep.transfer(structureToAddTo, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                         creep.moveTo(structureToAddTo);
-                        givenCommand = true;
                     }
                 }
             }
@@ -62,10 +62,10 @@ export const laborerRole: any = {
             if (!givenCommand) {
                 const constructionSites: ConstructionSite<BuildableStructureConstant>[]
                     = creep.room.find(FIND_CONSTRUCTION_SITES);
-                if (constructionSites.length) {
+                if (constructionSites.length > 0) {
+                    givenCommand = true;
                     if (creep.build(constructionSites[0]) === ERR_NOT_IN_RANGE) {
                         creep.moveTo(constructionSites[0]);
-                        givenCommand = true;
                     }
                 }
             }
