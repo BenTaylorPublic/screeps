@@ -1,5 +1,5 @@
 
-export const towerController: any = {
+export const roomTowerController: any = {
     run: function (tower: StructureTower) {
 
         const closestDamagedStructure: Structure | null = tower.pos.findClosestByRange(FIND_STRUCTURES, {

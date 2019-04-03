@@ -1,5 +1,5 @@
 import { minerAndWorkerRole } from "minerAndWorker.role";
-import { towerController } from "tower.controller";
+import { roomTowerController } from "room.tower.controller";
 import { minerRole } from "miner.role";
 import { haulerRole } from "hauler.role";
 import { roomStageController } from "room.stage.controller";
@@ -29,7 +29,7 @@ export const roomController: any = {
         //Tower logic
         const towers: StructureTower[] = room.find<StructureTower>(FIND_STRUCTURES, { filter: { structureType: STRUCTURE_TOWER, my: true } });
         for (let i = 0; i < towers.length; i++) {
-            towerController.run(towers[i]);
+            roomTowerController.run(towers[i]);
         }
 
         //MinerAndWorker logic
