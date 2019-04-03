@@ -4,7 +4,7 @@ exports.laborerRole = {
     run: function (laborer, myRoom) {
         const creep = Game.creeps[laborer.name];
         if (creep == null) {
-            console.log("Laborer creep is null. Creep ID: " + laborer.name);
+            console.log("ERR: Laborer creep is null. Creep ID: " + laborer.name);
             return;
         }
         if (laborer.pickup === false &&
@@ -28,7 +28,7 @@ exports.laborerRole = {
                         }
                     }
                     else {
-                        console.log("Bank is null");
+                        console.log("ERR: Bank is null");
                     }
                 }
             }
@@ -52,19 +52,19 @@ exports.laborerRole = {
                     }
                 });
                 if (structureToAddTo != null) {
+                    givenCommand = true;
                     if (creep.transfer(structureToAddTo, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                         creep.moveTo(structureToAddTo);
-                        givenCommand = true;
                     }
                 }
             }
             //Building construction sites
             if (!givenCommand) {
                 const constructionSites = creep.room.find(FIND_CONSTRUCTION_SITES);
-                if (constructionSites.length) {
+                if (constructionSites.length > 0) {
+                    givenCommand = true;
                     if (creep.build(constructionSites[0]) === ERR_NOT_IN_RANGE) {
                         creep.moveTo(constructionSites[0]);
-                        givenCommand = true;
                     }
                 }
             }

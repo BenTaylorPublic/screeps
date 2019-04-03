@@ -39,7 +39,7 @@ function ensureTheCachesAreSetup(myRoom) {
             //No container cache
             const source = Game.getObjectById(mySource.id);
             if (source == null) {
-                console.log("Couldn't get a source with ID " + mySource.id);
+                console.log("ERR: Couldn't get a source with ID " + mySource.id);
                 continue;
             }
             const sourcePosX = source.pos.x;
@@ -62,7 +62,7 @@ function ensureTheCachesAreSetup(myRoom) {
             else if (tryPlaceSourceContainerCache(myRoom, mySource, terrain, sourcePosX + 1, sourcePosY - 1)) { //BR
             }
             else {
-                console.log("Couldn't find a viable spot to place a container");
+                console.log("ERR: Couldn't find a viable spot to place a container");
             }
         }
     }
@@ -72,7 +72,7 @@ function tryPlaceSourceContainerCache(myRoom, mySource, terrain, x, y) {
         const room = Game.rooms[myRoom.name];
         const constructionSites = room.lookForAt(LOOK_CONSTRUCTION_SITES, x, y);
         if (constructionSites.length === 1) {
-            console.log("Found source container cache construction site at " + x.toString() + ", " + y.toString());
+            console.log("LOG: Found source container cache construction site at " + x.toString() + ", " + y.toString());
             //Something is already there
             //That means that it was placed in a previous tick, and now we can get the construction site ID
             const myContainer = {
@@ -88,10 +88,10 @@ function tryPlaceSourceContainerCache(myRoom, mySource, terrain, x, y) {
         else {
             const result = room.createConstructionSite(x, y, STRUCTURE_CONTAINER);
             if (result !== OK) {
-                console.log("Placing source cache returned not OK");
+                console.log("ERR: Placing source cache returned not OK");
                 return false;
             }
-            console.log("Placed source container cache at " + x.toString() + ", " + y.toString());
+            console.log("LOG: Placed source container cache at " + x.toString() + ", " + y.toString());
             return true;
         }
     }

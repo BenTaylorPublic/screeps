@@ -15,7 +15,7 @@ exports.roomSpawningController = {
             const newCreep = spawnMinerAndWorker(myRoom.spawnName);
             if (newCreep != null) {
                 myRoom.myCreeps.push(newCreep);
-                console.log("spawned a new miner and worker");
+                console.log("LOG: Spawned a new MinerAndWorker");
             }
         }
         else {
@@ -36,19 +36,19 @@ function ensureMinersArePlaced(myRoom) {
             const newCreep = spawnMiner(myRoom, mySource);
             if (newCreep != null) {
                 myRoom.myCreeps.push(newCreep);
-                console.log("spawned a new miner");
+                console.log("LOG: Spawned a new Miner");
             }
         }
     }
 }
 function spawnLaborer(myRoom) {
     if (myRoom.spawnName == null) {
-        console.log("attempted to spawn miner in a room with no spawner (1)");
+        console.log("ERR: Attempted to spawn miner in a room with no spawner (1)");
         return null;
     }
     const spawn = Game.spawns[myRoom.spawnName];
     if (spawn == null) {
-        console.log("attempted to spawn miner in a room with no spawner (2)");
+        console.log("ERR: Attempted to spawn miner in a room with no spawner (2)");
         return null;
     }
     //Have a valid spawn now
@@ -83,16 +83,16 @@ function spawnLaborer(myRoom) {
 }
 function spawnMiner(myRoom, mySource) {
     if (myRoom.spawnName == null) {
-        console.log("attempted to spawn miner in a room with no spawner (1)");
+        console.log("ERR: Attempted to spawn miner in a room with no spawner (1)");
         return null;
     }
     const spawn = Game.spawns[myRoom.spawnName];
     if (spawn == null) {
-        console.log("attempted to spawn miner in a room with no spawner (2)");
+        console.log("ERR: Attempted to spawn miner in a room with no spawner (2)");
         return null;
     }
     if (mySource.cacheContainerId == null) {
-        console.log("attempted to spawn miner to a source with no cache container id");
+        console.log("ERR: Attempted to spawn miner to a source with no cache container id");
         return null;
     }
     //Have a valid spawn now
@@ -137,7 +137,7 @@ function ensureHaulersArePlaced(myRoom) {
                 if (newCreep != null) {
                     myRoom.myCreeps.push(newCreep);
                     myContainer.haulerNames.push(newCreep.name);
-                    console.log("spawned a new hauler");
+                    console.log("LOG: Spawned a new hauler");
                 }
             }
         }
@@ -145,12 +145,12 @@ function ensureHaulersArePlaced(myRoom) {
 }
 function spawnHauler(myRoom, myContainer) {
     if (myRoom.spawnName == null) {
-        console.log("attempted to spawn hauler in a room with no spawner (1)");
+        console.log("ERR: Attempted to spawn hauler in a room with no spawner (1)");
         return null;
     }
     const spawn = Game.spawns[myRoom.spawnName];
     if (spawn == null) {
-        console.log("attempted to spawn hauler in a room with no spawner (2)");
+        console.log("ERR: Attempted to spawn hauler in a room with no spawner (2)");
         return null;
     }
     //Have a valid spawn now
@@ -210,12 +210,12 @@ function ensureLaborersSpawnIfNeeded(myRoom) {
                         const newCreep = spawnLaborer(myRoom);
                         if (newCreep != null) {
                             myRoom.myCreeps.push(newCreep);
-                            console.log("spawned a new laborer");
+                            console.log("LOG: Spawned a new Laborer");
                         }
                     }
                 }
                 else {
-                    console.log("Bank is null");
+                    console.log("ERR: Bank is null");
                 }
             }
         }
