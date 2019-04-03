@@ -4,6 +4,11 @@ const room_controller_1 = require("room.controller");
 const memory_controller_1 = require("memory.controller");
 console.log("Script reloaded");
 setupMyMemory();
+const room = Memory.myMemory.myRooms[0];
+delete room.baseCenter;
+delete room.manuallyPlacedBase;
+delete room.myContainers;
+delete Memory.myMemory.prod;
 exports.loop = function () {
     memory_controller_1.memoryController.run();
     for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
@@ -14,7 +19,8 @@ function setupMyMemory() {
     if (Memory.myMemory == null) {
         Memory.myMemory = {
             globalId: 0,
-            myRooms: []
+            myRooms: [],
+            prod: false
         };
     }
 }
