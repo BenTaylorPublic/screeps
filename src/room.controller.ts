@@ -19,8 +19,11 @@ export const roomController: any = {
 
         const room: Room = Game.rooms[myRoom.name];
 
-        roomStageController.run(myRoom);
-        roomBuildingController.run(myRoom);
+        if (Game.time % 10 === 0) {
+            //Only run every 10 ticks
+            roomStageController.run(myRoom);
+            roomBuildingController.run(myRoom);
+        }
         roomSpawningController.run(myRoom);
 
         //Tower logic
