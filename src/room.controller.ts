@@ -5,7 +5,7 @@ import { haulerRole } from "hauler.role";
 import { roomStageController } from "room.stage.controller";
 import { laborerRole } from "laborer.role";
 import { roomBuildingController } from "room.building.controller";
-import { roomSpawningController } from "room.spawning.controller";
+import { roomSpawnController } from "room.spawn.controller";
 
 export const roomController: any = {
     run: function (myRoom: MyRoom) {
@@ -24,7 +24,7 @@ export const roomController: any = {
             roomStageController.run(myRoom);
             roomBuildingController.run(myRoom);
         }
-        roomSpawningController.run(myRoom);
+        roomSpawnController.run(myRoom);
 
         //Tower logic
         const towers: StructureTower[] = room.find<StructureTower>(FIND_STRUCTURES, { filter: { structureType: STRUCTURE_TOWER, my: true } });

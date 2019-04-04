@@ -1,4 +1,4 @@
-export const roomSpawningController: any = {
+export const roomSpawnController: any = {
     run: function (myRoom: MyRoom) {
 
         let minerAndWorkerCount: number = 0;
