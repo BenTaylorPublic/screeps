@@ -39,6 +39,7 @@ function ensureMinersArePlaced(myRoom: MyRoom): void {
             if (newCreep != null) {
                 myRoom.myCreeps.push(newCreep);
                 console.log("LOG: Spawned a new Miner");
+                return;
             }
         }
     }
@@ -163,6 +164,7 @@ function ensureHaulersArePlaced(myRoom: MyRoom): void {
                 myRoom.myCreeps.push(newCreep);
                 mySource.haulerNames.push(newCreep.name);
                 console.log("LOG: Spawned a new hauler");
+                return;
             }
         }
 
