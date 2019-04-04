@@ -238,11 +238,42 @@ function stage2_8Down(myRoom: MyRoom, room: Room): boolean {
 }
 
 function stage2_8Up(myRoom: MyRoom, room: Room): boolean {
-    //TODO: Check bank myRoomPos
-    //Ensure there's a bank container OR storage
-    myRoom.roomStage = 3;
-    console.log("LOG: Room " + myRoom.name + " increased to room stage 3 (TODO LOGIC)");
-    return true;
+    //Ensure there's a bank container OR storage, and its full
+    if (myRoom.bankPos == null) {
+        console.log("ERR: Room's bank pos was null");
+        return false;
+    }
+
+    const bankPos: RoomPosition
+        = new RoomPosition(myRoom.bankPos.x,
+            myRoom.bankPos.y,
+            myRoom.bankPos.roomName);
+
+    let bank: StructureContainer | StructureStorage | null = null;
+
+    const structures: Structure<StructureConstant>[] = bankPos.lookFor(LOOK_STRUCTURES);
+    for (let i = 0; i < structures.length; i++) {
+        const structure: Structure = structures[i];
+        if (structure.structureType === STRUCTURE_CONTAINER) {
+            bank = structure as StructureContainer;
+            break;
+        } else if (structure.structureType === STRUCTURE_STORAGE) {
+            bank = structure as StructureStorage;
+            break;
+        }
+    }
+
+    if (bank == null) {
+        console.log("ERR: Bank is null when checking if it's full");
+        return false;
+    }
+
+    if (bank.store[RESOURCE_ENERGY] === bank.storeCapacity) {
+        myRoom.roomStage = 3;
+        console.log("LOG: Room " + myRoom.name + " increased to room stage 3");
+        return true;
+    }
+    return false;
 }
 
 function stage3Down(myRoom: MyRoom, room: Room): boolean {

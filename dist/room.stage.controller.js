@@ -218,11 +218,35 @@ function stage2_8Down(myRoom, room) {
     return false;
 }
 function stage2_8Up(myRoom, room) {
-    //TODO: Check bank myRoomPos
-    //Ensure there's a bank container OR storage
-    myRoom.roomStage = 3;
-    console.log("LOG: Room " + myRoom.name + " increased to room stage 3 (TODO LOGIC)");
-    return true;
+    //Ensure there's a bank container OR storage, and its full
+    if (myRoom.bankPos == null) {
+        console.log("ERR: Room's bank pos was null");
+        return false;
+    }
+    const bankPos = new RoomPosition(myRoom.bankPos.x, myRoom.bankPos.y, myRoom.bankPos.roomName);
+    let bank = null;
+    const structures = bankPos.lookFor(LOOK_STRUCTURES);
+    for (let i = 0; i < structures.length; i++) {
+        const structure = structures[i];
+        if (structure.structureType === STRUCTURE_CONTAINER) {
+            bank = structure;
+            break;
+        }
+        else if (structure.structureType === STRUCTURE_STORAGE) {
+            bank = structure;
+            break;
+        }
+    }
+    if (bank == null) {
+        console.log("ERR: Bank is null when checking if it's full");
+        return false;
+    }
+    if (bank.store[RESOURCE_ENERGY] === bank.storeCapacity) {
+        myRoom.roomStage = 3;
+        console.log("LOG: Room " + myRoom.name + " increased to room stage 3");
+        return true;
+    }
+    return false;
 }
 function stage3Down(myRoom, room) {
     //Impossible to downgrade from this

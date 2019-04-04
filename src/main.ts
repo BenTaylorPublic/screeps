@@ -4,13 +4,6 @@ import { memoryController } from "memory.controller";
 console.log("Script reloaded");
 setupMyMemory();
 
-const room: MyRoom = Memory.myMemory.myRooms[0];
-for (let i = 0; i < room.mySources.length; i++) {
-    const mySource = room.mySources[i];
-    mySource.minerName = null;
-}
-room.roomStage = 2.6;
-
 export const loop: any = function () {
     memoryController.run();
 
