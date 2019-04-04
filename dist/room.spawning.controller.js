@@ -91,8 +91,8 @@ function spawnMiner(myRoom, mySource) {
         console.log("ERR: Attempted to spawn miner in a room with no spawner (2)");
         return null;
     }
-    if (mySource.cacheContainerId == null) {
-        console.log("ERR: Attempted to spawn miner to a source with no cache container id");
+    if (mySource.cachePos == null) {
+        console.log("ERR: Attempted to spawn miner to a source with no cache container poss");
         return null;
     }
     //Have a valid spawn now
@@ -101,9 +101,7 @@ function spawnMiner(myRoom, mySource) {
         memory: {
             name: "Creep" + id,
             role: "Miner",
-            assignedRoomName: spawn.room.name,
-            cacheContainerIdToPutIn: mySource.cacheContainerId,
-            sourceId: mySource.id
+            assignedRoomName: spawn.room.name
         }
     });
     if (result === OK) {
@@ -112,7 +110,7 @@ function spawnMiner(myRoom, mySource) {
             name: "Creep" + id,
             role: "Miner",
             assignedRoomName: spawn.room.name,
-            cacheContainerIdToPutIn: mySource.cacheContainerId,
+            cachePosToMineOn: mySource.cachePos,
             sourceId: mySource.id
         };
     }
@@ -127,23 +125,20 @@ function ensureHaulersArePlaced(myRoom) {
     if (myRoom.roomStage < 2.6) {
         return;
     }
-    for (let i = 0; i < myRoom.myContainers.length; i++) {
-        const myContainer = myRoom.myContainers[i];
-        if (myContainer.role === "SourceCache") {
-            if (myContainer.haulerNames != null &&
-                myContainer.haulerNames.length === 0) {
-                //Spawn a new hauler
-                const newCreep = spawnHauler(myRoom, myContainer);
-                if (newCreep != null) {
-                    myRoom.myCreeps.push(newCreep);
-                    myContainer.haulerNames.push(newCreep.name);
-                    console.log("LOG: Spawned a new hauler");
-                }
+    for (let i = 0; i < myRoom.mySources.length; i++) {
+        const mySource = myRoom.mySources[i];
+        if (mySource.haulerNames.length < 2) {
+            //Spawn a new hauler
+            const newCreep = spawnHauler(myRoom, mySource);
+            if (newCreep != null) {
+                myRoom.myCreeps.push(newCreep);
+                mySource.haulerNames.push(newCreep.name);
+                console.log("LOG: Spawned a new hauler");
             }
         }
     }
 }
-function spawnHauler(myRoom, myContainer) {
+function spawnHauler(myRoom, mySource) {
     if (myRoom.spawnName == null) {
         console.log("ERR: Attempted to spawn hauler in a room with no spawner (1)");
         return null;
@@ -151,6 +146,10 @@ function spawnHauler(myRoom, myContainer) {
     const spawn = Game.spawns[myRoom.spawnName];
     if (spawn == null) {
         console.log("ERR: Attempted to spawn hauler in a room with no spawner (2)");
+        return null;
+    }
+    if (mySource.cachePos == null) {
+        console.log("ERR: Attempted to spawn hauler for a source with no cache pos");
         return null;
     }
     //Have a valid spawn now
@@ -182,9 +181,7 @@ function spawnHauler(myRoom, myContainer) {
         memory: {
             name: "Creep" + id,
             role: "Hauler",
-            assignedRoomName: spawn.room.name,
-            cacheContainerIdToGrabFrom: myContainer.id,
-            pickup: true
+            assignedRoomName: spawn.room.name
         }
     });
     if (result === OK) {
@@ -192,7 +189,7 @@ function spawnHauler(myRoom, myContainer) {
             name: "Creep" + id,
             role: "Hauler",
             assignedRoomName: spawn.room.name,
-            cacheContainerIdToGrabFrom: myContainer.id,
+            cachePosToPickupFrom: mySource.cachePos,
             pickup: true
         };
     }
@@ -200,23 +197,34 @@ function spawnHauler(myRoom, myContainer) {
 }
 function ensureLaborersSpawnIfNeeded(myRoom) {
     if (myRoom.roomStage >= 3) {
-        for (let i = 0; i < myRoom.myContainers.length; i++) {
-            const myContainer = myRoom.myContainers[i];
-            if (myContainer.role === "Bank") {
-                const bankContainer = Game.getObjectById(myContainer.id);
-                if (bankContainer != null) {
-                    if (bankContainer.store[RESOURCE_ENERGY] === bankContainer.storeCapacity) {
-                        //If the bank is capped, spawn another laborer
-                        const newCreep = spawnLaborer(myRoom);
-                        if (newCreep != null) {
-                            myRoom.myCreeps.push(newCreep);
-                            console.log("LOG: Spawned a new Laborer");
-                        }
-                    }
-                }
-                else {
-                    console.log("ERR: Bank is null");
-                }
+        if (myRoom.bankPos == null) {
+            console.log("ERR: Room's bank pos was null");
+            return;
+        }
+        const bankPos = new RoomPosition(myRoom.bankPos.x, myRoom.bankPos.y, myRoom.bankPos.roomName);
+        let bank = null;
+        const structures = bankPos.lookFor(LOOK_STRUCTURES);
+        for (let i = 0; i < structures.length; i++) {
+            const structure = structures[i];
+            if (structure.structureType === STRUCTURE_CONTAINER) {
+                bank = structure;
+                break;
+            }
+            else if (structure.structureType === STRUCTURE_STORAGE) {
+                bank = structure;
+                break;
+            }
+        }
+        if (bank == null) {
+            console.log("ERR: Bank is null when checking if it's full");
+            return;
+        }
+        if (bank.store[RESOURCE_ENERGY] === bank.storeCapacity) {
+            //If the bank is capped, spawn another laborer
+            const newCreep = spawnLaborer(myRoom);
+            if (newCreep != null) {
+                myRoom.myCreeps.push(newCreep);
+                console.log("LOG: Spawned a new Laborer");
             }
         }
     }

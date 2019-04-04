@@ -31,12 +31,6 @@ interface MyRoomPos {
     roomName: string;
 }
 
-//     id: string;
-//     role: string;
-//     assignedSourceId: string | null; //For caches
-//     haulerNames: string[] | null; //For caches
-// }
-
 /*
 ====================
     CREEPS:

@@ -23,17 +23,8 @@ function ensureTheCachesAreSetup(myRoom) {
     for (let i = 0; i < myRoom.mySources.length; i++) {
         const mySource = myRoom.mySources[i];
         let makeNewCache = false;
-        if (mySource.cacheContainerId == null) {
+        if (mySource.cachePos == null) {
             makeNewCache = true;
-        }
-        else if (Game.getObjectById(mySource.cacheContainerId) == null) {
-            makeNewCache = true;
-            for (let j = myRoom.myContainers.length - 1; j >= 0; j--) {
-                const myContainer = myRoom.myContainers[i];
-                if (myContainer.id === mySource.cacheContainerId) {
-                    myRoom.myContainers.splice(j, 1);
-                }
-            }
         }
         if (makeNewCache) {
             //No container cache
@@ -70,52 +61,20 @@ function ensureTheCachesAreSetup(myRoom) {
 function tryPlaceSourceContainerCache(myRoom, mySource, terrain, x, y) {
     if (isConstructable(terrain, myRoom.name, x, y)) {
         const room = Game.rooms[myRoom.name];
-        const constructionSites = room.lookForAt(LOOK_CONSTRUCTION_SITES, x, y);
-        if (constructionSites.length === 1) {
-            console.log("LOG: Found source container cache construction site at " + x.toString() + ", " + y.toString());
-            //Something is already there
-            //That means that it was placed in a previous tick, and now we can get the construction site ID
-            const myContainer = {
-                id: constructionSites[0].id,
-                role: "SourceCache",
-                assignedSourceId: mySource.id,
-                haulerNames: []
-            };
-            mySource.cacheContainerId = myContainer.id;
-            myRoom.myContainers.push(myContainer);
-            return true;
+        const result = room.createConstructionSite(x, y, STRUCTURE_CONTAINER);
+        if (result !== OK) {
+            console.log("ERR: Placing source cache returned not OK");
+            return false;
         }
-        else {
-            const result = room.createConstructionSite(x, y, STRUCTURE_CONTAINER);
-            if (result !== OK) {
-                console.log("ERR: Placing source cache returned not OK");
-                return false;
-            }
-            console.log("LOG: Placed source container cache at " + x.toString() + ", " + y.toString());
-            return true;
-        }
+        console.log("LOG: Placed source container cache at " + x.toString() + ", " + y.toString());
+        mySource.cachePos = {
+            roomName: myRoom.name,
+            x: x,
+            y: y
+        };
+        return true;
     }
-    else {
-        let foundExistingCache = false;
-        const roomPos = new RoomPosition(x, y, myRoom.name);
-        const structures = roomPos.lookFor(LOOK_STRUCTURES);
-        for (let i = 0; i < structures.length; i++) {
-            const structure = structures[i];
-            if (structure.structureType === STRUCTURE_CONTAINER) {
-                foundExistingCache = true;
-                mySource.cacheContainerId = structure.id;
-                const myContainer = {
-                    id: structure.id,
-                    role: "SourceCache",
-                    assignedSourceId: mySource.id,
-                    haulerNames: []
-                };
-                myRoom.myContainers.push(myContainer);
-                return true;
-            }
-        }
-        return false;
-    }
+    return false;
 }
 function isConstructable(terrain, roomName, x, y) {
     if (x < 0 || x > 49 || y < 0 || y > 49) {

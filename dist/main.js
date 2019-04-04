@@ -4,7 +4,11 @@ const room_controller_1 = require("room.controller");
 const memory_controller_1 = require("memory.controller");
 console.log("Script reloaded");
 setupMyMemory();
-// const room: MyRoom = Memory.myMemory.myRooms[0];
+const room = Memory.myMemory.myRooms[0];
+for (let i = 0; i < room.mySources.length; i++) {
+    const element = room.mySources[i];
+    element.haulerNames = [];
+}
 exports.loop = function () {
     memory_controller_1.memoryController.run();
     for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
@@ -15,8 +19,7 @@ function setupMyMemory() {
     if (Memory.myMemory == null) {
         Memory.myMemory = {
             globalId: 0,
-            myRooms: [],
-            prod: false
+            myRooms: []
         };
     }
 }

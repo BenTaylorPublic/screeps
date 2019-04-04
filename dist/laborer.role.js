@@ -18,19 +18,33 @@ exports.laborerRole = {
             creep.say("working");
         }
         if (laborer.pickup === true) {
-            for (let i = 0; i < myRoom.myContainers.length; i++) {
-                const myContainer = myRoom.myContainers[i];
-                if (myContainer.role === "Bank") {
-                    const bankContainer = Game.getObjectById(myContainer.id);
-                    if (bankContainer != null) {
-                        if (creep.withdraw(bankContainer, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                            creep.moveTo(bankContainer);
-                        }
+            if (myRoom.bankPos == null) {
+                console.log("ERR: Room's bank pos was null");
+                return;
+            }
+            const bankPos = new RoomPosition(myRoom.bankPos.x, myRoom.bankPos.y, myRoom.bankPos.roomName);
+            if (bankPos.isNearTo(creep)) {
+                let bank = null;
+                const structures = bankPos.lookFor(LOOK_STRUCTURES);
+                for (let i = 0; i < structures.length; i++) {
+                    const structure = structures[i];
+                    if (structure.structureType === STRUCTURE_CONTAINER) {
+                        bank = structure;
+                        break;
                     }
-                    else {
-                        console.log("ERR: Bank is null");
+                    else if (structure.structureType === STRUCTURE_STORAGE) {
+                        bank = structure;
+                        break;
                     }
                 }
+                if (bank == null) {
+                    console.log("ERR: Bank is null for laborer: " + laborer.name);
+                    return;
+                }
+                creep.withdraw(bank, RESOURCE_ENERGY);
+            }
+            else {
+                creep.moveTo(bankPos);
             }
         }
         else {

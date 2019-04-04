@@ -50,7 +50,12 @@ function ensureAllRoomsInMyMemory(): void {
             const sources: Source[] = room.find(FIND_SOURCES);
             for (let i = 0; i < sources.length; i++) {
                 const source: Source = sources[i];
-                newMyRoom.mySources.push({ id: source.id, minerName: null, haulerNames: [] });
+                newMyRoom.mySources.push({
+                    id: source.id,
+                    minerName: null,
+                    haulerNames: [],
+                    cachePos: null
+                });
             }
             //Check the spawn
             const spawns: StructureSpawn[] = room.find<StructureSpawn>(FIND_MY_STRUCTURES,

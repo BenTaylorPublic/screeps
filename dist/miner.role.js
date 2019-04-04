@@ -2,21 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.minerRole = {
     run: function (miner) {
-        if (miner.cacheContainerIdToPutIn == null) {
-            console.log("ERR: Miner hasn't been given a cache container id. Creep ID: " + miner.name);
-            return;
-        }
-        const cache = Game.getObjectById(miner.cacheContainerIdToPutIn);
-        if (cache == null) {
-            console.log("ERR: Miner has been given a cache which is null. Creep ID: " + miner.name);
-            return;
-        }
         const creep = Game.creeps[miner.name];
         if (creep == null) {
             console.log("ERR: Miner creep is null. Creep ID: " + miner.name);
             return;
         }
-        if (cache.pos.isEqualTo(creep.pos)) {
+        const cachePos = new RoomPosition(miner.cachePosToMineOn.x, miner.cachePosToMineOn.y, miner.cachePosToMineOn.roomName);
+        if (cachePos.isEqualTo(creep.pos)) {
             //In location
             const source = Game.getObjectById(miner.sourceId);
             if (source == null) {
@@ -27,7 +19,7 @@ exports.minerRole = {
         }
         else {
             //Move to cache
-            creep.moveTo(cache);
+            creep.moveTo(cachePos);
         }
     }
 };

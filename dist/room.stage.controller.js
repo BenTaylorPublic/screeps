@@ -218,25 +218,11 @@ function stage2_8Down(myRoom, room) {
     return false;
 }
 function stage2_8Up(myRoom, room) {
-    let myBankContainer = null;
-    for (let i = 0; i < myRoom.myContainers.length; i++) {
-        const myContainer = myRoom.myContainers[i];
-        if (myContainer.role === "Bank") {
-            myBankContainer = myContainer;
-        }
-    }
-    if (myBankContainer != null) {
-        const bankContainer = Game.getObjectById(myBankContainer.id);
-        if (bankContainer != null) {
-            if (bankContainer.store[RESOURCE_ENERGY] === bankContainer.storeCapacity) {
-                //Bank is full
-                myRoom.roomStage = 3;
-                console.log("LOG: Room " + myRoom.name + " increased to room stage 3");
-                return true;
-            }
-        }
-    }
-    return false;
+    //TODO: Check bank myRoomPos
+    //Ensure there's a bank container OR storage
+    myRoom.roomStage = 3;
+    console.log("LOG: Room " + myRoom.name + " increased to room stage 3 (TODO LOGIC)");
+    return true;
 }
 function stage3Down(myRoom, room) {
     //Impossible to downgrade from this
