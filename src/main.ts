@@ -4,6 +4,15 @@ import { memoryController } from "memory.controller";
 console.log("Script reloaded");
 setupMyMemory();
 
+const room: MyRoom = Memory.myMemory.myRooms[0];
+for (let i = 0; i < room.mySources.length; i++) {
+    const source: MySource = room.mySources[i];
+    if (source.cachePos != null &&
+        source.cachePos.x === 19) {
+        source.cachePos.x = 10;
+    }
+}
+
 export const loop: any = function () {
     memoryController.run();
 
