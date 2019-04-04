@@ -31,17 +31,8 @@ function ensureTheCachesAreSetup(myRoom: MyRoom) {
         const mySource: MySource = myRoom.mySources[i];
         let makeNewCache: boolean = false;
 
-
-        if (mySource.cacheContainerId == null) {
+        if (mySource.cachePos == null) {
             makeNewCache = true;
-        } else if (Game.getObjectById(mySource.cacheContainerId) == null) {
-            makeNewCache = true;
-            for (let j = myRoom.myContainers.length - 1; j >= 0; j--) {
-                const myContainer: MyContainer = myRoom.myContainers[i];
-                if (myContainer.id === mySource.cacheContainerId) {
-                    myRoom.myContainers.splice(j, 1);
-                }
-            }
         }
 
         if (makeNewCache) {
@@ -73,53 +64,24 @@ function ensureTheCachesAreSetup(myRoom: MyRoom) {
 
 function tryPlaceSourceContainerCache(myRoom: MyRoom, mySource: MySource, terrain: RoomTerrain, x: number, y: number): boolean {
     if (isConstructable(terrain, myRoom.name, x, y)) {
-
         const room: Room = Game.rooms[myRoom.name];
+        const result: ScreepsReturnCode = room.createConstructionSite(x, y, STRUCTURE_CONTAINER);
+        if (result !== OK) {
+            console.log("ERR: Placing source cache returned not OK");
+            return false;
+        }
+        console.log("LOG: Placed source container cache at " + x.toString() + ", " + y.toString());
 
-        const constructionSites: ConstructionSite<BuildableStructureConstant>[] = room.lookForAt(LOOK_CONSTRUCTION_SITES, x, y);
-        if (constructionSites.length === 1) {
-            console.log("LOG: Found source container cache construction site at " + x.toString() + ", " + y.toString());
-            //Something is already there
-            //That means that it was placed in a previous tick, and now we can get the construction site ID
-            const myContainer: MyContainer = {
-                id: constructionSites[0].id,
-                role: "SourceCache",
-                assignedSourceId: mySource.id,
-                haulerNames: []
-            };
-            mySource.cacheContainerId = myContainer.id;
-            myRoom.myContainers.push(myContainer);
-            return true;
-        } else {
-            const result: ScreepsReturnCode = room.createConstructionSite(x, y, STRUCTURE_CONTAINER);
-            if (result !== OK) {
-                console.log("ERR: Placing source cache returned not OK");
-                return false;
-            }
-            console.log("LOG: Placed source container cache at " + x.toString() + ", " + y.toString());
-            return true;
-        }
-    } else {
-        let foundExistingCache: boolean = false;
-        const roomPos: RoomPosition = new RoomPosition(x, y, myRoom.name);
-        const structures: Structure<StructureConstant>[] = roomPos.lookFor(LOOK_STRUCTURES);
-        for (let i = 0; i < structures.length; i++) {
-            const structure: Structure<StructureConstant> = structures[i];
-            if (structure.structureType === STRUCTURE_CONTAINER) {
-                foundExistingCache = true;
-                mySource.cacheContainerId = structure.id;
-                const myContainer: MyContainer = {
-                    id: structure.id,
-                    role: "SourceCache",
-                    assignedSourceId: mySource.id,
-                    haulerNames: []
-                };
-                myRoom.myContainers.push(myContainer);
-                return true;
-            }
-        }
-        return false;
+        mySource.cachePos = {
+            roomName: myRoom.name,
+            x: x,
+            y: y
+        };
+
+        return true;
+
     }
+    return false;
 
 }
 

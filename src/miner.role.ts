@@ -1,22 +1,16 @@
 export const minerRole: any = {
     run: function (miner: Miner) {
-        if (miner.cacheContainerIdToPutIn == null) {
-            console.log("ERR: Miner hasn't been given a cache container id. Creep ID: " + miner.name);
-            return;
-        }
-        const cache: StructureContainer | null = Game.getObjectById<StructureContainer>(miner.cacheContainerIdToPutIn);
-        if (cache == null) {
-            console.log("ERR: Miner has been given a cache which is null. Creep ID: " + miner.name);
-            return;
-        }
-
         const creep: Creep = Game.creeps[miner.name];
         if (creep == null) {
             console.log("ERR: Miner creep is null. Creep ID: " + miner.name);
             return;
         }
+        const cachePos: RoomPosition
+            = new RoomPosition(miner.cachePosToMineOn.x,
+                miner.cachePosToMineOn.y,
+                miner.cachePosToMineOn.roomName);
 
-        if (cache.pos.isEqualTo(creep.pos)) {
+        if (cachePos.isEqualTo(creep.pos)) {
             //In location
             const source: Source | null = Game.getObjectById<Source>(miner.sourceId);
             if (source == null) {
@@ -27,7 +21,7 @@ export const minerRole: any = {
             creep.harvest(source);
         } else {
             //Move to cache
-            creep.moveTo(cache);
+            creep.moveTo(cachePos);
         }
 
     }

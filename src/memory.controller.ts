@@ -44,29 +44,14 @@ function ensureAllRoomsInMyMemory(): void {
                 myCreeps: [],
                 spawnName: null,
                 mySources: [],
-                myContainers: [],
                 roomStage: 0,
-                manuallyPlacedBase: false,
-                baseCenter: null
+                bankPos: null
             };
             const sources: Source[] = room.find(FIND_SOURCES);
             for (let i = 0; i < sources.length; i++) {
                 const source: Source = sources[i];
-                newMyRoom.mySources.push({ id: source.id, cacheContainerId: null, minerName: null });
+                newMyRoom.mySources.push({ id: source.id, minerName: null, haulerNames: [] });
             }
-
-            //Initially add all existing creeps
-            for (const creepName in Game.creeps) {
-                const creep: Creep = Game.creeps[creepName];
-                creep.memory.assignedRoomName = roomName;
-                if (creep.memory.mining == null) {
-                    creep.memory.mining = true;
-                }
-                newMyRoom.myCreeps.push(
-                    creep.memory
-                );
-            }
-
             //Check the spawn
             const spawns: StructureSpawn[] = room.find<StructureSpawn>(FIND_MY_STRUCTURES,
                 {
@@ -116,14 +101,10 @@ function handleCreepDying(myRoom: MyRoom, myCreep: MyCreep): void {
         console.log("LOG: A Miner has died");
     } else if (myCreep.role === "Hauler") {
         for (let i = 0; i < myRoom.mySources.length; i++) {
-            const myContainer: MyContainer = myRoom.myContainers[i];
-            if (myContainer.role === "SourceCache" &&
-                myContainer.haulerNames != null) { //source cache
-                for (let j = myContainer.haulerNames.length - 1; j >= 0; j--) {
-                    if (myContainer.haulerNames[j] === myCreep.name) {
-                        myContainer.haulerNames.splice(j, 1);
-                    }
-
+            const mySource: MySource = myRoom.mySources[i];
+            for (let j = mySource.haulerNames.length - 1; j >= 0; j--) {
+                if (mySource.haulerNames[j] === myCreep.name) {
+                    mySource.haulerNames.splice(j, 1);
                 }
             }
         }

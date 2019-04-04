@@ -16,19 +16,38 @@ export const laborerRole: any = {
         }
 
         if (laborer.pickup === true) {
-            for (let i = 0; i < myRoom.myContainers.length; i++) {
-                const myContainer: MyContainer = myRoom.myContainers[i];
-                if (myContainer.role === "Bank") {
-                    const bankContainer: StructureContainer | null =
-                        Game.getObjectById<StructureContainer>(myContainer.id);
-                    if (bankContainer != null) {
-                        if (creep.withdraw(bankContainer, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                            creep.moveTo(bankContainer);
-                        }
-                    } else {
-                        console.log("ERR: Bank is null");
+
+            if (myRoom.bankPos == null) {
+                console.log("ERR: Room's bank pos was null");
+                return;
+            }
+
+            const bankPos: RoomPosition
+                = new RoomPosition(myRoom.bankPos.x,
+                    myRoom.bankPos.y,
+                    myRoom.bankPos.roomName);
+            if (bankPos.isNearTo(creep)) {
+                let bank: StructureContainer | StructureStorage | null = null;
+
+                const structures: Structure<StructureConstant>[] = bankPos.lookFor(LOOK_STRUCTURES);
+                for (let i = 0; i < structures.length; i++) {
+                    const structure: Structure = structures[i];
+                    if (structure.structureType === STRUCTURE_CONTAINER) {
+                        bank = structure as StructureContainer;
+                        break;
+                    } else if (structure.structureType === STRUCTURE_STORAGE) {
+                        bank = structure as StructureStorage;
+                        break;
                     }
                 }
+
+                if (bank == null) {
+                    console.log("ERR: Bank is null for laborer: " + laborer.name);
+                    return;
+                }
+                creep.withdraw(bank, RESOURCE_ENERGY);
+            } else {
+                creep.moveTo(bankPos);
             }
         } else {
 
