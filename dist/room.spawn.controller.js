@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.roomSpawningController = {
+exports.roomSpawnController = {
     run: function (myRoom) {
         let minerAndWorkerCount = 0;
         for (let i = 0; i < myRoom.myCreeps.length; i++) {
@@ -37,6 +37,7 @@ function ensureMinersArePlaced(myRoom) {
             if (newCreep != null) {
                 myRoom.myCreeps.push(newCreep);
                 console.log("LOG: Spawned a new Miner");
+                return;
             }
         }
     }
@@ -127,13 +128,14 @@ function ensureHaulersArePlaced(myRoom) {
     }
     for (let i = 0; i < myRoom.mySources.length; i++) {
         const mySource = myRoom.mySources[i];
-        if (mySource.haulerNames.length < 2) {
+        if (mySource.haulerNames.length === 0) {
             //Spawn a new hauler
             const newCreep = spawnHauler(myRoom, mySource);
             if (newCreep != null) {
                 myRoom.myCreeps.push(newCreep);
                 mySource.haulerNames.push(newCreep.name);
                 console.log("LOG: Spawned a new hauler");
+                return;
             }
         }
     }

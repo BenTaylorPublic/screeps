@@ -7,7 +7,7 @@ const hauler_role_1 = require("hauler.role");
 const room_stage_controller_1 = require("room.stage.controller");
 const laborer_role_1 = require("laborer.role");
 const room_building_controller_1 = require("room.building.controller");
-const room_spawning_controller_1 = require("room.spawning.controller");
+const room_spawn_controller_1 = require("room.spawn.controller");
 exports.roomController = {
     run: function (myRoom) {
         if (Game.rooms[myRoom.name] == null) {
@@ -22,7 +22,7 @@ exports.roomController = {
             room_stage_controller_1.roomStageController.run(myRoom);
             room_building_controller_1.roomBuildingController.run(myRoom);
         }
-        room_spawning_controller_1.roomSpawningController.run(myRoom);
+        room_spawn_controller_1.roomSpawnController.run(myRoom);
         //Tower logic
         const towers = room.find(FIND_STRUCTURES, { filter: { structureType: STRUCTURE_TOWER, my: true } });
         for (let i = 0; i < towers.length; i++) {

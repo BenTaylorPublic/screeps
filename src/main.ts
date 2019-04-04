@@ -5,15 +5,7 @@ console.log("Script reloaded");
 setupMyMemory();
 
 const room: MyRoom = Memory.myMemory.myRooms[0];
-for (let i = 0; i < room.myCreeps.length; i++) {
-    const myCreep: MyCreep = room.myCreeps[i];
-    if (myCreep.role === "Miner") {
-        const miner: Miner = myCreep as Miner;
-        if (miner.cachePosToMineOn.x === 19) {
-            miner.cachePosToMineOn.x = 10;
-        }
-    }
-}
+room.roomStage = 2.6;
 
 export const loop: any = function () {
     memoryController.run();

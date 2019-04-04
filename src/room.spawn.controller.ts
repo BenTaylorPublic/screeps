@@ -157,7 +157,7 @@ function ensureHaulersArePlaced(myRoom: MyRoom): void {
 
     for (let i = 0; i < myRoom.mySources.length; i++) {
         const mySource: MySource = myRoom.mySources[i];
-        if (mySource.haulerNames.length < 2) {
+        if (mySource.haulerNames.length === 0) {
             //Spawn a new hauler
             const newCreep: Hauler | null = spawnHauler(myRoom, mySource);
             if (newCreep != null) {
