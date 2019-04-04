@@ -15,15 +15,15 @@ memory.controller
 room.creepSpawning.controller
 
 RCL LEVELS:
-Lvl Req         Buildings
-1	200	        Roads, 5 Containers, 1 Spawn
-2	45,000	    Roads, 5 Containers, 1 Spawn, 5 Extensions (50 capacity), Ramparts (300K max hits), Walls
-3	135,000	    Roads, 5 Containers, 1 Spawn, 10 Extensions (50 capacity), Ramparts (1M max hits), Walls, 1 Tower
-4	405,000	    Roads, 5 Containers, 1 Spawn, 20 Extensions (50 capacity), Ramparts (3M max hits), Walls, 1 Tower, Storage
-5	1,215,000	Roads, 5 Containers, 1 Spawn, 30 Extensions (50 capacity), Ramparts (10M max hits), Walls, 2 Towers, Storage, 2 Links
-6	3,645,000	Roads, 5 Containers, 1 Spawn, 40 Extensions (50 capacity), Ramparts (30M max hits), Walls, 2 Towers, Storage, 3 Links, Extractor, 3 Labs, Terminal
-7	10,935,000	Roads, 5 Containers, 2 Spawns, 50 Extensions (100 capacity), Ramparts (100M max hits), Walls, 3 Towers, Storage, 4 Links, Extractor, 6 Labs, Terminal
-8	-	        Roads, 5 Containers, 3 Spawns, 60 Extensions (200 capacity), Ramparts (300M max hits), Walls, 6 Towers, Storage, 6 Links, Extractor, 10 Labs, Terminal, Observer, Power Spawn
+Lvl Req         Other                   Towers  Links   Spawns  Extensions  Ramparts Labs
+1	200	        Roads, 5 Containers                     1
+2	45,000	    Walls                                           5 50 cap    300K
+3	135,000	                            1                       10 50 cap   1M
+4	405,000	    Storage                                         20 50 cap   3M
+5	1,215,000	                        2       2               30 50 cap   10M
+6	3,645,000	Extractor, Terminal             3               40 50 cap   30M     3
+7	10,935,000	                        3       4       2       50 100 cap  100M    6
+8	-	        Observer, Power Spawn   6       6       3       60 200 cap  300M    10
 
 WORK 100
 MOVE 50
