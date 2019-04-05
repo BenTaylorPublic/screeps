@@ -1,18 +1,6 @@
-If the room setup is deterministic, logic after attack should be the same as logic as building
-myContainers should be removed.
-It should be an x y of the location of source caches, assigned to a MySource
-Haulers should be assigned to sources too
-myBankContainerPos should be a RoomPosition
-Miners and haulers should not use IDs of containers, just RoomPosition
-This will mean the only things that use IDs are Sources (not changing based on construction or destruction)
-
-Remove automated base placing
-
-I really need to split up controller.logic1.ts
-In fact controller.logic should be nothing but calling other modules
-main:
-memory.controller
-room.creepSpawning.controller
+Work on room.spawn.X.ts
+They need to provide information as to whether they are needed
+Then the room.spawn.controller.ts can decide what to spawn based on room stage
 
 RCL LEVELS:
 Lvl Req         Other                   Towers  Links   Spawns  Extensions  Ramparts Labs
