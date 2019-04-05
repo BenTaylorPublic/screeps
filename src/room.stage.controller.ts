@@ -9,21 +9,29 @@ export const roomStageController: any = {
             -1  ->  0   : Get a room controller that's mine
             -1  <-  0   : Have no room controller that's mine
 
-            0   ->  0.5 : RCL is level 1
-            0   <-  0.5 : RCL is level 0
+            0   ->  0.5 : RCL is level >= 1
+            0   <-  0.5 : RCL is level < 1
 
-            0.5 ->  1   : Room has >=1 spawn
-            0.5 <-  1   : Room has 0 spawns
+            0.5 ->  1   : Room has >= 1 spawn
+            0.5 <-  1   : Room has < 1 spawns
 
-            1   ->  2   : RCL is level 2
-            1   <-  2   : RCL is level <= 1
+            1   ->  2   : RCL is level >= 2
+            1   <-  2   : RCL is level < 2
 
-            2.2 = rcl 3, start building tower
-            2.4 = tower built, start building containers
-            2.6 = caches and bank built, start creating miners and haulers
-            2.8 = miners and haulers all assigned
-            3   = bank hit cap, spawn builders
-            TODO: Define more stages
+            2   ->  2.2 : RCL is level >= 3
+            2   <-  2.2 : RCL is level < 3
+
+            2.2 ->  2.4 : Room has >= 1 tower
+            2.2 <-  2.4 : Room has < 1 tower
+
+            2.4 ->  2.6 : Room has caches and a bank (container OR storage)
+            2.4 <-  2.6 : Not every source has a cache, or bank is missing
+
+            2.6 ->  2.8 : For atleast 1 source, have a miner and >= 1 hauler (2.8 means not 6 MinerAndWorkers)
+            2.6 <-  2.8 : No sources have a miner and >= 1 hauler
+
+            2.8 ->  3   : Bank is full, OR >= 1 laborer already exists
+            2.8 <-  3   : No laborers
          */
 
         if (room.controller == null ||
