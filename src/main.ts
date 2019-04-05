@@ -5,7 +5,10 @@ console.log("Script reloaded");
 setupMyMemory();
 
 const room: MyRoom = Memory.myMemory.myRooms[0];
-spawnLaborer(room);
+const creep = spawnLaborer(room);
+if (creep != null) {
+    room.myCreeps.push(creep);
+}
 
 export const loop: any = function () {
     memoryController.run();
