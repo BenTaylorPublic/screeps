@@ -151,27 +151,14 @@ function spawnHauler(myRoom, mySource) {
         return null;
     }
     //Have a valid spawn now
-    let body = [MOVE];
-    let addCarry = true;
+    let body = [MOVE, CARRY];
     let breakLoop = false;
     while (!breakLoop) {
-        if (addCarry) {
-            addCarry = false;
-            if (global_1.global.calcBodyCost(body) + global_1.global.calcBodyCost([CARRY]) < spawn.room.energyAvailable) {
-                body = body.concat([CARRY]);
-            }
-            else {
-                breakLoop = true;
-            }
+        if (global_1.global.calcBodyCost(body) + global_1.global.calcBodyCost([MOVE, CARRY]) < spawn.room.energyAvailable) {
+            body = body.concat([MOVE, CARRY]);
         }
         else {
-            addCarry = true;
-            if (global_1.global.calcBodyCost(body) + global_1.global.calcBodyCost([MOVE]) < spawn.room.energyAvailable) {
-                body = body.concat([MOVE]);
-            }
-            else {
-                breakLoop = true;
-            }
+            breakLoop = true;
         }
     }
     const id = global_1.global.getId();
