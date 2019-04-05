@@ -7,7 +7,7 @@ setupMyMemory();
 const room: MyRoom = Memory.myMemory.myRooms[0];
 const creep = spawnLaborer(room);
 if (creep != null) {
-    room.myCreeps.push(creep);
+    room.myCreeps.push(creep);//work lol
 }
 
 export const loop: any = function () {
@@ -68,5 +68,6 @@ function spawnLaborer(myRoom: MyRoom): Laborer | null {
             pickup: true
         };
     }
+    console.log(result);
     return null;
 }
