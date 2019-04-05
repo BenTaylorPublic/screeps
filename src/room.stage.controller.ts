@@ -4,11 +4,20 @@ export const roomStageController: any = {
 
         /*
             Loosely based on RCL
-            -1  = no controller
-            0   = rcl 0
-            0.5 = rcl 1, make spawn
-            1   = spawn made
-            2   = rcl 2
+            -1 is default room level
+
+            -1  ->  0   : Get a room controller that's mine
+            -1  <-  0   : Have no room controller that's mine
+
+            0   ->  0.5 : RCL is level 1
+            0   <-  0.5 : RCL is level 0
+
+            0.5 ->  1   : Room has >=1 spawn
+            0.5 <-  1   : Room has 0 spawns
+
+            1   ->  2   : RCL is level 2
+            1   <-  2   : RCL is level <= 1
+
             2.2 = rcl 3, start building tower
             2.4 = tower built, start building containers
             2.6 = caches and bank built, start creating miners and haulers
