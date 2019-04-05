@@ -7,7 +7,7 @@ setupMyMemory();
 const room = Memory.myMemory.myRooms[0];
 const creep = spawnLaborer(room);
 if (creep != null) {
-    room.myCreeps.push(creep);
+    room.myCreeps.push(creep); //WORK
 }
 exports.loop = function () {
     memory_controller_1.memoryController.run();
@@ -35,7 +35,7 @@ function spawnLaborer(myRoom) {
     }
     //Have a valid spawn now
     const body = [MOVE, MOVE, CARRY, WORK];
-    const id = 9999;
+    const id = 0;
     const result = spawn.spawnCreep(body, "Creep" + id, {
         memory: {
             name: "Creep" + id,
