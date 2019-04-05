@@ -7,7 +7,7 @@ setupMyMemory();
 const room: MyRoom = Memory.myMemory.myRooms[0];
 const creep = spawnLaborer(room);
 if (creep != null) {
-    room.myCreeps.push(creep);//work lol
+    room.myCreeps.push(creep);
 }
 
 export const loop: any = function () {
@@ -44,7 +44,7 @@ function spawnLaborer(myRoom: MyRoom): Laborer | null {
     //Have a valid spawn now
     const body: BodyPartConstant[] = [MOVE, MOVE, CARRY, WORK];
 
-    const id = 9999;
+    const id = 0;
     const result: ScreepsReturnCode =
         spawn.spawnCreep(
             body,
