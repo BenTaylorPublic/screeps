@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const global_1 = require("global");
 exports.roomSpawnController = {
     run: function (myRoom) {
         let minerAndWorkerCount = 0;
@@ -56,14 +57,14 @@ function spawnLaborer(myRoom) {
     let body = [MOVE, MOVE, CARRY, WORK];
     let breakLoop = false;
     while (!breakLoop) {
-        if (calcBodyCost(body) + calcBodyCost([MOVE, MOVE, CARRY, WORK]) < spawn.room.energyCapacityAvailable) {
+        if (global_1.global.calcBodyCost(body) + global_1.global.calcBodyCost([MOVE, MOVE, CARRY, WORK]) < spawn.room.energyAvailable) {
             body = body.concat([MOVE, MOVE, CARRY, WORK]);
         }
         else {
             breakLoop = true;
         }
     }
-    const id = getId();
+    const id = global_1.global.getId();
     const result = spawn.spawnCreep(body, "Creep" + id, {
         memory: {
             name: "Creep" + id,
@@ -97,7 +98,7 @@ function spawnMiner(myRoom, mySource) {
         return null;
     }
     //Have a valid spawn now
-    const id = getId();
+    const id = global_1.global.getId();
     const result = spawn.spawnCreep([MOVE, WORK, WORK, WORK, WORK, WORK], "Creep" + id, {
         memory: {
             name: "Creep" + id,
@@ -116,11 +117,6 @@ function spawnMiner(myRoom, mySource) {
         };
     }
     return null;
-}
-function getId() {
-    const toReturn = Memory.myMemory.globalId;
-    Memory.myMemory.globalId++;
-    return toReturn;
 }
 function ensureHaulersArePlaced(myRoom) {
     if (myRoom.roomStage < 2.6) {
@@ -161,7 +157,7 @@ function spawnHauler(myRoom, mySource) {
     while (!breakLoop) {
         if (addCarry) {
             addCarry = false;
-            if (calcBodyCost(body) + calcBodyCost([CARRY]) < spawn.room.energyCapacityAvailable) {
+            if (global_1.global.calcBodyCost(body) + global_1.global.calcBodyCost([CARRY]) < spawn.room.energyAvailable) {
                 body = body.concat([CARRY]);
             }
             else {
@@ -170,7 +166,7 @@ function spawnHauler(myRoom, mySource) {
         }
         else {
             addCarry = true;
-            if (calcBodyCost(body) + calcBodyCost([MOVE]) < spawn.room.energyCapacityAvailable) {
+            if (global_1.global.calcBodyCost(body) + global_1.global.calcBodyCost([MOVE]) < spawn.room.energyAvailable) {
                 body = body.concat([MOVE]);
             }
             else {
@@ -178,7 +174,7 @@ function spawnHauler(myRoom, mySource) {
             }
         }
     }
-    const id = getId();
+    const id = global_1.global.getId();
     const result = spawn.spawnCreep(body, "Creep" + id, {
         memory: {
             name: "Creep" + id,
@@ -231,17 +227,12 @@ function ensureLaborersSpawnIfNeeded(myRoom) {
         }
     }
 }
-function calcBodyCost(body) {
-    return body.reduce(function (cost, part) {
-        return cost + BODYPART_COST[part];
-    }, 0);
-}
 function spawnMinerAndWorker(spawnName) {
     if (spawnName == null) {
         return null; //spawn name not set
     }
     const spawn = Game.spawns[spawnName];
-    const id = getId();
+    const id = global_1.global.getId();
     if (spawn.spawnCreep([MOVE, MOVE, CARRY, WORK], "Creep" + id, {
         memory: {
             name: "Creep" + id,
