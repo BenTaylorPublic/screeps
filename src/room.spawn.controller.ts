@@ -9,20 +9,20 @@ export const roomSpawnController: any = {
         }
 
         //Force spawn a miner and worker if there are no creeps alive
-        // const forceSpawnMinerAndWorkers: boolean = myRoom.myCreeps.length === 0;
+        const forceSpawnMinerAndWorkers: boolean = myRoom.myCreeps.length === 0;
 
-        // if (forceSpawnMinerAndWorkers ||
-        //     (minerAndWorkerCount < 6 && myRoom.roomStage < 3)) {
-            // const newCreep: MinerAndWorker | null = spawnMinerAndWorker(myRoom.spawnName);
-            // if (newCreep != null) {
-            //     myRoom.myCreeps.push(newCreep);
-            //     console.log("LOG: Spawned a new MinerAndWorker");
-            // }
-        // } else {
+        if (forceSpawnMinerAndWorkers ||
+            (minerAndWorkerCount < 6 && myRoom.roomStage < 3)) {
+            const newCreep: MinerAndWorker | null = spawnMinerAndWorker(myRoom.spawnName);
+            if (newCreep != null) {
+                myRoom.myCreeps.push(newCreep);
+                console.log("LOG: Spawned a new MinerAndWorker");
+            }
+        } else {
             ensureLaborersSpawnIfNeeded(myRoom);
             ensureMinersArePlaced(myRoom);
             ensureHaulersArePlaced(myRoom);
-        // }
+        }
     }
 };
 
