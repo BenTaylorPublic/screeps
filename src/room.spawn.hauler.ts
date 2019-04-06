@@ -8,7 +8,8 @@ export const roomSpawnHauler: any = {
 
         for (let i = 0; i < myRoom.mySources.length; i++) {
             const mySource: MySource = myRoom.mySources[i];
-            if (mySource.haulerNames.length === 0) {
+            if (mySource.haulerNames.length === 0 ||
+                (myRoom.roomStage >= 3 && mySource.haulerNames.length < 2)) {
                 //Spawn a new hauler
                 const newCreep: Hauler | null = spawnHauler(myRoom, mySource);
                 if (newCreep != null) {
