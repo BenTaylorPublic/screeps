@@ -18,7 +18,7 @@ export const roomSpawnController: any = {
         const forceSpawnMinerAndWorkers: boolean = myRoom.myCreeps.length === 0;
 
         if (forceSpawnMinerAndWorkers ||
-            (minerAndWorkerCount < 6 && myRoom.roomStage < 2.8)) {
+            (minerAndWorkerCount < 6 && myRoom.roomStage < 3)) {
             roomSpawnMinerAndWorker.trySpawnMinerAndWorker(myRoom);
         } else {
             roomSpawnLaborer.trySpawnLaborer(myRoom);
