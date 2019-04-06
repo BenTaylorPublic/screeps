@@ -31,7 +31,7 @@ exports.roomStageController = {
             2.6 ->  2.8 : For atleast 1 source, have a miner and >= 1 hauler (2.8 means not 6 MinerAndWorkers)
             2.6 <-  2.8 : No sources have a miner and >= 1 hauler
 
-            2.8 ->  3   : Bank is full, OR >= 1 laborer already exists
+            2.8 ->  3   : >= 1 Laborer
             2.8 <-  3   : No laborers
          */
         if (room.controller == null ||
@@ -319,45 +319,21 @@ function stage2_8Down(myRoom, room) {
     return true;
 }
 function stage2_8Up(myRoom, room) {
-    // 2.8 ->  3   : Bank is full, OR >= 1 laborer already exists
-    let laborerSpawned = false;
+    // 2.8 ->  3   : >= 1 Laborer
+    let laborerCount = 0;
     for (let i = 0; i < myRoom.myCreeps.length; i++) {
         const myCreep = myRoom.myCreeps[i];
         if (myCreep.role === "Laborer") {
-            laborerSpawned = true;
+            laborerCount++;
             break;
         }
     }
-    if (!laborerSpawned) {
-        if (myRoom.bankPos == null) {
-            console.log("ERR: Room's bank pos was null");
-            return false;
-        }
-        const bankPos = new RoomPosition(myRoom.bankPos.x, myRoom.bankPos.y, myRoom.bankPos.roomName);
-        let bank = null;
-        const structures = bankPos.lookFor(LOOK_STRUCTURES);
-        for (let i = 0; i < structures.length; i++) {
-            const structure = structures[i];
-            if (structure.structureType === STRUCTURE_CONTAINER) {
-                bank = structure;
-                break;
-            }
-            else if (structure.structureType === STRUCTURE_STORAGE) {
-                bank = structure;
-                break;
-            }
-        }
-        if (bank == null) {
-            console.log("ERR: Bank is null when checking if it's full");
-            return false;
-        }
-        if (bank.store[RESOURCE_ENERGY] !== bank.storeCapacity) {
-            return false;
-        }
+    if (laborerCount > 0) {
+        myRoom.roomStage = 3;
+        console.log("LOG: Room " + myRoom.name + " increased to room stage 3");
+        return true;
     }
-    myRoom.roomStage = 3;
-    console.log("LOG: Room " + myRoom.name + " increased to room stage 3");
-    return true;
+    return false;
 }
 function stage3Down(myRoom, room) {
     // 2.8 <-  3   : No laborers
