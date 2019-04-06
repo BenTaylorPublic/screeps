@@ -77,6 +77,7 @@ exports.roomStageController = {
     }
 };
 function stage0Up(myRoom, room) {
+    // -1  ->  0   : Get a room controller that's mine
     if (room.controller != null &&
         room.controller.level >= 1) {
         myRoom.roomStage = 0.5;
@@ -86,8 +87,9 @@ function stage0Up(myRoom, room) {
     return false;
 }
 function stage0_5Down(myRoom, room) {
+    // -1  <-  0   : Have no room controller that's mine
     if (room.controller == null ||
-        room.controller.level === 0) {
+        room.controller.level < 1) {
         myRoom.roomStage = 0;
         console.log("LOG: Room " + myRoom.name + " decreased to room stage 0");
         return true;
@@ -95,6 +97,8 @@ function stage0_5Down(myRoom, room) {
     return false;
 }
 function stage0_5Up(myRoom, room) {
+    // 0.5 ->  1   : Room has >= 1 spawn
+    //TODO: Works for now, but when myRoom.spawn is an array, use that
     for (const spawnName in Game.spawns) {
         if (Game.spawns[spawnName].room.name === myRoom.name) {
             //Spawn has been made
@@ -106,9 +110,11 @@ function stage0_5Up(myRoom, room) {
     return false;
 }
 function stage1Down(myRoom, room) {
+    // 0.5 <-  1   : Room has < 1 spawns
+    //TODO: Works for now, but when myRoom.spawn is an array, use that
     for (const spawnName in Game.spawns) {
         if (Game.spawns[spawnName].room.name === myRoom.name) {
-            //Spawn has been made
+            //Spawn has already been made
             return false;
         }
     }
@@ -117,6 +123,7 @@ function stage1Down(myRoom, room) {
     return true;
 }
 function stage1Up(myRoom, room) {
+    // 1   ->  2   : RCL is level >= 2
     if (room.controller != null &&
         room.controller.level >= 2) {
         myRoom.roomStage = 2;
@@ -126,8 +133,9 @@ function stage1Up(myRoom, room) {
     return false;
 }
 function stage2Down(myRoom, room) {
+    // 1   <-  2   : RCL is level < 2
     if (room.controller == null ||
-        room.controller.level <= 1) {
+        room.controller.level < 2) {
         myRoom.roomStage = 1;
         console.log("LOG: Room " + myRoom.name + " decreased to room stage 1");
         return true;
@@ -135,6 +143,7 @@ function stage2Down(myRoom, room) {
     return false;
 }
 function stage2Up(myRoom, room) {
+    // 2   ->  2.2 : RCL is level >= 3
     if (room.controller != null &&
         room.controller.level >= 3) {
         myRoom.roomStage = 2.2;
@@ -144,8 +153,9 @@ function stage2Up(myRoom, room) {
     return false;
 }
 function stage2_2Down(myRoom, room) {
+    // 2   <-  2.2 : RCL is level < 3
     if (room.controller == null ||
-        room.controller.level <= 2) {
+        room.controller.level < 3) {
         myRoom.roomStage = 2;
         console.log("LOG: Room " + myRoom.name + " decreased to room stage 2");
         return true;
@@ -153,6 +163,7 @@ function stage2_2Down(myRoom, room) {
     return false;
 }
 function stage2_2Up(myRoom, room) {
+    // 2.2 ->  2.4 : Room has >= 1 tower
     const towers = room.find(FIND_STRUCTURES, {
         filter: (structure) => {
             return structure.structureType === STRUCTURE_TOWER;
@@ -167,12 +178,13 @@ function stage2_2Up(myRoom, room) {
     return false;
 }
 function stage2_4Down(myRoom, room) {
+    // 2.2 <-  2.4 : Room has < 1 tower
     const towers = room.find(FIND_STRUCTURES, {
         filter: (structure) => {
             return structure.structureType === STRUCTURE_TOWER;
         }
     });
-    if (towers.length === 0) {
+    if (towers.length < 1) {
         myRoom.roomStage = 2.2;
         console.log("LOG: Room " + myRoom.name + " decreased to room stage 2.2");
         return true;
@@ -180,29 +192,100 @@ function stage2_4Down(myRoom, room) {
     return false;
 }
 function stage2_4Up(myRoom, room) {
-    const containers = room.find(FIND_STRUCTURES, {
-        filter: (structure) => {
-            return structure.structureType === STRUCTURE_CONTAINER;
+    // 2.4 ->  2.6 : Room has caches and a bank (container OR storage)
+    for (let i = 0; i < myRoom.mySources.length; i++) {
+        const mySource = myRoom.mySources[i];
+        if (mySource.cachePos == null) {
+            return false;
         }
-    });
-    //TODO: Doesn't work with storage bank
-    if (containers.length >= room.find(FIND_SOURCES_ACTIVE).length + 1) {
-        //Caches and bank must be built
-        myRoom.roomStage = 2.6;
-        console.log("LOG: Room " + myRoom.name + " increased to room stage 2.6");
-        return true;
+        const cachePos = new RoomPosition(mySource.cachePos.x, mySource.cachePos.y, mySource.cachePos.roomName);
+        let cache = null;
+        const structures1 = cachePos.lookFor(LOOK_STRUCTURES);
+        for (let j = 0; j < structures1.length; j++) {
+            const structure = structures1[j];
+            if (structure.structureType === STRUCTURE_CONTAINER) {
+                cache = structure;
+            }
+        }
+        if (cache == null) {
+            return false;
+        }
+        //If it gets to here, this source has a cache, so go to the next source
     }
-    return false;
+    //Checking if the bank is built
+    if (myRoom.bankPos == null) {
+        return false;
+    }
+    const bankPos = new RoomPosition(myRoom.bankPos.x, myRoom.bankPos.y, myRoom.bankPos.roomName);
+    let bankFound = false;
+    const structures2 = bankPos.lookFor(LOOK_STRUCTURES);
+    for (let i = 0; i < structures2.length; i++) {
+        const structure = structures2[i];
+        if (structure.structureType === STRUCTURE_CONTAINER) {
+            bankFound = true;
+            break;
+        }
+        else if (structure.structureType === STRUCTURE_STORAGE) {
+            bankFound = true;
+            break;
+        }
+    }
+    if (!bankFound) {
+        return false;
+    }
+    //Sources have caches, bank has a container or storage
+    myRoom.roomStage = 2.6;
+    console.log("LOG: Room " + myRoom.name + " increased to room stage 2.6");
+    return true;
 }
 function stage2_6Down(myRoom, room) {
-    const containers = room.find(FIND_STRUCTURES, {
-        filter: (structure) => {
-            return structure.structureType === STRUCTURE_CONTAINER;
+    // 2.4 <-  2.6 : Not every source has a cache, or bank is missing
+    let foundSomethingWrong = false;
+    for (let i = 0; i < myRoom.mySources.length; i++) {
+        const mySource = myRoom.mySources[i];
+        if (mySource.cachePos == null) {
+            foundSomethingWrong = true;
+            break;
         }
-    });
-    //TODO: Doesn't work with storage bank
-    if (containers.length < room.find(FIND_SOURCES_ACTIVE).length + 1) {
-        //Caches and bank must be built
+        const cachePos = new RoomPosition(mySource.cachePos.x, mySource.cachePos.y, mySource.cachePos.roomName);
+        let cache = null;
+        const structures1 = cachePos.lookFor(LOOK_STRUCTURES);
+        for (let j = 0; j < structures1.length; j++) {
+            const structure = structures1[j];
+            if (structure.structureType === STRUCTURE_CONTAINER) {
+                cache = structure;
+            }
+        }
+        if (cache == null) {
+            foundSomethingWrong = true;
+            break;
+        }
+        //If it gets to here, this source has a cache, so go to the next source
+    }
+    //Checking if the bank is built
+    if (myRoom.bankPos == null) {
+        foundSomethingWrong = true;
+    }
+    else {
+        const bankPos = new RoomPosition(myRoom.bankPos.x, myRoom.bankPos.y, myRoom.bankPos.roomName);
+        let bankFound = false;
+        const structures2 = bankPos.lookFor(LOOK_STRUCTURES);
+        for (let i = 0; i < structures2.length; i++) {
+            const structure = structures2[i];
+            if (structure.structureType === STRUCTURE_CONTAINER) {
+                bankFound = true;
+                break;
+            }
+            else if (structure.structureType === STRUCTURE_STORAGE) {
+                bankFound = true;
+                break;
+            }
+        }
+        if (!bankFound) {
+            foundSomethingWrong = true;
+        }
+    }
+    if (foundSomethingWrong) {
         myRoom.roomStage = 2.4;
         console.log("LOG: Room " + myRoom.name + " decreased to room stage 2.4");
         return true;
@@ -210,62 +293,86 @@ function stage2_6Down(myRoom, room) {
     return false;
 }
 function stage2_6Up(myRoom, room) {
-    let haulerAmount = 0;
-    let minerAmount = 0;
-    for (let i = 0; i < myRoom.myCreeps.length; i++) {
-        const myCreep = myRoom.myCreeps[i];
-        if (myCreep.role === "Hauler") {
-            haulerAmount++;
+    // 2.6 ->  2.8 : For atleast 1 source, have a miner and >= 1 hauler (2.8 means not 6 MinerAndWorkers)
+    for (let i = 0; i < myRoom.mySources.length; i++) {
+        const mySource = myRoom.mySources[i];
+        if (mySource.minerName != null &&
+            mySource.haulerNames.length > 0) {
+            myRoom.roomStage = 2.8;
+            console.log("LOG: Room " + myRoom.name + " increased to room stage 2.8");
+            return true;
         }
-        else if (myCreep.role === "Miner") {
-            minerAmount++;
-        }
-    }
-    const amountOfSources = room.find(FIND_SOURCES_ACTIVE).length;
-    if (haulerAmount >= amountOfSources &&
-        minerAmount >= amountOfSources) {
-        myRoom.roomStage = 2.8;
-        console.log("LOG: Room " + myRoom.name + " increased to room stage 2.8");
-        return true;
     }
     return false;
 }
 function stage2_8Down(myRoom, room) {
-    //Impossible to downgrade from this
-    return false;
+    // 2.6 <-  2.8 : No sources have a miner and >= 1 hauler
+    for (let i = 0; i < myRoom.mySources.length; i++) {
+        const mySource = myRoom.mySources[i];
+        if (mySource.minerName == null ||
+            mySource.haulerNames.length === 0) {
+            return false;
+        }
+    }
+    myRoom.roomStage = 2.6;
+    console.log("LOG: Room " + myRoom.name + " decreased to room stage 2.6");
+    return true;
 }
 function stage2_8Up(myRoom, room) {
-    //Ensure there's a bank container OR storage, and its full
-    if (myRoom.bankPos == null) {
-        console.log("ERR: Room's bank pos was null");
-        return false;
-    }
-    const bankPos = new RoomPosition(myRoom.bankPos.x, myRoom.bankPos.y, myRoom.bankPos.roomName);
-    let bank = null;
-    const structures = bankPos.lookFor(LOOK_STRUCTURES);
-    for (let i = 0; i < structures.length; i++) {
-        const structure = structures[i];
-        if (structure.structureType === STRUCTURE_CONTAINER) {
-            bank = structure;
-            break;
-        }
-        else if (structure.structureType === STRUCTURE_STORAGE) {
-            bank = structure;
+    // 2.8 ->  3   : Bank is full, OR >= 1 laborer already exists
+    let laborerSpawned = false;
+    for (let i = 0; i < myRoom.myCreeps.length; i++) {
+        const myCreep = myRoom.myCreeps[i];
+        if (myCreep.role === "Laborer") {
+            laborerSpawned = true;
             break;
         }
     }
-    if (bank == null) {
-        console.log("ERR: Bank is null when checking if it's full");
-        return false;
+    if (!laborerSpawned) {
+        if (myRoom.bankPos == null) {
+            console.log("ERR: Room's bank pos was null");
+            return false;
+        }
+        const bankPos = new RoomPosition(myRoom.bankPos.x, myRoom.bankPos.y, myRoom.bankPos.roomName);
+        let bank = null;
+        const structures = bankPos.lookFor(LOOK_STRUCTURES);
+        for (let i = 0; i < structures.length; i++) {
+            const structure = structures[i];
+            if (structure.structureType === STRUCTURE_CONTAINER) {
+                bank = structure;
+                break;
+            }
+            else if (structure.structureType === STRUCTURE_STORAGE) {
+                bank = structure;
+                break;
+            }
+        }
+        if (bank == null) {
+            console.log("ERR: Bank is null when checking if it's full");
+            return false;
+        }
+        if (bank.store[RESOURCE_ENERGY] !== bank.storeCapacity) {
+            return false;
+        }
     }
-    if (bank.store[RESOURCE_ENERGY] === bank.storeCapacity) {
-        myRoom.roomStage = 3;
-        console.log("LOG: Room " + myRoom.name + " increased to room stage 3");
-        return true;
-    }
-    return false;
+    myRoom.roomStage = 3;
+    console.log("LOG: Room " + myRoom.name + " increased to room stage 3");
+    return true;
 }
 function stage3Down(myRoom, room) {
-    //Impossible to downgrade from this
-    return false;
+    // 2.8 <-  3   : No laborers
+    let laborerCount = 0;
+    for (let i = 0; i < myRoom.myCreeps.length; i++) {
+        const myCreep = myRoom.myCreeps[i];
+        if (myCreep.role === "Laborer") {
+            laborerCount++;
+            break;
+        }
+    }
+    if (laborerCount > 0) {
+        return false;
+    }
+    myRoom.roomStage = 2.8;
+    console.log("LOG: Room " + myRoom.name + " decreased to room stage 2.9");
+    return true;
 }
