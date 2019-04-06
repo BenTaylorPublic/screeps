@@ -432,6 +432,6 @@ function stage3Down(myRoom: MyRoom, room: Room): boolean {
         return false;
     }
     myRoom.roomStage = 2.8;
-    console.log("LOG: Room " + myRoom.name + " decreased to room stage 2.9");
+    console.log("LOG: Room " + myRoom.name + " decreased to room stage 2.8");
     return true;
 }
