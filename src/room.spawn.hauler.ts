@@ -45,7 +45,7 @@ function spawnHauler(myRoom: MyRoom, mySource: MySource): Hauler | null {
     let body: BodyPartConstant[] = [MOVE, CARRY];
     let breakLoop: boolean = false;
     while (!breakLoop) {
-        if (global.calcBodyCost(body) + global.calcBodyCost([MOVE, CARRY]) < spawn.room.energyAvailable) {
+        if (global.calcBodyCost(body) + global.calcBodyCost([MOVE, CARRY]) < spawn.room.energyCapacityAvailable) {
             body = body.concat([MOVE, CARRY]);
         } else {
             breakLoop = true;
