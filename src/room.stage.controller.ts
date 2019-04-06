@@ -358,8 +358,8 @@ function stage2_8Down(myRoom: MyRoom, room: Room): boolean {
     // 2.6 <-  2.8 : No sources have a miner and >= 1 hauler
     for (let i = 0; i < myRoom.mySources.length; i++) {
         const mySource: MySource = myRoom.mySources[i];
-        if (mySource.minerName == null ||
-            mySource.haulerNames.length === 0) {
+        if (mySource.minerName != null &&
+            mySource.haulerNames.length >= 1) {
             return false;
         }
     }
