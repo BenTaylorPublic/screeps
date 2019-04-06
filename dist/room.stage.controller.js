@@ -66,14 +66,30 @@ exports.roomStageController = {
             stage2_8Up(myRoom, room);
         }
         //You can always go down, to any stage
-        stage3Down(myRoom, room);
-        stage2_8Down(myRoom, room);
-        stage2_6Down(myRoom, room);
-        stage2_4Down(myRoom, room);
-        stage2_2Down(myRoom, room);
-        stage2Down(myRoom, room);
-        stage1Down(myRoom, room);
-        stage0_5Down(myRoom, room);
+        if (myRoom.roomStage >= 3) {
+            stage3Down(myRoom, room);
+        }
+        if (myRoom.roomStage >= 2.8) {
+            stage2_8Down(myRoom, room);
+        }
+        if (myRoom.roomStage >= 2.6) {
+            stage2_6Down(myRoom, room);
+        }
+        if (myRoom.roomStage >= 2.4) {
+            stage2_4Down(myRoom, room);
+        }
+        if (myRoom.roomStage >= 2.2) {
+            stage2_2Down(myRoom, room);
+        }
+        if (myRoom.roomStage >= 2) {
+            stage2Down(myRoom, room);
+        }
+        if (myRoom.roomStage >= 1) {
+            stage1Down(myRoom, room);
+        }
+        if (myRoom.roomStage >= 0.5) {
+            stage0_5Down(myRoom, room);
+        }
     }
 };
 function stage0Up(myRoom, room) {
