@@ -52,7 +52,7 @@ function spawnLaborer(myRoom) {
     let body = [MOVE, MOVE, CARRY, WORK];
     let breakLoop = false;
     while (!breakLoop) {
-        if (global_1.global.calcBodyCost(body) + global_1.global.calcBodyCost([MOVE, MOVE, CARRY, WORK]) < spawn.room.energyCapacityAvailable) {
+        if (global_1.global.calcBodyCost(body) + global_1.global.calcBodyCost([MOVE, MOVE, CARRY, WORK]) < spawn.room.energyAvailable) {
             body = body.concat([MOVE, MOVE, CARRY, WORK]);
         }
         else {
