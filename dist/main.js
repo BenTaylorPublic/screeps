@@ -8,9 +8,7 @@ const myRoom = Memory.myMemory.myRooms[0];
 for (let i = 0; i < myRoom.myCreeps.length; i++) {
     const myCreep = myRoom.myCreeps[i];
     if (myCreep.role === "Laborer") {
-        const laborer = myCreep;
-        laborer.state = "Labor"; //Back to work lol
-        delete laborer.mining;
+        delete laborer.pickup;
     }
 }
 exports.loop = function () {
