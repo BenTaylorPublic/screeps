@@ -5,8 +5,14 @@ const memory_controller_1 = require("memory.controller");
 console.log("Script reloaded");
 setupMyMemory();
 const myRoom = Memory.myMemory.myRooms[0];
-if (myRoom.bankPos != null) {
-    myRoom.bankPos.x = 16;
+for (let i = 0; i < myRoom.myCreeps.length; i++) {
+    const myCreep = myRoom.myCreeps[i];
+    if (myCreep.role === "Laborer") {
+        const laborer = myCreep;
+        if (laborer.state === "labor") {
+            laborer.state = "Labor";
+        }
+    }
 }
 exports.loop = function () {
     memory_controller_1.memoryController.run();

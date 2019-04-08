@@ -81,7 +81,7 @@ function spawnLaborer(myRoom) {
             name: "Creep" + id,
             role: "Laborer",
             assignedRoomName: spawn.room.name,
-            state: "labor"
+            state: "Labor"
         };
     }
     return null;

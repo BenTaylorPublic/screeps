@@ -4,7 +4,16 @@ import { memoryController } from "memory.controller";
 console.log("Script reloaded");
 setupMyMemory();
 
-// const myRoom: MyRoom = Memory.myMemory.myRooms[0];
+const myRoom: MyRoom = Memory.myMemory.myRooms[0];
+for (let i = 0; i < myRoom.myCreeps.length; i++) {
+    const myCreep: MyCreep = myRoom.myCreeps[i];
+    if (myCreep.role === "Laborer") {
+        const laborer: Laborer = myCreep as Laborer;
+        if (laborer.state === "labor") {
+            laborer.state = "Labor";
+        }
+    }
+}
 
 export const loop: any = function () {
     memoryController.run();

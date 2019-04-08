@@ -101,7 +101,7 @@ function spawnLaborer(myRoom: MyRoom): Laborer | null {
             name: "Creep" + id,
             role: "Laborer",
             assignedRoomName: spawn.room.name,
-            state: "labor"
+            state: "Labor"
         };
     }
     return null;
