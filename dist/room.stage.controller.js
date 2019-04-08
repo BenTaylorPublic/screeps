@@ -191,6 +191,15 @@ function stage2_2Up(myRoom, room) {
         console.log("LOG: Room " + myRoom.name + " increased to room stage 2.4");
         return true;
     }
+    const constructionSites = room.find(FIND_CONSTRUCTION_SITES);
+    for (let i = 0; i < constructionSites.length; i++) {
+        const constructionSite = constructionSites[i];
+        if (constructionSite.structureType === STRUCTURE_TOWER) {
+            //The tower is being build, don't log ATTENTION
+            return false;
+        }
+    }
+    console.log("ATTENTION: Room " + myRoom.name + " needs a tower placed to progress to 2.4");
     return false;
 }
 function stage2_4Down(myRoom, room) {
