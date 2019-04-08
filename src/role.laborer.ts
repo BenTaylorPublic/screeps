@@ -1,4 +1,4 @@
-export const laborerRole: any = {
+export const roleLaborer: any = {
     run: function (laborer: Laborer, myRoom: MyRoom) {
         const creep: Creep = Game.creeps[laborer.name];
 

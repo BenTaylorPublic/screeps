@@ -1,8 +1,8 @@
 import { roomTowerController } from "room.tower.controller";
-import { minerRole } from "miner.role";
-import { haulerRole } from "hauler.role";
+import { roleMiner } from "role.miner";
+import { roleHauler } from "role.hauler";
 import { roomStageController } from "room.stage.controller";
-import { laborerRole } from "laborer.role";
+import { roleLaborer } from "role.laborer";
 import { roomBuildingController } from "room.building.controller";
 import { roomSpawnController } from "room.spawn.controller";
 
@@ -34,11 +34,11 @@ export const roomController: any = {
         for (let i = 0; i < myRoom.myCreeps.length; i++) {
             const myCreep: MyCreep = myRoom.myCreeps[i];
             if (myCreep.role === "Miner") {
-                minerRole.run(myCreep);
+                roleMiner.run(myCreep);
             } else if (myCreep.role === "Hauler") {
-                haulerRole.run(myCreep, myRoom);
+                roleHauler.run(myCreep, myRoom);
             } else if (myCreep.role === "Laborer") {
-                laborerRole.run(myCreep, myRoom);
+                roleLaborer.run(myCreep, myRoom);
             }
         }
     }

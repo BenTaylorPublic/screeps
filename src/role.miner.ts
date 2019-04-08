@@ -1,4 +1,4 @@
-export const minerRole: any = {
+export const roleMiner: any = {
     run: function (miner: Miner) {
         const creep: Creep = Game.creeps[miner.name];
         if (creep == null) {
