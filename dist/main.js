@@ -4,7 +4,10 @@ const room_controller_1 = require("room.controller");
 const memory_controller_1 = require("memory.controller");
 console.log("Script reloaded");
 setupMyMemory();
-// const myRoom: MyRoom = Memory.myMemory.myRooms[0];
+const myRoom = Memory.myMemory.myRooms[0];
+if (myRoom.bankPos != null) {
+    myRoom.bankPos.x = 16;
+}
 exports.loop = function () {
     memory_controller_1.memoryController.run();
     for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {

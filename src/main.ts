@@ -4,7 +4,10 @@ import { memoryController } from "memory.controller";
 console.log("Script reloaded");
 setupMyMemory();
 
-// const myRoom: MyRoom = Memory.myMemory.myRooms[0];
+const myRoom: MyRoom = Memory.myMemory.myRooms[0];
+if (myRoom.bankPos != null) {
+    myRoom.bankPos.x = 16;
+}
 
 export const loop: any = function () {
     memoryController.run();
