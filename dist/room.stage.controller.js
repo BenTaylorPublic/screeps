@@ -28,7 +28,7 @@ exports.roomStageController = {
             2.4 ->  2.6 : Room has caches and a bank (container OR storage)
             2.4 <-  2.6 : Not every source has a cache, or bank is missing
 
-            2.6 ->  2.8 : For atleast 1 source, have a miner and >= 1 hauler (2.8 means not 6 MinerAndWorkers)
+            2.6 ->  2.8 : For atleast 1 source, have a miner and >= 1 hauler
             2.6 <-  2.8 : No sources have a miner and >= 1 hauler
 
             2.8 ->  3   : >= 1 Laborer
@@ -309,7 +309,7 @@ function stage2_6Down(myRoom, room) {
     return false;
 }
 function stage2_6Up(myRoom, room) {
-    // 2.6 ->  2.8 : For atleast 1 source, have a miner and >= 1 hauler (2.8 means not 6 MinerAndWorkers)
+    // 2.6 ->  2.8 : For atleast 1 source, have a miner and >= 1 hauler
     for (let i = 0; i < myRoom.mySources.length; i++) {
         const mySource = myRoom.mySources[i];
         if (mySource.minerName != null &&

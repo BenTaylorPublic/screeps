@@ -1,11 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const minerAndWorker_role_1 = require("minerAndWorker.role");
 const room_tower_controller_1 = require("room.tower.controller");
-const miner_role_1 = require("miner.role");
-const hauler_role_1 = require("hauler.role");
+const role_miner_1 = require("role.miner");
+const role_hauler_1 = require("role.hauler");
 const room_stage_controller_1 = require("room.stage.controller");
-const laborer_role_1 = require("laborer.role");
+const role_laborer_1 = require("role.laborer");
 const room_building_controller_1 = require("room.building.controller");
 const room_spawn_controller_1 = require("room.spawn.controller");
 exports.roomController = {
@@ -28,20 +27,16 @@ exports.roomController = {
         for (let i = 0; i < towers.length; i++) {
             room_tower_controller_1.roomTowerController.run(towers[i]);
         }
-        //MinerAndWorker logic
         for (let i = 0; i < myRoom.myCreeps.length; i++) {
             const myCreep = myRoom.myCreeps[i];
-            if (myCreep.role === "MinerAndWorker") {
-                minerAndWorker_role_1.minerAndWorkerRole.run(myCreep);
-            }
-            else if (myCreep.role === "Miner") {
-                miner_role_1.minerRole.run(myCreep);
+            if (myCreep.role === "Miner") {
+                role_miner_1.roleMiner.run(myCreep);
             }
             else if (myCreep.role === "Hauler") {
-                hauler_role_1.haulerRole.run(myCreep, myRoom);
+                role_hauler_1.roleHauler.run(myCreep, myRoom);
             }
             else if (myCreep.role === "Laborer") {
-                laborer_role_1.laborerRole.run(myCreep, myRoom);
+                role_laborer_1.roleLaborer.run(myCreep, myRoom);
             }
         }
     }

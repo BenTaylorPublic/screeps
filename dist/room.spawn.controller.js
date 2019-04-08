@@ -1,22 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const room_spawn_minerAndWorker_1 = require("room.spawn.minerAndWorker");
 const room_spawn_laborer_1 = require("room.spawn.laborer");
 const room_spawn_miner_1 = require("room.spawn.miner");
 const room_spawn_hauler_1 = require("room.spawn.hauler");
 exports.roomSpawnController = {
     run: function (myRoom) {
-        let minerAndWorkerCount = 0;
+        let laborerCount = 0;
         for (let i = 0; i < myRoom.myCreeps.length; i++) {
-            if (myRoom.myCreeps[i].role === "MinerAndWorker") {
-                minerAndWorkerCount++;
+            if (myRoom.myCreeps[i].role === "Laborer") {
+                laborerCount++;
             }
         }
         //Force spawn a miner and worker if there are no creeps alive
-        const forceSpawnMinerAndWorkers = myRoom.myCreeps.length === 0;
-        if (forceSpawnMinerAndWorkers ||
-            (minerAndWorkerCount < 6 && myRoom.roomStage < 3)) {
-            room_spawn_minerAndWorker_1.roomSpawnMinerAndWorker.trySpawnMinerAndWorker(myRoom);
+        const forceSpawnlaborers = myRoom.myCreeps.length === 0;
+        if (forceSpawnlaborers ||
+            (laborerCount < 6 && myRoom.roomStage < 3)) {
+            room_spawn_laborer_1.roomSpawnLaborer.forceSpawnLaborer(myRoom);
         }
         else {
             room_spawn_laborer_1.roomSpawnLaborer.trySpawnLaborer(myRoom);

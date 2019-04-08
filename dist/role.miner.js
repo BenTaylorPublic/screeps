@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.minerRole = {
+exports.roleMiner = {
     run: function (miner) {
         const creep = Game.creeps[miner.name];
         if (creep == null) {

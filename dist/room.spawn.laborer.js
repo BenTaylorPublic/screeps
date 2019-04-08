@@ -36,6 +36,13 @@ exports.roomSpawnLaborer = {
                 console.log("LOG: Spawned a new Laborer");
             }
         }
+    },
+    forceSpawnLaborer: function (myRoom) {
+        const newCreep = spawnLaborer(myRoom);
+        if (newCreep != null) {
+            myRoom.myCreeps.push(newCreep);
+            console.log("LOG: Force spawned a new Laborer");
+        }
     }
 };
 function spawnLaborer(myRoom) {
@@ -50,13 +57,12 @@ function spawnLaborer(myRoom) {
     }
     //Have a valid spawn now
     let body = [MOVE, MOVE, CARRY, WORK];
-    let breakLoop = false;
-    while (!breakLoop) {
+    while (true) {
         if (global_1.global.calcBodyCost(body) + global_1.global.calcBodyCost([MOVE, MOVE, CARRY, WORK]) < spawn.room.energyAvailable) {
             body = body.concat([MOVE, MOVE, CARRY, WORK]);
         }
         else {
-            breakLoop = true;
+            break;
         }
     }
     const id = global_1.global.getId();
@@ -64,8 +70,7 @@ function spawnLaborer(myRoom) {
         memory: {
             name: "Creep" + id,
             role: "Laborer",
-            assignedRoomName: spawn.room.name,
-            pickup: true
+            assignedRoomName: spawn.room.name
         }
     });
     if (result === OK) {
@@ -73,7 +78,7 @@ function spawnLaborer(myRoom) {
             name: "Creep" + id,
             role: "Laborer",
             assignedRoomName: spawn.room.name,
-            pickup: true
+            state: "labor"
         };
     }
     return null;
