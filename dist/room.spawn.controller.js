@@ -12,9 +12,16 @@ exports.roomSpawnController = {
             }
         }
         //Force spawn a miner and worker if there are no creeps alive
-        const forceSpawnlaborers = myRoom.myCreeps.length === 0;
-        if (forceSpawnlaborers ||
-            (laborerCount < 6 && myRoom.roomStage < 3)) {
+        let forceSpawnlaborers = myRoom.myCreeps.length === 0;
+        if (forceSpawnlaborers === false &&
+            laborerCount < 2) {
+            forceSpawnlaborers = true;
+        }
+        if (forceSpawnlaborers === false &&
+            laborerCount < 6 && myRoom.roomStage < 3) {
+            forceSpawnlaborers = true;
+        }
+        if (forceSpawnlaborers) {
             room_spawn_laborer_1.roomSpawnLaborer.forceSpawnLaborer(myRoom);
         }
         else {
