@@ -57,8 +57,11 @@ function spawnLaborer(myRoom) {
     }
     //Have a valid spawn now
     let body = [MOVE, MOVE, CARRY, WORK];
+    const maxEnergyToUse = (myRoom.roomStage >= 3) ?
+        spawn.room.energyCapacityAvailable :
+        spawn.room.energyAvailable;
     while (true) {
-        if (global_1.global.calcBodyCost(body) + global_1.global.calcBodyCost([MOVE, MOVE, CARRY, WORK]) < spawn.room.energyAvailable) {
+        if (global_1.global.calcBodyCost(body) + global_1.global.calcBodyCost([MOVE, MOVE, CARRY, WORK]) <= maxEnergyToUse) {
             body = body.concat([MOVE, MOVE, CARRY, WORK]);
         }
         else {

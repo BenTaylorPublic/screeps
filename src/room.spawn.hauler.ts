@@ -43,8 +43,12 @@ function spawnHauler(myRoom: MyRoom, mySource: MySource): Hauler | null {
 
     //Have a valid spawn now
     let body: BodyPartConstant[] = [MOVE, CARRY];
+    const maxEnergyToUse: number =
+        (myRoom.roomStage >= 3) ?
+            spawn.room.energyCapacityAvailable :
+            spawn.room.energyAvailable;
     while (true) {
-        if (global.calcBodyCost(body) + global.calcBodyCost([MOVE, CARRY]) < spawn.room.energyAvailable) {
+        if (global.calcBodyCost(body) + global.calcBodyCost([MOVE, CARRY]) <= maxEnergyToUse) {
             body = body.concat([MOVE, CARRY]);
         } else {
             break;
