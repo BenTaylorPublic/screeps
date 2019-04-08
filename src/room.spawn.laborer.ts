@@ -43,6 +43,13 @@ export const roomSpawnLaborer: any = {
                 console.log("LOG: Spawned a new Laborer");
             }
         }
+    },
+    forceSpawnLaborer: function (myRoom: MyRoom) {
+        const newCreep: Laborer | null = spawnLaborer(myRoom);
+        if (newCreep != null) {
+            myRoom.myCreeps.push(newCreep);
+            console.log("LOG: Force spawned a new Laborer");
+        }
     }
 };
 

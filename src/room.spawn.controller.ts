@@ -17,7 +17,7 @@ export const roomSpawnController: any = {
 
         if (forceSpawnlaborers ||
             (laborerCount < 6 && myRoom.roomStage < 3)) {
-            roomSpawnLaborer.trySpawnLaborer(myRoom);
+            roomSpawnLaborer.forceSpawnLaborer(myRoom);
         } else {
             roomSpawnLaborer.trySpawnLaborer(myRoom);
             roomSpawnMiner.trySpawnMiner(myRoom);
