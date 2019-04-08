@@ -61,12 +61,11 @@ function spawnLaborer(myRoom: MyRoom): Laborer | null {
 
     //Have a valid spawn now
     let body: BodyPartConstant[] = [MOVE, MOVE, CARRY, WORK];
-    let breakLoop: boolean = false;
-    while (!breakLoop) {
+    while (true) {
         if (global.calcBodyCost(body) + global.calcBodyCost([MOVE, MOVE, CARRY, WORK]) < spawn.room.energyAvailable) {
             body = body.concat([MOVE, MOVE, CARRY, WORK]);
         } else {
-            breakLoop = true;
+            break;
         }
     }
 
@@ -80,8 +79,7 @@ function spawnLaborer(myRoom: MyRoom): Laborer | null {
                 {
                     name: "Creep" + id,
                     role: "Laborer",
-                    assignedRoomName: spawn.room.name,
-                    state: "labor"
+                    assignedRoomName: spawn.room.name
                 }
             }
         );

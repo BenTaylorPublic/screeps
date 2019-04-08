@@ -43,12 +43,11 @@ function spawnHauler(myRoom: MyRoom, mySource: MySource): Hauler | null {
 
     //Have a valid spawn now
     let body: BodyPartConstant[] = [MOVE, CARRY];
-    let breakLoop: boolean = false;
-    while (!breakLoop) {
+    while (true) {
         if (global.calcBodyCost(body) + global.calcBodyCost([MOVE, CARRY]) < spawn.room.energyAvailable) {
             body = body.concat([MOVE, CARRY]);
         } else {
-            breakLoop = true;
+            break;
         }
     }
 
