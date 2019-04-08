@@ -4,7 +4,7 @@ Then the room.spawn.controller.ts can decide what to spawn based on room stage
 
 Add extensions as a requirement to go to next room stage
 
-Detect containers/storage not next to the sources as a bank
+Implement a flag system to place banks/links/caches/towers
 
 Long term:
 Spawn a new miner before the old one dies, so no downtime.
