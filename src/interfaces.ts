@@ -43,10 +43,6 @@ interface MyCreep {
     assignedRoomName: string;
 }
 
-interface MinerAndWorker extends MyCreep {
-    mining: boolean;
-}
-
 interface Miner extends MyCreep {
     sourceId: string;
     cachePosToMineOn: MyRoomPos;
@@ -58,5 +54,8 @@ interface Hauler extends MyCreep {
 }
 
 interface Laborer extends MyCreep {
-    pickup: boolean;
+    /*
+    pickup, mining, or labor
+    */
+    state: string;
 }

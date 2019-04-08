@@ -81,7 +81,7 @@ function spawnLaborer(myRoom: MyRoom): Laborer | null {
                     name: "Creep" + id,
                     role: "Laborer",
                     assignedRoomName: spawn.room.name,
-                    pickup: true
+                    state: "labor"
                 }
             }
         );
@@ -91,7 +91,7 @@ function spawnLaborer(myRoom: MyRoom): Laborer | null {
             name: "Creep" + id,
             role: "Laborer",
             assignedRoomName: spawn.room.name,
-            pickup: true
+            state: "labor"
         };
     }
     return null;

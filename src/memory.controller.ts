@@ -114,8 +114,6 @@ function handleCreepDying(myRoom: MyRoom, myCreep: MyCreep): void {
             }
         }
         console.log("LOG: A Hauler has died");
-    } else if (myCreep.role === "MinerAndWorker") {
-        console.log("LOG: A MinerAndWorker has died");
     } else if (myCreep.role === "Laborer") {
         console.log("LOG: A Laborer has died");
     } else {

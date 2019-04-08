@@ -1,4 +1,3 @@
-import { minerAndWorkerRole } from "minerAndWorker.role";
 import { roomTowerController } from "room.tower.controller";
 import { minerRole } from "miner.role";
 import { haulerRole } from "hauler.role";
@@ -32,12 +31,9 @@ export const roomController: any = {
             roomTowerController.run(towers[i]);
         }
 
-        //MinerAndWorker logic
         for (let i = 0; i < myRoom.myCreeps.length; i++) {
             const myCreep: MyCreep = myRoom.myCreeps[i];
-            if (myCreep.role === "MinerAndWorker") {
-                minerAndWorkerRole.run(myCreep);
-            } else if (myCreep.role === "Miner") {
+            if (myCreep.role === "Miner") {
                 minerRole.run(myCreep);
             } else if (myCreep.role === "Hauler") {
                 haulerRole.run(myCreep, myRoom);
