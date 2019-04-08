@@ -9,22 +9,22 @@ export const roleLaborer: any = {
 
         calculateCreepState(laborer, myRoom, creep);
 
-        if (laborer.state === "pickup") {
+        if (laborer.state === "Pickup") {
             pickup(laborer, myRoom, creep);
-        } else if (laborer.state === "mining") {
+        } else if (laborer.state === "Mining") {
             mining(laborer, myRoom, creep);
-        } else {
+        } else { //Labor
             labor(laborer, myRoom, creep);
         }
     }
 };
 
 function calculateCreepState(laborer: Laborer, myRoom: MyRoom, creep: Creep): void {
-    if (laborer.state === "labor" &&
+    if (laborer.state === "Labor" &&
         creep.carry.energy === 0) {
 
         if (myRoom.bankPos == null) {
-            laborer.state = "miner";
+            laborer.state = "Mining";
             return;
         }
 
@@ -49,18 +49,20 @@ function calculateCreepState(laborer: Laborer, myRoom: MyRoom, creep: Creep): vo
 
         if (bank != null &&
             bank.store[RESOURCE_ENERGY] > creep.carryCapacity) {
-            laborer.state = "pickup";
+            laborer.state = "Pickup";
+            creep.say("Pickup");
             return;
         } else {
-            laborer.state = "miner";
+            laborer.state = "Mining";
+            creep.say("Mining");
             return;
         }
 
 
 
-    } else if ((laborer.state === "pickup" || laborer.state === "mining") &&
+    } else if ((laborer.state === "Pickup" || laborer.state === "Mining") &&
         creep.carry.energy === creep.carryCapacity) {
-        laborer.state = "labor";
+        laborer.state = "Labor";
         creep.say("work work");
     }
 }

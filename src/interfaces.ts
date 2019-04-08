@@ -55,7 +55,7 @@ interface Hauler extends MyCreep {
 
 interface Laborer extends MyCreep {
     /*
-    pickup, mining, or labor
+    Pickup, Mining, or Labor
     */
     state: string;
 }
