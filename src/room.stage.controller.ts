@@ -203,6 +203,7 @@ function stage2_2Up(myRoom: MyRoom, room: Room): boolean {
         console.log("LOG: Room " + myRoom.name + " increased to room stage 2.4");
         return true;
     }
+
     const constructionSites: ConstructionSite<BuildableStructureConstant>[]
         = room.find(FIND_CONSTRUCTION_SITES);
     for (let i = 0; i < constructionSites.length; i++) {
@@ -212,6 +213,7 @@ function stage2_2Up(myRoom: MyRoom, room: Room): boolean {
             return false;
         }
     }
+
     console.log("ATTENTION: Room " + myRoom.name + " needs a tower placed to progress to 2.4");
     return false;
 }
@@ -264,6 +266,9 @@ function stage2_4Up(myRoom: MyRoom, room: Room): boolean {
 
     //Checking if the bank is built
     if (myRoom.bankPos == null) {
+        //TODO: Check if there exists a container or storage that isn't within 1 square of a source
+        //TODO: If so, assume it's a bank
+        console.log("ATTENTION: Room " + myRoom.name + " needs a bank pos to progress to 2.6");
         return false;
     }
 

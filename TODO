@@ -4,6 +4,8 @@ Then the room.spawn.controller.ts can decide what to spawn based on room stage
 
 Add extensions as a requirement to go to next room stage
 
+Detect containers/storage not next to the sources as a bank
+
 Long term:
 Spawn a new miner before the old one dies, so no downtime.
 to do this, have a nextMinerName on a MySource, swap it over when minerName is null

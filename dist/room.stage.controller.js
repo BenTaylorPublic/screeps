@@ -239,6 +239,9 @@ function stage2_4Up(myRoom, room) {
     }
     //Checking if the bank is built
     if (myRoom.bankPos == null) {
+        //TODO: Check if there exists a container or storage that isn't within 1 square of a source
+        //TODO: If so, assume it's a bank
+        console.log("ATTENTION: Room " + myRoom.name + " needs a bank pos to progress to 2.6");
         return false;
     }
     const bankPos = new RoomPosition(myRoom.bankPos.x, myRoom.bankPos.y, myRoom.bankPos.roomName);
