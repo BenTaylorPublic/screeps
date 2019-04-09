@@ -67,19 +67,9 @@ function spawnLaborer(myRoom: MyRoom): Laborer | null {
     }
 
     //Have a valid spawn now
-    let body: BodyPartConstant[] = [MOVE, MOVE, CARRY, WORK];
 
-    const maxEnergyToUse: number =
-        (myRoom.roomStage >= 3) ?
-            spawn.room.energyCapacityAvailable :
-            spawn.room.energyAvailable;
-    while (true) {
-        if (global.calcBodyCost(body) + global.calcBodyCost([MOVE, MOVE, CARRY, WORK]) <= maxEnergyToUse) {
-            body = body.concat([MOVE, MOVE, CARRY, WORK]);
-        } else {
-            break;
-        }
-    }
+    const useBestBody: boolean = myRoom.roomStage >= 3;
+    const body: BodyPartConstant[] = global.generateBody([MOVE, MOVE, CARRY, WORK], [MOVE, MOVE, CARRY, WORK], spawn.room, useBestBody);
 
     const id = global.getId();
     const result: ScreepsReturnCode =
