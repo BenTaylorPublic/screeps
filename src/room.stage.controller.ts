@@ -18,8 +18,11 @@ export const roomStageController: any = {
             0.6 ->  1   : Room has >= 5 extensions
             0.6 <-  1   : Room has < 5 extensions
 
-            1   ->  2   : RCL is level >= 2
-            1   <-  2   : RCL is level < 2
+            1   ->  1.5   : RCL is level >= 2
+            1   <-  1.5   : RCL is level < 2
+
+            1.5 ->  2   : Room has >= 10 extensions
+            1.5 <-  2   : Room has < 10 extensions
 
             2   ->  2.2 : RCL is level >= 3
             2   <-  2.2 : RCL is level < 3
@@ -57,6 +60,9 @@ export const roomStageController: any = {
         if (myRoom.roomStage === 1) {
             stage1Up(myRoom, room);
         }
+        if (myRoom.roomStage === 1.5) {
+            stage1_5Up(myRoom, room);
+        }
         if (myRoom.roomStage === 2) {
             stage2Up(myRoom, room);
         }
@@ -91,6 +97,9 @@ export const roomStageController: any = {
         }
         if (myRoom.roomStage >= 2) {
             stage2Down(myRoom, room);
+        }
+        if (myRoom.roomStage >= 1.5) {
+            stage1_5Down(myRoom, room);
         }
         if (myRoom.roomStage >= 1) {
             stage1Down(myRoom, room);
@@ -179,30 +188,62 @@ function stage1Down(myRoom: MyRoom, room: Room): boolean {
     });
 
     if (extensions.length < 5) {
-        myRoom.roomStage = -.6;
-        console.log("LOG: Room " + myRoom.name + " decreased to room stage 0.5");
+        myRoom.roomStage = 0.6;
+        console.log("LOG: Room " + myRoom.name + " decreased to room stage 0.6");
         return true;
     }
     return false;
 }
 
 function stage1Up(myRoom: MyRoom, room: Room): boolean {
-    // 1   ->  2   : RCL is level >= 2
+    // 1   ->  1.5   : RCL is level >= 2
     if (room.controller != null &&
         room.controller.level >= 2) {
+        myRoom.roomStage = 1.5;
+        console.log("LOG: Room " + myRoom.name + " increased to room stage 1.5");
+        return true;
+    }
+    return false;
+}
+
+function stage1_5Down(myRoom: MyRoom, room: Room): boolean {
+    // 1   <-  1.5   : RCL is level < 2
+    if (room.controller == null ||
+        room.controller.level < 2) {
+        myRoom.roomStage = 1;
+        console.log("LOG: Room " + myRoom.name + " decreased to room stage 1");
+        return true;
+    }
+    return false;
+}
+
+function stage1_5Up(myRoom: MyRoom, room: Room): boolean {
+    // 1.5   ->  2   : Room has >= 10 extensions
+    const extensions: StructureExtension[] = room.find<StructureExtension>(FIND_STRUCTURES, {
+        filter: (structure: Structure) => {
+            return structure.structureType === STRUCTURE_EXTENSION;
+        }
+    });
+
+    if (extensions.length >= 10) {
         myRoom.roomStage = 2;
-        console.log("LOG: Room " + myRoom.name + " increased to room stage 2");
+        console.log("LOG: Room " + myRoom.name + " decreased to room stage 2");
         return true;
     }
     return false;
 }
 
 function stage2Down(myRoom: MyRoom, room: Room): boolean {
-    // 1   <-  2   : RCL is level < 2
-    if (room.controller == null ||
-        room.controller.level < 2) {
-        myRoom.roomStage = 1;
-        console.log("LOG: Room " + myRoom.name + " decreased to room stage 1");
+    // 1.5   <-  2   : Room has < 10 extensions
+    const extensions: StructureExtension[] = room.find<StructureExtension>(FIND_STRUCTURES, {
+        filter: (structure: Structure) => {
+            return structure.structureType === STRUCTURE_EXTENSION;
+        }
+    });
+
+    if (extensions.length < 10) {
+        myRoom.roomStage = 1.5;
+        console.log("LOG: Room " + myRoom.name + " decreased to room stage 1.5");
         return true;
     }
     return false;
