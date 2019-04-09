@@ -36,8 +36,8 @@ export const roomStageController: any = {
             2.6 ->  2.8 : For atleast 1 source, have a miner and >= 1 hauler
             2.6 <-  2.8 : No sources have a miner and >= 1 hauler
 
-            2.8 ->  3   : >= 1 Laborer
-            2.8 <-  3   : No laborers
+            2.8 ->  3   : Room has >= 20 extensions
+            2.8 <-  3   : Room has < 20 extensions
          */
 
         if (room.controller == null ||
@@ -227,7 +227,7 @@ function stage1_5Up(myRoom: MyRoom, room: Room): boolean {
 
     if (extensions.length >= 10) {
         myRoom.roomStage = 2;
-        console.log("LOG: Room " + myRoom.name + " decreased to room stage 2");
+        console.log("LOG: Room " + myRoom.name + " increased to room stage 2");
         return true;
     }
     return false;
@@ -482,16 +482,14 @@ function stage2_8Down(myRoom: MyRoom, room: Room): boolean {
 }
 
 function stage2_8Up(myRoom: MyRoom, room: Room): boolean {
-    // 2.8 ->  3   : >= 1 Laborer
-    let laborerCount: number = 0;
-    for (let i = 0; i < myRoom.myCreeps.length; i++) {
-        const myCreep: MyCreep = myRoom.myCreeps[i];
-        if (myCreep.role === "Laborer") {
-            laborerCount++;
-            break;
+    // 2.8 ->  3   : Room has >= 20 extensions
+    const extensions: StructureExtension[] = room.find<StructureExtension>(FIND_STRUCTURES, {
+        filter: (structure: Structure) => {
+            return structure.structureType === STRUCTURE_EXTENSION;
         }
-    }
-    if (laborerCount > 0) {
+    });
+
+    if (extensions.length >= 20) {
         myRoom.roomStage = 3;
         console.log("LOG: Room " + myRoom.name + " increased to room stage 3");
         return true;
@@ -500,19 +498,17 @@ function stage2_8Up(myRoom: MyRoom, room: Room): boolean {
 }
 
 function stage3Down(myRoom: MyRoom, room: Room): boolean {
-    // 2.8 <-  3   : No laborers
-    let laborerCount: number = 0;
-    for (let i = 0; i < myRoom.myCreeps.length; i++) {
-        const myCreep: MyCreep = myRoom.myCreeps[i];
-        if (myCreep.role === "Laborer") {
-            laborerCount++;
-            break;
+    // 2.8 <-  3   : Room has < 20 extensions
+    const extensions: StructureExtension[] = room.find<StructureExtension>(FIND_STRUCTURES, {
+        filter: (structure: Structure) => {
+            return structure.structureType === STRUCTURE_EXTENSION;
         }
+    });
+
+    if (extensions.length < 20) {
+        myRoom.roomStage = 2.8;
+        console.log("LOG: Room " + myRoom.name + " decreased to room stage 2.8");
+        return true;
     }
-    if (laborerCount > 0) {
-        return false;
-    }
-    myRoom.roomStage = 2.8;
-    console.log("LOG: Room " + myRoom.name + " decreased to room stage 2.8");
-    return true;
+    return false;
 }
