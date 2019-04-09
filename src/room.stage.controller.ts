@@ -15,7 +15,7 @@ export const roomStageController: any = {
             0.3 ->  0.6 : Room has >= 1 spawn
             0.3 <-  0.6 : Room has < 1 spawns
 
-            0.6 ->  1   : Room has 5 extensions
+            0.6 ->  1   : Room has >= 5 extensions
             0.6 <-  1   : Room has < 5 extensions
 
             1   ->  2   : RCL is level >= 2
@@ -155,7 +155,7 @@ function stage0_6Down(myRoom: MyRoom, room: Room): boolean {
 }
 
 function stage0_6Up(myRoom: MyRoom, room: Room): boolean {
-    // 0.6 ->  1   : Room has 5 extensions
+    // 0.6 ->  1   : Room has >= 5 extensions
     const extensions: StructureExtension[] = room.find<StructureExtension>(FIND_STRUCTURES, {
         filter: (structure: Structure) => {
             return structure.structureType === STRUCTURE_EXTENSION;
