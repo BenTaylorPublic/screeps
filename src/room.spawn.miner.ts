@@ -35,7 +35,7 @@ function spawnMiner(myRoom: MyRoom, mySource: MySource): Miner | null {
     }
 
     if (mySource.cachePos == null) {
-        console.log("ERR: Attempted to spawn miner to a source with no cache container poss");
+        console.log("ERR: Attempted to spawn miner to a source with no cache container pos");
         return null;
     }
 
