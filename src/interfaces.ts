@@ -39,7 +39,7 @@ interface MyRoomPos {
 
 interface MyCreep {
     name: string;
-    role: string;
+    role: "Hauler" | "Miner" | "Laborer";
     assignedRoomName: string;
 }
 
@@ -54,8 +54,5 @@ interface Hauler extends MyCreep {
 }
 
 interface Laborer extends MyCreep {
-    /*
-    Pickup, Mining, or Labor
-    */
-    state: string;
+    state: "Pickup" | "Mining" | "Labor";
 }
