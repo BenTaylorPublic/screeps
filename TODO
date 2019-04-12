@@ -1,10 +1,15 @@
-Work on room.spawn.X.ts
-They need to provide information as to whether they are needed
-Then the room.spawn.controller.ts can decide what to spawn based on room stage
-
 Add extensions as a requirement to go to next room stage
 
 Implement a flag system to place banks/links/caches/towers
+Clear out room.building.controller and use that
+Only check flags when the room stage is in a state that needs it to progress
+Terms, in order of implementation:
+ex-1 to 60
+cont-1 to 2 & cont-bank
+tower-1 to 6
+storage-bank
+link-1 to 2 & link-bank
+spawn-2 to 3
 
 Long term:
 Spawn a new miner before the old one dies, so no downtime.
@@ -24,6 +29,6 @@ Lvl Req         Other                   Towers  Links   Spawns  Extensions  Ramp
 7	10,935,000	                        3       4       2       50 100 cap  100M    6
 8	-	        Observer, Power Spawn   6       6       3       60 200 cap  300M    10
 
-WORK 100
+WORK 100`
 MOVE 50
 CARRY 50

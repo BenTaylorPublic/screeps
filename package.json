@@ -1,0 +1,25 @@
+{
+  "name": "screeps",
+  "version": "1.0.0",
+  "description": "My screeps AI",
+  "main": "index.js",
+  "dependencies": {
+    "@types/screeps": "^2.5.3",
+    "tslint": "^5.15.0",
+    "typescript": "^3.4.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "tslint --project tslint.json && tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BenTaylorPublic/screeps.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BenTaylorPublic/screeps/issues"
+  },
+  "homepage": "https://github.com/BenTaylorPublic/screeps#readme"
+}
