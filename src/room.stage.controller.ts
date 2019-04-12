@@ -165,13 +165,7 @@ function stage0_6Down(myRoom: MyRoom, room: Room): boolean {
 
 function stage0_6Up(myRoom: MyRoom, room: Room): boolean {
     // 0.6 ->  1   : Room has >= 5 extensions
-    const extensions: StructureExtension[] = room.find<StructureExtension>(FIND_STRUCTURES, {
-        filter: (structure: Structure) => {
-            return structure.structureType === STRUCTURE_EXTENSION;
-        }
-    });
-
-    if (extensions.length >= 5) {
+    if (amountOfExtensions(myRoom, room) >= 5) {
         myRoom.roomStage = 1;
         console.log("LOG: Room " + myRoom.name + " increased to room stage 1");
         return true;
@@ -181,13 +175,7 @@ function stage0_6Up(myRoom: MyRoom, room: Room): boolean {
 
 function stage1Down(myRoom: MyRoom, room: Room): boolean {
     // 0.6 <-  1   : Room has < 5 extensions
-    const extensions: StructureExtension[] = room.find<StructureExtension>(FIND_STRUCTURES, {
-        filter: (structure: Structure) => {
-            return structure.structureType === STRUCTURE_EXTENSION;
-        }
-    });
-
-    if (extensions.length < 5) {
+    if (amountOfExtensions(myRoom, room) < 5) {
         myRoom.roomStage = 0.6;
         console.log("LOG: Room " + myRoom.name + " decreased to room stage 0.6");
         return true;
@@ -219,13 +207,7 @@ function stage1_5Down(myRoom: MyRoom, room: Room): boolean {
 
 function stage1_5Up(myRoom: MyRoom, room: Room): boolean {
     // 1.5   ->  2   : Room has >= 10 extensions
-    const extensions: StructureExtension[] = room.find<StructureExtension>(FIND_STRUCTURES, {
-        filter: (structure: Structure) => {
-            return structure.structureType === STRUCTURE_EXTENSION;
-        }
-    });
-
-    if (extensions.length >= 10) {
+    if (amountOfExtensions(myRoom, room) >= 10) {
         myRoom.roomStage = 2;
         console.log("LOG: Room " + myRoom.name + " increased to room stage 2");
         return true;
@@ -235,13 +217,7 @@ function stage1_5Up(myRoom: MyRoom, room: Room): boolean {
 
 function stage2Down(myRoom: MyRoom, room: Room): boolean {
     // 1.5   <-  2   : Room has < 10 extensions
-    const extensions: StructureExtension[] = room.find<StructureExtension>(FIND_STRUCTURES, {
-        filter: (structure: Structure) => {
-            return structure.structureType === STRUCTURE_EXTENSION;
-        }
-    });
-
-    if (extensions.length < 10) {
+    if (amountOfExtensions(myRoom, room)) {
         myRoom.roomStage = 1.5;
         console.log("LOG: Room " + myRoom.name + " decreased to room stage 1.5");
         return true;
@@ -483,13 +459,7 @@ function stage2_8Down(myRoom: MyRoom, room: Room): boolean {
 
 function stage2_8Up(myRoom: MyRoom, room: Room): boolean {
     // 2.8 ->  3   : Room has >= 20 extensions
-    const extensions: StructureExtension[] = room.find<StructureExtension>(FIND_STRUCTURES, {
-        filter: (structure: Structure) => {
-            return structure.structureType === STRUCTURE_EXTENSION;
-        }
-    });
-
-    if (extensions.length >= 20) {
+    if (amountOfExtensions(myRoom, room) >= 20) {
         myRoom.roomStage = 3;
         console.log("LOG: Room " + myRoom.name + " increased to room stage 3");
         return true;
@@ -499,16 +469,22 @@ function stage2_8Up(myRoom: MyRoom, room: Room): boolean {
 
 function stage3Down(myRoom: MyRoom, room: Room): boolean {
     // 2.8 <-  3   : Room has < 20 extensions
-    const extensions: StructureExtension[] = room.find<StructureExtension>(FIND_STRUCTURES, {
-        filter: (structure: Structure) => {
-            return structure.structureType === STRUCTURE_EXTENSION;
-        }
-    });
-
-    if (extensions.length < 20) {
+    if (amountOfExtensions(myRoom, room) < 20) {
         myRoom.roomStage = 2.8;
         console.log("LOG: Room " + myRoom.name + " decreased to room stage 2.8");
         return true;
     }
     return false;
+}
+
+/*
+    NOT STAGE UP/DOWN HELPERS
+ */
+function amountOfExtensions(myRoom: MyRoom, room: Room): number {
+    const extensions: StructureExtension[] = room.find<StructureExtension>(FIND_STRUCTURES, {
+        filter: (structure: Structure) => {
+            return structure.structureType === STRUCTURE_EXTENSION;
+        }
+    });
+    return extensions.length;
 }
