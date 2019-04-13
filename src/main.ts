@@ -6,6 +6,7 @@ setupMyMemory();
 
 const myRoom: MyRoom = Memory.myMemory.myRooms[0];
 myRoom.myExtensionPositions = [];
+myRoom.myTowerPositions = [];
 
 export const loop: any = function () {
     memoryController.run();

@@ -5,7 +5,7 @@ Clear out room.building.controller and use that
 Only check flags when the room stage is in a state that needs it to progress
 Terms, in order of implementation:
 ex-1 to 60
-cont-1 to 2 & cont-bank
+cont-cache-1 cont-cache-2 & cont-bank
 tower-1 to 6
 storage-bank
 link-1 to 2 & link-bank

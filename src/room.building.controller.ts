@@ -7,10 +7,20 @@ export const roomBuildingController: any = {
         }
         //Can still see the room
 
+        //TODO: Ensure all extensions and towers still exist
+
         if (myRoom.roomStage === 0.3) {
             roomNeedsFirstSpawn(myRoom);
         } else if (myRoom.roomStage === 0.6) {
             buildExtensions(myRoom, 5);
+        } else if (myRoom.roomStage === 1.5) {
+            buildExtensions(myRoom, 10);
+        } else if (myRoom.roomStage === 2.2) {
+            buildTowers(myRoom, 1);
+        } else if (myRoom.roomStage === 2.4) {
+            //TODO: Needs caches and a container bank
+        } else if (myRoom.roomStage === 2.8) {
+            buildExtensions(myRoom, 20);
         }
     }
 };
@@ -38,7 +48,32 @@ function buildExtensions(myRoom: MyRoom, numberOfExtensionsToBuild: number): voi
                     });
                     roomFlag.remove();
                 } else {
-                    console.log("ERR: Placing a extension construction site");
+                    console.log("ERR: Placing a extension construction site errored");
+                }
+            }
+        }
+    }
+}
+
+function buildTowers(myRoom: MyRoom, numberOfTowersToBuild: number): void {
+    const roomFlags: Flag[] = getRoomsFlags(myRoom);
+    for (let i = 0; i < roomFlags.length; i++) {
+        const roomFlag: Flag = roomFlags[i];
+        const flagNameSplit: string[] = getFlagNameSplit(roomFlag);
+        if (flagNameSplit[0] === "tower") {
+            const towerNumber: number = Number(flagNameSplit[1]);
+            if (towerNumber <= numberOfTowersToBuild) {
+                const result: ScreepsReturnCode = Game.rooms[myRoom.name].createConstructionSite(roomFlag.pos, STRUCTURE_TOWER);
+                if (result === OK) {
+                    console.log("LOG: Placed tower construction site");
+                    myRoom.myTowerPositions.push({
+                        x: roomFlag.pos.x,
+                        y: roomFlag.pos.y,
+                        roomName: myRoom.name
+                    });
+                    roomFlag.remove();
+                } else {
+                    console.log("ERR: Placing a tower construction site errored");
                 }
             }
         }
