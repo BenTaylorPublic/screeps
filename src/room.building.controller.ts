@@ -7,8 +7,6 @@ export const roomBuildingController: any = {
         }
         //Can still see the room
 
-        const room: Room = Game.rooms[myRoom.name];
-
         if (myRoom.roomStage === 0.3) {
             roomNeedsFirstSpawn(myRoom);
         } else if (myRoom.roomStage === 0.6) {
