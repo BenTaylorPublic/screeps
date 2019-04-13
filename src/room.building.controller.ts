@@ -19,6 +19,7 @@ export const roomBuildingController: any = {
             buildTowers(myRoom, 1);
         } else if (myRoom.roomStage === 2.4) {
             buildContainerCaches(myRoom);
+            buildContainerBank(myRoom);
         } else if (myRoom.roomStage === 2.8) {
             buildExtensions(myRoom, 20);
         }
@@ -28,6 +29,33 @@ export const roomBuildingController: any = {
 function roomNeedsFirstSpawn(myRoom: MyRoom): void {
     // TODO: Code this
     console.log("ATTENTION: Build your first spawn");
+}
+
+function buildContainerBank(myRoom: MyRoom): void {
+    const roomFlags: Flag[] = getRoomsFlags(myRoom);
+    for (let i = 0; i < roomFlags.length; i++) {
+        const roomFlag: Flag = roomFlags[i];
+        const flagNameSplit: string[] = getFlagNameSplit(roomFlag);
+        if (flagNameSplit[0] === "cont" &&
+            flagNameSplit[1] === "bank") {
+            const result: ScreepsReturnCode = Game.rooms[myRoom.name].createConstructionSite(roomFlag.pos, STRUCTURE_CONTAINER);
+            if (result === OK) {
+                console.log("LOG: Placed container bank construction site");
+                roomFlag.remove();
+                if (myRoom.bankPos == null) {
+                    myRoom.bankPos = {
+                        x: roomFlag.pos.x,
+                        y: roomFlag.pos.y,
+                        roomName: myRoom.name
+                    };
+                } else {
+                    console.log("ERR: Placed a container bank but the room already has a bank");
+                }
+            } else {
+                console.log("ERR: Placing a container bank construction site errored");
+            }
+        }
+    }
 }
 
 function buildContainerCaches(myRoom: MyRoom): void {
