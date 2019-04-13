@@ -9,19 +9,17 @@ export const roomBuildingController: any = {
 
         //TODO: Ensure all extensions and towers still exist
 
-        if (myRoom.roomStage === 0.3) {
+        if (myRoom.roomStage === 0.5) {
             roomNeedsFirstSpawn(myRoom);
-        } else if (myRoom.roomStage === 0.6) {
-            buildExtensions(myRoom, 5);
         } else if (myRoom.roomStage === 1.5) {
-            buildExtensions(myRoom, 10);
+            buildExtensions(myRoom, 5);
         } else if (myRoom.roomStage === 2.2) {
             buildTowers(myRoom, 1);
         } else if (myRoom.roomStage === 2.4) {
             buildContainerCaches(myRoom);
             buildContainerBank(myRoom);
         } else if (myRoom.roomStage === 2.8) {
-            buildExtensions(myRoom, 20);
+            buildExtensions(myRoom, 10);
         }
     }
 };

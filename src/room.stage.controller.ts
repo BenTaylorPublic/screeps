@@ -9,20 +9,17 @@ export const roomStageController: any = {
             -1  ->  0   : Get a room controller that's mine
             -1  <-  0   : Have no room controller that's mine
 
-            0   ->  0.3 : RCL is level >= 1
-            0   <-  0.3 : RCL is level < 1
+            0   ->  0.5 : RCL is level >= 1
+            0   <-  0.5 : RCL is level < 1
 
-            0.3 ->  0.6 : Room has >= 1 spawn
-            0.3 <-  0.6 : Room has < 1 spawns
-
-            0.6 ->  1   : Room has >= 5 extensions
-            0.6 <-  1   : Room has < 5 extensions
+            0.5 ->  1 : Room has >= 1 spawn
+            0.5 <-  1 : Room has < 1 spawns
 
             1   ->  1.5   : RCL is level >= 2
             1   <-  1.5   : RCL is level < 2
 
-            1.5 ->  2   : Room has >= 10 extensions
-            1.5 <-  2   : Room has < 10 extensions
+            1.5 ->  2   : Room has >= 5 extensions
+            1.5 <-  2   : Room has < 5 extensions
 
             2   ->  2.2 : RCL is level >= 3
             2   <-  2.2 : RCL is level < 3
@@ -36,8 +33,8 @@ export const roomStageController: any = {
             2.6 ->  2.8 : For atleast 1 source, have a miner and >= 1 hauler
             2.6 <-  2.8 : No sources have a miner and >= 1 hauler
 
-            2.8 ->  3   : Room has >= 20 extensions
-            2.8 <-  3   : Room has < 20 extensions
+            2.8 ->  3   : Room has >= 10 extensions
+            2.8 <-  3   : Room has < 10 extensions
          */
 
         if (room.controller == null ||
@@ -51,11 +48,8 @@ export const roomStageController: any = {
         if (myRoom.roomStage === 0) {
             stage0Up(myRoom, room);
         }
-        if (myRoom.roomStage === 0.3) {
-            stage0_3Up(myRoom, room);
-        }
-        if (myRoom.roomStage === 0.6) {
-            stage0_6Up(myRoom, room);
+        if (myRoom.roomStage === 0.5) {
+            stage0_5Up(myRoom, room);
         }
         if (myRoom.roomStage === 1) {
             stage1Up(myRoom, room);
@@ -104,11 +98,8 @@ export const roomStageController: any = {
         if (myRoom.roomStage >= 1) {
             stage1Down(myRoom, room);
         }
-        if (myRoom.roomStage >= 0.6) {
-            stage0_6Down(myRoom, room);
-        }
-        if (myRoom.roomStage >= 0.3) {
-            stage0_3Down(myRoom, room);
+        if (myRoom.roomStage >= 0.5) {
+            stage0_5Down(myRoom, room);
         }
     }
 };
@@ -117,15 +108,15 @@ function stage0Up(myRoom: MyRoom, room: Room): boolean {
     // -1  ->  0   : Get a room controller that's mine
     if (room.controller != null &&
         room.controller.level >= 1) {
-        myRoom.roomStage = 0.3;
-        console.log("LOG: Room " + myRoom.name + " increased to room stage 0.3");
+        myRoom.roomStage = 0.5;
+        console.log("LOG: Room " + myRoom.name + " increased to room stage 0.5");
         return true;
     }
     return false;
 }
 
-function stage0_3Down(myRoom: MyRoom, room: Room): boolean {
-    // 0  <-  0.3   : RCL is level < 1
+function stage0_5Down(myRoom: MyRoom, room: Room): boolean {
+    // 0  <-  0.5   : RCL is level < 1
     if (room.controller == null ||
         room.controller.level < 1) {
         myRoom.roomStage = 0;
@@ -135,22 +126,22 @@ function stage0_3Down(myRoom: MyRoom, room: Room): boolean {
     return false;
 }
 
-function stage0_3Up(myRoom: MyRoom, room: Room): boolean {
-    // 0.3 ->  0.6   : Room has >= 1 spawn
+function stage0_5Up(myRoom: MyRoom, room: Room): boolean {
+    // 0.5 ->  1   : Room has >= 1 spawn
     //TODO: Works for now, but when myRoom.spawn is an array, use that
     for (const spawnName in Game.spawns) {
         if (Game.spawns[spawnName].room.name === myRoom.name) {
             //Spawn has been made
-            myRoom.roomStage = 0.6;
-            console.log("LOG: Room " + myRoom.name + " increased to room stage 0.6");
+            myRoom.roomStage = 1;
+            console.log("LOG: Room " + myRoom.name + " increased to room stage 1");
             return true;
         }
     }
     return false;
 }
 
-function stage0_6Down(myRoom: MyRoom, room: Room): boolean {
-    // 0.3 <-  0.6   : Room has < 1 spawns
+function stage1Down(myRoom: MyRoom, room: Room): boolean {
+    // 0.5 <-  1   : Room has < 1 spawns
     //TODO: Works for now, but when myRoom.spawn is an array, use that
     for (const spawnName in Game.spawns) {
         if (Game.spawns[spawnName].room.name === myRoom.name) {
@@ -158,29 +149,9 @@ function stage0_6Down(myRoom: MyRoom, room: Room): boolean {
             return false;
         }
     }
-    myRoom.roomStage = 0.3;
-    console.log("LOG: Room " + myRoom.name + " decreased to room stage 0.3");
+    myRoom.roomStage = 0.5;
+    console.log("LOG: Room " + myRoom.name + " decreased to room stage 0.5");
     return true;
-}
-
-function stage0_6Up(myRoom: MyRoom, room: Room): boolean {
-    // 0.6 ->  1   : Room has >= 5 extensions
-    if (amountOfExtensions(room) >= 5) {
-        myRoom.roomStage = 1;
-        console.log("LOG: Room " + myRoom.name + " increased to room stage 1");
-        return true;
-    }
-    return false;
-}
-
-function stage1Down(myRoom: MyRoom, room: Room): boolean {
-    // 0.6 <-  1   : Room has < 5 extensions
-    if (amountOfExtensions(room) < 5) {
-        myRoom.roomStage = 0.6;
-        console.log("LOG: Room " + myRoom.name + " decreased to room stage 0.6");
-        return true;
-    }
-    return false;
 }
 
 function stage1Up(myRoom: MyRoom, room: Room): boolean {
@@ -206,8 +177,8 @@ function stage1_5Down(myRoom: MyRoom, room: Room): boolean {
 }
 
 function stage1_5Up(myRoom: MyRoom, room: Room): boolean {
-    // 1.5   ->  2   : Room has >= 10 extensions
-    if (amountOfExtensions(room) >= 10) {
+    // 1.5   ->  2   : Room has >= 5 extensions
+    if (amountOfExtensions(room) >= 5) {
         myRoom.roomStage = 2;
         console.log("LOG: Room " + myRoom.name + " increased to room stage 2");
         return true;
@@ -216,8 +187,8 @@ function stage1_5Up(myRoom: MyRoom, room: Room): boolean {
 }
 
 function stage2Down(myRoom: MyRoom, room: Room): boolean {
-    // 1.5   <-  2   : Room has < 10 extensions
-    if (amountOfExtensions(room)) {
+    // 1.5   <-  2   : Room has < 5 extensions
+    if (amountOfExtensions(room) < 5) {
         myRoom.roomStage = 1.5;
         console.log("LOG: Room " + myRoom.name + " decreased to room stage 1.5");
         return true;
@@ -458,8 +429,8 @@ function stage2_8Down(myRoom: MyRoom, room: Room): boolean {
 }
 
 function stage2_8Up(myRoom: MyRoom, room: Room): boolean {
-    // 2.8 ->  3   : Room has >= 20 extensions
-    if (amountOfExtensions(room) >= 20) {
+    // 2.8 ->  3   : Room has >= 10 extensions
+    if (amountOfExtensions(room) >= 10) {
         myRoom.roomStage = 3;
         console.log("LOG: Room " + myRoom.name + " increased to room stage 3");
         return true;
@@ -468,8 +439,8 @@ function stage2_8Up(myRoom: MyRoom, room: Room): boolean {
 }
 
 function stage3Down(myRoom: MyRoom, room: Room): boolean {
-    // 2.8 <-  3   : Room has < 20 extensions
-    if (amountOfExtensions(room) < 20) {
+    // 2.8 <-  3   : Room has < 10 extensions
+    if (amountOfExtensions(room) < 10) {
         myRoom.roomStage = 2.8;
         console.log("LOG: Room " + myRoom.name + " decreased to room stage 2.8");
         return true;
