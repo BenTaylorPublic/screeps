@@ -18,7 +18,7 @@ export const roomBuildingController: any = {
         } else if (myRoom.roomStage === 2.2) {
             buildTowers(myRoom, 1);
         } else if (myRoom.roomStage === 2.4) {
-            //TODO: Needs caches and a container bank
+            buildContainerCaches(myRoom);
         } else if (myRoom.roomStage === 2.8) {
             buildExtensions(myRoom, 20);
         }
@@ -28,6 +28,40 @@ export const roomBuildingController: any = {
 function roomNeedsFirstSpawn(myRoom: MyRoom): void {
     // TODO: Code this
     console.log("ATTENTION: Build your first spawn");
+}
+
+function buildContainerCaches(myRoom: MyRoom): void {
+    const roomFlags: Flag[] = getRoomsFlags(myRoom);
+    for (let i = 0; i < roomFlags.length; i++) {
+        const roomFlag: Flag = roomFlags[i];
+        const flagNameSplit: string[] = getFlagNameSplit(roomFlag);
+        if (flagNameSplit[0] === "cont" &&
+            flagNameSplit[1] === "cache") {
+            const result: ScreepsReturnCode = Game.rooms[myRoom.name].createConstructionSite(roomFlag.pos, STRUCTURE_CONTAINER);
+            if (result === OK) {
+                console.log("LOG: Placed container cache construction site");
+                roomFlag.remove();
+                for (let j = 0; j < myRoom.mySources.length; j++) {
+                    const mySource: MySource = myRoom.mySources[j];
+                    const source: Source | null = Game.getObjectById<Source>(mySource.id);
+                    if (source == null) {
+                        console.log("ERR: Source was null when trying to get it by ID");
+                    } else {
+                        if (source.pos.inRangeTo(roomFlag.pos, 1)) {
+                            mySource.cachePos = {
+                                x: roomFlag.pos.x,
+                                y: roomFlag.pos.y,
+                                roomName: myRoom.name
+                            };
+                        } // Else it's hopefully the other source in the room...
+                    }
+                }
+
+            } else {
+                console.log("ERR: Placing a container cache construction site errored");
+            }
+        }
+    }
 }
 
 function buildExtensions(myRoom: MyRoom, numberOfExtensionsToBuild: number): void {
