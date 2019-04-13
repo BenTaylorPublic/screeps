@@ -16,6 +16,7 @@ interface MyRoom {
     mySources: MySource[];
     roomStage: number;
     bankPos: MyRoomPos | null;
+    myExtensionPositions: MyRoomPos[];
 }
 
 interface MySource {
