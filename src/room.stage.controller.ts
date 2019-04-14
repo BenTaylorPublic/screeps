@@ -35,6 +35,9 @@ export const roomStageController: any = {
 
             2.8 ->  3   : Room has >= 10 extensions
             2.8 <-  3   : Room has < 10 extensions
+
+            3   ->  3.3 : RCL is level >= 4
+            3   <-  3.3 : RCL is level < 4
          */
 
         if (room.controller == null ||
@@ -72,8 +75,14 @@ export const roomStageController: any = {
         if (myRoom.roomStage === 2.8) {
             stage2_8Up(myRoom, room);
         }
+        if (myRoom.roomStage === 3) {
+            stage3Up(myRoom, room);
+        }
 
         //You can always go down, to any stage
+        if (myRoom.roomStage >= 3.3) {
+            stage3_3Down(myRoom, room);
+        }
         if (myRoom.roomStage >= 3) {
             stage3Down(myRoom, room);
         }
@@ -443,6 +452,28 @@ function stage3Down(myRoom: MyRoom, room: Room): boolean {
     if (amountOfExtensions(room) < 10) {
         myRoom.roomStage = 2.8;
         console.log("LOG: Room " + myRoom.name + " decreased to room stage 2.8");
+        return true;
+    }
+    return false;
+}
+
+function stage3Up(myRoom: MyRoom, room: Room): boolean {
+    // 3   ->  3.3 : RCL is level >= 4
+    if (room.controller != null &&
+        room.controller.level >= 4) {
+        myRoom.roomStage = 3.3;
+        console.log("LOG: Room " + myRoom.name + " increased to room stage 3.3");
+        return true;
+    }
+    return false;
+}
+
+function stage3_3Down(myRoom: MyRoom, room: Room): boolean {
+    // 3   <-  3.3 : RCL is level < 4
+    if (room.controller == null ||
+        room.controller.level < 4) {
+        myRoom.roomStage = 3;
+        console.log("LOG: Room " + myRoom.name + " decreased to room stage 3");
         return true;
     }
     return false;

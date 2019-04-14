@@ -1,5 +1,3 @@
-Add extensions as a requirement to go to next room stage
-
 Implement a flag system to place banks/links/caches/towers
 Clear out room.building.controller and use that
 Only check flags when the room stage is in a state that needs it to progress
