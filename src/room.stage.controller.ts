@@ -41,6 +41,9 @@ export const roomStageController: any = {
 
             3.3 ->  3.6 : Room has >= 20 extensions
             3.3 <-  3.6 : Room has < 20 extensions
+
+            3.6 ->  4   : Room has a storage bank
+            3.6 <-  4   : Room does not have a storage bank
          */
 
         if (room.controller == null ||
@@ -84,8 +87,14 @@ export const roomStageController: any = {
         if (myRoom.roomStage === 3.3) {
             stage3_3Up(myRoom, room);
         }
+        if (myRoom.roomStage === 3.6) {
+            stage3_6Up(myRoom, room);
+        }
 
         //You can always go down, to any stage
+        if (myRoom.roomStage >= 4) {
+            stage4Down(myRoom, room);
+        }
         if (myRoom.roomStage >= 3.6) {
             stage3_6Down(myRoom, room);
         }
@@ -492,7 +501,7 @@ function stage3_3Up(myRoom: MyRoom, room: Room): boolean {
     // 3.3 ->  3.6 : Room has >= 20 extensions
     if (amountOfExtensions(room) >= 20) {
         myRoom.roomStage = 3.6;
-        console.log("LOG: Room " + myRoom.name + " increased to room stage 3.3");
+        console.log("LOG: Room " + myRoom.name + " increased to room stage 3.6");
         return true;
     }
     return false;
@@ -503,6 +512,38 @@ function stage3_6Down(myRoom: MyRoom, room: Room): boolean {
     if (amountOfExtensions(room) < 20) {
         myRoom.roomStage = 3.3;
         console.log("LOG: Room " + myRoom.name + " decreased to room stage 3.3");
+        return true;
+    }
+    return false;
+}
+
+function stage3_6Up(myRoom: MyRoom, room: Room): boolean {
+    // 3.6 ->  4   : Room has a storage bank
+    const storages: StructureStorage[] = room.find<StructureStorage>(FIND_STRUCTURES, {
+        filter: (structure: Structure) => {
+            return structure.structureType === STRUCTURE_STORAGE;
+        }
+    });
+
+    if (storages.length === 1) {
+        myRoom.roomStage = 4;
+        console.log("LOG: Room " + myRoom.name + " increased to room stage 4");
+        return true;
+    }
+    return false;
+}
+
+function stage4Down(myRoom: MyRoom, room: Room): boolean {
+    // 3.6 <-  4   : Room does not have a storage bank
+    const storages: StructureStorage[] = room.find<StructureStorage>(FIND_STRUCTURES, {
+        filter: (structure: Structure) => {
+            return structure.structureType === STRUCTURE_STORAGE;
+        }
+    });
+
+    if (storages.length === 0) {
+        myRoom.roomStage = 3.6;
+        console.log("LOG: Room " + myRoom.name + " decreased to room stage 3");
         return true;
     }
     return false;
