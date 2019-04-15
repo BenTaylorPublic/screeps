@@ -20,6 +20,10 @@ export const roomBuildingController: any = {
             buildContainerBank(myRoom);
         } else if (myRoom.roomStage === 2.8) {
             buildExtensions(myRoom, 10);
+        } else if (myRoom.roomStage === 3.3) {
+            buildExtensions(myRoom, 20);
+        } else if (myRoom.roomStage === 3.6) {
+            // TODO: Build storage
         }
     }
 };
