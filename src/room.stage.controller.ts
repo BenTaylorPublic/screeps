@@ -12,11 +12,11 @@ export const roomStageController: any = {
             0   ->  0.5 : RCL is level >= 1
             0   <-  0.5 : RCL is level < 1
 
-            0.5 ->  1 : Room has >= 1 spawn
-            0.5 <-  1 : Room has < 1 spawns
+            0.5 ->  1   : Room has >= 1 spawn
+            0.5 <-  1   : Room has < 1 spawns
 
-            1   ->  1.5   : RCL is level >= 2
-            1   <-  1.5   : RCL is level < 2
+            1   ->  1.5 : RCL is level >= 2
+            1   <-  1.5 : RCL is level < 2
 
             1.5 ->  2   : Room has >= 5 extensions
             1.5 <-  2   : Room has < 5 extensions
