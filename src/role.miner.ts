@@ -1,3 +1,5 @@
+import { global } from "global";
+
 export const roleMiner: any = {
     run: function (miner: Miner) {
         const creep: Creep = Game.creeps[miner.name];
@@ -5,10 +7,7 @@ export const roleMiner: any = {
             console.log("ERR: Miner creep is null. Creep ID: " + miner.name);
             return;
         }
-        const cachePos: RoomPosition
-            = new RoomPosition(miner.cachePosToMineOn.x,
-                miner.cachePosToMineOn.y,
-                miner.cachePosToMineOn.roomName);
+        const cachePos: RoomPosition = global.myPosToRoomPos(miner.cachePosToMineOn);
 
         if (cachePos.isEqualTo(creep.pos)) {
             //In location
