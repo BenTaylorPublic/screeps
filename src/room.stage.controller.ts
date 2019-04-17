@@ -1,9 +1,9 @@
 import { stageDefault } from "stage.default";
 import { stage0 } from "stage.0";
 import { stage0_3 } from "stage.0_3";
+import { stage0_6 } from "stage.0_6";
 import { stage1 } from "stage.1";
 import { stage1_5 } from "stage.1_5";
-import { stage0_6 } from "stage.0_6";
 import { stage2 } from "stage.2";
 import { stage2_3 } from "stage.2_3";
 import { stage2_6 } from "stage.2_6";
