@@ -3,7 +3,6 @@ import { roleMiner } from "role.miner";
 import { roleHauler } from "role.hauler";
 import { roomStageController } from "room.stage.controller";
 import { roleLaborer } from "role.laborer";
-import { roomBuildingController } from "room.building.controller";
 import { roomSpawnController } from "room.spawn.controller";
 
 export const roomController: any = {
@@ -21,7 +20,6 @@ export const roomController: any = {
         if (Game.time % 10 === 0) {
             //Only run every 10 ticks
             roomStageController.run(myRoom);
-            roomBuildingController.run(myRoom);
         }
         roomSpawnController.run(myRoom);
 

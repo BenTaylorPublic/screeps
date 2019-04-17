@@ -1,3 +1,4 @@
+import { global } from "global";
 
 export const roomTowerController: any = {
     run: function (tower: StructureTower) {
@@ -12,15 +13,11 @@ export const roomTowerController: any = {
 
         const hostileCreeps: Creep[] = tower.room.find(FIND_HOSTILE_CREEPS);
         if (hostileCreeps.length >= 1) {
-            const allyList: string[] = ["mooseyman", "nimphious"];
 
             for (let i = hostileCreeps.length - 1; i >= 0; i--) {
                 const possibleHostileCreep: Creep = hostileCreeps[i];
-                for (let j = 0; j < allyList.length; j++) {
-                    if (possibleHostileCreep.owner.username.toLowerCase() === allyList[j]) {
-                        hostileCreeps.slice(i, 1);
-                        break;
-                    }
+                if (global.isAllyUsername(possibleHostileCreep.owner.username)) {
+                    hostileCreeps.slice(i, 1);
                 }
             }
 

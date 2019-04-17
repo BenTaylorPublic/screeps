@@ -1,3 +1,5 @@
+import { global } from "global";
+
 export const roleLaborer: any = {
     run: function (laborer: Laborer, myRoom: MyRoom) {
         const creep: Creep = Game.creeps[laborer.name];
@@ -8,6 +10,8 @@ export const roleLaborer: any = {
         }
 
         calculateCreepState(laborer, myRoom, creep);
+
+        // TODO: Add another state to pickup from cache (From roomStage 1 to 4)
 
         if (laborer.state === "Pickup") {
             pickup(laborer, myRoom, creep);
@@ -72,33 +76,15 @@ function pickup(laborer: Laborer, myRoom: MyRoom, creep: Creep): void {
         console.log("ERR: Room's bank pos was null");
         return;
     }
-
-    const bankPos: RoomPosition
-        = new RoomPosition(myRoom.bankPos.x,
-            myRoom.bankPos.y,
-            myRoom.bankPos.roomName);
+    const bankPos: RoomPosition = global.myPosToRoomPos(myRoom.bankPos);
 
     if (bankPos.isNearTo(creep)) {
-        let bank: StructureContainer | StructureStorage | null = null;
-
-        const structures: Structure<StructureConstant>[] = bankPos.lookFor(LOOK_STRUCTURES);
-        for (let i = 0; i < structures.length; i++) {
-            const structure: Structure = structures[i];
-            if (structure.structureType === STRUCTURE_CONTAINER) {
-                bank = structure as StructureContainer;
-                break;
-            } else if (structure.structureType === STRUCTURE_STORAGE) {
-                bank = structure as StructureStorage;
-                break;
-            }
+        const bank: StructureStorage | null = global.getBank(myRoom);
+        if (bank == null) {
+            console.log("ERR: Room's bank was null");
+            return;
         }
-
-        if (bank != null) {
-            creep.withdraw(bank, RESOURCE_ENERGY);
-        }
-
-
-
+        creep.withdraw(bank, RESOURCE_ENERGY);
     } else {
         creep.moveTo(bankPos);
     }

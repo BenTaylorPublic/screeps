@@ -9,9 +9,7 @@ storage
 link-1 to 2 & link-bank
 spawn-2 to 3
 
-Remove container bank logic
-Make container caches at RCL 1
-Laborers use cache container if bank is null or empty
+Laborers use cache container if bank is empty or null
 
 Long term:
 Spawn a new miner before the old one dies, so no downtime.

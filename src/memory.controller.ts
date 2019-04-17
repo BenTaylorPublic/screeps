@@ -1,3 +1,5 @@
+import { global } from "global";
+
 export const memoryController: any = {
     run: function () {
         clearDeadCreeps();
@@ -42,10 +44,12 @@ function ensureAllRoomsInMyMemory(): void {
             const newMyRoom: MyRoom = {
                 name: roomName,
                 myCreeps: [],
-                spawnName: null,
+                spawns: [],
                 mySources: [],
                 roomStage: 0,
-                bankPos: null
+                bankPos: null,
+                myExtensionPositions: [],
+                myTowerPositions: []
             };
             const sources: Source[] = room.find(FIND_SOURCES);
             for (let i = 0; i < sources.length; i++) {
@@ -57,14 +61,13 @@ function ensureAllRoomsInMyMemory(): void {
                     cachePos: null
                 });
             }
-            //Check the spawn
-            const spawns: StructureSpawn[] = room.find<StructureSpawn>(FIND_MY_STRUCTURES,
-                {
-                    filter: { structureType: STRUCTURE_SPAWN }
-                }
-            );
-            if (spawns.length >= 1) {
-                newMyRoom.spawnName = spawns[0].name;
+            const spawns: StructureSpawn[] = room.find(FIND_MY_SPAWNS);
+            for (let i = 0; i < sources.length; i++) {
+                const spawn: StructureSpawn = spawns[i];
+                newMyRoom.spawns.push({
+                    position: global.roomPosToMyPos(spawn.pos),
+                    name: spawn.name
+                });
             }
 
             Memory.myMemory.myRooms.push(newMyRoom);

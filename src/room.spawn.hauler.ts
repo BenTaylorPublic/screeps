@@ -25,11 +25,11 @@ export const roomSpawnHauler: any = {
 };
 
 function spawnHauler(myRoom: MyRoom, mySource: MySource): Hauler | null {
-    if (myRoom.spawnName == null) {
+    if (myRoom.spawns.length === 0) {
         console.log("ERR: Attempted to spawn hauler in a room with no spawner (1)");
         return null;
     }
-    const spawn: StructureSpawn = Game.spawns[myRoom.spawnName];
+    const spawn: StructureSpawn = Game.spawns[myRoom.spawns[0].name];
 
     if (spawn == null) {
         console.log("ERR: Attempted to spawn hauler in a room with no spawner (2)");
