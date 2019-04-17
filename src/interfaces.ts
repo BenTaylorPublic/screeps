@@ -67,5 +67,5 @@ interface Hauler extends MyCreep {
 }
 
 interface Laborer extends MyCreep {
-    state: "Pickup" | "Mining" | "Labor";
+    state: "PickupBank" | "Mining" | "Labor" | "PickupCache";
 }
