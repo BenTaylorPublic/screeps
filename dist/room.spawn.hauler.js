@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const global_functions_1 = require("global.functions");
+const constants_1 = require("constants");
 exports.roomSpawnHauler = {
     trySpawnHauler: function (myRoom) {
         if (myRoom.roomStage < 4) {
@@ -9,7 +10,7 @@ exports.roomSpawnHauler = {
         }
         for (let i = 0; i < myRoom.mySources.length; i++) {
             const mySource = myRoom.mySources[i];
-            if (mySource.haulerNames.length < AMOUNT_OF_HAULERS_PER_SOURCE) {
+            if (mySource.haulerNames.length < constants_1.Constants.AMOUNT_OF_HAULERS_PER_SOURCE) {
                 //Spawn a new hauler
                 const newCreep = spawnHauler(myRoom, mySource);
                 if (newCreep != null) {

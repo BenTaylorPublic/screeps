@@ -1,4 +1,5 @@
 import { globalFunctions } from "global.functions";
+import { Constants } from "constants";
 
 export const roomSpawnLaborer: any = {
     trySpawnLaborer: function (myRoom: MyRoom, laborerCount: number) {
@@ -13,8 +14,8 @@ export const roomSpawnLaborer: any = {
             return;
         }
 
-        if (bank.store[RESOURCE_ENERGY] >= AMOUNT_OF_BANK_ENERGY_TO_SPAWN_LABORER &&
-            laborerCount < MAX_LABORERS) {
+        if (bank.store[RESOURCE_ENERGY] >= Constants.AMOUNT_OF_BANK_ENERGY_TO_SPAWN_LABORER &&
+            laborerCount < Constants.MAX_LABORERS) {
             //If the bank is capped, spawn another laborer
             const newCreep: Laborer | null = spawnLaborer(myRoom);
             if (newCreep != null) {

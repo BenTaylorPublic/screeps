@@ -1,6 +1,7 @@
 import { roomSpawnLaborer } from "room.spawn.laborer";
 import { roomSpawnMiner } from "room.spawn.miner";
 import { roomSpawnHauler } from "room.spawn.hauler";
+import { Constants } from "constants";
 
 export const roomSpawnController: any = {
     run: function (myRoom: MyRoom) {
@@ -14,9 +15,9 @@ export const roomSpawnController: any = {
 
         //Force spawn a miner and worker if there are no creeps alive
         let forceSpawnlaborers: boolean = false;
-        if (laborerCount < MIN_LABORERS) {
+        if (laborerCount < Constants.MIN_LABORERS) {
             forceSpawnlaborers = true;
-        } else if (laborerCount < LABORERS_BEFORE_BANK &&
+        } else if (laborerCount < Constants.LABORERS_BEFORE_BANK &&
             myRoom.roomStage < 4) {
             //Room stage 4 is when the bank is made
             //After then, haulers will exist

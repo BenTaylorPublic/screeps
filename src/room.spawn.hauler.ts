@@ -1,4 +1,5 @@
 import { globalFunctions } from "global.functions";
+import { Constants } from "constants";
 
 export const roomSpawnHauler: any = {
     trySpawnHauler: function (myRoom: MyRoom) {
@@ -9,7 +10,7 @@ export const roomSpawnHauler: any = {
 
         for (let i = 0; i < myRoom.mySources.length; i++) {
             const mySource: MySource = myRoom.mySources[i];
-            if (mySource.haulerNames.length < AMOUNT_OF_HAULERS_PER_SOURCE) {
+            if (mySource.haulerNames.length < Constants.AMOUNT_OF_HAULERS_PER_SOURCE) {
                 //Spawn a new hauler
                 const newCreep: Hauler | null = spawnHauler(myRoom, mySource);
                 if (newCreep != null) {

@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const global_functions_1 = require("global.functions");
+const constants_1 = require("constants");
 exports.roomSpawnLaborer = {
     trySpawnLaborer: function (myRoom, laborerCount) {
         if (myRoom.bankPos == null) {
@@ -12,8 +13,8 @@ exports.roomSpawnLaborer = {
             console.log("ERR: Bank is null when checking if it's full");
             return;
         }
-        if (bank.store[RESOURCE_ENERGY] >= AMOUNT_OF_BANK_ENERGY_TO_SPAWN_LABORER &&
-            laborerCount < MAX_LABORERS) {
+        if (bank.store[RESOURCE_ENERGY] >= constants_1.Constants.AMOUNT_OF_BANK_ENERGY_TO_SPAWN_LABORER &&
+            laborerCount < constants_1.Constants.MAX_LABORERS) {
             //If the bank is capped, spawn another laborer
             const newCreep = spawnLaborer(myRoom);
             if (newCreep != null) {
