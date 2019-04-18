@@ -4,12 +4,6 @@ import { memoryController } from "memory.controller";
 console.log("Script reloaded");
 setupMyMemory();
 
-//Kill my current room
-Memory.myMemory = {
-    globalId: 0,
-    myRooms: []
-};
-
 export const loop: any = function () {
     memoryController.run();
 

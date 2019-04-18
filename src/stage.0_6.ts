@@ -23,7 +23,7 @@ export const stage0_6: StageController = {
         }
         return false;
     },
-    step: function (myRoom: MyRoom): void {
+    step: function (myRoom: MyRoom, room: Room): void {
         const roomFlags: Flag[] = globalFunctions.getRoomsFlags(myRoom);
         let flagsPlaced: number = 0;
         for (let i = 0; i < roomFlags.length; i++) {
@@ -32,8 +32,7 @@ export const stage0_6: StageController = {
             if (flagNameSplit[0] === "cont") {
                 const result: ScreepsReturnCode = Game.rooms[myRoom.name].createConstructionSite(roomFlag.pos, STRUCTURE_CONTAINER);
                 if (result === OK) {
-                    console.log("LOG: Placed container cache construction site");
-                    roomFlag.remove();
+                    let placedFully: boolean = false;
                     for (let j = 0; j < myRoom.mySources.length; j++) {
                         const mySource: MySource = myRoom.mySources[j];
                         const source: Source | null = Game.getObjectById<Source>(mySource.id);
@@ -47,8 +46,15 @@ export const stage0_6: StageController = {
                                     roomName: myRoom.name
                                 };
                                 flagsPlaced++;
+                                placedFully = true;
                             } // Else it's hopefully the other source in the room...
                         }
+                    }
+                    if (placedFully) {
+                        console.log("LOG: Placed container cache construction site");
+                        roomFlag.remove();
+                    } else {
+                        console.log("ERR: Placed a construction site at a flag but couldn't find a source to give it to");
                     }
 
                 } else {
