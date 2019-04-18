@@ -1,6 +1,8 @@
 room stages from 4 to 8
 
-const file
+Move building containers to after RCL 2, with 5 extensions made
+Because you can't even spawn miners till after that
+And it also reduces the chance that the containers will die before getting miners
 
 Long term:
 Spawn a new miner before the old one dies, so no downtime.
