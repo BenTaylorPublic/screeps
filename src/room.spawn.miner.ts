@@ -2,8 +2,8 @@ import { globalFunctions } from "global.functions";
 
 export const roomSpawnMiner: any = {
     trySpawnMiner: function (myRoom: MyRoom) {
-        if (myRoom.roomStage < 1) {
-            //At stage 1, the caches are built
+        if (myRoom.roomStage < 2) {
+            //At stage 2, the caches are built, and 5 extensions
             return;
         }
 

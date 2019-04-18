@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const global_functions_1 = require("global.functions");
 exports.roomSpawnMiner = {
     trySpawnMiner: function (myRoom) {
-        if (myRoom.roomStage < 1) {
-            //At stage 1, the caches are built
+        if (myRoom.roomStage < 2) {
+            //At stage 2, the caches are built, and 5 extensions
             return;
         }
         for (let i = 0; i < myRoom.mySources.length; i++) {
