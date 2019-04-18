@@ -65,7 +65,8 @@ exports.stage0_6 = {
                 }
             }
         }
-        if (flagsPlaced !== myRoom.mySources.length) {
+        if (flagsPlaced !== myRoom.mySources.length &&
+            room.find(FIND_CONSTRUCTION_SITES).length === 0) {
             console.log("ATTENTION: Room " + myRoom.name + " needs cache container flag");
         }
     }
