@@ -170,12 +170,12 @@ function labor(laborer: Laborer, myRoom: MyRoom, creep: Creep): void {
 
     //Building construction sites
     if (!givenCommand) {
-        const constructionSites: ConstructionSite<BuildableStructureConstant>[]
-            = creep.room.find(FIND_CONSTRUCTION_SITES);
-        if (constructionSites.length > 0) {
+        const closestConstructionSite: ConstructionSite | null
+            = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
+        if (closestConstructionSite != null) {
             givenCommand = true;
-            if (creep.build(constructionSites[0]) === ERR_NOT_IN_RANGE) {
-                creep.moveTo(constructionSites[0]);
+            if (creep.build(closestConstructionSite) === ERR_NOT_IN_RANGE) {
+                creep.moveTo(closestConstructionSite);
             }
         }
     }

@@ -158,11 +158,11 @@ function labor(laborer, myRoom, creep) {
     }
     //Building construction sites
     if (!givenCommand) {
-        const constructionSites = creep.room.find(FIND_CONSTRUCTION_SITES);
-        if (constructionSites.length > 0) {
+        const closestConstructionSite = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
+        if (closestConstructionSite != null) {
             givenCommand = true;
-            if (creep.build(constructionSites[0]) === ERR_NOT_IN_RANGE) {
-                creep.moveTo(constructionSites[0]);
+            if (creep.build(closestConstructionSite) === ERR_NOT_IN_RANGE) {
+                creep.moveTo(closestConstructionSite);
             }
         }
     }
