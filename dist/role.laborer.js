@@ -26,11 +26,6 @@ exports.roleLaborer = {
 function calculateCreepState(laborer, myRoom, creep) {
     if (laborer.state === "Labor" &&
         creep.carry.energy === 0) {
-        if (myRoom.bankPos == null) {
-            laborer.state = "Mining";
-            return;
-        }
-        const bankPos = new RoomPosition(myRoom.bankPos.x, myRoom.bankPos.y, myRoom.bankPos.roomName);
         const bank = global_functions_1.globalFunctions.getBank(myRoom);
         if (bank != null &&
             bank.store[RESOURCE_ENERGY] >= creep.carryCapacity) {
@@ -57,7 +52,7 @@ function calculateCreepState(laborer, myRoom, creep) {
                     }
                 }
             }
-            //Couldn't find a cache to pickup from, mine instead
+            //Couldn't find a cache to pickup from, Mine instead
             laborer.state = "Mining";
             creep.say("Mining");
             return;
@@ -95,33 +90,23 @@ function pickupBank(laborer, myRoom, creep) {
     }
 }
 function pickupCache(laborer, myRoom, creep) {
-    let validCacheToGrabFrom = null;
-    for (let i = 0; i < myRoom.mySources.length; i++) {
-        const mySource = myRoom.mySources[i];
-        if (mySource.cachePos != null) {
-            const cachePos = global_functions_1.globalFunctions.myPosToRoomPos(mySource.cachePos);
-            const structures = cachePos.lookFor(LOOK_STRUCTURES);
-            for (let j = 0; j < structures.length; j++) {
-                const structure = structures[j];
-                if (structure.structureType === STRUCTURE_CONTAINER) {
-                    const cache = structure;
-                    if (cache.store[RESOURCE_ENERGY] >= creep.carryCapacity) {
-                        validCacheToGrabFrom = cache;
-                    }
-                }
-            }
+    const validCacheToGrabFrom = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+        filter: (structure) => {
+            return structure.structureType === STRUCTURE_CONTAINER &&
+                structure.store[RESOURCE_ENERGY] >= creep.carryCapacity;
         }
-    }
+    });
     if (validCacheToGrabFrom == null) {
-        console.log("ERR: Laborer can't see any caches with enough energy. Setting to Mine.");
         laborer.state = "Mining";
-        return;
-    }
-    if (validCacheToGrabFrom.pos.isNearTo(creep)) {
-        creep.withdraw(validCacheToGrabFrom, RESOURCE_ENERGY);
+        creep.say("Mining");
     }
     else {
-        creep.moveTo(validCacheToGrabFrom.pos);
+        if (validCacheToGrabFrom.pos.isNearTo(creep)) {
+            creep.withdraw(validCacheToGrabFrom, RESOURCE_ENERGY);
+        }
+        else {
+            creep.moveTo(validCacheToGrabFrom.pos);
+        }
     }
 }
 function mining(laborer, myRoom, creep) {
