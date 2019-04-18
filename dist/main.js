@@ -4,11 +4,6 @@ const room_controller_1 = require("room.controller");
 const memory_controller_1 = require("memory.controller");
 console.log("Script reloaded");
 setupMyMemory();
-//Kill my current room
-Memory.myMemory = {
-    globalId: 0,
-    myRooms: []
-};
 exports.loop = function () {
     memory_controller_1.memoryController.run();
     for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {

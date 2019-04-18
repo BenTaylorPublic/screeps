@@ -24,7 +24,7 @@ exports.stage0_6 = {
         }
         return false;
     },
-    step: function (myRoom) {
+    step: function (myRoom, room) {
         const roomFlags = global_functions_1.globalFunctions.getRoomsFlags(myRoom);
         let flagsPlaced = 0;
         for (let i = 0; i < roomFlags.length; i++) {
@@ -33,8 +33,7 @@ exports.stage0_6 = {
             if (flagNameSplit[0] === "cont") {
                 const result = Game.rooms[myRoom.name].createConstructionSite(roomFlag.pos, STRUCTURE_CONTAINER);
                 if (result === OK) {
-                    console.log("LOG: Placed container cache construction site");
-                    roomFlag.remove();
+                    let placedFully = false;
                     for (let j = 0; j < myRoom.mySources.length; j++) {
                         const mySource = myRoom.mySources[j];
                         const source = Game.getObjectById(mySource.id);
@@ -49,8 +48,16 @@ exports.stage0_6 = {
                                     roomName: myRoom.name
                                 };
                                 flagsPlaced++;
+                                placedFully = true;
                             } // Else it's hopefully the other source in the room...
                         }
+                    }
+                    if (placedFully) {
+                        console.log("LOG: Placed container cache construction site");
+                        roomFlag.remove();
+                    }
+                    else {
+                        console.log("ERR: Placed a construction site at a flag but couldn't find a source to give it to");
                     }
                 }
                 else {

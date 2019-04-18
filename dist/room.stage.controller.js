@@ -57,39 +57,51 @@ exports.roomStageController = {
          */
         //Ups
         if (myRoom.roomStage === -1) {
+            stage_default_1.stageDefault.step(myRoom, room);
             stage_default_1.stageDefault.up(myRoom, room);
         }
         if (myRoom.roomStage === 0) {
+            stage_0_1.stage0.step(myRoom, room);
             stage_0_1.stage0.up(myRoom, room);
         }
         if (myRoom.roomStage === 0.3) {
+            stage_0_3_1.stage0_3.step(myRoom, room);
             stage_0_3_1.stage0_3.up(myRoom, room);
         }
         if (myRoom.roomStage === 0.6) {
+            stage_0_6_1.stage0_6.step(myRoom, room);
             stage_0_6_1.stage0_6.up(myRoom, room);
         }
         if (myRoom.roomStage === 1) {
+            stage_1_1.stage1.step(myRoom, room);
             stage_1_1.stage1.up(myRoom, room);
         }
         if (myRoom.roomStage === 1.5) {
+            stage_1_5_1.stage1_5.step(myRoom, room);
             stage_1_5_1.stage1_5.up(myRoom, room);
         }
         if (myRoom.roomStage === 2) {
+            stage_2_1.stage2.step(myRoom, room);
             stage_2_1.stage2.up(myRoom, room);
         }
         if (myRoom.roomStage === 2.3) {
+            stage_2_3_1.stage2_3.step(myRoom, room);
             stage_2_3_1.stage2_3.up(myRoom, room);
         }
         if (myRoom.roomStage === 2.6) {
+            stage_2_6_1.stage2_6.step(myRoom, room);
             stage_2_6_1.stage2_6.up(myRoom, room);
         }
         if (myRoom.roomStage === 3) {
+            stage_3_1.stage3.step(myRoom, room);
             stage_3_1.stage3.up(myRoom, room);
         }
         if (myRoom.roomStage === 3.3) {
+            stage_3_3_1.stage3_3.step(myRoom, room);
             stage_3_3_1.stage3_3.up(myRoom, room);
         }
         if (myRoom.roomStage === 3.6) {
+            stage_3_6_1.stage3_6.step(myRoom, room);
             stage_3_6_1.stage3_6.up(myRoom, room);
         }
         //Downs
