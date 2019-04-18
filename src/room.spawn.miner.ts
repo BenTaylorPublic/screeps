@@ -1,8 +1,9 @@
-import { global } from "global";
+import { globalFunctions } from "global.functions";
 
 export const roomSpawnMiner: any = {
     trySpawnMiner: function (myRoom: MyRoom) {
-        if (myRoom.roomStage < 2.6) {
+        if (myRoom.roomStage < 1) {
+            //At stage 1, the caches are built
             return;
         }
 
@@ -40,7 +41,7 @@ function spawnMiner(myRoom: MyRoom, mySource: MySource): Miner | null {
     }
 
     //Have a valid spawn now
-    const id = global.getId();
+    const id = globalFunctions.getId();
     const result: ScreepsReturnCode =
         spawn.spawnCreep(
             [MOVE, WORK, WORK, WORK, WORK, WORK],

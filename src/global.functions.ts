@@ -1,4 +1,4 @@
-export const global: any = {
+export const globalFunctions: any = {
     getId: function (): number {
         const toReturn: number = Memory.myMemory.globalId;
         Memory.myMemory.globalId++;
@@ -23,7 +23,7 @@ export const global: any = {
 
         let body: BodyPartConstant[] = baseBody;
         while (true) {
-            if (global.calcBodyCost(body) + global.calcBodyCost(bodyPartsToAdd) <= maxEnergyToUse &&
+            if (globalFunctions.calcBodyCost(body) + globalFunctions.calcBodyCost(bodyPartsToAdd) <= maxEnergyToUse &&
                 body.length + bodyPartsToAdd.length <= 50) {
                 body = body.concat(bodyPartsToAdd);
             } else {
@@ -52,42 +52,8 @@ export const global: any = {
         }
         return result;
     },
-    buildContainerCaches: function (myRoom: MyRoom): void {
-        const roomFlags: Flag[] = global.getRoomsFlags(myRoom);
-        for (let i = 0; i < roomFlags.length; i++) {
-            const roomFlag: Flag = roomFlags[i];
-            const flagNameSplit: string[] = roomFlag.name.split("-");
-            if (flagNameSplit[0] === "cont" &&
-                flagNameSplit[1] === "cache") {
-                const result: ScreepsReturnCode = Game.rooms[myRoom.name].createConstructionSite(roomFlag.pos, STRUCTURE_CONTAINER);
-                if (result === OK) {
-                    console.log("LOG: Placed container cache construction site");
-                    roomFlag.remove();
-                    for (let j = 0; j < myRoom.mySources.length; j++) {
-                        const mySource: MySource = myRoom.mySources[j];
-                        const source: Source | null = Game.getObjectById<Source>(mySource.id);
-                        if (source == null) {
-                            console.log("ERR: Source was null when trying to get it by ID");
-                        } else {
-                            if (source.pos.inRangeTo(roomFlag.pos, 1)) {
-                                mySource.cachePos = {
-                                    x: roomFlag.pos.x,
-                                    y: roomFlag.pos.y,
-                                    roomName: myRoom.name
-                                };
-                            } // Else it's hopefully the other source in the room...
-                        }
-                    }
-
-                } else {
-                    console.log("ERR: Placing a container cache construction site errored");
-                }
-            }
-        }
-    },
-
     buildExtensions: function (myRoom: MyRoom, numberOfExtensionsToBuild: number): void {
-        const roomFlags: Flag[] = global.getRoomsFlags(myRoom);
+        const roomFlags: Flag[] = globalFunctions.getRoomsFlags(myRoom);
         for (let i = 0; i < roomFlags.length; i++) {
             const roomFlag: Flag = roomFlags[i];
             const flagNameSplit: string[] = roomFlag.name.split("-");
@@ -111,7 +77,7 @@ export const global: any = {
         }
     },
     buildTowers: function (myRoom: MyRoom, numberOfTowersToBuild: number): void {
-        const roomFlags: Flag[] = global.getRoomsFlags(myRoom);
+        const roomFlags: Flag[] = globalFunctions.getRoomsFlags(myRoom);
         for (let i = 0; i < roomFlags.length; i++) {
             const roomFlag: Flag = roomFlags[i];
             const flagNameSplit: string[] = roomFlag.name.split("-");
@@ -165,7 +131,7 @@ export const global: any = {
         if (myRoom.bankPos == null) {
             return null;
         }
-        const bankPos: RoomPosition = global.myPosToRoomPos(myRoom.bankPos);
+        const bankPos: RoomPosition = globalFunctions.myPosToRoomPos(myRoom.bankPos);
 
         const structures: Structure<StructureConstant>[] = bankPos.lookFor(LOOK_STRUCTURES);
         for (let i = 0; i < structures.length; i++) {
@@ -177,13 +143,6 @@ export const global: any = {
         return null;
     },
     isAllyUsername(username: string): boolean {
-
-        const allyList: string[] = ["mooseyman", "nimphious"];
-        if (allyList.indexOf(username.toLowerCase()) !== -1) {
-            return true;
-        }
-        return false;
+        return ["mooseyman", "nimphious"].indexOf(username.toLowerCase()) !== -1;
     }
-
-
 };

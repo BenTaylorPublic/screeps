@@ -1,4 +1,4 @@
-import { global } from "global";
+import { globalFunctions } from "global.functions";
 
 export const memoryController: any = {
     run: function () {
@@ -22,23 +22,24 @@ function ensureAllRoomsInMyMemory(): void {
     //Ensuring all the rooms are in Memory.myMemory.myRooms
     for (const roomName in Game.rooms) {
         const room: Room = Game.rooms[roomName];
+        let myRoom: MyRoom | null = null;
 
-        let alreadyInMemory: boolean = false;
         if (room.controller == null ||
             room.controller.my === false) {
             //No need to process rooms that don't have controllers or are not mine
             //We only have access to these rooms through travelers (probs)
-            alreadyInMemory = true;
+            continue;
         }
 
         for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
-            const myRoom = Memory.myMemory.myRooms[i];
-            if (myRoom.name === roomName) {
-                alreadyInMemory = true;
+            const myExistingRoom = Memory.myMemory.myRooms[i];
+            if (myExistingRoom != null &&
+                myExistingRoom.name === roomName) {
+                myRoom = myExistingRoom;
             }
         }
 
-        if (!alreadyInMemory) {
+        if (myRoom == null) {
             //Add it
             console.log("LOG: Adding a new room " + roomName);
             const newMyRoom: MyRoom = {
@@ -62,15 +63,30 @@ function ensureAllRoomsInMyMemory(): void {
                 });
             }
             const spawns: StructureSpawn[] = room.find(FIND_MY_SPAWNS);
-            for (let i = 0; i < sources.length; i++) {
+            for (let i = 0; i < spawns.length; i++) {
                 const spawn: StructureSpawn = spawns[i];
                 newMyRoom.spawns.push({
-                    position: global.roomPosToMyPos(spawn.pos),
+                    position: globalFunctions.roomPosToMyPos(spawn.pos),
                     name: spawn.name
                 });
             }
 
             Memory.myMemory.myRooms.push(newMyRoom);
+        } else {
+            //Already in memory
+
+            //If the room has more or less spawns than in the MyRoom, add them to it
+            const spawns: StructureSpawn[] = room.find(FIND_MY_SPAWNS);
+            if (spawns.length !== myRoom.spawns.length) {
+                myRoom.spawns = [];
+                for (let i = 0; i < spawns.length; i++) {
+                    const spawn: StructureSpawn = spawns[i];
+                    myRoom.spawns.push({
+                        position: globalFunctions.roomPosToMyPos(spawn.pos),
+                        name: spawn.name
+                    });
+                }
+            }
         }
     }
 }

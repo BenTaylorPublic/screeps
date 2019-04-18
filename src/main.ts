@@ -4,9 +4,11 @@ import { memoryController } from "memory.controller";
 console.log("Script reloaded");
 setupMyMemory();
 
-const myRoom: MyRoom = Memory.myMemory.myRooms[0];
-myRoom.myExtensionPositions = [];
-myRoom.myTowerPositions = [];
+//Kill my current room
+Memory.myMemory = {
+    globalId: 0,
+    myRooms: []
+};
 
 export const loop: any = function () {
     memoryController.run();

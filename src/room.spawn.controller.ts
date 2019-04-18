@@ -13,21 +13,20 @@ export const roomSpawnController: any = {
         }
 
         //Force spawn a miner and worker if there are no creeps alive
-        let forceSpawnlaborers: boolean = myRoom.myCreeps.length === 0;
-        if (forceSpawnlaborers === false &&
-            laborerCount < 4) {
+        let forceSpawnlaborers: boolean = false;
+        if (laborerCount < MIN_LABORERS) {
             forceSpawnlaborers = true;
-        }
-
-        if (forceSpawnlaborers === false &&
-            laborerCount < 6 && myRoom.roomStage < 3) {
+        } else if (laborerCount < LABORERS_BEFORE_BANK &&
+            myRoom.roomStage < 4) {
+            //Room stage 4 is when the bank is made
+            //After then, haulers will exist
             forceSpawnlaborers = true;
         }
 
         if (forceSpawnlaborers) {
             roomSpawnLaborer.forceSpawnLaborer(myRoom);
         } else {
-            roomSpawnLaborer.trySpawnLaborer(myRoom);
+            roomSpawnLaborer.trySpawnLaborer(myRoom, laborerCount);
             roomSpawnMiner.trySpawnMiner(myRoom);
             roomSpawnHauler.trySpawnHauler(myRoom);
         }

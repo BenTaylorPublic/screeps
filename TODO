@@ -1,15 +1,6 @@
-Implement a flag system to place banks/links/caches/towers
-Clear out room.building.controller and use that
-Only check flags when the room stage is in a state that needs it to progress
-Terms, in order of implementation:
-ex-1 to 60
-cont-cache-1 cont-cache-2
-tower-1 to 6
-storage
-link-1 to 2 & link-bank
-spawn-2 to 3
+room stages from 4 to 8
 
-Laborers use cache container if bank is empty or null
+const file
 
 Long term:
 Spawn a new miner before the old one dies, so no downtime.
@@ -28,3 +19,11 @@ Lvl Req         Other                   Towers  Links   Spawns  Extensions  Ramp
 6	3,645,000	Extractor, Terminal             3               40 50 cap   30M     3
 7	10,935,000	                        3       4       2       50 100 cap  100M    6
 8	-	        Observer, Power Spawn   6       6       3       60 200 cap  300M    10
+
+Flag names:
+ex-1 to 60
+cont-1 cont-2
+tower-1 to 6
+storage
+link-1 to 2 & link-bank
+spawn-1 to 3

@@ -1,15 +1,15 @@
-import { global } from "global";
+import { globalFunctions } from "global.functions";
 
 export const roomSpawnHauler: any = {
     trySpawnHauler: function (myRoom: MyRoom) {
-        if (myRoom.roomStage < 2.6) {
+        if (myRoom.roomStage < 4) {
+            //No need for haulers before the bank is setup
             return;
         }
 
         for (let i = 0; i < myRoom.mySources.length; i++) {
             const mySource: MySource = myRoom.mySources[i];
-            if (mySource.haulerNames.length === 0 ||
-                (myRoom.roomStage >= 3 && mySource.haulerNames.length < 2)) {
+            if (mySource.haulerNames.length < AMOUNT_OF_HAULERS_PER_SOURCE) {
                 //Spawn a new hauler
                 const newCreep: Hauler | null = spawnHauler(myRoom, mySource);
                 if (newCreep != null) {
@@ -42,10 +42,9 @@ function spawnHauler(myRoom: MyRoom, mySource: MySource): Hauler | null {
     }
 
     //Have a valid spawn now
-    const useBestBody: boolean = myRoom.roomStage >= 3;
-    const body: BodyPartConstant[] = global.generateBody([MOVE, CARRY], [MOVE, CARRY], spawn.room, useBestBody);
+    const body: BodyPartConstant[] = globalFunctions.generateBody([MOVE, CARRY], [MOVE, CARRY], spawn.room, true);
 
-    const id = global.getId();
+    const id = globalFunctions.getId();
     const result: ScreepsReturnCode =
         spawn.spawnCreep(
             body,

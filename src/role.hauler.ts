@@ -1,4 +1,4 @@
-import { global } from "global";
+import { globalFunctions } from "global.functions";
 
 export const roleHauler: any = {
     run: function (hauler: Hauler, myRoom: MyRoom) {
@@ -20,7 +20,7 @@ export const roleHauler: any = {
         if (hauler.pickup) {
             //Picking up more
 
-            const cacheToGrabFromPos: RoomPosition = global.myPosToRoomPos(hauler.cachePosToPickupFrom);
+            const cacheToGrabFromPos: RoomPosition = globalFunctions.myPosToRoomPos(hauler.cachePosToPickupFrom);
             if (cacheToGrabFromPos.isNearTo(creep)) {
 
                 let cacheToGrabFrom: StructureContainer | null = null;
@@ -50,10 +50,10 @@ export const roleHauler: any = {
                 return;
             }
 
-            const bankPos: RoomPosition = global.myPosToRoomPos(myRoom.bankPos);
+            const bankPos: RoomPosition = globalFunctions.myPosToRoomPos(myRoom.bankPos);
 
             if (bankPos.isNearTo(creep)) {
-                const bank: StructureStorage | null = global.getBank(myRoom);
+                const bank: StructureStorage | null = globalFunctions.getBank(myRoom);
                 if (bank == null) {
                     console.log("ERR: Room's bank was null");
                     return;

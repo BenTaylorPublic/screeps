@@ -1,4 +1,4 @@
-import { global } from "global";
+import { globalFunctions } from "global.functions";
 
 export const roleLaborer: any = {
     run: function (laborer: Laborer, myRoom: MyRoom) {
@@ -37,7 +37,7 @@ function calculateCreepState(laborer: Laborer, myRoom: MyRoom, creep: Creep): vo
                 myRoom.bankPos.y,
                 myRoom.bankPos.roomName);
 
-        const bank: StructureContainer | null = global.getBank(myRoom);
+        const bank: StructureContainer | null = globalFunctions.getBank(myRoom);
 
         if (bank != null &&
             bank.store[RESOURCE_ENERGY] >= creep.carryCapacity) {
@@ -48,7 +48,7 @@ function calculateCreepState(laborer: Laborer, myRoom: MyRoom, creep: Creep): vo
             for (let i = 0; i < myRoom.mySources.length; i++) {
                 const mySource = myRoom.mySources[i];
                 if (mySource.cachePos != null) {
-                    const cachePos: RoomPosition = global.myPosToRoomPos(mySource.cachePos);
+                    const cachePos: RoomPosition = globalFunctions.myPosToRoomPos(mySource.cachePos);
                     const structures: Structure<StructureConstant>[] = cachePos.lookFor(LOOK_STRUCTURES);
                     for (let j = 0; j < structures.length; j++) {
                         const structure: Structure = structures[j];
@@ -87,10 +87,10 @@ function pickupBank(laborer: Laborer, myRoom: MyRoom, creep: Creep): void {
         console.log("ERR: Room's bank pos was null");
         return;
     }
-    const bankPos: RoomPosition = global.myPosToRoomPos(myRoom.bankPos);
+    const bankPos: RoomPosition = globalFunctions.myPosToRoomPos(myRoom.bankPos);
 
     if (bankPos.isNearTo(creep)) {
-        const bank: StructureStorage | null = global.getBank(myRoom);
+        const bank: StructureStorage | null = globalFunctions.getBank(myRoom);
         if (bank == null) {
             console.log("ERR: Room's bank was null");
             return;
@@ -106,7 +106,7 @@ function pickupCache(laborer: Laborer, myRoom: MyRoom, creep: Creep): void {
     for (let i = 0; i < myRoom.mySources.length; i++) {
         const mySource = myRoom.mySources[i];
         if (mySource.cachePos != null) {
-            const cachePos: RoomPosition = global.myPosToRoomPos(mySource.cachePos);
+            const cachePos: RoomPosition = globalFunctions.myPosToRoomPos(mySource.cachePos);
             const structures: Structure<StructureConstant>[] = cachePos.lookFor(LOOK_STRUCTURES);
             for (let j = 0; j < structures.length; j++) {
                 const structure: Structure = structures[j];

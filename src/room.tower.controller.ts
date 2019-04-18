@@ -1,4 +1,4 @@
-import { global } from "global";
+import { globalFunctions } from "global.functions";
 
 export const roomTowerController: any = {
     run: function (tower: StructureTower) {
@@ -16,7 +16,7 @@ export const roomTowerController: any = {
 
             for (let i = hostileCreeps.length - 1; i >= 0; i--) {
                 const possibleHostileCreep: Creep = hostileCreeps[i];
-                if (global.isAllyUsername(possibleHostileCreep.owner.username)) {
+                if (globalFunctions.isAllyUsername(possibleHostileCreep.owner.username)) {
                     hostileCreeps.slice(i, 1);
                 }
             }

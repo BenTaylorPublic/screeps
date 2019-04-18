@@ -1,41 +1,20 @@
-import { global } from "global";
+import { globalFunctions } from "global.functions";
 
 export const roomSpawnLaborer: any = {
-    trySpawnLaborer: function (myRoom: MyRoom) {
-        if (myRoom.roomStage < 2.8) {
-            return;
-        }
-
+    trySpawnLaborer: function (myRoom: MyRoom, laborerCount: number) {
         if (myRoom.bankPos == null) {
-            console.log("ERR: Room's bank pos was null");
+            //Only spawn laborers through this method if the bank is real
             return;
         }
 
-        const bankPos: RoomPosition
-            = new RoomPosition(myRoom.bankPos.x,
-                myRoom.bankPos.y,
-                myRoom.bankPos.roomName);
-
-        let bank: StructureContainer | StructureStorage | null = null;
-
-        const structures: Structure<StructureConstant>[] = bankPos.lookFor(LOOK_STRUCTURES);
-        for (let i = 0; i < structures.length; i++) {
-            const structure: Structure = structures[i];
-            if (structure.structureType === STRUCTURE_CONTAINER) {
-                bank = structure as StructureContainer;
-                break;
-            } else if (structure.structureType === STRUCTURE_STORAGE) {
-                bank = structure as StructureStorage;
-                break;
-            }
-        }
-
+        const bank: StructureStorage | null = globalFunctions.getBank(myRoom);
         if (bank == null) {
             console.log("ERR: Bank is null when checking if it's full");
             return;
         }
 
-        if (bank.store[RESOURCE_ENERGY] === bank.storeCapacity) {
+        if (bank.store[RESOURCE_ENERGY] >= AMOUNT_OF_BANK_ENERGY_TO_SPAWN_LABORER &&
+            laborerCount < MAX_LABORERS) {
             //If the bank is capped, spawn another laborer
             const newCreep: Laborer | null = spawnLaborer(myRoom);
             if (newCreep != null) {
@@ -68,10 +47,11 @@ function spawnLaborer(myRoom: MyRoom): Laborer | null {
 
     //Have a valid spawn now
 
-    const useBestBody: boolean = myRoom.roomStage >= 3;
-    const body: BodyPartConstant[] = global.generateBody([MOVE, MOVE, CARRY, WORK], [MOVE, MOVE, CARRY, WORK], spawn.room, useBestBody);
+    //Once the bank is setup, use the best body you can get
+    const useBestBody: boolean = myRoom.roomStage >= 4;
+    const body: BodyPartConstant[] = globalFunctions.generateBody([MOVE, MOVE, CARRY, WORK], [MOVE, MOVE, CARRY, WORK], spawn.room, useBestBody);
 
-    const id = global.getId();
+    const id = globalFunctions.getId();
     const result: ScreepsReturnCode =
         spawn.spawnCreep(
             body,
