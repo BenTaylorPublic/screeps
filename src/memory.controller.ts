@@ -47,7 +47,7 @@ function ensureAllRoomsInMyMemory(): void {
                 myCreeps: [],
                 spawns: [],
                 mySources: [],
-                roomStage: 0,
+                roomStage: -1,
                 bankPos: null,
                 myExtensionPositions: [],
                 myTowerPositions: []
