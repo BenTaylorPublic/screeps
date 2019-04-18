@@ -1,34 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const global_1 = require("global");
+const global_functions_1 = require("global.functions");
 exports.roomSpawnLaborer = {
-    trySpawnLaborer: function (myRoom) {
-        if (myRoom.roomStage < 2.8) {
-            return;
-        }
+    trySpawnLaborer: function (myRoom, laborerCount) {
         if (myRoom.bankPos == null) {
-            console.log("ERR: Room's bank pos was null");
+            //Only spawn laborers through this method if the bank is real
             return;
         }
-        const bankPos = new RoomPosition(myRoom.bankPos.x, myRoom.bankPos.y, myRoom.bankPos.roomName);
-        let bank = null;
-        const structures = bankPos.lookFor(LOOK_STRUCTURES);
-        for (let i = 0; i < structures.length; i++) {
-            const structure = structures[i];
-            if (structure.structureType === STRUCTURE_CONTAINER) {
-                bank = structure;
-                break;
-            }
-            else if (structure.structureType === STRUCTURE_STORAGE) {
-                bank = structure;
-                break;
-            }
-        }
+        const bank = global_functions_1.globalFunctions.getBank(myRoom);
         if (bank == null) {
             console.log("ERR: Bank is null when checking if it's full");
             return;
         }
-        if (bank.store[RESOURCE_ENERGY] === bank.storeCapacity) {
+        if (bank.store[RESOURCE_ENERGY] >= AMOUNT_OF_BANK_ENERGY_TO_SPAWN_LABORER &&
+            laborerCount < MAX_LABORERS) {
             //If the bank is capped, spawn another laborer
             const newCreep = spawnLaborer(myRoom);
             if (newCreep != null) {
@@ -46,29 +31,20 @@ exports.roomSpawnLaborer = {
     }
 };
 function spawnLaborer(myRoom) {
-    if (myRoom.spawnName == null) {
+    if (myRoom.spawns.length === 0) {
         console.log("ERR: Attempted to spawn miner in a room with no spawner (1)");
         return null;
     }
-    const spawn = Game.spawns[myRoom.spawnName];
+    const spawn = Game.spawns[myRoom.spawns[0].name];
     if (spawn == null) {
         console.log("ERR: Attempted to spawn miner in a room with no spawner (2)");
         return null;
     }
     //Have a valid spawn now
-    let body = [MOVE, MOVE, CARRY, WORK];
-    const maxEnergyToUse = (myRoom.roomStage >= 3) ?
-        spawn.room.energyCapacityAvailable :
-        spawn.room.energyAvailable;
-    while (true) {
-        if (global_1.global.calcBodyCost(body) + global_1.global.calcBodyCost([MOVE, MOVE, CARRY, WORK]) <= maxEnergyToUse) {
-            body = body.concat([MOVE, MOVE, CARRY, WORK]);
-        }
-        else {
-            break;
-        }
-    }
-    const id = global_1.global.getId();
+    //Once the bank is setup, use the best body you can get
+    const useBestBody = myRoom.roomStage >= 4;
+    const body = global_functions_1.globalFunctions.generateBody([MOVE, MOVE, CARRY, WORK], [MOVE, MOVE, CARRY, WORK], spawn.room, useBestBody);
+    const id = global_functions_1.globalFunctions.getId();
     const result = spawn.spawnCreep(body, "Creep" + id, {
         memory: {
             name: "Creep" + id,

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const global_functions_1 = require("global.functions");
 exports.roleHauler = {
     run: function (hauler, myRoom) {
         const creep = Game.creeps[hauler.name];
@@ -19,7 +20,7 @@ exports.roleHauler = {
         }
         if (hauler.pickup) {
             //Picking up more
-            const cacheToGrabFromPos = new RoomPosition(hauler.cachePosToPickupFrom.x, hauler.cachePosToPickupFrom.y, hauler.cachePosToPickupFrom.roomName);
+            const cacheToGrabFromPos = global_functions_1.globalFunctions.myPosToRoomPos(hauler.cachePosToPickupFrom);
             if (cacheToGrabFromPos.isNearTo(creep)) {
                 let cacheToGrabFrom = null;
                 const structures = cacheToGrabFromPos.lookFor(LOOK_STRUCTURES);
@@ -45,23 +46,11 @@ exports.roleHauler = {
                 console.log("ERR: Room's bank pos was null");
                 return;
             }
-            const bankPos = new RoomPosition(myRoom.bankPos.x, myRoom.bankPos.y, myRoom.bankPos.roomName);
+            const bankPos = global_functions_1.globalFunctions.myPosToRoomPos(myRoom.bankPos);
             if (bankPos.isNearTo(creep)) {
-                let bank = null;
-                const structures = bankPos.lookFor(LOOK_STRUCTURES);
-                for (let i = 0; i < structures.length; i++) {
-                    const structure = structures[i];
-                    if (structure.structureType === STRUCTURE_CONTAINER) {
-                        bank = structure;
-                        break;
-                    }
-                    else if (structure.structureType === STRUCTURE_STORAGE) {
-                        bank = structure;
-                        break;
-                    }
-                }
+                const bank = global_functions_1.globalFunctions.getBank(myRoom);
                 if (bank == null) {
-                    console.log("ERR: Bank is null for hauler: " + hauler.name);
+                    console.log("ERR: Room's bank was null");
                     return;
                 }
                 creep.transfer(bank, RESOURCE_ENERGY);

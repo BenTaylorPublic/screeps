@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const global_functions_1 = require("global.functions");
 exports.roleMiner = {
     run: function (miner) {
         const creep = Game.creeps[miner.name];
@@ -7,7 +8,7 @@ exports.roleMiner = {
             console.log("ERR: Miner creep is null. Creep ID: " + miner.name);
             return;
         }
-        const cachePos = new RoomPosition(miner.cachePosToMineOn.x, miner.cachePosToMineOn.y, miner.cachePosToMineOn.roomName);
+        const cachePos = global_functions_1.globalFunctions.myPosToRoomPos(miner.cachePosToMineOn);
         if (cachePos.isEqualTo(creep.pos)) {
             //In location
             const source = Game.getObjectById(miner.sourceId);

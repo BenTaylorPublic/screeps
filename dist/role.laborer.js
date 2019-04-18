@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const global_functions_1 = require("global.functions");
 exports.roleLaborer = {
     run: function (laborer, myRoom) {
         const creep = Game.creeps[laborer.name];
@@ -8,8 +9,11 @@ exports.roleLaborer = {
             return;
         }
         calculateCreepState(laborer, myRoom, creep);
-        if (laborer.state === "Pickup") {
-            pickup(laborer, myRoom, creep);
+        if (laborer.state === "PickupBank") {
+            pickupBank(laborer, myRoom, creep);
+        }
+        else if (laborer.state === "PickupCache") {
+            pickupCache(laborer, myRoom, creep);
         }
         else if (laborer.state === "Mining") {
             mining(laborer, myRoom, creep);
@@ -27,23 +31,35 @@ function calculateCreepState(laborer, myRoom, creep) {
             return;
         }
         const bankPos = new RoomPosition(myRoom.bankPos.x, myRoom.bankPos.y, myRoom.bankPos.roomName);
-        let bank = null;
-        const structures = bankPos.lookFor(LOOK_STRUCTURES);
-        for (let i = 0; i < structures.length; i++) {
-            const structure = structures[i];
-            if (structure.structureType === STRUCTURE_CONTAINER) {
-                bank = structure;
-                break;
-            }
-            else if (structure.structureType === STRUCTURE_STORAGE) {
-                bank = structure;
-                break;
-            }
-        }
+        const bank = global_functions_1.globalFunctions.getBank(myRoom);
         if (bank != null &&
-            bank.store[RESOURCE_ENERGY] > creep.carryCapacity) {
-            laborer.state = "Pickup";
-            creep.say("Pickup");
+            bank.store[RESOURCE_ENERGY] >= creep.carryCapacity) {
+            laborer.state = "PickupBank";
+            creep.say("PickupBank");
+            return;
+        }
+        else if (myRoom.roomStage >= 1) {
+            for (let i = 0; i < myRoom.mySources.length; i++) {
+                const mySource = myRoom.mySources[i];
+                if (mySource.cachePos != null) {
+                    const cachePos = global_functions_1.globalFunctions.myPosToRoomPos(mySource.cachePos);
+                    const structures = cachePos.lookFor(LOOK_STRUCTURES);
+                    for (let j = 0; j < structures.length; j++) {
+                        const structure = structures[j];
+                        if (structure.structureType === STRUCTURE_CONTAINER) {
+                            const cache = structure;
+                            if (cache.store[RESOURCE_ENERGY] >= creep.carryCapacity) {
+                                laborer.state = "PickupCache";
+                                creep.say("PickupCache");
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+            //Couldn't find a cache to pickup from, mine instead
+            laborer.state = "Mining";
+            creep.say("Mining");
             return;
         }
         else {
@@ -52,38 +68,60 @@ function calculateCreepState(laborer, myRoom, creep) {
             return;
         }
     }
-    else if ((laborer.state === "Pickup" || laborer.state === "Mining") &&
+    else if ((laborer.state === "PickupBank" ||
+        laborer.state === "Mining" ||
+        laborer.state === "PickupCache") &&
         creep.carry.energy === creep.carryCapacity) {
         laborer.state = "Labor";
         creep.say("work work");
     }
 }
-function pickup(laborer, myRoom, creep) {
+function pickupBank(laborer, myRoom, creep) {
     if (myRoom.bankPos == null) {
         console.log("ERR: Room's bank pos was null");
         return;
     }
-    const bankPos = new RoomPosition(myRoom.bankPos.x, myRoom.bankPos.y, myRoom.bankPos.roomName);
+    const bankPos = global_functions_1.globalFunctions.myPosToRoomPos(myRoom.bankPos);
     if (bankPos.isNearTo(creep)) {
-        let bank = null;
-        const structures = bankPos.lookFor(LOOK_STRUCTURES);
-        for (let i = 0; i < structures.length; i++) {
-            const structure = structures[i];
-            if (structure.structureType === STRUCTURE_CONTAINER) {
-                bank = structure;
-                break;
-            }
-            else if (structure.structureType === STRUCTURE_STORAGE) {
-                bank = structure;
-                break;
-            }
+        const bank = global_functions_1.globalFunctions.getBank(myRoom);
+        if (bank == null) {
+            console.log("ERR: Room's bank was null");
+            return;
         }
-        if (bank != null) {
-            creep.withdraw(bank, RESOURCE_ENERGY);
-        }
+        creep.withdraw(bank, RESOURCE_ENERGY);
     }
     else {
         creep.moveTo(bankPos);
+    }
+}
+function pickupCache(laborer, myRoom, creep) {
+    let validCacheToGrabFrom = null;
+    for (let i = 0; i < myRoom.mySources.length; i++) {
+        const mySource = myRoom.mySources[i];
+        if (mySource.cachePos != null) {
+            const cachePos = global_functions_1.globalFunctions.myPosToRoomPos(mySource.cachePos);
+            const structures = cachePos.lookFor(LOOK_STRUCTURES);
+            for (let j = 0; j < structures.length; j++) {
+                const structure = structures[j];
+                if (structure.structureType === STRUCTURE_CONTAINER) {
+                    const cache = structure;
+                    if (cache.store[RESOURCE_ENERGY] >= creep.carryCapacity) {
+                        validCacheToGrabFrom = cache;
+                    }
+                }
+            }
+        }
+    }
+    if (validCacheToGrabFrom == null) {
+        console.log("ERR: Laborer can't see any caches with enough energy. Setting to Mine.");
+        laborer.state = "Mining";
+        return;
+    }
+    if (validCacheToGrabFrom.pos.isNearTo(creep)) {
+        creep.withdraw(validCacheToGrabFrom, RESOURCE_ENERGY);
+    }
+    else {
+        creep.moveTo(validCacheToGrabFrom.pos);
     }
 }
 function mining(laborer, myRoom, creep) {

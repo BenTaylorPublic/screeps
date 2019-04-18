@@ -5,7 +5,6 @@ const role_miner_1 = require("role.miner");
 const role_hauler_1 = require("role.hauler");
 const room_stage_controller_1 = require("room.stage.controller");
 const role_laborer_1 = require("role.laborer");
-const room_building_controller_1 = require("room.building.controller");
 const room_spawn_controller_1 = require("room.spawn.controller");
 exports.roomController = {
     run: function (myRoom) {
@@ -19,7 +18,6 @@ exports.roomController = {
         if (Game.time % 10 === 0) {
             //Only run every 10 ticks
             room_stage_controller_1.roomStageController.run(myRoom);
-            room_building_controller_1.roomBuildingController.run(myRoom);
         }
         room_spawn_controller_1.roomSpawnController.run(myRoom);
         //Tower logic

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const global_functions_1 = require("global.functions");
 exports.memoryController = {
     run: function () {
         clearDeadCreeps();
@@ -19,29 +20,32 @@ function ensureAllRoomsInMyMemory() {
     //Ensuring all the rooms are in Memory.myMemory.myRooms
     for (const roomName in Game.rooms) {
         const room = Game.rooms[roomName];
-        let alreadyInMemory = false;
+        let myRoom = null;
         if (room.controller == null ||
             room.controller.my === false) {
             //No need to process rooms that don't have controllers or are not mine
             //We only have access to these rooms through travelers (probs)
-            alreadyInMemory = true;
+            continue;
         }
         for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
-            const myRoom = Memory.myMemory.myRooms[i];
-            if (myRoom.name === roomName) {
-                alreadyInMemory = true;
+            const myExistingRoom = Memory.myMemory.myRooms[i];
+            if (myExistingRoom != null &&
+                myExistingRoom.name === roomName) {
+                myRoom = myExistingRoom;
             }
         }
-        if (!alreadyInMemory) {
+        if (myRoom == null) {
             //Add it
             console.log("LOG: Adding a new room " + roomName);
             const newMyRoom = {
                 name: roomName,
                 myCreeps: [],
-                spawnName: null,
+                spawns: [],
                 mySources: [],
                 roomStage: 0,
-                bankPos: null
+                bankPos: null,
+                myExtensionPositions: [],
+                myTowerPositions: []
             };
             const sources = room.find(FIND_SOURCES);
             for (let i = 0; i < sources.length; i++) {
@@ -53,14 +57,30 @@ function ensureAllRoomsInMyMemory() {
                     cachePos: null
                 });
             }
-            //Check the spawn
-            const spawns = room.find(FIND_MY_STRUCTURES, {
-                filter: { structureType: STRUCTURE_SPAWN }
-            });
-            if (spawns.length >= 1) {
-                newMyRoom.spawnName = spawns[0].name;
+            const spawns = room.find(FIND_MY_SPAWNS);
+            for (let i = 0; i < spawns.length; i++) {
+                const spawn = spawns[i];
+                newMyRoom.spawns.push({
+                    position: global_functions_1.globalFunctions.roomPosToMyPos(spawn.pos),
+                    name: spawn.name
+                });
             }
             Memory.myMemory.myRooms.push(newMyRoom);
+        }
+        else {
+            //Already in memory
+            //If the room has more or less spawns than in the MyRoom, add them to it
+            const spawns = room.find(FIND_MY_SPAWNS);
+            if (spawns.length !== myRoom.spawns.length) {
+                myRoom.spawns = [];
+                for (let i = 0; i < spawns.length; i++) {
+                    const spawn = spawns[i];
+                    myRoom.spawns.push({
+                        position: global_functions_1.globalFunctions.roomPosToMyPos(spawn.pos),
+                        name: spawn.name
+                    });
+                }
+            }
         }
     }
 }

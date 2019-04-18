@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const global_functions_1 = require("global.functions");
 exports.roomTowerController = {
     run: function (tower) {
         const closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
@@ -11,14 +12,10 @@ exports.roomTowerController = {
         }
         const hostileCreeps = tower.room.find(FIND_HOSTILE_CREEPS);
         if (hostileCreeps.length >= 1) {
-            const allyList = ["mooseyman", "nimphious"];
             for (let i = hostileCreeps.length - 1; i >= 0; i--) {
                 const possibleHostileCreep = hostileCreeps[i];
-                for (let j = 0; j < allyList.length; j++) {
-                    if (possibleHostileCreep.owner.username.toLowerCase() === allyList[j]) {
-                        hostileCreeps.slice(i, 1);
-                        break;
-                    }
+                if (global_functions_1.globalFunctions.isAllyUsername(possibleHostileCreep.owner.username)) {
+                    hostileCreeps.slice(i, 1);
                 }
             }
             let target = null;

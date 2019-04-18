@@ -1,15 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const global_1 = require("global");
+const global_functions_1 = require("global.functions");
 exports.roomSpawnHauler = {
     trySpawnHauler: function (myRoom) {
-        if (myRoom.roomStage < 2.6) {
+        if (myRoom.roomStage < 4) {
+            //No need for haulers before the bank is setup
             return;
         }
         for (let i = 0; i < myRoom.mySources.length; i++) {
             const mySource = myRoom.mySources[i];
-            if (mySource.haulerNames.length === 0 ||
-                (myRoom.roomStage >= 3 && mySource.haulerNames.length < 2)) {
+            if (mySource.haulerNames.length < AMOUNT_OF_HAULERS_PER_SOURCE) {
                 //Spawn a new hauler
                 const newCreep = spawnHauler(myRoom, mySource);
                 if (newCreep != null) {
@@ -23,11 +23,11 @@ exports.roomSpawnHauler = {
     }
 };
 function spawnHauler(myRoom, mySource) {
-    if (myRoom.spawnName == null) {
+    if (myRoom.spawns.length === 0) {
         console.log("ERR: Attempted to spawn hauler in a room with no spawner (1)");
         return null;
     }
-    const spawn = Game.spawns[myRoom.spawnName];
+    const spawn = Game.spawns[myRoom.spawns[0].name];
     if (spawn == null) {
         console.log("ERR: Attempted to spawn hauler in a room with no spawner (2)");
         return null;
@@ -37,19 +37,8 @@ function spawnHauler(myRoom, mySource) {
         return null;
     }
     //Have a valid spawn now
-    let body = [MOVE, CARRY];
-    const maxEnergyToUse = (myRoom.roomStage >= 3) ?
-        spawn.room.energyCapacityAvailable :
-        spawn.room.energyAvailable;
-    while (true) {
-        if (global_1.global.calcBodyCost(body) + global_1.global.calcBodyCost([MOVE, CARRY]) <= maxEnergyToUse) {
-            body = body.concat([MOVE, CARRY]);
-        }
-        else {
-            break;
-        }
-    }
-    const id = global_1.global.getId();
+    const body = global_functions_1.globalFunctions.generateBody([MOVE, CARRY], [MOVE, CARRY], spawn.room, true);
+    const id = global_functions_1.globalFunctions.getId();
     const result = spawn.spawnCreep(body, "Creep" + id, {
         memory: {
             name: "Creep" + id,
