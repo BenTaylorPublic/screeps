@@ -17,6 +17,7 @@ exports.roomController = {
         const room = Game.rooms[myRoom.name];
         if (Game.time % 10 === 0) {
             //Only run every 10 ticks
+            console.log("LOG: % 10 === 0, running");
             room_stage_controller_1.roomStageController.run(myRoom);
         }
         room_spawn_controller_1.roomSpawnController.run(myRoom);
