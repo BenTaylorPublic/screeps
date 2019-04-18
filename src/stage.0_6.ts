@@ -25,6 +25,7 @@ export const stage0_6: StageController = {
     },
     step: function (myRoom: MyRoom): void {
         const roomFlags: Flag[] = globalFunctions.getRoomsFlags(myRoom);
+        let flagsPlaced: number = 0;
         for (let i = 0; i < roomFlags.length; i++) {
             const roomFlag: Flag = roomFlags[i];
             const flagNameSplit: string[] = roomFlag.name.split("-");
@@ -45,6 +46,7 @@ export const stage0_6: StageController = {
                                     y: roomFlag.pos.y,
                                     roomName: myRoom.name
                                 };
+                                flagsPlaced++;
                             } // Else it's hopefully the other source in the room...
                         }
                     }
@@ -53,6 +55,10 @@ export const stage0_6: StageController = {
                     console.log("ERR: Placing a container cache construction site errored");
                 }
             }
+        }
+
+        if (flagsPlaced !== myRoom.mySources.length) {
+            console.log("ATTENTION: Room " + myRoom.name + " needs cache container flag");
         }
     }
 };

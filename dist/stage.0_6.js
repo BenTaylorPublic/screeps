@@ -26,6 +26,7 @@ exports.stage0_6 = {
     },
     step: function (myRoom) {
         const roomFlags = global_functions_1.globalFunctions.getRoomsFlags(myRoom);
+        let flagsPlaced = 0;
         for (let i = 0; i < roomFlags.length; i++) {
             const roomFlag = roomFlags[i];
             const flagNameSplit = roomFlag.name.split("-");
@@ -47,6 +48,7 @@ exports.stage0_6 = {
                                     y: roomFlag.pos.y,
                                     roomName: myRoom.name
                                 };
+                                flagsPlaced++;
                             } // Else it's hopefully the other source in the room...
                         }
                     }
@@ -55,6 +57,9 @@ exports.stage0_6 = {
                     console.log("ERR: Placing a container cache construction site errored");
                 }
             }
+        }
+        if (flagsPlaced !== myRoom.mySources.length) {
+            console.log("ATTENTION: Room " + myRoom.name + " needs cache container flag");
         }
     }
 };
