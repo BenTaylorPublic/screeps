@@ -35,15 +35,16 @@ export const roomSpawnLaborer: any = {
 
 
 function spawnLaborer(myRoom: MyRoom): Laborer | null {
-    if (myRoom.spawns.length === 0) {
-        console.log("ERR: Attempted to spawn laborer in a room with no spawner (1)");
-        return null;
-    }
-    const spawn: StructureSpawn = Game.spawns[myRoom.spawns[0].name];
+    let spawn: StructureSpawn = Game.spawns[myRoom.spawns[0].name];
 
     if (spawn == null) {
-        console.log("ERR: Attempted to spawn laborer in a room with no spawner (2)");
-        return null;
+        // A room needs a laborer, but it has no spawns yet
+        // Going to use the nearest room's spawn instead
+        spawn = globalFunctions.findClosestSpawn(new RoomPosition(25, 25, myRoom.name));
+        if (spawn == null) {
+            console.log("ERR: Couldn't find any spawns to make a laborer for room " + myRoom.name);
+            return null;
+        }
     }
 
     //Have a valid spawn now
@@ -62,7 +63,7 @@ function spawnLaborer(myRoom: MyRoom): Laborer | null {
                 {
                     name: "Creep" + id,
                     role: "Laborer",
-                    assignedRoomName: spawn.room.name
+                    assignedRoomName: myRoom.name
                 }
             }
         );
@@ -71,7 +72,7 @@ function spawnLaborer(myRoom: MyRoom): Laborer | null {
         return {
             name: "Creep" + id,
             role: "Laborer",
-            assignedRoomName: spawn.room.name,
+            assignedRoomName: myRoom.name,
             state: "Labor"
         };
     }
