@@ -6,7 +6,7 @@ const role_claimer_1 = require("role.claimer");
 const live_controller_1 = require("live.controller");
 console.log("Script reloaded");
 setupMyMemory();
-Memory.myMemory.myTravelingCreeps = [];
+Memory.myMemory.myRooms[0].bankPos = null;
 exports.loop = function () {
     memory_controller_1.memoryController.run();
     for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {

@@ -6,8 +6,7 @@ import { liveController } from "live.controller";
 
 console.log("Script reloaded");
 setupMyMemory();
-
-Memory.myMemory.myTravelingCreeps = [];
+Memory.myMemory.myRooms[0].bankPos = null;
 
 export const loop: any = function () {
     memoryController.run();
