@@ -146,6 +146,7 @@ export const globalFunctions: any = {
         return ["mooseyman", "nimphious"].indexOf(username.toLowerCase()) !== -1;
     },
     findClosestSpawn: function (roomPos: RoomPosition): StructureSpawn | null {
+        return Game.spawns["Spawn1"];
         let spawnToReturn: StructureSpawn | null = null;
         let closestDistance: number = 9999;
         for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {

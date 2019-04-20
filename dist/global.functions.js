@@ -142,6 +142,7 @@ exports.globalFunctions = {
         return ["mooseyman", "nimphious"].indexOf(username.toLowerCase()) !== -1;
     },
     findClosestSpawn: function (roomPos) {
+        return Game.spawns["Spawn1"];
         let spawnToReturn = null;
         let closestDistance = 9999;
         for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
