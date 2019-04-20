@@ -1,7 +1,6 @@
 import { roomController } from "room.controller";
 import { memoryController } from "memory.controller";
 import { roleClaimer } from "role.claimer";
-import { liveSpawnClaimers } from "live.spawn.claimer";
 import { liveController } from "live.controller";
 
 console.log("Script reloaded");
