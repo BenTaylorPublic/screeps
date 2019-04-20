@@ -12,11 +12,10 @@ export const roleClaimer: any = {
             //Kill the creep
             creep.suicide();
         }
-        const flagPos: RoomPosition = flag.pos;
 
-        if (flagPos.roomName !== creep.room.name) {
+        if (claimer.assignedRoomName !== creep.room.name) {
             creep.say("Fukn Lost");
-            creep.moveTo(new RoomPosition(25, 25, flagPos.roomName));
+            creep.moveTo(new RoomPosition(25, 25, claimer.assignedRoomName));
             return;
         } else {
             //Inside the room

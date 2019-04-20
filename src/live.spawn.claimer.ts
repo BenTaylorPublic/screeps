@@ -59,7 +59,7 @@ function spawnClaimer(flag: Flag): Claimer | null {
                 {
                     name: "Creep" + id,
                     role: "Claimer",
-                    assignedRoomName: ""
+                    assignedRoomName: flag.pos.roomName
                 }
             }
         );
@@ -68,7 +68,7 @@ function spawnClaimer(flag: Flag): Claimer | null {
         return {
             name: "Creep" + id,
             role: "Claimer",
-            assignedRoomName: "",
+            assignedRoomName: flag.pos.roomName,
             flagName: flag.name
         };
     }
