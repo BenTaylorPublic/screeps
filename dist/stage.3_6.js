@@ -23,6 +23,27 @@ exports.stage3_6 = {
         return false;
     },
     step: function (myRoom, room) {
-        //No steps
+        const roomFlags = global_functions_1.globalFunctions.getRoomsFlags(myRoom);
+        for (let i = 0; i < roomFlags.length; i++) {
+            const roomFlag = roomFlags[i];
+            if (roomFlag.name === "storage") {
+                const result = Game.rooms[myRoom.name].createConstructionSite(roomFlag.pos, STRUCTURE_STORAGE);
+                if (result === OK) {
+                    myRoom.bankPos = {
+                        x: roomFlag.pos.x,
+                        y: roomFlag.pos.y,
+                        roomName: myRoom.name
+                    };
+                    console.log("LOG: Placed storage bank construction site");
+                    roomFlag.remove();
+                }
+                else {
+                    console.log("ERR: Placing a storage bank construction site errored");
+                }
+            }
+        }
+        if (room.find(FIND_CONSTRUCTION_SITES).length === 0) {
+            console.log("ATTENTION: Room " + myRoom.name + " needs storage flag");
+        }
     }
 };
