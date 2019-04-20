@@ -7,6 +7,13 @@ export const roleHauler: any = {
             console.log("ERR: Hauler creep is null. Creep ID: " + hauler.name);
             return;
         }
+
+        if (hauler.assignedRoomName !== creep.room.name) {
+            creep.say("Fukn Lost");
+            creep.moveTo(new RoomPosition(25, 25, hauler.assignedRoomName));
+            return;
+        }
+
         if (hauler.pickup === false &&
             creep.carry.energy === 0) {
             hauler.pickup = true;

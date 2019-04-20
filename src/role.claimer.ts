@@ -7,11 +7,13 @@ export const roleClaimer: any = {
             console.log("ERR: Claimer creep is null. Creep ID: " + claimer.name);
             return;
         }
+
         const flagPos: RoomPosition = Game.flags[claimer.flagName].pos;
 
         if (flagPos.roomName !== creep.room.name) {
-            //Not inside the room yet
-            creep.moveTo(flagPos);
+            creep.say("Fukn Lost");
+            creep.moveTo(new RoomPosition(25, 25, claimer.assignedRoomName));
+            return;
         } else {
             //Inside the room
             if (creep.room.controller == null) {
