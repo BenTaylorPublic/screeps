@@ -138,7 +138,24 @@ exports.globalFunctions = {
         }
         return null;
     },
-    isAllyUsername(username) {
+    isAllyUsername: function (username) {
         return ["mooseyman", "nimphious"].indexOf(username.toLowerCase()) !== -1;
+    },
+    findClosestSpawn: function (roomPos) {
+        let spawnToReturn = null;
+        let closestDistance = 9999;
+        for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
+            const myRoom = Memory.myMemory.myRooms[i];
+            for (let j = 0; j < myRoom.spawns.length; j++) {
+                const mySpawn = myRoom.spawns[j];
+                const mySpawnRoomPos = exports.globalFunctions.myPosToRoomPos(mySpawn.position);
+                const distance = mySpawnRoomPos.getRangeTo(roomPos);
+                if (distance < closestDistance) {
+                    closestDistance = distance;
+                    spawnToReturn = Game.spawns[mySpawn.name];
+                }
+            }
+        }
+        return spawnToReturn;
     }
 };

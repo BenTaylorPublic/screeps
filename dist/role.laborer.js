@@ -8,6 +8,11 @@ exports.roleLaborer = {
             console.log("ERR: Laborer creep is null. Creep ID: " + laborer.name);
             return;
         }
+        if (laborer.assignedRoomName !== creep.room.name) {
+            creep.say("Fukn Lost");
+            creep.moveTo(new RoomPosition(25, 25, laborer.assignedRoomName));
+            return;
+        }
         calculateCreepState(laborer, myRoom, creep);
         if (laborer.state === "PickupBank") {
             pickupBank(laborer, myRoom, creep);

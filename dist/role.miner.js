@@ -8,6 +8,11 @@ exports.roleMiner = {
             console.log("ERR: Miner creep is null. Creep ID: " + miner.name);
             return;
         }
+        if (miner.assignedRoomName !== creep.room.name) {
+            creep.say("Fukn Lost");
+            creep.moveTo(new RoomPosition(25, 25, miner.assignedRoomName));
+            return;
+        }
         const cachePos = global_functions_1.globalFunctions.myPosToRoomPos(miner.cachePosToMineOn);
         if (cachePos.isEqualTo(creep.pos)) {
             //In location

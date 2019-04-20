@@ -1,16 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const global_functions_1 = require("global.functions");
-exports.stage0_6 = {
+exports.stage1_6 = {
     /*
-    0.6 ->  1   : Room has caches length >= source amount
-    0.6 <-  1   : Room has caches length < source amount
+    1.6 ->  2   : Room has caches length >= source amount
+    1.6 <-  2   : Room has caches length < source amount
     */
     up: function (myRoom, room) {
         const amountOfSource = room.find(FIND_SOURCES).length;
         if (global_functions_1.globalFunctions.amountOfStructure(room, STRUCTURE_CONTAINER) >= amountOfSource) {
-            myRoom.roomStage = 1;
-            console.log("LOG: Room " + myRoom.name + " increased to room stage 1");
+            myRoom.roomStage = 2;
+            console.log("LOG: Room " + myRoom.name + " increased to room stage 2");
             return true;
         }
         return false;
@@ -18,8 +18,8 @@ exports.stage0_6 = {
     down: function (myRoom, room) {
         const amountOfSource = room.find(FIND_SOURCES).length;
         if (global_functions_1.globalFunctions.amountOfStructure(room, STRUCTURE_CONTAINER) < amountOfSource) {
-            myRoom.roomStage = 0.6;
-            console.log("LOG: Room " + myRoom.name + " decreased to room stage 0.6");
+            myRoom.roomStage = 1.6;
+            console.log("LOG: Room " + myRoom.name + " decreased to room stage 1.6");
             return true;
         }
         return false;

@@ -33,12 +33,12 @@ exports.roomSpawnLaborer = {
 };
 function spawnLaborer(myRoom) {
     if (myRoom.spawns.length === 0) {
-        console.log("ERR: Attempted to spawn miner in a room with no spawner (1)");
+        console.log("ERR: Attempted to spawn laborer in a room with no spawner (1)");
         return null;
     }
     const spawn = Game.spawns[myRoom.spawns[0].name];
     if (spawn == null) {
-        console.log("ERR: Attempted to spawn miner in a room with no spawner (2)");
+        console.log("ERR: Attempted to spawn laborer in a room with no spawner (2)");
         return null;
     }
     //Have a valid spawn now
