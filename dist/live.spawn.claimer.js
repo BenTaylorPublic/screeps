@@ -41,8 +41,9 @@ exports.liveSpawnClaimers = {
     }
 };
 function spawnClaimer(flag) {
-    const spawn = findClosestSpawn(flag.pos);
+    const spawn = global_functions_1.globalFunctions.findClosestSpawn(flag.pos);
     if (spawn == null) {
+        flag.remove();
         console.log("ERR: Couldn't find a spawn to make a claimer");
         return null;
     }
@@ -64,21 +65,4 @@ function spawnClaimer(flag) {
         };
     }
     return null;
-}
-function findClosestSpawn(roomPos) {
-    let spawnToReturn = null;
-    let closestDistance = 9999;
-    for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
-        const myRoom = Memory.myMemory.myRooms[i];
-        for (let j = 0; j < myRoom.spawns.length; j++) {
-            const mySpawn = myRoom.spawns[j];
-            const mySpawnRoomPos = global_functions_1.globalFunctions.myPosToRoomPos(mySpawn.position);
-            const distance = mySpawnRoomPos.getRangeTo(roomPos);
-            if (distance < closestDistance) {
-                closestDistance = distance;
-                spawnToReturn = Game.spawns[mySpawn.name];
-            }
-        }
-    }
-    return spawnToReturn;
 }

@@ -40,8 +40,9 @@ export const liveSpawnClaimers: any = {
 
 function spawnClaimer(flag: Flag): Claimer | null {
 
-    const spawn: StructureSpawn | null = findClosestSpawn(flag.pos);
+    const spawn: StructureSpawn | null = globalFunctions.findClosestSpawn(flag.pos);
     if (spawn == null) {
+        flag.remove();
         console.log("ERR: Couldn't find a spawn to make a claimer");
         return null;
     }
@@ -72,22 +73,4 @@ function spawnClaimer(flag: Flag): Claimer | null {
         };
     }
     return null;
-}
-
-function findClosestSpawn(roomPos: RoomPosition): StructureSpawn | null {
-    let spawnToReturn: StructureSpawn | null = null;
-    let closestDistance: number = 9999;
-    for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
-        const myRoom: MyRoom = Memory.myMemory.myRooms[i];
-        for (let j = 0; j < myRoom.spawns.length; j++) {
-            const mySpawn: MySpawn = myRoom.spawns[j];
-            const mySpawnRoomPos: RoomPosition = globalFunctions.myPosToRoomPos(mySpawn.position);
-            const distance: number = mySpawnRoomPos.getRangeTo(roomPos);
-            if (distance < closestDistance) {
-                closestDistance = distance;
-                spawnToReturn = Game.spawns[mySpawn.name];
-            }
-        }
-    }
-    return spawnToReturn;
 }
