@@ -1,15 +1,15 @@
 import { globalFunctions } from "global.functions";
 
-export const stage0_6: StageController = {
+export const stage1_6: StageController = {
     /*
-    0.6 ->  1   : Room has caches length >= source amount
-    0.6 <-  1   : Room has caches length < source amount
+    1.6 ->  2   : Room has caches length >= source amount
+    1.6 <-  2   : Room has caches length < source amount
     */
     up: function (myRoom: MyRoom, room: Room): boolean {
         const amountOfSource: number = room.find(FIND_SOURCES).length;
         if (globalFunctions.amountOfStructure(room, STRUCTURE_CONTAINER) >= amountOfSource) {
-            myRoom.roomStage = 1;
-            console.log("LOG: Room " + myRoom.name + " increased to room stage 1");
+            myRoom.roomStage = 2;
+            console.log("LOG: Room " + myRoom.name + " increased to room stage 2");
             return true;
         }
         return false;
@@ -17,8 +17,8 @@ export const stage0_6: StageController = {
     down: function (myRoom: MyRoom, room: Room): boolean {
         const amountOfSource: number = room.find(FIND_SOURCES).length;
         if (globalFunctions.amountOfStructure(room, STRUCTURE_CONTAINER) < amountOfSource) {
-            myRoom.roomStage = 0.6;
-            console.log("LOG: Room " + myRoom.name + " decreased to room stage 0.6");
+            myRoom.roomStage = 1.6;
+            console.log("LOG: Room " + myRoom.name + " decreased to room stage 1.6");
             return true;
         }
         return false;

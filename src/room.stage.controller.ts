@@ -1,9 +1,9 @@
 import { stageDefault } from "stage.default";
 import { stage0 } from "stage.0";
-import { stage0_3 } from "stage.0_3";
-import { stage0_6 } from "stage.0_6";
+import { stage0_5 } from "stage.0_5";
 import { stage1 } from "stage.1";
-import { stage1_5 } from "stage.1_5";
+import { stage1_3 } from "stage.1_3";
+import { stage1_6 } from "stage.1_6";
 import { stage2 } from "stage.2";
 import { stage2_3 } from "stage.2_3";
 import { stage2_6 } from "stage.2_6";
@@ -42,20 +42,20 @@ export const roomStageController: any = {
             -1  ->  0   : Get a room controller that's mine
             -1  <-  0   : Have no room controller that's mine
 
-            0   ->  0.3 : RCL is level >= 1
-            0   <-  0.3 : RCL is level < 1
+            0   ->  0.5 : RCL is level >= 1
+            0   <-  0.5 : RCL is level < 1
 
-            0.3 ->  0.6 : Room has >= 1 spawn
-            0.3 <-  0.6 : Room has < 1 spawns
+            0.5 ->  1   : Room has >= 1 spawn
+            0.5 <-  1   : Room has < 1 spawns
 
-            0.6 ->  1   : Room has caches length >= source amount
-            0.6 <-  1   : Room has caches length < source amount
+            1   ->  1.3 : RCL is level >= 2
+            1   <-  1.3 : RCL is level < 2
 
-            1   ->  1.5 : RCL is level >= 2
-            1   <-  1.5 : RCL is level < 2
+            1.3 ->  1.6 : Room has >= 5 extensions
+            1.3 <-  1.6 : Room has < 5 extensions
 
-            1.5 ->  2   : Room has >= 5 extensions
-            1.5 <-  2   : Room has < 5 extensions
+            1.6 ->  2   : Room has caches length >= source amount
+            1.6 <-  2   : Room has caches length < source amount
 
             2   ->  2.3 : RCL is level >= 3
             2   <-  2.3 : RCL is level < 3
@@ -85,21 +85,21 @@ export const roomStageController: any = {
             stage0.step(myRoom, room);
             stage0.up(myRoom, room);
         }
-        if (myRoom.roomStage === 0.3) {
-            stage0_3.step(myRoom, room);
-            stage0_3.up(myRoom, room);
-        }
-        if (myRoom.roomStage === 0.6) {
-            stage0_6.step(myRoom, room);
-            stage0_6.up(myRoom, room);
+        if (myRoom.roomStage === 0.5) {
+            stage0_5.step(myRoom, room);
+            stage0_5.up(myRoom, room);
         }
         if (myRoom.roomStage === 1) {
             stage1.step(myRoom, room);
             stage1.up(myRoom, room);
         }
-        if (myRoom.roomStage === 1.5) {
-            stage1_5.step(myRoom, room);
-            stage1_5.up(myRoom, room);
+        if (myRoom.roomStage === 1.3) {
+            stage1_3.step(myRoom, room);
+            stage1_3.up(myRoom, room);
+        }
+        if (myRoom.roomStage === 1.6) {
+            stage1_6.step(myRoom, room);
+            stage1_6.up(myRoom, room);
         }
         if (myRoom.roomStage === 2) {
             stage2.step(myRoom, room);
@@ -145,17 +145,17 @@ export const roomStageController: any = {
         if (myRoom.roomStage > 2) {
             stage2.down(myRoom, room);
         }
-        if (myRoom.roomStage > 1.5) {
-            stage1_5.down(myRoom, room);
+        if (myRoom.roomStage > 1.6) {
+            stage1_6.down(myRoom, room);
+        }
+        if (myRoom.roomStage > 1.3) {
+            stage1_3.down(myRoom, room);
         }
         if (myRoom.roomStage > 1) {
             stage1.down(myRoom, room);
         }
-        if (myRoom.roomStage > 0.6) {
-            stage0_6.down(myRoom, room);
-        }
-        if (myRoom.roomStage > 0.3) {
-            stage0_3.down(myRoom, room);
+        if (myRoom.roomStage > 0.5) {
+            stage0_5.down(myRoom, room);
         }
         if (myRoom.roomStage > 0) {
             stage0.down(myRoom, room);
