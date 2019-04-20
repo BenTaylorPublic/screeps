@@ -1,8 +1,9 @@
 room stages from 4 to 8
 
-Move building containers to after RCL 2, with 5 extensions made
-Because you can't even spawn miners till after that
-And it also reduces the chance that the containers will die before getting miners
+Make flag logic to handle a random ID at the end to stop clashes
+
+Remove live spawn laborers, and make it when the spawn of a laborer is null,
+It uses nearby room spawn instead
 
 Long term:
 Bank object should be cached and removed at the start of each loop (for performance)
