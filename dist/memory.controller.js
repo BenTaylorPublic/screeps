@@ -6,6 +6,7 @@ exports.memoryController = {
         clearDeadCreeps();
         ensureAllRoomsInMyMemory();
         validateRoomsInMyMemory();
+        cleanUpTravelingCreeps();
     }
 };
 function clearDeadCreeps() {
@@ -134,5 +135,13 @@ function handleCreepDying(myRoom, myCreep) {
     }
     else {
         console.log("LOG: A Creep with a weird role has died: " + myCreep.role);
+    }
+}
+function cleanUpTravelingCreeps() {
+    for (let i = Memory.myMemory.myTravelingCreeps.length - 1; i >= 0; i--) {
+        const myCreep = Memory.myMemory.myTravelingCreeps[i];
+        if (Game.creeps[myCreep.name] == null) {
+            Memory.myMemory.myTravelingCreeps.splice(i, 1);
+        }
     }
 }
