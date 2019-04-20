@@ -1,11 +1,11 @@
 import { globalFunctions } from "global.functions";
 
-export const spawnClaimers: any = {
+export const liveSpawnClaimers: any = {
     run: function (): void {
         const flagNames: string[] = Object.keys(Game.flags);
         for (let i = 0; i < flagNames.length; i++) {
             const flag: Flag = Game.flags[flagNames[i]];
-            if (flag.name !== "claim") { continue; }
+            if (flag.name !== "live-claim") { continue; }
 
             if (flag.room != null &&
                 flag.room.controller != null &&
