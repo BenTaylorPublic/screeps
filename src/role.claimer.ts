@@ -9,6 +9,10 @@ export const roleClaimer: any = {
         }
 
         const flagPos: RoomPosition = Game.flags[claimer.flagName].pos;
+        if (flagPos == null) {
+            //Kill the creep
+            creep.suicide();
+        }
 
         if (flagPos.roomName !== creep.room.name) {
             creep.say("Fukn Lost");

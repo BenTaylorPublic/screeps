@@ -8,6 +8,10 @@ exports.roleClaimer = {
             return;
         }
         const flagPos = Game.flags[claimer.flagName].pos;
+        if (flagPos == null) {
+            //Kill the creep
+            creep.suicide();
+        }
         if (flagPos.roomName !== creep.room.name) {
             creep.say("Fukn Lost");
             creep.moveTo(new RoomPosition(25, 25, flagPos.roomName));
