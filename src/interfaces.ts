@@ -7,6 +7,7 @@ interface RoomMemory { }
 interface MyMemory {
     globalId: number;
     myRooms: MyRoom[];
+    myTravelingCreeps: MyCreep[];
 }
 
 interface MyRoom {
@@ -52,7 +53,7 @@ interface StageController {
 
 interface MyCreep {
     name: string;
-    role: "Hauler" | "Miner" | "Laborer";
+    role: "Hauler" | "Miner" | "Laborer" | "Claimer";
     assignedRoomName: string;
 }
 
@@ -68,4 +69,9 @@ interface Hauler extends MyCreep {
 
 interface Laborer extends MyCreep {
     state: "PickupBank" | "Mining" | "Labor" | "PickupCache";
+}
+
+
+interface Claimer extends MyCreep {
+    flagName: string;
 }
