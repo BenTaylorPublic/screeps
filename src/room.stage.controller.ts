@@ -74,6 +74,21 @@ export const roomStageController: any = {
 
             3.6 ->  4   : Room has a storage bank
             3.6 <-  4   : Room does not have a storage bank
+
+            4   ->  4.2 : RCL is level >= 5
+            4   <-  4.2 : RCL is level < 5
+
+            4.2 ->  4.4 : Room has >= 2 tower
+            4.2 <-  4.4 : Room has < 2 tower
+
+            4.4 ->  4.6 : Room has >= 30 extensions
+            4.4 <-  4.6 : Room has < 30 extensions
+
+            4.6 ->  4.8 : Room has 2 links
+            4.6 <-  4.8 : Room has < 2 links
+
+            4.8 ->  5   : Room has 1 sources using links, no cache or hauler
+            4.8 <-  5   : Room has 0 sources using links, no cache or hauler
          */
 
         //Ups
