@@ -40,11 +40,24 @@ function spawnMiner(myRoom: MyRoom, mySource: MySource): Miner | null {
         return null;
     }
 
+    let body: BodyPartConstant[] = [MOVE, WORK, WORK, WORK, WORK, WORK];
+
+    let linkId: string | null = null;
+    //Convery the linkPos to an ID for the miner
+    if (mySource.linkPos != null) {
+        const linkPos: RoomPosition = globalFunctions.myPosToRoomPos(mySource.linkPos);
+        const structures: Structure<StructureConstant>[] = linkPos.lookFor(LOOK_STRUCTURES);
+        if (structures.length === 1) {
+            linkId = structures[0].id;
+            body = [MOVE, CARRY, WORK, WORK, WORK, WORK, WORK];
+        }
+    }
+
     //Have a valid spawn now
     const id = globalFunctions.getId();
     const result: ScreepsReturnCode =
         spawn.spawnCreep(
-            [MOVE, WORK, WORK, WORK, WORK, WORK],
+            body,
             "Creep" + id,
             {
                 memory:
@@ -63,6 +76,7 @@ function spawnMiner(myRoom: MyRoom, mySource: MySource): Miner | null {
             role: "Miner",
             assignedRoomName: spawn.room.name,
             cachePosToMineOn: mySource.cachePos,
+            linkIdToDepositTo: linkId,
             sourceId: mySource.id
         };
     }

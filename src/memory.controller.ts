@@ -51,16 +51,19 @@ function ensureAllRoomsInMyMemory(): void {
                 roomStage: -1,
                 bankPos: null,
                 myExtensionPositions: [],
-                myTowerPositions: []
+                myTowerPositions: [],
+                bankLinkSlaveName: null
             };
             const sources: Source[] = room.find(FIND_SOURCES);
             for (let i = 0; i < sources.length; i++) {
                 const source: Source = sources[i];
                 newMyRoom.mySources.push({
                     id: source.id,
+                    state: "NoCache",
                     minerName: null,
                     haulerNames: [],
-                    cachePos: null
+                    cachePos: null,
+                    linkPos: null
                 });
             }
             const spawns: StructureSpawn[] = room.find(FIND_MY_SPAWNS);

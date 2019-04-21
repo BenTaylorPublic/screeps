@@ -19,6 +19,7 @@ interface MyRoom {
     bankPos: MyRoomPos | null;
     myExtensionPositions: MyRoomPos[];
     myTowerPositions: MyRoomPos[];
+    bankLinkSlaveName: string | null; //Null when bankLinkSlave is dead or not assigned
 }
 
 interface MySpawn {
@@ -28,9 +29,11 @@ interface MySpawn {
 
 interface MySource {
     id: string;
+    state: "NoCache" | "Cache" | "Link";
     minerName: string | null; //Null when miner is dead or not assigned
     haulerNames: string[];
     cachePos: MyRoomPos | null;
+    linkPos: MyRoomPos | null;
 }
 
 interface MyRoomPos {
@@ -53,13 +56,14 @@ interface StageController {
 
 interface MyCreep {
     name: string;
-    role: "Hauler" | "Miner" | "Laborer" | "Claimer";
+    role: "Hauler" | "Miner" | "Laborer" | "Claimer" | "BankLinkSlave";
     assignedRoomName: string;
 }
 
 interface Miner extends MyCreep {
     sourceId: string;
     cachePosToMineOn: MyRoomPos;
+    linkIdToDepositTo: string | null;
 }
 
 interface Hauler extends MyCreep {
@@ -74,4 +78,7 @@ interface Laborer extends MyCreep {
 
 interface Claimer extends MyCreep {
     flagName: string;
+}
+
+interface BankLinkSlave extends MyCreep {
 }

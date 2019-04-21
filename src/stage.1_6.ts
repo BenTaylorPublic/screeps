@@ -46,6 +46,7 @@ export const stage1_6: StageController = {
                                     y: roomFlag.pos.y,
                                     roomName: myRoom.name
                                 };
+                                mySource.state = "Cache";
                                 flagsPlaced++;
                                 placedFully = true;
                             } // Else it's hopefully the other source in the room...

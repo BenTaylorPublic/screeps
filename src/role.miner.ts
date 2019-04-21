@@ -25,6 +25,16 @@ export const roleMiner: any = {
             }
 
             creep.harvest(source);
+            if (miner.linkIdToDepositTo != null) {
+                const link: StructureLink | null = Game.getObjectById<StructureLink>(miner.linkIdToDepositTo);
+                if (link == null) {
+                    //Setting it to null, so it doesn't do this every loop
+                    miner.linkIdToDepositTo = null;
+                    console.log("ERR: A miner's link ID to deposit in was null");
+                    return;
+                }
+                creep.transfer(link, RESOURCE_ENERGY);
+            }
         } else {
             //Move to cache
             creep.moveTo(cachePos);
