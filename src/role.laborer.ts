@@ -43,19 +43,17 @@ function calculateCreepState(laborer: Laborer, myRoom: MyRoom, creep: Creep): vo
         } else if (myRoom.roomStage >= 1) {
             for (let i = 0; i < myRoom.mySources.length; i++) {
                 const mySource = myRoom.mySources[i];
-                if (mySource.cachePos != null) {
-                    const cachePos: RoomPosition = globalFunctions.myPosToRoomPos(mySource.cachePos);
-                    const structures: Structure<StructureConstant>[] = cachePos.lookFor(LOOK_STRUCTURES);
-                    for (let j = 0; j < structures.length; j++) {
-                        const structure: Structure = structures[j];
-                        if (structure.structureType === STRUCTURE_CONTAINER) {
-                            const cache: StructureContainer = structure as StructureContainer;
-                            if (cache.store[RESOURCE_ENERGY] >= creep.carryCapacity) {
-                                laborer.state = "PickupCache";
-                                creep.say("PickupCache");
-                                return;
-                            }
-                        }
+                if (mySource.cache != null &&
+                    mySource.cache.id != null) {
+                    const cache: StructureContainer | null = Game.getObjectById<StructureContainer>(mySource.cache.id);
+                    if (cache == null) {
+                        //Clear it
+                        mySource.cache.id = null;
+                        console.log("ERR: Source cache returned null with get by ID");
+                    } else if (cache.store[RESOURCE_ENERGY] >= creep.carryCapacity) {
+                        laborer.state = "PickupCache";
+                        creep.say("PickupCache");
+                        return;
                     }
                 }
             }

@@ -41,10 +41,13 @@ export const stage1_6: StageController = {
                             console.log("ERR: Source was null when trying to get it by ID");
                         } else {
                             if (source.pos.inRangeTo(roomFlag.pos, 1)) {
-                                mySource.cachePos = {
-                                    x: roomFlag.pos.x,
-                                    y: roomFlag.pos.y,
-                                    roomName: myRoom.name
+                                mySource.cache = {
+                                    pos: {
+                                        x: roomFlag.pos.x,
+                                        y: roomFlag.pos.y,
+                                        roomName: myRoom.name
+                                    },
+                                    id: null
                                 };
                                 mySource.state = "Cache";
                                 flagsPlaced++;
@@ -61,6 +64,20 @@ export const stage1_6: StageController = {
 
                 } else {
                     console.log("ERR: Placing a container cache construction site errored");
+                }
+            }
+        }
+
+        for (let i = 0; i < myRoom.mySources.length; i++) {
+            const mySource: MySource = myRoom.mySources[i];
+            if (mySource.cache != null) {
+                const cachePos: RoomPosition = globalFunctions.myPosToRoomPos(mySource.cache.pos);
+                const structures: Structure<StructureConstant>[] = cachePos.lookFor(LOOK_STRUCTURES);
+                for (let j = 0; j < structures.length; j++) {
+                    if (structures[j].structureType === STRUCTURE_CONTAINER) {
+                        mySource.cache.id = structures[j].id;
+                        break;
+                    }
                 }
             }
         }

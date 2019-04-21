@@ -12,8 +12,11 @@ for (let i = 0; i < Memory.myRooms.length; i++) {
     myRoom.bankLinkSlaveName = null;
     for (let j = 0; j < myRoom.mySources.length; j++) {
         const mySource: MySource = myRoom.mySources[j];
-        mySource.linkPos = null;
+        mySource.link = null;
         mySource.state = "Cache";
+        //TODO: Use current cache pos to set up new one
+        // Then remove old key
+        // Must be done in js
     }
     for (let h = 0; h < myRoom.myCreeps.length; h++) {
         const myCreep: MyCreep = myRoom.myCreeps[h];
