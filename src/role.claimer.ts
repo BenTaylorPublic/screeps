@@ -1,5 +1,3 @@
-import { globalFunctions } from "global.functions";
-
 export const roleClaimer: any = {
     run: function (claimer: Claimer) {
         const creep: Creep = Game.creeps[claimer.name];
@@ -10,6 +8,7 @@ export const roleClaimer: any = {
         const flag: Flag = Game.flags[claimer.flagName];
         if (flag == null) {
             //Kill the creep
+            creep.say("dthb4dshnr");
             creep.suicide();
         }
 
