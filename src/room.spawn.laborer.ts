@@ -35,9 +35,11 @@ export const roomSpawnLaborer: any = {
 
 
 function spawnLaborer(myRoom: MyRoom): Laborer | null {
-    let spawn: StructureSpawn = Game.spawns[myRoom.spawns[0].name];
 
-    if (spawn == null) {
+    let spawn: StructureSpawn;
+
+    if (myRoom.spawns.length === 0 ||
+        Game.spawns[myRoom.spawns[0].name] == null) {
         // A room needs a laborer, but it has no spawns yet
         // Going to use the nearest room's spawn instead
         spawn = globalFunctions.findClosestSpawn(new RoomPosition(25, 25, myRoom.name));
@@ -45,6 +47,8 @@ function spawnLaborer(myRoom: MyRoom): Laborer | null {
             console.log("ERR: Couldn't find any spawns to make a laborer for room " + myRoom.name);
             return null;
         }
+    } else {
+        spawn = Game.spawns[myRoom.spawns[0].name];
     }
 
     //Have a valid spawn now
