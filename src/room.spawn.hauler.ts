@@ -37,7 +37,7 @@ function spawnHauler(myRoom: MyRoom, mySource: MySource): Hauler | null {
         return null;
     }
 
-    if (mySource.cachePos == null) {
+    if (mySource.cache == null) {
         console.log("ERR: Attempted to spawn hauler for a source with no cache pos");
         return null;
     }
@@ -65,7 +65,7 @@ function spawnHauler(myRoom: MyRoom, mySource: MySource): Hauler | null {
             name: "Creep" + id,
             role: "Hauler",
             assignedRoomName: spawn.room.name,
-            cachePosToPickupFrom: mySource.cachePos,
+            cachePosToPickupFrom: mySource.cache.pos,
             pickup: true
         };
     }
