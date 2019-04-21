@@ -33,7 +33,12 @@ interface MySource {
     minerName: string | null; //Null when miner is dead or not assigned
     haulerNames: string[];
     cachePos: MyRoomPos | null;
-    linkPos: MyRoomPos | null;
+    link: MyLink | null;
+}
+
+interface MyLink {
+    pos: MyRoomPos;
+    id: string;
 }
 
 interface MyRoomPos {

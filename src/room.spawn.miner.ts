@@ -40,17 +40,16 @@ function spawnMiner(myRoom: MyRoom, mySource: MySource): Miner | null {
         return null;
     }
 
-    let body: BodyPartConstant[] = [MOVE, WORK, WORK, WORK, WORK, WORK];
+    let body: BodyPartConstant[];
 
     let linkId: string | null = null;
     //Convery the linkPos to an ID for the miner
-    if (mySource.linkPos != null) {
-        const linkPos: RoomPosition = globalFunctions.myPosToRoomPos(mySource.linkPos);
-        const structures: Structure<StructureConstant>[] = linkPos.lookFor(LOOK_STRUCTURES);
-        if (structures.length === 1) {
-            linkId = structures[0].id;
-            body = [MOVE, CARRY, WORK, WORK, WORK, WORK, WORK];
-        }
+    if (mySource.link != null) {
+        linkId = mySource.link.id;
+        body = [MOVE, CARRY, WORK, WORK, WORK, WORK, WORK];
+    } else {
+        //No carry
+        body = [MOVE, WORK, WORK, WORK, WORK, WORK];
     }
 
     //Have a valid spawn now
