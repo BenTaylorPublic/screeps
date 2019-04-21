@@ -52,7 +52,8 @@ function ensureAllRoomsInMyMemory(): void {
                 bankPos: null,
                 myExtensionPositions: [],
                 myTowerPositions: [],
-                bankLinkSlaveName: null
+                bankLinkerName: null,
+                bankLink: null
             };
             const sources: Source[] = room.find(FIND_SOURCES);
             for (let i = 0; i < sources.length; i++) {
@@ -62,8 +63,8 @@ function ensureAllRoomsInMyMemory(): void {
                     state: "NoCache",
                     minerName: null,
                     haulerNames: [],
-                    cachePos: null,
-                    linkPos: null
+                    cache: null,
+                    link: null
                 });
             }
             const spawns: StructureSpawn[] = room.find(FIND_MY_SPAWNS);
@@ -141,6 +142,9 @@ function handleCreepDying(myRoom: MyRoom, myCreep: MyCreep): void {
         console.log("LOG: A Laborer has died");
     } else if (myCreep.role === "Claimer") {
         console.log("LOG: A Claimer has died");
+    } else if (myCreep.role === "BankLinker") {
+        myRoom.bankLinkerName = null;
+        console.log("LOG: A BankLinker has died");
     } else {
         console.log("LOG: A Creep with a weird role has died: " + myCreep.role);
     }

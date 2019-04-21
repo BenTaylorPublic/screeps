@@ -9,7 +9,7 @@ setupMyMemory();
 //One time memory setting
 for (let i = 0; i < Memory.myRooms.length; i++) {
     const myRoom: MyRoom = Memory.myRooms[i];
-    myRoom.bankLinkSlaveName = null;
+    myRoom.bankLinkerName = null;
     for (let j = 0; j < myRoom.mySources.length; j++) {
         const mySource: MySource = myRoom.mySources[j];
         mySource.link = null;
