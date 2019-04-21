@@ -10,6 +10,9 @@ import { stage2_6 } from "stage.2_6";
 import { stage3 } from "stage.3";
 import { stage3_3 } from "stage.3_3";
 import { stage3_6 } from "stage.3_6";
+import { stage4 } from "stage.4";
+import { stage4_2 } from "stage.4_2";
+import { stage4_4 } from "stage.4_4";
 
 export const roomStageController: any = {
     run: function (myRoom: MyRoom) {
@@ -140,8 +143,29 @@ export const roomStageController: any = {
             stage3_6.step(myRoom, room);
             stage3_6.up(myRoom, room);
         }
+        if (myRoom.roomStage === 4) {
+            stage4.step(myRoom, room);
+            stage4.up(myRoom, room);
+        }
+        if (myRoom.roomStage === 4.2) {
+            stage4_2.step(myRoom, room);
+            stage4_2.up(myRoom, room);
+        }
+        if (myRoom.roomStage === 4.4) {
+            stage4_4.step(myRoom, room);
+            stage4_4.up(myRoom, room);
+        }
 
         //Downs
+        if (myRoom.roomStage > 4.4) {
+            stage4_4.down(myRoom, room);
+        }
+        if (myRoom.roomStage > 4.2) {
+            stage4_2.down(myRoom, room);
+        }
+        if (myRoom.roomStage > 4) {
+            stage4.down(myRoom, room);
+        }
         if (myRoom.roomStage > 3.6) {
             stage3_6.down(myRoom, room);
         }
