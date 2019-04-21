@@ -6,6 +6,7 @@ export const stage3_6: StageController = {
     3.6 <-  4   : Room does not have a storage bank
     */
     up: function (myRoom: MyRoom, room: Room): boolean {
+        stage3_6.step(myRoom, room);
         if (globalFunctions.amountOfStructure(room, STRUCTURE_STORAGE) >= 1) {
             myRoom.roomStage = 4;
             console.log("LOG: Room " + myRoom.name + " increased to room stage 4");

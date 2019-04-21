@@ -6,6 +6,7 @@ export const stage3_3: StageController = {
     3.3 <-  3.6 : Room has < 20 extensions
     */
     up: function (myRoom: MyRoom, room: Room): boolean {
+        stage3_3.step(myRoom, room);
         if (globalFunctions.amountOfStructure(room, STRUCTURE_EXTENSION) >= 20) {
             myRoom.roomStage = 3.6;
             console.log("LOG: Room " + myRoom.name + " increased to room stage 3.6");

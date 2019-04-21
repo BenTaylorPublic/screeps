@@ -96,63 +96,48 @@ export const roomStageController: any = {
 
         //Ups
         if (myRoom.roomStage === -1) {
-            stageDefault.step(myRoom, room);
             stageDefault.up(myRoom, room);
         }
         if (myRoom.roomStage === 0) {
-            stage0.step(myRoom, room);
             stage0.up(myRoom, room);
         }
         if (myRoom.roomStage === 0.5) {
-            stage0_5.step(myRoom, room);
             stage0_5.up(myRoom, room);
         }
         if (myRoom.roomStage === 1) {
-            stage1.step(myRoom, room);
             stage1.up(myRoom, room);
         }
         if (myRoom.roomStage === 1.3) {
-            stage1_3.step(myRoom, room);
             stage1_3.up(myRoom, room);
         }
         if (myRoom.roomStage === 1.6) {
-            stage1_6.step(myRoom, room);
             stage1_6.up(myRoom, room);
         }
         if (myRoom.roomStage === 2) {
-            stage2.step(myRoom, room);
             stage2.up(myRoom, room);
         }
         if (myRoom.roomStage === 2.3) {
-            stage2_3.step(myRoom, room);
             stage2_3.up(myRoom, room);
         }
         if (myRoom.roomStage === 2.6) {
-            stage2_6.step(myRoom, room);
             stage2_6.up(myRoom, room);
         }
         if (myRoom.roomStage === 3) {
-            stage3.step(myRoom, room);
             stage3.up(myRoom, room);
         }
         if (myRoom.roomStage === 3.3) {
-            stage3_3.step(myRoom, room);
             stage3_3.up(myRoom, room);
         }
         if (myRoom.roomStage === 3.6) {
-            stage3_6.step(myRoom, room);
             stage3_6.up(myRoom, room);
         }
         if (myRoom.roomStage === 4) {
-            stage4.step(myRoom, room);
             stage4.up(myRoom, room);
         }
         if (myRoom.roomStage === 4.2) {
-            stage4_2.step(myRoom, room);
             stage4_2.up(myRoom, room);
         }
         if (myRoom.roomStage === 4.4) {
-            stage4_4.step(myRoom, room);
             stage4_4.up(myRoom, room);
         }
 

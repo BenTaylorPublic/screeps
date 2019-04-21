@@ -6,6 +6,7 @@ export const stage1_6: StageController = {
     1.6 <-  2   : Room has caches length < source amount
     */
     up: function (myRoom: MyRoom, room: Room): boolean {
+        stage1_6.step(myRoom, room);
         const amountOfSource: number = room.find(FIND_SOURCES).length;
         if (globalFunctions.amountOfStructure(room, STRUCTURE_CONTAINER) >= amountOfSource) {
             myRoom.roomStage = 2;

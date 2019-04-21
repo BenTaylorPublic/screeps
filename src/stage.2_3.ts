@@ -6,6 +6,7 @@ export const stage2_3: StageController = {
     2.3 <-  2.6 : Room has < 1 tower
     */
     up: function (myRoom: MyRoom, room: Room): boolean {
+        stage2_3.step(myRoom, room);
         if (globalFunctions.amountOfStructure(room, STRUCTURE_TOWER) >= 1) {
             myRoom.roomStage = 2.6;
             console.log("LOG: Room " + myRoom.name + " increased to room stage 2.6");

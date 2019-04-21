@@ -6,6 +6,7 @@ export const stage0_5: StageController = {
     0.5 <-  1   : Room has < 1 spawns
     */
     up: function (myRoom: MyRoom, room: Room): boolean {
+        stage0_5.step(myRoom, room);
         if (globalFunctions.amountOfStructure(room, STRUCTURE_SPAWN) >= 1) {
             //Spawn has been made
             myRoom.roomStage = 1;
