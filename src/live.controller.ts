@@ -1,7 +1,7 @@
-import { liveSpawnClaimers } from "live.spawn.claimer";
+import { LiveSpawnClaimer } from "live.spawn.claimer";
 
-export const liveController: any = {
-    run: function (): void {
-        liveSpawnClaimers.run();
+export class LiveController {
+    static run(): void {
+        LiveSpawnClaimer.run();
     }
-};
+}

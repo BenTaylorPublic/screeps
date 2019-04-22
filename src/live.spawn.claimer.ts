@@ -1,7 +1,7 @@
 import { GlobalFunctions } from "global.functions";
 
-export const liveSpawnClaimers: any = {
-    run: function (): void {
+export class LiveSpawnClaimer {
+    static run(): void {
         const flagNames: string[] = Object.keys(Game.flags);
         for (let i = 0; i < flagNames.length; i++) {
             const flag: Flag = Game.flags[flagNames[i]];
@@ -25,7 +25,7 @@ export const liveSpawnClaimers: any = {
                 }
                 if (!claimerAlreadyMade) {
                     //Make a claimer
-                    const claimer: Claimer | null = spawnClaimer(flag);
+                    const claimer: Claimer | null = LiveSpawnClaimer.spawnClaimer(flag);
                     if (claimer != null) {
                         console.log("LOG: Spawned a new claimer");
                         Memory.myMemory.myTravelingCreeps.push(claimer);
@@ -36,41 +36,43 @@ export const liveSpawnClaimers: any = {
             return;
         }
     }
-};
 
-function spawnClaimer(flag: Flag): Claimer | null {
+    private static spawnClaimer(flag: Flag): Claimer | null {
 
-    const spawn: StructureSpawn | null = GlobalFunctions.findClosestSpawn(flag.pos);
-    if (spawn == null) {
-        flag.remove();
-        console.log("ERR: Couldn't find a spawn to make a claimer");
+        const spawn: StructureSpawn | null = GlobalFunctions.findClosestSpawn(flag.pos);
+        if (spawn == null) {
+            flag.remove();
+            console.log("ERR: Couldn't find a spawn to make a claimer");
+            return null;
+        }
+
+        //Have a valid spawn now
+
+        const id = GlobalFunctions.getId();
+        const result: ScreepsReturnCode =
+            spawn.spawnCreep(
+                [MOVE, CLAIM],
+                "Creep" + id,
+                {
+                    memory:
+                    {
+                        name: "Creep" + id,
+                        role: "Claimer",
+                        assignedRoomName: flag.pos.roomName
+                    }
+                }
+            );
+
+        if (result === OK) {
+            return {
+                name: "Creep" + id,
+                role: "Claimer",
+                assignedRoomName: flag.pos.roomName,
+                flagName: flag.name
+            };
+        }
         return null;
     }
 
-    //Have a valid spawn now
-
-    const id = GlobalFunctions.getId();
-    const result: ScreepsReturnCode =
-        spawn.spawnCreep(
-            [MOVE, CLAIM],
-            "Creep" + id,
-            {
-                memory:
-                {
-                    name: "Creep" + id,
-                    role: "Claimer",
-                    assignedRoomName: flag.pos.roomName
-                }
-            }
-        );
-
-    if (result === OK) {
-        return {
-            name: "Creep" + id,
-            role: "Claimer",
-            assignedRoomName: flag.pos.roomName,
-            flagName: flag.name
-        };
-    }
-    return null;
 }
+

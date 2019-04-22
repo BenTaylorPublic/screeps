@@ -1,7 +1,7 @@
 import { roomController } from "room.controller";
 import { memoryController } from "memory.controller";
 import { roleClaimer } from "role.claimer";
-import { liveController } from "live.controller";
+import { LiveController } from "live.controller";
 
 console.log("Script reloaded");
 setupMyMemory();
@@ -33,7 +33,7 @@ export const loop: any = function () {
         roomController.run(Memory.myMemory.myRooms[i]);
     }
 
-    liveController.run();
+    LiveController.run();
 
     for (let i = 0; i < Memory.myMemory.myTravelingCreeps.length; i++) {
         const travelingCreep: MyCreep = Memory.myMemory.myTravelingCreeps[i];
