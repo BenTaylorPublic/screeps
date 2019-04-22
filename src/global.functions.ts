@@ -143,7 +143,7 @@ export class GlobalFunctions {
         return null;
     }
     static isAllyUsername(username: string): boolean {
-        return ["mooseyman", "nimphious"].indexOf(username.toLowerCase()) !== -1;
+        return ["mooseyman", "nimphious", "james1652"].indexOf(username.toLowerCase()) !== -1;
     }
     static findClosestSpawn(roomPos: RoomPosition): StructureSpawn | null {
         return Game.spawns["Spawn1"];
