@@ -1,4 +1,4 @@
-import { globalFunctions } from "global.functions";
+import { GlobalFunctions } from "global.functions";
 
 export const roleBankLinker: any = {
     run: function (bankLinker: BankLinker, myRoom: MyRoom) {
@@ -15,7 +15,7 @@ export const roleBankLinker: any = {
         }
 
         if (creep.carry[RESOURCE_ENERGY] === creep.carryCapacity) {
-            const bank: StructureStorage | null = globalFunctions.getBank(myRoom);
+            const bank: StructureStorage | null = GlobalFunctions.getBank(myRoom);
             if (bank == null) {
                 console.log("ERR: Bank was null for a bank linker");
                 return;

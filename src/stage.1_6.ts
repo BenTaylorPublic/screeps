@@ -1,4 +1,4 @@
-import { globalFunctions } from "global.functions";
+import { GlobalFunctions } from "global.functions";
 
 export const stage1_6: StageController = {
     /*
@@ -8,7 +8,7 @@ export const stage1_6: StageController = {
     up: function (myRoom: MyRoom, room: Room): boolean {
         stage1_6.step(myRoom, room);
         const amountOfSource: number = room.find(FIND_SOURCES).length;
-        if (globalFunctions.amountOfStructure(room, STRUCTURE_CONTAINER) >= amountOfSource) {
+        if (GlobalFunctions.amountOfStructure(room, STRUCTURE_CONTAINER) >= amountOfSource) {
             myRoom.roomStage = 2;
             console.log("LOG: Room " + myRoom.name + " increased to room stage 2");
             return true;
@@ -17,7 +17,7 @@ export const stage1_6: StageController = {
     },
     down: function (myRoom: MyRoom, room: Room): boolean {
         const amountOfSource: number = room.find(FIND_SOURCES).length;
-        if (globalFunctions.amountOfStructure(room, STRUCTURE_CONTAINER) < amountOfSource) {
+        if (GlobalFunctions.amountOfStructure(room, STRUCTURE_CONTAINER) < amountOfSource) {
             myRoom.roomStage = 1.6;
             console.log("LOG: Room " + myRoom.name + " decreased to room stage 1.6");
             return true;
@@ -25,7 +25,7 @@ export const stage1_6: StageController = {
         return false;
     },
     step: function (myRoom: MyRoom, room: Room): void {
-        const roomFlags: Flag[] = globalFunctions.getRoomsFlags(myRoom);
+        const roomFlags: Flag[] = GlobalFunctions.getRoomsFlags(myRoom);
         let flagsPlaced: number = 0;
         for (let i = 0; i < roomFlags.length; i++) {
             const roomFlag: Flag = roomFlags[i];
@@ -71,7 +71,7 @@ export const stage1_6: StageController = {
         for (let i = 0; i < myRoom.mySources.length; i++) {
             const mySource: MySource = myRoom.mySources[i];
             if (mySource.cache != null) {
-                const cachePos: RoomPosition = globalFunctions.myPosToRoomPos(mySource.cache.pos);
+                const cachePos: RoomPosition = GlobalFunctions.myPosToRoomPos(mySource.cache.pos);
                 const structures: Structure<StructureConstant>[] = cachePos.lookFor(LOOK_STRUCTURES);
                 for (let j = 0; j < structures.length; j++) {
                     if (structures[j].structureType === STRUCTURE_CONTAINER) {

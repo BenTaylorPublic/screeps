@@ -1,4 +1,4 @@
-import { globalFunctions } from "global.functions";
+import { GlobalFunctions } from "global.functions";
 
 export const liveSpawnClaimers: any = {
     run: function (): void {
@@ -40,7 +40,7 @@ export const liveSpawnClaimers: any = {
 
 function spawnClaimer(flag: Flag): Claimer | null {
 
-    const spawn: StructureSpawn | null = globalFunctions.findClosestSpawn(flag.pos);
+    const spawn: StructureSpawn | null = GlobalFunctions.findClosestSpawn(flag.pos);
     if (spawn == null) {
         flag.remove();
         console.log("ERR: Couldn't find a spawn to make a claimer");
@@ -49,7 +49,7 @@ function spawnClaimer(flag: Flag): Claimer | null {
 
     //Have a valid spawn now
 
-    const id = globalFunctions.getId();
+    const id = GlobalFunctions.getId();
     const result: ScreepsReturnCode =
         spawn.spawnCreep(
             [MOVE, CLAIM],

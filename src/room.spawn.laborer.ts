@@ -1,4 +1,4 @@
-import { globalFunctions } from "global.functions";
+import { GlobalFunctions } from "global.functions";
 import { Constants } from "constants";
 
 export const roomSpawnLaborer: any = {
@@ -8,7 +8,7 @@ export const roomSpawnLaborer: any = {
             return;
         }
 
-        const bank: StructureStorage | null = globalFunctions.getBank(myRoom);
+        const bank: StructureStorage | null = GlobalFunctions.getBank(myRoom);
         if (bank == null) {
             console.log("ERR: Bank is null when checking if it's full");
             return;
@@ -36,13 +36,13 @@ export const roomSpawnLaborer: any = {
 
 function spawnLaborer(myRoom: MyRoom): Laborer | null {
 
-    let spawn: StructureSpawn;
+    let spawn: StructureSpawn | null;
 
     if (myRoom.spawns.length === 0 ||
         Game.spawns[myRoom.spawns[0].name] == null) {
         // A room needs a laborer, but it has no spawns yet
         // Going to use the nearest room's spawn instead
-        spawn = globalFunctions.findClosestSpawn(new RoomPosition(25, 25, myRoom.name));
+        spawn = GlobalFunctions.findClosestSpawn(new RoomPosition(25, 25, myRoom.name));
         if (spawn == null) {
             console.log("ERR: Couldn't find any spawns to make a laborer for room " + myRoom.name);
             return null;
@@ -55,9 +55,9 @@ function spawnLaborer(myRoom: MyRoom): Laborer | null {
 
     //Once the bank is setup, use the best body you can get
     const useBestBody: boolean = myRoom.roomStage >= 4;
-    const body: BodyPartConstant[] = globalFunctions.generateBody([MOVE, MOVE, CARRY, WORK], [MOVE, MOVE, CARRY, WORK], spawn.room, useBestBody);
+    const body: BodyPartConstant[] = GlobalFunctions.generateBody([MOVE, MOVE, CARRY, WORK], [MOVE, MOVE, CARRY, WORK], spawn.room, useBestBody);
 
-    const id = globalFunctions.getId();
+    const id = GlobalFunctions.getId();
     const result: ScreepsReturnCode =
         spawn.spawnCreep(
             body,

@@ -1,4 +1,4 @@
-import { globalFunctions } from "global.functions";
+import { GlobalFunctions } from "global.functions";
 
 export const stage4_2: StageController = {
     /*
@@ -7,7 +7,7 @@ export const stage4_2: StageController = {
     */
     up: function (myRoom: MyRoom, room: Room): boolean {
         stage4_2.step(myRoom, room);
-        if (globalFunctions.amountOfStructure(room, STRUCTURE_TOWER) >= 2) {
+        if (GlobalFunctions.amountOfStructure(room, STRUCTURE_TOWER) >= 2) {
             myRoom.roomStage = 4.4;
             console.log("LOG: Room " + myRoom.name + " increased to room stage 4.4");
             return true;
@@ -15,7 +15,7 @@ export const stage4_2: StageController = {
         return false;
     },
     down: function (myRoom: MyRoom, room: Room): boolean {
-        if (globalFunctions.amountOfStructure(room, STRUCTURE_TOWER) < 2) {
+        if (GlobalFunctions.amountOfStructure(room, STRUCTURE_TOWER) < 2) {
             myRoom.roomStage = 4.2;
             console.log("LOG: Room " + myRoom.name + " decreased to room stage 4.2");
             return true;
@@ -23,6 +23,6 @@ export const stage4_2: StageController = {
         return false;
     },
     step: function (myRoom: MyRoom, room: Room): void {
-        globalFunctions.buildTowers(myRoom, 2);
+        GlobalFunctions.buildTowers(myRoom, 2);
     }
 };

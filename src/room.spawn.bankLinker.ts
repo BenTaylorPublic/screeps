@@ -1,4 +1,4 @@
-import { globalFunctions } from "global.functions";
+import { GlobalFunctions } from "global.functions";
 
 export const roomSpawnBankLinker: any = {
     run: function (myRoom: MyRoom) {
@@ -26,7 +26,7 @@ function spawnBankLinker(myRoom: MyRoom): BankLinker | null {
 
     //Have a valid spawn now
 
-    const id = globalFunctions.getId();
+    const id = GlobalFunctions.getId();
     const result: ScreepsReturnCode =
         spawn.spawnCreep(
             [MOVE, CARRY],

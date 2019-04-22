@@ -1,4 +1,4 @@
-import { globalFunctions } from "global.functions";
+import { GlobalFunctions } from "global.functions";
 
 export const roleLaborer: any = {
     run: function (laborer: Laborer, myRoom: MyRoom) {
@@ -33,7 +33,7 @@ function calculateCreepState(laborer: Laborer, myRoom: MyRoom, creep: Creep): vo
     if (laborer.state === "Labor" &&
         creep.carry.energy === 0) {
 
-        const bank: StructureContainer | null = globalFunctions.getBank(myRoom);
+        const bank: StructureStorage | null = GlobalFunctions.getBank(myRoom);
 
         if (bank != null &&
             bank.store[RESOURCE_ENERGY] >= creep.carryCapacity) {
@@ -81,10 +81,10 @@ function pickupBank(laborer: Laborer, myRoom: MyRoom, creep: Creep): void {
         console.log("ERR: Room's bank pos was null");
         return;
     }
-    const bankPos: RoomPosition = globalFunctions.myPosToRoomPos(myRoom.bankPos);
+    const bankPos: RoomPosition = GlobalFunctions.myPosToRoomPos(myRoom.bankPos);
 
     if (bankPos.isNearTo(creep)) {
-        const bank: StructureStorage | null = globalFunctions.getBank(myRoom);
+        const bank: StructureStorage | null = GlobalFunctions.getBank(myRoom);
         if (bank == null) {
             console.log("ERR: Room's bank was null");
             return;

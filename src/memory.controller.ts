@@ -1,4 +1,4 @@
-import { globalFunctions } from "global.functions";
+import { GlobalFunctions } from "global.functions";
 
 export const memoryController: any = {
     run: function () {
@@ -71,7 +71,7 @@ function ensureAllRoomsInMyMemory(): void {
             for (let i = 0; i < spawns.length; i++) {
                 const spawn: StructureSpawn = spawns[i];
                 newMyRoom.spawns.push({
-                    position: globalFunctions.roomPosToMyPos(spawn.pos),
+                    position: GlobalFunctions.roomPosToMyPos(spawn.pos),
                     name: spawn.name
                 });
             }
@@ -87,7 +87,7 @@ function ensureAllRoomsInMyMemory(): void {
                 for (let i = 0; i < spawns.length; i++) {
                     const spawn: StructureSpawn = spawns[i];
                     myRoom.spawns.push({
-                        position: globalFunctions.roomPosToMyPos(spawn.pos),
+                        position: GlobalFunctions.roomPosToMyPos(spawn.pos),
                         name: spawn.name
                     });
                 }

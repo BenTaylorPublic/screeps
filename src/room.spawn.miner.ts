@@ -1,4 +1,4 @@
-import { globalFunctions } from "global.functions";
+import { GlobalFunctions } from "global.functions";
 
 export const roomSpawnMiner: any = {
     trySpawnMiner: function (myRoom: MyRoom) {
@@ -53,7 +53,7 @@ function spawnMiner(myRoom: MyRoom, mySource: MySource): Miner | null {
     }
 
     //Have a valid spawn now
-    const id = globalFunctions.getId();
+    const id = GlobalFunctions.getId();
     const result: ScreepsReturnCode =
         spawn.spawnCreep(
             body,

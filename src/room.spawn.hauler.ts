@@ -1,4 +1,4 @@
-import { globalFunctions } from "global.functions";
+import { GlobalFunctions } from "global.functions";
 import { Constants } from "constants";
 
 export const roomSpawnHauler: any = {
@@ -43,9 +43,9 @@ function spawnHauler(myRoom: MyRoom, mySource: MySource): Hauler | null {
     }
 
     //Have a valid spawn now
-    const body: BodyPartConstant[] = globalFunctions.generateBody([MOVE, CARRY], [MOVE, CARRY], spawn.room, true);
+    const body: BodyPartConstant[] = GlobalFunctions.generateBody([MOVE, CARRY], [MOVE, CARRY], spawn.room, true);
 
-    const id = globalFunctions.getId();
+    const id = GlobalFunctions.getId();
     const result: ScreepsReturnCode =
         spawn.spawnCreep(
             body,
