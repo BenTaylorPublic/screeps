@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.roleClaimer = {
-    run: function (claimer) {
+class RoleClaimer {
+    static run(claimer) {
         const creep = Game.creeps[claimer.name];
         if (creep == null) {
             console.log("ERR: Claimer creep is null. Creep ID: " + claimer.name);
@@ -10,12 +10,12 @@ exports.roleClaimer = {
         const flag = Game.flags[claimer.flagName];
         if (flag == null) {
             //Kill the creep
+            creep.say("dthb4dshnr");
             creep.suicide();
         }
-        const flagPos = flag.pos;
-        if (flagPos.roomName !== creep.room.name) {
+        if (claimer.assignedRoomName !== creep.room.name) {
             creep.say("Fukn Lost");
-            creep.moveTo(new RoomPosition(25, 25, flagPos.roomName));
+            creep.moveTo(new RoomPosition(25, 25, claimer.assignedRoomName));
             return;
         }
         else {
@@ -29,4 +29,5 @@ exports.roleClaimer = {
             }
         }
     }
-};
+}
+exports.RoleClaimer = RoleClaimer;

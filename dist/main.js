@@ -6,16 +6,35 @@ const role_claimer_1 = require("role.claimer");
 const live_controller_1 = require("live.controller");
 console.log("Script reloaded");
 setupMyMemory();
-exports.loop = function () {
-    memory_controller_1.memoryController.run();
-    for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
-        room_controller_1.roomController.run(Memory.myMemory.myRooms[i]);
+//One time memory setting
+for (let i = 0; i < Memory.myRooms.length; i++) {
+    const myRoom = Memory.myRooms[i];
+    myRoom.bankLinkerName = null;
+    for (let j = 0; j < myRoom.mySources.length; j++) {
+        const mySource = myRoom.mySources[j];
+        mySource.link = null;
+        mySource.state = "Cache";
+        //TODO: Use current cache pos to set up new one
+        // Then remove old key
+        // Must be done in js
     }
-    live_controller_1.liveController.run();
+    for (let h = 0; h < myRoom.myCreeps.length; h++) {
+        const myCreep = myRoom.myCreeps[h];
+        if (myCreep.role === "Miner") {
+            myCreep.linkIdToDepositTo = null;
+        }
+    }
+}
+exports.loop = function () {
+    memory_controller_1.MemoryController.run();
+    for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
+        room_controller_1.RoomController.run(Memory.myMemory.myRooms[i]);
+    }
+    live_controller_1.LiveController.run();
     for (let i = 0; i < Memory.myMemory.myTravelingCreeps.length; i++) {
         const travelingCreep = Memory.myMemory.myTravelingCreeps[i];
         if (travelingCreep.role === "Claimer") {
-            role_claimer_1.roleClaimer.run(travelingCreep);
+            role_claimer_1.RoleClaimer.run(travelingCreep);
         }
     }
 };

@@ -4,8 +4,8 @@ const room_spawn_laborer_1 = require("room.spawn.laborer");
 const room_spawn_miner_1 = require("room.spawn.miner");
 const room_spawn_hauler_1 = require("room.spawn.hauler");
 const constants_1 = require("constants");
-exports.roomSpawnController = {
-    run: function (myRoom) {
+class RoomSpawnController {
+    static run(myRoom) {
         let laborerCount = 0;
         for (let i = 0; i < myRoom.myCreeps.length; i++) {
             if (myRoom.myCreeps[i].role === "Laborer") {
@@ -24,12 +24,13 @@ exports.roomSpawnController = {
             forceSpawnlaborers = true;
         }
         if (forceSpawnlaborers) {
-            room_spawn_laborer_1.roomSpawnLaborer.forceSpawnLaborer(myRoom);
+            room_spawn_laborer_1.RoomSpawnLaborer.forceSpawnLaborer(myRoom);
         }
         else {
-            room_spawn_laborer_1.roomSpawnLaborer.trySpawnLaborer(myRoom, laborerCount);
-            room_spawn_miner_1.roomSpawnMiner.trySpawnMiner(myRoom);
-            room_spawn_hauler_1.roomSpawnHauler.trySpawnHauler(myRoom);
+            room_spawn_laborer_1.RoomSpawnLaborer.trySpawnLaborer(myRoom, laborerCount);
+            room_spawn_miner_1.RoomSpawnMiner.trySpawnMiner(myRoom);
+            room_spawn_hauler_1.RoomSpawnHauler.trySpawnHauler(myRoom);
         }
     }
-};
+}
+exports.RoomSpawnController = RoomSpawnController;

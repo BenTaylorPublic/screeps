@@ -12,8 +12,11 @@ const stage_2_6_1 = require("stage.2_6");
 const stage_3_1 = require("stage.3");
 const stage_3_3_1 = require("stage.3_3");
 const stage_3_6_1 = require("stage.3_6");
-exports.roomStageController = {
-    run: function (myRoom) {
+const stage_4_1 = require("stage.4");
+const stage_4_2_1 = require("stage.4_2");
+const stage_4_4_1 = require("stage.4_4");
+class RoomStageController {
+    static run(myRoom) {
         const room = Game.rooms[myRoom.name];
         /*
 
@@ -74,57 +77,78 @@ exports.roomStageController = {
 
             3.6 ->  4   : Room has a storage bank
             3.6 <-  4   : Room does not have a storage bank
+
+            4   ->  4.2 : RCL is level >= 5
+            4   <-  4.2 : RCL is level < 5
+
+            4.2 ->  4.4 : Room has >= 2 tower
+            4.2 <-  4.4 : Room has < 2 tower
+
+            4.4 ->  4.6 : Room has >= 30 extensions
+            4.4 <-  4.6 : Room has < 30 extensions
+
+            4.6 ->  4.8 : Room has 2 links
+            4.6 <-  4.8 : Room has < 2 links
+
+            4.8 ->  5   : Room has 1 sources using links, no cache or hauler
+            4.8 <-  5   : Room has 0 sources using links, no cache or hauler
          */
         //Ups
         if (myRoom.roomStage === -1) {
-            stage_default_1.stageDefault.step(myRoom, room);
             stage_default_1.stageDefault.up(myRoom, room);
         }
         if (myRoom.roomStage === 0) {
-            stage_0_1.stage0.step(myRoom, room);
             stage_0_1.stage0.up(myRoom, room);
         }
         if (myRoom.roomStage === 0.5) {
-            stage_0_5_1.stage0_5.step(myRoom, room);
             stage_0_5_1.stage0_5.up(myRoom, room);
         }
         if (myRoom.roomStage === 1) {
-            stage_1_1.stage1.step(myRoom, room);
             stage_1_1.stage1.up(myRoom, room);
         }
         if (myRoom.roomStage === 1.3) {
-            stage_1_3_1.stage1_3.step(myRoom, room);
             stage_1_3_1.stage1_3.up(myRoom, room);
         }
         if (myRoom.roomStage === 1.6) {
-            stage_1_6_1.stage1_6.step(myRoom, room);
             stage_1_6_1.stage1_6.up(myRoom, room);
         }
         if (myRoom.roomStage === 2) {
-            stage_2_1.stage2.step(myRoom, room);
             stage_2_1.stage2.up(myRoom, room);
         }
         if (myRoom.roomStage === 2.3) {
-            stage_2_3_1.stage2_3.step(myRoom, room);
             stage_2_3_1.stage2_3.up(myRoom, room);
         }
         if (myRoom.roomStage === 2.6) {
-            stage_2_6_1.stage2_6.step(myRoom, room);
             stage_2_6_1.stage2_6.up(myRoom, room);
         }
         if (myRoom.roomStage === 3) {
-            stage_3_1.stage3.step(myRoom, room);
             stage_3_1.stage3.up(myRoom, room);
         }
         if (myRoom.roomStage === 3.3) {
-            stage_3_3_1.stage3_3.step(myRoom, room);
             stage_3_3_1.stage3_3.up(myRoom, room);
         }
         if (myRoom.roomStage === 3.6) {
-            stage_3_6_1.stage3_6.step(myRoom, room);
             stage_3_6_1.stage3_6.up(myRoom, room);
         }
+        if (myRoom.roomStage === 4) {
+            stage_4_1.stage4.up(myRoom, room);
+        }
+        if (myRoom.roomStage === 4.2) {
+            stage_4_2_1.stage4_2.up(myRoom, room);
+        }
+        if (myRoom.roomStage === 4.4) {
+            stage_4_4_1.stage4_4.up(myRoom, room);
+        }
         //Downs
+        if (myRoom.roomStage > 4.4) {
+            stage_4_4_1.stage4_4.down(myRoom, room);
+        }
+        if (myRoom.roomStage > 4.2) {
+            stage_4_2_1.stage4_2.down(myRoom, room);
+        }
+        if (myRoom.roomStage > 4) {
+            stage_4_1.stage4.down(myRoom, room);
+        }
         if (myRoom.roomStage > 3.6) {
             stage_3_6_1.stage3_6.down(myRoom, room);
         }
@@ -162,4 +186,5 @@ exports.roomStageController = {
             stage_default_1.stageDefault.down(myRoom, room);
         }
     }
-};
+}
+exports.RoomStageController = RoomStageController;

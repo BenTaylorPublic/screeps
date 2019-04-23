@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const global_functions_1 = require("global.functions");
-exports.roomTowerController = {
-    run: function (tower) {
+class RoomTowerController {
+    static run(tower) {
         const closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
             filter: (structure) => structure.hits < structure.hitsMax
         });
@@ -14,7 +14,7 @@ exports.roomTowerController = {
         if (hostileCreeps.length >= 1) {
             for (let i = hostileCreeps.length - 1; i >= 0; i--) {
                 const possibleHostileCreep = hostileCreeps[i];
-                if (global_functions_1.globalFunctions.isAllyUsername(possibleHostileCreep.owner.username)) {
+                if (global_functions_1.GlobalFunctions.isAllyUsername(possibleHostileCreep.owner.username)) {
                     hostileCreeps.slice(i, 1);
                 }
             }
@@ -43,4 +43,5 @@ exports.roomTowerController = {
             }
         }
     }
-};
+}
+exports.RoomTowerController = RoomTowerController;

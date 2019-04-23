@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const global_functions_1 = require("global.functions");
-exports.roomSpawnMiner = {
-    trySpawnMiner: function (myRoom) {
+class RoomSpawnMiner {
+    static trySpawnMiner(myRoom) {
         if (myRoom.roomStage < 2) {
             //At stage 2, the caches are built, and 5 extensions
             return;
@@ -11,7 +11,7 @@ exports.roomSpawnMiner = {
             const mySource = myRoom.mySources[i];
             if (mySource.minerName == null) {
                 //Needs a new miner
-                const newCreep = spawnMiner(myRoom, mySource);
+                const newCreep = this.spawnMiner(myRoom, mySource);
                 if (newCreep != null) {
                     myRoom.myCreeps.push(newCreep);
                     console.log("LOG: Spawned a new Miner");
@@ -20,39 +20,52 @@ exports.roomSpawnMiner = {
             }
         }
     }
-};
-function spawnMiner(myRoom, mySource) {
-    if (myRoom.spawns.length === 0) {
-        console.log("ERR: Attempted to spawn miner in a room with no spawner (1)");
-        return null;
-    }
-    const spawn = Game.spawns[myRoom.spawns[0].name];
-    if (spawn == null) {
-        console.log("ERR: Attempted to spawn miner in a room with no spawner (2)");
-        return null;
-    }
-    if (mySource.cachePos == null) {
-        console.log("ERR: Attempted to spawn miner to a source with no cache container pos");
-        return null;
-    }
-    //Have a valid spawn now
-    const id = global_functions_1.globalFunctions.getId();
-    const result = spawn.spawnCreep([MOVE, WORK, WORK, WORK, WORK, WORK], "Creep" + id, {
-        memory: {
-            name: "Creep" + id,
-            role: "Miner",
-            assignedRoomName: spawn.room.name
+    static spawnMiner(myRoom, mySource) {
+        if (myRoom.spawns.length === 0) {
+            console.log("ERR: Attempted to spawn miner in a room with no spawner (1)");
+            return null;
         }
-    });
-    if (result === OK) {
-        mySource.minerName = "Creep" + id;
-        return {
-            name: "Creep" + id,
-            role: "Miner",
-            assignedRoomName: spawn.room.name,
-            cachePosToMineOn: mySource.cachePos,
-            sourceId: mySource.id
-        };
+        const spawn = Game.spawns[myRoom.spawns[0].name];
+        if (spawn == null) {
+            console.log("ERR: Attempted to spawn miner in a room with no spawner (2)");
+            return null;
+        }
+        if (mySource.cache == null) {
+            console.log("ERR: Attempted to spawn miner to a source with no cache container pos");
+            return null;
+        }
+        let body;
+        let linkId = null;
+        //Convery the linkPos to an ID for the miner
+        if (mySource.link != null) {
+            linkId = mySource.link.id;
+            body = [MOVE, CARRY, WORK, WORK, WORK, WORK, WORK];
+        }
+        else {
+            //No carry
+            body = [MOVE, WORK, WORK, WORK, WORK, WORK];
+        }
+        //Have a valid spawn now
+        const id = global_functions_1.GlobalFunctions.getId();
+        const result = spawn.spawnCreep(body, "Creep" + id, {
+            memory: {
+                name: "Creep" + id,
+                role: "Miner",
+                assignedRoomName: spawn.room.name
+            }
+        });
+        if (result === OK) {
+            mySource.minerName = "Creep" + id;
+            return {
+                name: "Creep" + id,
+                role: "Miner",
+                assignedRoomName: spawn.room.name,
+                cachePosToMineOn: mySource.cache.pos,
+                linkIdToDepositTo: linkId,
+                sourceId: mySource.id
+            };
+        }
+        return null;
     }
-    return null;
 }
+exports.RoomSpawnMiner = RoomSpawnMiner;

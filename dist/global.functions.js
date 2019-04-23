@@ -1,23 +1,23 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.globalFunctions = {
-    getId: function () {
+class GlobalFunctions {
+    static getId() {
         const toReturn = Memory.myMemory.globalId;
         Memory.myMemory.globalId++;
         return toReturn;
-    },
-    calcBodyCost: function (body) {
+    }
+    static calcBodyCost(body) {
         return body.reduce(function (cost, part) {
             return cost + BODYPART_COST[part];
         }, 0);
-    },
-    generateBody: function (baseBody, bodyPartsToAdd, room, useBest) {
+    }
+    static generateBody(baseBody, bodyPartsToAdd, room, useBest) {
         const maxEnergyToUse = (useBest) ?
             room.energyCapacityAvailable :
             room.energyAvailable;
         let body = baseBody;
         while (true) {
-            if (exports.globalFunctions.calcBodyCost(body) + exports.globalFunctions.calcBodyCost(bodyPartsToAdd) <= maxEnergyToUse &&
+            if (this.calcBodyCost(body) + this.calcBodyCost(bodyPartsToAdd) <= maxEnergyToUse &&
                 body.length + bodyPartsToAdd.length <= 50) {
                 body = body.concat(bodyPartsToAdd);
             }
@@ -26,16 +26,16 @@ exports.globalFunctions = {
             }
         }
         return body;
-    },
-    amountOfStructure: function (room, structureConstant) {
+    }
+    static amountOfStructure(room, structureConstant) {
         const extensions = room.find(FIND_STRUCTURES, {
             filter: (structure) => {
                 return structure.structureType === structureConstant;
             }
         });
         return extensions.length;
-    },
-    getRoomsFlags: function (myRoom) {
+    }
+    static getRoomsFlags(myRoom) {
         const result = [];
         const flagNames = Object.keys(Game.flags);
         for (let i = 0; i < flagNames.length; i++) {
@@ -46,9 +46,9 @@ exports.globalFunctions = {
             }
         }
         return result;
-    },
-    buildExtensions: function (myRoom, numberOfExtensionsToBuild) {
-        const roomFlags = exports.globalFunctions.getRoomsFlags(myRoom);
+    }
+    static buildExtensions(myRoom, numberOfExtensionsToBuild) {
+        const roomFlags = this.getRoomsFlags(myRoom);
         for (let i = 0; i < roomFlags.length; i++) {
             const roomFlag = roomFlags[i];
             const flagNameSplit = roomFlag.name.split("-");
@@ -71,9 +71,9 @@ exports.globalFunctions = {
                 }
             }
         }
-    },
-    buildTowers: function (myRoom, numberOfTowersToBuild) {
-        const roomFlags = exports.globalFunctions.getRoomsFlags(myRoom);
+    }
+    static buildTowers(myRoom, numberOfTowersToBuild) {
+        const roomFlags = this.getRoomsFlags(myRoom);
         for (let i = 0; i < roomFlags.length; i++) {
             const roomFlag = roomFlags[i];
             const flagNameSplit = roomFlag.name.split("-");
@@ -96,8 +96,8 @@ exports.globalFunctions = {
                 }
             }
         }
-    },
-    isConstructable: function (terrain, roomName, x, y) {
+    }
+    static isConstructable(terrain, roomName, x, y) {
         // TODO: Remove terrain as a param
         if (x < 0 || x > 49 || y < 0 || y > 49) {
             return false;
@@ -113,22 +113,22 @@ exports.globalFunctions = {
             }
         }
         return false;
-    },
-    roomPosToMyPos: function (roomPos) {
+    }
+    static roomPosToMyPos(roomPos) {
         return {
             x: roomPos.x,
             y: roomPos.y,
             roomName: roomPos.roomName
         };
-    },
-    myPosToRoomPos: function (myPos) {
+    }
+    static myPosToRoomPos(myPos) {
         return new RoomPosition(myPos.x, myPos.y, myPos.roomName);
-    },
-    getBank: function (myRoom) {
+    }
+    static getBank(myRoom) {
         if (myRoom.bankPos == null) {
             return null;
         }
-        const bankPos = exports.globalFunctions.myPosToRoomPos(myRoom.bankPos);
+        const bankPos = this.myPosToRoomPos(myRoom.bankPos);
         const structures = bankPos.lookFor(LOOK_STRUCTURES);
         for (let i = 0; i < structures.length; i++) {
             if (structures[i].structureType === STRUCTURE_STORAGE) {
@@ -137,11 +137,11 @@ exports.globalFunctions = {
             }
         }
         return null;
-    },
-    isAllyUsername: function (username) {
-        return ["mooseyman", "nimphious"].indexOf(username.toLowerCase()) !== -1;
-    },
-    findClosestSpawn: function (roomPos) {
+    }
+    static isAllyUsername(username) {
+        return ["mooseyman", "nimphious", "james1652"].indexOf(username.toLowerCase()) !== -1;
+    }
+    static findClosestSpawn(roomPos) {
         return Game.spawns["Spawn1"];
         let spawnToReturn = null;
         let closestDistance = 9999;
@@ -149,7 +149,7 @@ exports.globalFunctions = {
             const myRoom = Memory.myMemory.myRooms[i];
             for (let j = 0; j < myRoom.spawns.length; j++) {
                 const mySpawn = myRoom.spawns[j];
-                const mySpawnRoomPos = exports.globalFunctions.myPosToRoomPos(mySpawn.position);
+                const mySpawnRoomPos = this.myPosToRoomPos(mySpawn.position);
                 const distance = mySpawnRoomPos.getRangeTo(roomPos);
                 if (distance < closestDistance) {
                     closestDistance = distance;
@@ -159,4 +159,5 @@ exports.globalFunctions = {
         }
         return spawnToReturn;
     }
-};
+}
+exports.GlobalFunctions = GlobalFunctions;

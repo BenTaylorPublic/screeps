@@ -7,7 +7,8 @@ exports.stage2_6 = {
     2.6 <-  3   : Room has < 10 extensions
     */
     up: function (myRoom, room) {
-        if (global_functions_1.globalFunctions.amountOfStructure(room, STRUCTURE_EXTENSION) >= 10) {
+        exports.stage2_6.step(myRoom, room);
+        if (global_functions_1.GlobalFunctions.amountOfStructure(room, STRUCTURE_EXTENSION) >= 10) {
             myRoom.roomStage = 3;
             console.log("LOG: Room " + myRoom.name + " increased to room stage 3");
             return true;
@@ -15,7 +16,7 @@ exports.stage2_6 = {
         return false;
     },
     down: function (myRoom, room) {
-        if (global_functions_1.globalFunctions.amountOfStructure(room, STRUCTURE_EXTENSION) < 10) {
+        if (global_functions_1.GlobalFunctions.amountOfStructure(room, STRUCTURE_EXTENSION) < 10) {
             myRoom.roomStage = 2.6;
             console.log("LOG: Room " + myRoom.name + " decreased to room stage 2.6");
             return true;
@@ -23,6 +24,6 @@ exports.stage2_6 = {
         return false;
     },
     step: function (myRoom, room) {
-        global_functions_1.globalFunctions.buildExtensions(myRoom, 10);
+        global_functions_1.GlobalFunctions.buildExtensions(myRoom, 10);
     }
 };

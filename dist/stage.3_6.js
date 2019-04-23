@@ -7,7 +7,8 @@ exports.stage3_6 = {
     3.6 <-  4   : Room does not have a storage bank
     */
     up: function (myRoom, room) {
-        if (global_functions_1.globalFunctions.amountOfStructure(room, STRUCTURE_STORAGE) >= 1) {
+        exports.stage3_6.step(myRoom, room);
+        if (global_functions_1.GlobalFunctions.amountOfStructure(room, STRUCTURE_STORAGE) >= 1) {
             myRoom.roomStage = 4;
             console.log("LOG: Room " + myRoom.name + " increased to room stage 4");
             return true;
@@ -15,7 +16,7 @@ exports.stage3_6 = {
         return false;
     },
     down: function (myRoom, room) {
-        if (global_functions_1.globalFunctions.amountOfStructure(room, STRUCTURE_STORAGE) < 1) {
+        if (global_functions_1.GlobalFunctions.amountOfStructure(room, STRUCTURE_STORAGE) < 1) {
             myRoom.roomStage = 3.6;
             console.log("LOG: Room " + myRoom.name + " decreased to room stage 3.6");
             return true;
@@ -36,7 +37,7 @@ exports.stage3_6 = {
             };
             return;
         }
-        const roomFlags = global_functions_1.globalFunctions.getRoomsFlags(myRoom);
+        const roomFlags = global_functions_1.GlobalFunctions.getRoomsFlags(myRoom);
         for (let i = 0; i < roomFlags.length; i++) {
             const roomFlag = roomFlags[i];
             if (roomFlag.name === "storage") {

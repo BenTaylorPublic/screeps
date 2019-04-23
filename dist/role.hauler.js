@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const global_functions_1 = require("global.functions");
-exports.roleHauler = {
-    run: function (hauler, myRoom) {
+class RoleHauler {
+    static run(hauler, myRoom) {
         const creep = Game.creeps[hauler.name];
         if (creep == null) {
             console.log("ERR: Hauler creep is null. Creep ID: " + hauler.name);
@@ -25,7 +25,7 @@ exports.roleHauler = {
         }
         if (hauler.pickup) {
             //Picking up more
-            const cacheToGrabFromPos = global_functions_1.globalFunctions.myPosToRoomPos(hauler.cachePosToPickupFrom);
+            const cacheToGrabFromPos = global_functions_1.GlobalFunctions.myPosToRoomPos(hauler.cachePosToPickupFrom);
             if (cacheToGrabFromPos.isNearTo(creep)) {
                 let cacheToGrabFrom = null;
                 const structures = cacheToGrabFromPos.lookFor(LOOK_STRUCTURES);
@@ -51,9 +51,9 @@ exports.roleHauler = {
                 console.log("ERR: Room's bank pos was null");
                 return;
             }
-            const bankPos = global_functions_1.globalFunctions.myPosToRoomPos(myRoom.bankPos);
+            const bankPos = global_functions_1.GlobalFunctions.myPosToRoomPos(myRoom.bankPos);
             if (bankPos.isNearTo(creep)) {
-                const bank = global_functions_1.globalFunctions.getBank(myRoom);
+                const bank = global_functions_1.GlobalFunctions.getBank(myRoom);
                 if (bank == null) {
                     console.log("ERR: Room's bank was null");
                     return;
@@ -65,4 +65,5 @@ exports.roleHauler = {
             }
         }
     }
-};
+}
+exports.RoleHauler = RoleHauler;
