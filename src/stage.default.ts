@@ -1,9 +1,10 @@
-export const stageDefault: StageController = {
+// tslint:disable-next-line: class-name
+export class StageDefault {
     /*
     -1  ->  0   : Get a room controller that's mine
     -1  <-  0   : Have no room controller that's mine
     */
-    up: function (myRoom: MyRoom, room: Room): boolean {
+    public static up(myRoom: MyRoom, room: Room): boolean {
         if (room.controller != null &&
             room.controller.my === true) {
             myRoom.roomStage = 0;
@@ -11,8 +12,9 @@ export const stageDefault: StageController = {
             return true;
         }
         return false;
-    },
-    down: function (myRoom: MyRoom, room: Room): boolean {
+    }
+
+    public static down(myRoom: MyRoom, room: Room): boolean {
         if (room.controller == null ||
             room.controller.my === false) {
             myRoom.roomStage = -1;
@@ -20,8 +22,5 @@ export const stageDefault: StageController = {
             return true;
         }
         return false;
-    },
-    step: function (myRoom: MyRoom, room: Room): void {
-        //No steps
     }
-};
+}

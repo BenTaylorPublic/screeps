@@ -1,9 +1,10 @@
-export const stage1: StageController = {
+// tslint:disable-next-line: class-name
+export class Stage1 {
     /*
     1   ->  1.3 : RCL is level >= 2
     1   <-  1.3 : RCL is level < 2
     */
-    up: function (myRoom: MyRoom, room: Room): boolean {
+    public static up(myRoom: MyRoom, room: Room): boolean {
         if (room.controller != null &&
             room.controller.level >= 2) {
             myRoom.roomStage = 1.3;
@@ -11,8 +12,9 @@ export const stage1: StageController = {
             return true;
         }
         return false;
-    },
-    down: function (myRoom: MyRoom, room: Room): boolean {
+    }
+
+    public static down(myRoom: MyRoom, room: Room): boolean {
         if (room.controller == null ||
             room.controller.level < 2) {
             myRoom.roomStage = 1;
@@ -20,8 +22,5 @@ export const stage1: StageController = {
             return true;
         }
         return false;
-    },
-    step: function (myRoom: MyRoom, room: Room): void {
-        //No steps
     }
-};
+}

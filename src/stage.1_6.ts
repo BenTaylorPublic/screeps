@@ -1,12 +1,13 @@
 import { GlobalFunctions } from "global.functions";
 
-export const stage1_6: StageController = {
+// tslint:disable-next-line: class-name
+export class Stage1_6 {
     /*
     1.6 ->  2   : Room has caches length >= source amount
     1.6 <-  2   : Room has caches length < source amount
     */
-    up: function (myRoom: MyRoom, room: Room): boolean {
-        stage1_6.step(myRoom, room);
+    public static up(myRoom: MyRoom, room: Room): boolean {
+        this.step(myRoom, room);
         const amountOfSource: number = room.find(FIND_SOURCES).length;
         if (GlobalFunctions.amountOfStructure(room, STRUCTURE_CONTAINER) >= amountOfSource) {
             myRoom.roomStage = 2;
@@ -14,8 +15,9 @@ export const stage1_6: StageController = {
             return true;
         }
         return false;
-    },
-    down: function (myRoom: MyRoom, room: Room): boolean {
+    }
+
+    public static down(myRoom: MyRoom, room: Room): boolean {
         const amountOfSource: number = room.find(FIND_SOURCES).length;
         if (GlobalFunctions.amountOfStructure(room, STRUCTURE_CONTAINER) < amountOfSource) {
             myRoom.roomStage = 1.6;
@@ -23,8 +25,9 @@ export const stage1_6: StageController = {
             return true;
         }
         return false;
-    },
-    step: function (myRoom: MyRoom, room: Room): void {
+    }
+
+    private static step(myRoom: MyRoom, room: Room): void {
         const roomFlags: Flag[] = GlobalFunctions.getRoomsFlags(myRoom);
         let flagsPlaced: number = 0;
         for (let i = 0; i < roomFlags.length; i++) {
@@ -87,4 +90,4 @@ export const stage1_6: StageController = {
             console.log("ATTENTION: Room " + myRoom.name + " needs cache container flag");
         }
     }
-};
+}

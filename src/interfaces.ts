@@ -53,12 +53,6 @@ interface MyRoomPos {
     roomName: string;
 }
 
-interface StageController {
-    up(myRoom: MyRoom, room: Room): boolean;
-    down(myRoom: MyRoom, room: Room): boolean;
-    step(myRoom: MyRoom, room: Room): void;
-}
-
 /*
 ====================
     CREEPS:
