@@ -1,9 +1,7 @@
-Room stages from 4 to 8
-
-Make flag logic to handle a random ID at the end to stop clashes
+Room stages from 4.6 to 8
 
 Long term:
-Bank object should be cached  at the start of each loop (for performance)
+Bank object should be cached at the start of each loop (for performance)
 Then removed from the myRoom object at the end of the loop
 
 Spawn a new miner before the old one dies, so no downtime.

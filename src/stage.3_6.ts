@@ -42,7 +42,8 @@ export class Stage3_6 {
         const roomFlags: Flag[] = GlobalFunctions.getRoomsFlags(myRoom);
         for (let i = 0; i < roomFlags.length; i++) {
             const roomFlag: Flag = roomFlags[i];
-            if (roomFlag.name === "storage") {
+            const flagNameSplit: string[] = roomFlag.name.split("-");
+            if (flagNameSplit[0] === "storage") {
                 const result: ScreepsReturnCode = Game.rooms[myRoom.name].createConstructionSite(roomFlag.pos, STRUCTURE_STORAGE);
                 if (result === OK) {
                     console.log("LOG: Placed storage bank construction site");
