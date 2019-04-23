@@ -6,24 +6,6 @@ import { LiveController } from "live.controller";
 console.log("Script reloaded");
 setupMyMemory();
 
-//One time memory setting
-for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
-    const myRoom: MyRoom = Memory.myMemory.myRooms[i];
-    myRoom.bankLinkerName = null;
-    for (let j = 0; j < myRoom.mySources.length; j++) {
-        const mySource: MySource = myRoom.mySources[j];
-        mySource.link = null;
-        mySource.state = "NoCache";
-        mySource.cache = null;
-    }
-    for (let h = 0; h < myRoom.myCreeps.length; h++) {
-        const myCreep: MyCreep = myRoom.myCreeps[h];
-        if (myCreep.role === "Miner") {
-            (myCreep as Miner).linkIdToDepositTo = null;
-        }
-    }
-}
-
 export const loop: any = function () {
     MemoryController.run();
 
