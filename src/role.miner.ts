@@ -1,7 +1,7 @@
 import { GlobalFunctions } from "global.functions";
 
-export const roleMiner: any = {
-    run: function (miner: Miner) {
+export class RoleMiner {
+    public static run(miner: Miner) {
         const creep: Creep = Game.creeps[miner.name];
         if (creep == null) {
             console.log("ERR: Miner creep is null. Creep ID: " + miner.name);
@@ -39,6 +39,5 @@ export const roleMiner: any = {
             //Move to cache
             creep.moveTo(cachePos);
         }
-
     }
-};
+}

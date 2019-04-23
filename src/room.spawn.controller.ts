@@ -1,10 +1,10 @@
-import { roomSpawnLaborer } from "room.spawn.laborer";
-import { roomSpawnMiner } from "room.spawn.miner";
-import { roomSpawnHauler } from "room.spawn.hauler";
+import { RoomSpawnLaborer } from "room.spawn.laborer";
+import { RoomSpawnMiner } from "room.spawn.miner";
+import { RoomSpawnHauler } from "room.spawn.hauler";
 import { Constants } from "constants";
 
-export const roomSpawnController: any = {
-    run: function (myRoom: MyRoom) {
+export class RoomSpawnController {
+    public static run(myRoom: MyRoom) {
 
         let laborerCount: number = 0;
         for (let i = 0; i < myRoom.myCreeps.length; i++) {
@@ -25,11 +25,11 @@ export const roomSpawnController: any = {
         }
 
         if (forceSpawnlaborers) {
-            roomSpawnLaborer.forceSpawnLaborer(myRoom);
+            RoomSpawnLaborer.forceSpawnLaborer(myRoom);
         } else {
-            roomSpawnLaborer.trySpawnLaborer(myRoom, laborerCount);
-            roomSpawnMiner.trySpawnMiner(myRoom);
-            roomSpawnHauler.trySpawnHauler(myRoom);
+            RoomSpawnLaborer.trySpawnLaborer(myRoom, laborerCount);
+            RoomSpawnMiner.trySpawnMiner(myRoom);
+            RoomSpawnHauler.trySpawnHauler(myRoom);
         }
     }
-};
+}

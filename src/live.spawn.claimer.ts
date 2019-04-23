@@ -1,7 +1,7 @@
 import { GlobalFunctions } from "global.functions";
 
 export class LiveSpawnClaimer {
-    static run(): void {
+    public static run(): void {
         const flagNames: string[] = Object.keys(Game.flags);
         for (let i = 0; i < flagNames.length; i++) {
             const flag: Flag = Game.flags[flagNames[i]];
@@ -25,7 +25,7 @@ export class LiveSpawnClaimer {
                 }
                 if (!claimerAlreadyMade) {
                     //Make a claimer
-                    const claimer: Claimer | null = LiveSpawnClaimer.spawnClaimer(flag);
+                    const claimer: Claimer | null = this.spawnClaimer(flag);
                     if (claimer != null) {
                         console.log("LOG: Spawned a new claimer");
                         Memory.myMemory.myTravelingCreeps.push(claimer);

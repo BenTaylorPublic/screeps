@@ -1,5 +1,5 @@
-export const roleClaimer: any = {
-    run: function (claimer: Claimer) {
+export class RoleClaimer {
+    public static run(claimer: Claimer) {
         const creep: Creep = Game.creeps[claimer.name];
         if (creep == null) {
             console.log("ERR: Claimer creep is null. Creep ID: " + claimer.name);
@@ -26,6 +26,5 @@ export const roleClaimer: any = {
                 creep.moveTo(creep.room.controller);
             }
         }
-
     }
-};
+}

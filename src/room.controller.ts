@@ -1,12 +1,12 @@
-import { roomTowerController } from "room.tower.controller";
-import { roleMiner } from "role.miner";
-import { roleHauler } from "role.hauler";
-import { roomStageController } from "room.stage.controller";
-import { roleLaborer } from "role.laborer";
-import { roomSpawnController } from "room.spawn.controller";
+import { RoomTowerController } from "room.tower.controller";
+import { RoleMiner } from "role.miner";
+import { RoleHauler } from "role.hauler";
+import { RoomStageController } from "room.stage.controller";
+import { RoleLaborer } from "role.laborer";
+import { RoomSpawnController } from "room.spawn.controller";
 
-export const roomController: any = {
-    run: function (myRoom: MyRoom) {
+export class RoomController {
+    public static run(myRoom: MyRoom) {
 
         if (Game.rooms[myRoom.name] == null) {
             //No longer have vision of this room
@@ -19,29 +19,28 @@ export const roomController: any = {
 
         if (Game.time % 10 === 0) {
             //Only run every 10 ticks
-            console.log("LOG: % 10 === 0, running");
-            roomStageController.run(myRoom);
+            RoomStageController.run(myRoom);
         }
-        roomSpawnController.run(myRoom);
+        RoomSpawnController.run(myRoom);
 
         //Tower logic
         const towers: StructureTower[] = room.find<StructureTower>(FIND_STRUCTURES, { filter: { structureType: STRUCTURE_TOWER, my: true } });
         for (let i = 0; i < towers.length; i++) {
-            roomTowerController.run(towers[i]);
+            RoomTowerController.run(towers[i]);
         }
 
         for (let i = 0; i < myRoom.myCreeps.length; i++) {
             const myCreep: MyCreep = myRoom.myCreeps[i];
             if (myCreep.role === "Miner") {
-                roleMiner.run(myCreep);
+                RoleMiner.run(myCreep as Miner);
             } else if (myCreep.role === "Hauler") {
-                roleHauler.run(myCreep, myRoom);
+                RoleHauler.run(myCreep as Hauler, myRoom);
             } else if (myCreep.role === "Laborer") {
-                roleLaborer.run(myCreep, myRoom);
+                RoleLaborer.run(myCreep as Laborer, myRoom);
             }
         }
     }
-};
+}
 
 
 

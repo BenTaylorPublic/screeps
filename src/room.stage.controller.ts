@@ -14,8 +14,8 @@ import { stage4 } from "stage.4";
 import { stage4_2 } from "stage.4_2";
 import { stage4_4 } from "stage.4_4";
 
-export const roomStageController: any = {
-    run: function (myRoom: MyRoom) {
+export class RoomStageController {
+    public static run(myRoom: MyRoom) {
         const room: Room = Game.rooms[myRoom.name];
 
         /*
@@ -188,4 +188,4 @@ export const roomStageController: any = {
             stageDefault.down(myRoom, room);
         }
     }
-};
+}

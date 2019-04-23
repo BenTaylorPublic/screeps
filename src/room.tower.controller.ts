@@ -1,7 +1,7 @@
 import { GlobalFunctions } from "global.functions";
 
-export const roomTowerController: any = {
-    run: function (tower: StructureTower) {
+export class RoomTowerController {
+    public static run(tower: StructureTower) {
 
         const closestDamagedStructure: Structure | null = tower.pos.findClosestByRange(FIND_STRUCTURES, {
             filter: (structure) => structure.hits < structure.hitsMax
@@ -47,4 +47,4 @@ export const roomTowerController: any = {
         }
 
     }
-};
+}
