@@ -9,18 +9,9 @@ setupMyMemory();
 //One time memory setting
 for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
     const myRoom = Memory.myMemory.myRooms[i];
-    myRoom.bankLinkerName = null;
     for (let j = 0; j < myRoom.mySources.length; j++) {
         const mySource = myRoom.mySources[j];
-        mySource.link = null;
-        mySource.state = "NoCache";
-        mySource.cache = null;
-    }
-    for (let h = 0; h < myRoom.myCreeps.length; h++) {
-        const myCreep = myRoom.myCreeps[h];
-        if (myCreep.role === "Miner") {
-            myCreep.linkIdToDepositTo = null;
-        }
+        delete mySource.cachePos;
     }
 }
 exports.loop = function () {
