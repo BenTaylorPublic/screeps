@@ -7,8 +7,8 @@ const live_controller_1 = require("live.controller");
 console.log("Script reloaded");
 setupMyMemory();
 //One time memory setting
-for (let i = 0; i < Memory.myRooms.length; i++) {
-    const myRoom = Memory.myRooms[i];
+for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
+    const myRoom = Memory.myMemory.myRooms[i];
     myRoom.bankLinkerName = null;
     for (let j = 0; j < myRoom.mySources.length; j++) {
         const mySource = myRoom.mySources[j];

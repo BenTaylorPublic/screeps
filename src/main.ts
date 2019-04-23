@@ -7,8 +7,8 @@ console.log("Script reloaded");
 setupMyMemory();
 
 //One time memory setting
-for (let i = 0; i < Memory.myRooms.length; i++) {
-    const myRoom: MyRoom = Memory.myRooms[i];
+for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
+    const myRoom: MyRoom = Memory.myMemory.myRooms[i];
     myRoom.bankLinkerName = null;
     for (let j = 0; j < myRoom.mySources.length; j++) {
         const mySource: MySource = myRoom.mySources[j];
