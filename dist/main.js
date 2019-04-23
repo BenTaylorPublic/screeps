@@ -13,10 +13,8 @@ for (let i = 0; i < Memory.myRooms.length; i++) {
     for (let j = 0; j < myRoom.mySources.length; j++) {
         const mySource = myRoom.mySources[j];
         mySource.link = null;
-        mySource.state = "Cache";
-        //TODO: Use current cache pos to set up new one
-        // Then remove old key
-        // Must be done in js
+        mySource.state = "NoCache";
+        mySource.cache = null;
     }
     for (let h = 0; h < myRoom.myCreeps.length; h++) {
         const myCreep = myRoom.myCreeps[h];
