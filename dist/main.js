@@ -6,14 +6,6 @@ const role_claimer_1 = require("role.claimer");
 const live_controller_1 = require("live.controller");
 console.log("Script reloaded");
 setupMyMemory();
-//One time memory setting
-for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
-    const myRoom = Memory.myMemory.myRooms[i];
-    for (let j = 0; j < myRoom.mySources.length; j++) {
-        const mySource = myRoom.mySources[j];
-        delete mySource.cachePos;
-    }
-}
 exports.loop = function () {
     memory_controller_1.MemoryController.run();
     for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {

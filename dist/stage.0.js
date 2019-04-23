@@ -1,11 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.stage0 = {
+// tslint:disable-next-line: class-name
+class Stage0 {
     /*
     0   ->  0.5 : RCL is level >= 1
     0   <-  0.5 : RCL is level < 1
     */
-    up: function (myRoom, room) {
+    static up(myRoom, room) {
         if (room.controller != null &&
             room.controller.level >= 1) {
             myRoom.roomStage = 0.5;
@@ -13,8 +14,8 @@ exports.stage0 = {
             return true;
         }
         return false;
-    },
-    down: function (myRoom, room) {
+    }
+    static down(myRoom, room) {
         if (room.controller == null ||
             room.controller.level < 1) {
             myRoom.roomStage = 0;
@@ -22,8 +23,6 @@ exports.stage0 = {
             return true;
         }
         return false;
-    },
-    step: function (myRoom, room) {
-        //No steps
     }
-};
+}
+exports.Stage0 = Stage0;

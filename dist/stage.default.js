@@ -1,11 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.stageDefault = {
+// tslint:disable-next-line: class-name
+class StageDefault {
     /*
     -1  ->  0   : Get a room controller that's mine
     -1  <-  0   : Have no room controller that's mine
     */
-    up: function (myRoom, room) {
+    static up(myRoom, room) {
         if (room.controller != null &&
             room.controller.my === true) {
             myRoom.roomStage = 0;
@@ -13,8 +14,8 @@ exports.stageDefault = {
             return true;
         }
         return false;
-    },
-    down: function (myRoom, room) {
+    }
+    static down(myRoom, room) {
         if (room.controller == null ||
             room.controller.my === false) {
             myRoom.roomStage = -1;
@@ -22,8 +23,6 @@ exports.stageDefault = {
             return true;
         }
         return false;
-    },
-    step: function (myRoom, room) {
-        //No steps
     }
-};
+}
+exports.StageDefault = StageDefault;

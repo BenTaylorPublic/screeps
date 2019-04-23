@@ -1,29 +1,30 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const global_functions_1 = require("global.functions");
-exports.stage3_6 = {
+// tslint:disable-next-line: class-name
+class Stage3_6 {
     /*
     3.6 ->  4   : Room has a storage bank
     3.6 <-  4   : Room does not have a storage bank
     */
-    up: function (myRoom, room) {
-        exports.stage3_6.step(myRoom, room);
+    static up(myRoom, room) {
+        this.step(myRoom, room);
         if (global_functions_1.GlobalFunctions.amountOfStructure(room, STRUCTURE_STORAGE) >= 1) {
             myRoom.roomStage = 4;
             console.log("LOG: Room " + myRoom.name + " increased to room stage 4");
             return true;
         }
         return false;
-    },
-    down: function (myRoom, room) {
+    }
+    static down(myRoom, room) {
         if (global_functions_1.GlobalFunctions.amountOfStructure(room, STRUCTURE_STORAGE) < 1) {
             myRoom.roomStage = 3.6;
             console.log("LOG: Room " + myRoom.name + " decreased to room stage 3.6");
             return true;
         }
         return false;
-    },
-    step: function (myRoom, room) {
+    }
+    static step(myRoom, room) {
         const storage = room.find(FIND_STRUCTURES, {
             filter: (structure) => {
                 return structure.structureType === STRUCTURE_STORAGE;
@@ -52,4 +53,5 @@ exports.stage3_6 = {
             }
         }
     }
-};
+}
+exports.Stage3_6 = Stage3_6;

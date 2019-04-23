@@ -1,13 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const global_functions_1 = require("global.functions");
-exports.stage1_6 = {
+// tslint:disable-next-line: class-name
+class Stage1_6 {
     /*
     1.6 ->  2   : Room has caches length >= source amount
     1.6 <-  2   : Room has caches length < source amount
     */
-    up: function (myRoom, room) {
-        exports.stage1_6.step(myRoom, room);
+    static up(myRoom, room) {
+        this.step(myRoom, room);
         const amountOfSource = room.find(FIND_SOURCES).length;
         if (global_functions_1.GlobalFunctions.amountOfStructure(room, STRUCTURE_CONTAINER) >= amountOfSource) {
             myRoom.roomStage = 2;
@@ -15,8 +16,8 @@ exports.stage1_6 = {
             return true;
         }
         return false;
-    },
-    down: function (myRoom, room) {
+    }
+    static down(myRoom, room) {
         const amountOfSource = room.find(FIND_SOURCES).length;
         if (global_functions_1.GlobalFunctions.amountOfStructure(room, STRUCTURE_CONTAINER) < amountOfSource) {
             myRoom.roomStage = 1.6;
@@ -24,8 +25,8 @@ exports.stage1_6 = {
             return true;
         }
         return false;
-    },
-    step: function (myRoom, room) {
+    }
+    static step(myRoom, room) {
         const roomFlags = global_functions_1.GlobalFunctions.getRoomsFlags(myRoom);
         let flagsPlaced = 0;
         for (let i = 0; i < roomFlags.length; i++) {
@@ -88,4 +89,5 @@ exports.stage1_6 = {
             console.log("ATTENTION: Room " + myRoom.name + " needs cache container flag");
         }
     }
-};
+}
+exports.Stage1_6 = Stage1_6;
