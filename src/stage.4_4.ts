@@ -1,4 +1,5 @@
 import { GlobalFunctions } from "global.functions";
+import { StageFunctions } from "stage.functions";
 
 // tslint:disable-next-line: class-name
 export class Stage4_4 {
@@ -26,6 +27,6 @@ export class Stage4_4 {
     }
 
     private static step(myRoom: MyRoom, room: Room): void {
-        GlobalFunctions.buildExtensions(myRoom, 30);
+        StageFunctions.buildExtensions(myRoom, 30);
     }
 }
