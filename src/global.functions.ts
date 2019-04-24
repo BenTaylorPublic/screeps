@@ -4,11 +4,13 @@ export class GlobalFunctions {
         Memory.myMemory.globalId++;
         return toReturn;
     }
+
     public static calcBodyCost(body: BodyPartConstant[]): number {
         return body.reduce(function (cost: number, part: BodyPartConstant) {
             return cost + BODYPART_COST[part];
         }, 0);
     }
+
     public static generateBody(
         baseBody: BodyPartConstant[],
         bodyPartsToAdd: BodyPartConstant[],
@@ -32,6 +34,7 @@ export class GlobalFunctions {
         }
         return body;
     }
+
     public static amountOfStructure(room: Room, structureConstant: StructureConstant): number {
         const extensions: StructureExtension[] = room.find<StructureExtension>(FIND_STRUCTURES, {
             filter: (structure: Structure) => {
@@ -40,6 +43,7 @@ export class GlobalFunctions {
         });
         return extensions.length;
     }
+
     public static getRoomsFlags(myRoom: MyRoom): Flag[] {
         const result: Flag[] = [];
         const flagNames: string[] = Object.keys(Game.flags);
@@ -52,6 +56,7 @@ export class GlobalFunctions {
         }
         return result;
     }
+
     public static buildExtensions(myRoom: MyRoom, numberOfExtensionsToBuild: number): void {
         const roomFlags: Flag[] = this.getRoomsFlags(myRoom);
         for (let i = 0; i < roomFlags.length; i++) {
@@ -76,6 +81,7 @@ export class GlobalFunctions {
             }
         }
     }
+
     public static buildTowers(myRoom: MyRoom, numberOfTowersToBuild: number): void {
         const roomFlags: Flag[] = this.getRoomsFlags(myRoom);
         for (let i = 0; i < roomFlags.length; i++) {
@@ -100,6 +106,7 @@ export class GlobalFunctions {
             }
         }
     }
+
     public static isConstructable(terrain: RoomTerrain, roomName: string, x: number, y: number): boolean {
         // TODO: Remove terrain as a param
         if (x < 0 || x > 49 || y < 0 || y > 49) {
@@ -117,6 +124,7 @@ export class GlobalFunctions {
 
         return false;
     }
+
     public static roomPosToMyPos(roomPos: RoomPosition): MyRoomPos {
         return {
             x: roomPos.x,
@@ -124,9 +132,11 @@ export class GlobalFunctions {
             roomName: roomPos.roomName
         };
     }
+
     public static myPosToRoomPos(myPos: MyRoomPos): RoomPosition {
         return new RoomPosition(myPos.x, myPos.y, myPos.roomName);
     }
+
     public static getBank(myRoom: MyRoom): StructureStorage | null {
         if (myRoom.bankPos == null) {
             return null;
@@ -142,9 +152,11 @@ export class GlobalFunctions {
         }
         return null;
     }
+
     public static isAllyUsername(username: string): boolean {
         return ["mooseyman", "nimphious", "james1652"].indexOf(username.toLowerCase()) !== -1;
     }
+
     public static findClosestSpawn(roomPos: RoomPosition): StructureSpawn | null {
         return Game.spawns["Spawn1"];
         let spawnToReturn: StructureSpawn | null = null;
