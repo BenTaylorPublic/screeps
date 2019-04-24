@@ -34,7 +34,7 @@ export class RoomSpawnBankLinker {
                     memory:
                     {
                         name: "Creep" + id,
-                        role: "Hauler",
+                        role: "BankLinker",
                         assignedRoomName: spawn.room.name
                     }
                 }
@@ -43,7 +43,7 @@ export class RoomSpawnBankLinker {
         if (result === OK) {
             return {
                 name: "Creep" + id,
-                role: "Hauler",
+                role: "BankLinker",
                 assignedRoomName: spawn.room.name
             };
         }
