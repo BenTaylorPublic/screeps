@@ -1,5 +1,10 @@
 Room stages from 4.6 to 8
 
+Linker:
+Role is done
+Spawning is done
+Need to do placement of both links
+
 Long term:
 Bank object should be cached at the start of each loop (for performance)
 Then removed from the myRoom object at the end of the loop
