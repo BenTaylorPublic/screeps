@@ -51,4 +51,8 @@ export class StageFunctions {
             }
         }
     }
+
+    public static setupSourceLink(myRoom: MyRoom): void {
+
+    }
 }
