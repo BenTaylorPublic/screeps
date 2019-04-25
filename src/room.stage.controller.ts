@@ -15,6 +15,7 @@ import { Stage4_2 } from "stage.4_2";
 import { Stage4_4 } from "stage.4_4";
 import { Stage4_6 } from "stage.4_6";
 import { Stage4_8 } from "stage.4_8";
+import { Stage5 } from "stage.5";
 
 export class RoomStageController {
     public static run(myRoom: MyRoom) {
@@ -95,6 +96,9 @@ export class RoomStageController {
 
             4.8 ->  5   : Room has 1 sources using links, no cache or hauler
             4.8 <-  5   : Room has 0 sources using links, no cache or hauler
+
+            5   ->  5.1 : RCL is level >= 6
+            5   <-  5.1 : RCL is level < 6
          */
 
         //Ups
@@ -149,8 +153,14 @@ export class RoomStageController {
         if (myRoom.roomStage === 4.8) {
             Stage4_8.up(myRoom, room);
         }
+        if (myRoom.roomStage === 5) {
+            Stage5.up(myRoom, room);
+        }
 
         //Downs
+        if (myRoom.roomStage > 5) {
+            Stage5.down(myRoom, room);
+        }
         if (myRoom.roomStage > 4.8) {
             Stage4_8.down(myRoom, room);
         }
