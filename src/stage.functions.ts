@@ -73,9 +73,58 @@ export class StageFunctions {
                 roomFlags.slice(i, 1);
             }
         }
+
+        let placedFully: boolean = false;
+
         for (let i = 0; i < roomFlags.length; i++) {
             const roomFlag: Flag = roomFlags[i];
-            const flagNameSplit: string[] = roomFlag.name.split("-");
+            const result: ScreepsReturnCode = Game.rooms[myRoom.name].createConstructionSite(roomFlag.pos, STRUCTURE_LINK);
+            if (result === OK) {
+                for (let j = 0; j < myRoom.mySources.length; j++) {
+                    const mySource: MySource = myRoom.mySources[j];
+                    const source: Source | null = Game.getObjectById<Source>(mySource.id);
+                    if (source == null) {
+                        console.log("ERR: Source was null when trying to get it by ID");
+                    } else {
+                        if (source.pos.inRangeTo(roomFlag.pos, 2)) {
+                            mySource.state = "Link";
+                            mySource.link = {
+                                pos: GlobalFunctions.roomPosToMyPos(roomFlag.pos),
+                                id: null
+                            };
+                            placedFully = true;
+                        } // Else it's hopefully the other source in the room...
+                    }
+                }
+                if (placedFully) {
+                    console.log("LOG: Placed source link construction site");
+                    roomFlag.remove();
+                } else {
+                    console.log("ERR: Placed a construction site at a flag but couldn't find a source to give it to");
+                }
+            } else {
+                console.log("ERR: Placing a source link construction site errored");
+            }
+        }
+
+        for (let i = 0; i < myRoom.mySources.length; i++) {
+            const mySource: MySource = myRoom.mySources[i];
+            if (mySource.link != null &&
+                mySource.link.id == null) {
+                const linkPos: RoomPosition = GlobalFunctions.myPosToRoomPos(mySource.link.pos);
+                const structures: Structure<StructureConstant>[] = linkPos.lookFor(LOOK_STRUCTURES);
+                for (let j = 0; j < structures.length; j++) {
+                    if (structures[j].structureType === STRUCTURE_LINK) {
+                        mySource.link.id = structures[j].id;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (!placedFully &&
+            Game.rooms[myRoom.name].find(FIND_CONSTRUCTION_SITES).length === 0) {
+            console.log("ATTENTION: Room " + myRoom.name + " needs source link flag");
         }
     }
 }
