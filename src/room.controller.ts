@@ -5,6 +5,7 @@ import { RoomStageController } from "room.stage.controller";
 import { RoleLaborer } from "role.laborer";
 import { RoomSpawnController } from "room.spawn.controller";
 import { RoleBankLinker } from "role.bankLinker";
+import { RoomSourceLink } from "room.source.link";
 
 export class RoomController {
     public static run(myRoom: MyRoom) {
@@ -30,6 +31,7 @@ export class RoomController {
             RoomTowerController.run(towers[i]);
         }
 
+        // Creep logic
         for (let i = 0; i < myRoom.myCreeps.length; i++) {
             const myCreep: MyCreep = myRoom.myCreeps[i];
             if (myCreep.role === "Miner") {
@@ -40,6 +42,14 @@ export class RoomController {
                 RoleLaborer.run(myCreep as Laborer, myRoom);
             } else if (myCreep.role === "BankLinker") {
                 RoleBankLinker.run(myCreep as BankLinker, myRoom);
+            }
+        }
+
+        // Room source link logic
+        for (let i = 0; i < myRoom.mySources.length; i++) {
+            const mySource: MySource = myRoom.mySources[i];
+            if (mySource.link != null) {
+                RoomSourceLink.run(myRoom, mySource.link);
             }
         }
     }
