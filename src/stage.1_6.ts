@@ -32,7 +32,9 @@ export class Stage1_6 {
         for (let i = roomFlags.length - 1; i >= 0; i--) {
             const roomFlag: Flag = roomFlags[i];
             const flagNameSplit: string[] = roomFlag.name.split("-");
-            if (flagNameSplit[0] !== "cont") {
+            if (flagNameSplit.length === 0) {
+                console.log("NAME: " + roomFlag.name);
+            } else if (flagNameSplit[0] !== "cont") {
                 roomFlags = roomFlags.slice(i, 1);
             }
         }
