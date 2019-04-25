@@ -10,7 +10,7 @@
     },
     "devDependencies": {},
     "scripts": {
-        "start": "tslint --project tslint.json && tsc && echo \"SUCCESS\""
+        "start": "clear && echo \"Attempting to build...\" && tslint --project tslint.json && tsc && echo \"SUCCESS\""
     },
     "repository": {
         "type": "git",
