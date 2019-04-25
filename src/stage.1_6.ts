@@ -31,10 +31,12 @@ export class Stage1_6 {
         let roomFlags: Flag[] = GlobalFunctions.getRoomsFlags(myRoom);
         for (let i = roomFlags.length - 1; i >= 0; i--) {
             const roomFlag: Flag = roomFlags[i];
+            if (roomFlag == null) {
+                console.log("idk room flag was null");
+                roomFlags = roomFlags.slice(i, 1);
+            }
             const flagNameSplit: string[] = roomFlag.name.split("-");
-            if (flagNameSplit.length === 0) {
-                console.log("NAME: " + roomFlag.name);
-            } else if (flagNameSplit[0] !== "cont") {
+            if (flagNameSplit[0] !== "cont") {
                 roomFlags = roomFlags.slice(i, 1);
             }
         }
