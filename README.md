@@ -1,4 +1,5 @@
 # My screeps AI
+![](https://screeps.com/img/logotype.svg)
 
 ## Setup
 Run `npm install` to get packages
