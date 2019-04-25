@@ -64,6 +64,18 @@ export class StageFunctions {
     }
 
     public static setupSourceLink(myRoom: MyRoom): void {
-
+        const roomFlags: Flag[] = GlobalFunctions.getRoomsFlags(myRoom);
+        for (let i = roomFlags.length - 1; i >= 0; i--) {
+            const roomFlag: Flag = roomFlags[i];
+            const flagNameSplit: string[] = roomFlag.name.split("-");
+            if (flagNameSplit[0] !== "link" ||
+                flagNameSplit[1] === "bank") {
+                roomFlags.slice(i, 1);
+            }
+        }
+        for (let i = 0; i < roomFlags.length; i++) {
+            const roomFlag: Flag = roomFlags[i];
+            const flagNameSplit: string[] = roomFlag.name.split("-");
+        }
     }
 }
