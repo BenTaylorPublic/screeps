@@ -17,6 +17,7 @@ Marketing logic (will be at empire level):
     Spawning marketers (to haul to/from storage)
     Marketer role
 Hauling between rooms (Energy, and minerals), when starting room is RoomStage 8 (maybe 7?)
+Haulers should put energy into extensions/spawn if there's no energy in it's cache
 Lab logic:
     Spawning lab assistants (to haul to/from storage)
     LabAssistant role
