@@ -15,7 +15,7 @@ interface MyRoom {
     myCreeps: MyCreep[];
     spawns: MySpawn[];
     mySources: MySource[];
-    roomStage: -1 | 0 | 0.5 | 1 | 1.3 | 1.6 | 2 | 2.3 | 2.6 | 3 | 3.3 | 3.6 | 4 | 4.2 | 4.4 | 4.6 | 4.8 | 5 | 5.1 | 5.2;
+    roomStage: -1 | 0 | 0.5 | 1 | 1.3 | 1.6 | 2 | 2.3 | 2.6 | 3 | 3.3 | 3.6 | 4 | 4.2 | 4.4 | 4.6 | 4.8 | 5 | 5.1 | 5.2 | 5.3;
     bankPos: MyRoomPos | null;
     myExtensionPositions: MyRoomPos[];
     myTowerPositions: MyRoomPos[];
