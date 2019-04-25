@@ -5,12 +5,18 @@
     "main": "index.js",
     "dependencies": {
         "@types/screeps": "^2.5.3",
+        "terser-webpack-plugin": "^1.2.3",
         "tslint": "^5.15.0",
-        "typescript": "^3.4.3"
+        "typescript": "^3.4.3",
+        "webpack-cli": "^3.3.0",
+        "webpack-dev-server": "^3.3.1",
+        "webpack": "^4.30.0"
     },
     "devDependencies": {},
     "scripts": {
-        "start": "clear && echo \"Attempting to build...\" && tslint --project tslint.json && tsc && echo \"SUCCESS\""
+        "start": "clear && echo \"Attempting to build...\" && tslint --project tslint.json && tsc && echo \"SUCCESS\"",
+        "pack": "./node_modules/.bin/webpack --config webpack.config.js"
+
     },
     "repository": {
         "type": "git",

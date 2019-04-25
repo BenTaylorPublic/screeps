@@ -1,4 +1,4 @@
-import { GlobalFunctions } from "global.functions";
+import { GlobalFunctions } from "./global.functions";
 
 // tslint:disable-next-line: class-name
 export class Stage3_6 {

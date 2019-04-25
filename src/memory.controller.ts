@@ -1,4 +1,4 @@
-import { GlobalFunctions } from "global.functions";
+import { GlobalFunctions } from "./global.functions";
 
 export class MemoryController {
     public static run(): void {

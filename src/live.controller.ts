@@ -1,4 +1,4 @@
-import { LiveSpawnClaimer } from "live.spawn.claimer";
+import { LiveSpawnClaimer } from "./live.spawn.claimer";
 
 export class LiveController {
     public static run(): void {

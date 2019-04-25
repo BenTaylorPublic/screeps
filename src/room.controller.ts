@@ -1,11 +1,11 @@
-import { RoomTowerController } from "room.tower.controller";
-import { RoleMiner } from "role.miner";
-import { RoleHauler } from "role.hauler";
-import { RoomStageController } from "room.stage.controller";
-import { RoleLaborer } from "role.laborer";
-import { RoomSpawnController } from "room.spawn.controller";
-import { RoleBankLinker } from "role.bankLinker";
-import { RoomSourceLink } from "room.source.link";
+import { RoomTowerController } from "./room.tower.controller";
+import { RoleMiner } from "./role.miner";
+import { RoleHauler } from "./role.hauler";
+import { RoomStageController } from "./room.stage.controller";
+import { RoleLaborer } from "./role.laborer";
+import { RoomSpawnController } from "./room.spawn.controller";
+import { RoleBankLinker } from "./role.bankLinker";
+import { RoomSourceLink } from "./room.source.link";
 
 export class RoomController {
     public static run(myRoom: MyRoom): void {

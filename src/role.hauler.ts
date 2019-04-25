@@ -1,4 +1,4 @@
-import { GlobalFunctions } from "global.functions";
+import { GlobalFunctions } from "./global.functions";
 
 export class RoleHauler {
     public static run(hauler: Hauler, myRoom: MyRoom): void {

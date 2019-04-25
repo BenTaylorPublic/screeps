@@ -1,7 +1,7 @@
-import { RoomSpawnLaborer } from "room.spawn.laborer";
-import { RoomSpawnMiner } from "room.spawn.miner";
-import { RoomSpawnHauler } from "room.spawn.hauler";
-import { Constants } from "constants";
+import { RoomSpawnLaborer } from "./room.spawn.laborer";
+import { RoomSpawnMiner } from "./room.spawn.miner";
+import { RoomSpawnHauler } from "./room.spawn.hauler";
+import { Constants } from "./constants";
 
 export class RoomSpawnController {
     public static run(myRoom: MyRoom): void {

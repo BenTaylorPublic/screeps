@@ -1,5 +1,5 @@
-import { GlobalFunctions } from "global.functions";
-import { Constants } from "constants";
+import { GlobalFunctions } from "./global.functions";
+import { Constants } from "./constants";
 
 export class RoomSpawnLaborer {
     public static trySpawnLaborer(myRoom: MyRoom, laborerCount: number): void {

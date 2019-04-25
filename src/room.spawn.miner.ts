@@ -1,4 +1,4 @@
-import { GlobalFunctions } from "global.functions";
+import { GlobalFunctions } from "./global.functions";
 
 export class RoomSpawnMiner {
     public static trySpawnMiner(myRoom: MyRoom): void {
