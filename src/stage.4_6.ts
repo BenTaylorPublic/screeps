@@ -28,5 +28,6 @@ export class Stage4_6 {
 
     private static step(myRoom: MyRoom, room: Room): void {
         StageFunctions.setupSourceLink(myRoom);
+        // TODO: Setup bank link
     }
 }
