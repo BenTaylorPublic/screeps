@@ -15,10 +15,6 @@ Marketing logic (will be at empire level):
     Buy/sell logic
     Spawning marketers (to haul to/from storage)
     Marketer role
-Room links (will be at empire level):
-    Creation of room links
-    Spawning of room link haulers
-    RoomLinkHauler role
 Lab logic:
     Spawning lab assistants (to haul to/from storage)
     LabAssistant role
