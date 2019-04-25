@@ -37,13 +37,13 @@ export class RoomStageController {
             8	-	        Observer, Power Spawn   6       6       3       60 200 cap  300M    10
 
             Flag names:
-            ex-1-X to 60
-            cont-X
-            tower-1-X to 6
-            storage-X
-            link-1-X to 2
-            link-bank-X
-            spawn-2-X to 3
+            ex-1 to 60
+            cont
+            tower-1 to 6
+            storage
+            link-1 to 2
+            link-bank
+            spawn-2 to 3
 
             Loosely based on RCL
             -1 is default room level
