@@ -60,7 +60,7 @@ export class RoleHauler {
             const bankPos: RoomPosition = GlobalFunctions.myPosToRoomPos(myRoom.bankPos);
 
             if (bankPos.isNearTo(creep)) {
-                const bank: StructureStorage | null = GlobalFunctions.getBank(myRoom);
+                const bank: StructureStorage | null = myRoom.bank;
                 if (bank == null) {
                     console.log("ERR: Room's bank was null");
                     return;

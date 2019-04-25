@@ -21,6 +21,7 @@ interface MyRoom {
     myTowerPositions: MyRoomPos[];
     bankLinkerName: string | null; //Null when bankLinker is dead or not assigned
     bankLink: MyLink | null;
+    bank: StructureStorage | null;
 }
 
 interface MySpawn {

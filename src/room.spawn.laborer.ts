@@ -8,7 +8,7 @@ export class RoomSpawnLaborer {
             return;
         }
 
-        const bank: StructureStorage | null = GlobalFunctions.getBank(myRoom);
+        const bank: StructureStorage | null = myRoom.bank;
         if (bank == null) {
             console.log("ERR: Bank is null when checking if it's full");
             return;

@@ -22,6 +22,8 @@ export const loop: any = function () {
         }
     }
 
+    MemoryController.clearBanks();
+
 };
 
 function setupMyMemory(): void {

@@ -32,7 +32,7 @@ export class RoleLaborer {
         if (laborer.state === "Labor" &&
             creep.carry.energy === 0) {
 
-            const bank: StructureStorage | null = GlobalFunctions.getBank(myRoom);
+            const bank: StructureStorage | null = myRoom.bank;
 
             if (bank != null &&
                 bank.store[RESOURCE_ENERGY] >= creep.carryCapacity) {
@@ -83,7 +83,7 @@ export class RoleLaborer {
         const bankPos: RoomPosition = GlobalFunctions.myPosToRoomPos(myRoom.bankPos);
 
         if (bankPos.isNearTo(creep)) {
-            const bank: StructureStorage | null = GlobalFunctions.getBank(myRoom);
+            const bank: StructureStorage | null = myRoom.bank;
             if (bank == null) {
                 console.log("ERR: Room's bank was null");
                 return;

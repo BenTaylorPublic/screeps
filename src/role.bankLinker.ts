@@ -15,7 +15,7 @@ export class RoleBankLinker {
         }
 
         if (creep.carry[RESOURCE_ENERGY] === creep.carryCapacity) {
-            const bank: StructureStorage | null = GlobalFunctions.getBank(myRoom);
+            const bank: StructureStorage | null = myRoom.bank;
             if (bank == null) {
                 console.log("ERR: Bank was null for a bank linker");
                 return;

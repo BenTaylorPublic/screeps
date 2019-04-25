@@ -87,22 +87,6 @@ export class GlobalFunctions {
         return new RoomPosition(myPos.x, myPos.y, myPos.roomName);
     }
 
-    public static getBank(myRoom: MyRoom): StructureStorage | null {
-        if (myRoom.bankPos == null) {
-            return null;
-        }
-        const bankPos: RoomPosition = this.myPosToRoomPos(myRoom.bankPos);
-
-        const structures: Structure<StructureConstant>[] = bankPos.lookFor(LOOK_STRUCTURES);
-        for (let i = 0; i < structures.length; i++) {
-            if (structures[i].structureType === STRUCTURE_STORAGE) {
-                return structures[i] as StructureStorage;
-                break;
-            }
-        }
-        return null;
-    }
-
     public static isAllyUsername(username: string): boolean {
         return ["mooseyman", "nimphious", "james1652"].indexOf(username.toLowerCase()) !== -1;
     }

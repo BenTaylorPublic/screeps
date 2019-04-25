@@ -1,11 +1,19 @@
 import { GlobalFunctions } from "global.functions";
 
 export class MemoryController {
-    public static run() {
+    public static run(): void {
         this.clearDeadCreeps();
         this.ensureAllRoomsInMyMemory();
         this.validateRoomsInMyMemory();
         this.cleanUpTravelingCreeps();
+        this.getBanks();
+    }
+
+    public static clearBanks(): void {
+        for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
+            const myRoom: MyRoom = Memory.myMemory.myRooms[i];
+            myRoom.bank = null;
+        }
     }
 
     private static clearDeadCreeps(): void {
@@ -52,7 +60,8 @@ export class MemoryController {
                     myExtensionPositions: [],
                     myTowerPositions: [],
                     bankLinkerName: null,
-                    bankLink: null
+                    bankLink: null,
+                    bank: null
                 };
                 const sources: Source[] = room.find(FIND_SOURCES);
                 for (let i = 0; i < sources.length; i++) {
@@ -154,6 +163,21 @@ export class MemoryController {
             const myCreep: MyCreep = Memory.myMemory.myTravelingCreeps[i];
             if (Game.creeps[myCreep.name] == null) {
                 Memory.myMemory.myTravelingCreeps.splice(i, 1);
+            }
+        }
+    }
+
+    private static getBanks(): void {
+        for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
+            const myRoom: MyRoom = Memory.myMemory.myRooms[i];
+            if (myRoom.bankPos != null) {
+                const bankPos: RoomPosition = GlobalFunctions.myPosToRoomPos(myRoom.bankPos);
+                const structures: Structure<StructureConstant>[] = bankPos.lookFor(LOOK_STRUCTURES);
+                for (let j = 0; j < structures.length; j++) {
+                    if (structures[j].structureType === STRUCTURE_STORAGE) {
+                        myRoom.bank = structures[j] as StructureStorage;
+                    }
+                }
             }
         }
     }
