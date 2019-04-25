@@ -34,6 +34,7 @@ export class Stage1_6 {
             if (roomFlag == null) {
                 console.log("idk room flag was null");
                 roomFlags = roomFlags.slice(i, 1);
+                continue;
             }
             const flagNameSplit: string[] = roomFlag.name.split("-");
             if (flagNameSplit[0] !== "cont") {
