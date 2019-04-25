@@ -87,7 +87,6 @@ export class StageFunctions {
                         console.log("ERR: Source was null when trying to get it by ID");
                     } else {
                         if (source.pos.inRangeTo(roomFlag.pos, 2)) {
-                            mySource.state = "Link";
                             mySource.link = {
                                 pos: GlobalFunctions.roomPosToMyPos(roomFlag.pos),
                                 id: null
@@ -116,6 +115,7 @@ export class StageFunctions {
                 for (let j = 0; j < structures.length; j++) {
                     if (structures[j].structureType === STRUCTURE_LINK) {
                         mySource.link.id = structures[j].id;
+                        mySource.state = "Link";
                         break;
                     }
                 }
