@@ -14,7 +14,7 @@
     },
     "devDependencies": {},
     "scripts": {
-        "start": "clear && echo \"Attempting to build...\" && tslint --project tslint.json && tsc && echo \"SUCCESS\"",
+        "start": "clear && echo \"Attempting to build...\" && tslint --project tslint.json && tsc && npm run pack && echo \"SUCCESS\"",
         "pack": "./node_modules/.bin/webpack --config webpack.config.js"
 
     },

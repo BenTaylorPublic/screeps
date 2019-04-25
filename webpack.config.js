@@ -3,11 +3,11 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 
 module.exports = {
-    entry: './dist/main.js',
+    entry: './ts-dist/main.js',
     output: {
         pathinfo: true,
         libraryTarget: "commonjs2",
-        path: path.resolve(__dirname, 'pack')
+        path: path.resolve(__dirname, 'dist')
     },
     target: "node",
     node: {
