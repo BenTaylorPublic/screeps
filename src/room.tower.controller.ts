@@ -11,13 +11,13 @@ export class RoomTowerController {
             return;
         }
 
-        let hostileCreeps: Creep[] = tower.room.find(FIND_HOSTILE_CREEPS);
+        const hostileCreeps: Creep[] = tower.room.find(FIND_HOSTILE_CREEPS);
         if (hostileCreeps.length >= 1) {
 
             for (let i = hostileCreeps.length - 1; i >= 0; i--) {
                 const possibleHostileCreep: Creep = hostileCreeps[i];
                 if (GlobalFunctions.isAllyUsername(possibleHostileCreep.owner.username)) {
-                    hostileCreeps = hostileCreeps.slice(i, 1);
+                    hostileCreeps.slice(i, 1);
                 }
             }
 
