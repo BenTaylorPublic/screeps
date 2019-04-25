@@ -3,12 +3,12 @@ import { GlobalFunctions } from "./global.functions";
 export class StageFunctions {
 
     public static buildExtensions(myRoom: MyRoom, numberOfExtensionsToBuild: number): void {
-        let roomFlags: Flag[] = GlobalFunctions.getRoomsFlags(myRoom);
+        const roomFlags: Flag[] = GlobalFunctions.getRoomsFlags(myRoom);
         for (let i = roomFlags.length - 1; i >= 0; i--) {
             const roomFlag: Flag = roomFlags[i];
             const flagNameSplit: string[] = roomFlag.name.split("-");
             if (flagNameSplit[0] !== "ex") {
-                roomFlags = roomFlags.slice(i, 1);
+                roomFlags.splice(i, 1);
             }
         }
         for (let i = 0; i < roomFlags.length; i++) {
@@ -34,12 +34,12 @@ export class StageFunctions {
     }
 
     public static buildTowers(myRoom: MyRoom, numberOfTowersToBuild: number): void {
-        let roomFlags: Flag[] = GlobalFunctions.getRoomsFlags(myRoom);
+        const roomFlags: Flag[] = GlobalFunctions.getRoomsFlags(myRoom);
         for (let i = roomFlags.length - 1; i >= 0; i--) {
             const roomFlag: Flag = roomFlags[i];
             const flagNameSplit: string[] = roomFlag.name.split("-");
             if (flagNameSplit[0] !== "tower") {
-                roomFlags = roomFlags.slice(i, 1);
+                roomFlags.splice(i, 1);
             }
         }
         for (let i = 0; i < roomFlags.length; i++) {
@@ -64,13 +64,13 @@ export class StageFunctions {
     }
 
     public static setupSourceLink(myRoom: MyRoom): void {
-        let roomFlags: Flag[] = GlobalFunctions.getRoomsFlags(myRoom);
+        const roomFlags: Flag[] = GlobalFunctions.getRoomsFlags(myRoom);
         for (let i = roomFlags.length - 1; i >= 0; i--) {
             const roomFlag: Flag = roomFlags[i];
             const flagNameSplit: string[] = roomFlag.name.split("-");
             if (flagNameSplit[0] !== "link" ||
                 flagNameSplit[1] === "bank") {
-                roomFlags = roomFlags.slice(i, 1);
+                roomFlags.splice(i, 1);
             }
         }
 

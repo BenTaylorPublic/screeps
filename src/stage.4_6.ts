@@ -31,13 +31,13 @@ export class Stage4_6 {
         StageFunctions.setupSourceLink(myRoom);
 
         //Bank link logic
-        let roomFlags: Flag[] = GlobalFunctions.getRoomsFlags(myRoom);
+        const roomFlags: Flag[] = GlobalFunctions.getRoomsFlags(myRoom);
         for (let i = roomFlags.length - 1; i >= 0; i--) {
             const roomFlag: Flag = roomFlags[i];
             const flagNameSplit: string[] = roomFlag.name.split("-");
             if (flagNameSplit[0] !== "link" ||
                 flagNameSplit[1] !== "bank") {
-                roomFlags = roomFlags.slice(i, 1);
+                roomFlags.splice(i, 1);
             }
         }
 
