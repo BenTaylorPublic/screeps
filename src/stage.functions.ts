@@ -29,7 +29,10 @@ export class StageFunctions {
                     console.log("ERR: Placing a extension construction site errored");
                 }
             }
+        }
 
+        if (Game.rooms[myRoom.name].find(FIND_CONSTRUCTION_SITES).length === 0) {
+            console.log("ATTENTION: Room " + myRoom.name + " needs more extension flags");
         }
     }
 
