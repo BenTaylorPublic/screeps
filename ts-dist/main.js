@@ -1,0 +1,30 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const room_controller_1 = require("./room.controller");
+const memory_controller_1 = require("./memory.controller");
+const role_claimer_1 = require("./role.claimer");
+const live_controller_1 = require("./live.controller");
+console.log("Script reloaded");
+setupMyMemory();
+exports.loop = function () {
+    memory_controller_1.MemoryController.run();
+    for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
+        room_controller_1.RoomController.run(Memory.myMemory.myRooms[i]);
+    }
+    live_controller_1.LiveController.run();
+    for (let i = 0; i < Memory.myMemory.myTravelingCreeps.length; i++) {
+        const travelingCreep = Memory.myMemory.myTravelingCreeps[i];
+        if (travelingCreep.role === "Claimer") {
+            role_claimer_1.RoleClaimer.run(travelingCreep);
+        }
+    }
+    memory_controller_1.MemoryController.clearBanks();
+};
+function setupMyMemory() {
+    if (Memory.myMemory == null) {
+        Memory.myMemory = {
+            globalId: 0,
+            myRooms: []
+        };
+    }
+}
