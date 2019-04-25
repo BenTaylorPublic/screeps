@@ -176,6 +176,7 @@ export class MemoryController {
                 for (let j = 0; j < structures.length; j++) {
                     if (structures[j].structureType === STRUCTURE_STORAGE) {
                         myRoom.bank = structures[j] as StructureStorage;
+                        break;
                     }
                 }
             }
