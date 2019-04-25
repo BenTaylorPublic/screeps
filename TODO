@@ -1,9 +1,4 @@
-Room stages from 4.6 to 8
-
-Linker:
-Role is done
-Spawning is done
-Need to do placement of both links
+Room stages from 5 to 8
 
 Long term:
 Bank object should be cached at the start of each loop (for performance)
