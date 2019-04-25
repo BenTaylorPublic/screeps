@@ -15,6 +15,7 @@ Marketing logic (will be at empire level):
     Buy/sell logic
     Spawning marketers (to haul to/from storage)
     Marketer role
+Hauling between rooms (Energy, and minerals), when starting room is RoomStage 8 (maybe 7?)
 Lab logic:
     Spawning lab assistants (to haul to/from storage)
     LabAssistant role
