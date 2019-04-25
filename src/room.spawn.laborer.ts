@@ -2,7 +2,7 @@ import { GlobalFunctions } from "global.functions";
 import { Constants } from "constants";
 
 export class RoomSpawnLaborer {
-    public static trySpawnLaborer(myRoom: MyRoom, laborerCount: number) {
+    public static trySpawnLaborer(myRoom: MyRoom, laborerCount: number): void {
         if (myRoom.bankPos == null) {
             //Only spawn laborers through this method if the bank is real
             return;
@@ -25,7 +25,7 @@ export class RoomSpawnLaborer {
         }
     }
 
-    public static forceSpawnLaborer(myRoom: MyRoom) {
+    public static forceSpawnLaborer(myRoom: MyRoom): void {
         const newCreep: Laborer | null = this.spawnLaborer(myRoom);
         if (newCreep != null) {
             myRoom.myCreeps.push(newCreep);

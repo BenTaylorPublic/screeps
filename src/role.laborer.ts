@@ -1,7 +1,7 @@
 import { GlobalFunctions } from "global.functions";
 
 export class RoleLaborer {
-    public static run(laborer: Laborer, myRoom: MyRoom) {
+    public static run(laborer: Laborer, myRoom: MyRoom): void {
         const creep: Creep = Game.creeps[laborer.name];
 
         if (creep == null) {

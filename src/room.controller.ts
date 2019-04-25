@@ -8,7 +8,7 @@ import { RoleBankLinker } from "role.bankLinker";
 import { RoomSourceLink } from "room.source.link";
 
 export class RoomController {
-    public static run(myRoom: MyRoom) {
+    public static run(myRoom: MyRoom): void {
 
         if (Game.rooms[myRoom.name] == null) {
             //No longer have vision of this room

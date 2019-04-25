@@ -4,7 +4,7 @@ import { RoomSpawnHauler } from "room.spawn.hauler";
 import { Constants } from "constants";
 
 export class RoomSpawnController {
-    public static run(myRoom: MyRoom) {
+    public static run(myRoom: MyRoom): void {
 
         let laborerCount: number = 0;
         for (let i = 0; i < myRoom.myCreeps.length; i++) {

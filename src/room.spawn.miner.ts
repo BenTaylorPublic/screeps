@@ -1,7 +1,7 @@
 import { GlobalFunctions } from "global.functions";
 
 export class RoomSpawnMiner {
-    public static trySpawnMiner(myRoom: MyRoom) {
+    public static trySpawnMiner(myRoom: MyRoom): void {
         if (myRoom.roomStage < 2) {
             //At stage 2, the caches are built, and 5 extensions
             return;

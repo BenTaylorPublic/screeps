@@ -20,7 +20,7 @@ import { Stage5_1 } from "stage.5_1";
 import { Stage5_2 } from "stage.5_2";
 
 export class RoomStageController {
-    public static run(myRoom: MyRoom) {
+    public static run(myRoom: MyRoom): void {
         const room: Room = Game.rooms[myRoom.name];
 
         /*

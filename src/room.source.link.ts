@@ -1,5 +1,5 @@
 export class RoomSourceLink {
-    public static run(myRoom: MyRoom, myLink: MyLink) {
+    public static run(myRoom: MyRoom, myLink: MyLink): void {
         if (myLink.id === null) { return; }
         if (myRoom.bankLink == null ||
             myRoom.bankLink.id == null) { return; }

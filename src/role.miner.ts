@@ -1,7 +1,7 @@
 import { GlobalFunctions } from "global.functions";
 
 export class RoleMiner {
-    public static run(miner: Miner) {
+    public static run(miner: Miner): void {
         const creep: Creep = Game.creeps[miner.name];
         if (creep == null) {
             console.log("ERR: Miner creep is null. Creep ID: " + miner.name);

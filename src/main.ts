@@ -6,7 +6,7 @@ import { LiveController } from "live.controller";
 console.log("Script reloaded");
 setupMyMemory();
 
-export const loop: any = function () {
+export const loop: any = function (): void {
     MemoryController.run();
 
     for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
@@ -23,7 +23,6 @@ export const loop: any = function () {
     }
 
     MemoryController.clearBanks();
-
 };
 
 function setupMyMemory(): void {

@@ -47,56 +47,6 @@ class GlobalFunctions {
         }
         return result;
     }
-    static buildExtensions(myRoom, numberOfExtensionsToBuild) {
-        const roomFlags = this.getRoomsFlags(myRoom);
-        for (let i = 0; i < roomFlags.length; i++) {
-            const roomFlag = roomFlags[i];
-            const flagNameSplit = roomFlag.name.split("-");
-            if (flagNameSplit[0] === "ex") {
-                const extensionNumber = Number(flagNameSplit[1]);
-                if (extensionNumber <= numberOfExtensionsToBuild) {
-                    const result = Game.rooms[myRoom.name].createConstructionSite(roomFlag.pos, STRUCTURE_EXTENSION);
-                    if (result === OK) {
-                        console.log("LOG: Placed extension construction site");
-                        myRoom.myExtensionPositions.push({
-                            x: roomFlag.pos.x,
-                            y: roomFlag.pos.y,
-                            roomName: myRoom.name
-                        });
-                        roomFlag.remove();
-                    }
-                    else {
-                        console.log("ERR: Placing a extension construction site errored");
-                    }
-                }
-            }
-        }
-    }
-    static buildTowers(myRoom, numberOfTowersToBuild) {
-        const roomFlags = this.getRoomsFlags(myRoom);
-        for (let i = 0; i < roomFlags.length; i++) {
-            const roomFlag = roomFlags[i];
-            const flagNameSplit = roomFlag.name.split("-");
-            if (flagNameSplit[0] === "tower") {
-                const towerNumber = Number(flagNameSplit[1]);
-                if (towerNumber <= numberOfTowersToBuild) {
-                    const result = Game.rooms[myRoom.name].createConstructionSite(roomFlag.pos, STRUCTURE_TOWER);
-                    if (result === OK) {
-                        console.log("LOG: Placed tower construction site");
-                        myRoom.myTowerPositions.push({
-                            x: roomFlag.pos.x,
-                            y: roomFlag.pos.y,
-                            roomName: myRoom.name
-                        });
-                        roomFlag.remove();
-                    }
-                    else {
-                        console.log("ERR: Placing a tower construction site errored");
-                    }
-                }
-            }
-        }
-    }
     static isConstructable(terrain, roomName, x, y) {
         // TODO: Remove terrain as a param
         if (x < 0 || x > 49 || y < 0 || y > 49) {
@@ -124,36 +74,19 @@ class GlobalFunctions {
     static myPosToRoomPos(myPos) {
         return new RoomPosition(myPos.x, myPos.y, myPos.roomName);
     }
-    static getBank(myRoom) {
-        if (myRoom.bankPos == null) {
-            return null;
-        }
-        const bankPos = this.myPosToRoomPos(myRoom.bankPos);
-        const structures = bankPos.lookFor(LOOK_STRUCTURES);
-        for (let i = 0; i < structures.length; i++) {
-            if (structures[i].structureType === STRUCTURE_STORAGE) {
-                return structures[i];
-                break;
-            }
-        }
-        return null;
-    }
     static isAllyUsername(username) {
         return ["mooseyman", "nimphious", "james1652"].indexOf(username.toLowerCase()) !== -1;
     }
     static findClosestSpawn(roomPos) {
-        return Game.spawns["Spawn1"];
         let spawnToReturn = null;
         let closestDistance = 9999;
         for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
             const myRoom = Memory.myMemory.myRooms[i];
-            for (let j = 0; j < myRoom.spawns.length; j++) {
-                const mySpawn = myRoom.spawns[j];
-                const mySpawnRoomPos = this.myPosToRoomPos(mySpawn.position);
-                const distance = mySpawnRoomPos.getRangeTo(roomPos);
+            if (myRoom.spawns.length >= 1) {
+                const distance = Game.map.getRoomLinearDistance(roomPos.roomName, myRoom.name);
                 if (distance < closestDistance) {
                     closestDistance = distance;
-                    spawnToReturn = Game.spawns[mySpawn.name];
+                    spawnToReturn = Game.spawns[myRoom.spawns[0].name];
                 }
             }
         }

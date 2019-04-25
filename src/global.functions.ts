@@ -6,7 +6,7 @@ export class GlobalFunctions {
     }
 
     public static calcBodyCost(body: BodyPartConstant[]): number {
-        return body.reduce(function (cost: number, part: BodyPartConstant) {
+        return body.reduce(function (cost: number, part: BodyPartConstant): number {
             return cost + BODYPART_COST[part];
         }, 0);
     }

@@ -1,7 +1,5 @@
-import { GlobalFunctions } from "global.functions";
-
 export class RoleBankLinker {
-    public static run(bankLinker: BankLinker, myRoom: MyRoom) {
+    public static run(bankLinker: BankLinker, myRoom: MyRoom): void {
         const creep: Creep = Game.creeps[bankLinker.name];
         if (creep == null) {
             console.log("ERR: BankLinker creep is null. Creep ID: " + bankLinker.name);

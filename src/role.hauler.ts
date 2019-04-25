@@ -1,7 +1,7 @@
 import { GlobalFunctions } from "global.functions";
 
 export class RoleHauler {
-    public static run(hauler: Hauler, myRoom: MyRoom) {
+    public static run(hauler: Hauler, myRoom: MyRoom): void {
         const creep: Creep = Game.creeps[hauler.name];
         if (creep == null) {
             console.log("ERR: Hauler creep is null. Creep ID: " + hauler.name);

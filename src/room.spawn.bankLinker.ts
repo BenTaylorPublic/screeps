@@ -1,7 +1,7 @@
 import { GlobalFunctions } from "global.functions";
 
 export class RoomSpawnBankLinker {
-    static run(myRoom: MyRoom) {
+    static run(myRoom: MyRoom): void {
         if (myRoom.roomStage < 5) { return; }
         if (myRoom.bankLinkerName != null) { return; }
         const bankLinker: BankLinker | null = this.spawnBankLinker(myRoom);

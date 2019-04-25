@@ -2,7 +2,7 @@ import { GlobalFunctions } from "global.functions";
 import { Constants } from "constants";
 
 export class RoomSpawnHauler {
-    public static trySpawnHauler(myRoom: MyRoom) {
+    public static trySpawnHauler(myRoom: MyRoom): void {
         if (myRoom.roomStage < 4) {
             //No need for haulers before the bank is setup
             return;
