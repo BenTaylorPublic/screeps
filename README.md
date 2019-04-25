@@ -10,12 +10,12 @@ Push to master to release
 ## TODO
 ### Short term
 ```
-Marketing logic:
+Marketing logic (will be at empire level):
     Price history
     Buy/sell logic
     Spawning marketers (to haul to/from storage)
     Marketer role
-Room links:
+Room links (will be at empire level):
     Creation of room links
     Spawning of room link haulers
     RoomLinkHauler role
