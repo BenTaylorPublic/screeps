@@ -28,12 +28,12 @@ export class Stage1_6 {
     }
 
     private static step(myRoom: MyRoom, room: Room): void {
-        const roomFlags: Flag[] = GlobalFunctions.getRoomsFlags(myRoom);
+        let roomFlags: Flag[] = GlobalFunctions.getRoomsFlags(myRoom);
         for (let i = roomFlags.length - 1; i >= 0; i--) {
             const roomFlag: Flag = roomFlags[i];
             const flagNameSplit: string[] = roomFlag.name.split("-");
             if (flagNameSplit[0] !== "cont") {
-                roomFlags.slice(i, 1);
+                roomFlags = roomFlags.slice(i, 1);
             }
         }
 
