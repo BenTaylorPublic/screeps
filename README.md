@@ -10,18 +10,31 @@ Push to master to release
 ## TODO
 ### Short term
 ```
-Room stages 5.3 to 6
+Marketing logic:
+    Price history
+    Buy/sell logic
+    Spawning marketers (to haul to/from storage)
+    Marketer role
+Room links:
+    Creation of room links
+    Spawning of room link haulers
+    RoomLinkHauler role
+Lab logic:
+    Spawning lab assistants (to haul to/from storage)
+    LabAssistant role
+    Lab logic of what to request/combine/buff
+Room stages 5.3 to 6:
     Terminal
     Extractor
     3 Labs
-Room stages 6 to 7
+Room stages 6 to 7:
     RCL
     Tower
     10 Extensions
     3 Labs
     Link
     Spawn
-Room stages 7 to 8
+Room stages 7 to 8:
     RCL
     3 Towers
     10 Extensions
