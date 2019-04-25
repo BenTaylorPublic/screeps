@@ -108,18 +108,15 @@ export class GlobalFunctions {
     }
 
     public static findClosestSpawn(roomPos: RoomPosition): StructureSpawn | null {
-        return Game.spawns["Spawn1"];
         let spawnToReturn: StructureSpawn | null = null;
         let closestDistance: number = 9999;
         for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
             const myRoom: MyRoom = Memory.myMemory.myRooms[i];
-            for (let j = 0; j < myRoom.spawns.length; j++) {
-                const mySpawn: MySpawn = myRoom.spawns[j];
-                const mySpawnRoomPos: RoomPosition = this.myPosToRoomPos(mySpawn.position);
-                const distance: number = mySpawnRoomPos.getRangeTo(roomPos);
+            if (myRoom.spawns.length >= 1) {
+                const distance: number = Game.map.getRoomLinearDistance(roomPos.roomName, myRoom.name);
                 if (distance < closestDistance) {
                     closestDistance = distance;
-                    spawnToReturn = Game.spawns[mySpawn.name];
+                    spawnToReturn = Game.spawns[myRoom.spawns[0].name];
                 }
             }
         }
