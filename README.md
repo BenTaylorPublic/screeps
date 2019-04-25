@@ -10,7 +10,25 @@ Push to master to release
 ## TODO
 ### Short term
 ```
-Room stages from 5 to 8
+Room stages 5.3 to 6
+    Terminal
+    Extractor
+    3 Labs
+Room stages 6 to 7
+    RCL
+    Tower
+    10 Extensions
+    3 Labs
+    Link
+    Spawn
+Room stages 7 to 8
+    RCL
+    3 Towers
+    10 Extensions
+    6 Labs
+    Spawn
+    Observer
+    Power Spawn
 ```
 
 ### Long term:
