@@ -4,6 +4,7 @@ import { RoleHauler } from "role.hauler";
 import { RoomStageController } from "room.stage.controller";
 import { RoleLaborer } from "role.laborer";
 import { RoomSpawnController } from "room.spawn.controller";
+import { RoleBankLinker } from "role.bankLinker";
 
 export class RoomController {
     public static run(myRoom: MyRoom) {
@@ -37,6 +38,8 @@ export class RoomController {
                 RoleHauler.run(myCreep as Hauler, myRoom);
             } else if (myCreep.role === "Laborer") {
                 RoleLaborer.run(myCreep as Laborer, myRoom);
+            } else if (myCreep.role === "BankLinker") {
+                RoleBankLinker.run(myCreep as BankLinker, myRoom);
             }
         }
     }
