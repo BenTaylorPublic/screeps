@@ -8,21 +8,31 @@ export class Stage1_6 {
     */
     public static up(myRoom: MyRoom, room: Room): boolean {
         this.step(myRoom, room);
-        const amountOfSource: number = room.find(FIND_SOURCES).length;
-        if (GlobalFunctions.amountOfStructure(room, STRUCTURE_CONTAINER) >= amountOfSource) {
-            myRoom.roomStage = 2;
-            console.log("LOG: Room " + myRoom.name + " increased to room stage 2");
-            return true;
+        for (let i = 0; i < myRoom.mySources.length; i++) {
+            const mySource: MySource = myRoom.mySources[i];
+            if ((mySource.cache == null ||
+                mySource.cache.id == null) &&
+                (mySource.link == null ||
+                    mySource.link.id == null)) {
+                return false;
+            }
         }
-        return false;
+        myRoom.roomStage = 2;
+        console.log("LOG: Room " + myRoom.name + " increased to room stage 2");
+        return true;
     }
 
     public static down(myRoom: MyRoom, room: Room): boolean {
-        const amountOfSource: number = room.find(FIND_SOURCES).length;
-        if (GlobalFunctions.amountOfStructure(room, STRUCTURE_CONTAINER) < amountOfSource) {
-            myRoom.roomStage = 1.6;
-            console.log("LOG: Room " + myRoom.name + " decreased to room stage 1.6");
-            return true;
+        for (let i = 0; i < myRoom.mySources.length; i++) {
+            const mySource: MySource = myRoom.mySources[i];
+            if ((mySource.cache == null ||
+                mySource.cache.id == null) &&
+                (mySource.link == null ||
+                    mySource.link.id == null)) {
+                myRoom.roomStage = 1.6;
+                console.log("LOG: Room " + myRoom.name + " decreased to room stage 1.6");
+                return true;
+            }
         }
         return false;
     }
