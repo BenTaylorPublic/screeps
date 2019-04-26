@@ -52,6 +52,7 @@ export class Stage4_8 {
             if (mySource.state === "Link" &&
                 mySource.link != null &&
                 mySource.link.id != null) {
+                console.log("LOG: " + myRoom.name + " is transitioning to room stage 5. Killing a bunch creeps and buildings");
                 // Source has a link that's setup
                 // Kill all the haulers
                 for (let j = 0; j < mySource.haulerNames.length; j++) {
@@ -60,6 +61,7 @@ export class Stage4_8 {
                     if (creep != null) {
                         creep.say("dthb4dshnr");
                         creep.suicide();
+                        console.log("LOG: " + myRoom.name + " killed a hauler");
                     }
                 }
                 mySource.haulerNames = [];
@@ -72,6 +74,7 @@ export class Stage4_8 {
                         creep.say("dthb4dshnr");
                         creep.suicide();
                         mySource.minerName = null;
+                        console.log("LOG: " + myRoom.name + " killed a miner with no CARRY");
                     }
                 }
 
@@ -84,6 +87,7 @@ export class Stage4_8 {
                     } else {
                         cache.destroy();
                         mySource.cache.id = null;
+                        console.log("LOG: " + myRoom.name + " destroyed a cache");
                     }
                 }
             }
