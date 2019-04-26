@@ -18,7 +18,6 @@ Marketing logic (will be at empire level):
     Marketer role
 Hauler changes:
     Haulers should put energy into extensions/spawn if there's no energy in it's cache
-    Haulers should spawn when cache is > 50%, and have a cooldown of the distance to the cache (+10-20%)
 Lab logic:
     Spawning lab assistants (to haul to/from storage)
     LabAssistant role
