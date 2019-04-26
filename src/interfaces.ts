@@ -34,6 +34,7 @@ interface MySource {
     state: "NoCache" | "Cache" | "Link";
     minerName: string | null; //Null when miner is dead or not assigned
     haulerNames: string[];
+    haulerCooldown: number;
     cache: MyCache | null;
     link: MyLink | null;
 }

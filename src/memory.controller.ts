@@ -7,6 +7,7 @@ export class MemoryController {
         this.validateRoomsInMyMemory();
         this.cleanUpTravelingCreeps();
         this.getBanks();
+        this.reduceCooldowns();
     }
 
     public static clearBanks(): void {
@@ -71,6 +72,7 @@ export class MemoryController {
                         state: "NoCache",
                         minerName: null,
                         haulerNames: [],
+                        haulerCooldown: 0,
                         cache: null,
                         link: null
                     });
@@ -179,6 +181,16 @@ export class MemoryController {
                         break;
                     }
                 }
+            }
+        }
+    }
+
+    private static reduceCooldowns(): void {
+        for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
+            const myRoom: MyRoom = Memory.myMemory.myRooms[i];
+            for (let j = 0; j < myRoom.mySources.length; j++) {
+                const mySource: MySource = myRoom.mySources[j];
+                mySource.haulerCooldown--;
             }
         }
     }

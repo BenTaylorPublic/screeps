@@ -10,14 +10,30 @@ export class RoomSpawnHauler {
 
         for (let i = 0; i < myRoom.mySources.length; i++) {
             const mySource: MySource = myRoom.mySources[i];
+            // PERCENT_OF_CACHE_ENERGY_TO_SPAWN_HAULER
+            if (mySource.cache == null ||
+                mySource.cache.id == null) {
+                continue; //Skip this source
+            }
+            const myCache: StructureContainer | null = Game.getObjectById<StructureContainer>(mySource.cache.id);
             if (mySource.state === "Cache" &&
-                mySource.haulerNames.length < Constants.AMOUNT_OF_HAULERS_PER_SOURCE) {
+                mySource.haulerNames.length < Constants.MAX_HAULERS_PER_SOURCE &&
+                mySource.haulerCooldown <= 0 &&
+                myCache != null &&
+                myCache.store[RESOURCE_ENERGY] >= myCache.storeCapacity * Constants.PERCENT_OF_CACHE_ENERGY_TO_SPAWN_HAULER) {
                 //Spawn a new hauler
                 const newCreep: Hauler | null = this.spawnHauler(myRoom, mySource);
                 if (newCreep != null) {
                     myRoom.myCreeps.push(newCreep);
                     mySource.haulerNames.push(newCreep.name);
                     console.log("LOG: Spawned a new hauler");
+
+                    //+50 for the ticks to make the body
+                    const haulerCooldown: number =
+                        50 +
+                        (Game.spawns[myRoom.spawns[0].name].pos.getRangeTo(myCache.pos) *
+                            Constants.HAULER_COOLDOWN_DISTANCE_FACTOR);
+                    mySource.haulerCooldown = haulerCooldown;
                     return;
                 }
             }
