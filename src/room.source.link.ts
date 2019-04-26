@@ -1,3 +1,5 @@
+import { Constants } from "./constants";
+
 export class RoomSourceLink {
     public static run(myRoom: MyRoom, myLink: MyLink): void {
         if (myLink.id === null) { return; }
@@ -11,7 +13,7 @@ export class RoomSourceLink {
             return;
         }
 
-        if (link.energy === link.energyCapacity) {
+        if (link.energy >= Constants.SOURCE_LINK_TRANSFER_AT_PERCENT * link.energyCapacity) {
             const bankLink: StructureLink | null = Game.getObjectById<StructureLink>(myRoom.bankLink.id);
             if (bankLink === null) {
                 console.log("ERR: Bank link was null when accessed by ID. Setting it to null");
