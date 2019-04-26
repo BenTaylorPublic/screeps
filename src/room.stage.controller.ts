@@ -41,9 +41,9 @@ export class RoomStageController {
             cont
             tower-1 to 6
             storage
-            link-1 to 2
+            link
             link-bank
-            spawn-2 to 3
+            spawn
 
             Loosely based on RCL
             -1 is default room level

@@ -70,7 +70,7 @@ export class Stage4_6 {
 
         if (!placedBankLink &&
             Game.rooms[myRoom.name].find(FIND_CONSTRUCTION_SITES).length === 0) {
-            console.log("ATTENTION: Room " + myRoom.name + " needs bank link flag");
+            console.log("ATTENTION: Room " + myRoom.name + " needs bank link flag (link-bank)");
         }
     }
 }
