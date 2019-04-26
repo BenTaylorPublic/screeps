@@ -46,9 +46,6 @@ Hauling between rooms (Energy, and minerals), when starting room is RoomStage 8 
 
 ### Long term:
 ```
-Bank object should be cached at the start of each loop (for performance)
-Then removed from the myRoom object at the end of the loop
-
 Spawn a new miner before the old one dies, so no downtime.
 to do this, have a nextMinerName on a MySource, swap it over when minerName is null
 When the miner arrives at the cache pos, have a key called minerTravelTime (in ticks).
