@@ -104,9 +104,7 @@ export class StageFunctions {
                 } else {
                     console.log("ERR: Placed a construction site at a flag but couldn't find a source to give it to");
                 }
-            } else {
-                console.log("ERR: Placing a source link construction site errored");
-            }
+            } //Don't worry about errors
         }
 
         for (let i = 0; i < myRoom.mySources.length; i++) {
