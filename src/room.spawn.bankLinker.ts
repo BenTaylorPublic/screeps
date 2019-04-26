@@ -8,6 +8,7 @@ export class RoomSpawnBankLinker {
         if (bankLinker != null) {
             myRoom.myCreeps.push(bankLinker);
             myRoom.bankLinkerName = bankLinker.name;
+            console.log("LOG: Spawned a BankLinker");
         }
     }
 
