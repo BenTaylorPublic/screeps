@@ -18,7 +18,7 @@ export class RoomSpawnHauler {
             const myCache: StructureContainer | null = Game.getObjectById<StructureContainer>(mySource.cache.id);
             if (mySource.state === "Cache" &&
                 mySource.haulerNames.length < Constants.MAX_HAULERS_PER_SOURCE &&
-                mySource.haulerCooldown <= 0 &&
+                mySource.haulerCooldown === 0 &&
                 myCache != null &&
                 myCache.store[RESOURCE_ENERGY] >= myCache.storeCapacity * Constants.PERCENT_OF_CACHE_ENERGY_TO_SPAWN_HAULER) {
                 //Spawn a new hauler
@@ -29,10 +29,10 @@ export class RoomSpawnHauler {
                     console.log("LOG: Spawned a new hauler");
 
                     //+50 for the ticks to make the body
-                    const haulerCooldown: number =
+                    const haulerCooldown: number = Math.round(
                         50 +
                         (Game.spawns[myRoom.spawns[0].name].pos.getRangeTo(myCache.pos) *
-                            Constants.HAULER_COOLDOWN_DISTANCE_FACTOR);
+                            Constants.HAULER_COOLDOWN_DISTANCE_FACTOR));
                     mySource.haulerCooldown = haulerCooldown;
                     return;
                 }
