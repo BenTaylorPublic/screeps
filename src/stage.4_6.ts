@@ -54,9 +54,7 @@ export class Stage4_6 {
                 roomFlag.remove();
                 placedBankLink = true;
                 console.log("LOG: Placed a bank link construction site");
-            } else {
-                console.log("ERR: Placing a bank link construction site errored");
-            }
+            } //Don't worry about erroring
         }
         if (myRoom.bankLink != null) {
             const linkPos: RoomPosition = GlobalFunctions.myPosToRoomPos(myRoom.bankLink.pos);
