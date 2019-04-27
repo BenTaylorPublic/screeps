@@ -32,7 +32,7 @@ export class StageFunctions {
         }
 
         if (Game.rooms[myRoom.name].find(FIND_CONSTRUCTION_SITES).length === 0) {
-            console.log("ATTENTION: Room " + myRoom.name + " needs more extension flags");
+            console.log("ATTENTION: Room " + myRoom.name + " needs more extension flags (up to ex-" + numberOfExtensionsToBuild.toString() + ")");
         }
     }
 
