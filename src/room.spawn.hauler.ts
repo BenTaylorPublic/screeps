@@ -59,7 +59,7 @@ export class RoomSpawnHauler {
         }
 
         //Have a valid spawn now
-        const body: BodyPartConstant[] = GlobalFunctions.generateBody([MOVE, CARRY], [MOVE, CARRY], spawn.room, true);
+        const body: BodyPartConstant[] = GlobalFunctions.generateBody([MOVE, CARRY], [MOVE, CARRY], spawn.room, true, 10);
 
         const id = GlobalFunctions.getId();
         const result: ScreepsReturnCode =
