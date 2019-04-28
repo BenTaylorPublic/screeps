@@ -50,4 +50,8 @@ When the miner arrives at the cache pos, have a key called minerTravelTime (in t
 Set it every time.
 In the spawning logic, just check if the tickstolive of the miner is <= minerTravelTime.
 Problem is they'll just get later and later unless it measures it to 1 move AWAY from the cachePos...
+
+Attack logic
+live-rally flag
+live-attack flag
 ```
