@@ -6,14 +6,6 @@ import { LiveController } from "./live.controller";
 console.log("Script reloaded");
 setupMyMemory();
 
-for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
-    const myRoom: MyRoom = Memory.myMemory.myRooms[i];
-    for (let j = 0; j < myRoom.mySources.length; j++) {
-        const mySource: MySource = myRoom.mySources[j];
-        mySource.haulerCooldown = 0;
-    }
-}
-
 export const loop: any = function (): void {
     MemoryController.run();
 
