@@ -10,7 +10,6 @@ export class RoomSpawnHauler {
 
         for (let i = 0; i < myRoom.mySources.length; i++) {
             const mySource: MySource = myRoom.mySources[i];
-            // PERCENT_OF_CACHE_ENERGY_TO_SPAWN_HAULER
             if (mySource.cache == null ||
                 mySource.cache.id == null) {
                 continue; //Skip this source

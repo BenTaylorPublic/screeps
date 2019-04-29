@@ -128,4 +128,52 @@ export class StageFunctions {
             console.log("ATTENTION: Room " + myRoom.name + " needs source link flag (link-X)");
         }
     }
+
+    public static clearHaulersAndCaches(myRoom: MyRoom): void {
+        for (let i = 0; i < myRoom.mySources.length; i++) {
+            const mySource: MySource = myRoom.mySources[i];
+            if (mySource.state === "Link" &&
+                mySource.link != null &&
+                mySource.link.id != null) {
+                console.log("LOG: " + myRoom.name + " is transitioning to room stage 5. Killing a bunch creeps and buildings");
+                // Source has a link that's setup
+                // Kill all the haulers
+                for (let j = 0; j < mySource.haulerNames.length; j++) {
+                    const haulerName: string = mySource.haulerNames[j];
+                    const creep: Creep | null = Game.creeps[haulerName];
+                    if (creep != null) {
+                        creep.say("dthb4dshnr");
+                        creep.suicide();
+                        console.log("LOG: " + myRoom.name + " killed a hauler");
+                    }
+                }
+                mySource.haulerNames = [];
+
+                // Kill the miner if he doesn't have 1 Carry part
+                if (mySource.minerName != null) {
+                    const creep: Creep | null = Game.creeps[mySource.minerName];
+                    if (creep != null &&
+                        creep.getActiveBodyparts(CARRY) === 0) {
+                        creep.say("dthb4dshnr");
+                        creep.suicide();
+                        mySource.minerName = null;
+                        console.log("LOG: " + myRoom.name + " killed a miner with no CARRY");
+                    }
+                }
+
+                // Destroy the caches
+                if (mySource.cache != null &&
+                    mySource.cache.id != null) {
+                    const cache: StructureContainer | null = Game.getObjectById<StructureContainer>(mySource.cache.id);
+                    if (cache == null) {
+                        mySource.cache.id = null;
+                    } else {
+                        cache.destroy();
+                        mySource.cache.id = null;
+                        console.log("LOG: " + myRoom.name + " destroyed a cache");
+                    }
+                }
+            }
+        }
+    }
 }
