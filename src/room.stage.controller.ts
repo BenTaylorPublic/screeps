@@ -16,10 +16,10 @@ import { Stage4_4 } from "./stage.4_4";
 import { Stage4_6 } from "./stage.4_6";
 import { Stage4_8 } from "./stage.4_8";
 import { Stage5 } from "./stage.5";
-import { Stage5_1 } from "./stage.5_1";
 import { Stage5_2 } from "./stage.5_2";
-import { Stage5_3 } from "./stage.5_3";
-import { Stage5_5 } from "./stage.5_5";
+import { Stage5_4 } from "./stage.5_4";
+import { Stage5_6 } from "./stage.5_6";
+import { Stage5_8 } from "./stage.5_8";
 
 export class RoomStageController {
     public static run(myRoom: MyRoom): void {
@@ -101,17 +101,23 @@ export class RoomStageController {
             4.8 ->  5   : Room has 1 sources using links, no cache or hauler
             4.8 <-  5   : Room has 0 sources using links, no cache or hauler
 
-            5   ->  5.1 : RCL is level >= 6
-            5   <-  5.1 : RCL is level < 6
+            5   ->  5.2 : RCL is level >= 6
+            5   <-  5.2 : RCL is level < 6
 
-            5.1 ->  5.2 : Room has 3 links
-            5.1 <-  5.2 : Room has < 3 links
+            5.2 ->  5.4 : Room has 3 links
+            5.2 <-  5.4 : Room has < 3 links
 
-            5.2 ->  5.3 : Room has >= 40 extensions
-            5.2 <-  5.3 : Room has < 40 extensions
+            5.4 ->  5.6 : Room has >= 40 extensions
+            5.4 <-  5.6 : Room has < 40 extensions
 
-            5.3 ->  5.5 : Room has extractor
-            5.3 <-  5.5 : Room has no extractor
+            5.6 ->  5.8 : Room has extractor
+            5.6 <-  5.8 : Room has no extractor
+
+            5.8 ->  5.9 : Room has extractor
+            5.8 <-  5.9 : Room has no extractor
+
+            5.9 ->  6   : Room has >= 3 labs
+            5.9 <-  6   : Room has < 3 labs
          */
 
         //Ups
@@ -169,31 +175,32 @@ export class RoomStageController {
         if (myRoom.roomStage === 5) {
             Stage5.up(myRoom, room);
         }
-        if (myRoom.roomStage === 5.1) {
-            Stage5_1.up(myRoom, room);
-        }
         if (myRoom.roomStage === 5.2) {
             Stage5_2.up(myRoom, room);
         }
-        if (myRoom.roomStage === 5.3) {
-            Stage5_3.up(myRoom, room);
+        if (myRoom.roomStage === 5.4) {
+            Stage5_4.up(myRoom, room);
         }
-        if (myRoom.roomStage === 5.5) {
-            Stage5_5.up(myRoom, room);
+        if (myRoom.roomStage === 5.6) {
+            Stage5_6.up(myRoom, room);
         }
+        if (myRoom.roomStage === 5.8) {
+            Stage5_8.up(myRoom, room);
+        }
+        //TODO: 5.9
 
         //Downs
-        if (myRoom.roomStage > 5.5) {
-            Stage5_5.down(myRoom, room);
+        if (myRoom.roomStage > 5.8) {
+            Stage5_8.down(myRoom, room);
         }
-        if (myRoom.roomStage > 5.3) {
-            Stage5_3.down(myRoom, room);
+        if (myRoom.roomStage > 5.6) {
+            Stage5_6.down(myRoom, room);
+        }
+        if (myRoom.roomStage > 5.4) {
+            Stage5_4.down(myRoom, room);
         }
         if (myRoom.roomStage > 5.2) {
             Stage5_2.down(myRoom, room);
-        }
-        if (myRoom.roomStage > 5.1) {
-            Stage5_1.down(myRoom, room);
         }
         if (myRoom.roomStage > 5) {
             Stage5.down(myRoom, room);

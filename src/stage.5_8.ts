@@ -1,16 +1,16 @@
 import { GlobalFunctions } from "./global.functions";
 
 // tslint:disable-next-line: class-name
-export class Stage5_5 {
+export class Stage5_8 {
     /*
-    5.5 ->  5.8 : Room has terminal
-    5.5 <-  5.8 : Room has no terminal
+    5.8 ->  5.9 : Room has terminal
+    5.8 <-  5.9 : Room has no terminal
     */
     public static up(myRoom: MyRoom, room: Room): boolean {
         this.step(myRoom, room);
         if (GlobalFunctions.amountOfStructure(room, STRUCTURE_TERMINAL) >= 1) {
-            myRoom.roomStage = 5.8;
-            console.log("LOG: Room " + myRoom.name + " increased to room stage 5.8");
+            myRoom.roomStage = 5.9;
+            console.log("LOG: Room " + myRoom.name + " increased to room stage 5.9");
             return true;
         }
         return false;
@@ -18,8 +18,8 @@ export class Stage5_5 {
 
     public static down(myRoom: MyRoom, room: Room): boolean {
         if (GlobalFunctions.amountOfStructure(room, STRUCTURE_TERMINAL) < 1) {
-            myRoom.roomStage = 5.5;
-            console.log("LOG: Room " + myRoom.name + " decreased to room stage 5.5");
+            myRoom.roomStage = 5.8;
+            console.log("LOG: Room " + myRoom.name + " decreased to room stage 5.8");
             return true;
         }
         return false;

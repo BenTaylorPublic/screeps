@@ -22,7 +22,7 @@ Lab logic:
     Spawning lab assistants (to haul to/from storage)
     LabAssistant role
     Lab logic of what to request/combine/buff
-Room stages 5.8 to 6:
+Room stages 5.9 to 6:
     3 Labs
 Room stages 6 to 7:
     RCL

@@ -1,14 +1,14 @@
 // tslint:disable-next-line: class-name
 export class Stage5 {
     /*
-    5   ->  5.1 : RCL is level >= 6
-    5   <-  5.1 : RCL is level < 6
+    5   ->  5.2 : RCL is level >= 6
+    5   <-  5.2 : RCL is level < 6
     */
     public static up(myRoom: MyRoom, room: Room): boolean {
         if (room.controller != null &&
             room.controller.level >= 6) {
-            myRoom.roomStage = 5.1;
-            console.log("LOG: Room " + myRoom.name + " increased to room stage 5.1");
+            myRoom.roomStage = 5.2;
+            console.log("LOG: Room " + myRoom.name + " increased to room stage 5.2");
             return true;
         }
         return false;
