@@ -1,6 +1,6 @@
-// tslint:disable-next-line: class-name
 import {StageFunctions} from "./stage.functions";
 
+// tslint:disable-next-line: class-name
 export class Stage4_8 {
     /*
     4.8 ->  5   : Room has 1 sources using links, no cache or hauler
