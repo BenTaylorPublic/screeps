@@ -9,7 +9,6 @@ import { RoomSourceLinkController } from "./structures/source-link";
 
 export class RoomController {
     public static run(myRoom: MyRoom): void {
-
         if (Game.rooms[myRoom.name] == null) {
             //No longer have vision of this room
             console.log("ERR: No longer have vision of room " + myRoom.name);

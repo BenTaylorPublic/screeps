@@ -119,6 +119,7 @@ export class MemoryController {
                 continue;
             }
 
+            console.log(myRoom.name);
             for (let j = myRoom.myCreeps.length - 1; j >= 0; j--) {
                 const myCreep: MyCreep = myRoom.myCreeps[j];
                 if (Game.creeps[myCreep.name] == null) {
