@@ -118,8 +118,9 @@ export class MemoryController {
                 Memory.myMemory.myRooms.splice(i, 1);
                 continue;
             }
-
-            console.log(myRoom.name);
+            if (myRoom.name === "E18S13") {
+                console.log(JSON.stringify(room));
+            }
             for (let j = myRoom.myCreeps.length - 1; j >= 0; j--) {
                 const myCreep: MyCreep = myRoom.myCreeps[j];
                 if (Game.creeps[myCreep.name] == null) {
