@@ -111,8 +111,10 @@ export class MemoryController {
         for (let i = Memory.myMemory.myRooms.length - 1; i >= 0; i--) {
             const myRoom: MyRoom = Memory.myMemory.myRooms[i];
             const room: Room = Game.rooms[myRoom.name];
-            if (room == null) {
-                console.log("LOG: Lost vision of a room " + myRoom.name);
+            if (room == null ||
+                room.controller == null ||
+                room.controller.my === false) {
+                console.log("LOG: Removing room " + myRoom.name);
                 Memory.myMemory.myRooms.splice(i, 1);
                 continue;
             }
