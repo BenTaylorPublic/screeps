@@ -119,7 +119,7 @@ export class MemoryController {
                 continue;
             }
             if (myRoom.name === "E18S13") {
-                console.log(JSON.stringify(room));
+                console.log(JSON.stringify(room.controller));
             }
             for (let j = myRoom.myCreeps.length - 1; j >= 0; j--) {
                 const myCreep: MyCreep = myRoom.myCreeps[j];
