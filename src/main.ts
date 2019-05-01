@@ -1,7 +1,7 @@
-import { RoomController } from "./room/room.controller";
-import { MemoryController } from "./memory/memory.controller";
-import { RoleClaimer } from "./room/roles/role.claimer";
-import {LiveController} from "./live/live.controller";
+import { RoomController } from "./room/room-controller";
+import { MemoryController } from "./memory/memory-controller";
+import { RoleClaimer } from "./room/roles/claimer";
+import {LiveController} from "./live/live-controller";
 
 console.log("Script reloaded");
 setupMyMemory();
