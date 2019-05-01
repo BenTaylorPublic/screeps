@@ -34,7 +34,8 @@ export class MemoryController {
             let myRoom: MyRoom | null = null;
 
             if (room.controller == null ||
-                room.controller.my === false) {
+                room.controller.my === false ||
+                room.controller.my === undefined) {
                 //No need to process rooms that don't have controllers or are not mine
                 //We only have access to these rooms through travelers (probs)
                 continue;
@@ -113,7 +114,8 @@ export class MemoryController {
             const room: Room = Game.rooms[myRoom.name];
             if (room == null ||
                 room.controller == null ||
-                room.controller.my === false) {
+                room.controller.my === false ||
+                room.controller.my === undefined) {
                 console.log("LOG: Removing room " + myRoom.name);
                 Memory.myMemory.myRooms.splice(i, 1);
                 continue;
