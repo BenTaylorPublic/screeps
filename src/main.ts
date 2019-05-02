@@ -7,7 +7,7 @@ console.log("Script reloaded");
 setupMyMemory();
 
 Memory.myMemory.empire = {
-    war1: null
+    WarZergWithHeals: null
 };
 
 for (let i = 0; i < Memory.myMemory.myRooms; i++) {
