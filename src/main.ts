@@ -46,7 +46,7 @@ function setupMyMemory(): void {
             myRooms: [],
             myTravelingCreeps: [],
             empire: {
-                war1: null
+                zergWithHeals: null
             }
         };
     }

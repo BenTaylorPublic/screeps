@@ -18,7 +18,7 @@ interface MyMemory {
 */
 
 interface Empire {
-    zerg: WarZergWithHeals | null;
+    zergWithHeals: WarZergWithHeals | null;
 }
 
 interface WarZergWithHeals {
