@@ -1,7 +1,8 @@
-import { RoomController } from "./room/room-controller";
-import { MemoryController } from "./memory/memory-controller";
-import { RoleClaimer } from "./room/roles/claimer";
+import {RoomController} from "./room/room-controller";
+import {MemoryController} from "./memory/memory-controller";
+import {RoleClaimer} from "./empire/role/claimer";
 import {LiveController} from "./live/live-controller";
+import {EmpireController} from "./empire/empire-controller";
 
 console.log("Script reloaded");
 setupMyMemory();
@@ -20,19 +21,12 @@ export const loop: any = function (): void {
     const myMemory: MyMemory = Memory.myMemory;
     MemoryController.run();
 
-    for (let i = 0; i < myMemory.myRooms.length; i++) {
-        RoomController.run(myMemory.myRooms[i]);
-    }
-
     LiveController.run();
 
-    //TODO: Create an empire controller
-    //TODO: Move claimer logic into an empire role
-    for (let i = 0; i < myMemory.myTravelingCreeps.length; i++) {
-        const travelingCreep: MyCreep = myMemory.myTravelingCreeps[i];
-        if (travelingCreep.role === "Claimer") {
-            RoleClaimer.run(travelingCreep as Claimer);
-        }
+    EmpireController.run(myMemory);
+
+    for (let i = 0; i < myMemory.myRooms.length; i++) {
+        RoomController.run(myMemory.myRooms[i]);
     }
 
     MemoryController.clearBanks();
