@@ -19,11 +19,6 @@ export class StageFunctions {
                 const result: ScreepsReturnCode = Game.rooms[myRoom.name].createConstructionSite(roomFlag.pos, STRUCTURE_EXTENSION);
                 if (result === OK) {
                     console.log("LOG: Placed extension construction site");
-                    myRoom.myExtensionPositions.push({
-                        x: roomFlag.pos.x,
-                        y: roomFlag.pos.y,
-                        roomName: myRoom.name
-                    });
                     roomFlag.remove();
                 } else {
                     console.log("ERR: Placing a extension construction site errored");
@@ -53,11 +48,6 @@ export class StageFunctions {
                 const result: ScreepsReturnCode = Game.rooms[myRoom.name].createConstructionSite(roomFlag.pos, STRUCTURE_TOWER);
                 if (result === OK) {
                     console.log("LOG: Placed tower construction site");
-                    myRoom.myTowerPositions.push({
-                        x: roomFlag.pos.x,
-                        y: roomFlag.pos.y,
-                        roomName: myRoom.name
-                    });
                     roomFlag.remove();
                 } else {
                     console.log("ERR: Placing a tower construction site errored");

@@ -8,7 +8,28 @@ interface MyMemory {
     globalId: number;
     myRooms: MyRoom[];
     myTravelingCreeps: MyCreep[];
+    empire: Empire;
 }
+
+/*
+====================
+    EMPIRE:
+====================
+*/
+
+interface Empire {
+    war1: War1 | null;
+}
+
+interface War1 {
+    state: "Conscripting" | "Rally" | "Charge";
+}
+
+/*
+====================
+    ROOM:
+====================
+*/
 
 interface MyRoom {
     name: string;
@@ -17,8 +38,6 @@ interface MyRoom {
     mySources: MySource[];
     roomStage: -1 | 0 | 0.5 | 1 | 1.3 | 1.6 | 2 | 2.3 | 2.6 | 3 | 3.3 | 3.6 | 4 | 4.2 | 4.4 | 4.6 | 4.8 | 5 | 5.2 | 5.4 | 5.6 | 5.8 | 5.9| 6;
     bankPos: MyRoomPos | null;
-    myExtensionPositions: MyRoomPos[];
-    myTowerPositions: MyRoomPos[];
     bankLinkerName: string | null; //Null when bankLinker is dead or not assigned
     bankLink: MyLink | null;
     bank: StructureStorage | null;

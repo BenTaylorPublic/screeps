@@ -59,8 +59,6 @@ export class MemoryController {
                     mySources: [],
                     roomStage: -1,
                     bankPos: null,
-                    myExtensionPositions: [],
-                    myTowerPositions: [],
                     bankLinkerName: null,
                     bankLink: null,
                     bank: null

@@ -6,17 +6,30 @@ import {LiveController} from "./live/live-controller";
 console.log("Script reloaded");
 setupMyMemory();
 
+Memory.myMemory.empire = {
+    war1: null
+};
+
+for (let i = 0; i < Memory.myMemory.myRooms; i++) {
+    const myRoom: any = Memory.myMemory.myRooms[i];
+    delete myRoom.myExtensionPositions;
+    delete myRoom.myTowerPositions;
+}
+
 export const loop: any = function (): void {
+    const myMemory: MyMemory = Memory.myMemory;
     MemoryController.run();
 
-    for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
-        RoomController.run(Memory.myMemory.myRooms[i]);
+    for (let i = 0; i < myMemory.myRooms.length; i++) {
+        RoomController.run(myMemory.myRooms[i]);
     }
 
     LiveController.run();
 
-    for (let i = 0; i < Memory.myMemory.myTravelingCreeps.length; i++) {
-        const travelingCreep: MyCreep = Memory.myMemory.myTravelingCreeps[i];
+    //TODO: Create an empire controller
+    //TODO: Move claimer logic into an empire role
+    for (let i = 0; i < myMemory.myTravelingCreeps.length; i++) {
+        const travelingCreep: MyCreep = myMemory.myTravelingCreeps[i];
         if (travelingCreep.role === "Claimer") {
             RoleClaimer.run(travelingCreep as Claimer);
         }
@@ -26,10 +39,15 @@ export const loop: any = function (): void {
 };
 
 function setupMyMemory(): void {
-    if (Memory.myMemory == null) {
-        Memory.myMemory = {
+    let myMemory: MyMemory = Memory.myMemory;
+    if (myMemory == null) {
+        myMemory = {
             globalId: 0,
-            myRooms: []
+            myRooms: [],
+            myTravelingCreeps: [],
+            empire: {
+                war1: null
+            }
         };
     }
 }
