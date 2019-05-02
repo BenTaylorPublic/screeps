@@ -18,8 +18,8 @@ Empire controller
     It will assign commands/state to MyRoom object
 
 Zerg Attack logic
-    live-war-1-rally flag
-    live-war-1-charge flag
+    live-zergwithheals-rally flag
+    live-zergwithheals-charge flag
     Using empire logic, conscript rooms into providing zergling + healer
     Wait till all conscripted rooms are ready to spawn
     Rooms should only be conscripted within a range of X to the room (3?)
