@@ -45,7 +45,7 @@ export class Stage5_8 {
 
         if (!placedTerminal &&
             room.find(FIND_CONSTRUCTION_SITES).length === 0) {
-            console.log("ATTENTION: Room " + myRoom.name + " couldn't place an terminal (terminal)");
+            console.log("ATTENTION: Room " + myRoom.name + " needs a terminal flag (terminal)");
         }
     }
 }
