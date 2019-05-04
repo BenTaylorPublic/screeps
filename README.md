@@ -11,12 +11,6 @@ Push to master to release
 ## TODO
 ### Working on
 ```
-Empire controller
-    Move claimer role into that
-    Call it before rooms
-    Pass it myMemory.empire AND myMemory.myRooms
-    It will assign commands/state to MyRoom object
-
 Zerg Attack logic
     live-zergwithheals-rally flag
     live-zergwithheals-charge flag
