@@ -1,6 +1,5 @@
 import {RoomController} from "./room/room-controller";
 import {MemoryController} from "./memory/memory-controller";
-import {RoleClaimer} from "./empire/role/claimer";
 import {LiveController} from "./live/live-controller";
 import {EmpireController} from "./empire/empire-controller";
 
