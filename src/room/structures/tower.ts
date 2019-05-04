@@ -1,15 +1,8 @@
 import { HelperFunctions } from "../../global/helper-functions";
+import { Constants } from "../../global/constants";
 
 export class RoomTowerController {
     public static run(tower: StructureTower): void {
-
-        const closestDamagedStructure: Structure | null = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-            filter: (structure) => structure.hits < structure.hitsMax
-        });
-        if (closestDamagedStructure != null) {
-            tower.repair(closestDamagedStructure);
-            return;
-        }
 
         const hostileCreeps: Creep[] = tower.room.find(FIND_HOSTILE_CREEPS);
         if (hostileCreeps.length >= 1) {
@@ -44,6 +37,21 @@ export class RoomTowerController {
                 tower.attack(target);
                 return;
             }
+        }
+        const closestDamagedStructure: Structure | null = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+            filter: (structure: Structure) => {
+                if (structure.structureType !== STRUCTURE_WALL &&
+                    structure.structureType !== STRUCTURE_RAMPART) {
+                    return structure.hits < structure.hitsMax;
+                } else {
+                    return structure.hits < Constants.WALL_AND_RAMPART_GOAL_HEALTH;
+                }
+            }
+        });
+        if (closestDamagedStructure != null &&
+            tower.energy >= tower.energyCapacity * Constants.TOWER_REPAIR_ABOVE_PERCENT) {
+            tower.repair(closestDamagedStructure);
+            return;
         }
 
     }

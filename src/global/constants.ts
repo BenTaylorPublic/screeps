@@ -7,4 +7,6 @@ export class Constants {
     public static MIN_LABORERS: number = 2;
     public static LABORERS_BEFORE_BANK: number = 6;
     public static SOURCE_LINK_TRANSFER_AT_PERCENT: number = 0.5;
+    public static WALL_AND_RAMPART_GOAL_HEALTH: number = 10000;
+    public static TOWER_REPAIR_ABOVE_PERCENT: number = 0.5;
 }
