@@ -13,7 +13,7 @@ export class RoomSourceLinkController {
             return;
         }
 
-        if (link.energy >= Constants.SOURCE_LINK_TRANSFER_AT_PERCENT * link.energyCapacity) {
+        if (link.energy >= Constants.SOURCE_LINK_TRANSFER_AT) {
             const bankLink: StructureLink | null = Game.getObjectById<StructureLink>(myRoom.bankLink.id);
             if (bankLink === null) {
                 console.log("ERR: Bank link was null when accessed by ID. Setting it to null");
