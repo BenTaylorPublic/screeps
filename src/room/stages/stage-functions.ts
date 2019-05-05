@@ -125,7 +125,7 @@ export class StageFunctions {
             if (mySource.state === "Link" &&
                 mySource.link != null &&
                 mySource.link.id != null) {
-                console.log("LOG: " + myRoom.name + " is transitioning to room stage 5. Killing a bunch creeps and buildings");
+                console.log("LOG: " + myRoom.name + " is transitioning to room stage 5 or 5.4. Killing a bunch creeps and buildings");
                 // Source has a link that's setup
                 // Kill all the haulers
                 for (let j = 0; j < mySource.haulerNames.length; j++) {
