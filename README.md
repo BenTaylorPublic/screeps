@@ -11,6 +11,10 @@ Push to master to release
 ## TODO
 ### Working on
 ```
+link-out flag
+Laborers to take energy from, if it has enough, and is closer than bank
+Place it into StageFunctions
+
 Zerg Attack logic
     live-zergwithheals-rally flag
     live-zergwithheals-charge flag
