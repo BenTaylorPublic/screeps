@@ -6,14 +6,9 @@ import {EmpireController} from "./empire/empire-controller";
 console.log("Script reloaded");
 setupMyMemory();
 
-Memory.myMemory.empire = {
-    WarZergWithHeals: null
-};
-
 for (let i = 0; i < Memory.myMemory.myRooms; i++) {
-    const myRoom: any = Memory.myMemory.myRooms[i];
-    delete myRoom.myExtensionPositions;
-    delete myRoom.myTowerPositions;
+    const myRoom: MyRoom = Memory.myMemory.myRooms[i];
+    myRoom.outLinks = [];
 }
 
 export const loop: any = function (): void {

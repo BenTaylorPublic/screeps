@@ -60,7 +60,8 @@ export class MemoryController {
                     bankPos: null,
                     bankLinkerName: null,
                     bankLink: null,
-                    bank: null
+                    bank: null,
+                    outLinks: []
                 };
                 const sources: Source[] = room.find(FIND_SOURCES);
                 for (let i = 0; i < sources.length; i++) {
