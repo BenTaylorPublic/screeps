@@ -11,9 +11,11 @@ Push to master to release
 ## TODO
 ### Working on
 ```
-link-out flag
-Laborers to take energy from, if it has enough, and is closer than bank
-Place it into StageFunctions
+Transferring from link-source and link-bank to link-out
+Change laborers to get energy from the closest energy
+    Containers
+    Storage
+    Links (regardless of link type)
 
 Zerg Attack logic
     live-zergwithheals-rally flag
