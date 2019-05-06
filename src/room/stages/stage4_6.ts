@@ -29,6 +29,7 @@ export class Stage4_6 {
     private static step(myRoom: MyRoom, room: Room): void {
         //Source links
         StageFunctions.setupSourceLink(myRoom);
+        StageFunctions.setupOutLink(myRoom);
 
         //Bank link logic
         const roomFlags: Flag[] = HelperFunctions.getRoomsFlags(myRoom);

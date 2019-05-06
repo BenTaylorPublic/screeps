@@ -62,7 +62,7 @@ export class StageFunctions {
             const roomFlag: Flag = roomFlags[i];
             const flagNameSplit: string[] = roomFlag.name.split("-");
             if (flagNameSplit[0] !== "link" ||
-                flagNameSplit[1] === "bank") {
+                flagNameSplit[1] !== "source") {
                 roomFlags.splice(i, 1);
             }
         }
@@ -115,7 +115,53 @@ export class StageFunctions {
 
         if (!placedFully &&
             Game.rooms[myRoom.name].find(FIND_CONSTRUCTION_SITES).length === 0) {
-            console.log("ATTENTION: Room " + myRoom.name + " needs source link flag (link-X)");
+            console.log("ATTENTION: Room " + myRoom.name + " needs source link flag (link-source-X) OR out link flag (link-out-X)");
+        }
+    }
+
+    public static setupOutLink(myRoom: MyRoom): void {
+        const roomFlags: Flag[] = HelperFunctions.getRoomsFlags(myRoom);
+        for (let i = roomFlags.length - 1; i >= 0; i--) {
+            const roomFlag: Flag = roomFlags[i];
+            const flagNameSplit: string[] = roomFlag.name.split("-");
+            if (flagNameSplit[0] !== "link" ||
+                flagNameSplit[1] !== "out") {
+                roomFlags.splice(i, 1);
+            }
+        }
+
+        for (let i = 0; i < roomFlags.length; i++) {
+            const roomFlag: Flag = roomFlags[i];
+            const result: ScreepsReturnCode = Game.rooms[myRoom.name].createConstructionSite(roomFlag.pos, STRUCTURE_LINK);
+            if (result === OK) {
+                myRoom.outLinks.push({
+                    pos: HelperFunctions.roomPosToMyPos(roomFlag.pos),
+                    id: null
+                });
+                console.log("LOG: Placed out link construction site");
+                roomFlag.remove();
+            } //Don't worry about errors lol
+        }
+
+        for (let i = 0; i < myRoom.outLinks.length; i++) {
+            const outLink: MyLink = myRoom.outLinks[i];
+
+            if (outLink.id == null) {
+                const outLinkPos: RoomPosition = HelperFunctions.myPosToRoomPos(outLink.pos);
+
+                const structures: Structure<StructureConstant>[] = outLinkPos.lookFor(LOOK_STRUCTURES);
+                for (let j = 0; j < structures.length; j++) {
+                    const structure: Structure = structures[j];
+                    if (structure.structureType === STRUCTURE_LINK) {
+                        outLink.id = structure.id;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (Game.rooms[myRoom.name].find(FIND_CONSTRUCTION_SITES).length === 0) {
+            console.log("ATTENTION: Room " + myRoom.name + " needs source link flag (link-source-X) OR out link flag (link-out-X)");
         }
     }
 
@@ -125,7 +171,6 @@ export class StageFunctions {
             if (mySource.state === "Link" &&
                 mySource.link != null &&
                 mySource.link.id != null) {
-                console.log("LOG: " + myRoom.name + " is transitioning to room stage 5 or 5.4. Killing a bunch creeps and buildings");
                 // Source has a link that's setup
                 // Kill all the haulers
                 for (let j = 0; j < mySource.haulerNames.length; j++) {
@@ -134,7 +179,7 @@ export class StageFunctions {
                     if (creep != null) {
                         creep.say("dthb4dshnr");
                         creep.suicide();
-                        console.log("LOG: " + myRoom.name + " killed a hauler");
+                        console.log("LOG: " + myRoom.name + " clearHaulersAndCaches killed a hauler");
                     }
                 }
                 mySource.haulerNames = [];
@@ -147,7 +192,7 @@ export class StageFunctions {
                         creep.say("dthb4dshnr");
                         creep.suicide();
                         mySource.minerName = null;
-                        console.log("LOG: " + myRoom.name + " killed a miner with no CARRY");
+                        console.log("LOG: " + myRoom.name + " clearHaulersAndCaches killed a miner with no CARRY");
                     }
                 }
 
@@ -160,7 +205,7 @@ export class StageFunctions {
                     } else {
                         cache.destroy();
                         mySource.cache.id = null;
-                        console.log("LOG: " + myRoom.name + " destroyed a cache");
+                        console.log("LOG: " + myRoom.name + " clearHaulersAndCaches destroyed a cache");
                     }
                 }
             }

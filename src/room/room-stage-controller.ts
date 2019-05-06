@@ -43,7 +43,8 @@ export class RoomStageController {
             cont
             tower-1 to 6
             storage
-            link
+            link-source
+            link-out
             link-bank
             spawn
 
