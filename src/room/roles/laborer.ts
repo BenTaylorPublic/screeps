@@ -94,7 +94,7 @@ export class RoleLaborer {
                     return;
                 }
             }
-        } else if ((laborer.state === "PickupBank" || laborer.state === "Mining" || laborer.state === "PickupCache") && creep.carry.energy === creep.carryCapacity) {
+        } else if (laborer.state !== "Labor" && creep.carry.energy === creep.carryCapacity) {
             laborer.state = "Labor";
             creep.say("work work");
         }
@@ -102,11 +102,8 @@ export class RoleLaborer {
 
 
     private static pickupBank(laborer: Laborer, myRoom: MyRoom, creep: Creep): void {
-        if (myRoom
-
-            .bankPos == null) {
-            console
-                .log("ERR: Room's bank pos was null");
+        if (myRoom.bankPos == null) {
+            console.log("ERR: Room's bank pos was null");
             return;
         }
 
@@ -144,21 +141,28 @@ export class RoleLaborer {
     }
 
     private static pickupOutLink(laborer: Laborer, myRoom: MyRoom, creep: Creep): void {
-        //TODO:
-        const validCacheToGrabFrom: StructureContainer | null = creep.pos.findClosestByPath<StructureContainer>(FIND_STRUCTURES, {
+        const outLinkIds: string[] = [];
+        for (let i = 0; i < myRoom.outLinks.length; i++) {
+            const myOutLink: MyLink = myRoom.outLinks[i];
+            if (myOutLink.id != null) {
+                outLinkIds.push(myOutLink.id);
+            }
+        }
+
+        const closestOutLink: StructureLink | null = creep.pos.findClosestByPath<StructureLink>(FIND_STRUCTURES, {
             filter: (structure: any) => {
-                return structure.structureType === STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] >= creep.carryCapacity;
+                return structure.structureType === STRUCTURE_LINK && outLinkIds.indexOf(structure.id) !== -1;
             }
         });
 
-        if (validCacheToGrabFrom == null) {
+        if (closestOutLink == null) {
             laborer.state = "Mining";
             creep.say("Mining");
         } else {
-            if (validCacheToGrabFrom.pos.isNearTo(creep)) {
-                creep.withdraw(validCacheToGrabFrom, RESOURCE_ENERGY);
+            if (closestOutLink.pos.isNearTo(creep)) {
+                creep.withdraw(closestOutLink, RESOURCE_ENERGY);
             } else {
-                creep.moveTo(validCacheToGrabFrom.pos);
+                creep.moveTo(closestOutLink.pos);
             }
         }
     }
