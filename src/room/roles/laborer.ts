@@ -21,6 +21,8 @@ export class RoleLaborer {
             this.pickupBank(laborer, myRoom, creep);
         } else if (laborer.state === "PickupCache") {
             this.pickupCache(laborer, myRoom, creep);
+        } else if (laborer.state === "PickupOutLink") {
+            this.pickupOutLink(laborer, myRoom, creep);
         } else if (laborer.state === "Mining") {
             this.mining(laborer, myRoom, creep);
         } else { //Labor
@@ -29,57 +31,85 @@ export class RoleLaborer {
     }
 
     private static calculateCreepState(laborer: Laborer, myRoom: MyRoom, creep: Creep): void {
-        if (laborer.state === "Labor" &&
-            creep.carry.energy === 0) {
+        if (laborer.state === "Labor" && creep.carry.energy === 0) {
 
             const bank: StructureStorage | null = myRoom.bank;
 
-            if (bank != null &&
-                bank.store[RESOURCE_ENERGY] >= creep.carryCapacity) {
-                laborer.state = "PickupBank";
-                creep.say("PickupBank");
-                return;
-            } else if (myRoom.roomStage >= 1) {
-                for (let i = 0; i < myRoom.mySources.length; i++) {
-                    const mySource = myRoom.mySources[i];
-                    if (mySource.cache != null &&
-                        mySource.cache.id != null) {
-                        const cache: StructureContainer | null = Game.getObjectById<StructureContainer>(mySource.cache.id);
-                        if (cache == null) {
-                            //Clear it
-                            mySource.cache.id = null;
-                            console.log("ERR: Source cache returned null with get by ID");
-                        } else if (cache.store[RESOURCE_ENERGY] >= creep.carryCapacity) {
-                            laborer.state = "PickupCache";
-                            creep.say("PickupCache");
-                            return;
+            if (bank != null && bank.store[RESOURCE_ENERGY] >= creep.carryCapacity) {
+                //Bank is an option
+                //Check if an out link is closer
+                const distanceToBank: number = creep.pos.findPathTo(bank.pos).length;
+                let shortestOutLinkDistance: number = 9999;
+
+                for (let i = 0; i < myRoom.outLinks.length; i++) {
+                    const myOutLink: MyLink = myRoom.outLinks[i];
+                    if (myOutLink.id == null) {
+                        continue;
+                    }
+
+                    const outLink: StructureLink | null = Game.getObjectById<StructureLink>(myOutLink.id);
+
+                    if (outLink == null) {
+                        continue;
+                    }
+
+                    const distanceToOutLink: number = creep.pos.findPathTo(outLink.pos).length;
+                    if (shortestOutLinkDistance > distanceToOutLink) {
+                        shortestOutLinkDistance = distanceToOutLink;
+                    }
+
+                }
+                if (shortestOutLinkDistance < distanceToBank) {
+                    laborer.state = "PickupBank";
+                    creep.say("PickupBank");
+                } else {
+                    laborer.state = "PickupBank";
+                    creep.say("PickupBank");
+                }
+
+
+                if (myRoom.roomStage >= 1) {
+                    for (let i = 0; i < myRoom.mySources.length; i++) {
+                        const mySource = myRoom.mySources[i];
+                        if (mySource.cache != null && mySource.cache.id != null) {
+                            const cache: StructureContainer | null = Game.getObjectById<StructureContainer>(mySource.cache.id);
+                            if (cache == null) {
+                                //Clear it
+                                mySource.cache.id = null;
+                                console.log("ERR: Source cache returned null with get by ID");
+                            } else if (cache.store[RESOURCE_ENERGY] >= creep.carryCapacity) {
+                                laborer.state = "PickupCache";
+                                creep.say("PickupCache");
+                                return;
+                            }
                         }
                     }
+                    //Couldn't find a cache to pickup from, Mine instead
+                    laborer.state = "Mining";
+                    creep.say("Mining");
+                    return;
+                } else {
+                    laborer.state = "Mining";
+                    creep.say("Mining");
+                    return;
                 }
-                //Couldn't find a cache to pickup from, Mine instead
-                laborer.state = "Mining";
-                creep.say("Mining");
-                return;
-            } else {
-                laborer.state = "Mining";
-                creep.say("Mining");
-                return;
             }
-        } else if (
-            (laborer.state === "PickupBank" ||
-                laborer.state === "Mining" ||
-                laborer.state === "PickupCache") &&
-            creep.carry.energy === creep.carryCapacity) {
+        } else if ((laborer.state === "PickupBank" || laborer.state === "Mining" || laborer.state === "PickupCache") && creep.carry.energy === creep.carryCapacity) {
             laborer.state = "Labor";
             creep.say("work work");
         }
     }
 
+
     private static pickupBank(laborer: Laborer, myRoom: MyRoom, creep: Creep): void {
-        if (myRoom.bankPos == null) {
-            console.log("ERR: Room's bank pos was null");
+        if (myRoom
+
+            .bankPos == null) {
+            console
+                .log("ERR: Room's bank pos was null");
             return;
         }
+
         const bankPos: RoomPosition = HelperFunctions.myPosToRoomPos(myRoom.bankPos);
 
         if (bankPos.isNearTo(creep)) {
@@ -97,8 +127,27 @@ export class RoleLaborer {
     private static pickupCache(laborer: Laborer, myRoom: MyRoom, creep: Creep): void {
         const validCacheToGrabFrom: StructureContainer | null = creep.pos.findClosestByPath<StructureContainer>(FIND_STRUCTURES, {
             filter: (structure: any) => {
-                return structure.structureType === STRUCTURE_CONTAINER &&
-                    structure.store[RESOURCE_ENERGY] >= creep.carryCapacity;
+                return structure.structureType === STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] >= creep.carryCapacity;
+            }
+        });
+
+        if (validCacheToGrabFrom == null) {
+            laborer.state = "Mining";
+            creep.say("Mining");
+        } else {
+            if (validCacheToGrabFrom.pos.isNearTo(creep)) {
+                creep.withdraw(validCacheToGrabFrom, RESOURCE_ENERGY);
+            } else {
+                creep.moveTo(validCacheToGrabFrom.pos);
+            }
+        }
+    }
+
+    private static pickupOutLink(laborer: Laborer, myRoom: MyRoom, creep: Creep): void {
+        //TODO:
+        const validCacheToGrabFrom: StructureContainer | null = creep.pos.findClosestByPath<StructureContainer>(FIND_STRUCTURES, {
+            filter: (structure: any) => {
+                return structure.structureType === STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] >= creep.carryCapacity;
             }
         });
 
@@ -116,8 +165,8 @@ export class RoleLaborer {
 
     private static mining(laborer: Laborer, myRoom: MyRoom, creep: Creep): void {
         const source: Source | null = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
-        if (source != null &&
-            creep.harvest(source) === ERR_NOT_IN_RANGE) {
+
+        if (source != null && creep.harvest(source) === ERR_NOT_IN_RANGE) {
             creep.moveTo(source);
         }
     }
@@ -127,18 +176,17 @@ export class RoleLaborer {
 
         //Check if controller is anywhere close to downgrading
         let forceUpgradeController: boolean = false;
-        if (creep.room.controller != null &&
-            creep.room.controller.ticksToDowngrade < 5000) {
+
+        if (creep.room.controller != null && creep.room.controller.ticksToDowngrade < 5000) {
             forceUpgradeController = true;
             givenCommand = true;
         }
+
         if (!givenCommand) {
             //Adding energy to structures that need it
             const structureToAddTo: Structure | null = creep.pos.findClosestByPath(FIND_STRUCTURES, {
                 filter: (structure: any) => {
-                    return (structure.structureType === STRUCTURE_EXTENSION ||
-                        structure.structureType === STRUCTURE_SPAWN ||
-                        structure.structureType === STRUCTURE_TOWER) && structure.energy < structure.energyCapacity;
+                    return (structure.structureType === STRUCTURE_EXTENSION || structure.structureType === STRUCTURE_SPAWN || structure.structureType === STRUCTURE_TOWER) && structure.energy < structure.energyCapacity;
                 }
             });
             if (structureToAddTo != null) {
@@ -151,8 +199,7 @@ export class RoleLaborer {
 
         //Building construction sites
         if (!givenCommand) {
-            const closestConstructionSite: ConstructionSite | null
-                = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
+            const closestConstructionSite: ConstructionSite | null = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
             if (closestConstructionSite != null) {
                 givenCommand = true;
                 if (creep.build(closestConstructionSite) === ERR_NOT_IN_RANGE) {
@@ -162,8 +209,7 @@ export class RoleLaborer {
         }
 
         //Upgrading room controller
-        if ((forceUpgradeController || !givenCommand) &&
-            creep.upgradeController(creep.room.controller as StructureController) === ERR_NOT_IN_RANGE) {
+        if ((forceUpgradeController || !givenCommand) && creep.upgradeController(creep.room.controller as StructureController) === ERR_NOT_IN_RANGE) {
             creep.moveTo(creep.room.controller as StructureController);
         }
     }

@@ -11,12 +11,6 @@ Push to master to release
 ## TODO
 ### Working on
 ```
-Transferring from link-source and link-bank to link-out
-Change laborers to get energy from the closest energy
-    Containers
-    Storage
-    Links (regardless of link type)
-
 Zerg Attack logic
     live-zergwithheals-rally flag
     live-zergwithheals-charge flag
