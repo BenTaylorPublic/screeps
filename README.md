@@ -104,3 +104,101 @@ Removes 1 tick on unclaimed controller
 TOUGH	        10
 No affect, just for hit points
 ```
+
+## Flag Names
+```
+ex-1 to 60
+cont
+tower-1 to 6
+storage
+link-source
+link-out
+link-bank
+spawn
+```
+
+## Stage Progression
+```
+RCL LEVELS:
+Lvl Req         Other                   Towers  Links   Spawns  Extensions  Ramparts Labs
+1   200	        Roads, 5 Containers                     1
+2   45,000      Walls                                           5 50 cap    300K
+3   135,000                             1                       10 50 cap   1M
+4   405,000     Storage                                         20 50 cap   3M
+5   1,215,000	                        2       2               30 50 cap   10M
+6   3,645,000	Extractor, Terminal             3               40 50 cap   30M     3
+7   10,935,000	                        3       4       2       50 100 cap  100M    6
+8   -	        Observer, Power Spawn   6       6       3       60 200 cap  300M    10
+
+Loosely based on RCL
+-1 is default room level
+
+-1  ->  0   : Get a room controller that's mine
+-1  <-  0   : Have no room controller that's mine
+
+0   ->  0.5 : RCL is level >= 1
+0   <-  0.5 : RCL is level < 1
+
+0.5 ->  1   : Room has >= 1 spawn
+0.5 <-  1   : Room has < 1 spawns
+
+1   ->  1.3 : RCL is level >= 2
+1   <-  1.3 : RCL is level < 2
+
+1.3 ->  1.6 : Room has >= 5 extensions
+1.3 <-  1.6 : Room has < 5 extensions
+
+1.6 ->  2   : Room has caches length >= source amount
+1.6 <-  2   : Room has caches length < source amount
+
+2   ->  2.3 : RCL is level >= 3
+2   <-  2.3 : RCL is level < 3
+
+2.3 ->  2.6 : Room has >= 1 tower
+2.3 <-  2.6 : Room has < 1 tower
+
+2.6 ->  3   : Room has >= 10 extensions
+2.6 <-  3   : Room has < 10 extensions
+
+3   ->  3.3 : RCL is level >= 4
+3   <-  3.3 : RCL is level < 4
+
+3.3 ->  3.6 : Room has >= 20 extensions
+3.3 <-  3.6 : Room has < 20 extensions
+
+3.6 ->  4   : Room has a storage bank
+3.6 <-  4   : Room does not have a storage bank
+
+4   ->  4.2 : RCL is level >= 5
+4   <-  4.2 : RCL is level < 5
+
+4.2 ->  4.4 : Room has >= 2 tower
+4.2 <-  4.4 : Room has < 2 tower
+
+4.4 ->  4.6 : Room has >= 30 extensions
+4.4 <-  4.6 : Room has < 30 extensions
+
+4.6 ->  4.8 : Room has 2 links
+4.6 <-  4.8 : Room has < 2 links
+
+4.8 ->  5   : Room has 1 sources using links, no cache or hauler
+4.8 <-  5   : Room has 0 sources using links, no cache or hauler
+
+5   ->  5.2 : RCL is level >= 6
+5   <-  5.2 : RCL is level < 6
+
+5.2 ->  5.4 : Room has 3 links
+5.2 <-  5.4 : Room has < 3 links
+
+5.4 ->  5.6 : Room has >= 40 extensions
+5.4 <-  5.6 : Room has < 40 extensions
+
+5.6 ->  5.8 : Room has extractor
+5.6 <-  5.8 : Room has no extractor
+
+5.8 ->  5.9 : Room has extractor
+5.8 <-  5.9 : Room has no extractor
+
+5.9 ->  6   : Room has >= 3 labs
+5.9 <-  6   : Room has < 3 labs
+```
