@@ -6,6 +6,10 @@ import {EmpireController} from "./empire/empire-controller";
 console.log("Script reloaded v2");
 setupMyMemory();
 
+for (let i = 0; i < Memory.myMemory.myRooms; i++) {
+    Memory.myMemory.myRooms[i].outLinks = [];
+}
+
 export const loop: any = function (): void {
     const myMemory: MyMemory = Memory.myMemory;
     MemoryController.run();
