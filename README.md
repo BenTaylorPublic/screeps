@@ -11,15 +11,23 @@ Push to master to release
 ## TODO
 ### Working on
 ```
+Reporting via flag "report"
+    Should have
+        Room name
+        Time stamp
+        Days/Hours/minutes since then
+        Message Type (Attention, Stages, Defense)
+        Message
+```
+### Short term
+```
 Zerg Attack logic
     live-zergwithheals-rally flag
     live-zergwithheals-charge flag
     Using empire logic, conscript rooms into providing zergling + healer
     Wait till all conscripted rooms are ready to spawn
     Rooms should only be conscripted within a range of X to the room (3?)
-```
-### Short term
-```
+
 Hauler changes:
     Haulers should put energy into extensions/spawn if there's no energy in it's cache
 
@@ -61,7 +69,7 @@ Room stages 7 to 8:
     RCL
     3 Towers
     10 Extensions
-    6 Labs
+    4 Labs
     Spawn
     Observer
     Power Spawn
