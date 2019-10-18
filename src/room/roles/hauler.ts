@@ -1,4 +1,5 @@
 import { HelperFunctions } from "../../global/helper-functions";
+import { Constants } from "../../global/constants";
 
 export class RoleHauler {
     public static run(hauler: Hauler, myRoom: MyRoom): void {
@@ -26,6 +27,9 @@ export class RoleHauler {
 
         if (hauler.pickup) {
             //Picking up more
+            if (Constants.REPEAT_CREEP_STATE) {
+                creep.say("pickup");
+            }
 
             const cacheToGrabFromPos: RoomPosition = HelperFunctions.myPosToRoomPos(hauler.cachePosToPickupFrom);
             if (cacheToGrabFromPos.isNearTo(creep)) {
@@ -51,6 +55,9 @@ export class RoleHauler {
             }
         } else {
             //Deliver
+            if (Constants.REPEAT_CREEP_STATE) {
+                creep.say("delivering");
+            }
 
             if (myRoom.bankPos == null) {
                 console.log("ERR: Room's bank pos was null");
