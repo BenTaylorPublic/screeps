@@ -3,7 +3,7 @@ import {MemoryController} from "./memory/memory-controller";
 import {LiveController} from "./live/live-controller";
 import {EmpireController} from "./empire/empire-controller";
 
-console.log("Script reloaded v2");
+console.log("Script reloaded");
 setupMyMemory();
 
 for (let i = 0; i < Memory.myMemory.myRooms; i++) {
