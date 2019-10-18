@@ -67,37 +67,34 @@ export class RoleLaborer {
                 if (shortestOutLinkDistance < distanceToBank) {
                     laborer.state = "PickupBank";
                     creep.say("PickupBank");
-                } else {
-                    laborer.state = "PickupBank";
-                    creep.say("PickupBank");
+                    return;
                 }
+            }
 
-
-                if (myRoom.roomStage >= 1) {
-                    for (let i = 0; i < myRoom.mySources.length; i++) {
-                        const mySource = myRoom.mySources[i];
-                        if (mySource.cache != null && mySource.cache.id != null) {
-                            const cache: StructureContainer | null = Game.getObjectById<StructureContainer>(mySource.cache.id);
-                            if (cache == null) {
-                                //Clear it
-                                mySource.cache.id = null;
-                                console.log("ERR: Source cache returned null with get by ID");
-                            } else if (cache.store[RESOURCE_ENERGY] >= creep.carryCapacity) {
-                                laborer.state = "PickupCache";
-                                creep.say("PickupCache");
-                                return;
-                            }
+            if (myRoom.roomStage >= 1) {
+                for (let i = 0; i < myRoom.mySources.length; i++) {
+                    const mySource = myRoom.mySources[i];
+                    if (mySource.cache != null && mySource.cache.id != null) {
+                        const cache: StructureContainer | null = Game.getObjectById<StructureContainer>(mySource.cache.id);
+                        if (cache == null) {
+                            //Clear it
+                            mySource.cache.id = null;
+                            console.log("ERR: Source cache returned null with get by ID");
+                        } else if (cache.store[RESOURCE_ENERGY] >= creep.carryCapacity) {
+                            laborer.state = "PickupCache";
+                            creep.say("PickupCache");
+                            return;
                         }
                     }
-                    //Couldn't find a cache to pickup from, Mine instead
-                    laborer.state = "Mining";
-                    creep.say("Mining");
-                    return;
-                } else {
-                    laborer.state = "Mining";
-                    creep.say("Mining");
-                    return;
                 }
+                //Couldn't find a cache to pickup from, Mine instead
+                laborer.state = "Mining";
+                creep.say("Mining");
+                return;
+            } else {
+                laborer.state = "Mining";
+                creep.say("Mining");
+                return;
             }
         } else if (laborer.state !== "Labor" && creep.carry.energy === creep.carryCapacity) {
             laborer.state = "Labor";
