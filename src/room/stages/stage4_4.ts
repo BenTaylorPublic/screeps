@@ -8,12 +8,12 @@ export class Stage4_4 {
     4.4 <-  4.6   : Room has < 30 extensions
     */
     public static up(myRoom: MyRoom, room: Room): boolean {
-        this.step(myRoom, room);
         if (HelperFunctions.amountOfStructure(room, STRUCTURE_EXTENSION) >= 30) {
             myRoom.roomStage = 4.6;
             console.log("LOG: Room " + myRoom.name + " increased to room stage 4.6");
             return true;
         }
+        this.step(myRoom, room);
         return false;
     }
 
