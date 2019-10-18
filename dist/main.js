@@ -16,7 +16,7 @@ module.exports=function(modules){var installedModules={};function __webpack_requ
   \*************************************/
 /*! no static exports found */
 /*! all exports used */
-/*! ModuleConcatenation bailout: Module is not an ECMAScript module */function(module,exports,__webpack_require__){"use strict";Object.defineProperty(exports,"__esModule",{value:!0});class Constants{}Constants.MAX_HAULERS_PER_SOURCE=2,Constants.PERCENT_OF_CACHE_ENERGY_TO_SPAWN_HAULER=.5,Constants.HAULER_COOLDOWN_DISTANCE_FACTOR=1.2,Constants.AMOUNT_OF_BANK_ENERGY_TO_SPAWN_LABORER=1e5,Constants.MAX_LABORERS=10,Constants.MIN_LABORERS=2,Constants.LABORERS_BEFORE_BANK=6,Constants.SOURCE_LINK_TRANSFER_AT=.5,Constants.WALL_AND_RAMPART_GOAL_HEALTH=1e4,Constants.TOWER_REPAIR_ABOVE_PERCENT=.5,Constants.REPEAT_CREEP_STATE=!0,exports.Constants=Constants},
+/*! ModuleConcatenation bailout: Module is not an ECMAScript module */function(module,exports,__webpack_require__){"use strict";Object.defineProperty(exports,"__esModule",{value:!0});class Constants{}Constants.MAX_HAULERS_PER_SOURCE=2,Constants.PERCENT_OF_CACHE_ENERGY_TO_SPAWN_HAULER=.5,Constants.HAULER_COOLDOWN_DISTANCE_FACTOR=1.2,Constants.AMOUNT_OF_BANK_ENERGY_TO_SPAWN_LABORER=1e5,Constants.MAX_LABORERS=10,Constants.MIN_LABORERS=2,Constants.LABORERS_BEFORE_BANK=6,Constants.SOURCE_LINK_TRANSFER_AT=.5,Constants.WALL_AND_RAMPART_GOAL_HEALTH=1e4,Constants.TOWER_REPAIR_ABOVE_PERCENT=.5,Constants.REPEAT_CREEP_STATE=!1,exports.Constants=Constants},
 /*!*************************!*\
   !*** ./ts-dist/main.js ***!
   \*************************/
