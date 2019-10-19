@@ -38,33 +38,39 @@ export class RoleLaborer {
     private static calculateCreepState(laborer: Laborer, myRoom: MyRoom, creep: Creep): void {
         if (laborer.state === "Labor" && creep.carry.energy === 0) {
 
-            const bank: StructureStorage | null = myRoom.bank;
+            //It's fine if it continues through as 9999, because the bank should be closer than that
+            let shortestOutLinkDistance: number = 9999;
+            //Check out links
+            for (let i = 0; i < myRoom.outLinks.length; i++) {
+                const myOutLink: MyLink = myRoom.outLinks[i];
+                if (myOutLink.id == null) {
+                    continue;
+                }
 
+                const outLink: StructureLink | null = Game.getObjectById<StructureLink>(myOutLink.id);
+
+                //Skip if the out link isn't build or if it doesn't have enough energy
+                if (outLink == null || outLink.energy < creep.carryCapacity) {
+                    continue;
+                }
+
+                const distanceToOutLink: number = creep.pos.findPathTo(outLink.pos).length;
+                if (shortestOutLinkDistance > distanceToOutLink) {
+                    shortestOutLinkDistance = distanceToOutLink;
+                }
+            }
+
+            const bank: StructureStorage | null = myRoom.bank;
             if (bank != null && bank.store[RESOURCE_ENERGY] >= creep.carryCapacity) {
                 //Bank is an option
-                //Check if an out link is closer
                 const distanceToBank: number = creep.pos.findPathTo(bank.pos).length;
-                let shortestOutLinkDistance: number = 9999;
 
-                for (let i = 0; i < myRoom.outLinks.length; i++) {
-                    const myOutLink: MyLink = myRoom.outLinks[i];
-                    if (myOutLink.id == null) {
-                        continue;
-                    }
-
-                    const outLink: StructureLink | null = Game.getObjectById<StructureLink>(myOutLink.id);
-
-                    if (outLink == null) {
-                        continue;
-                    }
-
-                    const distanceToOutLink: number = creep.pos.findPathTo(outLink.pos).length;
-                    if (shortestOutLinkDistance > distanceToOutLink) {
-                        shortestOutLinkDistance = distanceToOutLink;
-                    }
-
-                }
+                //Check if the out link is closer
                 if (shortestOutLinkDistance < distanceToBank) {
+                    laborer.state = "PickupOutLink";
+                    creep.say("PickupOutLink");
+                    return;
+                } else {
                     laborer.state = "PickupBank";
                     creep.say("PickupBank");
                     return;
