@@ -8,6 +8,7 @@ export class MemoryController {
         this.cleanUpTravelingCreeps();
         this.getBanks();
         this.reduceCooldowns();
+        //TODO: Remove AttackOne creeps
     }
 
     public static clearBanks(): void {

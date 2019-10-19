@@ -12,7 +12,7 @@ export class LiveSpawnClaimer {
             //Do not continue through the rest of the flags
             break;
         }
-        
+
         if (flag == null) {
             return;
         }

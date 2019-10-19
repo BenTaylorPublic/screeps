@@ -11,30 +11,27 @@ Push to master to release
 ## TODO
 ### Working on
 ```
-Reporting via flag "report"
+Attack logic
+    live-attack-one-rally flag
+    live-attack-one-charge flag
+    Using empire logic, conscript rooms into providing a creep
+    Wait till all conscripted creeps are at rally flag
+    Rooms should only be conscripted within a range of X to the room (3?)
+```
+### Short term
+```
+Reporting via flag "live-report"
     Should have
         Room name
         Time stamp
         Days/Hours/minutes since then
         Message Type (Attention, Stages, Defense)
         Message
-```
-### Short term
-```
-Zerg Attack logic
-    live-zergwithheals-rally flag
-    live-zergwithheals-charge flag
-    Using empire logic, conscript rooms into providing zergling + healer
-    Wait till all conscripted rooms are ready to spawn
-    Rooms should only be conscripted within a range of X to the room (3?)
-
-Hauler changes:
-    Haulers should put energy into extensions/spawn if there's no energy in it's cache
-
-Room stages 5.9 to 6:
-    3 Labs
+    Reports should be emailed if I don't use "live-report" for 21 days (3 weeks)
     
 Mining minerals and directly selling them
+
+Writing on a via a flag
 ```
 
 ### Long term:
@@ -74,7 +71,9 @@ Room stages 7 to 8:
     Observer
     Power Spawn
     
-Hauling between rooms (Energy, and minerals), when starting room is RoomStage 8 (maybe 7?)
+Hauling between rooms 
+    (Energy, and minerals), when starting room is RoomStage 8 (maybe 7?)
+    Might help to speed up getting all rooms to 8?
 ```
 
 ### Body parts in a nice format:
@@ -123,6 +122,9 @@ link-source
 link-out
 link-bank
 spawn
+
+live-attack-one-rally
+live-attack-one-charge
 ```
 
 ## Stage Progression

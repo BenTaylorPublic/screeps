@@ -30,6 +30,8 @@ interface Empire {
 
 interface AttackOne {
     state: "Conscripting" | "Rally" | "Charge";
+    roomsStillToProvide: MyRoom[];
+    creeps: MyCreep[];
 }
 
 /*
@@ -90,7 +92,7 @@ interface MyRoomPos {
 
 interface MyCreep {
     name: string;
-    role: "Hauler" | "Miner" | "Laborer" | "Claimer" | "BankLinker";
+    role: "Hauler" | "Miner" | "Laborer" | "Claimer" | "BankLinker" | "AttackOneCreep";
     assignedRoomName: string;
 }
 
@@ -115,4 +117,7 @@ interface Claimer extends MyCreep {
 }
 
 interface BankLinker extends MyCreep {
+}
+
+interface AttackOneCreep extends MyCreep {
 }
