@@ -25,10 +25,10 @@ interface MyMemory {
 */
 
 interface Empire {
-    zergWithHeals: WarZergWithHeals | null;
+    attackOne: AttackOne | null;
 }
 
-interface WarZergWithHeals {
+interface AttackOne {
     state: "Conscripting" | "Rally" | "Charge";
 }
 

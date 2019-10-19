@@ -6,9 +6,9 @@ import {EmpireController} from "./empire/empire-controller";
 console.log("Script reloaded");
 setupMyMemory();
 
-for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
-    Memory.myMemory.myRooms[i].outLinks = [];
-}
+Memory.myMemory.empire =  {
+    attackOne: null
+};
 
 export const loop: any = function (): void {
     const myMemory: MyMemory = Memory.myMemory;
@@ -33,7 +33,7 @@ function setupMyMemory(): void {
             myRooms: [],
             myTravelingCreeps: [],
             empire: {
-                zergWithHeals: null
+                attackOne: null
             }
         };
     }
