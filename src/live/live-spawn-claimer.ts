@@ -1,4 +1,4 @@
-import { HelperFunctions } from "../global/helper-functions";
+import {HelperFunctions} from "../global/helper-functions";
 
 export class LiveSpawnClaimer {
     public static run(): void {
@@ -6,11 +6,16 @@ export class LiveSpawnClaimer {
         let flag: Flag | null = null;
         for (let i = 0; i < flagNames.length; i++) {
             flag = Game.flags[flagNames[i]];
-            if (flag.name !== "live-claim") { continue; }
+            if (flag.name !== "live-claim") {
+                continue;
+            }
             //Do not continue through the rest of the flags
             break;
         }
-        if (flag == null) {return; }
+        
+        if (flag == null) {
+            return;
+        }
 
         //There is a live-claim flag
         if (flag.room != null &&
@@ -58,11 +63,11 @@ export class LiveSpawnClaimer {
                 "Creep" + id,
                 {
                     memory:
-                    {
-                        name: "Creep" + id,
-                        role: "Claimer",
-                        assignedRoomName: flag.pos.roomName
-                    }
+                        {
+                            name: "Creep" + id,
+                            role: "Claimer",
+                            assignedRoomName: flag.pos.roomName
+                        }
                 }
             );
 
