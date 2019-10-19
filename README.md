@@ -31,7 +31,11 @@ Reporting via flag "live-report"
     
 Mining minerals and directly selling them
 
-Writing on a via a flag
+Empire should have creeps
+    Attacking creeps should it in it
+    And claimers (not in myTravelingCreeps on root myMemory)
+
+Writing on a room sign via a flag
 ```
 
 ### Long term:
