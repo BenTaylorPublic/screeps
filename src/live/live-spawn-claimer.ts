@@ -3,37 +3,40 @@ import { HelperFunctions } from "../global/helper-functions";
 export class LiveSpawnClaimer {
     public static run(): void {
         const flagNames: string[] = Object.keys(Game.flags);
+        let flag: Flag | null = null;
         for (let i = 0; i < flagNames.length; i++) {
-            const flag: Flag = Game.flags[flagNames[i]];
+            flag = Game.flags[flagNames[i]];
             if (flag.name !== "live-claim") { continue; }
+            //Do not continue through the rest of the flags
+            break;
+        }
+        if (flag == null) {return; }
 
-            if (flag.room != null &&
-                flag.room.controller != null &&
-                flag.room.controller.my) {
-                //Room has been claimed, remove flag
-                flag.remove();
-                console.log("LOG: Room " + flag.room.name + " has been claimed");
-            } else {
-                //Room has not been claimed yet
-                let claimerAlreadyMade: boolean = false;
-                for (let j = 0; j < Memory.myMemory.myTravelingCreeps.length; j++) {
-                    const myTravelingCreep: MyCreep = Memory.myMemory.myTravelingCreeps[j];
-                    if (myTravelingCreep.role === "Claimer") {
-                        claimerAlreadyMade = true;
-                        break;
-                    }
-                }
-                if (!claimerAlreadyMade) {
-                    //Make a claimer
-                    const claimer: Claimer | null = this.spawnClaimer(flag);
-                    if (claimer != null) {
-                        console.log("LOG: Spawned a new claimer");
-                        Memory.myMemory.myTravelingCreeps.push(claimer);
-                    }
+        //There is a live-claim flag
+        if (flag.room != null &&
+            flag.room.controller != null &&
+            flag.room.controller.my) {
+            //Room has been claimed, remove flag
+            flag.remove();
+            console.log("LOG: Room " + flag.room.name + " has been claimed");
+        } else {
+            //Room has not been claimed yet
+            let claimerAlreadyMade: boolean = false;
+            for (let j = 0; j < Memory.myMemory.myTravelingCreeps.length; j++) {
+                const myTravelingCreep: MyCreep = Memory.myMemory.myTravelingCreeps[j];
+                if (myTravelingCreep.role === "Claimer") {
+                    claimerAlreadyMade = true;
+                    break;
                 }
             }
-            //Do not continue through the rest of the flags
-            return;
+            if (!claimerAlreadyMade) {
+                //Make a claimer
+                const claimer: Claimer | null = this.spawnClaimer(flag);
+                if (claimer != null) {
+                    console.log("LOG: Spawned a new claimer");
+                    Memory.myMemory.myTravelingCreeps.push(claimer);
+                }
+            }
         }
     }
 
