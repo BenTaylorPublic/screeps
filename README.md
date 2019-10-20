@@ -17,17 +17,33 @@ Attack logic
     Using empire logic, conscript rooms into providing a creep
     Wait till all conscripted creeps are at rally flag
     Rooms should only be conscripted within a range of X to the room (3?)
+
+Change to attack one logging
+    Count rooms, add names to string
+    Log the count and list
+    Then rooms log as theyre made
+
+Empire should pass an empire command down
+    Attack one halts all spawning
 ```
 ### Short term
 ```
-Reporting via flag "live-report"
+Flag helper function to get flags
+    Pass it:
+        an array of strings
+        bool if the array can have extra on the end (eg "derp" or "derp-uniqueNumber")
+        Optional room name string, if it should be a limited to a specific room
+
+Reporting via flag "report"
     Should have
         Room name
         Time stamp
         Days/Hours/minutes since then
         Message Type (Attention, Stages, Defense)
         Message
-    Reports should be emailed if I don't use "live-report" for 21 days (3 weeks)
+    Reports should be emailed if I don't use "report" for 21 days (3 weeks)
+
+Remove live from all flag names
     
 Mining minerals and directly selling them
 
@@ -78,42 +94,6 @@ Room stages 7 to 8:
 Hauling between rooms 
     (Energy, and minerals), when starting room is RoomStage 8 (maybe 7?)
     Might help to speed up getting all rooms to 8?
-```
-
-### Body parts in a nice format:
-```
-MOVE	        50	
-Decreases fatigue by 2 points per tick.
-
-WORK	        100	
-2 energy from source per tick
-1 mineral from deposit per tick
-Builds structure 5 energy per tick
-Repairs structure 100 hits per tick, using 1 energy per tick
-Dismantles structure 50 hits per tick, giving 0.25 energy per tick
-Upgrades controller 1 energy per tick
-
-CARRY	        50	
-50 resource space
-
-ATTACK	        80	
-30 hits per tick
-
-RANGED_ATTACK	150	
-1-4-10 hits per tick, up to 3 squares away
-Not sure if closer or further does more damage
-
-HEAL	        250	
-Restores 12 hits per tick
-4 hits per tick at distance
-
-CLAIM	        600	
-Reserves 1 tick on unclaimed controller
-Downgrades timer 300 ticks on hostile controller
-Removes 1 tick on unclaimed controller
-
-TOUGH	        10
-No affect, just for hit points
 ```
 
 ## Flag Names
@@ -215,4 +195,40 @@ Loosely based on RCL
 
 5.9 ->  6   : Room has >= 3 labs
 5.9 <-  6   : Room has < 3 labs
+```
+
+### Body parts in a nice format:
+```
+MOVE	        50	
+Decreases fatigue by 2 points per tick.
+
+WORK	        100	
+2 energy from source per tick
+1 mineral from deposit per tick
+Builds structure 5 energy per tick
+Repairs structure 100 hits per tick, using 1 energy per tick
+Dismantles structure 50 hits per tick, giving 0.25 energy per tick
+Upgrades controller 1 energy per tick
+
+CARRY	        50	
+50 resource space
+
+ATTACK	        80	
+30 hits per tick
+
+RANGED_ATTACK	150	
+1-4-10 hits per tick, up to 3 squares away
+Not sure if closer or further does more damage
+
+HEAL	        250	
+Restores 12 hits per tick
+4 hits per tick at distance
+
+CLAIM	        600	
+Reserves 1 tick on unclaimed controller
+Downgrades timer 300 ticks on hostile controller
+Removes 1 tick on unclaimed controller
+
+TOUGH	        10
+No affect, just for hit points
 ```
