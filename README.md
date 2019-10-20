@@ -17,6 +17,10 @@ Attack logic
     attack-one-room-target flag
     Add priority list into AttackOneCreep
         Spawn > Towers > Creeps
+
+Empire should have creeps
+    Attacking creeps should it in it
+    And claimers (not in myTravelingCreeps on root myMemory)
 ```
 ### Short term
 ```
@@ -34,12 +38,6 @@ Reporting via flag "report"
         Message Type (Attention, Stages, Defense)
         Message
     Reports should be emailed if I don't use "report" for 21 days (3 weeks)
-    
-Mining minerals and directly selling them
-
-Empire should have creeps
-    Attacking creeps should it in it
-    And claimers (not in myTravelingCreeps on root myMemory)
 
 Writing on a room sign via a flag
 ```
@@ -48,6 +46,8 @@ Writing on a room sign via a flag
 ```
 Empire Command
     During attack one, empire command shouldn't halt all rooms just because 1 hasn't provided
+    
+Mining minerals and directly selling them
 
 Marketing logic (will be at empire level):
     Price history
