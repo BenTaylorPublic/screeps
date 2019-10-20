@@ -18,11 +18,6 @@ Attack logic
     Wait till all conscripted creeps are at rally flag
     Rooms should only be conscripted within a range of X to the room (3?)
 
-Change to attack one logging
-    Count rooms, add names to string
-    Log the count and list
-    Then rooms log as theyre made
-
 Empire should pass an empire command down
     Attack one halts all spawning
 ```
