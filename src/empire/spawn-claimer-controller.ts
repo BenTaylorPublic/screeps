@@ -1,6 +1,6 @@
 import {HelperFunctions} from "../global/helper-functions";
 
-export class LiveSpawnClaimer {
+export class SpawnClaimerController {
     public static run(): void {
         const flagNames: string[] = Object.keys(Game.flags);
         let flag: Flag | null = null;

@@ -1,12 +1,11 @@
 import {RoomController} from "./room/room-controller";
 import {MemoryController} from "./memory/memory-controller";
-import {LiveController} from "./live/live-controller";
 import {EmpireController} from "./empire/empire-controller";
 
 console.log("Script reloaded");
 setupMyMemory();
 
-Memory.myMemory.empire =  {
+Memory.myMemory.empire = {
     attackOne: null
 };
 
@@ -14,12 +13,10 @@ export const loop: any = function (): void {
     const myMemory: MyMemory = Memory.myMemory;
     MemoryController.run();
 
-    LiveController.run();
-
-    EmpireController.run(myMemory);
+    const empireCommand: EmpireCommand = EmpireController.run(myMemory);
 
     for (let i = 0; i < myMemory.myRooms.length; i++) {
-        RoomController.run(myMemory.myRooms[i]);
+        RoomController.run(myMemory.myRooms[i], empireCommand);
     }
 
     MemoryController.clearBanks();

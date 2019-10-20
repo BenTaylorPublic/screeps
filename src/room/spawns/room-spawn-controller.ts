@@ -1,11 +1,15 @@
-import { SpawnLaborer } from "./spawn-laborer";
-import { SpawnMiner } from "./spawn-miner";
-import { SpawnHauler } from "./spawn-hauler";
-import { Constants } from "../../global/constants";
-import { SpawnBankLinker } from "./spawn-bank-linker";
+import {SpawnLaborer} from "./spawn-laborer";
+import {SpawnMiner} from "./spawn-miner";
+import {SpawnHauler} from "./spawn-hauler";
+import {Constants} from "../../global/constants";
+import {SpawnBankLinker} from "./spawn-bank-linker";
 
 export class RoomSpawnController {
-    public static run(myRoom: MyRoom): void {
+    public static run(myRoom: MyRoom, empireCommand: EmpireCommand): void {
+
+        if (empireCommand.haltRoomEnergyUsage) {
+            return;
+        }
 
         let laborerCount: number = 0;
         for (let i = 0; i < myRoom.myCreeps.length; i++) {

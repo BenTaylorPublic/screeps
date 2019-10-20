@@ -1,8 +1,17 @@
 import {RoleClaimer} from "./role/claimer";
 import {RoleAttackOneCreep} from "./role/attack-one-creep";
+import {SpawnClaimerController} from "./spawn-claimer-controller";
+import {AttackOneController} from "./attack-one-controller";
 
 export class EmpireController {
-    public static run(myMemory: MyMemory): void {
+    public static run(myMemory: MyMemory): EmpireCommand {
+
+        const empireCommand: EmpireCommand = {
+            haltRoomEnergyUsage: false
+        };
+
+        SpawnClaimerController.run();
+        AttackOneController.run(empireCommand);
 
         //Controlling claimers
         for (let i = 0; i < myMemory.myTravelingCreeps.length; i++) {
@@ -27,5 +36,7 @@ export class EmpireController {
                 RoleAttackOneCreep.run(attackOneCreep, attackOne.state, flag);
             }
         }
+
+        return empireCommand;
     }
 }

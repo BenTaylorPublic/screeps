@@ -1,14 +1,14 @@
-import { RoomTowerController } from "./structures/tower";
-import { RoleMiner } from "./roles/miner";
-import { RoleHauler } from "./roles/hauler";
-import { RoomStageController } from "./room-stage-controller";
-import { RoleLaborer } from "./roles/laborer";
-import { RoomSpawnController } from "./spawns/room-spawn-controller";
-import { RoleBankLinker } from "./roles/bank-linker";
-import { RoomSourceLinkController } from "./structures/source-link";
+import {RoomTowerController} from "./structures/tower";
+import {RoleMiner} from "./roles/miner";
+import {RoleHauler} from "./roles/hauler";
+import {RoomStageController} from "./room-stage-controller";
+import {RoleLaborer} from "./roles/laborer";
+import {RoomSpawnController} from "./spawns/room-spawn-controller";
+import {RoleBankLinker} from "./roles/bank-linker";
+import {RoomSourceLinkController} from "./structures/source-link";
 
 export class RoomController {
-    public static run(myRoom: MyRoom): void {
+    public static run(myRoom: MyRoom, empireCommand: EmpireCommand): void {
         if (Game.rooms[myRoom.name] == null) {
             //No longer have vision of this room
             console.log("ERR: No longer have vision of room " + myRoom.name);
@@ -22,10 +22,15 @@ export class RoomController {
             //Only run every 10 ticks
             RoomStageController.run(myRoom);
         }
-        RoomSpawnController.run(myRoom);
+        RoomSpawnController.run(myRoom, empireCommand);
 
         //Tower logic
-        const towers: StructureTower[] = room.find<StructureTower>(FIND_STRUCTURES, { filter: { structureType: STRUCTURE_TOWER, my: true } });
+        const towers: StructureTower[] = room.find<StructureTower>(FIND_STRUCTURES, {
+            filter: {
+                structureType: STRUCTURE_TOWER,
+                my: true
+            }
+        });
         for (let i = 0; i < towers.length; i++) {
             RoomTowerController.run(towers[i]);
         }

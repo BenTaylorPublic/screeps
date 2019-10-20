@@ -34,6 +34,10 @@ interface AttackOne {
     creeps: MyCreep[];
 }
 
+interface EmpireCommand {
+    haltRoomEnergyUsage: boolean;
+}
+
 /*
 ====================
     ROOM:

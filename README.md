@@ -12,14 +12,11 @@ Push to master to release
 ### Working on
 ```
 Attack logic
-    live-attack-one-rally flag
-    live-attack-one-charge flag
-    Using empire logic, conscript rooms into providing a creep
-    Wait till all conscripted creeps are at rally flag
-    Rooms should only be conscripted within a range of X to the room (3?)
-
-Empire should pass an empire command down
-    Attack one halts all spawning
+    rename these flags
+    attack-one-rally flag
+    attack-one-room-target flag
+    Add priority list into AttackOneCreep
+        Spawn > Towers > Creeps
 ```
 ### Short term
 ```
@@ -51,6 +48,9 @@ Writing on a room sign via a flag
 
 ### Long term:
 ```
+Empire Command
+    During attack one, empire command shouldn't halt all rooms just because 1 hasn't provided
+
 Marketing logic (will be at empire level):
     Price history
     Buy/sell logic

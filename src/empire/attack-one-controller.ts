@@ -1,8 +1,8 @@
 import {Constants} from "../global/constants";
 import {HelperFunctions} from "../global/helper-functions";
 
-export class LiveAttackOne {
-    public static run(): void {
+export class AttackOneController {
+    public static run(empireCommand: EmpireCommand): void {
         const flagNames: string[] = Object.keys(Game.flags);
         let flag: Flag | null = null;
         for (let i = 0; i < flagNames.length; i++) {
@@ -63,9 +63,13 @@ export class LiveAttackOne {
             }
 
             if (attackOne.roomsStillToProvide.length === 0) {
+                empireCommand.haltRoomEnergyUsage = false;
                 attackOne.state = "Rally";
+                return;
             }
-            return;
+
+            //Some rooms still need to provide a creep
+            empireCommand.haltRoomEnergyUsage = true;
         }
 
         if (attackOne.state === "Rally") {
@@ -82,7 +86,8 @@ export class LiveAttackOne {
         }
 
         if (attackOne.state === "Charge") {
-            //TODO: Remove the flag when the creeps are dead I guess?
+            // TODO:
+            // Remove the flag when the creeps are dead I guess?
         }
     }
 
