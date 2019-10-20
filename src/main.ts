@@ -3,7 +3,6 @@ import {MemoryController} from "./memory/memory-controller";
 import {EmpireController} from "./empire/empire-controller";
 
 console.log("Script reloaded");
-Memory.myMemory = null;
 setupMyMemory();
 
 export const loop: any = function (): void {
