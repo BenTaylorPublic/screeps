@@ -6,7 +6,7 @@ export class SpawnClaimerController {
         let flag: Flag | null = null;
         for (let i = 0; i < flagNames.length; i++) {
             flag = Game.flags[flagNames[i]];
-            if (flag.name !== "live-claim") {
+            if (flag.name !== "claim") {
                 continue;
             }
             //Do not continue through the rest of the flags
@@ -17,7 +17,7 @@ export class SpawnClaimerController {
             return;
         }
 
-        //There is a live-claim flag
+        //There is a claim flag
         if (flag.room != null &&
             flag.room.controller != null &&
             flag.room.controller.my) {

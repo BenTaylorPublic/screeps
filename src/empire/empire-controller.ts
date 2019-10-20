@@ -25,9 +25,9 @@ export class EmpireController {
             const attackOne: AttackOne = myMemory.empire.attackOne;
             let flag: Flag;
             if (attackOne.state === "Conscripting" || "Rally") {
-                flag = Game.flags["live-attack-one-rally"];
+                flag = Game.flags["attack-one-rally"];
             } else {
-                flag = Game.flags["live-attack-one-charge"];
+                flag = Game.flags["attack-one-charge"];
             }
 
             for (let i = 0; i < attackOne.creeps.length; i++) {

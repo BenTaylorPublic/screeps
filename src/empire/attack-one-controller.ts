@@ -7,7 +7,7 @@ export class AttackOneController {
         let flag: Flag | null = null;
         for (let i = 0; i < flagNames.length; i++) {
             flag = Game.flags[flagNames[i]];
-            if (flag.name !== "live-attack-one-rally") {
+            if (flag.name !== "attack-one-rally") {
                 continue;
             }
             //Do not continue through the rest of the flags
