@@ -19,9 +19,8 @@ export const loop: any = function (): void {
 };
 
 function setupMyMemory(): void {
-    let myMemory: MyMemory = Memory.myMemory;
-    if (myMemory == null) {
-        myMemory = {
+    if (Memory.myMemory == null) {
+        Memory.myMemory = {
             globalId: 0,
             myRooms: [],
             empire: {
