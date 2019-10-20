@@ -3,11 +3,8 @@ import {MemoryController} from "./memory/memory-controller";
 import {EmpireController} from "./empire/empire-controller";
 
 console.log("Script reloaded");
+Memory.myMemory = null;
 setupMyMemory();
-
-Memory.myMemory.empire = {
-    attackOne: null
-};
 
 export const loop: any = function (): void {
     const myMemory: MyMemory = Memory.myMemory;
@@ -28,9 +25,9 @@ function setupMyMemory(): void {
         myMemory = {
             globalId: 0,
             myRooms: [],
-            myTravelingCreeps: [],
             empire: {
-                attackOne: null
+                attackOne: null,
+                creeps: []
             }
         };
     }

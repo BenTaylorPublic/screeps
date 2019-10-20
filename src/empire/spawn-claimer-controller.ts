@@ -27,9 +27,9 @@ export class SpawnClaimerController {
         } else {
             //Room has not been claimed yet
             let claimerAlreadyMade: boolean = false;
-            for (let j = 0; j < Memory.myMemory.myTravelingCreeps.length; j++) {
-                const myTravelingCreep: MyCreep = Memory.myMemory.myTravelingCreeps[j];
-                if (myTravelingCreep.role === "Claimer") {
+            for (let j = 0; j < Memory.myMemory.empire.creeps.length; j++) {
+                const claimer: MyCreep = Memory.myMemory.empire.creeps[j];
+                if (claimer.role === "Claimer") {
                     claimerAlreadyMade = true;
                     break;
                 }
@@ -39,7 +39,7 @@ export class SpawnClaimerController {
                 const claimer: Claimer | null = this.spawnClaimer(flag);
                 if (claimer != null) {
                     console.log("LOG: Spawned a new claimer");
-                    Memory.myMemory.myTravelingCreeps.push(claimer);
+                    Memory.myMemory.empire.creeps.push(claimer);
                 }
             }
         }

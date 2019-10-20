@@ -14,10 +14,10 @@ export class EmpireController {
         AttackOneController.run(empireCommand);
 
         //Controlling claimers
-        for (let i = 0; i < myMemory.myTravelingCreeps.length; i++) {
-            const travelingCreep: MyCreep = myMemory.myTravelingCreeps[i];
-            if (travelingCreep.role === "Claimer") {
-                RoleClaimer.run(travelingCreep as Claimer);
+        for (let i = 0; i < myMemory.empire.creeps.length; i++) {
+            const claimer: MyCreep = myMemory.empire.creeps[i];
+            if (claimer.role === "Claimer") {
+                RoleClaimer.run(claimer as Claimer);
             }
         }
 
@@ -30,10 +30,13 @@ export class EmpireController {
                 flag = Game.flags["attack-one-charge"];
             }
 
-            for (let i = 0; i < attackOne.creeps.length; i++) {
-                const attackOneCreep: AttackOneCreep = attackOne.creeps[i];
+            for (let i = 0; i < myMemory.empire.creeps.length; i++) {
+                const attackOneCreep: AttackOneCreep = myMemory.empire.creeps[i];
+                if (attackOneCreep.role !== "AttackOneCreep") {
+                    continue;
+                }
 
-                RoleAttackOneCreep.run(attackOneCreep, attackOne.state, flag);
+                RoleAttackOneCreep.run(attackOneCreep as AttackOneCreep, attackOne.state, flag);
             }
         }
 

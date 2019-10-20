@@ -23,8 +23,7 @@ export class AttackOneController {
             //Need to work out the rooms
             attackOne = {
                 state: "Conscripting",
-                roomsStillToProvide: [],
-                creeps: []
+                roomsStillToProvide: []
             };
 
             let outputMessage: string = "";
@@ -57,7 +56,7 @@ export class AttackOneController {
                 const attackOneCreep: AttackOneCreep | null = this.spawnAttackOneCreep(myRoom);
                 if (attackOneCreep != null) {
                     console.log("LOG: " + myRoom + " has been conscripted " + attackOneCreep.name + " for AttackOne");
-                    attackOne.creeps.push(attackOneCreep);
+                    Memory.myMemory.empire.creeps.push(attackOneCreep);
                     attackOne.roomsStillToProvide.splice(i, 1);
                 } // else room still to provide a creep
             }
@@ -74,8 +73,12 @@ export class AttackOneController {
 
         if (attackOne.state === "Rally") {
             //Wait until all the creeps are within range of the rally flag
-            for (let i = 0; i < attackOne.creeps.length; i++) {
-                const creep: Creep = Game.creeps[attackOne.creeps[i].name];
+            for (let i = 0; i < Memory.myMemory.empire.creeps.length; i++) {
+                const myCreep: MyCreep = Memory.myMemory.empire.creeps[i];
+                if (myCreep.role !== "AttackOneCreep") {
+                    continue;
+                }
+                const creep: Creep = Game.creeps[myCreep.name];
                 if (!creep.pos.inRangeTo(flag.pos, Constants.RALLY_FLAG_RANGE)) {
                     //Not in range, returning
                     return;

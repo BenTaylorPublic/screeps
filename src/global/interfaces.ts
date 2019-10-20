@@ -14,7 +14,6 @@ interface RoomMemory {
 interface MyMemory {
     globalId: number;
     myRooms: MyRoom[];
-    myTravelingCreeps: MyCreep[];
     empire: Empire;
 }
 
@@ -26,12 +25,12 @@ interface MyMemory {
 
 interface Empire {
     attackOne: AttackOne | null;
+    creeps: MyCreep[];
 }
 
 interface AttackOne {
     state: "Conscripting" | "Rally" | "Charge";
     roomsStillToProvide: MyRoom[];
-    creeps: MyCreep[];
 }
 
 interface EmpireCommand {

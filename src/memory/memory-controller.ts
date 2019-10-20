@@ -5,10 +5,9 @@ export class MemoryController {
         this.clearDeadCreeps();
         this.ensureAllRoomsInMyMemory();
         this.validateRoomsInMyMemory();
-        this.cleanUpTravelingCreeps();
+        this.cleanUpEmpireCreeps();
         this.getBanks();
         this.reduceCooldowns();
-        //TODO: Remove AttackOne creeps
     }
 
     public static clearBanks(): void {
@@ -164,11 +163,11 @@ export class MemoryController {
         }
     }
 
-    private static cleanUpTravelingCreeps(): void {
-        for (let i = Memory.myMemory.myTravelingCreeps.length - 1; i >= 0; i--) {
-            const myCreep: MyCreep = Memory.myMemory.myTravelingCreeps[i];
+    private static cleanUpEmpireCreeps(): void {
+        for (let i = Memory.myMemory.empire.creeps.length - 1; i >= 0; i--) {
+            const myCreep: MyCreep = Memory.myMemory.empire.creeps[i];
             if (Game.creeps[myCreep.name] == null) {
-                Memory.myMemory.myTravelingCreeps.splice(i, 1);
+                Memory.myMemory.empire.creeps.splice(i, 1);
             }
         }
     }

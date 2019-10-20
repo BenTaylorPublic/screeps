@@ -17,10 +17,6 @@ Attack logic
     attack-one-room-target flag
     Add priority list into AttackOneCreep
         Spawn > Towers > Creeps
-
-Empire should have creeps
-    Attacking creeps should it in it
-    And claimers (not in myTravelingCreeps on root myMemory)
 ```
 ### Short term
 ```
