@@ -34,8 +34,6 @@ Reporting via flag "report"
         Message Type (Attention, Stages, Defense)
         Message
     Reports should be emailed if I don't use "report" for 21 days (3 weeks)
-
-Remove live from all flag names
     
 Mining minerals and directly selling them
 
