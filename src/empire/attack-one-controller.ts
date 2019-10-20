@@ -6,10 +6,10 @@ export class AttackOneController {
         const flagNames: string[] = Object.keys(Game.flags);
         let flag: Flag | null = null;
         for (let i = 0; i < flagNames.length; i++) {
-            flag = Game.flags[flagNames[i]];
-            if (flag.name !== "attack-one-rally") {
+            if (flagNames[i] !== "attack-one-rally") {
                 continue;
             }
+            flag = Game.flags[flagNames[i]];
             //Do not continue through the rest of the flags
             break;
         }
