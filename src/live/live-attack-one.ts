@@ -43,13 +43,11 @@ export class LiveAttackOne {
             for (let i = attackOne.roomsStillToProvide.length - 1; i >= 0; i--) {
                 const myRoom: MyRoom = attackOne.roomsStillToProvide[i];
                 const attackOneCreep: AttackOneCreep | null = this.spawnAttackOneCreep(myRoom);
-                if (attackOneCreep == null) {
-                    //Room still to provide a creep
-                } else {
+                if (attackOneCreep != null) {
                     console.log("LOG: " + myRoom + " has been conscripted " + attackOneCreep.name + " for AttackOne");
                     attackOne.creeps.push(attackOneCreep);
                     attackOne.roomsStillToProvide.splice(i, 1);
-                }
+                } // else room still to provide a creep
             }
 
             if (attackOne.roomsStillToProvide.length === 0) {
