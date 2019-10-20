@@ -27,15 +27,27 @@ export class LiveAttackOne {
                 creeps: []
             };
 
+            let outputMessage: string = "";
             for (let i = 0; i < Memory.myMemory.rooms.length; i++) {
                 const myRoom: MyRoom = Memory.myMemory.rooms[i];
                 if (Game.map.getRoomLinearDistance(flag.pos.roomName, myRoom.name)
                     < Constants.CONSCRIPTION_RANGE) {
                     //This room will be conscripted
                     attackOne.roomsStillToProvide.push(myRoom);
-                    console.log("LOG: " + myRoom + " has been conscripted for AttackOne");
+                    outputMessage += myRoom.name + ", ";
                 }
             }
+            if (attackOne.roomsStillToProvide.length === 0) {
+                Memory.myMemory.empire.attackOne = null;
+                console.log("LOG: Canceling an AttackOne because no rooms were in conscription range.");
+                return;
+            }
+
+            //Remove the ", " from the last one
+            outputMessage.slice(0, outputMessage.length - 2);
+
+            console.log("AttackOne: " + attackOne.roomsStillToProvide.length +
+                " Rooms conscripted for AttackOne (" + outputMessage + ")");
         }
 
         if (attackOne.state === "Conscripting") {
