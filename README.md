@@ -22,6 +22,9 @@ Reporting via flag "report"
 ```
 ### Short term
 ```
+Links construction
+    Creating the first 2 links should FORCE 1 source link 1 bank link
+
 Attack logic
     rename to this
         attack-one-room-target flag
