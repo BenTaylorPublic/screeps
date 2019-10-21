@@ -40,6 +40,11 @@ Writing on a room sign via a flag
 
 ### Long term:
 ```
+Siege/pressure command
+    Whenever a room has full energy, create an attack creep which goes to a room and starts attacking
+    Could be good to ween down weak walls over time
+    At a minimum, it would weaken them/use their energy on not upgrading
+
 Empire Command
     During attack one, empire command shouldn't halt all rooms just because 1 hasn't provided
     
