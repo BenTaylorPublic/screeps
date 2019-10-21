@@ -8,7 +8,7 @@ export class StageDefault {
     */
     public static up(myRoom: MyRoom, room: Room): boolean {
         if (room.controller != null &&
-            room.controller.my) {
+            room.controller.my === true) {
             myRoom.roomStage = 0;
             ReportController.log("STAGE", "Room " + myRoom.name + " increased to room stage 0");
             return true;
@@ -18,7 +18,7 @@ export class StageDefault {
 
     public static down(myRoom: MyRoom, room: Room): boolean {
         if (room.controller == null ||
-            room.controller.my) {
+            room.controller.my === true) {
             myRoom.roomStage = -1;
             ReportController.log("STAGE", "Room " + myRoom.name + " decreased to room stage -1");
             return true;

@@ -21,7 +21,7 @@ export class SpawnClaimerController {
         //There is a claim flag
         if (flag.room != null &&
             flag.room.controller != null &&
-            flag.room.controller.my) {
+            flag.room.controller.my === true) {
             //Room has been claimed, remove flag
             flag.remove();
 
