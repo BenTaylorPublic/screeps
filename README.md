@@ -11,9 +11,6 @@ Push to master to release
 ## TODO
 ### Working on
 ```
-Bug fix:
-    Laborers are mining instead of taking from the bank
-
 Attack logic
     rename these flags
     attack-one-rally flag

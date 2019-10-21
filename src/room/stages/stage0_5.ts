@@ -1,4 +1,4 @@
-import { HelperFunctions } from "../../global/helper-functions";
+import {HelperFunctions} from "../../global/helper-functions";
 
 // tslint:disable-next-line: class-name
 export class Stage0_5 {
@@ -28,6 +28,8 @@ export class Stage0_5 {
     }
 
     private static step(myRoom: MyRoom, room: Room): void {
-        console.log("ATTENTION: Room " + room.name + " needs first spawn");
+        if (Game.rooms[myRoom.name].find(FIND_CONSTRUCTION_SITES).length === 0) {
+            console.log("ATTENTION: Room " + room.name + " needs first spawn, which should be manually placed");
+        }
     }
 }
