@@ -12,11 +12,11 @@ Push to master to release
 ### Working on
 ```
 Attack logic
-    rename these flags
-    attack-one-rally flag
-    attack-one-room-target flag
+    rename to this
+        attack-one-room-target flag
     Add priority list into AttackOneCreep
         Spawn > Towers > Creeps
+    Apparently "Tough" body parts are important lol
 ```
 ### Short term
 ```
@@ -101,8 +101,9 @@ link-out
 link-bank
 spawn
 
-live-attack-one-rally
-live-attack-one-charge
+claim
+attack-one-rally
+attack-one-charge
 ```
 
 ## Stage Progression
