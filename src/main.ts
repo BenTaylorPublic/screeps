@@ -4,11 +4,12 @@ import {EmpireController} from "./empire/empire-controller";
 import {ReportController} from "./reporting/report-controller";
 
 console.log("Script reloaded");
-Memory.myMemory.reports = [];
 for (let i: number = 0; i < Memory.myMemory.myRooms.length; i++) {
-    const room: MyRoom = Memory.myMemory.myRooms[i];
-    room.bankLink = null;
-    room.bankLinkerName = null;
+    const myRoom: MyRoom = Memory.myMemory.myRooms[i];
+    if (myRoom.name === "E16S18") {
+        myRoom.roomStage = 4.6;
+        console.log("SET");
+    }
 }
 setupMyMemory();
 

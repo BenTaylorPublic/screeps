@@ -19,6 +19,8 @@ export class ReportController {
     }
 
     public static log(messageType: ReportMessageType, message: string): void {
+        console.log(messageType + ": " + message);
+
         const now: number = new Date().getTime();
 
         const report: Report = {
