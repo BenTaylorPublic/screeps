@@ -5,6 +5,11 @@ import {ReportController} from "./reporting/report-controller";
 
 console.log("Script reloaded");
 Memory.myMemory.reports = [];
+for (let i: number = 0; i < Memory.myMemory.rooms.length; i++) {
+    const room: MyRoom = Memory.myMemory.rooms[i];
+    room.bankLink = null;
+    room.bankLinkerName = null;
+}
 setupMyMemory();
 
 export const loop: any = function (): void {
