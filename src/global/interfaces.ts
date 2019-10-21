@@ -15,6 +15,7 @@ interface MyMemory {
     globalId: number;
     myRooms: MyRoom[];
     empire: Empire;
+    reports: Report[];
 }
 
 /*
@@ -123,4 +124,17 @@ interface BankLinker extends MyCreep {
 }
 
 interface AttackOneCreep extends MyCreep {
+}
+
+
+/*
+====================
+    REPORTS:
+====================
+*/
+interface Report {
+    roomName: string;
+    timeStamp: number;
+    messageType: "DEFENCE" | "STAGES";
+    message: string;
 }
