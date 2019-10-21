@@ -23,6 +23,12 @@ import {Stage5_8} from "./stages/stage5_8";
 
 export class RoomStageController {
     public static run(myRoom: MyRoom): void {
+
+        if (Game.time % 10 !== 0) {
+            //Only run every 10 ticks
+            return;
+        }
+
         const room: Room = Game.rooms[myRoom.name];
 
         //Ups

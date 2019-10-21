@@ -134,6 +134,7 @@ interface AttackOneCreep extends MyCreep {
 */
 interface Report {
     timeStamp: number;
+    tick: number;
     messageType: ReportMessageType;
     message: string;
 }

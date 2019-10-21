@@ -1,9 +1,29 @@
 export class ReportController {
+
+    public static checkForReportFlag(): void {
+        if (Game.time % 10 !== 0) {
+            //Only run every 10 ticks
+            return;
+        }
+
+        const flagNames: string[] = Object.keys(Game.flags);
+        for (let i = 0; i < flagNames.length; i++) {
+            if (flagNames[i] === "report") {
+                const flag: Flag = Game.flags[flagNames[i]];
+                flag.remove();
+                this.report();
+                //Do not continue through the rest of the flags
+                return;
+            }
+        }
+    }
+
     public static log(messageType: ReportMessageType, message: string): void {
         const now: number = new Date().getTime();
 
         const report: Report = {
             timeStamp: now,
+            tick: Game.time,
             messageType: messageType,
             message: message
         };
@@ -11,13 +31,14 @@ export class ReportController {
         Memory.myMemory.reports.push(report);
     }
 
-    public static report(): void {
+    private static report(): void {
         console.log("BEGIN REPORT:");
         for (let i = 0; i < Memory.myMemory.reports.length; i++) {
             const report: Report = Memory.myMemory.reports[i];
             const reportTime: Date = new Date(report.timeStamp);
             let outputString: string = this.niceDateFormat(reportTime);
             outputString += "(" + this.timeSince(reportTime) + "s) ";
+            outputString += "tick " + report.tick + " ";
             outputString += report.messageType + ": ";
             outputString += report.message;
             console.log(outputString);

@@ -19,10 +19,8 @@ export class RoomController {
 
         const room: Room = Game.rooms[myRoom.name];
 
-        if (Game.time % 10 === 0) {
-            //Only run every 10 ticks
-            RoomStageController.run(myRoom);
-        }
+        RoomStageController.run(myRoom);
+
         RoomSpawnController.run(myRoom, empireCommand);
 
         //Tower logic
