@@ -102,6 +102,7 @@ link-bank
 spawn
 
 claim
+report
 attack-one-rally
 attack-one-charge
 ```
