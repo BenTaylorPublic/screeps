@@ -113,7 +113,7 @@ export class MemoryController {
             const room: Room = Game.rooms[myRoom.name];
             if (room == null ||
                 room.controller == null ||
-                room.controller.my === true) {
+                room.controller.my === false) {
                 console.log("OTHER", "Removing room from memory" + myRoom.name);
                 Memory.myMemory.myRooms.splice(i, 1);
                 continue;
