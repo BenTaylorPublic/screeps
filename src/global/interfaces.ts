@@ -135,6 +135,8 @@ interface AttackOneCreep extends MyCreep {
 interface Report {
     roomName: string;
     timeStamp: number;
-    messageType: "DEFENCE" | "STAGES";
+    messageType: ReportMessageType;
     message: string;
 }
+
+type ReportMessageType = "DEFENCE" | "STAGE" | "ERROR";
