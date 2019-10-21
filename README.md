@@ -11,21 +11,6 @@ Push to master to release
 ## TODO
 ### Working on
 ```
-Attack logic
-    rename to this
-        attack-one-room-target flag
-    Add priority list into AttackOneCreep
-        Spawn > Towers > Creeps
-    Apparently "Tough" body parts are important lol
-```
-### Short term
-```
-Flag helper function to get flags
-    Pass it:
-        an array of strings
-        bool if the array can have extra on the end (eg "derp" or "derp-uniqueNumber")
-        Optional room name string, if it should be a limited to a specific room
-
 Reporting via flag "report"
     Should have
         Room name
@@ -34,6 +19,21 @@ Reporting via flag "report"
         Message Type (Attention, Stages, Defense)
         Message
     Reports should be emailed if I don't use "report" for 21 days (3 weeks)
+```
+### Short term
+```
+Attack logic
+    rename to this
+        attack-one-room-target flag
+    Add priority list into AttackOneCreep
+        Spawn > Towers > Creeps
+    Apparently "Tough" body parts are important lol
+
+Flag helper function to get flags
+    Pass it:
+        an array of strings
+        bool if the array can have extra on the end (eg "derp" or "derp-uniqueNumber")
+        Optional room name string, if it should be a limited to a specific room
 
 Writing on a room sign via a flag
 ```
