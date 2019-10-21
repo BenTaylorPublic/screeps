@@ -4,13 +4,11 @@ import {EmpireController} from "./empire/empire-controller";
 import {ReportController} from "./reporting/report-controller";
 
 console.log("Script reloaded");
-for (let i: number = 0; i < Memory.myMemory.myRooms.length; i++) {
-    const myRoom: MyRoom = Memory.myMemory.myRooms[i];
-    if (myRoom.name === "E16S18") {
-        myRoom.roomStage = 4.6;
-        console.log("SET");
-    }
-}
+delete Memory.myMemory.reports;
+Memory.myMemory.report = {
+    lastReportTimeStamp: new Date().getTime(),
+    reports: []
+};
 setupMyMemory();
 
 export const loop: any = function (): void {
@@ -33,7 +31,10 @@ function setupMyMemory(): void {
         Memory.myMemory = {
             globalId: 0,
             myRooms: [],
-            reports: [],
+            report: {
+                lastReportTimeStamp: new Date().getTime(),
+                reports: []
+            },
             empire: {
                 attackOne: null,
                 creeps: []

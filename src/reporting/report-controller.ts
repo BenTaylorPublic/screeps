@@ -30,22 +30,28 @@ export class ReportController {
             message: message
         };
 
-        Memory.myMemory.reports.push(report);
+        Memory.myMemory.report.reports.push(report);
     }
 
     private static report(): void {
         console.log("BEGIN REPORT:");
-        for (let i = 0; i < Memory.myMemory.reports.length; i++) {
-            const report: Report = Memory.myMemory.reports[i];
+        const lastReportTime: Date = new Date(Memory.myMemory.report.lastReportTimeStamp);
+        console.log("Last report: " + this.niceDateFormat(lastReportTime) + "(" + this.timeSince(lastReportTime) + ")");
+        for (let i = 0; i < Memory.myMemory.report.reports.length; i++) {
+            const report: Report = Memory.myMemory.report.reports[i];
             const reportTime: Date = new Date(report.timeStamp);
             let outputString: string = this.niceDateFormat(reportTime);
-            outputString += "(" + this.timeSince(reportTime) + "s) ";
+            outputString += "(" + this.timeSince(reportTime) + ") ";
             outputString += "tick " + report.tick + " ";
             outputString += report.messageType + ": ";
             outputString += report.message;
             console.log(outputString);
         }
         console.log("END OF REPORT");
+        Memory.myMemory.report = {
+            reports: [],
+            lastReportTimeStamp: new Date().getTime()
+        };
     }
 
     private static niceDateFormat(date: Date): string {
@@ -60,25 +66,25 @@ export class ReportController {
         let result: string = "";
 
         if (secondsLeft >= 604800) {
-            const weeks: number = secondsLeft % 604800;
+            const weeks: number = Math.floor(secondsLeft / 604800);
             secondsLeft -= weeks * 604800;
             result += weeks + "W, ";
         }
 
         if (secondsLeft >= 86400) {
-            const days: number = secondsLeft % 86400;
+            const days: number = Math.floor(secondsLeft / 86400);
             secondsLeft -= days * 86400;
             result += days + "D, ";
         }
 
         if (secondsLeft >= 3600) {
-            const hours: number = secondsLeft % 3600;
+            const hours: number = Math.floor(secondsLeft / 3600);
             secondsLeft -= hours * 3600;
             result += hours + "H, ";
         }
 
         if (secondsLeft >= 60) {
-            const minutes: number = secondsLeft % 60;
+            const minutes: number = Math.floor(secondsLeft / 60);
             secondsLeft -= minutes * 60;
             result += minutes + "M, ";
         }

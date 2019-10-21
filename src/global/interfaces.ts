@@ -15,7 +15,7 @@ interface MyMemory {
     globalId: number;
     myRooms: MyRoom[];
     empire: Empire;
-    reports: Report[];
+    report: ReportLog;
 }
 
 /*
@@ -132,6 +132,11 @@ interface AttackOneCreep extends MyCreep {
     REPORTS:
 ====================
 */
+interface ReportLog {
+    lastReportTimeStamp: number;
+    reports: Report[];
+}
+
 interface Report {
     timeStamp: number;
     tick: number;
