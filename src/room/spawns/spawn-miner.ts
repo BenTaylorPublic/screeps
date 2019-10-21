@@ -1,4 +1,5 @@
-import { HelperFunctions } from "../../global/helper-functions";
+import {HelperFunctions} from "../../global/helper-functions";
+import {ReportController} from "../../reporting/report-controller";
 
 export class SpawnMiner {
     public static trySpawnMiner(myRoom: MyRoom): void {
@@ -24,18 +25,18 @@ export class SpawnMiner {
     private static spawnMiner(myRoom: MyRoom, mySource: MySource): Miner | null {
 
         if (myRoom.spawns.length === 0) {
-            console.log("ERR: Attempted to spawn miner in a room with no spawner (1)");
+            ReportController.log("ERROR", "Attempted to spawn miner in a room with no spawner (1)");
             return null;
         }
         const spawn: StructureSpawn = Game.spawns[myRoom.spawns[0].name];
 
         if (spawn == null) {
-            console.log("ERR: Attempted to spawn miner in a room with no spawner (2)");
+            ReportController.log("ERROR", "Attempted to spawn miner in a room with no spawner (2)");
             return null;
         }
 
         if (mySource.cache == null) {
-            console.log("ERR: Attempted to spawn miner to a source with no cache container pos");
+            ReportController.log("ERROR", "Attempted to spawn miner to a source with no cache container pos");
             return null;
         }
 
@@ -58,11 +59,11 @@ export class SpawnMiner {
                 "Creep" + id,
                 {
                     memory:
-                    {
-                        name: "Creep" + id,
-                        role: "Miner",
-                        assignedRoomName: spawn.room.name
-                    }
+                        {
+                            name: "Creep" + id,
+                            role: "Miner",
+                            assignedRoomName: spawn.room.name
+                        }
                 }
             );
 

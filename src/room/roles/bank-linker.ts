@@ -1,8 +1,10 @@
+import {ReportController} from "../../reporting/report-controller";
+
 export class RoleBankLinker {
     public static run(bankLinker: BankLinker, myRoom: MyRoom): void {
         const creep: Creep = Game.creeps[bankLinker.name];
         if (creep == null) {
-            console.log("ERR: BankLinker creep is null. Creep ID: " + bankLinker.name);
+            ReportController.log("ERROR", "BankLinker creep is null. Creep ID: " + bankLinker.name);
             return;
         }
 
@@ -15,7 +17,7 @@ export class RoleBankLinker {
         if (creep.carry[RESOURCE_ENERGY] === creep.carryCapacity) {
             const bank: StructureStorage | null = myRoom.bank;
             if (bank == null) {
-                console.log("ERR: Bank was null for a bank linker");
+                ReportController.log("ERROR", "Bank was null for a bank linker");
                 return;
             }
 
@@ -25,12 +27,12 @@ export class RoleBankLinker {
         } else {
             if (myRoom.bankLink == null ||
                 myRoom.bankLink.id == null) {
-                console.log("ERR: Bank Link was null for a bank linker");
+                ReportController.log("ERROR", "Bank Link was null for a bank linker");
                 return;
             }
             const link: StructureLink | null = Game.getObjectById(myRoom.bankLink.id);
             if (link == null) {
-                console.log("ERR: Bank Link was null for a bank linker");
+                ReportController.log("ERROR", "Bank Link was null for a bank linker");
                 return;
             }
 

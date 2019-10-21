@@ -1,4 +1,5 @@
 import { HelperFunctions } from "../../global/helper-functions";
+import {ReportController} from "../../reporting/report-controller";
 
 export class SpawnBankLinker {
     static run(myRoom: MyRoom): void {
@@ -14,13 +15,13 @@ export class SpawnBankLinker {
 
     private static spawnBankLinker(myRoom: MyRoom): BankLinker | null {
         if (myRoom.spawns.length === 0) {
-            console.log("ERR: Attempted to spawn BankLinker in a room with no spawner (1)");
+            ReportController.log("ERROR", "Attempted to spawn BankLinker in a room with no spawner (1)");
             return null;
         }
         const spawn: StructureSpawn = Game.spawns[myRoom.spawns[0].name];
 
         if (spawn == null) {
-            console.log("ERR: Attempted to spawn BankLinker in a room with no spawner (2)");
+            ReportController.log("ERROR", "Attempted to spawn BankLinker in a room with no spawner (2)");
             return null;
         }
 

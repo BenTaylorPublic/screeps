@@ -1,4 +1,5 @@
 import {HelperFunctions} from "../global/helper-functions";
+import {ReportController} from "../reporting/report-controller";
 
 export class SpawnClaimerController {
     public static run(): void {
@@ -23,7 +24,8 @@ export class SpawnClaimerController {
             flag.room.controller.my) {
             //Room has been claimed, remove flag
             flag.remove();
-            console.log("LOG: Room " + flag.room.name + " has been claimed");
+
+            ReportController.log("OTHER", "Room " + flag.room.name + " has been claimed");
         } else {
             //Room has not been claimed yet
             let claimerAlreadyMade: boolean = false;
@@ -50,7 +52,7 @@ export class SpawnClaimerController {
         const spawn: StructureSpawn | null = HelperFunctions.findClosestSpawn(flag.pos);
         if (spawn == null) {
             flag.remove();
-            console.log("ERR: Couldn't find a spawn to make a claimer");
+            ReportController.log("ERROR",  "Couldn't find a spawn to make a claimer");
             return null;
         }
 

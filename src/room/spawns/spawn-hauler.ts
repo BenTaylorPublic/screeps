@@ -1,5 +1,6 @@
 import { HelperFunctions } from "../../global/helper-functions";
 import { Constants } from "../../global/constants";
+import {ReportController} from "../../reporting/report-controller";
 
 export class SpawnHauler {
     public static trySpawnHauler(myRoom: MyRoom): void {
@@ -42,18 +43,18 @@ export class SpawnHauler {
 
     private static spawnHauler(myRoom: MyRoom, mySource: MySource): Hauler | null {
         if (myRoom.spawns.length === 0) {
-            console.log("ERR: Attempted to spawn hauler in a room with no spawner (1)");
+            ReportController.log("ERROR", "Attempted to spawn hauler in a room with no spawner (1)");
             return null;
         }
         const spawn: StructureSpawn = Game.spawns[myRoom.spawns[0].name];
 
         if (spawn == null) {
-            console.log("ERR: Attempted to spawn hauler in a room with no spawner (2)");
+            ReportController.log("ERROR", "Attempted to spawn hauler in a room with no spawner (2)");
             return null;
         }
 
         if (mySource.cache == null) {
-            console.log("ERR: Attempted to spawn hauler for a source with no cache pos");
+            ReportController.log("ERROR", "Attempted to spawn hauler for a source with no cache pos");
             return null;
         }
 

@@ -1,11 +1,12 @@
 import { HelperFunctions } from "../../global/helper-functions";
 import { Constants } from "../../global/constants";
+import {ReportController} from "../../reporting/report-controller";
 
 export class RoleHauler {
     public static run(hauler: Hauler, myRoom: MyRoom): void {
         const creep: Creep = Game.creeps[hauler.name];
         if (creep == null) {
-            console.log("ERR: Hauler creep is null. Creep ID: " + hauler.name);
+            ReportController.log("ERROR", "Hauler creep is null. Creep ID: " + hauler.name);
             return;
         }
 
@@ -45,7 +46,7 @@ export class RoleHauler {
                 }
 
                 if (cacheToGrabFrom == null) {
-                    console.log("ERR: Source cache is null for hauler: " + hauler.name);
+                    ReportController.log("ERROR", "Source cache is null for hauler: " + hauler.name);
                     return;
                 }
 
@@ -60,7 +61,7 @@ export class RoleHauler {
             }
 
             if (myRoom.bankPos == null) {
-                console.log("ERR: Room's bank pos was null");
+                ReportController.log("ERROR", "Room's bank pos was null");
                 return;
             }
 
@@ -69,7 +70,7 @@ export class RoleHauler {
             if (bankPos.isNearTo(creep)) {
                 const bank: StructureStorage | null = myRoom.bank;
                 if (bank == null) {
-                    console.log("ERR: Room's bank was null");
+                    ReportController.log("ERROR", "Room's bank was null");
                     return;
                 }
                 creep.transfer(bank, RESOURCE_ENERGY);

@@ -1,4 +1,5 @@
 import {HelperFunctions} from "../../global/helper-functions";
+import {ReportController} from "../../reporting/report-controller";
 
 // tslint:disable-next-line: class-name
 export class Stage0_5 {
@@ -11,7 +12,7 @@ export class Stage0_5 {
         if (HelperFunctions.amountOfStructure(room, STRUCTURE_SPAWN) >= 1) {
             //Spawn has been made
             myRoom.roomStage = 1;
-            console.log("LOG: Room " + myRoom.name + " increased to room stage 1");
+            ReportController.log("STAGE", "Room " + myRoom.name + " increased to room stage 1");
             return true;
         }
         return false;
@@ -21,7 +22,7 @@ export class Stage0_5 {
         if (HelperFunctions.amountOfStructure(room, STRUCTURE_SPAWN) === 0) {
             //Spawn has been made
             myRoom.roomStage = 0.5;
-            console.log("LOG: Room " + myRoom.name + " decreased to room stage 0.5");
+            ReportController.log("STAGE", "Room " + myRoom.name + " decreased to room stage 0.5");
             return true;
         }
         return false;

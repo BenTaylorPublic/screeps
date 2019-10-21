@@ -1,4 +1,5 @@
 import {StageFunctions} from "./stage-functions";
+import {ReportController} from "../../reporting/report-controller";
 
 // tslint:disable-next-line: class-name
 export class Stage4_8 {
@@ -18,7 +19,7 @@ export class Stage4_8 {
                 mySource.cache.id == null &&
                 mySource.haulerNames.length === 0) {
                 myRoom.roomStage = 5;
-                console.log("LOG: Room " + myRoom.name + " increased to room stage 5");
+                ReportController.log("STAGE", "Room " + myRoom.name + " increased to room stage 5");
                 return true;
             }
         }
@@ -41,7 +42,7 @@ export class Stage4_8 {
         }
         if (!foundLinkedSource) {
             myRoom.roomStage = 4.8;
-            console.log("LOG: Room " + myRoom.name + " decreased to room stage 4.8");
+            ReportController.log("STAGE", "Room " + myRoom.name + " decreased to room stage 4.8");
             return true;
         }
         return false;

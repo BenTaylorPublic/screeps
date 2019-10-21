@@ -1,25 +1,25 @@
-import { StageDefault } from "./stages/stage-default";
-import { Stage0 } from "./stages/stage0";
-import { Stage0_5 } from "./stages/stage0_5";
-import { Stage1 } from "./stages/stage1";
-import { Stage1_3 } from "./stages/stage1_3";
-import { Stage1_6 } from "./stages/stage1_6";
-import { Stage2 } from "./stages/stage2";
-import { Stage2_3 } from "./stages/stage2_3";
-import { Stage2_6 } from "./stages/stage2_6";
-import { Stage3 } from "./stages/stage3";
-import { Stage3_3 } from "./stages/stage3_3";
-import { Stage3_6 } from "./stages/stage3_6";
-import { Stage4 } from "./stages/stage4";
-import { Stage4_2 } from "./stages/stage4_2";
-import { Stage4_4 } from "./stages/stage4_4";
-import { Stage4_6 } from "./stages/stage4_6";
-import { Stage4_8 } from "./stages/stage4_8";
-import { Stage5 } from "./stages/stage5";
-import { Stage5_2 } from "./stages/stage5_2";
-import { Stage5_4 } from "./stages/stage5_4";
-import { Stage5_6 } from "./stages/stage5_6";
-import { Stage5_8 } from "./stages/stage5_8";
+import {StageDefault} from "./stages/stage-default";
+import {Stage0} from "./stages/stage0";
+import {Stage0_5} from "./stages/stage0_5";
+import {Stage1} from "./stages/stage1";
+import {Stage1_3} from "./stages/stage1_3";
+import {Stage1_6} from "./stages/stage1_6";
+import {Stage2} from "./stages/stage2";
+import {Stage2_3} from "./stages/stage2_3";
+import {Stage2_6} from "./stages/stage2_6";
+import {Stage3} from "./stages/stage3";
+import {Stage3_3} from "./stages/stage3_3";
+import {Stage3_6} from "./stages/stage3_6";
+import {Stage4} from "./stages/stage4";
+import {Stage4_2} from "./stages/stage4_2";
+import {Stage4_4} from "./stages/stage4_4";
+import {Stage4_6} from "./stages/stage4_6";
+import {Stage4_8} from "./stages/stage4_8";
+import {Stage5} from "./stages/stage5";
+import {Stage5_2} from "./stages/stage5_2";
+import {Stage5_4} from "./stages/stage5_4";
+import {Stage5_6} from "./stages/stage5_6";
+import {Stage5_8} from "./stages/stage5_8";
 
 export class RoomStageController {
     public static run(myRoom: MyRoom): void {

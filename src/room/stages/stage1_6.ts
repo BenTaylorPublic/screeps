@@ -1,4 +1,5 @@
-import { HelperFunctions } from "../../global/helper-functions";
+import {HelperFunctions} from "../../global/helper-functions";
+import {ReportController} from "../../reporting/report-controller";
 
 // tslint:disable-next-line: class-name
 export class Stage1_6 {
@@ -18,7 +19,7 @@ export class Stage1_6 {
             }
         }
         myRoom.roomStage = 2;
-        console.log("LOG: Room " + myRoom.name + " increased to room stage 2");
+        ReportController.log("STAGE", "Room " + myRoom.name + " increased to room stage 2");
         return true;
     }
 
@@ -30,7 +31,7 @@ export class Stage1_6 {
                 (mySource.link == null ||
                     mySource.link.id == null)) {
                 myRoom.roomStage = 1.6;
-                console.log("LOG: Room " + myRoom.name + " decreased to room stage 1.6");
+                ReportController.log("STAGE", "Room " + myRoom.name + " decreased to room stage 1.6");
                 return true;
             }
         }
@@ -57,7 +58,7 @@ export class Stage1_6 {
                     const mySource: MySource = myRoom.mySources[j];
                     const source: Source | null = Game.getObjectById<Source>(mySource.id);
                     if (source == null) {
-                        console.log("ERR: Source was null when trying to get it by ID");
+                        ReportController.log("ERROR", "Source was null when trying to get it by ID");
                     } else {
                         if (source.pos.inRangeTo(roomFlag.pos, 1)) {
                             mySource.cache = {
@@ -78,11 +79,11 @@ export class Stage1_6 {
                     console.log("LOG: Placed container cache construction site");
                     roomFlag.remove();
                 } else {
-                    console.log("ERR: Placed a construction site at a flag but couldn't find a source to give it to");
+                    ReportController.log("ERROR", "Placed a construction site at a flag but couldn't find a source to give it to");
                 }
 
             } else {
-                console.log("ERR: Placing a container cache construction site errored");
+                ReportController.log("ERROR", "Placing a container cache construction site errored");
             }
         }
 

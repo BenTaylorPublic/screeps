@@ -1,12 +1,13 @@
 import { HelperFunctions } from "../../global/helper-functions";
 import { Constants } from "../../global/constants";
+import {ReportController} from "../../reporting/report-controller";
 
 export class RoleLaborer {
     public static run(laborer: Laborer, myRoom: MyRoom): void {
         const creep: Creep = Game.creeps[laborer.name];
 
         if (creep == null) {
-            console.log("ERR: Laborer creep is null. Creep ID: " + laborer.name);
+            ReportController.log("ERROR", "Laborer creep is null. Creep ID: " + laborer.name);
             return;
         }
 
@@ -85,7 +86,7 @@ export class RoleLaborer {
                         if (cache == null) {
                             //Clear it
                             mySource.cache.id = null;
-                            console.log("ERR: Source cache returned null with get by ID");
+                            ReportController.log("ERROR", "Source cache returned null with get by ID");
                         } else if (cache.store[RESOURCE_ENERGY] >= creep.carryCapacity) {
                             laborer.state = "PickupCache";
                             creep.say("PickupCache");
@@ -111,7 +112,7 @@ export class RoleLaborer {
 
     private static pickupBank(laborer: Laborer, myRoom: MyRoom, creep: Creep): void {
         if (myRoom.bankPos == null) {
-            console.log("ERR: Room's bank pos was null");
+            ReportController.log("ERROR", "Room's bank pos was null");
             return;
         }
 
@@ -120,7 +121,7 @@ export class RoleLaborer {
         if (bankPos.isNearTo(creep)) {
             const bank: StructureStorage | null = myRoom.bank;
             if (bank == null) {
-                console.log("ERR: Room's bank was null");
+                ReportController.log("ERROR", "Room's bank was null");
                 return;
             }
             creep.withdraw(bank, RESOURCE_ENERGY);

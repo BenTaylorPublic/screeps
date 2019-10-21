@@ -1,4 +1,5 @@
-import { HelperFunctions } from "../global/helper-functions";
+import {HelperFunctions} from "../global/helper-functions";
+import {ReportController} from "../reporting/report-controller";
 
 export class MemoryController {
     public static run(): void {
@@ -50,7 +51,7 @@ export class MemoryController {
 
             if (myRoom == null) {
                 //Add it
-                console.log("LOG: Adding a new room " + roomName);
+                ReportController.log("OTHER", "Adding a new room to memory" + roomName);
                 const newMyRoom: MyRoom = {
                     name: roomName,
                     myCreeps: [],
@@ -112,13 +113,10 @@ export class MemoryController {
             const room: Room = Game.rooms[myRoom.name];
             if (room == null ||
                 room.controller == null ||
-                room.controller.my !== true) {
-                console.log("LOG: Removing room " + myRoom.name);
+                room.controller.my) {
+                console.log("OTHER", "Removing room from memory" + myRoom.name);
                 Memory.myMemory.myRooms.splice(i, 1);
                 continue;
-            }
-            if (myRoom.name === "E18S13") {
-                console.log(JSON.stringify(room.controller.my));
             }
             for (let j = myRoom.myCreeps.length - 1; j >= 0; j--) {
                 const myCreep: MyCreep = myRoom.myCreeps[j];
@@ -159,7 +157,7 @@ export class MemoryController {
             myRoom.bankLinkerName = null;
             console.log("LOG: A BankLinker has died");
         } else {
-            console.log("LOG: A Creep with a weird role has died: " + myCreep.role);
+            ReportController.log("ERROR", "A Creep with a weird role has died: " + myCreep.role);
         }
     }
 

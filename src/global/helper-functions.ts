@@ -89,7 +89,7 @@ export class HelperFunctions {
     }
 
     public static isAllyUsername(username: string): boolean {
-        return ["mooseyman", "nimphious", "james1652"].indexOf(username.toLowerCase()) !== -1;
+        return ["james1652"].indexOf(username.toLowerCase()) !== -1;
     }
 
     public static findClosestSpawn(roomPos: RoomPosition): StructureSpawn | null {

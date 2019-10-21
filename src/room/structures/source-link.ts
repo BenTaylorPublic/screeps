@@ -1,4 +1,5 @@
-import { Constants } from "../../global/constants";
+import {Constants} from "../../global/constants";
+import {ReportController} from "../../reporting/report-controller";
 
 export class RoomSourceLinkController {
     public static run(myRoom: MyRoom, myLink: MyLink): void {
@@ -11,7 +12,7 @@ export class RoomSourceLinkController {
 
         const link: StructureLink | null = Game.getObjectById<StructureLink>(myLink.id);
         if (link === null) {
-            console.log("ERR: Link was null when accessed by ID. Setting it to null");
+            ReportController.log("ERROR", "Link was null when accessed by ID. Setting it to null");
             myLink.id = null;
             return;
         }
@@ -36,7 +37,7 @@ export class RoomSourceLinkController {
 
             const bankLink: StructureLink | null = Game.getObjectById<StructureLink>(myRoom.bankLink.id);
             if (bankLink === null) {
-                console.log("ERR: Bank link was null when accessed by ID. Setting it to null");
+                ReportController.log("ERROR", "Bank link was null when accessed by ID. Setting it to null");
                 myRoom.bankLink.id = null;
                 return;
             }

@@ -1,5 +1,6 @@
-import { HelperFunctions } from "../../global/helper-functions";
-import { Constants } from "../../global/constants";
+import {HelperFunctions} from "../../global/helper-functions";
+import {Constants} from "../../global/constants";
+import {ReportController} from "../../reporting/report-controller";
 
 export class SpawnLaborer {
     public static trySpawnLaborer(myRoom: MyRoom, laborerCount: number): void {
@@ -10,7 +11,7 @@ export class SpawnLaborer {
 
         const bank: StructureStorage | null = myRoom.bank;
         if (bank == null) {
-            console.log("ERR: Bank is null when checking if it's full");
+            ReportController.log("ERROR", "Bank is null when checking if it's full");
             return;
         }
 
@@ -43,7 +44,7 @@ export class SpawnLaborer {
             // Going to use the nearest room's spawn instead
             spawn = HelperFunctions.findClosestSpawn(new RoomPosition(25, 25, myRoom.name));
             if (spawn == null) {
-                console.log("ERR: Couldn't find any spawns to make a laborer for room " + myRoom.name);
+                ReportController.log("ERROR", "Couldn't find any spawns to make a laborer for room " + myRoom.name);
                 return null;
             }
         } else {
@@ -62,11 +63,11 @@ export class SpawnLaborer {
                 "Creep" + id,
                 {
                     memory:
-                    {
-                        name: "Creep" + id,
-                        role: "Laborer",
-                        assignedRoomName: myRoom.name
-                    }
+                        {
+                            name: "Creep" + id,
+                            role: "Laborer",
+                            assignedRoomName: myRoom.name
+                        }
                 }
             );
 

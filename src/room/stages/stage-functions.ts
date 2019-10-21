@@ -1,4 +1,5 @@
-import { HelperFunctions } from "../../global/helper-functions";
+import {HelperFunctions} from "../../global/helper-functions";
+import {ReportController} from "../../reporting/report-controller";
 
 export class StageFunctions {
 
@@ -21,7 +22,7 @@ export class StageFunctions {
                     console.log("LOG: Placed extension construction site");
                     roomFlag.remove();
                 } else {
-                    console.log("ERR: Placing a extension construction site errored");
+                    ReportController.log("ERROR", "Placing a extension construction site errored");
                 }
             }
         }
@@ -50,7 +51,7 @@ export class StageFunctions {
                     console.log("LOG: Placed tower construction site");
                     roomFlag.remove();
                 } else {
-                    console.log("ERR: Placing a tower construction site errored");
+                    ReportController.log("ERROR", "Placing a tower construction site errored");
                 }
             }
         }
@@ -77,7 +78,7 @@ export class StageFunctions {
                     const mySource: MySource = myRoom.mySources[j];
                     const source: Source | null = Game.getObjectById<Source>(mySource.id);
                     if (source == null) {
-                        console.log("ERR: Source was null when trying to get it by ID");
+                        ReportController.log("ERROR", "Source was null when trying to get it by ID");
                     } else {
                         if (source.pos.inRangeTo(roomFlag.pos, 2)) {
                             mySource.link = {
@@ -92,7 +93,7 @@ export class StageFunctions {
                     console.log("LOG: Placed source link construction site");
                     roomFlag.remove();
                 } else {
-                    console.log("ERR: Placed a construction site at a flag but couldn't find a source to give it to");
+                    ReportController.log("ERROR", "Placed a construction site at a flag but couldn't find a source to give it to");
                 }
             } //Don't worry about errors
         }

@@ -1,5 +1,6 @@
-import { HelperFunctions } from "../../global/helper-functions";
-import { StageFunctions } from "./stage-functions";
+import {HelperFunctions} from "../../global/helper-functions";
+import {StageFunctions} from "./stage-functions";
+import {ReportController} from "../../reporting/report-controller";
 
 // tslint:disable-next-line: class-name
 export class Stage3_3 {
@@ -10,7 +11,7 @@ export class Stage3_3 {
     public static up(myRoom: MyRoom, room: Room): boolean {
         if (HelperFunctions.amountOfStructure(room, STRUCTURE_EXTENSION) >= 20) {
             myRoom.roomStage = 3.6;
-            console.log("LOG: Room " + myRoom.name + " increased to room stage 3.6");
+            ReportController.log("STAGE", "Room " + myRoom.name + " increased to room stage 3.6");
             return true;
         }
         this.step(myRoom, room);
@@ -20,7 +21,7 @@ export class Stage3_3 {
     public static down(myRoom: MyRoom, room: Room): boolean {
         if (HelperFunctions.amountOfStructure(room, STRUCTURE_EXTENSION) < 20) {
             myRoom.roomStage = 3.3;
-            console.log("LOG: Room " + myRoom.name + " decreased to room stage 3.3");
+            ReportController.log("STAGE", "Room " + myRoom.name + " decreased to room stage 3.3");
             return true;
         }
         return false;

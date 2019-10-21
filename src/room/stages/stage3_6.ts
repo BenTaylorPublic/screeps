@@ -1,4 +1,5 @@
-import { HelperFunctions } from "../../global/helper-functions";
+import {HelperFunctions} from "../../global/helper-functions";
+import {ReportController} from "../../reporting/report-controller";
 
 // tslint:disable-next-line: class-name
 export class Stage3_6 {
@@ -10,7 +11,7 @@ export class Stage3_6 {
         this.step(myRoom, room);
         if (HelperFunctions.amountOfStructure(room, STRUCTURE_STORAGE) >= 1) {
             myRoom.roomStage = 4;
-            console.log("LOG: Room " + myRoom.name + " increased to room stage 4");
+            ReportController.log("STAGE", "Room " + myRoom.name + " increased to room stage 4");
             return true;
         }
         return false;
@@ -19,7 +20,7 @@ export class Stage3_6 {
     public static down(myRoom: MyRoom, room: Room): boolean {
         if (HelperFunctions.amountOfStructure(room, STRUCTURE_STORAGE) < 1) {
             myRoom.roomStage = 3.6;
-            console.log("LOG: Room " + myRoom.name + " decreased to room stage 3.6");
+            ReportController.log("STAGE", "Room " + myRoom.name + " decreased to room stage 3.6");
             return true;
         }
         return false;
@@ -50,7 +51,7 @@ export class Stage3_6 {
                     roomFlag.remove();
 
                 } else {
-                    console.log("ERR: Placing a storage bank construction site errored");
+                    ReportController.log("ERROR", "Placing a storage bank construction site errored");
                 }
             }
         }

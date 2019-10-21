@@ -1,8 +1,10 @@
+import {ReportController} from "../../reporting/report-controller";
+
 export class RoleAttackOneCreep {
     public static run(attackOneCreep: AttackOneCreep, attackOneState: string, rallyOrChargeFlag: Flag): void {
         const creep: Creep = Game.creeps[attackOneCreep.name];
         if (creep == null) {
-            console.log("ERR: Attack One Creep is null. Creep ID: " + attackOneCreep.name);
+            ReportController.log("ERROR", "Attack One Creep is null. Creep ID: " + attackOneCreep.name);
             return;
         }
         //TODO: Continue from here
@@ -14,7 +16,7 @@ export class RoleAttackOneCreep {
         } else {
             //Inside the room
             if (creep.room.controller == null) {
-                console.log("ERR: Claimer can't claim a room with no controller");
+                ReportController.log("ERROR",  "Claimer can't claim a room with no controller");
                 return;
             }
             if (creep.claimController(creep.room.controller) === ERR_NOT_IN_RANGE) {

@@ -1,3 +1,5 @@
+import {ReportController} from "../../reporting/report-controller";
+
 // tslint:disable-next-line: class-name
 export class Stage2 {
     /*
@@ -8,7 +10,7 @@ export class Stage2 {
         if (room.controller != null &&
             room.controller.level >= 3) {
             myRoom.roomStage = 2.3;
-            console.log("LOG: Room " + myRoom.name + " increased to room stage 2.3");
+            ReportController.log("STAGE", "Room " + myRoom.name + " increased to room stage 2.3");
             return true;
         }
         return false;
@@ -18,7 +20,7 @@ export class Stage2 {
         if (room.controller == null ||
             room.controller.level < 3) {
             myRoom.roomStage = 2;
-            console.log("LOG: Room " + myRoom.name + " decreased to room stage 2");
+            ReportController.log("STAGE", "Room " + myRoom.name + " decreased to room stage 2");
             return true;
         }
         return false;
