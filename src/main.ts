@@ -4,11 +4,6 @@ import {EmpireController} from "./empire/empire-controller";
 import {ReportController} from "./reporting/report-controller";
 
 console.log("Script reloaded");
-delete Memory.myMemory.reports;
-Memory.myMemory.report = {
-    lastReportTimeStamp: new Date().getTime(),
-    reports: []
-};
 setupMyMemory();
 
 export const loop: any = function (): void {
