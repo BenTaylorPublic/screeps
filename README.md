@@ -12,7 +12,7 @@ Push to master to release
 ### Working on
 ```
 Attack logic
-    rename to this
+    Rename to this
         attack-one-room-target flag
     Add priority list into AttackOneCreep
         Spawn > Towers > Creeps
@@ -20,6 +20,9 @@ Attack logic
 ```
 ### Short term
 ```
+AttackOne
+    Priority target's via flags
+
 Helper function
     Check if structure type is in pos
 
@@ -63,6 +66,10 @@ Spawn a new miner before the old one dies, so no downtime.
     Set it every time.
     In the spawning logic, just check if the tickstolive of the miner is <= minerTravelTime.
     Problem is they'll just get later and later unless it measures it to 1 move AWAY from the cachePos...
+    
+Hauling between rooms 
+    (Energy, and minerals), when starting room is RoomStage 8 (maybe 7?)
+    Might help to speed up getting all rooms to 8?
 
 Room stages 6 to 7:
     RCL
@@ -80,10 +87,6 @@ Room stages 7 to 8:
     Spawn
     Observer
     Power Spawn
-    
-Hauling between rooms 
-    (Energy, and minerals), when starting room is RoomStage 8 (maybe 7?)
-    Might help to speed up getting all rooms to 8?
 ```
 
 ## Flag Names
@@ -100,7 +103,7 @@ spawn
 claim
 report
 attack-one-rally
-attack-one-charge
+attack-one-room-target
 ```
 
 ## Stage Progression

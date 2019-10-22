@@ -1,7 +1,7 @@
 import {ReportController} from "../../reporting/report-controller";
 
 export class RoleAttackOneCreep {
-    public static run(attackOneCreep: AttackOneCreep, attackOneState: string, rallyOrChargeFlag: Flag): void {
+    public static run(attackOneCreep: AttackOneCreep, attackOneState: AttackOneStateType, rallyOrRoomTargetFlag: Flag): void {
         const creep: Creep = Game.creeps[attackOneCreep.name];
         if (creep == null) {
             ReportController.log("ERROR", "Attack One Creep is null. Creep ID: " + attackOneCreep.name);

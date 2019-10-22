@@ -29,8 +29,10 @@ interface Empire {
     creeps: MyCreep[];
 }
 
+type AttackOneStateType = "Conscripting" | "Rally" | "Charge";
+
 interface AttackOne {
-    state: "Conscripting" | "Rally" | "Charge";
+    state: AttackOneStateType;
     roomsStillToProvide: MyRoom[];
 }
 

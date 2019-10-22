@@ -1,25 +1,18 @@
 import {Constants} from "../global/constants";
 import {HelperFunctions} from "../global/helper-functions";
+import {ReportController} from "../reporting/report-controller";
 
 export class AttackOneController {
     public static run(empireCommand: EmpireCommand): void {
-        const flagNames: string[] = Object.keys(Game.flags);
         let flag: Flag | null = null;
-        for (let i = 0; i < flagNames.length; i++) {
-            if (flagNames[i] !== "attack-one-rally") {
-                continue;
-            }
-            flag = Game.flags[flagNames[i]];
-            //Do not continue through the rest of the flags
-            break;
-        }
-
-        if (flag == null) {
-            return;
-        }
 
         let attackOne: AttackOne = Memory.myMemory.empire.attackOne;
         if (attackOne == null) {
+            flag = Game.flags["attack-one-rally"];
+            if (flag == null) {
+                return;
+            }
+
             //Need to work out the rooms
             attackOne = {
                 state: "Conscripting",
@@ -72,6 +65,13 @@ export class AttackOneController {
         }
 
         if (attackOne.state === "Rally") {
+            flag = Game.flags["attack-one-rally"];
+            if (flag == null) {
+                ReportController.log("ERROR", "attack-one-rally flag doesn't exist during AttackOne. Cancelling the attack.");
+                this.cancelAttack();
+                return;
+            }
+
             //Wait until all the creeps are within range of the rally flag
             for (let i = 0; i < Memory.myMemory.empire.creeps.length; i++) {
                 const myCreep: MyCreep = Memory.myMemory.empire.creeps[i];
@@ -130,5 +130,17 @@ export class AttackOneController {
             };
         }
         return null;
+    }
+
+    private static cancelAttack(): void {
+        const empire: Empire = Memory.myMemory.empire;
+        empire.attackOne = null;
+
+        for (let i = empire.creeps.length - 1; i > 0; i--) {
+            if (empire.creeps[i].role === "AttackOneCreep") {
+                console.log("LOG: Killing AttackOneCreep " + empire.creeps[i].name);
+                Game.creeps[empire.creeps[i].name].suicide();
+            }
+        }
     }
 }

@@ -3,17 +3,7 @@ import {ReportController} from "../reporting/report-controller";
 
 export class SpawnClaimerController {
     public static run(): void {
-        const flagNames: string[] = Object.keys(Game.flags);
-        let flag: Flag | null = null;
-        for (let i = 0; i < flagNames.length; i++) {
-            if (flagNames[i] !== "claim") {
-                continue;
-            }
-            flag = Game.flags[flagNames[i]];
-            //Do not continue through the rest of the flags
-            break;
-        }
-
+        const flag: Flag | null = Game.flags["claim"];
         if (flag == null) {
             return;
         }
@@ -52,7 +42,7 @@ export class SpawnClaimerController {
         const spawn: StructureSpawn | null = HelperFunctions.findClosestSpawn(flag.pos);
         if (spawn == null) {
             flag.remove();
-            ReportController.log("ERROR",  "Couldn't find a spawn to make a claimer");
+            ReportController.log("ERROR", "Couldn't find a spawn to make a claimer");
             return null;
         }
 
