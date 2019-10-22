@@ -19,6 +19,7 @@ export class ReportController {
         const lastReport: Date = new Date(Memory.myMemory.report.lastReportTimeStamp);
         if ((new Date().getTime() - lastReport.getTime()) / 1000 > 500) { //1814400
             //It's been 3 weeks
+            console.log("Emailed");
             const email: string = "You haven't launched the game in 3 weeks. Here's a report.\n" + this.report();
             Game.notify(email, 0);
         }
