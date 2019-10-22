@@ -11,10 +11,16 @@ export class ReportController {
             if (flagNames[i] === "report") {
                 const flag: Flag = Game.flags[flagNames[i]];
                 flag.remove();
-                this.report();
+                console.log(this.report());
                 //Do not continue through the rest of the flags
                 return;
             }
+        }
+        const lastReport: Date = new Date(Memory.myMemory.report.lastReportTimeStamp);
+        if ((new Date().getTime() - lastReport.getTime()) / 1000 > 500) { //1814400
+            //It's been 3 weeks
+            const email: string = "You haven't launched the game in 3 weeks. Here's a report.\n" + this.report();
+            Game.notify(email, 0);
         }
     }
 
@@ -33,10 +39,10 @@ export class ReportController {
         Memory.myMemory.report.reports.push(report);
     }
 
-    private static report(): void {
-        console.log("BEGIN REPORT:");
+    private static report(): string {
+        let result: string = "BEGIN REPORT:\n";
         const lastReportTime: Date = new Date(Memory.myMemory.report.lastReportTimeStamp);
-        console.log("Last report: " + this.niceDateFormat(lastReportTime) + "(" + this.timeSince(lastReportTime) + ")");
+        result += "Last report: " + this.niceDateFormat(lastReportTime) + "(" + this.timeSince(lastReportTime) + ")\n";
         for (let i = 0; i < Memory.myMemory.report.reports.length; i++) {
             const report: Report = Memory.myMemory.report.reports[i];
             const reportTime: Date = new Date(report.timeStamp);
@@ -45,13 +51,14 @@ export class ReportController {
             outputString += "tick " + report.tick + " ";
             outputString += report.messageType + ": ";
             outputString += report.message;
-            console.log(outputString);
+            result += outputString + "\n";
         }
-        console.log("END OF REPORT");
+        result += "END OF REPORT";
         Memory.myMemory.report = {
             reports: [],
             lastReportTimeStamp: new Date().getTime()
         };
+        return result;
     }
 
     private static niceDateFormat(date: Date): string {
