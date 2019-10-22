@@ -1,5 +1,6 @@
-import { HelperFunctions } from "../../global/helper-functions";
-import { Constants } from "../../global/constants";
+import {HelperFunctions} from "../../global/helper-functions";
+import {Constants} from "../../global/constants";
+import {ReportController} from "../../reporting/report-controller";
 
 export class RoomTowerController {
     public static run(tower: StructureTower): void {
@@ -35,6 +36,7 @@ export class RoomTowerController {
             }
             if (target != null) {
                 tower.attack(target);
+                ReportController.log("DEFENCE", "Tower attacking target with name " + target.name + " Owner: " + target.owner.username);
                 return;
             }
         }
