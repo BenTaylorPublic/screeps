@@ -11,19 +11,17 @@ Push to master to release
 ## TODO
 ### Working on
 ```
-Reports should be emailed if I don't use "report" for 21 days (3 weeks)
-```
-### Short term
-```
-Helper function
-    Check if structure type is in pos
-
 Attack logic
     rename to this
         attack-one-room-target flag
     Add priority list into AttackOneCreep
         Spawn > Towers > Creeps
     Apparently "Tough" body parts are important lol
+```
+### Short term
+```
+Helper function
+    Check if structure type is in pos
 
 Flag helper function to get flags
     Pass it:
