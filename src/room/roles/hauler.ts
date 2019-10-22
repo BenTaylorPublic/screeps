@@ -1,5 +1,4 @@
-import { HelperFunctions } from "../../global/helper-functions";
-import { Constants } from "../../global/constants";
+import {HelperFunctions} from "../../global/helper-functions";
 import {ReportController} from "../../reporting/report-controller";
 
 export class RoleHauler {
@@ -28,9 +27,6 @@ export class RoleHauler {
 
         if (hauler.pickup) {
             //Picking up more
-            if (Constants.REPEAT_CREEP_STATE) {
-                creep.say("pickup");
-            }
 
             const cacheToGrabFromPos: RoomPosition = HelperFunctions.myPosToRoomPos(hauler.cachePosToPickupFrom);
             if (cacheToGrabFromPos.isNearTo(creep)) {
@@ -56,9 +52,6 @@ export class RoleHauler {
             }
         } else {
             //Deliver
-            if (Constants.REPEAT_CREEP_STATE) {
-                creep.say("delivering");
-            }
 
             if (myRoom.bankPos == null) {
                 ReportController.log("ERROR", "Room's bank pos was null");

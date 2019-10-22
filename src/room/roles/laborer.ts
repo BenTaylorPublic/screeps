@@ -1,5 +1,4 @@
 import { HelperFunctions } from "../../global/helper-functions";
-import { Constants } from "../../global/constants";
 import {ReportController} from "../../reporting/report-controller";
 
 export class RoleLaborer {
@@ -18,10 +17,6 @@ export class RoleLaborer {
         }
 
         this.calculateCreepState(laborer, myRoom, creep);
-
-        if (Constants.REPEAT_CREEP_STATE) {
-            creep.say(laborer.state);
-        }
 
         if (laborer.state === "PickupBank") {
             this.pickupBank(laborer, myRoom, creep);
