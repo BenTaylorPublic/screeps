@@ -9,7 +9,7 @@ export class Stage4_4 {
     4.4 <-  4.6   : Room has < 30 extensions
     */
     public static up(myRoom: MyRoom, room: Room): boolean {
-        if (HelperFunctions.amountOfStructure(room, STRUCTURE_EXTENSION) >= 30) {
+        if (HelperFunctions.amountOfExtensions(room, STRUCTURE_EXTENSION) >= 30) {
             myRoom.roomStage = 4.6;
             ReportController.log("STAGE", "Room " + myRoom.name + " increased to room stage 4.6");
             return true;
@@ -19,7 +19,7 @@ export class Stage4_4 {
     }
 
     public static down(myRoom: MyRoom, room: Room): boolean {
-        if (HelperFunctions.amountOfStructure(room, STRUCTURE_EXTENSION) < 30) {
+        if (HelperFunctions.amountOfExtensions(room, STRUCTURE_EXTENSION) < 30) {
             myRoom.roomStage = 4.4;
             ReportController.log("STAGE", "Room " + myRoom.name + " decreased to room stage 4.4");
             return true;

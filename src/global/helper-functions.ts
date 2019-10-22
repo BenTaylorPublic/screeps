@@ -36,7 +36,7 @@ export class HelperFunctions {
         return body;
     }
 
-    public static amountOfStructure(room: Room, structureConstant: StructureConstant): number {
+    public static amountOfExtensions(room: Room, structureConstant: StructureConstant): number {
         const extensions: StructureExtension[] = room.find<StructureExtension>(FIND_STRUCTURES, {
             filter: (structure: Structure) => {
                 return structure.structureType === structureConstant;
