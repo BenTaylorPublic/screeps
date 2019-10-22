@@ -52,7 +52,7 @@ export class Stage1_6 {
         for (let i = 0; i < roomFlags.length; i++) {
             const roomFlag: Flag = roomFlags[i];
             const result: ScreepsReturnCode = Game.rooms[myRoom.name].createConstructionSite(roomFlag.pos, STRUCTURE_CONTAINER);
-            if (result === OK) {
+            if (result === OK || this.containerInPos(roomFlag.pos)) {
                 let placedFully: boolean = false;
                 for (let j = 0; j < myRoom.mySources.length; j++) {
                     const mySource: MySource = myRoom.mySources[j];
@@ -106,5 +106,15 @@ export class Stage1_6 {
             room.find(FIND_CONSTRUCTION_SITES).length === 0) {
             console.log("ATTENTION: Room " + myRoom.name + " needs cache container flag");
         }
+    }
+
+    private static containerInPos(pos: RoomPosition): boolean {
+        const structures = pos.lookFor(LOOK_STRUCTURES);
+        for (let j = 0; j < structures.length; j++) {
+            if (structures[j].structureType === STRUCTURE_CONTAINER) {
+                return true;
+            }
+        }
+        return false;
     }
 }

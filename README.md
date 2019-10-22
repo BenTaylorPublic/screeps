@@ -11,17 +11,13 @@ Push to master to release
 ## TODO
 ### Working on
 ```
-Reporting via flag "report"
-    Should have
-        Room name
-        Time stamp
-        Days/Hours/minutes since then
-        Message Type (Attention, Stages, Defense)
-        Message
-    Reports should be emailed if I don't use "report" for 21 days (3 weeks)
+Reports should be emailed if I don't use "report" for 21 days (3 weeks)
 ```
 ### Short term
 ```
+Helper function
+    Check if structure type is in pos
+
 Links construction
     Creating the first 2 links should FORCE 1 source link 1 bank link
 
@@ -43,6 +39,8 @@ Writing on a room sign via a flag
 
 ### Long term:
 ```
+Should be able to skip from stage 1.6 to 4.8
+
 Siege/pressure command
     Whenever a room has full energy, create an attack creep which goes to a room and starts attacking
     Could be good to ween down weak walls over time
