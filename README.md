@@ -12,8 +12,6 @@ Push to master to release
 ### Working on
 ```
 Attack logic
-    Rename to this
-        attack-one-room-target flag
     Add priority list into AttackOneCreep
         Spawn > Towers > Creeps
     Apparently "Tough" body parts are important lol
@@ -37,7 +35,12 @@ Writing on a room sign via a flag
 
 ### Long term:
 ```
-Should be able to skip from stage 1.6 to 4.8
+Links
+    Should be able to skip from stage 1.6 to 4.8 (skip caches)
+    Should place links in this order
+        Bank
+        Link source (using a number priority, so you can force it to build one on the far away source)
+        Link out
 
 Siege/pressure command
     Whenever a room has full energy, create an attack creep which goes to a room and starts attacking
