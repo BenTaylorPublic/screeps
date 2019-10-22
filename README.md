@@ -15,6 +15,8 @@ Attack logic
     Add priority list into AttackOneCreep
         Spawn > Towers > Creeps
     Apparently "Tough" body parts are important lol
+    Test rallying/conscripting
+        Make it so when the state is "Charge" it suicides the creeps and sets AttackOne to null
 ```
 ### Short term
 ```
