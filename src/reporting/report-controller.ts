@@ -41,7 +41,7 @@ export class ReportController {
             const report: Report = Memory.myMemory.report.reports[i];
             const reportTime: Date = new Date(report.timeStamp);
             let outputString: string = this.niceDateFormat(reportTime);
-            outputString += "(" + this.timeSince(reportTime) + ") ";
+            outputString += " (" + this.timeSince(reportTime) + ") ";
             outputString += "tick " + report.tick + " ";
             outputString += report.messageType + ": ";
             outputString += report.message;
