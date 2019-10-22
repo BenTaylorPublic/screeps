@@ -55,8 +55,9 @@ export class ReportController {
     }
 
     private static niceDateFormat(date: Date): string {
-        return (date.getMonth() + 1) + "-" + date.getDate() + " " +
-            date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+        const localDate: Date = new Date(date.toLocaleString("en-US", {timeZone: "Australia/Melbourne"}));
+        return (localDate.getMonth() + 1) + "-" + localDate.getDate() + " " +
+            localDate.getHours() + ":" + localDate.getMinutes() + ":" + localDate.getSeconds();
     }
 
     private static timeSince(date: Date): string {
@@ -68,29 +69,29 @@ export class ReportController {
         if (secondsLeft >= 604800) {
             const weeks: number = Math.floor(secondsLeft / 604800);
             secondsLeft -= weeks * 604800;
-            result += weeks + "W, ";
+            result += weeks + "w, ";
         }
 
         if (secondsLeft >= 86400) {
             const days: number = Math.floor(secondsLeft / 86400);
             secondsLeft -= days * 86400;
-            result += days + "D, ";
+            result += days + "d, ";
         }
 
         if (secondsLeft >= 3600) {
             const hours: number = Math.floor(secondsLeft / 3600);
             secondsLeft -= hours * 3600;
-            result += hours + "H, ";
+            result += hours + "h, ";
         }
 
         if (secondsLeft >= 60) {
             const minutes: number = Math.floor(secondsLeft / 60);
             secondsLeft -= minutes * 60;
-            result += minutes + "M, ";
+            result += minutes + "m, ";
         }
 
         if (secondsLeft >= 0) {
-            result += secondsLeft + "S";
+            result += secondsLeft + "s";
         }
 
         result += " ago";
