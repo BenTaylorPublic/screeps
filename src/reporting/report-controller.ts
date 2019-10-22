@@ -17,9 +17,9 @@ export class ReportController {
             }
         }
         const lastReport: Date = new Date(Memory.myMemory.report.lastReportTimeStamp);
-        if ((new Date().getTime() - lastReport.getTime()) / 1000 > 1814400) {
-            //It's been 3 weeks
-            const email: string = "You haven't requested a report in 3 weeks. Here's a report.\n" + this.report();
+        if ((new Date().getTime() - lastReport.getTime()) / 1000 > 604800) {
+            //It's been a week
+            const email: string = "You haven't requested a report in a week. Here's a report.\n" + this.report();
             Game.notify(email);
         }
     }
