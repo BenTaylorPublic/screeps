@@ -20,6 +20,12 @@ Attack logic
 ```
 ### Short term
 ```
+Fix reports length
+
+Test emails over 1000 characters
+    In main.ts
+    Do a for loop and append i + "\n"
+
 AttackOne
     Priority target's via flags
 

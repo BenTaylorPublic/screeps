@@ -89,6 +89,10 @@ export class AttackOneController {
         }
 
         if (attackOne.state === "Charge") {
+            //For testing
+            ReportController.log("ERROR", "Cancelling AttackOne. Here is where they'd normally charge.");
+            this.cancelAttack();
+
             // TODO:
             // Remove the flag when the creeps are dead I guess?
         }
@@ -140,6 +144,13 @@ export class AttackOneController {
             if (empire.creeps[i].role === "AttackOneCreep") {
                 console.log("LOG: Killing AttackOneCreep " + empire.creeps[i].name);
                 Game.creeps[empire.creeps[i].name].suicide();
+            }
+        }
+        const flagNames: string[] = Object.keys(Game.flags);
+        for (let i = 0; i < flagNames.length; i++) {
+            if (flagNames.includes("attack-one")) {
+                const flag: Flag = Game.flags[flagNames[i]];
+                flag.remove();
             }
         }
     }
