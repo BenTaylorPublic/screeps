@@ -24,12 +24,13 @@ export class SimController {
                 console.log("Room was null?");
                 return false;
             }
-            console.log("Flag.room.name: " + flag.room.name);
             if (flag.room != null &&
                 flag.room.name === "sim") {
                 flags.push(flag);
             }
         }
+
+        console.log("Amount of flags: " + flags.length);
 
         let closestFlag: Flag | null = null;
         let closestFlagDistance: number = 999;
