@@ -38,5 +38,5 @@ function setupMyMemory(): void {
         } as MyMemory;
     }
 
-    Memory.myMemory.empire.attackOne = null;
+    // Memory.myMemory.empire.attackOne = null;
 }

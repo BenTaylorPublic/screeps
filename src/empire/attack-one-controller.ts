@@ -93,6 +93,7 @@ export class AttackOneController {
                 }
             }
             //If it gets here, we're ready to charge!
+            console.log("LOG: AttackOne Charge");
             attackOne.state = "Charge";
         }
 

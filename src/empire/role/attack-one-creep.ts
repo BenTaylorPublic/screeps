@@ -9,6 +9,9 @@ export class RoleAttackOneCreep {
             return;
         }
 
+        console.log(attackOneState);
+        console.log(JSON.stringify(rallyOrRoomTargetFlag.pos));
+
         if (attackOneState === "Rally" || attackOneState === "Conscripting") {
             if (!creep.pos.inRangeTo(rallyOrRoomTargetFlag.pos, Constants.RALLY_FLAG_RANGE)) {
                 //Not in range
