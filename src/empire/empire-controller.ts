@@ -24,6 +24,8 @@ export class EmpireController {
         if (myMemory.empire.attackOne != null) {
             const attackOne: AttackOne = myMemory.empire.attackOne;
             let flag: Flag;
+            console.log(attackOne.state);
+            console.log("----");
             if (attackOne.state === "Conscripting" || "Rally") {
                 flag = Game.flags["attack-one-rally"];
             } else {
