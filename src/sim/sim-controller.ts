@@ -39,6 +39,9 @@ export class SimController {
                 flags.splice(i, 1);
                 //COULD USE pathResult.cost
             } else if (pathResult.path.length < closestFlagDistance) {
+                if (Game.time % 20 === 0) {
+                    console.log(JSON.stringify(pathResult));
+                }
                 closestFlag = flags[i];
                 closestFlagDistance = pathResult.path.length;
             }
