@@ -20,8 +20,8 @@ export class AttackOneController {
             };
 
             let outputMessage: string = "";
-            for (let i = 0; i < Memory.myMemory.rooms.length; i++) {
-                const myRoom: MyRoom = Memory.myMemory.rooms[i];
+            for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
+                const myRoom: MyRoom = Memory.myMemory.myRooms[i];
                 if (Game.map.getRoomLinearDistance(flag.pos.roomName, myRoom.name)
                     < Constants.CONSCRIPTION_RANGE) {
                     //This room will be conscripted
