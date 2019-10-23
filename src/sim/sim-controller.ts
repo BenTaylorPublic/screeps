@@ -1,6 +1,7 @@
 export class SimController {
     public static run(): void {
-        const creep: Creep | null = Game.creeps[0];
+        const creepNames: string[] = Object.keys(Game.creeps);
+        const creep: Creep | null = Game.creeps[creepNames[0]];
         if (creep == null) {
             //Wait
             return;
