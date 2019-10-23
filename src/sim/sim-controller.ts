@@ -18,9 +18,9 @@ export class SimController {
     private static findClosestFlag(creep: Creep): boolean {
 
         const flag: Flag = Game.flags["Flag1"];
-        const path: PathStep[] = creep.pos.findPathTo(flag.pos);
+        const pathFinderResult: PathFinderPath = PathFinder.search(creep.pos, {pos: flag.pos, range: 0});
 
-        if (!path.length) {
+        if (pathFinderResult.incomplete) {
             return false;
         }
 
