@@ -11,19 +11,26 @@ Push to master to release
 ## TODO
 ### Working on
 ```
-Logging
-    LOG: [object Object] has been conscripted Creep17596 for AttackOne
+Try findPath on sim
 
-Attack logic
-    Add priority list into AttackOneCreep
-        Spawn > Towers > Creeps
+Reports
+    Remove Invader messages to reduce spam
+
+Attack One
+    LOG: [object Object] has been conscripted Creep17596 for AttackOne
+    Pathing didn't work?
     Apparently "Tough" body parts are important lol
-    Test rallying/conscripting
-        Make it so when the state is "Charge" it suicides the creeps and sets AttackOne to null
+    Bodies were weak
 ```
 ### Short term
 ```
-Fix reports length
+Attack One
+    Rally until a creep has < X ticks left to live
+
+Reports
+    Length issues (check bucket)
+    And make it say "enemy entered", "enemy died" etc 
+        Remove tower attacking X once thats done
 
 Test emails over 1000 characters
     In main.ts
