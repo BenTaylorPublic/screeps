@@ -20,6 +20,11 @@ export class SimController {
         const flagNames: string[] = Object.keys(Game.flags);
         for (let i = 0; i < flagNames.length; i++) {
             const flag: Flag = Game.flags[flagNames[i]];
+            if (flag.room == null) {
+                console.log("Room was null?");
+                return false;
+            }
+            console.log("Flag.room.name: " + flag.room.name);
             if (flag.room != null &&
                 flag.room.name === "sim") {
                 flags.push(flag);
