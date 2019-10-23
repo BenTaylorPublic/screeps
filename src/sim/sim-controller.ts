@@ -20,17 +20,11 @@ export class SimController {
         const flagNames: string[] = Object.keys(Game.flags);
         for (let i = 0; i < flagNames.length; i++) {
             const flag: Flag = Game.flags[flagNames[i]];
-            if (flag.room == null) {
-                console.log("Room was null?");
-                return false;
-            }
             if (flag.room != null &&
                 flag.room.name === "sim") {
                 flags.push(flag);
             }
         }
-
-        console.log("Amount of flags: " + flags.length);
 
         let closestFlag: Flag | null = null;
         let closestFlagDistance: number = 999;
@@ -55,7 +49,7 @@ export class SimController {
 
     private static attackTarget(creep: Creep, target: Flag): void {
         if (creep.pos.inRangeTo(target.pos, 1)) {
-            creep.say("ARRIVED");
+            console.log("ARRIVED");
         } else {
             creep.moveTo(target);
         }
