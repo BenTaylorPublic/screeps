@@ -21,7 +21,7 @@ export class RoleAttackOneCreep {
             }
         } else if (attackOneState === "Charge") {
             if (creep.room.name !== rallyOrRoomTargetFlag.pos.roomName) {
-                console.log("Charge!");
+                creep.say("Charge!");
                 creep.moveTo(rallyOrRoomTargetFlag.pos);
             } else {
                 //In the target room!

@@ -11,6 +11,9 @@ Push to master to release
 ## TODO
 ### Working on
 ```
+Logging
+    LOG: [object Object] has been conscripted Creep17596 for AttackOne
+
 Attack logic
     Add priority list into AttackOneCreep
         Spawn > Towers > Creeps
