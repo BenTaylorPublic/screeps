@@ -2,25 +2,36 @@ import {RoomController} from "./room/room-controller";
 import {MemoryController} from "./memory/memory-controller";
 import {EmpireController} from "./empire/empire-controller";
 import {ReportController} from "./reporting/report-controller";
+import {SimController} from "./sim/sim-controller";
 
 console.log("Script reloaded");
 
 setupMyMemory();
 
-export const loop: any = function (): void {
-    const myMemory: MyMemory = Memory.myMemory;
-    MemoryController.run();
+export let loop: any;
 
-    ReportController.checkForReportFlag();
+const roomNames: string[] = Object.keys(Game.rooms);
+if (roomNames.length === 1 && roomNames[0] === "sim") {
+    loop = function (): void {
+        SimController.run();
+    };
+} else {
+    loop = function (): void {
+        const myMemory: MyMemory = Memory.myMemory;
+        MemoryController.run();
 
-    const empireCommand: EmpireCommand = EmpireController.run(myMemory);
+        ReportController.checkForReportFlag();
 
-    for (let i = 0; i < myMemory.myRooms.length; i++) {
-        RoomController.run(myMemory.myRooms[i], empireCommand);
-    }
+        const empireCommand: EmpireCommand = EmpireController.run(myMemory);
 
-    MemoryController.clearBanks();
-};
+        for (let i = 0; i < myMemory.myRooms.length; i++) {
+            RoomController.run(myMemory.myRooms[i], empireCommand);
+        }
+
+        MemoryController.clearBanks();
+    };
+}
+
 
 function setupMyMemory(): void {
     if (Memory.myMemory == null) {
