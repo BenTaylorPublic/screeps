@@ -29,14 +29,18 @@ export class SimController {
         let closestFlag: Flag | null = null;
         let closestFlagDistance: number = 999;
         for (let i: number = flags.length - 1; i >= 0; i--) {
-            const path: PathStep[] = creep.pos.findPathTo(flags[i].pos);
-            if (path.length === 0) {
+            const pathResult: PathFinderPath = PathFinder.search(creep.pos, {
+                pos: flags[i].pos,
+                range: 0
+            });
+            if (pathResult.incomplete) {
                 //No path
                 console.log("No path");
                 flags.splice(i, 1);
-            } else if (path.length < closestFlagDistance) {
+                //COULD USE pathResult.cost
+            } else if (pathResult.path.length < closestFlagDistance) {
                 closestFlag = flags[i];
-                closestFlagDistance = path.length;
+                closestFlagDistance = pathResult.path.length;
             }
         }
 
