@@ -56,7 +56,7 @@ export class AttackOneController {
                 const myRoom: MyRoom = attackOne.roomsStillToProvide[i];
                 const attackOneCreep: AttackOneCreep | null = this.spawnAttackOneCreep(myRoom);
                 if (attackOneCreep != null) {
-                    console.log("LOG: " + myRoom + " has been conscripted " + attackOneCreep.name + " for AttackOne");
+                    console.log("LOG: " + myRoom.name + " has been conscripted " + attackOneCreep.name + " for AttackOne");
                     Memory.myMemory.empire.creeps.push(attackOneCreep);
                     attackOne.roomsStillToProvide.splice(i, 1);
                 } // else room still to provide a creep
