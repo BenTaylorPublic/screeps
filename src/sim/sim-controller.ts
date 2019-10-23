@@ -37,6 +37,7 @@ export class SimController {
             const path: PathStep[] = creep.pos.findPathTo(flags[i].pos);
             if (path.length === 0) {
                 //No path
+                console.log("No path");
                 flags.splice(i, 1);
             } else if (path.length < closestFlagDistance) {
                 closestFlag = flags[i];
