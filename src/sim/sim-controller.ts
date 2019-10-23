@@ -1,7 +1,6 @@
 export class SimController {
     public static run(): void {
-        const creepNames: string[] = Object.keys(Game.creeps);
-        const creep: Creep | null = Game.creeps[creepNames[0]];
+        const creep: Creep | null = Game.creeps["Creep"];
         if (creep == null) {
             //Wait
             return;
@@ -17,7 +16,7 @@ export class SimController {
     //Returns true if found a target
     private static findClosestFlag(creep: Creep): boolean {
 
-        const flag: Flag = Game.flags["Flag1"];
+        const flag: Flag = Game.flags["Flag"];
         const pathFinderResult: PathFinderPath = PathFinder.search(creep.pos, {pos: flag.pos, range: 0});
 
         if (pathFinderResult.incomplete) {
