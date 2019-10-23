@@ -6,11 +6,12 @@ export class SimController {
             //Wait
             return;
         }
-        if (this.findClosestFlag(creep)) {
-            creep.say("⚔️Spawn");
+        const foundPath: boolean = this.findClosestFlag(creep);
+        if (foundPath === true) {
+            console.log("pathing");
             return;
         }
-        console.log("Couldn't get path to that");
+        console.log("no path!");
     }
 
     //Returns true if found a target
