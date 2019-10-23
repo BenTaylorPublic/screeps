@@ -24,11 +24,9 @@ export class EmpireController {
         if (myMemory.empire.attackOne != null) {
             const attackOne: AttackOne = myMemory.empire.attackOne;
             let flag: Flag;
-            if (attackOne.state === "Conscripting" || "Rally") {
-                console.log("BAD");
+            if (attackOne.state === "Conscripting" || attackOne.state === "Rally") {
                 flag = Game.flags["attack-one-rally"];
             } else {
-                console.log("GOOD");
                 flag = Game.flags["attack-one-room-target"];
             }
 
@@ -37,8 +35,6 @@ export class EmpireController {
                 if (attackOneCreep.role !== "AttackOneCreep") {
                     continue;
                 }
-                console.log(attackOne.state);
-                console.log(JSON.stringify(flag));
 
                 RoleAttackOneCreep.run(attackOneCreep as AttackOneCreep, attackOne.state, flag);
             }
