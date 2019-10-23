@@ -36,7 +36,9 @@ export class RoomTowerController {
             }
             if (target != null) {
                 tower.attack(target);
-                ReportController.log("DEFENCE", "Tower attacking target with name " + target.name + " Owner: " + target.owner.username);
+                if (target.owner.username !== "Invader") {
+                    ReportController.log("DEFENCE", "Tower attacking target with name " + target.name + " Owner: " + target.owner.username);
+                }
                 return;
             }
         }

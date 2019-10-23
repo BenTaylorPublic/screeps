@@ -13,9 +13,6 @@ Push to master to release
 ```
 Try findPath on sim
 
-Reports
-    Remove Invader messages to reduce spam
-
 Attack One
     LOG: [object Object] has been conscripted Creep17596 for AttackOne
     Pathing didn't work?
