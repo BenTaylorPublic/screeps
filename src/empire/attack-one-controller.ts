@@ -30,8 +30,8 @@ export class AttackOneController {
                 }
             }
             if (attackOne.roomsStillToProvide.length === 0) {
-                Memory.myMemory.empire.attackOne = null;
                 console.log("LOG: Canceling an AttackOne because no rooms were in conscription range.");
+                this.cancelAttack();
                 return;
             }
 
@@ -40,9 +40,17 @@ export class AttackOneController {
 
             console.log("AttackOne: " + attackOne.roomsStillToProvide.length +
                 " Rooms conscripted for AttackOne (" + outputMessage + ")");
+            Memory.myMemory.empire.attackOne = attackOne;
         }
 
         if (attackOne.state === "Conscripting") {
+            flag = Game.flags["attack-one-rally"];
+            if (flag == null) {
+                ReportController.log("ERROR", "attack-one-rally flag doesn't exist during AttackOne. Cancelling the attack.");
+                this.cancelAttack();
+                return;
+            }
+
             //Wait until every room that's required to, has added a creep
             for (let i = attackOne.roomsStillToProvide.length - 1; i >= 0; i--) {
                 const myRoom: MyRoom = attackOne.roomsStillToProvide[i];

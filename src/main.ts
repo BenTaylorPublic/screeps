@@ -4,7 +4,6 @@ import {EmpireController} from "./empire/empire-controller";
 import {ReportController} from "./reporting/report-controller";
 
 console.log("Script reloaded");
-Memory.myMemory.report.reports = [];
 
 setupMyMemory();
 
@@ -38,4 +37,6 @@ function setupMyMemory(): void {
             }
         } as MyMemory;
     }
+
+    Memory.myMemory.empire.attackOne = null;
 }
