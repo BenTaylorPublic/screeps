@@ -89,12 +89,10 @@ export class AttackOneController {
         }
 
         if (attackOne.state === "Charge") {
-            //For testing
-            ReportController.log("ERROR", "Cancelling AttackOne. Here is where they'd normally charge.");
-            this.cancelAttack();
-
-            // TODO:
-            // Remove the flag when the creeps are dead I guess?
+            if (Memory.myMemory.empire.creeps.length === 0) {
+                // Cancel attack when the creeps are dead
+                this.cancelAttack();
+            }
         }
     }
 

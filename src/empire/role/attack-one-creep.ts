@@ -31,8 +31,56 @@ export class RoleAttackOneCreep {
     }
 
     private static attackLogic(attackOneCreep: AttackOneCreep, creep: Creep): void {
-        this.findClosestStructureAndAttackIt(creep, FIND_HOSTILE_SPAWNS);
-        // this.findClosestStructureAndAttackIt(creep, FIND_HOSTILE_STRUCTURES, {});
+        if (this.findClosestStructureAndAttackIt(creep, FIND_HOSTILE_SPAWNS)) {
+            creep.say("⚔️Spawn");
+            return;
+        }
+        if (this.findClosestStructureAndAttackIt(creep, FIND_HOSTILE_STRUCTURES, {
+            filter: (structure: Structure) => {
+                return structure.structureType === STRUCTURE_TOWER;
+            }
+        })) {
+            creep.say("⚔️Tower");
+            return;
+        }
+
+        const creeps: Creep[] = creep.room.find(FIND_HOSTILE_CREEPS) as Creep[];
+        let closestCreep: Creep | null = null;
+        let closestCreepDistance: number = 999;
+        for (let i: number = creeps.length - 1; i > 0; i--) {
+            const path: PathStep[] = creep.pos.findPathTo(creeps[i].pos);
+            if (path.length === 0) {
+                //No path
+                creeps.splice(i, 1);
+            } else if (path.length < closestCreepDistance) {
+                closestCreep = creeps[i];
+                closestCreepDistance = path.length;
+            }
+        }
+
+        if (closestCreep != null) {
+            this.attackTarget(creep, closestCreep);
+            creep.say("⚔️Creep");
+            return;
+        } else {
+            //Kill the closest wall because we probably can't read anything
+            if (this.findClosestStructureAndAttackIt(creep, FIND_HOSTILE_STRUCTURES, {
+                filter: (structure: Structure) => {
+                    return structure.structureType === STRUCTURE_RAMPART;
+                }
+            })) {
+                creep.say("⚔️Rampart");
+                return;
+            }
+            if (this.findClosestStructureAndAttackIt(creep, FIND_HOSTILE_STRUCTURES, {
+                filter: (structure: Structure) => {
+                    return structure.structureType === STRUCTURE_WALL;
+                }
+            })) {
+                creep.say("⚔️Wall");
+                return;
+            }
+        }
     }
 
     //Returns true if found a target
@@ -59,7 +107,11 @@ export class RoleAttackOneCreep {
         return false;
     }
 
-    private static attackTarget(creep: Creep, structure: Structure): void {
-        //TODO: Move to and attack structure
+    private static attackTarget(creep: Creep, target: Structure | Creep): void {
+        if (creep.pos.inRangeTo(target.pos, 1)) {
+            creep.attack(target);
+        } else {
+            creep.moveTo(target);
+        }
     }
 }
