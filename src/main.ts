@@ -6,16 +6,19 @@ import {SimController} from "./sim/sim-controller";
 
 console.log("Script reloaded");
 
-setupMyMemory();
-
 export let loop: any;
 
 const roomNames: string[] = Object.keys(Game.rooms);
 if (roomNames.length === 1 && roomNames[0] === "sim") {
+    //SIM
     loop = function (): void {
         SimController.run();
     };
 } else {
+
+    //PROD
+    setupMyMemory();
+
     loop = function (): void {
         const myMemory: MyMemory = Memory.myMemory;
         MemoryController.run();
