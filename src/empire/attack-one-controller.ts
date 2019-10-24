@@ -1,9 +1,16 @@
 import {Constants} from "../global/constants";
 import {HelperFunctions} from "../global/helper-functions";
 import {ReportController} from "../reporting/report-controller";
+import {RoleAttackOneCreep} from "./role/attack-one-creep";
 
 export class AttackOneController {
     public static run(empireCommand: EmpireCommand): void {
+        this.runStates(empireCommand);
+        this.runCreeps();
+    }
+
+    private static runStates(empireCommand: EmpireCommand): void {
+
         let flag: Flag | null = null;
 
         let attackOne: AttackOne = Memory.myMemory.empire.attackOne;
@@ -102,6 +109,26 @@ export class AttackOneController {
                 // Cancel attack when the creeps are dead
                 this.cancelAttack();
             }
+        }
+    }
+
+    private static runCreeps(): void {
+        const myMemory: MyMemory = Memory.myMemory;
+        const attackOne: AttackOne = Memory.myMemory.empire.attackOne;
+        let flag: Flag;
+        if (attackOne.state === "Conscripting" || attackOne.state === "Rally") {
+            flag = Game.flags["attack-one-rally"];
+        } else {
+            flag = Game.flags["attack-one-room-target"];
+        }
+
+        for (let i = 0; i < myMemory.empire.creeps.length; i++) {
+            const attackOneCreep: AttackOneCreep = myMemory.empire.creeps[i];
+            if (attackOneCreep.role !== "AttackOneCreep") {
+                continue;
+            }
+
+            RoleAttackOneCreep.run(attackOneCreep as AttackOneCreep, attackOne.state, flag);
         }
     }
 
