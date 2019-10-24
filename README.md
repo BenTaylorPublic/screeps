@@ -23,9 +23,6 @@ Attack One
 ```
 ### Short term
 ```
-Attack One
-    Rally until a creep has < X ticks left to live
-
 Reports
     Length issues (check bucket)
     And make it say "enemy entered", "enemy died" etc 
@@ -52,6 +49,9 @@ Writing on a room sign via a flag
 
 ### Long term:
 ```
+Attack Type
+    Rally until a creep has < X ticks left to live
+
 Links
     Should be able to skip from stage 1.6 to 4.8 (skip caches)
     Should place links in this order

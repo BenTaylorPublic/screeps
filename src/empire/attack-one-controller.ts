@@ -5,56 +5,21 @@ import {RoleAttackOneCreep} from "./role/attack-one-creep";
 
 export class AttackOneController {
     public static run(empireCommand: EmpireCommand): void {
-        this.runStates(empireCommand);
-        this.runCreeps();
-    }
-
-    private static runStates(empireCommand: EmpireCommand): void {
-
         let flag: Flag | null = null;
 
-        let attackOne: AttackOne = Memory.myMemory.empire.attackOne;
+        let attackOne: AttackOne | null = Memory.myMemory.empire.attackOne;
         if (attackOne == null) {
-            flag = Game.flags["attack-one-rally"];
-            if (flag == null) {
+            attackOne = this.setupAttackOne();
+            if (attackOne == null) {
                 return;
             }
-
-            //Need to work out the rooms
-            attackOne = {
-                state: "Conscripting",
-                roomsStillToProvide: []
-            };
-
-            let outputMessage: string = "";
-            for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
-                const myRoom: MyRoom = Memory.myMemory.myRooms[i];
-                if (Game.map.getRoomLinearDistance(flag.pos.roomName, myRoom.name)
-                    < Constants.CONSCRIPTION_RANGE) {
-                    //This room will be conscripted
-                    attackOne.roomsStillToProvide.push(myRoom);
-                    outputMessage += myRoom.name + ", ";
-                }
-            }
-            if (attackOne.roomsStillToProvide.length === 0) {
-                console.log("LOG: Canceling an AttackOne because no rooms were in conscription range.");
-                this.cancelAttack();
-                return;
-            }
-
-            //Remove the ", " from the last one
-            outputMessage.slice(0, outputMessage.length - 2);
-
-            console.log("AttackOne: " + attackOne.roomsStillToProvide.length +
-                " Rooms conscripted for AttackOne (" + outputMessage + ")");
-            Memory.myMemory.empire.attackOne = attackOne;
         }
 
         if (attackOne.state === "Conscripting") {
             flag = Game.flags["attack-one-rally"];
             if (flag == null) {
                 ReportController.log("ERROR", "attack-one-rally flag doesn't exist during AttackOne. Cancelling the attack.");
-                this.cancelAttack();
+                this.endAttack();
                 return;
             }
 
@@ -83,11 +48,12 @@ export class AttackOneController {
             flag = Game.flags["attack-one-rally"];
             if (flag == null) {
                 ReportController.log("ERROR", "attack-one-rally flag doesn't exist during AttackOne. Cancelling the attack.");
-                this.cancelAttack();
+                this.endAttack();
                 return;
             }
 
             //Wait until all the creeps are within range of the rally flag
+            let allCreepsAtFlag: boolean = true;
             for (let i = 0; i < Memory.myMemory.empire.creeps.length; i++) {
                 const myCreep: MyCreep = Memory.myMemory.empire.creeps[i];
                 if (myCreep.role !== "AttackOneCreep") {
@@ -95,27 +61,27 @@ export class AttackOneController {
                 }
                 const creep: Creep = Game.creeps[myCreep.name];
                 if (!creep.pos.inRangeTo(flag.pos, Constants.RALLY_FLAG_RANGE)) {
-                    //Not in range, returning
-                    return;
+                    //Not in range
+                    allCreepsAtFlag = false;
+                    break;
                 }
             }
-            //If it gets here, we're ready to charge!
-            console.log("LOG: AttackOne Charge");
-            attackOne.state = "Charge";
+            if (allCreepsAtFlag) {
+                //If it gets here, we're ready to charge!
+                console.log("LOG: AttackOne Charge");
+                attackOne.state = "Charge";
+            }
         }
 
         if (attackOne.state === "Charge") {
             if (Memory.myMemory.empire.creeps.length === 0) {
                 // Cancel attack when the creeps are dead
-                this.cancelAttack();
+                this.endAttack();
             }
         }
-    }
 
-    private static runCreeps(): void {
+        //For controlling creeps
         const myMemory: MyMemory = Memory.myMemory;
-        const attackOne: AttackOne = Memory.myMemory.empire.attackOne;
-        let flag: Flag;
         if (attackOne.state === "Conscripting" || attackOne.state === "Rally") {
             flag = Game.flags["attack-one-rally"];
         } else {
@@ -130,6 +96,44 @@ export class AttackOneController {
 
             RoleAttackOneCreep.run(attackOneCreep as AttackOneCreep, attackOne.state, flag);
         }
+    }
+
+    private static setupAttackOne(): AttackOne | null {
+        const flag: Flag = Game.flags["attack-one-rally"];
+        if (flag == null) {
+            return null;
+        }
+
+        //Need to work out the rooms
+
+        const attackOne: AttackOne = {
+            state: "Conscripting",
+            roomsStillToProvide: []
+        };
+
+        let outputMessage: string = "";
+        for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
+            const myRoom: MyRoom = Memory.myMemory.myRooms[i];
+            if (Game.map.getRoomLinearDistance(flag.pos.roomName, myRoom.name)
+                < Constants.CONSCRIPTION_RANGE) {
+                //This room will be conscripted
+                attackOne.roomsStillToProvide.push(myRoom);
+                outputMessage += myRoom.name + ", ";
+            }
+        }
+        if (attackOne.roomsStillToProvide.length === 0) {
+            console.log("LOG: Canceling an AttackOne because no rooms were in conscription range.");
+            this.endAttack();
+            return null;
+        }
+
+        //Remove the ", " from the last one
+        outputMessage.slice(0, outputMessage.length - 2);
+
+        console.log("AttackOne: " + attackOne.roomsStillToProvide.length +
+            " Rooms conscripted for AttackOne (" + outputMessage + ")");
+        Memory.myMemory.empire.attackOne = attackOne;
+        return attackOne;
     }
 
     private static spawnAttackOneCreep(myRoom: MyRoom): AttackOneCreep | null {
@@ -170,7 +174,7 @@ export class AttackOneController {
         return null;
     }
 
-    private static cancelAttack(): void {
+    private static endAttack(): void {
         const empire: Empire = Memory.myMemory.empire;
         empire.attackOne = null;
 
