@@ -17,8 +17,6 @@ Attack One
 ```
 ### Short term
 ```
-Terminal flag didn't get removed once it was placed
-
 Reports
     Length issues (check bucket)
     And make it say "enemy entered", "enemy died" etc 

@@ -41,6 +41,7 @@ export class Stage5_8 {
             const result: ScreepsReturnCode = roomFlags[0].pos.createConstructionSite(STRUCTURE_TERMINAL);
             if (result === OK) {
                 placedTerminal = true;
+                roomFlags[0].remove();
             }
         }
 
