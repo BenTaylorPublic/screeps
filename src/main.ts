@@ -6,6 +6,7 @@ import {ReportController} from "./reporting/report-controller";
 console.log("Script reloaded");
 
 setupMyMemory();
+Game.creeps["Creep30158"].suicide();
 
 export let loop: any = function (): void {
     const myMemory: MyMemory = Memory.myMemory;
