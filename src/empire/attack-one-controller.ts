@@ -94,6 +94,9 @@ export class AttackOneController {
                 }
             } else {
                 attackOne.attackTarget = this.getAttackTarget(flag);
+                if (attackOne.attackTarget != null) {
+                    console.log("LOG: New Attack Target (" + attackOne.attackTarget.type + ") " + JSON.stringify(attackOne.attackTarget.pos));
+                }
             }
         }
 

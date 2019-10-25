@@ -31,19 +31,14 @@ export class RoleAttackOneCreep {
     }
 
     private static attackLogic(creep: Creep, attackTarget: AttackTarget | null): void {
-        if (creep.name === "Creep30249") {
-            console.log(JSON.stringify(attackTarget));
-        }
 
         if (attackTarget == null) {
             creep.say("No target!");
         } else {
             creep.say("⚔️" + attackTarget.type);
             if (creep.pos.inRangeTo(attackTarget.pos, 1)) {
-                console.log("Attacking");
                 creep.attack(attackTarget.roomObject as Creep | Structure<StructureConstant>);
             } else {
-                console.log("Moving");
                 creep.moveTo(attackTarget.pos);
             }
         }
