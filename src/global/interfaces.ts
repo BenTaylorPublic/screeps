@@ -34,10 +34,23 @@ type AttackOneStateType = "Conscripting" | "Rally" | "Charge";
 interface AttackOne {
     state: AttackOneStateType;
     roomsStillToProvide: MyRoom[];
+    attackTarget: AttackTarget | null;
 }
 
 interface EmpireCommand {
     haltRoomEnergyUsage: boolean;
+}
+
+interface AttackTarget {
+    pos: RoomPosition;
+    roomObject: Creep | Structure<StructureConstant>;
+    id: string;
+    type: string;
+}
+
+interface BestPathFindRoomObjectResult<T extends RoomObject> {
+    roomObject: T;
+    pathFinderPath: PathFinderPath;
 }
 
 /*

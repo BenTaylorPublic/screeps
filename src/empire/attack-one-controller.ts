@@ -81,21 +81,180 @@ export class AttackOneController {
         }
 
         //For controlling creeps
-        const myMemory: MyMemory = Memory.myMemory;
         if (attackOne.state === "Conscripting" || attackOne.state === "Rally") {
             flag = Game.flags["attack-one-rally"];
         } else {
             flag = Game.flags["attack-one-room-target"];
+            if (attackOne.attackTarget != null) {
+                const roomObject: RoomObject | null = Game.getObjectById<RoomObject>(attackOne.attackTarget.id);
+                if (roomObject == null) {
+                    //No longer exists, get a new target
+                    attackOne.attackTarget = this.getAttackTarget(flag);
+                }
+            } else {
+                attackOne.attackTarget = this.getAttackTarget(flag);
+            }
         }
 
+        const myMemory: MyMemory = Memory.myMemory;
         for (let i = 0; i < myMemory.empire.creeps.length; i++) {
             const attackOneCreep: AttackOneCreep = myMemory.empire.creeps[i];
             if (attackOneCreep.role !== "AttackOneCreep") {
                 continue;
             }
 
-            RoleAttackOneCreep.run(attackOneCreep as AttackOneCreep, attackOne.state, flag);
+            RoleAttackOneCreep.run(attackOneCreep as AttackOneCreep, attackOne.state, flag, attackOne.attackTarget);
         }
+    }
+
+    private static getAttackTarget(flagToPathFrom: Flag): AttackTarget | null {
+        if (flagToPathFrom.room == null) {
+            return null;
+        }
+
+        const flagPos: RoomPosition = flagToPathFrom.pos;
+        const room: Room = flagToPathFrom.room;
+        //Make cost matrix for the room
+
+        const costMatrix: CostMatrix = new PathFinder.CostMatrix;
+        room.find(FIND_STRUCTURES).forEach(function (struct: Structure): void {
+            if (struct.structureType === STRUCTURE_WALL ||
+                struct.structureType === STRUCTURE_RAMPART) {
+                costMatrix.set(struct.pos.x, struct.pos.y, 255);
+            }
+        });
+
+        //SPAWNS
+        const spawns: StructureSpawn[] = room.find(FIND_HOSTILE_SPAWNS);
+        const spawnTarget: BestPathFindRoomObjectResult<StructureSpawn> | null
+            = this.pathFindToRoomObject(flagPos, spawns, costMatrix);
+
+        if (spawnTarget != null) {
+            //Attacking a spawn
+            return {
+                roomObject: spawnTarget.roomObject,
+                id: spawnTarget.roomObject.id,
+                pos: spawnTarget.roomObject.pos,
+                type: "Spawn"
+            };
+        }
+
+        //TOWERS
+        const towers: StructureTower[] = room.find<StructureTower>(FIND_STRUCTURES, {
+                filter: (structure: Structure) => {
+                    return structure.structureType === STRUCTURE_TOWER;
+                }
+            }
+        );
+
+        const towerTarget: BestPathFindRoomObjectResult<StructureTower> | null
+            = this.pathFindToRoomObject(flagPos, towers, costMatrix);
+
+        if (towerTarget != null) {
+            //Attacking a tower
+            return {
+                roomObject: towerTarget.roomObject,
+                id: towerTarget.roomObject.id,
+                pos: towerTarget.roomObject.pos,
+                type: "Tower"
+            };
+        }
+
+        //CREEPS
+        const creeps: Creep[] = room.find(FIND_HOSTILE_CREEPS);
+
+        const creepTarget: BestPathFindRoomObjectResult<Creep> | null
+            = this.pathFindToRoomObject(flagPos, creeps, costMatrix);
+
+        if (creepTarget != null) {
+            //Attacking a creep
+            return {
+                roomObject: creepTarget.roomObject,
+                id: creepTarget.roomObject.id,
+                pos: creepTarget.roomObject.pos,
+                type: "Creep"
+            };
+        }
+
+        //RAMPARTS
+        const ramparts: StructureRampart[] = room.find<StructureRampart>(FIND_STRUCTURES, {
+                filter: (structure: Structure) => {
+                    return structure.structureType === STRUCTURE_RAMPART;
+                }
+            }
+        );
+        const rampartTarget: BestPathFindRoomObjectResult<StructureRampart> | null
+            = this.pathFindToRoomObject(flagPos, ramparts, costMatrix);
+
+        if (rampartTarget != null) {
+            //Attacking a rampart
+            return {
+                roomObject: rampartTarget.roomObject,
+                id: rampartTarget.roomObject.id,
+                pos: rampartTarget.roomObject.pos,
+                type: "Rampart"
+            };
+        }
+
+        //WALL
+        const walls: StructureWall[] = room.find<StructureWall>(FIND_STRUCTURES, {
+                filter: (structure: Structure) => {
+                    return structure.structureType === STRUCTURE_WALL;
+                }
+            }
+        );
+        const wallTarget: BestPathFindRoomObjectResult<StructureWall> | null
+            = this.pathFindToRoomObject(flagPos, walls, costMatrix);
+
+        if (wallTarget != null) {
+            //Attacking a wall
+            return {
+                roomObject: wallTarget.roomObject,
+                id: wallTarget.roomObject.id,
+                pos: wallTarget.roomObject.pos,
+                type: "Wall"
+            };
+        }
+
+        //Nothing was found as pathableƒ
+        return null;
+    }
+
+    private static pathFindToRoomObject<T extends RoomObject>(start: RoomPosition, roomObjects: T[], costmatrix: CostMatrix): BestPathFindRoomObjectResult<T> | null {
+
+        if (roomObjects.length === 0) {
+            return null;
+        }
+
+        let result: BestPathFindRoomObjectResult<T> | null = null;
+
+        for (let i: number = 0; i < roomObjects.length; i++) {
+            const roomObject: T = roomObjects[i];
+            const pathFinderPath: PathFinderPath = PathFinder.search(
+                start,
+                {pos: roomObject.pos, range: 1},
+                {
+                    roomCallback: () => costmatrix
+                }
+            );
+
+            if (!pathFinderPath.incomplete) {
+                if (result == null) {
+                    result = {
+                        roomObject: roomObject,
+                        pathFinderPath: pathFinderPath
+                    };
+                } else if (result.pathFinderPath.cost > pathFinderPath.cost) {
+                    //Replace it
+                    result = {
+                        roomObject: roomObject,
+                        pathFinderPath: pathFinderPath
+                    };
+                } //Otherwise ignore it
+            }
+        }
+
+        return result;
     }
 
     private static setupAttackOne(): AttackOne | null {
@@ -108,7 +267,8 @@ export class AttackOneController {
 
         const attackOne: AttackOne = {
             state: "Conscripting",
-            roomsStillToProvide: []
+            roomsStillToProvide: [],
+            attackTarget: null
         };
 
         let outputMessage: string = "";
