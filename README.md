@@ -13,7 +13,7 @@ Push to master to release
 ```
 Attack One
     Apparently "Tough" body parts are important lol
-    Fix this serialization issue
+        Fill remainder with tough?
 ```
 ### Short term
 ```
