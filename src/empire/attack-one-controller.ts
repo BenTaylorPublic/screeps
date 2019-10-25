@@ -313,8 +313,7 @@ export class AttackOneController {
             HelperFunctions.generateBody([MOVE, ATTACK],
                 [MOVE, ATTACK],
                 spawn.room,
-                true,
-                10
+                true
             );
 
         const result: ScreepsReturnCode =

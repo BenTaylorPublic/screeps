@@ -13,7 +13,6 @@ Push to master to release
 ```
 Attack One
     Apparently "Tough" body parts are important lol
-    Bodies were weak (not best)
     Make them get closer to the flag
     Pathing fix
         Above creep command, generate a target using the paths from the attack-one-room-target flag

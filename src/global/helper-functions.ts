@@ -30,19 +30,10 @@ export class HelperFunctions {
         while (true) {
             if (this.calcBodyCost(body) + this.calcBodyCost(bodyPartsToAdd) <= maxEnergyToUse &&
                 body.length + bodyPartsToAdd.length <= maxBodySize) {
-                console.log("tick");
                 body = body.concat(bodyPartsToAdd);
             } else {
                 break;
             }
-        }
-        if (this.calcBodyCost(body) < room.energyAvailable) {
-            console.log("MAKING BODY");
-            console.log("useBest: " + useBest);
-            console.log("energyCapacityAvailable: " + room.energyCapacityAvailable);
-            console.log("energyAvailable: " + room.energyAvailable);
-            console.log("maxEnergyToUse: " + maxEnergyToUse);
-            console.log("Body cost: " + this.calcBodyCost(body));
         }
 
         return body;
