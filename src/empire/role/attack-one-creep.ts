@@ -40,6 +40,7 @@ export class RoleAttackOneCreep {
                 creep.attack(attackTarget.roomObject as Creep | Structure<StructureConstant>);
             } else {
                 if (creep.name === "Creep30465") {
+                    console.log(creep.fatigue);
                     console.log("" + Game.time + ": " + JSON.stringify(attackTarget.pos));
                 }
                 creep.moveTo(attackTarget.pos);
