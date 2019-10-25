@@ -90,16 +90,15 @@ export class AttackOneController {
                     //No longer exists, get a new target
                     attackOne.attackTarget = this.getAttackTarget(flag);
                     if (attackOne.attackTarget != null) {
-                        console.log("LOG: New Attack Target (" + attackOne.attackTarget.type + ") " + JSON.stringify(attackOne.attackTarget.pos));
+                        console.log("LOG: New Attack Target (" + attackOne.attackTarget.type + ") " + JSON.stringify(attackOne.attackTarget.roomObject.pos));
                     }
                 } else {
                     attackOne.attackTarget.roomObject = roomObject as Creep | Structure<StructureConstant>;
-                    attackOne.attackTarget.pos = roomObject.pos;
                 }
             } else {
                 attackOne.attackTarget = this.getAttackTarget(flag);
                 if (attackOne.attackTarget != null) {
-                    console.log("LOG: New Attack Target (" + attackOne.attackTarget.type + ") " + JSON.stringify(attackOne.attackTarget.pos));
+                    console.log("LOG: New Attack Target (" + attackOne.attackTarget.type + ") " + JSON.stringify(attackOne.attackTarget.roomObject.pos));
                 }
             }
         }
@@ -117,7 +116,7 @@ export class AttackOneController {
 
         if (attackOne.attackTarget != null) {
             //Clear this so it doesn't have to be serialized
-            attackOne.attackTarget.roomObject = null;
+            delete attackOne.attackTarget.roomObject;
         }
     }
 
@@ -148,7 +147,6 @@ export class AttackOneController {
             return {
                 roomObject: spawnTarget.roomObject,
                 id: spawnTarget.roomObject.id,
-                pos: spawnTarget.roomObject.pos,
                 type: "Spawn"
             };
         }
@@ -169,7 +167,6 @@ export class AttackOneController {
             return {
                 roomObject: towerTarget.roomObject,
                 id: towerTarget.roomObject.id,
-                pos: towerTarget.roomObject.pos,
                 type: "Tower"
             };
         }
@@ -185,7 +182,6 @@ export class AttackOneController {
             return {
                 roomObject: creepTarget.roomObject,
                 id: creepTarget.roomObject.id,
-                pos: creepTarget.roomObject.pos,
                 type: "Creep"
             };
         }
@@ -205,7 +201,6 @@ export class AttackOneController {
             return {
                 roomObject: rampartTarget.roomObject,
                 id: rampartTarget.roomObject.id,
-                pos: rampartTarget.roomObject.pos,
                 type: "Rampart"
             };
         }
@@ -225,7 +220,6 @@ export class AttackOneController {
             return {
                 roomObject: wallTarget.roomObject,
                 id: wallTarget.roomObject.id,
-                pos: wallTarget.roomObject.pos,
                 type: "Wall"
             };
         }
