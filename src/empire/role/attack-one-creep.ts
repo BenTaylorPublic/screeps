@@ -43,7 +43,8 @@ export class RoleAttackOneCreep {
                     console.log(creep.fatigue);
                     console.log("" + Game.time + ": " + JSON.stringify(attackTarget.pos));
                 }
-                creep.moveTo(attackTarget.pos);
+                const result: CreepMoveReturnCode | ERR_NO_PATH | ERR_INVALID_TARGET | ERR_NOT_FOUND = creep.moveTo(attackTarget.pos);
+                console.log(result);
             }
         }
     }
