@@ -34,17 +34,12 @@ export class RoleAttackOneCreep {
         if (attackTarget == null) {
             creep.say("No target!");
         } else {
-            this.attackTarget(creep, attackTarget);
-        }
-    }
-
-
-    private static attackTarget(creep: Creep, target: AttackTarget): void {
-        creep.say("⚔️" + target.type);
-        if (creep.pos.inRangeTo(target.pos, 1)) {
-            creep.attack(target.roomObject as Creep | Structure<StructureConstant>);
-        } else {
-            creep.moveTo(target);
+            creep.say("⚔️" + attackTarget.type);
+            if (creep.pos.inRangeTo(attackTarget.pos, 1)) {
+                creep.attack(attackTarget.roomObject as Creep | Structure<StructureConstant>);
+            } else {
+                creep.moveTo(attackTarget.pos);
+            }
         }
     }
 }
