@@ -10,11 +10,11 @@ export class RoleAttackOneCreep {
         }
 
         if (attackOneState === "Rally" || attackOneState === "Conscripting") {
+            //Get a nice tight ball on it
+            creep.moveTo(rallyOrRoomTargetFlag.pos);
             if (!creep.pos.inRangeTo(rallyOrRoomTargetFlag.pos, Constants.RALLY_FLAG_RANGE)) {
                 //Not in range
                 creep.say("Moving");
-                creep.moveTo(rallyOrRoomTargetFlag.pos);
-                return;
             } else {
                 //In range of rally flag, just wait
                 creep.say("Rallying");
