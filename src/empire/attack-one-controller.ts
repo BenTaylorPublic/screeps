@@ -351,7 +351,7 @@ export class AttackOneController {
             }
         }
         const flagNames: string[] = Object.keys(Game.flags);
-        for (let i = 0; i < flagNames.length; i++) {
+        for (let i = flagNames.length - 1; i >= 0; i--) {
             if (flagNames.includes("attack-one")) {
                 const flag: Flag = Game.flags[flagNames[i]];
                 flag.remove();
