@@ -19,8 +19,6 @@ Attack One
 ```
 Reports
     Length issues (check bucket)
-    And make it say "enemy entered", "enemy died" etc 
-        Remove tower attacking X once thats done
 
 Test emails over 1000 characters
     In main.ts
@@ -43,6 +41,10 @@ Writing on a room sign via a flag
 
 ### Long term:
 ```
+Report
+    Make it say "enemy entered", "enemy died" etc 
+        Remove tower attacking X once thats done
+
 Attack Type
     Rally until a creep has < X ticks left to live
 

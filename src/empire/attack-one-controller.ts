@@ -337,7 +337,8 @@ export class AttackOneController {
                 [MOVE, ATTACK],
                 spawn.room,
                 true,
-                10 //TODO: REMOVE, just want it quick for testing
+                10,
+                true
             );
 
         const result: ScreepsReturnCode =

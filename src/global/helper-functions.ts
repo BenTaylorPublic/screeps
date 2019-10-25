@@ -16,7 +16,8 @@ export class HelperFunctions {
         bodyPartsToAdd: BodyPartConstant[],
         room: Room,
         useBest: boolean,
-        maxBodySize: number = 50
+        maxBodySize: number = 50,
+        fillWithTough: boolean = false
     ): BodyPartConstant[] {
 
 
@@ -33,6 +34,17 @@ export class HelperFunctions {
                 body = body.concat(bodyPartsToAdd);
             } else {
                 break;
+            }
+        }
+
+        if (fillWithTough) {
+            while (true) {
+                if (this.calcBodyCost(body) + this.calcBodyCost([TOUGH]) <= maxEnergyToUse &&
+                    body.length + 1 <= maxBodySize) {
+                    body = body.concat([TOUGH]);
+                } else {
+                    break;
+                }
             }
         }
 
