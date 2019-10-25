@@ -19,20 +19,29 @@ export class HelperFunctions {
         maxBodySize: number = 50
     ): BodyPartConstant[] {
 
+
         const maxEnergyToUse: number =
             (useBest) ?
                 room.energyCapacityAvailable :
                 room.energyAvailable;
 
+        console.log("MAKING BODY");
+        console.log("useBest: " + useBest);
+        console.log("energyCapacityAvailable: " + room.energyCapacityAvailable);
+        console.log("energyAvailable: " + room.energyAvailable);
+        console.log("maxEnergyToUse: " + maxEnergyToUse);
+
         let body: BodyPartConstant[] = baseBody;
         while (true) {
             if (this.calcBodyCost(body) + this.calcBodyCost(bodyPartsToAdd) <= maxEnergyToUse &&
                 body.length + bodyPartsToAdd.length <= maxBodySize) {
+                console.log("tick");
                 body = body.concat(bodyPartsToAdd);
             } else {
                 break;
             }
         }
+        console.log(this.calcBodyCost(body));
         return body;
     }
 
