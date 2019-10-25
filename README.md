@@ -13,13 +13,13 @@ Push to master to release
 ```
 Attack One
     Apparently "Tough" body parts are important lol
-    Bodies were weak
+    Bodies were weak (not best)
+    Make them get closer to the flag
     Pathing fix
         Above creep command, generate a target using the paths from the attack-one-room-target flag
         Pass that target to all creeps
         That target uses the PathFinder RoomCallback technique used by my Sim script
         That will determine if something is blocked by a wall/rampart
-        This technique should make it not HUGELY CPU intensive
 ```
 ### Short term
 ```
