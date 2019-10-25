@@ -94,6 +94,7 @@ export class AttackOneController {
                     }
                 } else {
                     attackOne.attackTarget.roomObject = roomObject as Creep | Structure<StructureConstant>;
+                    attackOne.attackTarget.pos = roomObject.pos;
                 }
             } else {
                 attackOne.attackTarget = this.getAttackTarget(flag);

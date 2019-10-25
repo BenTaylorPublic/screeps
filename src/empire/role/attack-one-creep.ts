@@ -31,7 +31,6 @@ export class RoleAttackOneCreep {
     }
 
     private static attackLogic(creep: Creep, attackTarget: AttackTarget | null): void {
-
         if (attackTarget == null) {
             creep.say("No target!");
         } else {
@@ -39,12 +38,7 @@ export class RoleAttackOneCreep {
             if (creep.pos.inRangeTo(attackTarget.pos, 1)) {
                 creep.attack(attackTarget.roomObject as Creep | Structure<StructureConstant>);
             } else {
-                if (creep.name === "Creep30465") {
-                    console.log(creep.fatigue);
-                    console.log("" + Game.time + ": " + JSON.stringify(attackTarget.pos));
-                }
-                const result: CreepMoveReturnCode | ERR_NO_PATH | ERR_INVALID_TARGET | ERR_NOT_FOUND = creep.moveTo(attackTarget.pos);
-                console.log(result);
+                creep.moveTo(attackTarget.pos);
             }
         }
     }
