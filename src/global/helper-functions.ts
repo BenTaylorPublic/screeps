@@ -25,11 +25,6 @@ export class HelperFunctions {
                 room.energyCapacityAvailable :
                 room.energyAvailable;
 
-        console.log("MAKING BODY");
-        console.log("useBest: " + useBest);
-        console.log("energyCapacityAvailable: " + room.energyCapacityAvailable);
-        console.log("energyAvailable: " + room.energyAvailable);
-        console.log("maxEnergyToUse: " + maxEnergyToUse);
 
         let body: BodyPartConstant[] = baseBody;
         while (true) {
@@ -41,7 +36,15 @@ export class HelperFunctions {
                 break;
             }
         }
-        console.log(this.calcBodyCost(body));
+        if (this.calcBodyCost(body) < room.energyAvailable) {
+            console.log("MAKING BODY");
+            console.log("useBest: " + useBest);
+            console.log("energyCapacityAvailable: " + room.energyCapacityAvailable);
+            console.log("energyAvailable: " + room.energyAvailable);
+            console.log("maxEnergyToUse: " + maxEnergyToUse);
+            console.log("Body cost: " + this.calcBodyCost(body));
+        }
+
         return body;
     }
 
