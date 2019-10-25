@@ -40,8 +40,10 @@ export class RoleAttackOneCreep {
         } else {
             creep.say("⚔️" + attackTarget.type);
             if (creep.pos.inRangeTo(attackTarget.pos, 1)) {
+                console.log("Attacking");
                 creep.attack(attackTarget.roomObject as Creep | Structure<StructureConstant>);
             } else {
+                console.log("Moving");
                 creep.moveTo(attackTarget.pos);
             }
         }
