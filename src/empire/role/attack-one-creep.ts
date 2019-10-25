@@ -42,7 +42,7 @@ export class RoleAttackOneCreep {
     private static attackTarget(creep: Creep, target: AttackTarget): void {
         creep.say("⚔️" + target.type);
         if (creep.pos.inRangeTo(target.pos, 1)) {
-            creep.attack(target.roomObject);
+            creep.attack(target.roomObject as Creep | Structure<StructureConstant>);
         } else {
             creep.moveTo(target);
         }
