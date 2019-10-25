@@ -89,6 +89,8 @@ export class AttackOneController {
                 if (roomObject == null) {
                     //No longer exists, get a new target
                     attackOne.attackTarget = this.getAttackTarget(flag);
+                } else {
+                    attackOne.attackTarget.roomObject = roomObject as Creep | Structure<StructureConstant>;
                 }
             } else {
                 attackOne.attackTarget = this.getAttackTarget(flag);
@@ -104,6 +106,11 @@ export class AttackOneController {
             }
 
             RoleAttackOneCreep.run(attackOneCreep as AttackOneCreep, attackOne.state, flag as Flag, attackOne.attackTarget);
+        }
+
+        if (attackOne.attackTarget != null) {
+            //Clear this so it doesn't have to be serialized
+            attackOne.attackTarget.roomObject = null;
         }
     }
 

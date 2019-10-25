@@ -43,7 +43,7 @@ interface EmpireCommand {
 
 interface AttackTarget {
     pos: RoomPosition;
-    roomObject: Creep | Structure<StructureConstant>;
+    roomObject: Creep | Structure<StructureConstant> | null;
     id: string;
     type: string;
 }
