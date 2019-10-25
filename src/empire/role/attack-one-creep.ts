@@ -31,6 +31,10 @@ export class RoleAttackOneCreep {
     }
 
     private static attackLogic(creep: Creep, attackTarget: AttackTarget | null): void {
+        if (creep.name === "Creep30249") {
+            console.log(JSON.stringify(attackTarget));
+        }
+
         if (attackTarget == null) {
             creep.say("No target!");
         } else {

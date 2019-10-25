@@ -85,18 +85,14 @@ export class AttackOneController {
                 this.endAttack();
             }
             if (attackOne.attackTarget != null) {
-                console.log("attackOne.attackTarget != null");
                 const roomObject: RoomObject | null = Game.getObjectById<RoomObject>(attackOne.attackTarget.id);
                 if (roomObject == null) {
                     //No longer exists, get a new target
                     attackOne.attackTarget = this.getAttackTarget(flag);
-                    console.log("roomObject == null");
                 } else {
-                    console.log("roomObject != null");
                     attackOne.attackTarget.roomObject = roomObject as Creep | Structure<StructureConstant>;
                 }
             } else {
-                console.log("attackOne.attackTarget == null");
                 attackOne.attackTarget = this.getAttackTarget(flag);
             }
         }
