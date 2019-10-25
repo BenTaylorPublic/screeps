@@ -248,7 +248,28 @@ export class AttackOneController {
                 start,
                 {pos: roomObject.pos, range: 1},
                 {
-                    roomCallback: () => costmatrix
+                    roomCallback: (roomName: string): CostMatrix => {
+                        if (roomName === start.roomName) {
+                            return costmatrix;
+                        } else {
+                            console.log("AAA BAD");
+                            const room: Room = Game.rooms[roomName];
+                            const costMatrix: CostMatrix = new PathFinder.CostMatrix;
+
+                            if (room == null) {
+                                return costMatrix;
+                            }
+
+                            room.find(FIND_STRUCTURES).forEach(function (struct: Structure): void {
+                                if (struct.structureType === STRUCTURE_WALL ||
+                                    struct.structureType === STRUCTURE_RAMPART) {
+                                    costMatrix.set(struct.pos.x, struct.pos.y, 255);
+                                }
+                            });
+
+                            return costMatrix;
+                        }
+                    }
                 }
             );
 
