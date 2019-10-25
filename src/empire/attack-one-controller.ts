@@ -338,7 +338,7 @@ export class AttackOneController {
         const empire: Empire = Memory.myMemory.empire;
         empire.attackOne = null;
 
-        for (let i = empire.creeps.length - 1; i > 0; i--) {
+        for (let i = empire.creeps.length - 1; i >= 0; i--) {
             if (empire.creeps[i].role === "AttackOneCreep") {
                 console.log("LOG: Killing AttackOneCreep " + empire.creeps[i].name);
                 Game.creeps[empire.creeps[i].name].suicide();
