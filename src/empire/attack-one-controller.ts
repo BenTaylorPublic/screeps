@@ -89,6 +89,9 @@ export class AttackOneController {
                 if (roomObject == null) {
                     //No longer exists, get a new target
                     attackOne.attackTarget = this.getAttackTarget(flag);
+                    if (attackOne.attackTarget != null) {
+                        console.log("LOG: New Attack Target (" + attackOne.attackTarget.type + ") " + JSON.stringify(attackOne.attackTarget.pos));
+                    }
                 } else {
                     attackOne.attackTarget.roomObject = roomObject as Creep | Structure<StructureConstant>;
                 }
