@@ -300,7 +300,7 @@ export class AttackOneController {
         }
 
         //Remove the ", " from the last one
-        outputMessage.slice(0, outputMessage.length - 2);
+        outputMessage = outputMessage.slice(0, outputMessage.length - 2);
 
         console.log("AttackOne: " + attackOne.roomsStillToProvide.length +
             " Rooms conscripted for AttackOne (" + outputMessage + ")");
