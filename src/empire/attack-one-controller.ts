@@ -74,17 +74,16 @@ export class AttackOneController {
         }
 
         if (attackOne.state === "Charge") {
+            flag = Game.flags["attack-one-room-target"];
+            if (flag == null) {
+                ReportController.log("ERROR", "attack-one-room-target flag doesn't exist during AttackOne. Cancelling the attack.");
+                this.endAttack();
+                return;
+            }
             if (Memory.myMemory.empire.creeps.length === 0) {
                 // Cancel attack when the creeps are dead
                 this.endAttack();
             }
-        }
-
-        //For controlling creeps
-        if (attackOne.state === "Conscripting" || attackOne.state === "Rally") {
-            flag = Game.flags["attack-one-rally"];
-        } else {
-            flag = Game.flags["attack-one-room-target"];
             if (attackOne.attackTarget != null) {
                 const roomObject: RoomObject | null = Game.getObjectById<RoomObject>(attackOne.attackTarget.id);
                 if (roomObject == null) {
@@ -96,6 +95,7 @@ export class AttackOneController {
             }
         }
 
+        //Controlling creeps
         const myMemory: MyMemory = Memory.myMemory;
         for (let i = 0; i < myMemory.empire.creeps.length; i++) {
             const attackOneCreep: AttackOneCreep = myMemory.empire.creeps[i];
@@ -103,7 +103,7 @@ export class AttackOneController {
                 continue;
             }
 
-            RoleAttackOneCreep.run(attackOneCreep as AttackOneCreep, attackOne.state, flag, attackOne.attackTarget);
+            RoleAttackOneCreep.run(attackOneCreep as AttackOneCreep, attackOne.state, flag as Flag, attackOne.attackTarget);
         }
     }
 
