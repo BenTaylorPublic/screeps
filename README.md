@@ -12,8 +12,7 @@ Push to master to release
 ### Working on
 ```
 Attack One
-    Apparently "Tough" body parts are important lol
-        Fill remainder with tough?
+    Test Tough
 ```
 ### Short term
 ```

@@ -337,7 +337,7 @@ export class AttackOneController {
                 [MOVE, ATTACK],
                 spawn.room,
                 true,
-                10,
+                50,
                 true
             );
 
