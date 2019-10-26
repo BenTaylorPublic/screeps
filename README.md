@@ -35,8 +35,7 @@ Attack
 
 Writing on a room sign via a flag
 ```
-
-### Long term:
+### Mid term:
 ```
 Report/Emails
     Make it say "enemy entered", "enemy died" etc 
@@ -54,6 +53,12 @@ Flag helper function to get flags
         Optional room name string, if it should be a limited to a specific room
         Returns an array (and another version of it returns a Flag | null
 
+Power
+    Gaining power levels
+        Use observers to check rooms
+```
+### Long term:
+```
 Links
     Should be able to skip from stage 1.6 to 4.8 (skip caches)
     Should place links in this order
@@ -62,33 +67,33 @@ Links
         Link out
 
 Empire Command
-    During attack one, empire command shouldn't halt all rooms just because 1 hasn't provided
-    
+    During Attack Quick, empire command shouldn't halt all rooms just because 1 hasn't provided
+
 Mining minerals and directly selling them
 
-Marketing logic (will be at empire level):
+Marketing logic (will be at empire level)
     Price history
     Buy/sell logic
     Spawning marketers (to haul to/from storage)
     Marketer role
     
-Lab logic:
+Lab logic
     Spawning lab assistants (to haul to/from storage)
     LabAssistant role
     Lab logic of what to request/combine/buff
     
 Spawn a new miner before the old one dies, so no downtime.
-    To do this, have a nextMinerName on a MySource, swap it over when minerName is null
-    When the miner arrives at the cache pos, have a key called minerTravelTime (in ticks).
-    Set it every time.
-    In the spawning logic, just check if the tickstolive of the miner is <= minerTravelTime.
-    Problem is they'll just get later and later unless it measures it to 1 move AWAY from the cachePos...
+    This is minor, because a creep only dies every 50 minutes
+    So, with a 1 minute walk time, it would give 2% more power
     
 Hauling between rooms 
     (Energy, and minerals), when starting room is RoomStage 8 (maybe 7?)
     Might help to speed up getting all rooms to 8?
 
-Room stages 6 to 7:
+Power
+    Power creeps control
+
+Room stages 6 to 7
     RCL
     Tower
     10 Extensions
@@ -96,7 +101,7 @@ Room stages 6 to 7:
     Link
     Spawn
     
-Room stages 7 to 8:
+Room stages 7 to 8
     RCL
     3 Towers
     10 Extensions
