@@ -82,6 +82,7 @@ export class AttackOneController {
             }
             if (Memory.myMemory.empire.creeps.length === 0) {
                 // Cancel attack when the creeps are dead
+                console.log("ATTACK: Creeps are all dead, ending attack");
                 this.endAttack();
             }
             if (attackOne.attackTarget != null) {
