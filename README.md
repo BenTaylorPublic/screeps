@@ -11,28 +11,38 @@ Push to master to release
 ## TODO
 ### Working on
 ```
-Attack One
+Attack
+    Priority target's via flags
+    Rename AttackOne into Attack
+        Attacks will use the flags below ("attack-now", "attack-pressure", "attack-large")
+    Attack params/modes
+        Now
+            Current behaviour
+        Pressure
+            Dont remove rally flag
+            Keep doing current behaviour repetitively
+            Rooms should maintain 1 laborer only (but keep miners, linkers, haulers)
+        Large
+            Very similar to now
+            Only attack when 1 of the attack creeps has < 300ish ticks to live
+            Once the creep spawns, provide a time estimate of when it will begin (using tick time)
+            Rooms should not make any other creeps until the attack is done (like Now)
 ```
 ### Short term
 ```
 Reports
-    Length issues (check bucket)
-
-Test emails over 1000 characters
-    In main.ts
-    Do a for loop and append i + "\n"
-
-AttackOne
-    Priority target's via flags
-
-Helper function
-    Check if structure type is in pos
+    Needs a rework so it includes attentions, but doesn't spam like it does ingame
+    Stage "ATTENTION" should email (once!)
+        If possible, a 1 day cooldown on an "ATTENTION" message
+        Not sure how to store this data yet
+        Need to make sure it DOESN'T email when it resolves the attention in the same tick (currently does this in console)
 
 Flag helper function to get flags
     Pass it:
         an array of strings
         bool if the array can have extra on the end (eg "derp" or "derp-uniqueNumber")
         Optional room name string, if it should be a limited to a specific room
+        Returns an array (and another version of it returns a Flag | null
 
 Writing on a room sign via a flag
 ```
@@ -41,10 +51,8 @@ Writing on a room sign via a flag
 ```
 Report
     Make it say "enemy entered", "enemy died" etc 
-        Remove tower attacking X once thats done
-
-Attack Type
-    Rally until a creep has < X ticks left to live
+        Remove the log that says "tower attacking X" once thats done
+    This should be helpful in the longrun too once I need to have defence logic
 
 Links
     Should be able to skip from stage 1.6 to 4.8 (skip caches)
@@ -52,11 +60,6 @@ Links
         Bank
         Link source (using a number priority, so you can force it to build one on the far away source)
         Link out
-
-Siege/pressure command
-    Whenever a room has full energy, create an attack creep which goes to a room and starts attacking
-    Could be good to ween down weak walls over time
-    At a minimum, it would weaken them/use their energy on not upgrading
 
 Empire Command
     During attack one, empire command shouldn't halt all rooms just because 1 hasn't provided
