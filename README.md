@@ -12,6 +12,13 @@ Push to master to release
 ### Working on
 ```
 Attack
+    Allocating enemies
+        Should apply a red flag to them (structure)
+        Should log the creep name
+```
+### Short term
+```
+Attack
     Priority target's via flags
     Rename AttackOne into Attack
         Attacks will use the flags below ("attack-now", "attack-pressure", "attack-large")
@@ -27,15 +34,20 @@ Attack
             Only attack when 1 of the attack creeps has < 300ish ticks to live
             Once the creep spawns, provide a time estimate of when it will begin (using tick time)
             Rooms should not make any other creeps until the attack is done (like Now)
+
+Writing on a room sign via a flag
 ```
-### Short term
+
+### Long term:
 ```
-Reports
+Report/Emails
+    Make it say "enemy entered", "enemy died" etc 
+        Remove the log that says "tower attacking X" once thats done
+    This should be helpful in the longrun too once I need to have defence logic
     Needs a rework so it includes attentions, but doesn't spam like it does ingame
+    Need an email controller to handle it all
     Stage "ATTENTION" should email (once!)
         If possible, a 1 day cooldown on an "ATTENTION" message
-        Not sure how to store this data yet
-        Need to make sure it DOESN'T email when it resolves the attention in the same tick (currently does this in console)
 
 Flag helper function to get flags
     Pass it:
@@ -43,16 +55,6 @@ Flag helper function to get flags
         bool if the array can have extra on the end (eg "derp" or "derp-uniqueNumber")
         Optional room name string, if it should be a limited to a specific room
         Returns an array (and another version of it returns a Flag | null
-
-Writing on a room sign via a flag
-```
-
-### Long term:
-```
-Report
-    Make it say "enemy entered", "enemy died" etc 
-        Remove the log that says "tower attacking X" once thats done
-    This should be helpful in the longrun too once I need to have defence logic
 
 Links
     Should be able to skip from stage 1.6 to 4.8 (skip caches)
