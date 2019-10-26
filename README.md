@@ -12,9 +12,7 @@ Push to master to release
 ### Working on
 ```
 Attack
-    Allocating enemies
-        Should apply a red flag to them (structure)
-        Should log the creep name
+    Test "attack-target" red flag
     Rename AttackOne into Attack
         Attacks will use the flags below ("attack-quick", "attack-pressure", "attack-large")
 ```

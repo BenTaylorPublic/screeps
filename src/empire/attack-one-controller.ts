@@ -90,17 +90,11 @@ export class AttackOneController {
                 if (roomObject == null) {
                     //No longer exists, get a new target
                     attackOne.attackTarget = this.getAttackTarget(flag);
-                    if (attackOne.attackTarget != null) {
-                        console.log("LOG: New Attack Target (" + attackOne.attackTarget.type + ") " + JSON.stringify(attackOne.attackTarget.roomObject.pos));
-                    }
                 } else {
                     attackOne.attackTarget.roomObject = roomObject as Creep | Structure<StructureConstant>;
                 }
             } else {
                 attackOne.attackTarget = this.getAttackTarget(flag);
-                if (attackOne.attackTarget != null) {
-                    console.log("LOG: New Attack Target (" + attackOne.attackTarget.type + ") " + JSON.stringify(attackOne.attackTarget.roomObject.pos));
-                }
             }
         }
 
@@ -126,6 +120,14 @@ export class AttackOneController {
             return null;
         }
 
+        if (Game.flags["attack-target"] == null) {
+            //Will update with the actual position
+            Game.flags["attack-target"] =
+                new Flag("attack-target", COLOR_RED, COLOR_RED, flagToPathFrom.room.name, 1, 1);
+
+        }
+        const targetFlag: Flag = Game.flags["attack-target"];
+
         const flagPos: RoomPosition = flagToPathFrom.pos;
         const room: Room = flagToPathFrom.room;
         //Make cost matrix for the room
@@ -145,6 +147,8 @@ export class AttackOneController {
 
         if (spawnTarget != null) {
             //Attacking a spawn
+            console.log("LOG: New Attack Target (Spawn) " + JSON.stringify(spawnTarget.roomObject.pos));
+            targetFlag.setPosition(spawnTarget.roomObject.pos);
             return {
                 roomObject: spawnTarget.roomObject,
                 id: spawnTarget.roomObject.id,
@@ -165,6 +169,8 @@ export class AttackOneController {
 
         if (towerTarget != null) {
             //Attacking a tower
+            console.log("LOG: New Attack Target (Tower) " + JSON.stringify(towerTarget.roomObject.pos));
+            targetFlag.setPosition(towerTarget.roomObject.pos);
             return {
                 roomObject: towerTarget.roomObject,
                 id: towerTarget.roomObject.id,
@@ -180,6 +186,8 @@ export class AttackOneController {
 
         if (creepTarget != null) {
             //Attacking a creep
+            console.log("LOG: New Attack Target (Creep) " + JSON.stringify(creepTarget.roomObject.pos));
+            targetFlag.setPosition(creepTarget.roomObject.pos);
             return {
                 roomObject: creepTarget.roomObject,
                 id: creepTarget.roomObject.id,
@@ -199,6 +207,8 @@ export class AttackOneController {
 
         if (rampartTarget != null) {
             //Attacking a rampart
+            console.log("LOG: New Attack Target (Rampart) " + JSON.stringify(rampartTarget.roomObject.pos));
+            targetFlag.setPosition(rampartTarget.roomObject.pos);
             return {
                 roomObject: rampartTarget.roomObject,
                 id: rampartTarget.roomObject.id,
@@ -218,6 +228,8 @@ export class AttackOneController {
 
         if (wallTarget != null) {
             //Attacking a wall
+            console.log("LOG: New Attack Target (Wall) " + JSON.stringify(wallTarget.roomObject.pos));
+            targetFlag.setPosition(wallTarget.roomObject.pos);
             return {
                 roomObject: wallTarget.roomObject,
                 id: wallTarget.roomObject.id,
@@ -227,6 +239,7 @@ export class AttackOneController {
 
         //Nothing was found as pathable
         console.log("LOG: Nothing pathable in getAttackTarget");
+        targetFlag.remove();
         return null;
     }
 
@@ -377,7 +390,7 @@ export class AttackOneController {
         }
         const flagNames: string[] = Object.keys(Game.flags);
         for (let i = flagNames.length - 1; i >= 0; i--) {
-            if (flagNames[i].includes("attack-one")) {
+            if (flagNames[i].includes("attack")) {
                 const flag: Flag = Game.flags[flagNames[i]];
                 flag.remove();
             }
