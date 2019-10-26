@@ -9,12 +9,12 @@ export class Stage1_3 {
     1.3 <-  1.6 : Room has < 5 extensions
     */
     public static up(myRoom: MyRoom, room: Room): boolean {
+        this.step(myRoom, room);
         if (HelperFunctions.amountOfExtensions(room, STRUCTURE_EXTENSION) >= 5) {
             myRoom.roomStage = 1.6;
             ReportController.log("STAGE", "Room " + myRoom.name + " increased to room stage 1.6");
             return true;
         }
-        this.step(myRoom, room);
         return false;
     }
 
