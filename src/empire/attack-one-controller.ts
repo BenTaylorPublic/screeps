@@ -248,7 +248,6 @@ export class AttackOneController {
                         if (roomName === start.roomName) {
                             return costmatrix;
                         } else {
-                            console.log("AAA BAD");
                             const room: Room = Game.rooms[roomName];
                             const costMatrix: CostMatrix = new PathFinder.CostMatrix;
 
