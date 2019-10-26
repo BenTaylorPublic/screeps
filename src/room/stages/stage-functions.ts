@@ -21,7 +21,7 @@ export class StageFunctions {
                 if (result === OK) {
                     console.log("LOG: Placed extension construction site");
                     roomFlag.remove();
-                } else {
+                } else if (result !== ERR_RCL_NOT_ENOUGH) {
                     ReportController.log("ERROR", "Placing a extension construction site errored " + result);
                 }
             }
