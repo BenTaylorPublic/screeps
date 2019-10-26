@@ -22,7 +22,7 @@ export class StageFunctions {
                     console.log("LOG: Placed extension construction site");
                     roomFlag.remove();
                 } else {
-                    ReportController.log("ERROR", "Placing a extension construction site errored");
+                    ReportController.log("ERROR", "Placing a extension construction site errored " + result);
                 }
             }
         }
