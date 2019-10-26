@@ -12,7 +12,6 @@ Push to master to release
 ### Working on
 ```
 Attack One
-    Test Tough
 ```
 ### Short term
 ```

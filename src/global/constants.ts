@@ -10,5 +10,6 @@ export class Constants {
     public static WALL_AND_RAMPART_GOAL_HEALTH: number = 10000;
     public static TOWER_REPAIR_ABOVE_PERCENT: number = 0.5;
     public static CONSCRIPTION_RANGE: number = 3;
+    public static CONSCRIPTION_MINIMUM_STAGE: Stage = 4;
     public static RALLY_FLAG_RANGE: number = 3;
 }
