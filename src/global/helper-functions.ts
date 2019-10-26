@@ -38,10 +38,11 @@ export class HelperFunctions {
         }
 
         if (fillWithTough) {
+            const toughtPart: BodyPartConstant[] = [TOUGH];
             while (true) {
-                if (this.calcBodyCost(body) + this.calcBodyCost([TOUGH]) <= maxEnergyToUse &&
+                if (this.calcBodyCost(body) + this.calcBodyCost(toughtPart) <= maxEnergyToUse &&
                     body.length + 1 <= maxBodySize) {
-                    body = body.concat([TOUGH]);
+                    body = toughtPart.concat(body);
                 } else {
                     break;
                 }
