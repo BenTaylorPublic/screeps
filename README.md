@@ -15,15 +15,15 @@ Attack
     Allocating enemies
         Should apply a red flag to them (structure)
         Should log the creep name
+    Rename AttackOne into Attack
+        Attacks will use the flags below ("attack-quick", "attack-pressure", "attack-large")
 ```
 ### Short term
 ```
 Attack
     Priority target's via flags
-    Rename AttackOne into Attack
-        Attacks will use the flags below ("attack-now", "attack-pressure", "attack-large")
     Attack params/modes
-        Now
+        Quick
             Current behaviour
         Pressure
             Dont remove rally flag
@@ -33,7 +33,7 @@ Attack
             Very similar to now
             Only attack when 1 of the attack creeps has < 300ish ticks to live
             Once the creep spawns, provide a time estimate of when it will begin (using tick time)
-            Rooms should not make any other creeps until the attack is done (like Now)
+            Rooms should not make any other creeps until the attack is done (like AttackQuick)
 
 Writing on a room sign via a flag
 ```
