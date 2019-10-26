@@ -53,6 +53,23 @@ Flag helper function to get flags
         Optional room name string, if it should be a limited to a specific room
         Returns an array (and another version of it returns a Flag | null
 
+Room stages 6 to 7
+    RCL
+    Tower
+    10 Extensions
+    3 Labs
+    Link
+    Spawn
+    
+Room stages 7 to 8
+    RCL
+    3 Towers
+    10 Extensions
+    4 Labs
+    Spawn
+    Observer
+    Power Spawn
+
 Power
     Gaining power levels
         Use observers to check rooms
@@ -92,23 +109,6 @@ Hauling between rooms
 
 Power
     Power creeps control
-
-Room stages 6 to 7
-    RCL
-    Tower
-    10 Extensions
-    3 Labs
-    Link
-    Spawn
-    
-Room stages 7 to 8
-    RCL
-    3 Towers
-    10 Extensions
-    4 Labs
-    Spawn
-    Observer
-    Power Spawn
 ```
 
 ## Flag Names
