@@ -26,6 +26,7 @@ interface MyMemory {
 
 interface Empire {
     attackQuick: AttackQuick | null;
+    attackPressure: AttackPressure | null;
     creeps: MyCreep[];
 }
 
@@ -35,6 +36,19 @@ interface AttackQuick {
     state: AttackQuickStateType;
     roomsStillToProvide: MyRoom[];
     attackTarget: AttackTarget | null;
+}
+
+interface AttackPressure {
+    batchesStarted: number;
+    batches: AttackPressureBatch[];
+    attackTarget: AttackTarget | null;
+    roomsInRange: MyRoom[];
+}
+
+interface AttackPressureBatch {
+    state: AttackQuickStateType;
+    batchNumber: number;
+    roomsStillToProvide: MyRoom[];
 }
 
 interface EmpireCommand {
@@ -135,7 +149,7 @@ interface MyRoomPos {
 
 interface MyCreep {
     name: string;
-    role: "Hauler" | "Miner" | "Laborer" | "Claimer" | "BankLinker" | "AttackQuickCreep";
+    role: "Hauler" | "Miner" | "Laborer" | "Claimer" | "BankLinker" | "AttackQuickCreep" | "AttackPressureCreep";
     assignedRoomName: string;
 }
 
@@ -163,6 +177,9 @@ interface BankLinker extends MyCreep {
 }
 
 interface AttackQuickCreep extends MyCreep {
+}
+interface AttackPressureCreep extends MyCreep {
+    batchNumber: number;
 }
 
 

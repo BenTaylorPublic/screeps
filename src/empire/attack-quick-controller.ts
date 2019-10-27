@@ -107,7 +107,7 @@ export class AttackQuickController {
         }
     }
 
-    public static setupAttackQuick(flag: Flag): AttackQuick | null {
+    public static setupAttackQuick(rallyFlag: Flag): AttackQuick | null {
         //Need to work out the rooms
 
         const attackQuick: AttackQuick = {
@@ -120,7 +120,7 @@ export class AttackQuickController {
         for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
             const myRoom: MyRoom = Memory.myMemory.myRooms[i];
             if (myRoom.roomStage >= Constants.CONSCRIPTION_MINIMUM_STAGE
-                && Game.map.getRoomLinearDistance(flag.pos.roomName, myRoom.name) < Constants.CONSCRIPTION_RANGE) {
+                && Game.map.getRoomLinearDistance(rallyFlag.pos.roomName, myRoom.name) < Constants.CONSCRIPTION_RANGE) {
                 //This room will be conscripted
                 attackQuick.roomsStillToProvide.push(myRoom);
                 outputMessage += myRoom.name + ", ";
