@@ -25,14 +25,14 @@ interface MyMemory {
 */
 
 interface Empire {
-    attackOne: AttackOne | null;
+    attackQuick: AttackQuick | null;
     creeps: MyCreep[];
 }
 
-type AttackOneStateType = "Conscripting" | "Rally" | "Charge";
+type AttackQuickStateType = "Conscripting" | "Rally" | "Charge";
 
-interface AttackOne {
-    state: AttackOneStateType;
+interface AttackQuick {
+    state: AttackQuickStateType;
     roomsStillToProvide: MyRoom[];
     attackTarget: AttackTarget | null;
 }
@@ -135,7 +135,7 @@ interface MyRoomPos {
 
 interface MyCreep {
     name: string;
-    role: "Hauler" | "Miner" | "Laborer" | "Claimer" | "BankLinker" | "AttackOneCreep";
+    role: "Hauler" | "Miner" | "Laborer" | "Claimer" | "BankLinker" | "AttackQuickCreep";
     assignedRoomName: string;
 }
 
@@ -162,7 +162,7 @@ interface Claimer extends MyCreep {
 interface BankLinker extends MyCreep {
 }
 
-interface AttackOneCreep extends MyCreep {
+interface AttackQuickCreep extends MyCreep {
 }
 
 

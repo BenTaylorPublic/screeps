@@ -32,7 +32,7 @@ function setupMyMemory(): void {
                 reports: []
             },
             empire: {
-                attackOne: null,
+                attackQuick: null,
                 creeps: []
             }
         } as MyMemory;

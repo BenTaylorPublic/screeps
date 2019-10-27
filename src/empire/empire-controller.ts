@@ -1,6 +1,6 @@
 import {RoleClaimer} from "./role/claimer";
 import {SpawnClaimerController} from "./spawn-claimer-controller";
-import {AttackOneController} from "./attack-one-controller";
+import {AttackController} from "./attack-controller";
 
 export class EmpireController {
     public static run(myMemory: MyMemory): EmpireCommand {
@@ -10,7 +10,7 @@ export class EmpireController {
         };
 
         SpawnClaimerController.run();
-        AttackOneController.run(empireCommand);
+        AttackController.run(empireCommand);
 
         //Controlling claimers
         for (let i = 0; i < myMemory.empire.creeps.length; i++) {
