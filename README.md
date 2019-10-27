@@ -13,26 +13,22 @@ Push to master to release
 ```
 Attack
     Test "attack-target" red flag
-    Rename AttackOne into Attack
-        Attacks will use the flags below ("attack-quick", "attack-pressure", "attack-large")
-```
-### Short term
-```
-Attack
+    Test "attack-quick"
     Priority target's via flags
-    Attack params/modes
-        Quick
-            Current behaviour
         Pressure
             Dont remove rally flag
             Keep doing current behaviour repetitively
             Rooms should maintain 1 laborer only (but keep miners, linkers, haulers)
+```
+### Short term
+```
+Attack
+    Attack params/modes
         Large
             Very similar to now
             Only attack when 1 of the attack creeps has < 300ish ticks to live
             Once the creep spawns, provide a time estimate of when it will begin (using tick time)
             Rooms should not make any other creeps until the attack is done (like AttackQuick)
-
 Writing on a room sign via a flag
 ```
 ### Mid term:
@@ -76,6 +72,9 @@ Power
 ```
 ### Long term:
 ```
+Claim creeps don't seem to come from the closest (was diagonal)
+    Maybe see if the getRoomLinearDistance returns 2 for diagonal room?
+
 Links
     Should be able to skip from stage 1.6 to 4.8 (skip caches)
     Should place links in this order
@@ -124,23 +123,12 @@ spawn
 
 claim
 report
-attack-one-rally
-attack-one-room-target
+attack-quick-rally
+attack-quick-room-target
 ```
 
 ## Stage Progression
 ```
-RCL LEVELS:
-Lvl Req         Other                   Towers  Links   Spawns  Extensions  Ramparts Labs
-1   200	        Roads, 5 Containers                     1
-2   45,000      Walls                                           5 50 cap    300K
-3   135,000                             1                       10 50 cap   1M
-4   405,000     Storage                                         20 50 cap   3M
-5   1,215,000	                        2       2               30 50 cap   10M
-6   3,645,000	Extractor, Terminal             3               40 50 cap   30M     3
-7   10,935,000	                        3       4       2       50 100 cap  100M    6
-8   -	        Observer, Power Spawn   6       6       3       60 200 cap  300M    10
-
 Loosely based on RCL
 -1 is default room level
 
@@ -213,7 +201,18 @@ Loosely based on RCL
 5.9 ->  6   : Room has >= 3 labs
 5.9 <-  6   : Room has < 3 labs
 ```
-
+### Room controller levels in a nice format:
+```
+Lvl Req         Other                   Towers  Links   Spawns  Extensions  Ramparts Labs
+1   200	        Roads, 5 Containers                     1
+2   45,000      Walls                                           5 50 cap    300K
+3   135,000                             1                       10 50 cap   1M
+4   405,000     Storage                                         20 50 cap   3M
+5   1,215,000	                        2       2               30 50 cap   10M
+6   3,645,000	Extractor, Terminal             3               40 50 cap   30M     3
+7   10,935,000	                        3       4       2       50 100 cap  100M    6
+8   -	        Observer, Power Spawn   6       6       3       60 200 cap  300M    10
+```
 ### Body parts in a nice format:
 ```
 MOVE	        50	
