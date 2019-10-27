@@ -12,11 +12,9 @@ Push to master to release
 ### Working on
 ```
 Attack
+    Retest AttackQuick
     Priority target's via flags
-        Pressure
-            Dont remove rally flag
-            Keep doing current behaviour repetitively
-            Rooms should maintain 1 laborer only (but keep miners, linkers, haulers)
+    Pressure
 ```
 ### Short term
 ```
@@ -84,10 +82,12 @@ Claim creeps don't seem to come from the closest (was diagonal)
 
 Links
     Should be able to skip from stage 1.6 to 4.8 (skip caches)
-    Should place links in this order
-        Bank
-        Link source (using a number priority, so you can force it to build one on the far away source)
-        Link out
+    Links should look at a number to determine what order to build
+        This is because there WILL be 4 link types
+            link-source
+            link-bank
+            link-out
+            link-in
 
 Empire Command
     During Attack Quick, empire command shouldn't halt all rooms just because 1 hasn't provided
