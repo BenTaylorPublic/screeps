@@ -72,6 +72,11 @@ Power
 ```
 ### Long term:
 ```
+Spawning
+    Spawns could have a queue
+    This would save the spawn logic from assembling a body every tick until it's able to be used
+    Would also allow having a priority queue (Defence > Offence > Economy)
+
 Claim creeps don't seem to come from the closest (was diagonal)
     Maybe see if the getRoomLinearDistance returns 2 for diagonal room?
 
