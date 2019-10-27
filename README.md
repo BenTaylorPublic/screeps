@@ -13,7 +13,7 @@ Push to master to release
 ```
 Attack
     Test "attack-target" red flag
-    Test "attack-quick"
+    Test "attack-quick" (after split from attack controller)
     Priority target's via flags
         Pressure
             Dont remove rally flag
