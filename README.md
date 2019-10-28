@@ -13,12 +13,12 @@ Push to master to release
 ```
 Attack
     Retest AttackQuick
-    Priority target's via flags
     Pressure
 ```
 ### Short term
 ```
 Attack
+    Priority target's via flags
     Attack params/modes
         Large
             Very similar to now

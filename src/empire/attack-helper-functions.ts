@@ -1,5 +1,5 @@
 export class AttackHelperFunctions {
-    public static getTarget(attackTarget: AttackTarget | null, flag: Flag): AttackTarget | null {
+    public static getNewTargetIfNeeded(attackTarget: AttackTarget | null, flag: Flag): AttackTarget | null {
         if (attackTarget != null) {
             const roomObject: RoomObject | null = Game.getObjectById<RoomObject>(attackTarget.id);
             if (roomObject == null) {

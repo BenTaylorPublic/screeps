@@ -1,15 +1,15 @@
 import {ReportController} from "../../reporting/report-controller";
 import {Constants} from "../../global/constants";
 
-export class RoleAttackQuickCreep {
-    public static run(attackQuickCreep: AttackQuickCreep, attackQuickState: AttackQuickStateType, rallyOrRoomTargetFlag: Flag, attackTarget: AttackTarget | null): void {
-        const creep: Creep = Game.creeps[attackQuickCreep.name];
+export class RoleAttackCreep {
+    public static run(attackCreep: AttackPressureCreep | AttackQuickCreep, attackState: AttackStateType, rallyOrRoomTargetFlag: Flag, attackTarget: AttackTarget | null): void {
+        const creep: Creep = Game.creeps[attackCreep.name];
         if (creep == null) {
-            ReportController.log("ERROR", "Attack Quick Creep is null. Creep ID: " + attackQuickCreep.name);
+            ReportController.log("ERROR", "Attack Creep is null. Creep ID: " + attackCreep.name);
             return;
         }
 
-        if (attackQuickState === "Rally" || attackQuickState === "Conscripting") {
+        if (attackState === "Rally" || attackState === "Conscripting") {
             //Get a nice tight ball on it
             creep.moveTo(rallyOrRoomTargetFlag.pos);
             if (!creep.pos.inRangeTo(rallyOrRoomTargetFlag.pos, Constants.RALLY_FLAG_RANGE)) {
@@ -19,7 +19,7 @@ export class RoleAttackQuickCreep {
                 //In range of rally flag, just wait
                 creep.say("Rallying");
             }
-        } else if (attackQuickState === "Charge") {
+        } else if (attackState === "Charge") {
             if (creep.room.name !== rallyOrRoomTargetFlag.pos.roomName) {
                 creep.say("Charge!");
                 creep.moveTo(rallyOrRoomTargetFlag.pos);

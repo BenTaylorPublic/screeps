@@ -2,30 +2,70 @@ import {Constants} from "../global/constants";
 import {ReportController} from "../reporting/report-controller";
 import {HelperFunctions} from "../global/helper-functions";
 import {AttackHelperFunctions} from "./attack-helper-functions";
+import {RoleAttackCreep} from "./role/attack-creep";
 
 export class AttackPressureController {
     public static run(attackPressure: AttackPressure): void {
         let updatedTarget: boolean = false;
 
+        //Controlling creeps
+        const myMemory: MyMemory = Memory.myMemory;
+        const attackPressureCreeps: AttackPressureCreep[] = [];
+        for (let i = 0; i < myMemory.empire.creeps.length; i++) {
+            const creep: MyCreep = myMemory.empire.creeps[i];
+            if (creep.role !== "AttackPressureCreep") {
+                continue;
+            }
+            attackPressureCreeps.push(creep as AttackPressureCreep);
+        }
+
         for (let i: number = attackPressure.batches.length - 1; i >= 0; i--) {
+            let flag: Flag | null = null;
             const batch: AttackPressureBatch = attackPressure.batches[i];
             if (batch.state === "Conscripting") {
+                flag = Game.flags["attack-pressure-rally"];
+                if (flag == null) {
+                    ReportController.log("ERROR", "attack-pressure-rally flag doesn't exist during AttackPressure. Cancelling the attack.");
+                    this.endAttack();
+                    return;
+                }
                 this.batchRunConscript((batch));
             }
             if (batch.state === "Rally") {
-                this.batchRunRally(batch);
+                flag = Game.flags["attack-pressure-rally"];
+                if (flag == null) {
+                    ReportController.log("ERROR", "attack-pressure-rally flag doesn't exist during AttackPressure. Cancelling the attack.");
+                    this.endAttack();
+                    return;
+                }
+                this.batchRunRally(batch, flag);
             }
-            if (batch.state === "Charge" && !updatedTarget) {
-                const flag: Flag = Game.flags["attack-pressure-room-target"];
+            if (batch.state === "Charge") {
+                flag = Game.flags["attack-pressure-room-target"];
                 if (flag == null) {
                     ReportController.log("ERROR", "attack-pressure-room-target flag doesn't exist during AttackPressure. Cancelling the attack.");
                     this.endAttack();
+                    return;
                 }
-                updatedTarget = true;
-                attackPressure.attackTarget = AttackHelperFunctions.getTarget(attackPressure.attackTarget, flag);
+                if (!updatedTarget) {
+                    updatedTarget = true;
+                    attackPressure.attackTarget = AttackHelperFunctions.getNewTargetIfNeeded(attackPressure.attackTarget, flag);
+                }
+            }
+
+            for (let j: number = 0; j < attackPressureCreeps.length; j++) {
+                if (attackPressureCreeps[j].batchNumber === batch.batchNumber) {
+                    RoleAttackCreep.run(attackPressureCreeps[j], batch.state, flag as Flag, attackPressure.attackTarget);
+                }
             }
         }
-        //TODO: Control creeps
+
+
+        if (attackPressure.attackTarget != null) {
+            //Clear this so it doesn't have to be serialized
+            delete attackPressure.attackTarget.roomObject;
+        }
+
     }
 
     public static setupAttackPressure(rallyFlag: Flag): AttackPressure | null {
@@ -66,13 +106,7 @@ export class AttackPressureController {
         return attackPressure;
     }
 
-    private static batchRunRally(batch: AttackPressureBatch): void {
-        const flag: Flag | null = Game.flags["attack-pressure-rally"];
-        if (flag == null) {
-            ReportController.log("ERROR", "attack-pressure-rally flag doesn't exist during AttackPressure. Cancelling the attack.");
-            this.endAttack();
-            return;
-        }
+    private static batchRunRally(batch: AttackPressureBatch, flag: Flag): void {
 
         //Wait until all the creeps are within range of the rally flag
         let allCreepsAtFlag: boolean = true;
@@ -96,13 +130,6 @@ export class AttackPressureController {
     }
 
     private static batchRunConscript(batch: AttackPressureBatch): void {
-        const flag: Flag = Game.flags["attack-pressure-rally"];
-        if (flag == null) {
-            ReportController.log("ERROR", "attack-pressure-rally flag doesn't exist during AttackPressure. Cancelling the attack.");
-            this.endAttack();
-            return;
-        }
-
         //Wait until every room that's required to, has added a creep
         for (let i = batch.roomsStillToProvide.length - 1; i >= 0; i--) {
             const myRoom: MyRoom = batch.roomsStillToProvide[i];

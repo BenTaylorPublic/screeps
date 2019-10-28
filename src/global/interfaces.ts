@@ -30,10 +30,10 @@ interface Empire {
     creeps: MyCreep[];
 }
 
-type AttackQuickStateType = "Conscripting" | "Rally" | "Charge";
+type AttackStateType = "Conscripting" | "Rally" | "Charge";
 
 interface AttackQuick {
-    state: AttackQuickStateType;
+    state: AttackStateType;
     roomsStillToProvide: MyRoom[];
     attackTarget: AttackTarget | null;
 }
@@ -46,7 +46,7 @@ interface AttackPressure {
 }
 
 interface AttackPressureBatch {
-    state: AttackQuickStateType;
+    state: AttackStateType;
     batchNumber: number;
     roomsStillToProvide: MyRoom[];
 }

@@ -1,8 +1,8 @@
 import {ReportController} from "../reporting/report-controller";
 import {Constants} from "../global/constants";
-import {RoleAttackQuickCreep} from "./role/attack-quick-creep";
 import {HelperFunctions} from "../global/helper-functions";
 import {AttackHelperFunctions} from "./attack-helper-functions";
+import {RoleAttackCreep} from "./role/attack-creep";
 
 export class AttackQuickController {
     public static run(attackQuick: AttackQuick, empireCommand: EmpireCommand): void {
@@ -79,7 +79,7 @@ export class AttackQuickController {
                 this.endAttack();
             }
 
-            AttackHelperFunctions.getTarget(attackQuick.attackTarget, flag);
+            attackQuick.attackTarget = AttackHelperFunctions.getNewTargetIfNeeded(attackQuick.attackTarget, flag);
         }
 
         //Controlling creeps
@@ -90,7 +90,7 @@ export class AttackQuickController {
                 continue;
             }
 
-            RoleAttackQuickCreep.run(attackQuickCreep as AttackQuickCreep, attackQuick.state, flag as Flag, attackQuick.attackTarget);
+            RoleAttackCreep.run(attackQuickCreep as AttackQuickCreep, attackQuick.state, flag as Flag, attackQuick.attackTarget);
         }
 
         if (attackQuick.attackTarget != null) {
