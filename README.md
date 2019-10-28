@@ -207,19 +207,21 @@ Loosely based on RCL
 
 5.9 ->  6   : Room has >= 3 labs
 5.9 <-  6   : Room has < 3 labs
+
 ```
 ### Room controller levels in a nice format:
-```
-Lvl Req         Other                   Towers  Links   Spawns  Extensions  Ramparts Labs
-1   200	        Roads, 5 Containers                     1
-2   45,000      Walls                                           5 50 cap    300K
-3   135,000                             1                       10 50 cap   1M
-4   405,000     Storage                                         20 50 cap   3M
-5   1,215,000	                        2       2               30 50 cap   10M
-6   3,645,000	Extractor, Terminal             3               40 50 cap   30M     3
-7   10,935,000	                        3       4       2       50 100 cap  100M    6
-8   -	        Observer, Power Spawn   6       6       3       60 200 cap  300M    10
-```
+
+| Lvl  | Req        | Other                 | Towers | Links | Spawns | Extensions | Ramparts | Labs |
+|------|------------|-----------------------|--------|-------|--------|------------|----------|------|
+| 1    | 200        | Roads, 5 Containers   |        |       | 1      |            |          |      |
+| 2    | 45,000     | Walls                 |        |       |        | 5 50 cap   | 300K     |      |
+| 3    | 135,000    |                       | 1      |       |        | 10 50 cap  | 1M       |      |
+| 4    | 405,000    | Storage               |        |       |        | 20 50 cap  | 3M       |      |
+| 5    | 1,215,000  |                       | 2      | 2     |        | 30 50 cap  | 10M      |      |
+| 6    | 3,645,000  | Extractor, Terminal   |        | 3     |        | 40 50 cap  | 30M      | 3    |
+| 7    | 10,935,000 |                       | 3      | 4     | 2      | 50 100 cap | 100M     | 6    |
+| 8    | -          | Observer, Power Spawn | 6      | 6     | 3      | 60 200 cap | 300M     | 10   |
+
 ### Body parts in a nice format:
 ```
 MOVE	        50	
