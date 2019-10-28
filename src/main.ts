@@ -33,6 +33,7 @@ function setupMyMemory(): void {
             },
             empire: {
                 attackQuick: null,
+                attackPressure: null,
                 creeps: []
             }
         } as MyMemory;
