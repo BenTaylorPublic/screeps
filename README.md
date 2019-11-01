@@ -13,19 +13,10 @@ Push to master to release
 ```
 Attack
     Retest AttackQuick
-    Pressure
+    Test AttackPressure (after release)
 ```
 ### Short term
 ```
-Attack
-    Priority target's via flags
-    Attack params/modes
-        Large
-            Very similar to now
-            Only attack when 1 of the attack creeps has < 300ish ticks to live
-            Once the creep spawns, provide a time estimate of when it will begin (using tick time)
-            Rooms should not make any other creeps until the attack is done (like AttackQuick)
-
 Writing on a room sign via a flag
 
 Fill Miners up with more MOVE parts so they get to the source quicker
@@ -69,9 +60,31 @@ Room stages 7 to 8
 Power
     Gaining power levels
         Use observers to check rooms
+
+New Role - Stocker
+    Always have 1 (maybe have more? idk, just 1 single for now)
+    Just move and carry body
+    Just used to stock extensions, spawns, and towers
+    Remove stocking logic from Laborers 
+        (currently expensive I think)
+        Would mean Laborers JUST upgrade
+    Logic for stocking should be
+        When spawning or shooting turrent
+        Request energy equal to the amount spent
+        The creep has a priority queue of things it needs to stock
+            (towers > spawn > extensions, no aging)
 ```
 ### Long term:
 ```
+Attack
+    Priority target's via flags
+    Attack params/modes
+        Large
+            Very similar to now
+            Only attack when 1 of the attack creeps has < 300ish ticks to live
+            Once the creep spawns, provide a time estimate of when it will begin (using tick time)
+            Rooms should not make any other creeps until the attack is done (like AttackQuick)
+
 Spawning
     Spawns could have a queue
     This would save the spawn logic from assembling a body every tick until it's able to be used
