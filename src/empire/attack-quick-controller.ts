@@ -111,7 +111,7 @@ export class AttackQuickController {
         let outputMessage: string = "";
         for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
             const myRoom: MyRoom = Memory.myMemory.myRooms[i];
-            if (myRoom.roomStage >= Constants.CONSCRIPTION_MINIMUM_STAGE
+            if (myRoom.roomStage >= Constants.CONSCRIPTION_QUICK_MINIMUM_STAGE
                 && Game.map.getRoomLinearDistance(rallyFlag.pos.roomName, myRoom.name) < Constants.CONSCRIPTION_RANGE) {
                 //This room will be conscripted
                 attackQuick.roomsStillToProvide.push(myRoom);
