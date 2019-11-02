@@ -5,11 +5,10 @@ import {AttackHelperFunctions} from "./attack-helper-functions";
 import {RoleAttackCreep} from "./role/attack-creep";
 
 export class AttackPressureController {
-    public static run(attackPressure: AttackPressure): void {
+    public static run(myMemory: MyMemory, attackPressure: AttackPressure): void {
         let updatedTarget: boolean = false;
 
         //Controlling creeps
-        const myMemory: MyMemory = Memory.myMemory;
         const attackPressureCreeps: AttackPressureCreep[] = [];
         for (let i = 0; i < myMemory.empire.creeps.length; i++) {
             const creep: MyCreep = myMemory.empire.creeps[i];
@@ -29,7 +28,7 @@ export class AttackPressureController {
                     this.endAttack();
                     return;
                 }
-                this.batchRunConscript((batch));
+                this.batchRunConscript(batch, myMemory.empire);
             }
             if (batch.state === "Rally") {
                 flag = Game.flags["attack-pressure-rally"];
@@ -38,7 +37,7 @@ export class AttackPressureController {
                     this.endAttack();
                     return;
                 }
-                const charging: boolean = this.batchRunRally(batch, flag);
+                const charging: boolean = this.batchRunRally(batch, flag, myMemory.empire);
                 if (charging) {
                     //Start the next batch
                     this.startBatch(attackPressure);
@@ -72,7 +71,7 @@ export class AttackPressureController {
 
     }
 
-    public static setupAttackPressure(rallyFlag: Flag): AttackPressure | null {
+    public static setupAttackPressure(myRooms: MyRoom[], rallyFlag: Flag): AttackPressure | null {
         //Need to work out the rooms
 
         const attackPressure: AttackPressure = {
@@ -83,8 +82,8 @@ export class AttackPressureController {
         };
 
         let outputMessage: string = "";
-        for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
-            const myRoom: MyRoom = Memory.myMemory.myRooms[i];
+        for (let i = 0; i < myRooms.length; i++) {
+            const myRoom: MyRoom = myRooms[i];
             if (myRoom.roomStage >= Constants.CONSCRIPTION_PRESSURE_MINIMUM_STAGE
                 && Game.map.getRoomLinearDistance(rallyFlag.pos.roomName, myRoom.name) < Constants.CONSCRIPTION_RANGE) {
                 //This room will be conscripted
@@ -106,16 +105,15 @@ export class AttackPressureController {
 
         this.startBatch(attackPressure);
 
-        Memory.myMemory.empire.attackPressure = attackPressure;
         return attackPressure;
     }
 
-    private static batchRunRally(batch: AttackPressureBatch, flag: Flag): boolean {
+    private static batchRunRally(batch: AttackPressureBatch, flag: Flag, empire: Empire): boolean {
 
         //Wait until all the creeps are within range of the rally flag
         let allCreepsAtFlag: boolean = true;
-        for (let i = 0; i < Memory.myMemory.empire.creeps.length; i++) {
-            const myCreep: MyCreep = Memory.myMemory.empire.creeps[i];
+        for (let i = 0; i < empire.creeps.length; i++) {
+            const myCreep: MyCreep = empire.creeps[i];
             if (myCreep.role !== "AttackPressureCreep") {
                 continue;
             }
@@ -135,14 +133,14 @@ export class AttackPressureController {
         return false;
     }
 
-    private static batchRunConscript(batch: AttackPressureBatch): void {
+    private static batchRunConscript(batch: AttackPressureBatch, empire: Empire): void {
         //Wait until every room that's required to, has added a creep
         for (let i = batch.roomsStillToProvide.length - 1; i >= 0; i--) {
             const myRoom: MyRoom = batch.roomsStillToProvide[i];
             const attackPressureCreep: AttackPressureCreep | null = this.spawnAttackPressureCreep(myRoom, batch.batchNumber);
             if (attackPressureCreep != null) {
                 console.log("LOG: " + myRoom.name + " has been conscripted " + attackPressureCreep.name + " for AttackPressure");
-                Memory.myMemory.empire.creeps.push(attackPressureCreep);
+                empire.creeps.push(attackPressureCreep);
                 batch.roomsStillToProvide.splice(i, 1);
             } // else room still to provide a creep
         }

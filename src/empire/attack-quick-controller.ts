@@ -5,7 +5,7 @@ import {AttackHelperFunctions} from "./attack-helper-functions";
 import {RoleAttackCreep} from "./role/attack-creep";
 
 export class AttackQuickController {
-    public static run(attackQuick: AttackQuick, empireCommand: EmpireCommand): void {
+    public static run(myMemory: MyMemory, attackQuick: AttackQuick, empireCommand: EmpireCommand): void {
         let flag: Flag | null = null;
 
         if (attackQuick.state === "Conscripting") {
@@ -22,7 +22,7 @@ export class AttackQuickController {
                 const attackQuickCreep: AttackQuickCreep | null = this.spawnAttackQuickCreep(myRoom);
                 if (attackQuickCreep != null) {
                     console.log("LOG: " + myRoom.name + " has been conscripted " + attackQuickCreep.name + " for AttackQuick");
-                    Memory.myMemory.empire.creeps.push(attackQuickCreep);
+                    myMemory.empire.creeps.push(attackQuickCreep);
                     attackQuick.roomsStillToProvide.splice(i, 1);
                 } // else room still to provide a creep
             }
@@ -47,8 +47,8 @@ export class AttackQuickController {
 
             //Wait until all the creeps are within range of the rally flag
             let allCreepsAtFlag: boolean = true;
-            for (let i = 0; i < Memory.myMemory.empire.creeps.length; i++) {
-                const myCreep: MyCreep = Memory.myMemory.empire.creeps[i];
+            for (let i = 0; i < myMemory.empire.creeps.length; i++) {
+                const myCreep: MyCreep = myMemory.empire.creeps[i];
                 if (myCreep.role !== "AttackQuickCreep") {
                     continue;
                 }
@@ -73,7 +73,7 @@ export class AttackQuickController {
                 this.endAttack();
                 return;
             }
-            if (Memory.myMemory.empire.creeps.length === 0) {
+            if (myMemory.empire.creeps.length === 0) {
                 // Cancel attack when the creeps are dead
                 console.log("ATTACK: Creeps are all dead, ending attack");
                 this.endAttack();
@@ -83,7 +83,6 @@ export class AttackQuickController {
         }
 
         //Controlling creeps
-        const myMemory: MyMemory = Memory.myMemory;
         for (let i = 0; i < myMemory.empire.creeps.length; i++) {
             const attackQuickCreep: AttackQuickCreep = myMemory.empire.creeps[i];
             if (attackQuickCreep.role !== "AttackQuickCreep") {
@@ -99,7 +98,7 @@ export class AttackQuickController {
         }
     }
 
-    public static setupAttackQuick(rallyFlag: Flag): AttackQuick | null {
+    public static setupAttackQuick(myRooms: MyRoom[], rallyFlag: Flag): AttackQuick | null {
         //Need to work out the rooms
 
         const attackQuick: AttackQuick = {
@@ -109,8 +108,8 @@ export class AttackQuickController {
         };
 
         let outputMessage: string = "";
-        for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
-            const myRoom: MyRoom = Memory.myMemory.myRooms[i];
+        for (let i = 0; i < myRooms.length; i++) {
+            const myRoom: MyRoom = myRooms[i];
             if (myRoom.roomStage >= Constants.CONSCRIPTION_QUICK_MINIMUM_STAGE
                 && Game.map.getRoomLinearDistance(rallyFlag.pos.roomName, myRoom.name) < Constants.CONSCRIPTION_RANGE) {
                 //This room will be conscripted
@@ -129,7 +128,6 @@ export class AttackQuickController {
 
         console.log("AttackQuick: " + attackQuick.roomsStillToProvide.length +
             " Rooms conscripted for AttackQuick (" + outputMessage + ")");
-        Memory.myMemory.empire.attackQuick = attackQuick;
         return attackQuick;
     }
 

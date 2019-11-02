@@ -9,8 +9,8 @@ export class EmpireController {
             haltRoomEnergyUsage: false
         };
 
-        SpawnClaimerController.run();
-        AttackController.run(empireCommand);
+        SpawnClaimerController.run(myMemory);
+        AttackController.run(myMemory, empireCommand);
 
         //Controlling claimers
         for (let i = 0; i < myMemory.empire.creeps.length; i++) {

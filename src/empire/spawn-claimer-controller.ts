@@ -2,7 +2,7 @@ import {HelperFunctions} from "../global/helper-functions";
 import {ReportController} from "../reporting/report-controller";
 
 export class SpawnClaimerController {
-    public static run(): void {
+    public static run(myMemory: MyMemory): void {
         const flag: Flag | null = Game.flags["claim"];
         if (flag == null) {
             return;
@@ -19,8 +19,8 @@ export class SpawnClaimerController {
         } else {
             //Room has not been claimed yet
             let claimerAlreadyMade: boolean = false;
-            for (let j = 0; j < Memory.myMemory.empire.creeps.length; j++) {
-                const claimer: MyCreep = Memory.myMemory.empire.creeps[j];
+            for (let j = 0; j < myMemory.empire.creeps.length; j++) {
+                const claimer: MyCreep = myMemory.empire.creeps[j];
                 if (claimer.role === "Claimer") {
                     claimerAlreadyMade = true;
                     break;
@@ -31,7 +31,7 @@ export class SpawnClaimerController {
                 const claimer: Claimer | null = this.spawnClaimer(flag);
                 if (claimer != null) {
                     console.log("LOG: Spawned a new claimer");
-                    Memory.myMemory.empire.creeps.push(claimer);
+                    myMemory.empire.creeps.push(claimer);
                 }
             }
         }
