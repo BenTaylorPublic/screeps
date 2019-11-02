@@ -13,10 +13,12 @@ Push to master to release
 ```
 Attack
     Retest AttackQuick
-    Test AttackPressure (after release)
+    Test AttackPressure
 ```
 ### Short term
 ```
+Performance test
+
 Writing on a room sign via a flag
 
 Fill Miners up with more MOVE parts so they get to the source quicker
@@ -61,10 +63,10 @@ Power
     Gaining power levels
         Use observers to check rooms
 
-New Role - Stocker
+New Role - Stocker (for performance)
+    Just used to stock extensions, spawns, and towers
     Always have 1 (maybe have more? idk, just 1 single for now)
     Just move and carry body
-    Just used to stock extensions, spawns, and towers
     Remove stocking logic from Laborers 
         (currently expensive I think)
         Would mean Laborers JUST upgrade
@@ -145,6 +147,8 @@ claim
 report
 attack-quick-rally
 attack-quick-room-target
+attack-pressure-rally
+attack-pressure-room-target
 ```
 
 ## Stage Progression
