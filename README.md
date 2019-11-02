@@ -12,7 +12,6 @@ Push to master to release
 ### Working on
 ```
 Attack
-    Retest AttackQuick
     Test AttackPressure
 ```
 ### Short term
@@ -63,7 +62,7 @@ Power
     Gaining power levels
         Use observers to check rooms
 
-New Role - Stocker (for performance)
+New Role - Stocker
     Just used to stock extensions, spawns, and towers
     Always have 1 (maybe have more? idk, just 1 single for now)
     Just move and carry body
@@ -75,6 +74,11 @@ New Role - Stocker (for performance)
         Request energy equal to the amount spent
         The creep has a priority queue of things it needs to stock
             (towers > spawn > extensions, no aging)
+
+Performance
+    Ensure creep is spawned before it starts trying to control it
+    Compile construction sites in a list (once) before calling laborer.run
+    Move creep arrays into their room objects
 ```
 ### Long term:
 ```
