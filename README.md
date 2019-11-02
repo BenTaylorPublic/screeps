@@ -11,8 +11,8 @@ Push to master to release
 ## TODO
 ### Working on
 ```
-Attack
-    Test AttackPressure
+Empire command shouldn't halt all rooms just because 1 hasn't provided
+It's essentially breaking AttackPressure
 ```
 ### Short term
 ```
@@ -107,9 +107,6 @@ Links
             link-bank
             link-out
             link-in
-
-Empire Command
-    During Attack Quick, empire command shouldn't halt all rooms just because 1 hasn't provided
 
 Mining minerals and directly selling them
 
