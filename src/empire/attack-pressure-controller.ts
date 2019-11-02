@@ -38,7 +38,11 @@ export class AttackPressureController {
                     this.endAttack();
                     return;
                 }
-                this.batchRunRally(batch, flag);
+                const charging: boolean = this.batchRunRally(batch, flag);
+                if (charging) {
+                    //Start the next batch
+                    this.startBatch(attackPressure);
+                }
             }
             if (batch.state === "Charge") {
                 flag = Game.flags["attack-pressure-room-target"];
@@ -106,7 +110,7 @@ export class AttackPressureController {
         return attackPressure;
     }
 
-    private static batchRunRally(batch: AttackPressureBatch, flag: Flag): void {
+    private static batchRunRally(batch: AttackPressureBatch, flag: Flag): boolean {
 
         //Wait until all the creeps are within range of the rally flag
         let allCreepsAtFlag: boolean = true;
@@ -126,7 +130,9 @@ export class AttackPressureController {
             //If it gets here, we're ready to charge!
             console.log("LOG: AttackPressure Charge");
             batch.state = "Charge";
+            return true;
         }
+        return false;
     }
 
     private static batchRunConscript(batch: AttackPressureBatch): void {
@@ -195,6 +201,7 @@ export class AttackPressureController {
             batchNumber: attackPressure.batchesStarted,
             roomsStillToProvide: attackPressure.roomsInRange
         });
+        console.log("Conscripting for batch " + attackPressure.batchesStarted);
         attackPressure.batchesStarted++;
     }
 
