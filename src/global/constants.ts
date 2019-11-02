@@ -11,6 +11,6 @@ export class Constants {
     public static TOWER_REPAIR_ABOVE_PERCENT: number = 0.5;
     public static CONSCRIPTION_RANGE: number = 3;
     public static CONSCRIPTION_QUICK_MINIMUM_STAGE: Stage = 4;
-    public static CONSCRIPTION_PRESSURE_MINIMUM_STAGE: Stage = 6;
+    public static CONSCRIPTION_PRESSURE_MINIMUM_STAGE: Stage = 5.9;
     public static RALLY_FLAG_RANGE: number = 3;
 }
