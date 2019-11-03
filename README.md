@@ -15,11 +15,6 @@ Performance test
 ```
 ### Short term
 ```
-Spawning
-    Spawns should use a priority queue for spawnining
-    It's wrecking my pendingConscriptedCreep logic
-        Because they spawn the same tick and replace each other
-
 Fill Miners up with more MOVE parts so they get to the source quicker
     Make it optional, so if there's not enough energy, it still spawns
 ```

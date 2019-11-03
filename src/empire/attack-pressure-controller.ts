@@ -3,6 +3,7 @@ import {ReportController} from "../reporting/report-controller";
 import {HelperFunctions} from "../global/helper-functions";
 import {AttackHelperFunctions} from "./attack-helper-functions";
 import {RoleAttackCreep} from "./role/attack-creep";
+import {ScheduleController} from "../schedule/schedule-controller";
 
 export class AttackPressureController {
     public static run(myMemory: MyMemory, attackPressure: AttackPressure): void {
@@ -140,7 +141,9 @@ export class AttackPressureController {
             const attackPressureCreep: AttackPressureCreep | null = this.spawnAttackPressureCreep(myRoom, batch.batchNumber);
             if (attackPressureCreep != null) {
                 console.log("LOG: " + myRoom.name + " has been conscripted " + attackPressureCreep.name + " for AttackPressure");
-                myRoom.pendingConscriptedCreep = false;
+
+                ScheduleController.scheduleForNextTick("SET_FALSE_ON_PENDING_CONSCRIPTED_CREEP", myRoom.name);
+
                 empire.creeps.push(attackPressureCreep);
                 batch.roomsStillToProvide.splice(i, 1);
             } // else room still to provide a creep

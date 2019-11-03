@@ -2,14 +2,19 @@ import {RoomController} from "./room/room-controller";
 import {MemoryController} from "./memory/memory-controller";
 import {EmpireController} from "./empire/empire-controller";
 import {ReportController} from "./reporting/report-controller";
+import {ScheduleController} from "./schedule/schedule-controller";
 
 console.log("Script reloaded");
+
+Memory.myMemory.scheduledCommands = [];
 
 setupMyMemory();
 
 export let loop: any = function (): void {
     const myMemory: MyMemory = Memory.myMemory;
     MemoryController.run();
+
+    ScheduleController.preLoop(myMemory);
 
     ReportController.checkForReportFlag();
     EmpireController.run(myMemory);
@@ -34,7 +39,8 @@ function setupMyMemory(): void {
                 attackQuick: null,
                 attackPressure: null,
                 creeps: []
-            }
+            },
+            scheduledCommands: []
         } as MyMemory;
     }
 }

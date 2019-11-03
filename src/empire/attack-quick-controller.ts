@@ -3,6 +3,7 @@ import {Constants} from "../global/constants";
 import {HelperFunctions} from "../global/helper-functions";
 import {AttackHelperFunctions} from "./attack-helper-functions";
 import {RoleAttackCreep} from "./role/attack-creep";
+import {ScheduleController} from "../schedule/schedule-controller";
 
 export class AttackQuickController {
     public static run(myMemory: MyMemory, attackQuick: AttackQuick): void {
@@ -22,7 +23,9 @@ export class AttackQuickController {
                 const attackQuickCreep: AttackQuickCreep | null = this.spawnAttackQuickCreep(myRoom);
                 if (attackQuickCreep != null) {
                     console.log("LOG: " + myRoom.name + " has been conscripted " + attackQuickCreep.name + " for AttackQuick");
-                    myRoom.pendingConscriptedCreep = false;
+
+                    ScheduleController.scheduleForNextTick("SET_FALSE_ON_PENDING_CONSCRIPTED_CREEP", myRoom.name);
+
                     myMemory.empire.creeps.push(attackQuickCreep);
                     attackQuick.roomsStillToProvide.splice(i, 1);
                 } // else room still to provide a creep

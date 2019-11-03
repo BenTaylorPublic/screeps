@@ -16,6 +16,7 @@ interface MyMemory {
     myRooms: MyRoom[];
     empire: Empire;
     report: ReportLog;
+    scheduledCommands: ScheduledCommand[];
 }
 
 /*
@@ -179,7 +180,6 @@ interface AttackPressureCreep extends MyCreep {
     batchNumber: number;
 }
 
-
 /*
 ====================
     REPORTS:
@@ -198,3 +198,16 @@ interface Report {
 }
 
 type ReportMessageType = "DEFENCE" | "STAGE" | "ERROR" | "OTHER";
+
+/*
+====================
+    SCHEDULE:
+====================
+*/
+
+type ScheduleAction = "SET_FALSE_ON_PENDING_CONSCRIPTED_CREEP";
+
+interface ScheduledCommand {
+    roomName: string;
+    action: ScheduleAction;
+}
