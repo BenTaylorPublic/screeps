@@ -5,10 +5,6 @@ import {ReportController} from "./reporting/report-controller";
 
 console.log("Script reloaded");
 
-for (let i: number = 0; i < Memory.myMemory.myRooms.length; i++) {
-    Memory.myMemory.myRooms[i].pendingConscriptedCreep = false;
-}
-
 setupMyMemory();
 
 export let loop: any = function (): void {
