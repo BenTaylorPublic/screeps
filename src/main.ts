@@ -6,8 +6,6 @@ import {ScheduleController} from "./schedule/schedule-controller";
 
 console.log("Script reloaded");
 
-Memory.myMemory.scheduledCommands = [];
-
 setupMyMemory();
 
 export let loop: any = function (): void {
