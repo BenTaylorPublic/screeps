@@ -15,8 +15,6 @@ Performance test
 ```
 ### Short term
 ```
-Fill Miners up with more MOVE parts so they get to the source quicker
-    Make it optional, so if there's not enough energy, it still spawns
 ```
 ### Mid term:
 ```

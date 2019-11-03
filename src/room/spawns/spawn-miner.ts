@@ -45,10 +45,22 @@ export class SpawnMiner {
         let linkId: string | null = null;
         if (mySource.link != null) {
             linkId = mySource.link.id;
-            body = [MOVE, CARRY, WORK, WORK, WORK, WORK, WORK];
+            body = HelperFunctions.generateBody(
+                [MOVE, CARRY, WORK, WORK, WORK, WORK, WORK],
+                [MOVE],
+                Game.rooms[myRoom.name],
+                false,
+                11
+            );
         } else {
             //No carry
-            body = [MOVE, WORK, WORK, WORK, WORK, WORK];
+            body = HelperFunctions.generateBody(
+                [MOVE, WORK, WORK, WORK, WORK, WORK],
+                [MOVE],
+                Game.rooms[myRoom.name],
+                false,
+                10
+            );
         }
 
         //Have a valid spawn now

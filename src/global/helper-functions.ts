@@ -5,12 +5,6 @@ export class HelperFunctions {
         return toReturn;
     }
 
-    public static calcBodyCost(body: BodyPartConstant[]): number {
-        return body.reduce(function (cost: number, part: BodyPartConstant): number {
-            return cost + BODYPART_COST[part];
-        }, 0);
-    }
-
     public static generateBody(
         baseBody: BodyPartConstant[],
         bodyPartsToAdd: BodyPartConstant[],
@@ -113,5 +107,11 @@ export class HelperFunctions {
             }
         }
         return null;
+    }
+
+    private static calcBodyCost(body: BodyPartConstant[]): number {
+        return body.reduce(function (cost: number, part: BodyPartConstant): number {
+            return cost + BODYPART_COST[part];
+        }, 0);
     }
 }
