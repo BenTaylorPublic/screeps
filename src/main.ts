@@ -3,6 +3,7 @@ import {MemoryController} from "./memory/memory-controller";
 import {EmpireController} from "./empire/empire-controller";
 import {ReportController} from "./reporting/report-controller";
 import {ScheduleController} from "./schedule/schedule-controller";
+import {RoleLaborer} from "./room/roles/laborer";
 
 declare function require(name: string): any;
 
@@ -13,6 +14,7 @@ console.log("Script reloaded");
 setupMyMemory();
 
 profiler.enable();
+profiler.registerObject(RoleLaborer, "RoleLaborer");
 export let loop: any = function (): void {
     profiler.wrap(function (): any {
         const myMemory: MyMemory = Memory.myMemory;
