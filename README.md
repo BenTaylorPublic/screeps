@@ -11,8 +11,8 @@ Push to master to release
 ## TODO
 ### Working on
 ```
-Empire command shouldn't halt all rooms just because 1 hasn't provided
-It's essentially breaking AttackPressure
+Test attack quick
+Test attack pressure
 ```
 ### Short term
 ```
