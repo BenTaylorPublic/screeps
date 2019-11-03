@@ -7,6 +7,11 @@ import {SpawnBankLinker} from "./spawn-bank-linker";
 export class RoomSpawnController {
     public static run(myRoom: MyRoom): void {
 
+        if (myRoom.pendingConscriptedCreep) {
+            console.log("It's doing the thing!");
+            return;
+        }
+
         let laborerCount: number = 0;
         for (let i = 0; i < myRoom.myCreeps.length; i++) {
             if (myRoom.myCreeps[i].role === "Laborer") {
