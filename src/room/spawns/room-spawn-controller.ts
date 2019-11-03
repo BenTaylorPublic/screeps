@@ -7,10 +7,6 @@ import {SpawnBankLinker} from "./spawn-bank-linker";
 export class RoomSpawnController {
     public static run(myRoom: MyRoom): void {
 
-        if (myRoom.pendingConscriptedCreep) {
-            return;
-        }
-
         let laborerCount: number = 0;
         for (let i = 0; i < myRoom.myCreeps.length; i++) {
             if (myRoom.myCreeps[i].role === "Laborer") {
@@ -32,7 +28,9 @@ export class RoomSpawnController {
         if (forceSpawnlaborers) {
             SpawnLaborer.forceSpawnLaborer(myRoom);
         } else {
-            SpawnLaborer.trySpawnLaborer(myRoom, laborerCount);
+            if (!myRoom.pendingConscriptedCreep) {
+                SpawnLaborer.trySpawnLaborer(myRoom, laborerCount);
+            }
             SpawnMiner.trySpawnMiner(myRoom);
             SpawnHauler.trySpawnHauler(myRoom);
             SpawnBankLinker.run(myRoom);
