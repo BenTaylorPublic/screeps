@@ -11,9 +11,9 @@ const profiler: any = require("screeps-profiler");
 console.log("Script reloaded");
 
 setupMyMemory();
-profiler.registerObject(RoomController, "RoomController");
 
 profiler.enable();
+profiler.registerObject(RoomController, "RoomController");
 export let loop: any = function (): void {
     profiler.wrap(function (): any {
 
