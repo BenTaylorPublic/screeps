@@ -22,6 +22,7 @@ export class AttackQuickController {
                 const attackQuickCreep: AttackQuickCreep | null = this.spawnAttackQuickCreep(myRoom);
                 if (attackQuickCreep != null) {
                     console.log("LOG: " + myRoom.name + " has been conscripted " + attackQuickCreep.name + " for AttackQuick");
+                    myRoom.pendingConscriptedCreep = false;
                     myMemory.empire.creeps.push(attackQuickCreep);
                     attackQuick.roomsStillToProvide.splice(i, 1);
                 } // else room still to provide a creep
@@ -111,6 +112,7 @@ export class AttackQuickController {
             if (myRoom.roomStage >= Constants.CONSCRIPTION_QUICK_MINIMUM_STAGE
                 && Game.map.getRoomLinearDistance(rallyFlag.pos.roomName, myRoom.name) < Constants.CONSCRIPTION_RANGE) {
                 //This room will be conscripted
+                myRoom.pendingConscriptedCreep = true;
                 attackQuick.roomsStillToProvide.push(myRoom);
                 outputMessage += myRoom.name + ", ";
             }
@@ -178,12 +180,6 @@ export class AttackQuickController {
                 Game.creeps[empire.creeps[i].name].suicide();
             }
         }
-        const flagNames: string[] = Object.keys(Game.flags);
-        for (let i = flagNames.length - 1; i >= 0; i--) {
-            if (flagNames[i].includes("attack")) {
-                const flag: Flag = Game.flags[flagNames[i]];
-                flag.remove();
-            }
-        }
+        AttackHelperFunctions.endAttack();
     }
 }

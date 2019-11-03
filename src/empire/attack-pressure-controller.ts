@@ -140,6 +140,7 @@ export class AttackPressureController {
             const attackPressureCreep: AttackPressureCreep | null = this.spawnAttackPressureCreep(myRoom, batch.batchNumber);
             if (attackPressureCreep != null) {
                 console.log("LOG: " + myRoom.name + " has been conscripted " + attackPressureCreep.name + " for AttackPressure");
+                myRoom.pendingConscriptedCreep = false;
                 empire.creeps.push(attackPressureCreep);
                 batch.roomsStillToProvide.splice(i, 1);
             } // else room still to provide a creep
@@ -199,6 +200,11 @@ export class AttackPressureController {
             batchNumber: attackPressure.batchesStarted,
             roomsStillToProvide: attackPressure.roomsInRange
         });
+
+        for (let i: number = 0; i < attackPressure.roomsInRange.length; i++) {
+            attackPressure.roomsInRange[i].pendingConscriptedCreep = true;
+        }
+
         console.log("Conscripting for batch " + attackPressure.batchesStarted);
         attackPressure.batchesStarted++;
     }
@@ -213,12 +219,7 @@ export class AttackPressureController {
                 Game.creeps[empire.creeps[i].name].suicide();
             }
         }
-        const flagNames: string[] = Object.keys(Game.flags);
-        for (let i = flagNames.length - 1; i >= 0; i--) {
-            if (flagNames[i].includes("attack")) {
-                const flag: Flag = Game.flags[flagNames[i]];
-                flag.remove();
-            }
-        }
+
+        AttackHelperFunctions.endAttack();
     }
 }

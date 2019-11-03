@@ -142,6 +142,23 @@ export class AttackHelperFunctions {
         return null;
     }
 
+    public static endAttack(): void {
+
+        const flagNames: string[] = Object.keys(Game.flags);
+        for (let i = flagNames.length - 1; i >= 0; i--) {
+            if (flagNames[i].includes("attack")) {
+                const flag: Flag = Game.flags[flagNames[i]];
+                flag.remove();
+            }
+        }
+
+
+        const myRooms: MyRoom[] = Memory.myMemory.myRooms;
+        for (let i: number = 0; i < myRooms.length; i++) {
+            myRooms[i].pendingConscriptedCreep = false;
+        }
+    }
+
     private static pathFindToRoomObject<T extends RoomObject>(start: RoomPosition, roomObjects: T[], costmatrix: CostMatrix): BestPathFindRoomObjectResult<T> | null {
 
         if (roomObjects.length === 0) {
