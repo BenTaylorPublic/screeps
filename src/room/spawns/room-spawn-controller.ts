@@ -8,7 +8,6 @@ export class RoomSpawnController {
     public static run(myRoom: MyRoom): void {
 
         if (myRoom.pendingConscriptedCreep) {
-            console.log("It's doing the thing!");
             return;
         }
 
