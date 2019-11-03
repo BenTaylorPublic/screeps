@@ -13,7 +13,7 @@ console.log("Script reloaded");
 
 setupMyMemory();
 
-profiler.registerObject(RoleLaborer, "RoleLaborer");
+profiler.registerFN(RoleLaborer.run, "RoleLaborer");
 profiler.enable();
 export let loop: any = function (): void {
     profiler.wrap(function (): any {
