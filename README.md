@@ -11,14 +11,14 @@ Push to master to release
 ## TODO
 ### Working on
 ```
-Test attack quick
-Test attack pressure
+Performance test
 ```
 ### Short term
 ```
-Performance test
-
-Writing on a room sign via a flag
+Spawning
+    Spawns should use a priority queue for spawnining
+    It's wrecking my pendingConscriptedCreep logic
+        Because they spawn the same tick and replace each other
 
 Fill Miners up with more MOVE parts so they get to the source quicker
     Make it optional, so if there's not enough energy, it still spawns
@@ -58,10 +58,6 @@ Room stages 7 to 8
     Observer
     Power Spawn
 
-Power
-    Gaining power levels
-        Use observers to check rooms
-
 New Role - Stocker
     Just used to stock extensions, spawns, and towers
     Always have 1 (maybe have more? idk, just 1 single for now)
@@ -79,9 +75,15 @@ Performance
     Ensure creep is spawned before it starts trying to control it
     Compile construction sites in a list (once) before calling laborer.run
     Move creep arrays into their room objects
+
+Writing on a room sign via a flag
 ```
 ### Long term:
 ```
+Power
+    Gaining power levels
+        Use observers to check rooms
+
 Attack
     Priority target's via flags
     Attack params/modes
