@@ -15,8 +15,8 @@ setupMyMemory();
 profiler.enable();
 export let loop: any = function (): void {
     profiler.wrap(function (): any {
-        profiler.registerClass(MemoryController, "MemoryController");
-        profiler.registerClass(RoomController, "RoomController");
+        RoomController.run = profiler.registerFN(RoomController.run, "RoomControllerFn");
+
         const myMemory: MyMemory = Memory.myMemory;
         MemoryController.run();
 
