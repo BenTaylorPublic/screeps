@@ -57,10 +57,3 @@ export class RoomController {
         }
     }
 }
-
-
-console.log("Does this code even run");
-declare function require(name: string): any;
-
-const profiler: any = require("screeps-profiler");
-profiler.registerClass(RoomController, "RoomController");

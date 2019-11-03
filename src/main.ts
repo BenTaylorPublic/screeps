@@ -1,7 +1,7 @@
-declare function require(name: string): any;
-
-const profiler: any = require("screeps-profiler");
-profiler.enable();
+// declare function require(name: string): any;
+//
+// const profiler: any = require("screeps-profiler");
+// profiler.enable();
 
 import {RoomController} from "./room/room-controller";
 import {MemoryController} from "./memory/memory-controller";
@@ -14,22 +14,22 @@ console.log("Script reloaded");
 setupMyMemory();
 
 export let loop: any = function (): void {
-    profiler.wrap(function (): any {
+    // profiler.wrap(function (): any {
 
-        const myMemory: MyMemory = Memory.myMemory;
-        MemoryController.run();
+    const myMemory: MyMemory = Memory.myMemory;
+    MemoryController.run();
 
-        ScheduleController.preLoop(myMemory);
+    ScheduleController.preLoop(myMemory);
 
-        ReportController.checkForReportFlag();
-        EmpireController.run(myMemory);
+    ReportController.checkForReportFlag();
+    EmpireController.run(myMemory);
 
-        for (let i = 0; i < myMemory.myRooms.length; i++) {
-            RoomController.run(myMemory.myRooms[i]);
-        }
+    for (let i = 0; i < myMemory.myRooms.length; i++) {
+        RoomController.run(myMemory.myRooms[i]);
+    }
 
-        MemoryController.clearBanks();
-    });
+    MemoryController.clearBanks();
+    // });
 };
 
 function setupMyMemory(): void {
