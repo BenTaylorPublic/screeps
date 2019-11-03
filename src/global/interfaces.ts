@@ -34,7 +34,7 @@ type AttackStateType = "Conscripting" | "Rally" | "Charge";
 
 interface AttackQuick {
     state: AttackStateType;
-    roomsStillToProvide: MyRoom[];
+    roomsStillToProvide: string[];
     attackTarget: AttackTarget | null;
 }
 
@@ -42,13 +42,13 @@ interface AttackPressure {
     batchesStarted: number;
     batches: AttackPressureBatch[];
     attackTarget: AttackTarget | null;
-    roomsInRange: MyRoom[];
+    roomsInRange: string[];
 }
 
 interface AttackPressureBatch {
     state: AttackStateType;
     batchNumber: number;
-    roomsStillToProvide: MyRoom[];
+    roomsStillToProvide: string[];
 }
 
 interface AttackTarget {

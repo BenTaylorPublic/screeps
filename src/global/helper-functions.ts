@@ -105,4 +105,13 @@ export class HelperFunctions {
         }
         return spawnToReturn;
     }
+
+    public static getMyRoomByName(name: string): MyRoom | null {
+        for (let j = 0; j < Memory.myMemory.myRooms.length; j++) {
+            if (Memory.myMemory.myRooms[j].name === name) {
+                return Memory.myMemory.myRooms[j];
+            }
+        }
+        return null;
+    }
 }

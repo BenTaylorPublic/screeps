@@ -87,7 +87,7 @@ export class AttackPressureController {
             if (myRoom.roomStage >= Constants.CONSCRIPTION_PRESSURE_MINIMUM_STAGE
                 && Game.map.getRoomLinearDistance(rallyFlag.pos.roomName, myRoom.name) < Constants.CONSCRIPTION_RANGE) {
                 //This room will be conscripted
-                attackPressure.roomsInRange.push(myRoom);
+                attackPressure.roomsInRange.push(myRoom.name);
                 outputMessage += myRoom.name + ", ";
             }
         }
@@ -136,7 +136,7 @@ export class AttackPressureController {
     private static batchRunConscript(batch: AttackPressureBatch, empire: Empire): void {
         //Wait until every room that's required to, has added a creep
         for (let i = batch.roomsStillToProvide.length - 1; i >= 0; i--) {
-            const myRoom: MyRoom = batch.roomsStillToProvide[i];
+            const myRoom: MyRoom = HelperFunctions.getMyRoomByName(batch.roomsStillToProvide[i]) as MyRoom;
             const attackPressureCreep: AttackPressureCreep | null = this.spawnAttackPressureCreep(myRoom, batch.batchNumber);
             if (attackPressureCreep != null) {
                 console.log("LOG: " + myRoom.name + " has been conscripted " + attackPressureCreep.name + " for AttackPressure");
@@ -202,7 +202,8 @@ export class AttackPressureController {
         });
 
         for (let i: number = 0; i < attackPressure.roomsInRange.length; i++) {
-            attackPressure.roomsInRange[i].pendingConscriptedCreep = true;
+            const myRoom: MyRoom = HelperFunctions.getMyRoomByName(attackPressure.roomsInRange[i]) as MyRoom;
+            myRoom.pendingConscriptedCreep = true;
         }
 
         console.log("Conscripting for batch " + attackPressure.batchesStarted);

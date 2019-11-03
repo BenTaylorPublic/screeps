@@ -18,7 +18,7 @@ export class AttackQuickController {
 
             //Wait until every room that's required to, has added a creep
             for (let i = attackQuick.roomsStillToProvide.length - 1; i >= 0; i--) {
-                const myRoom: MyRoom = attackQuick.roomsStillToProvide[i];
+                const myRoom: MyRoom = HelperFunctions.getMyRoomByName(attackQuick.roomsStillToProvide[i]) as MyRoom;
                 const attackQuickCreep: AttackQuickCreep | null = this.spawnAttackQuickCreep(myRoom);
                 if (attackQuickCreep != null) {
                     console.log("LOG: " + myRoom.name + " has been conscripted " + attackQuickCreep.name + " for AttackQuick");
@@ -113,7 +113,7 @@ export class AttackQuickController {
                 && Game.map.getRoomLinearDistance(rallyFlag.pos.roomName, myRoom.name) < Constants.CONSCRIPTION_RANGE) {
                 //This room will be conscripted
                 myRoom.pendingConscriptedCreep = true;
-                attackQuick.roomsStillToProvide.push(myRoom);
+                attackQuick.roomsStillToProvide.push(myRoom.name);
                 outputMessage += myRoom.name + ", ";
             }
         }
