@@ -11,11 +11,11 @@ const profiler: any = require("screeps-profiler");
 console.log("Script reloaded");
 
 setupMyMemory();
+profiler.registerFN(RoomController.run, "RoomControllerFn");
 
 profiler.enable();
 export let loop: any = function (): void {
     profiler.wrap(function (): any {
-        profiler.registerFN(RoomController.run, "RoomControllerFn");
 
         const myMemory: MyMemory = Memory.myMemory;
         MemoryController.run();
