@@ -13,10 +13,10 @@ console.log("Script reloaded");
 
 setupMyMemory();
 
-profiler.registerFN(RoleLaborer.run, "RoleLaborer");
 profiler.enable();
 export let loop: any = function (): void {
     profiler.wrap(function (): any {
+        profiler.registerClass(RoleLaborer, "RoleLaborer");
         const myMemory: MyMemory = Memory.myMemory;
         MemoryController.run();
 
