@@ -15,6 +15,7 @@ Performance test
 ```
 ### Short term
 ```
+Performance improvements depending on the test
 ```
 ### Mid term:
 ```
