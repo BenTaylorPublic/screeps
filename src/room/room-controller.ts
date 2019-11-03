@@ -9,7 +9,7 @@ import {RoomSourceLinkController} from "./structures/source-link";
 import {ReportController} from "../reporting/report-controller";
 
 export class RoomController {
-    public static run(myRoom: MyRoom, empireCommand: EmpireCommand): void {
+    public static run(myRoom: MyRoom): void {
         if (Game.rooms[myRoom.name] == null) {
             //No longer have vision of this room
             ReportController.log("ERROR", "No longer have vision of room " + myRoom.name);
@@ -21,7 +21,7 @@ export class RoomController {
 
         RoomStageController.run(myRoom);
 
-        RoomSpawnController.run(myRoom, empireCommand);
+        RoomSpawnController.run(myRoom);
 
         //Tower logic
         const towers: StructureTower[] = room.find<StructureTower>(FIND_STRUCTURES, {

@@ -5,7 +5,7 @@ import {AttackHelperFunctions} from "./attack-helper-functions";
 import {RoleAttackCreep} from "./role/attack-creep";
 
 export class AttackQuickController {
-    public static run(myMemory: MyMemory, attackQuick: AttackQuick, empireCommand: EmpireCommand): void {
+    public static run(myMemory: MyMemory, attackQuick: AttackQuick): void {
         let flag: Flag | null = null;
 
         if (attackQuick.state === "Conscripting") {
@@ -28,13 +28,11 @@ export class AttackQuickController {
             }
 
             if (attackQuick.roomsStillToProvide.length === 0) {
-                empireCommand.haltRoomEnergyUsage = false;
                 attackQuick.state = "Rally";
                 return;
             }
 
             //Some rooms still need to provide a creep
-            empireCommand.haltRoomEnergyUsage = true;
         }
 
         if (attackQuick.state === "Rally") {

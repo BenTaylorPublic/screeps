@@ -2,7 +2,7 @@ import {AttackQuickController} from "./attack-quick-controller";
 import {AttackPressureController} from "./attack-pressure-controller";
 
 export class AttackController {
-    public static run(myMemory: MyMemory, empireCommand: EmpireCommand): void {
+    public static run(myMemory: MyMemory): void {
         //Attack Quick
         const attackQuick: AttackQuick | null = myMemory.empire.attackQuick;
         if (attackQuick == null) {
@@ -13,7 +13,7 @@ export class AttackController {
         }
 
         if (attackQuick != null) {
-            AttackQuickController.run(myMemory, attackQuick, empireCommand);
+            AttackQuickController.run(myMemory, attackQuick);
         }
 
         //Attack Pressure

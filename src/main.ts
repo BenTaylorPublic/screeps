@@ -12,11 +12,10 @@ export let loop: any = function (): void {
     MemoryController.run();
 
     ReportController.checkForReportFlag();
-
-    const empireCommand: EmpireCommand = EmpireController.run(myMemory);
+    EmpireController.run(myMemory);
 
     for (let i = 0; i < myMemory.myRooms.length; i++) {
-        RoomController.run(myMemory.myRooms[i], empireCommand);
+        RoomController.run(myMemory.myRooms[i]);
     }
 
     MemoryController.clearBanks();

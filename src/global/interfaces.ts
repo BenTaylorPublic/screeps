@@ -51,10 +51,6 @@ interface AttackPressureBatch {
     roomsStillToProvide: MyRoom[];
 }
 
-interface EmpireCommand {
-    haltRoomEnergyUsage: boolean;
-}
-
 interface AttackTarget {
     roomObject: Creep | Structure<StructureConstant>;
     id: string;
@@ -108,6 +104,7 @@ interface MyRoom {
     bankLink: MyLink | null;
     bank: StructureStorage | null;
     outLinks: MyLink[];
+    pendingConscriptedCreep: boolean;
 }
 
 interface MySpawn {
