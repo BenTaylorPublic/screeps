@@ -6,7 +6,6 @@ export class ScheduleController {
             const scheduledCommand: ScheduledCommand = myMemory.scheduledCommands[i];
             if (scheduledCommand.action === "SET_FALSE_ON_PENDING_CONSCRIPTED_CREEP") {
                 this.setFalseOnPendingConscriptedCreep(myMemory, scheduledCommand.roomName);
-                console.log("DID IT");
             }
             myMemory.scheduledCommands.splice(i, 1);
         }
