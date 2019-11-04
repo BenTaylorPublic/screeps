@@ -9,7 +9,7 @@ export class Profiler {
                 const originalFunction: Function = (thing as any)[functionName];
                 (thing as any)[functionName] = function (): any {
                     console.log("B");
-                    originalFunction(arguments);
+                    originalFunction(arguments[0]);
                     console.log("B");
                 };
             }
