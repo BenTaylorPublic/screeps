@@ -6,11 +6,12 @@ export class Profiler {
             if (excludeList.indexOf(functionName) === -1
                 && functionName === "run") {
                 console.log("Wrapping " + functionName);
+                const originalFunction: Function = (thing as any)[functionName];
                 (thing as any)[functionName] = function (): any {
                     console.log("B");
                     console.log(JSON.stringify(arguments));
                     // @ts-ignore
-                    thing[functionName](thing, Array.prototype.slice.call(arguments, 1));
+                    originalFunction(arguments);
                     console.log("B");
                 };
             }
