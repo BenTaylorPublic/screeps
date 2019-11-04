@@ -3,7 +3,8 @@ export class Profiler {
         console.log("Profiler-setup");
 
         Object.getOwnPropertyNames(thing).forEach(functionName => {
-            if (excludeList.indexOf(functionName) === -1) {
+            if (excludeList.indexOf(functionName) === -1
+                || functionName !== "run") {
                 console.log("Wrapping " + functionName);
                 const wrappedResult: Function = wrap(thing, (thing as any)[functionName]);
                 console.log(wrappedResult);
@@ -22,8 +23,8 @@ const excludeList: string[] = ["prototype", "length"];
 
 function wrap(obj: any, originalFunction: Function): Function {
     return () => {
-        console.log("X");
-        originalFunction(arguments);
-        console.log("Y");
+        console.log("B");
+        originalFunction.apply(obj, arguments);
+        console.log("B");
     };
 }
