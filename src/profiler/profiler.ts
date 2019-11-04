@@ -23,7 +23,7 @@ function wrap(obj: any, originalFunction: Function): Function {
     return (derp: any) => {
         console.log("B");
         console.log(JSON.stringify(arguments));
-        originalFunction.apply(obj, arguments);
+        originalFunction.apply(originalFunction, arguments);
         console.log("B");
     };
 }
