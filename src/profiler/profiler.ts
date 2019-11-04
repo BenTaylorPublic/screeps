@@ -11,8 +11,7 @@ export class Profiler {
                     console.log("Begin");
 
                     if (arguments.length === 2) {
-                        console.log("2!");
-                        originalFunction.call(thing, Array.prototype.slice.call(arguments, 0));
+                        originalFunction.call(thing, arguments[0], arguments[1]);
                     } else {
                         console.log(arguments.length);
                     }
