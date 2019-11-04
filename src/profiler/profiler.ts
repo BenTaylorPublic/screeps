@@ -15,11 +15,11 @@ export class Profiler {
     private static wrap(originalFunction: Function): Function {
         console.log(originalFunction);
         console.log(typeof originalFunction);
-        return originalFunction.call(() => {
+        return () => {
             console.log("ayy");
             originalFunction.apply(this, arguments);
             console.log("yo");
-        });
+        };
     }
 }
 
