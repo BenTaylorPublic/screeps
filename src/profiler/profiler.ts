@@ -9,7 +9,6 @@ export class Profiler {
                 const originalFunction: Function = (thing as any)[functionName];
                 (thing as any)[functionName] = function (): any {
                     console.log("B");
-                    // @ts-ignore
                     originalFunction(Array.prototype.slice.call(arguments, 1));
                     console.log("B");
                 };
