@@ -3,6 +3,8 @@ import {ReportController} from "../../reporting/report-controller";
 
 export class RoleLaborer {
     public static run(laborer: Laborer, myRoom: MyRoom): void {
+        console.log("Arguments:");
+        console.log(arguments);
         const creep: Creep = Game.creeps[laborer.name];
 
         if (creep == null) {
