@@ -10,7 +10,7 @@ export class Profiler {
                 (thing as any)[functionName] = function (): any {
                     console.log("B");
                     const args = new Array();
-                    for (let i = 1; i < arguments.length; i++) {
+                    for (let i = 0; i < arguments.length; i++) {
                         args.push(arguments[i]);
                     }
                     console.log(JSON.stringify(args));
