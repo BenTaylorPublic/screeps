@@ -10,7 +10,7 @@ export class Profiler {
                     console.log("B");
                     console.log(JSON.stringify(arguments));
                     // @ts-ignore
-                    thing[functionName].apply(thing, arguments);
+                    thing[functionName](thing, arguments);
                     console.log("B");
                 };
             }
