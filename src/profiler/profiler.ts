@@ -16,9 +16,7 @@ export class Profiler {
         console.log(originalFunction);
         console.log(typeof originalFunction);
         return () => {
-            console.log("ayy");
             originalFunction.apply(this, arguments);
-            console.log("yo");
         };
     }
 }
