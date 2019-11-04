@@ -6,7 +6,7 @@ export class Profiler {
             if (excludeList.indexOf(functionName) === -1
                 && functionName === "run") {
                 console.log("Wrapping " + functionName);
-                // const originalFunction: Function = (thing as any)[functionName];
+                const originalFunction: Function = (thing as any)[functionName];
                 (thing as any)[functionName] = function (): any {
                     console.log("B");
                     const args = new Array();
@@ -15,7 +15,7 @@ export class Profiler {
                     }
                     console.log(JSON.stringify(args));
 
-                    // originalFunction(arguments);
+                    originalFunction(args);
                     console.log("B");
                 };
             }
