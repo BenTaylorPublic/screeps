@@ -4,7 +4,7 @@ export class Profiler {
 
         Object.getOwnPropertyNames(thing).forEach(functionName => {
             if (excludeList.indexOf(functionName) === -1
-                || functionName !== "run") {
+                && functionName === "run") {
                 console.log("Wrapping " + functionName);
                 const wrappedResult: Function = wrap(thing, (thing as any)[functionName]);
                 console.log(wrappedResult);
