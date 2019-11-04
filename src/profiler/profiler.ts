@@ -7,7 +7,8 @@ export class Profiler {
                 console.log("Wrapping " + functionName);
                 const wrappedResult: Function = this.wrap((thing as any)[functionName]);
                 console.log(wrappedResult);
-                // (thing as any)[functionName] =
+                (thing as any)[functionName] = wrappedResult;
+                console.log((thing as any)[functionName]);
             }
         });
 
