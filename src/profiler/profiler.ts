@@ -6,9 +6,7 @@ export class Profiler {
             if (excludeList.indexOf(functionName) === -1
                 && functionName === "run") {
                 console.log("Wrapping " + functionName);
-                const wrappedResult: Function = wrap(thing, (thing as any)[functionName]);
-                console.log(wrappedResult);
-                (thing as any)[functionName] = wrappedResult;
+                (thing as any)[functionName] = wrap(thing, (thing as any)[functionName]);
                 console.log((thing as any)[functionName]);
             }
         });
