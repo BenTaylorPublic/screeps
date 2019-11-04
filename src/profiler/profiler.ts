@@ -5,8 +5,7 @@ export class Profiler {
         Object.getOwnPropertyNames(thing).forEach(functionName => {
             if (excludeList.indexOf(functionName) === -1) {
                 console.log(functionName);
-                const originalFunction = (thing as any)[functionName];
-                (thing as any)[functionName] = this.wrap(originalFunction);
+                (thing as any)[functionName] = this.wrap((thing as any)[functionName]);
             }
         });
 
@@ -14,6 +13,8 @@ export class Profiler {
     }
 
     private static wrap(originalFunction: Function): Function {
+        console.log(JSON.stringify(originalFunction));
+        console.log(typeof originalFunction);
         return originalFunction.call(() => {
             console.log("ayy");
             originalFunction.apply(this, arguments);

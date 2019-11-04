@@ -10,7 +10,6 @@ console.log("Script reloaded");
 
 setupMyMemory();
 
-console.log("RELOAD;");
 Profiler.setup(RoleLaborer);
 
 export let loop: any = function (): void {
