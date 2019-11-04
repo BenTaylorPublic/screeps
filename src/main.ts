@@ -3,14 +3,14 @@ import {MemoryController} from "./memory/memory-controller";
 import {EmpireController} from "./empire/empire-controller";
 import {ReportController} from "./reporting/report-controller";
 import {ScheduleController} from "./schedule/schedule-controller";
-// import {Profiler} from "./profiler/profiler";
-// import {RoleLaborer} from "./room/roles/laborer";
+import {Profiler} from "./profiler/profiler";
+import {RoleLaborer} from "./room/roles/laborer";
 
 console.log("Script reloaded");
 
 setupMyMemory();
 
-// Profiler.setup(RoleLaborer);
+Profiler.setup(RoleLaborer);
 
 export let loop: any = function (): void {
 
