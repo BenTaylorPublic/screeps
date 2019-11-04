@@ -304,4 +304,4 @@ module.exports=function(modules){var installedModules={};function __webpack_requ
   \**************************************/
 /*! no static exports found */
 /*! all exports used */
-/*! ModuleConcatenation bailout: Module is not an ECMAScript module */function(module,exports,__webpack_require__){"use strict";Object.defineProperty(exports,"__esModule",{value:!0});exports.Profiler=class{static setup(classs){console.log("Profiler-setup"),Object.getOwnPropertyNames(classs).forEach(functionName=>{console.log(functionName)}),console.log("Profiler-end setup")}}}]);
+/*! ModuleConcatenation bailout: Module is not an ECMAScript module */function(module,exports,__webpack_require__){"use strict";Object.defineProperty(exports,"__esModule",{value:!0});exports.Profiler=class{static setup(classs){console.log("Profiler-setup"),null!=classs.prototype&&(Object.getOwnPropertyNames(classs.prototype).forEach(functionName=>{console.log(functionName)}),console.log("Profiler-end setup"))}}}]);
