@@ -6,7 +6,13 @@ export class Profiler {
             if (excludeList.indexOf(functionName) === -1
                 && functionName === "run") {
                 console.log("Wrapping " + functionName);
-                (thing as any)[functionName] = wrap(thing, (thing as any)[functionName]);
+                (thing as any)[functionName] = function (derp: any): any {
+                    console.log("B");
+                    console.log(JSON.stringify(arguments));
+                    // @ts-ignore
+                    thing[functionName].apply(thing, arguments);
+                    console.log("B");
+                };
             }
         });
 
@@ -17,13 +23,3 @@ export class Profiler {
 }
 
 const excludeList: string[] = ["prototype", "length"];
-
-function wrap(obj: any, originalFunction: Function): Function {
-    return (derp: any) => {
-        console.log("B");
-        console.log(JSON.stringify(arguments));
-        // @ts-ignore
-        obj[originalFunction].apply(this, arguments);
-        console.log("B");
-    };
-}
