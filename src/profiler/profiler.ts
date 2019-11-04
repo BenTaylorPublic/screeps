@@ -12,7 +12,7 @@ export class Profiler {
 
                     if (arguments.length === 2) {
                         console.log("2!");
-                        originalFunction.call(thing, Array.prototype.slice.call(arguments, 1));
+                        originalFunction.call(thing, Array.prototype.slice.call(arguments, 0));
                     } else {
                         console.log(arguments.length);
                     }
