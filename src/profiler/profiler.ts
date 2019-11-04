@@ -22,7 +22,7 @@ export class Profiler {
 const excludeList: string[] = ["prototype", "length"];
 
 function wrap(obj: any, originalFunction: Function): Function {
-    return () => {
+    return (derp: any) => {
         console.log("B");
         console.log(JSON.stringify(arguments));
         originalFunction.apply(obj, arguments);
