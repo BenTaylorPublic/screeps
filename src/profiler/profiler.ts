@@ -21,7 +21,7 @@ export class Profiler {
 const excludeList: string[] = ["prototype", "length"];
 
 function wrap(obj: any, originalFunction: Function): Function {
-    return () => {
-        originalFunction.apply(obj, arguments);
+    return (a: any) => {
+        originalFunction.apply(obj, a);
     };
 }
