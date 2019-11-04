@@ -6,11 +6,11 @@ export class Profiler {
             if (excludeList.indexOf(functionName) === -1
                 && functionName === "run") {
                 console.log("Wrapping " + functionName);
-                (thing as any)[functionName] = function (derp: any): any {
+                (thing as any)[functionName] = () => {
                     console.log("B");
                     console.log(JSON.stringify(arguments));
                     // @ts-ignore
-                    (thing as any)[functionName](arguments);
+                    thing[functionName].apply(thing, arguments);
                     console.log("B");
                 };
             }
