@@ -6,7 +6,7 @@ export class Profiler {
             if (excludeList.indexOf(functionName) === -1
                 && functionName === "run") {
                 console.log("Wrapping " + functionName);
-                (thing as any)[functionName] = () => {
+                (thing as any)[functionName] = function (): any {
                     console.log("B");
                     console.log(JSON.stringify(arguments));
                     // @ts-ignore
