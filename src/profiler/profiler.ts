@@ -8,15 +8,16 @@ export class Profiler {
                 console.log("Wrapping " + functionName);
                 const originalFunction: Function = (thing as any)[functionName];
                 (thing as any)[functionName] = function (): any {
-                    console.log("B");
-                    const args = new Array();
-                    for (let i = 0; i < arguments.length; i++) {
-                        args.push(arguments[i]);
-                    }
-                    console.log(JSON.stringify(args));
+                    console.log("Begin");
 
-                    originalFunction.call(args);
-                    console.log("B");
+                    if (arguments.length === 2) {
+                        console.log("2!");
+                        originalFunction(arguments[0], arguments[1]);
+                    } else {
+                        console.log(arguments.length);
+                    }
+
+                    console.log("End");
                 };
             }
         });
