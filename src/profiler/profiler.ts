@@ -13,7 +13,7 @@ export class Profiler {
     }
 
     private static wrap(originalFunction: Function): Function {
-        console.log(JSON.stringify(originalFunction));
+        console.log(originalFunction);
         console.log(typeof originalFunction);
         return originalFunction.call(() => {
             console.log("ayy");
