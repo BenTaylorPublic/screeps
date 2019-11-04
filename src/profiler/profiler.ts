@@ -24,6 +24,7 @@ const excludeList: string[] = ["prototype", "length"];
 function wrap(obj: any, originalFunction: Function): Function {
     return () => {
         console.log("B");
+        console.log(JSON.stringify(arguments));
         originalFunction.apply(obj, arguments);
         console.log("B");
     };
