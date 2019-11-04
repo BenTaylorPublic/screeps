@@ -15,7 +15,7 @@ export class Profiler {
                     }
                     console.log(JSON.stringify(args));
 
-                    originalFunction(args);
+                    originalFunction.apply(args);
                     console.log("B");
                 };
             }
