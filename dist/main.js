@@ -304,10 +304,10 @@ module.exports=function(modules){var installedModules={};function __webpack_requ
   \**********************************************/
 /*! no static exports found */
 /*! all exports used */
-/*! ModuleConcatenation bailout: Module is not an ECMAScript module */function(module,exports,__webpack_require__){"use strict";Object.defineProperty(exports,"__esModule",{value:!0});const laborer_1=__webpack_require__(/*! ../room/roles/laborer */5),profiler_1=__webpack_require__(/*! ./profiler */51);exports.ProfilerWrapper=class{static setup(){profiler_1.Profiler.setup(laborer_1.RoleLaborer)}}},
+/*! ModuleConcatenation bailout: Module is not an ECMAScript module */function(module,exports,__webpack_require__){"use strict";Object.defineProperty(exports,"__esModule",{value:!0});const laborer_1=__webpack_require__(/*! ../room/roles/laborer */5),profiler_1=__webpack_require__(/*! ./profiler */51);exports.ProfilerWrapper=class{static setup(){profiler_1.Profiler.setup(laborer_1.RoleLaborer,"RoleLaborer")}}},
 /*!**************************************!*\
   !*** ./ts-dist/profiler/profiler.js ***!
   \**************************************/
 /*! no static exports found */
 /*! all exports used */
-/*! ModuleConcatenation bailout: Module is not an ECMAScript module */function(module,exports,__webpack_require__){"use strict";Object.defineProperty(exports,"__esModule",{value:!0});exports.Profiler=class{static setup(thing){console.log("Profiler-setup"),null==Memory.profiler&&(Memory.profiler={});const classString=thing.constructor.name;console.log("Wrapping class: "+classString),Object.getOwnPropertyNames(thing).forEach(functionName=>{-1===excludeList.indexOf(functionName)&&console.log(classString+"."+functionName)}),console.log("Profiler-end setup")}};const excludeList=["prototype","length"]}]);
+/*! ModuleConcatenation bailout: Module is not an ECMAScript module */function(module,exports,__webpack_require__){"use strict";Object.defineProperty(exports,"__esModule",{value:!0});exports.Profiler=class{static setup(thing,classString){console.log("Profiler-setup"),null==Memory.profiler&&(Memory.profiler={}),console.log("Wrapping class: "+classString),Object.getOwnPropertyNames(thing).forEach(functionName=>{-1===excludeList.indexOf(functionName)&&console.log(classString+"."+functionName)}),console.log("Profiler-end setup")}};const excludeList=["prototype","length"]}]);

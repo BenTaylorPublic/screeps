@@ -1,12 +1,11 @@
 export class Profiler {
-    public static setup<T>(thing: T): void {
+    public static setup<T>(thing: T, classString: string): void {
         console.log("Profiler-setup");
 
         if (Memory.profiler == null) {
             Memory.profiler = {};
         }
 
-        const classString: string = thing.constructor.name;
         console.log("Wrapping class: " + classString);
 
         Object.getOwnPropertyNames(thing).forEach(functionName => {
