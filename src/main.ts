@@ -29,6 +29,9 @@ export let loop: any = function (): void {
 };
 
 function setupMyMemory(): void {
+
+    ProfilerWrapper.clearProfilingData();
+
     if (Memory.myMemory == null) {
         Memory.myMemory = {
             globalId: 0,

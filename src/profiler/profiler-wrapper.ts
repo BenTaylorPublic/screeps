@@ -49,9 +49,6 @@ import {ScheduleController} from "../schedule/schedule-controller";
 
 export class ProfilerWrapper {
     public static setup(): void {
-        //Clear all profiling on setup
-        Memory.profiler = {} as ProfilerData;
-
         Profiler.setup(RoleAttackCreep, "RoleAttackCreep");
         Profiler.setup(RoleClaimer, "RoleClaimer");
 
@@ -108,5 +105,10 @@ export class ProfilerWrapper {
         Profiler.setup(RoomStageController, "RoomStageController");
 
         Profiler.setup(ScheduleController, "ScheduleController");
+    }
+
+    public static clearProfilingData(): void {
+        //Clear all profiling on setup
+        Memory.profiler = {} as ProfilerData;
     }
 }
