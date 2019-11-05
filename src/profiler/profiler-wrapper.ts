@@ -127,7 +127,8 @@ export class ProfilerWrapper {
         const totalTicks: number = Game.time - profile.startTick + 1;
 
         console.log("TotalTicks: " + totalTicks);
-        console.log("Name\tAvgMsPerTick\tAvgCallsPerTick\tAvgMsPerCall\tCalls");
+        const table: string[][] = [];
+        table[0] = ["Name", "AvgMsPerTick", "AvgCallsPerTick", "AvgMsPerCall", "Calls"];
 
         const classes: string[] = Object.keys(profile);
         classes.splice(classes.indexOf("startTick"), 1);
@@ -145,7 +146,29 @@ export class ProfilerWrapper {
             return b.avgMsUsagePerTick - a.avgMsUsagePerTick;
         });
 
-        console.log(JSON.stringify(processedClasses));
+        let index: number = 1;
+
+        for (let i = 0; i < SHOW_TOP_X_CLASSES; i++) {
+            const processedClass: ProfilerProcessedDataClass = processedClasses[i];
+
+            table[index] = [processedClass.className,
+                processedClass.avgMsUsagePerTick.toFixed(FIXED_NUMBER), "", "", ""];
+            index++;
+
+            for (let j = 0; j < processedClass.functions.length; j++) {
+                const processedFunction: ProfilerProcessedDataFunction = processedClass.functions[j];
+
+                table[index] = [processedFunction.functionName,
+                    processedFunction.avgMsUsagePerTick.toFixed(FIXED_NUMBER),
+                    processedFunction.callsPerTickAvg.toFixed(FIXED_NUMBER),
+                    processedFunction.avgTime.toFixed(FIXED_NUMBER),
+                    processedFunction.callCount.toString()];
+
+                index++;
+            }
+        }
+
+        this.logTable(table);
 
         Game.flags["profile-report"].remove();
     }
@@ -186,6 +209,33 @@ export class ProfilerWrapper {
 
         return result;
     }
+
+    private static logTable(table: string[][]): void {
+        //If the table is missing things then it'll just break
+        const maxColumnWidth: number[] = [];
+        for (let columnIndex: number = 0; columnIndex < table[0].length; columnIndex++) {
+            maxColumnWidth[columnIndex] = 0;
+            for (let rowIndex: number = 0; rowIndex < table.length; rowIndex++) {
+                const length: number = table[rowIndex][columnIndex].length;
+                if (length > maxColumnWidth[columnIndex]) {
+                    maxColumnWidth[columnIndex] = length + 1;
+                }
+            }
+        }
+
+        for (let rowIndex: number = 0; rowIndex < table.length; rowIndex++) {
+            let rowAsString: string = "";
+            for (let columnIndex: number = 0; columnIndex < table[rowIndex].length; columnIndex++) {
+                const dataInCell: string = table[rowIndex][columnIndex];
+                rowAsString += dataInCell;
+                const spacesToAdd: number = dataInCell.length - maxColumnWidth[columnIndex];
+                for (let spacesToFill = 0; spacesToFill < spacesToAdd; spacesToFill++) {
+                    rowAsString += " ";
+                }
+            }
+            console.log(rowAsString);
+        }
+    }
 }
 
 interface ProfilerProcessedDataClass {
@@ -202,3 +252,6 @@ interface ProfilerProcessedDataFunction {
     callCount: number;
     privateFunction: boolean;
 }
+
+const SHOW_TOP_X_CLASSES: number = 5;
+const FIXED_NUMBER: number = 5;
