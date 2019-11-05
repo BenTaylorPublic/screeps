@@ -10,7 +10,7 @@ export class Profiler {
         console.log("Wrapping class: " + classString);
 
         Object.getOwnPropertyNames(thing).forEach(functionName => {
-            if (excludeList.indexOf(functionName) === -1) {
+            if (excludeList.indexOf(functionName) !== -1) {
                 return; //This is a 'continue' in a forEach loop
             }
             console.log("Wrapping function: " + functionName);
