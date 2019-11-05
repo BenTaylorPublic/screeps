@@ -7,9 +7,9 @@ import {ProfilerWrapper} from "./profiler/profiler-wrapper";
 
 console.log("Script reloaded");
 
-ProfilerWrapper.setup();
-
 setupMyMemory();
+
+ProfilerWrapper.setup();
 
 export let loop: any = function (): void {
 

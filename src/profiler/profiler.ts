@@ -17,7 +17,7 @@ export class Profiler {
 
             const originalFunction: Function = (thing as any)[functionName];
             (thing as any)[functionName] = function (): any {
-                // const before: number = Game.cpu.getUsed();
+                const before: number = Game.cpu.getUsed();
                 let result: any;
 
                 if (arguments.length === 0) {
@@ -40,15 +40,15 @@ export class Profiler {
                     console.log("ERROR: " + arguments.length);
                 }
 
-                // const after: number = Game.cpu.getUsed();
+                const after: number = Game.cpu.getUsed();
 
-                // const dataForFunction: ProfilerDataFunction = profiler[classString][functionName];
-                //
-                // dataForFunction.mean =
-                //     ((dataForFunction.mean * dataForFunction.callCount) + (after - before))
-                //     / (dataForFunction.callCount + 1);
-                //
-                // dataForFunction.callCount += 1;
+                const dataForFunction: ProfilerDataFunction = profiler[classString][functionName];
+
+                dataForFunction.mean =
+                    ((dataForFunction.mean * dataForFunction.callCount) + (after - before))
+                    / (dataForFunction.callCount + 1);
+
+                dataForFunction.callCount += 1;
 
                 return result;
             };
