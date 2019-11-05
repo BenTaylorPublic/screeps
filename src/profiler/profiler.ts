@@ -42,11 +42,11 @@ export class Profiler {
 
                 const after: number = Game.cpu.getUsed();
 
-                profiler[classString][functionName].mean =
-                    ((profiler[classString][functionName].mean * profiler[classString][functionName].callCount) + (after - before))
-                    / (profiler[classString][functionName].callCount + 1);
+                Memory.profiler[classString][functionName].mean =
+                    ((Memory.profiler[classString][functionName].mean * Memory.profiler[classString][functionName].callCount) + (after - before))
+                    / (Memory.profiler[classString][functionName].callCount + 1);
 
-                profiler[classString][functionName].callCount += 1;
+                Memory.profiler[classString][functionName].callCount += 1;
 
                 return result;
             };
