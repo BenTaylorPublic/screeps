@@ -211,7 +211,6 @@ export class ProfilerWrapper {
     }
 
     private static logTable(table: string[][]): void {
-        console.log("logTable2");
         //If the table is missing things then it'll just break
         const maxColumnWidth: number[] = [];
         for (let columnIndex: number = 0; columnIndex < table[0].length; columnIndex++) {
@@ -223,6 +222,8 @@ export class ProfilerWrapper {
                 }
             }
         }
+
+        console.log(JSON.stringify(maxColumnWidth));
 
         for (let rowIndex: number = 0; rowIndex < table.length; rowIndex++) {
             let rowAsString: string = "";
