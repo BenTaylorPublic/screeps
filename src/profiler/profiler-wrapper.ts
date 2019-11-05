@@ -146,6 +146,8 @@ export class ProfilerWrapper {
         });
 
         console.log(JSON.stringify(processedClasses));
+
+        Game.flags["profile-report"].remove();
     }
 
     private static getProcessedClassData(classData: ProfilerRawDataClass, className: string, totalTicks: number): ProfilerProcessedDataClass {
