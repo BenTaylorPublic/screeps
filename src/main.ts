@@ -7,9 +7,6 @@ import {ProfilerWrapper} from "./profiler/profiler-wrapper";
 
 console.log("Script reloaded");
 
-const people: any = [["John", "Smith"], ["Jane", "Doe"], ["Emily", "Jones"]];
-console.table(people);
-
 setupMyMemory();
 
 ProfilerWrapper.setup();
