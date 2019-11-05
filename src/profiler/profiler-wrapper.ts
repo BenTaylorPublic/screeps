@@ -124,7 +124,7 @@ export class ProfilerWrapper {
 
         console.log("Profiling report:");
 
-        const totalTicks: number = Game.time - profile.startTick;
+        const totalTicks: number = Game.time - profile.startTick + 1;
 
         console.log("TotalTicks: " + totalTicks);
         console.log("Name\tAvgMsPerTick\tAvgCallsPerTick\tAvgMsPerCall\tCalls");
