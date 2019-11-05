@@ -9,11 +9,6 @@ console.log("Script reloaded");
 
 ProfilerWrapper.setup();
 
-Memory.myMemory.report = {
-    lastReportTimeStamp: new Date().getTime(),
-    reports: []
-};
-
 setupMyMemory();
 
 export let loop: any = function (): void {

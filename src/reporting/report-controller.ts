@@ -27,16 +27,16 @@ export class ReportController {
     public static log(messageType: ReportMessageType, message: string): void {
         console.log(messageType + ": " + message);
 
-        const now: number = new Date().getTime();
+        // const now: number = new Date().getTime();
 
-        const report: Report = {
-            timeStamp: now,
-            tick: Game.time,
-            messageType: messageType,
-            message: message
-        };
+        // const report: Report = {
+        //     timeStamp: now,
+        //     tick: Game.time,
+        //     messageType: messageType,
+        //     message: message
+        // };
 
-        Memory.myMemory.report.reports.push(report);
+        // Memory.myMemory.report.reports.push(report);
     }
 
     private static report(): string {
