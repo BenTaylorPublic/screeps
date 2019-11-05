@@ -26,6 +26,8 @@ export let loop: any = function (): void {
     }
 
     MemoryController.clearBanks();
+
+    ProfilerWrapper.detectProfileReport();
 };
 
 function setupMyMemory(): void {

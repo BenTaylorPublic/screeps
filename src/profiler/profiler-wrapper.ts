@@ -113,4 +113,14 @@ export class ProfilerWrapper {
             startTick: Game.time
         } as ProfilerData;
     }
+
+    public static detectProfileReport(): void {
+        if (Game.time % 10 !== 0 ||
+            Game.flags["profile-report"] == null) {
+            return;
+        }
+
+        //Format the data
+        //TODO:
+    }
 }
