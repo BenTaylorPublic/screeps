@@ -1,4 +1,4 @@
-import {Profiler, ProfilerData} from "./profiler";
+import {Profiler, ProfilerRawData, ProfilerRawDataClass} from "./profiler";
 import {RoleLaborer} from "../room/roles/laborer";
 import {RoleAttackCreep} from "../empire/role/attack-creep";
 import {RoleClaimer} from "../empire/role/claimer";
@@ -111,7 +111,7 @@ export class ProfilerWrapper {
         //Clear all profiling on setup
         Memory.profiler = {
             startTick: Game.time
-        } as ProfilerData;
+        } as ProfilerRawData;
     }
 
     public static detectProfileReport(): void {
@@ -120,7 +120,76 @@ export class ProfilerWrapper {
             return;
         }
 
-        //Format the data
-        //TODO:
+        const profile: ProfilerRawData = Memory.profile;
+
+        console.log("Profiling report:");
+
+        const totalTicks: number = Game.time - profile.startTick;
+
+        console.log("TotalTicks: " + totalTicks);
+        console.log("Name\tAvgMsPerTick\tAvgCallsPerTick\tAvgMsPerCall\tCalls");
+
+        const classes: string[] = Object.keys(profile);
+        classes.splice(classes.indexOf("startTick"), 1);
+
+        const processedClasses: ProfilerProcessedDataClass[] = [];
+
+        for (let i = 0; i < classes.length; i++) {
+            const c: string = classes[i];
+            const processedClass: ProfilerProcessedDataClass =
+                this.getProcessedClassData(profile[c], c, totalTicks);
+            processedClasses.push(processedClass);
+        }
+
+        processedClasses.sort((a, b) => {
+            return a.avgMsUsagePerTick - b.avgMsUsagePerTick;
+        });
+
+        console.log(JSON.stringify(processedClasses));
     }
+
+    private static getProcessedClassData(classData: ProfilerRawDataClass, className: string, totalTicks: number): ProfilerProcessedDataClass {
+        const result: ProfilerProcessedDataClass = {
+            className: className,
+            avgMsUsagePerTick: 0,
+            functions: []
+        };
+        const functions: string[] = Object.keys(classData);
+        functions.splice(functions.indexOf("startTick"), 1);
+
+        for (let i = 0; i < functions.length; i++) {
+            const f: string = functions[i];
+            const functionProcessed: ProfilerProcessedDataFunction = {
+                avgMsUsagePerTick: 0,
+                callsPerTickAvg: 0,
+                avgTime: classData[f].average,
+                callCount: classData[f].callCount
+            };
+            functionProcessed.callsPerTickAvg =
+                classData[f].callCount / totalTicks;
+            functionProcessed.avgMsUsagePerTick =
+                functionProcessed.avgTime * functionProcessed.callsPerTickAvg;
+
+            result.functions.push(functionProcessed);
+        }
+
+        result.functions.sort((a, b) => {
+            return a.avgMsUsagePerTick - b.avgMsUsagePerTick;
+        });
+
+        return result;
+    }
+}
+
+interface ProfilerProcessedDataClass {
+    className: string;
+    avgMsUsagePerTick: number;
+    functions: ProfilerProcessedDataFunction[];
+}
+
+interface ProfilerProcessedDataFunction {
+    avgMsUsagePerTick: number;
+    callsPerTickAvg: number;
+    avgTime: number;
+    callCount: number;
 }

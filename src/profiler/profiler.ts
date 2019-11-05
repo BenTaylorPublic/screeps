@@ -1,8 +1,8 @@
 export class Profiler {
     public static setup<T>(thing: T, classString: string, privateFunctions: string[]): void {
         console.log("Wrapping class: " + classString);
-        const profiler: ProfilerData = Memory.profiler as ProfilerData;
-        profiler[classString] = {} as ProfilerDataClass;
+        const profiler: ProfilerRawData = Memory.profiler as ProfilerRawData;
+        profiler[classString] = {} as ProfilerRawDataClass;
 
         Object.getOwnPropertyNames(thing).forEach(functionName => {
             if (excludeList.indexOf(functionName) !== -1) {
@@ -12,9 +12,9 @@ export class Profiler {
 
             profiler[classString][functionName] = {
                 callCount: 0,
-                mean: 0,
+                average: 0,
                 privateFunction: false
-            } as ProfilerDataFunction;
+            } as ProfilerRawDataFunction;
 
             if (privateFunctions.indexOf(functionName) !== -1) {
                 //Private function
@@ -48,8 +48,8 @@ export class Profiler {
 
                 const after: number = Game.cpu.getUsed();
 
-                Memory.profiler[classString][functionName].mean =
-                    ((Memory.profiler[classString][functionName].mean * Memory.profiler[classString][functionName].callCount) + (after - before))
+                Memory.profiler[classString][functionName].average =
+                    ((Memory.profiler[classString][functionName].average * Memory.profiler[classString][functionName].callCount) + (after - before))
                     / (Memory.profiler[classString][functionName].callCount + 1);
 
                 Memory.profiler[classString][functionName].callCount += 1;
@@ -64,19 +64,19 @@ export class Profiler {
 
 const excludeList: string[] = ["prototype", "length", "name"];
 
-export interface ProfilerData {
+export interface ProfilerRawData {
     [key: string]: any;
 
     startTick: number;
 }
 
 
-interface ProfilerDataClass {
-    [key: string]: ProfilerDataFunction;
+export interface ProfilerRawDataClass {
+    [key: string]: ProfilerRawDataFunction;
 }
 
-interface ProfilerDataFunction {
+export interface ProfilerRawDataFunction {
     callCount: number;
-    mean: number;
+    average: number;
     privateFunction: boolean;
 }
