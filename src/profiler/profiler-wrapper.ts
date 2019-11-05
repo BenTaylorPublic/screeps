@@ -157,7 +157,6 @@ export class ProfilerWrapper {
             functions: []
         };
         const functions: string[] = Object.keys(classData);
-        functions.splice(functions.indexOf("startTick"), 1);
 
         for (let i = 0; i < functions.length; i++) {
             const f: string = functions[i];
