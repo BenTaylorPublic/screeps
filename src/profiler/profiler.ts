@@ -1,11 +1,5 @@
 export class Profiler {
     public static setup<T>(thing: T, classString: string): void {
-        console.log("Profiler-setup");
-
-        if (Memory.profiler == null) {
-            Memory.profiler = {};
-        }
-
         console.log("Wrapping class: " + classString);
 
         Object.getOwnPropertyNames(thing).forEach(functionName => {
@@ -43,8 +37,6 @@ export class Profiler {
                 return result;
             };
         });
-
-        console.log("Profiler-end setup");
     }
 
 
@@ -52,14 +44,16 @@ export class Profiler {
 
 const excludeList: string[] = ["prototype", "length", "name"];
 
-// interface ProfilerData {
-//     map: string[][];
-// }
-//
-// interface ProfilerDataClass {
-//
-// }
-//
-// interface ProfilerDataFunction {
-//
-// }
+export interface ProfilerData {
+    [key: string]: ProfilerDataClass;
+}
+
+
+interface ProfilerDataClass {
+    [key: string]: ProfilerDataFunction;
+}
+
+interface ProfilerDataFunction {
+    callCount: number;
+    mean: number;
+}

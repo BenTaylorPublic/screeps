@@ -1,5 +1,5 @@
+import {Profiler, ProfilerData} from "./profiler";
 import {RoleLaborer} from "../room/roles/laborer";
-import {Profiler} from "./profiler";
 import {RoleAttackCreep} from "../empire/role/attack-creep";
 import {RoleClaimer} from "../empire/role/claimer";
 import {EmpireController} from "../empire/empire-controller";
@@ -50,6 +50,9 @@ import {ScheduleController} from "../schedule/schedule-controller";
 
 export class ProfilerWrapper {
     public static setup(): void {
+        //Clear all profiling on setup
+        Memory.profiler = {} as ProfilerData;
+
         Profiler.setup(RoleAttackCreep, "RoleAttackCreep");
         Profiler.setup(RoleClaimer, "RoleClaimer");
 
