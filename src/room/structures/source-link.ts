@@ -19,6 +19,7 @@ export class RoomSourceLinkController {
             myLink.id = null;
             return;
         }
+        console.log(link.energy);
 
         if (link.energy >= Constants.SOURCE_LINK_TRANSFER_AT) {
 
