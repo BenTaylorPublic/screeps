@@ -1,5 +1,5 @@
 export class Profiler {
-    public static setup<T>(thing: T, classString: string): void {
+    public static setup<T>(thing: T, classString: string, privateFunctions: string[]): void {
         console.log("Wrapping class: " + classString);
         const profiler: ProfilerData = Memory.profiler as ProfilerData;
         profiler[classString] = {} as ProfilerDataClass;
@@ -12,8 +12,14 @@ export class Profiler {
 
             profiler[classString][functionName] = {
                 callCount: 0,
-                mean: 0
+                mean: 0,
+                privateFunction: false
             } as ProfilerDataFunction;
+
+            if (privateFunctions.indexOf(functionName) !== -1) {
+                //Private function
+                profiler[classString][functionName] = true;
+            }
 
             const originalFunction: Function = (thing as any)[functionName];
             (thing as any)[functionName] = function (): any {
@@ -37,7 +43,7 @@ export class Profiler {
                 } else if (arguments.length === 7) {
                     result = originalFunction.call(thing, arguments[0], arguments[1], arguments[2], arguments[3], arguments[4], arguments[5], arguments[6]);
                 } else {
-                    console.log("ERROR: " + arguments.length);
+                    console.log("ERROR87: " + arguments.length);
                 }
 
                 const after: number = Game.cpu.getUsed();
@@ -60,6 +66,7 @@ const excludeList: string[] = ["prototype", "length", "name"];
 
 export interface ProfilerData {
     [key: string]: any;
+
     startTick: number;
 }
 
@@ -71,4 +78,5 @@ interface ProfilerDataClass {
 interface ProfilerDataFunction {
     callCount: number;
     mean: number;
+    privateFunction: boolean;
 }
