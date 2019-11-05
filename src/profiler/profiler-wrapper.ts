@@ -120,7 +120,7 @@ export class ProfilerWrapper {
             return;
         }
 
-        const profile: ProfilerRawData = Memory.profile;
+        const profile: ProfilerRawData = Memory.profiler;
 
         console.log("Profiling report:");
 
