@@ -8,7 +8,6 @@ import {AttackHelperFunctions} from "../empire/attack-helper-functions";
 import {AttackPressureController} from "../empire/attack-pressure-controller";
 import {AttackQuickController} from "../empire/attack-quick-controller";
 import {SpawnClaimerController} from "../empire/spawn-claimer-controller";
-import {Constants} from "../global/constants";
 import {HelperFunctions} from "../global/helper-functions";
 import {ReportController} from "../reporting/report-controller";
 import {RoleBankLinker} from "../room/roles/bank-linker";
@@ -63,7 +62,6 @@ export class ProfilerWrapper {
         Profiler.setup(EmpireController, "EmpireController");
         Profiler.setup(SpawnClaimerController, "SpawnClaimerController");
 
-        Profiler.setup(Constants, "Constants");
         Profiler.setup(HelperFunctions, "HelperFunctions");
 
         Profiler.setup(ReportController, "ReportController");
