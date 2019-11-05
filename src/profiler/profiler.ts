@@ -6,7 +6,7 @@ export class Profiler {
             Memory.profiler = {};
         }
 
-        const classString: string = (thing as any).name;
+        const classString: string = thing.constructor.name;
         console.log("Wrapping class: " + classString);
 
         Object.getOwnPropertyNames(thing).forEach(functionName => {
