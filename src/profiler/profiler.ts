@@ -1,4 +1,4 @@
-import now from "performance-now";
+// import now from "performance-now";
 
 export class Profiler {
     public static setup<T>(thing: T, classString: string): void {
@@ -19,7 +19,7 @@ export class Profiler {
 
             const originalFunction: Function = (thing as any)[functionName];
             (thing as any)[functionName] = function (): any {
-                const before: number = now();
+                const before: number = Game.cpu.getUsed();
                 let result: any;
 
                 if (arguments.length === 0) {
@@ -43,8 +43,8 @@ export class Profiler {
                 }
 
                 //TODO: Timer end here
-                const after: number = now();
-                console.log("Difference: " + (after - before).toFixed(3));
+                const after: number = Game.cpu.getUsed();
+                console.log("Difference: " + (after - before));
 
                 return result;
             };
