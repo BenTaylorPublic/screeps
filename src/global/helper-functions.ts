@@ -77,6 +77,7 @@ export class HelperFunctions {
     }
 
     public static myPosToRoomPos(myPos: MyRoomPos): RoomPosition {
+        console.log(myPos);
         return new RoomPosition(myPos.x, myPos.y, myPos.roomName);
     }
 
