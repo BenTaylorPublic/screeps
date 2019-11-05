@@ -46,7 +46,7 @@ export class Profiler {
 
 }
 
-const excludeList: string[] = ["prototype", "length"];
+const excludeList: string[] = ["prototype", "length", "name"];
 
 // interface ProfilerData {
 //     map: string[][];
