@@ -232,6 +232,7 @@ export class ProfilerWrapper {
                 rowAsString += dataInCell;
                 const spacesToAdd: number = dataInCell.length - maxColumnWidth[columnIndex];
                 for (let spacesToFill = 0; spacesToFill < spacesToAdd; spacesToFill++) {
+                    console.log("adding space");
                     rowAsString += " ";
                 }
             }

@@ -1,6 +1,5 @@
 export class Profiler {
     public static setup<T>(thing: T, classString: string, privateFunctions: string[]): void {
-        console.log("Wrapping class: " + classString);
         const profiler: ProfilerRawData = Memory.profiler as ProfilerRawData;
         profiler[classString] = {} as ProfilerRawDataClass;
 
@@ -8,7 +7,6 @@ export class Profiler {
             if (excludeList.indexOf(functionName) !== -1) {
                 return; //This is a 'continue' in a forEach loop
             }
-            console.log(classString + "." + functionName);
 
             profiler[classString][functionName] = {
                 callCount: 0,
