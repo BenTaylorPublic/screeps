@@ -5,6 +5,7 @@
     "main": "index.js",
     "dependencies": {
         "@types/screeps": "^2.5.3",
+        "performance-now": "^2.1.0",
         "terser-webpack-plugin": "^1.2.3",
         "tslint": "^5.15.0",
         "typescript": "^3.4.3",

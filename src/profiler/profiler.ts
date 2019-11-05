@@ -1,3 +1,5 @@
+import now from "performance-now";
+
 export class Profiler {
     public static setup<T>(thing: T, classString: string): void {
         console.log("Wrapping class: " + classString);
@@ -17,7 +19,7 @@ export class Profiler {
 
             const originalFunction: Function = (thing as any)[functionName];
             (thing as any)[functionName] = function (): any {
-                const before: number = performance.now();
+                const before: number = now();
                 let result: any;
 
                 if (arguments.length === 0) {
@@ -41,7 +43,7 @@ export class Profiler {
                 }
 
                 //TODO: Timer end here
-                const after: number = performance.now();
+                const after: number = now();
                 console.log("Difference: " + (after - before));
 
                 return result;
