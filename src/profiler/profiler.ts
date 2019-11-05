@@ -44,7 +44,7 @@ export class Profiler {
 
                 //TODO: Timer end here
                 const after: number = now();
-                console.log("Difference: " + (after - before));
+                console.log("Difference: " + (after - before).toFixed(3));
 
                 return result;
             };
