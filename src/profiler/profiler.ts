@@ -41,7 +41,14 @@ export class Profiler {
                 }
 
                 const after: number = Game.cpu.getUsed();
-                console.log("Difference: " + (after - before));
+
+                const dataForFunction: ProfilerDataFunction = profiler[classString][functionName];
+
+                dataForFunction.mean =
+                    ((dataForFunction.mean * dataForFunction.callCount) + (after - before))
+                    / (dataForFunction.callCount + 1);
+
+                dataForFunction.callCount += 1;
 
                 return result;
             };
