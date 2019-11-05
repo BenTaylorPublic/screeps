@@ -142,7 +142,7 @@ export class ProfilerWrapper {
         }
 
         processedClasses.sort((a, b) => {
-            return a.avgMsUsagePerTick - b.avgMsUsagePerTick;
+            return b.avgMsUsagePerTick - a.avgMsUsagePerTick;
         });
 
         console.log(JSON.stringify(processedClasses));
@@ -162,6 +162,7 @@ export class ProfilerWrapper {
         for (let i = 0; i < functions.length; i++) {
             const f: string = functions[i];
             const functionProcessed: ProfilerProcessedDataFunction = {
+                functionName: f,
                 avgMsUsagePerTick: 0,
                 callsPerTickAvg: 0,
                 avgTime: classData[f].average,
@@ -181,7 +182,7 @@ export class ProfilerWrapper {
         }
 
         result.functions.sort((a, b) => {
-            return a.avgMsUsagePerTick - b.avgMsUsagePerTick;
+            return b.avgMsUsagePerTick - a.avgMsUsagePerTick;
         });
 
         return result;
@@ -195,6 +196,7 @@ interface ProfilerProcessedDataClass {
 }
 
 interface ProfilerProcessedDataFunction {
+    functionName: string;
     avgMsUsagePerTick: number;
     callsPerTickAvg: number;
     avgTime: number;
