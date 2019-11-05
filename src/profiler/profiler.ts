@@ -42,13 +42,11 @@ export class Profiler {
 
                 const after: number = Game.cpu.getUsed();
 
-                const dataForFunction: ProfilerDataFunction = profiler[classString][functionName];
+                profiler[classString][functionName].mean =
+                    ((profiler[classString][functionName].mean * profiler[classString][functionName].callCount) + (after - before))
+                    / (profiler[classString][functionName].callCount + 1);
 
-                dataForFunction.mean =
-                    ((dataForFunction.mean * dataForFunction.callCount) + (after - before))
-                    / (dataForFunction.callCount + 1);
-
-                dataForFunction.callCount += 1;
+                profiler[classString][functionName].callCount += 1;
 
                 return result;
             };
