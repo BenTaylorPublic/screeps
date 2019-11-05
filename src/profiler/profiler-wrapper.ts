@@ -49,62 +49,62 @@ import {ScheduleController} from "../schedule/schedule-controller";
 
 export class ProfilerWrapper {
     public static setup(): void {
-        Profiler.setup(RoleAttackCreep, "RoleAttackCreep");
-        Profiler.setup(RoleClaimer, "RoleClaimer");
+        Profiler.setup(RoleAttackCreep, "RoleAttackCreep", ["attackLogic"]);
+        Profiler.setup(RoleClaimer, "RoleClaimer", []);
 
-        Profiler.setup(AttackController, "AttackController");
-        Profiler.setup(AttackHelperFunctions, "AttackHelperFunctions");
-        Profiler.setup(AttackPressureController, "AttackPressureController");
-        Profiler.setup(AttackQuickController, "AttackQuickController");
-        Profiler.setup(EmpireController, "EmpireController");
-        Profiler.setup(SpawnClaimerController, "SpawnClaimerController");
+        Profiler.setup(AttackController, "AttackController", []);
+        Profiler.setup(AttackHelperFunctions, "AttackHelperFunctions", ["pathFindToRoomObject"]);
+        Profiler.setup(AttackPressureController, "AttackPressureController", ["batchRunRally", "batchRunConscript", "spawnAttackPressureCreep", "startBatch", "endAttack"]);
+        Profiler.setup(AttackQuickController, "AttackQuickController", ["spawnAttackQuickCreep", "endAttack"]);
+        Profiler.setup(EmpireController, "EmpireController", []);
+        Profiler.setup(SpawnClaimerController, "SpawnClaimerController", ["spawnClaimer"]);
 
-        Profiler.setup(HelperFunctions, "HelperFunctions");
+        Profiler.setup(HelperFunctions, "HelperFunctions", ["calcBodyCost"]);
 
-        Profiler.setup(ReportController, "ReportController");
+        Profiler.setup(ReportController, "ReportController", ["report", "niceDateFormat", "timeSince"]);
 
-        Profiler.setup(RoleBankLinker, "RoleBankLinker");
-        Profiler.setup(RoleHauler, "RoleHauler");
-        Profiler.setup(RoleLaborer, "RoleLaborer");
-        Profiler.setup(RoleMiner, "RoleMiner");
+        Profiler.setup(RoleBankLinker, "RoleBankLinker", []);
+        Profiler.setup(RoleHauler, "RoleHauler", []);
+        Profiler.setup(RoleLaborer, "RoleLaborer", ["calculateCreepState", "pickupBank", "pickupCache", "pickupOutLink", "mining", "labor"]);
+        Profiler.setup(RoleMiner, "RoleMiner", []);
 
-        Profiler.setup(RoomSpawnController, "RoomSpawnController");
-        Profiler.setup(SpawnBankLinker, "SpawnBankLinker");
-        Profiler.setup(SpawnHauler, "SpawnHauler");
-        Profiler.setup(SpawnLaborer, "SpawnLaborer");
-        Profiler.setup(SpawnMiner, "SpawnMiner");
+        Profiler.setup(RoomSpawnController, "RoomSpawnController", []);
+        Profiler.setup(SpawnBankLinker, "SpawnBankLinker", ["spawnBankLinker"]);
+        Profiler.setup(SpawnHauler, "SpawnHauler", ["spawnHauler"]);
+        Profiler.setup(SpawnLaborer, "SpawnLaborer", ["spawnLaborer"]);
+        Profiler.setup(SpawnMiner, "SpawnMiner", ["spawnMiner"]);
 
-        Profiler.setup(Stage0, "Stage0");
-        Profiler.setup(Stage0_5, "Stage0_5");
-        Profiler.setup(Stage1, "Stage1");
-        Profiler.setup(Stage1_3, "Stage1_3");
-        Profiler.setup(Stage1_6, "Stage1_6");
-        Profiler.setup(Stage2, "Stage2");
-        Profiler.setup(Stage2_3, "Stage2_3");
-        Profiler.setup(Stage2_6, "Stage2_6");
-        Profiler.setup(Stage3, "Stage3");
-        Profiler.setup(Stage3_3, "Stage3_3");
-        Profiler.setup(Stage3_6, "Stage3_6");
-        Profiler.setup(Stage4, "Stage4");
-        Profiler.setup(Stage4_2, "Stage4_2");
-        Profiler.setup(Stage4_4, "Stage4_4");
-        Profiler.setup(Stage4_6, "Stage4_6");
-        Profiler.setup(Stage4_8, "Stage4_8");
-        Profiler.setup(Stage5, "Stage5");
-        Profiler.setup(Stage5_2, "Stage5_2");
-        Profiler.setup(Stage5_4, "Stage5_4");
-        Profiler.setup(Stage5_6, "Stage5_6");
-        Profiler.setup(Stage5_8, "Stage5_8");
-        Profiler.setup(StageDefault, "StageDefault");
-        Profiler.setup(StageFunctions, "StageFunctions");
+        Profiler.setup(Stage0, "Stage0", []);
+        Profiler.setup(Stage0_5, "Stage0_5", ["step"]);
+        Profiler.setup(Stage1, "Stage1", []);
+        Profiler.setup(Stage1_3, "Stage1_3", ["step"]);
+        Profiler.setup(Stage1_6, "Stage1_6", ["step", "containerInPos"]);
+        Profiler.setup(Stage2, "Stage2", []);
+        Profiler.setup(Stage2_3, "Stage2_3", ["step"]);
+        Profiler.setup(Stage2_6, "Stage2_6", ["step"]);
+        Profiler.setup(Stage3, "Stage3", []);
+        Profiler.setup(Stage3_3, "Stage3_3", ["step"]);
+        Profiler.setup(Stage3_6, "Stage3_6", ["step"]);
+        Profiler.setup(Stage4, "Stage4", []);
+        Profiler.setup(Stage4_2, "Stage4_2", ["step"]);
+        Profiler.setup(Stage4_4, "Stage4_4", ["step"]);
+        Profiler.setup(Stage4_6, "Stage4_6", ["step"]);
+        Profiler.setup(Stage4_8, "Stage4_8", ["step"]);
+        Profiler.setup(Stage5, "Stage5", []);
+        Profiler.setup(Stage5_2, "Stage5_2", ["step"]);
+        Profiler.setup(Stage5_4, "Stage5_4", ["step"]);
+        Profiler.setup(Stage5_6, "Stage5_6", ["step"]);
+        Profiler.setup(Stage5_8, "Stage5_8", ["step"]);
+        Profiler.setup(StageDefault, "StageDefault", []);
+        Profiler.setup(StageFunctions, "StageFunctions", []);
 
-        Profiler.setup(RoomSourceLinkController, "RoomSourceLinkController");
-        Profiler.setup(RoomTowerController, "RoomTowerController");
+        Profiler.setup(RoomSourceLinkController, "RoomSourceLinkController", []);
+        Profiler.setup(RoomTowerController, "RoomTowerController", []);
 
-        Profiler.setup(RoomController, "RoomController");
-        Profiler.setup(RoomStageController, "RoomStageController");
+        Profiler.setup(RoomController, "RoomController", []);
+        Profiler.setup(RoomStageController, "RoomStageController", []);
 
-        Profiler.setup(ScheduleController, "ScheduleController");
+        Profiler.setup(ScheduleController, "ScheduleController", ["setFalseOnPendingConscriptedCreep"]);
     }
 
     public static clearProfilingData(): void {
