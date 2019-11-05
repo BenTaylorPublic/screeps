@@ -109,6 +109,8 @@ export class ProfilerWrapper {
 
     public static clearProfilingData(): void {
         //Clear all profiling on setup
-        Memory.profiler = {} as ProfilerData;
+        Memory.profiler = {
+            startTick: Game.time
+        } as ProfilerData;
     }
 }
