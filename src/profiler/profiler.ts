@@ -18,7 +18,7 @@ export class Profiler {
 
             if (privateFunctions.indexOf(functionName) !== -1) {
                 //Private function
-                profiler[classString][functionName] = true;
+                profiler[classString][functionName].privateFunction = true;
             }
 
             const originalFunction: Function = (thing as any)[functionName];
