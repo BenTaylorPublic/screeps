@@ -165,7 +165,8 @@ export class ProfilerWrapper {
                 avgMsUsagePerTick: 0,
                 callsPerTickAvg: 0,
                 avgTime: classData[f].average,
-                callCount: classData[f].callCount
+                callCount: classData[f].callCount,
+                privateFunction: classData[f].privateFunction
             };
             functionProcessed.callsPerTickAvg =
                 classData[f].callCount / totalTicks;
@@ -173,6 +174,10 @@ export class ProfilerWrapper {
                 functionProcessed.avgTime * functionProcessed.callsPerTickAvg;
 
             result.functions.push(functionProcessed);
+
+            if (!functionProcessed.privateFunction) {
+                result.avgMsUsagePerTick += functionProcessed.avgMsUsagePerTick;
+            }
         }
 
         result.functions.sort((a, b) => {
@@ -194,4 +199,5 @@ interface ProfilerProcessedDataFunction {
     callsPerTickAvg: number;
     avgTime: number;
     callCount: number;
+    privateFunction: boolean;
 }
