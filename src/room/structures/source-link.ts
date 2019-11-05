@@ -3,11 +3,13 @@ import {ReportController} from "../../reporting/report-controller";
 
 export class RoomSourceLinkController {
     public static run(myRoom: MyRoom, myLink: MyLink): void {
-        console.log(JSON.stringify(myLink));
+        console.log("start");
         if (myLink.id === null) {
+            console.log("returning because id is null");
             return;
         }
         if (myRoom.bankLink == null || myRoom.bankLink.id == null) {
+            console.log("returning bank link is null OR bank link id is null");
             return;
         }
 
@@ -20,6 +22,7 @@ export class RoomSourceLinkController {
 
         if (link.energy >= Constants.SOURCE_LINK_TRANSFER_AT) {
 
+            console.log("I need to transfer");
             //Need to transfer energy
 
             for (let i = 0; i < myRoom.outLinks.length; i++) {
@@ -30,6 +33,7 @@ export class RoomSourceLinkController {
                     if (outLink != null) {
                         if (outLink.energyCapacity - outLink.energy >= link.energy) {
                             link.transferEnergy(outLink);
+                            console.log("Transferred to out link");
                             return;
                         }
                     }
@@ -45,6 +49,7 @@ export class RoomSourceLinkController {
 
             //Just try it. Might error, but oh well
             link.transferEnergy(bankLink);
+            console.log("Transferred to bank");
         }
 
     }
