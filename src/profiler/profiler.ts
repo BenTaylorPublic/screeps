@@ -1,5 +1,3 @@
-// import now from "performance-now";
-
 export class Profiler {
     public static setup<T>(thing: T, classString: string): void {
         console.log("Wrapping class: " + classString);
@@ -42,7 +40,6 @@ export class Profiler {
                     console.log("ERROR: " + arguments.length);
                 }
 
-                //TODO: Timer end here
                 const after: number = Game.cpu.getUsed();
                 console.log("Difference: " + (after - before));
 
