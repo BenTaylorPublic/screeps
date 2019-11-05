@@ -17,7 +17,7 @@ export class Profiler {
 
             const originalFunction: Function = (thing as any)[functionName];
             (thing as any)[functionName] = function (): any {
-                //TODO: Timer start here
+                const before: number = performance.now();
                 let result: any;
 
                 if (arguments.length === 0) {
@@ -41,6 +41,8 @@ export class Profiler {
                 }
 
                 //TODO: Timer end here
+                const after: number = performance.now();
+                console.log("Difference: " + (after - before));
 
                 return result;
             };
