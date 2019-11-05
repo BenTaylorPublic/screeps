@@ -3,6 +3,7 @@ import {ReportController} from "../../reporting/report-controller";
 
 export class RoomSourceLinkController {
     public static run(myRoom: MyRoom, myLink: MyLink): void {
+        console.log(JSON.stringify(myLink));
         if (myLink.id === null) {
             return;
         }
