@@ -6,14 +6,14 @@ export class Profiler {
             Memory.profiler = {};
         }
 
-        const classString: string = typeof thing;
+        const classString: string = (thing as any).name;
         console.log("Wrapping class: " + classString);
 
         Object.getOwnPropertyNames(thing).forEach(functionName => {
             if (excludeList.indexOf(functionName) !== -1) {
                 return; //This is a 'continue' in a forEach loop
             }
-            console.log("Wrapping function: " + functionName);
+            console.log(classString + "." + functionName);
             // const originalFunction: Function = (thing as any)[functionName];
             // (thing as any)[functionName] = function (): any {
             //     //TODO: Timer start here
