@@ -1,12 +1,20 @@
 export class Profiler {
     public static setup<T>(thing: T, classString: string): void {
         console.log("Wrapping class: " + classString);
+        const profiler: ProfilerData = Memory.profiler as ProfilerData;
+        profiler[classString] = {};
 
         Object.getOwnPropertyNames(thing).forEach(functionName => {
             if (excludeList.indexOf(functionName) !== -1) {
                 return; //This is a 'continue' in a forEach loop
             }
             console.log(classString + "." + functionName);
+
+            profiler[classString][functionName] = {
+                callCount: 0,
+                mean: 0
+            };
+
             const originalFunction: Function = (thing as any)[functionName];
             (thing as any)[functionName] = function (): any {
                 //TODO: Timer start here
