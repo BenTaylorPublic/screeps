@@ -10,10 +10,6 @@ import {ReportController} from "../reporting/report-controller";
 
 export class RoomController {
     public static run(myRoom: MyRoom): void {
-        if (myRoom.name !== "E16S18") {
-            return;
-        }
-
         if (Game.rooms[myRoom.name] == null) {
             //No longer have vision of this room
             ReportController.log("ERROR", "No longer have vision of room " + myRoom.name);
