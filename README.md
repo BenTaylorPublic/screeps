@@ -146,6 +146,7 @@ attack-quick-rally
 attack-quick-room-target
 attack-pressure-rally
 attack-pressure-room-target
+profile
 ```
 
 ## Stage Progression

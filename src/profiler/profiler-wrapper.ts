@@ -116,7 +116,7 @@ export class ProfilerWrapper {
 
     public static detectProfileReport(): void {
         if (Game.time % 10 !== 0 ||
-            Game.flags["profile-report"] == null) {
+            Game.flags["profile"] == null) {
             return;
         }
 
@@ -152,7 +152,7 @@ export class ProfilerWrapper {
             const processedClass: ProfilerProcessedDataClass = processedClasses[i];
 
             table[index] = [processedClass.className,
-                Number(processedClass.avgMsUsagePerTick.toFixed(FIXED_NUMBER)).toString()
+                Number(processedClass.avgMsUsagePerTick.toFixed(FIXED_NUMBER)).toString() + "ms"
                 , "", "", ""];
             index++;
 
@@ -160,9 +160,9 @@ export class ProfilerWrapper {
                 const processedFunction: ProfilerProcessedDataFunction = processedClass.functions[j];
 
                 table[index] = [processedFunction.functionName,
-                    Number(processedFunction.avgMsUsagePerTick.toFixed(FIXED_NUMBER)).toString(),
+                    Number(processedFunction.avgMsUsagePerTick.toFixed(FIXED_NUMBER)).toString() + "ms",
                     Number(processedFunction.callsPerTickAvg.toFixed(FIXED_NUMBER)).toString(),
-                    Number(processedFunction.avgTime.toFixed(FIXED_NUMBER)).toString(),
+                    Number(processedFunction.avgTime.toFixed(FIXED_NUMBER)).toString() + "ms",
                     processedFunction.callCount.toString()];
 
                 index++;
@@ -171,7 +171,7 @@ export class ProfilerWrapper {
 
         this.logTable(table);
 
-        Game.flags["profile-report"].remove();
+        Game.flags["profile"].remove();
     }
 
     private static getProcessedClassData(classData: ProfilerRawDataClass, className: string, totalTicks: number): ProfilerProcessedDataClass {
