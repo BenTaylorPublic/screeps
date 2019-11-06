@@ -171,6 +171,8 @@ export class ProfilerWrapper {
             }
         }
 
+        console.log("Top " + SHOW_TOP_X_CLASSES + " classes, based on AvgMsPerTick");
+
         this.logTable(table);
 
         Game.flags["profile"].remove();
