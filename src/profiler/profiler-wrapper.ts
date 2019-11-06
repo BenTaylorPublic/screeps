@@ -159,7 +159,9 @@ export class ProfilerWrapper {
             for (let j = 0; j < processedClass.functions.length; j++) {
                 const processedFunction: ProfilerProcessedDataFunction = processedClass.functions[j];
 
-                table[index] = [processedFunction.functionName,
+                const privateOrPublic: string = processedFunction.privateFunction ? "-" : "+";
+
+                table[index] = [privateOrPublic + " " + processedFunction.functionName,
                     Number(processedFunction.avgMsUsagePerTick.toFixed(FIXED_NUMBER)).toString(),
                     Number(processedFunction.callsPerTickAvg.toFixed(FIXED_NUMBER)).toString(),
                     Number(processedFunction.avgTime.toFixed(FIXED_NUMBER)).toString(),
