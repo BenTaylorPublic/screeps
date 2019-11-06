@@ -152,7 +152,7 @@ export class ProfilerWrapper {
             const processedClass: ProfilerProcessedDataClass = processedClasses[i];
 
             table[index] = [processedClass.className,
-                Number(processedClass.avgMsUsagePerTick.toFixed(FIXED_NUMBER)).toString() + "ms"
+                Number(processedClass.avgMsUsagePerTick.toFixed(FIXED_NUMBER)).toString()
                 , "", "", ""];
             index++;
 
@@ -160,9 +160,9 @@ export class ProfilerWrapper {
                 const processedFunction: ProfilerProcessedDataFunction = processedClass.functions[j];
 
                 table[index] = [processedFunction.functionName,
-                    Number(processedFunction.avgMsUsagePerTick.toFixed(FIXED_NUMBER)).toString() + "ms",
+                    Number(processedFunction.avgMsUsagePerTick.toFixed(FIXED_NUMBER)).toString(),
                     Number(processedFunction.callsPerTickAvg.toFixed(FIXED_NUMBER)).toString(),
-                    Number(processedFunction.avgTime.toFixed(FIXED_NUMBER)).toString() + "ms",
+                    Number(processedFunction.avgTime.toFixed(FIXED_NUMBER)).toString(),
                     processedFunction.callCount.toString()];
 
                 index++;
