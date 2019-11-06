@@ -211,7 +211,6 @@ export class ProfilerWrapper {
     }
 
     private static logTable(table: string[][]): void {
-        console.log("LOG TABLE X");
         //If the table is missing things then it'll just break
         const maxColumnWidth: number[] = [];
         for (let columnIndex: number = 0; columnIndex < table[0].length; columnIndex++) {
@@ -224,16 +223,13 @@ export class ProfilerWrapper {
             }
         }
 
-        console.log(JSON.stringify(maxColumnWidth));
-
         for (let rowIndex: number = 0; rowIndex < table.length; rowIndex++) {
             let rowAsString: string = "";
             for (let columnIndex: number = 0; columnIndex < table[rowIndex].length; columnIndex++) {
                 const dataInCell: string = table[rowIndex][columnIndex];
                 rowAsString += dataInCell;
-                const spacesToAdd: number = dataInCell.length - maxColumnWidth[columnIndex];
+                const spacesToAdd: number = maxColumnWidth[columnIndex] - dataInCell.length;
                 for (let spacesToFill = 0; spacesToFill < spacesToAdd; spacesToFill++) {
-                    console.log("adding space");
                     rowAsString += " ";
                 }
             }
