@@ -11,11 +11,28 @@ Push to master to release
 ## TODO
 ### Working on
 ```
-Performance test
+Profiling
+    A second profiler, that can give better indepth logic to what a function is doing
+    Should be able to manually place the calls at the start and end of a function
+    And place calls for when it's calling external functions
+    Functions should be setup in the Wrapper
+    Logging should be
+        controller.startFunction("funcName");
+        controller.startFunctionSection("funcName", "sectionName");
+        //Code
+        controller.endFunctionSection("funcName", "sectionName");
+        controller.startFunctionSection("funcName", "sectionName2");
+        //Code
+        controller.endFunctionSection("funcName", "sectionName2");
+        controller.endFunction("funcName");
+    Output should look like
+        Name AvgMsPerCall
+        List of Sections:
+        Name AvgMsPerCallToParent AvgMsPerSectionRun AvgSectionRunsPerCallToParent SectionRuns 
 ```
 ### Short term
 ```
-Performance improvements depending on the test
+Performance indicates I should improve the Miner's logic
 ```
 ### Mid term:
 ```
