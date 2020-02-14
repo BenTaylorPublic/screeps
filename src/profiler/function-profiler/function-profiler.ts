@@ -106,7 +106,7 @@ export class FunctionProfiler {
 
         HelperFunctions.logTable(table);
 
-        Game.flags["profile"].remove();
+        Game.flags["profile-function"].remove();
     }
 
     private static getProcessedFunctionData(functionn: FunctionProfilerRawDataFunction, functionName: string, totalTicks: number): FunctionProfilerProcessedDataFunction {
