@@ -31,7 +31,7 @@ export class RoleMiner {
             }
 
             if (source.energy > 0 &&
-                creep.carry[RESOURCE_ENERGY] < creep.carryCapacity) {
+                creep.carry[RESOURCE_ENERGY] < (creep.carryCapacity - miner.amountOfWork * 2) ) {
                 FunctionProfiler.startFunctionSection("RoleMiner.Run", "Mine");
                 creep.harvest(source);
                 FunctionProfiler.endFunctionSection("RoleMiner.Run", "Mine");
