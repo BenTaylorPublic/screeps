@@ -84,15 +84,17 @@ export class FunctionProfiler {
             const processedFunction: FunctionProfilerProcessedDataFunction = processedFunctions[i];
 
             table[index] = [processedFunction.functionName,
-                Number(processedFunction.avgMsUsagePerTick.toFixed(FIXED_NUMBER)).toString()
-                , "", "", ""];
+                Number(processedFunction.avgMsUsagePerTick.toFixed(FIXED_NUMBER)).toString(),
+                Number(processedFunction.callsPerTickAvg.toFixed(FIXED_NUMBER)).toString(),
+                Number(processedFunction.avgTime.toFixed(FIXED_NUMBER)).toString(),
+                processedFunction.callCount.toString()];
             index++;
 
             for (let j = 0; j < processedFunction.sections.length; j++) {
                 const processedSection: FunctionProfilerProcessedDataSection = processedFunction.sections[j];
 
 
-                table[index] = [processedSection.functionName,
+                table[index] = [processedSection.sectionName,
                     Number(processedSection.avgMsUsagePerTick.toFixed(FIXED_NUMBER)).toString(),
                     Number(processedSection.callsPerTickAvg.toFixed(FIXED_NUMBER)).toString(),
                     Number(processedSection.avgTime.toFixed(FIXED_NUMBER)).toString(),
@@ -113,14 +115,23 @@ export class FunctionProfiler {
         const result: FunctionProfilerProcessedDataFunction = {
             functionName: functionName,
             avgMsUsagePerTick: 0,
+            callsPerTickAvg: 0,
+            avgTime: functionn.average,
+            callCount: functionn.callCount,
             sections: []
         };
+
+        result.callsPerTickAvg =
+            functionn.callCount / totalTicks;
+        result.avgMsUsagePerTick =
+            functionn.average * result.callsPerTickAvg;
+
         const sections: string[] = Object.keys(functionn.sections);
 
         for (let i = 0; i < sections.length; i++) {
             const sectionName: string = sections[i];
             const sectionProcessed: FunctionProfilerProcessedDataSection = {
-                functionName: sectionName,
+                sectionName: sectionName,
                 avgMsUsagePerTick: 0,
                 callsPerTickAvg: 0,
                 avgTime: functionn.sections[sectionName].average,
@@ -133,8 +144,6 @@ export class FunctionProfiler {
 
             result.sections.push(sectionProcessed);
         }
-        result.avgMsUsagePerTick =
-            functionn.average * (functionn.callCount / totalTicks);
 
         result.sections.sort((a, b) => {
             return b.avgMsUsagePerTick - a.avgMsUsagePerTick;
@@ -154,11 +163,14 @@ export class FunctionProfiler {
 interface FunctionProfilerProcessedDataFunction {
     functionName: string;
     avgMsUsagePerTick: number;
+    callsPerTickAvg: number;
+    callCount: number;
+    avgTime: number;
     sections: FunctionProfilerProcessedDataSection[];
 }
 
 interface FunctionProfilerProcessedDataSection {
-    functionName: string;
+    sectionName: string;
     avgMsUsagePerTick: number;
     callsPerTickAvg: number;
     avgTime: number;
