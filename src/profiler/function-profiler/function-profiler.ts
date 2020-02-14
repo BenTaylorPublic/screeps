@@ -26,24 +26,24 @@ export class FunctionProfiler {
 
     public static startFunctionSection(functionName: string, sectionName: string): void {
 
-        if (Memory.functionProfiler[functionName][sectionName] == null) {
-            Memory.functionProfiler[functionName][sectionName] = {
+        if (Memory.functionProfiler[functionName].section[sectionName] == null) {
+            Memory.functionProfiler[functionName].section[sectionName] = {
                 callCount: 1,
                 average: 0,
                 before: Game.cpu.getUsed()
             } as FunctionProfilerRawDataSection;
         } else {
-            Memory.functionProfiler[functionName][sectionName].before = Game.cpu.getUsed();
+            Memory.functionProfiler[functionName].section[sectionName].before = Game.cpu.getUsed();
         }
     }
 
     public static endFunctionSection(functionName: string, sectionName: string): void {
-        Memory.functionProfiler[functionName][sectionName].average =
-            ((Memory.functionProfiler[functionName][sectionName].average *
-                Memory.functionProfiler[functionName][sectionName].callCount) +
-                (Game.cpu.getUsed() - Memory.functionProfiler[functionName][sectionName].before))
-            / (Memory.functionProfiler[functionName][sectionName].callCount + 1);
-        Memory.functionProfiler[functionName][sectionName].callCount++;
+        Memory.functionProfiler[functionName].section[sectionName].average =
+            ((Memory.functionProfiler[functionName].section[sectionName].average *
+                Memory.functionProfiler[functionName].section[sectionName].callCount) +
+                (Game.cpu.getUsed() - Memory.functionProfiler[functionName].section[sectionName].before))
+            / (Memory.functionProfiler[functionName].section[sectionName].callCount + 1);
+        Memory.functionProfiler[functionName].section[sectionName].callCount++;
     }
 
     public static detectProfileReport(): void {
