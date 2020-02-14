@@ -133,6 +133,8 @@ export class FunctionProfiler {
 
             result.sections.push(sectionProcessed);
         }
+        result.avgMsUsagePerTick =
+            functionn.average * (functionn.callCount / totalTicks);
 
         result.sections.sort((a, b) => {
             return b.avgMsUsagePerTick - a.avgMsUsagePerTick;
