@@ -11,13 +11,25 @@ Push to master to release
 ## TODO
 ### Working on
 ```
-Optimize miner
+Room stages 6 to 7
+    RCL
+    Tower
+    10 Extensions
+    3 Labs (Skip/jump for now)
+    Link
+    Spawn
 ```
 ### Short term
 ```
-```
-### Mid term:
-```
+Room stages 7 to 8
+    RCL
+    3 Towers
+    10 Extensions
+    4 Labs (Skip/jump for now)
+    Spawn
+    Observer
+    Power Spawn
+
 Report/Emails
     Make it say "enemy entered", "enemy died" etc 
         Remove the log that says "tower attacking X" once thats done
@@ -26,30 +38,15 @@ Report/Emails
     Need an email controller to handle it all
     Stage "ATTENTION" should email (once!)
         If possible, a 1 day cooldown on an "ATTENTION" message
-
+```
+### Mid term:
+```
 Flag helper function to get flags
     Pass it:
         an array of strings
         bool if the array can have extra on the end (eg "derp" or "derp-uniqueNumber")
         Optional room name string, if it should be a limited to a specific room
         Returns an array (and another version of it returns a Flag | null
-
-Room stages 6 to 7
-    RCL
-    Tower
-    10 Extensions
-    3 Labs
-    Link
-    Spawn
-    
-Room stages 7 to 8
-    RCL
-    3 Towers
-    10 Extensions
-    4 Labs
-    Spawn
-    Observer
-    Power Spawn
 
 New Role - Stocker
     Just used to stock extensions, spawns, and towers
