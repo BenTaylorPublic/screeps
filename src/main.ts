@@ -10,8 +10,6 @@ console.log("Script reloaded");
 
 setupMyMemory();
 
-ProfilerWrapper.setup();
-
 export let loop: any = function (): void {
 
     const myMemory: MyMemory = Memory.myMemory;
