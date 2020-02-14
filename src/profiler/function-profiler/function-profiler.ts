@@ -80,7 +80,7 @@ export class FunctionProfiler {
 
         let index: number = 1;
 
-        for (let i = 0; i < SHOW_TOP_X_FUNCTIONS; i++) {
+        for (let i = 0; i < SHOW_TOP_X_FUNCTIONS && i < processedFunctions.length; i++) {
             const processedFunction: FunctionProfilerProcessedDataFunction = processedFunctions[i];
 
             table[index] = [processedFunction.functionName,
