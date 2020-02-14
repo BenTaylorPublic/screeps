@@ -28,7 +28,7 @@ Profiling
     Output should look like
         Name AvgMsPerCall
         List of Sections:
-        Name AvgMsPerCallToParent AvgMsPerSectionRun AvgSectionRunsPerCallToParent SectionRuns 
+        Name AvgMsPerTick AvgCallsPerTick AvgMsPerCall Calls 
 ```
 ### Short term
 ```

@@ -112,6 +112,7 @@ export class ProfilerWrapper {
         Memory.profiler = {
             startTick: Game.time
         } as ProfilerRawData;
+        Memory.functionProfiler = {};
     }
 
     public static detectProfileReport(): void {
@@ -173,7 +174,7 @@ export class ProfilerWrapper {
 
         console.log("Top " + SHOW_TOP_X_CLASSES + " classes, based on AvgMsPerTick");
 
-        this.logTable(table);
+        HelperFunctions.logTable(table);
 
         Game.flags["profile"].remove();
     }
@@ -213,33 +214,6 @@ export class ProfilerWrapper {
         });
 
         return result;
-    }
-
-    private static logTable(table: string[][]): void {
-        //If the table is missing things then it'll just break
-        const maxColumnWidth: number[] = [];
-        for (let columnIndex: number = 0; columnIndex < table[0].length; columnIndex++) {
-            maxColumnWidth[columnIndex] = 0;
-            for (let rowIndex: number = 0; rowIndex < table.length; rowIndex++) {
-                const length: number = table[rowIndex][columnIndex].length;
-                if (length > maxColumnWidth[columnIndex]) {
-                    maxColumnWidth[columnIndex] = length + 1;
-                }
-            }
-        }
-
-        for (let rowIndex: number = 0; rowIndex < table.length; rowIndex++) {
-            let rowAsString: string = "";
-            for (let columnIndex: number = 0; columnIndex < table[rowIndex].length; columnIndex++) {
-                const dataInCell: string = table[rowIndex][columnIndex];
-                rowAsString += dataInCell;
-                const spacesToAdd: number = maxColumnWidth[columnIndex] - dataInCell.length;
-                for (let spacesToFill = 0; spacesToFill < spacesToAdd; spacesToFill++) {
-                    rowAsString += " ";
-                }
-            }
-            console.log(rowAsString);
-        }
     }
 }
 

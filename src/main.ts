@@ -4,6 +4,7 @@ import {EmpireController} from "./empire/empire-controller";
 import {ReportController} from "./reporting/report-controller";
 import {ScheduleController} from "./schedule/schedule-controller";
 import {ProfilerWrapper} from "./profiler/profiler-wrapper";
+import {FunctionProfiler} from "./profiler/function-profiler/function-profiler";
 
 console.log("Script reloaded");
 
@@ -33,6 +34,7 @@ export let loop: any = function (): void {
 function setupMyMemory(): void {
 
     ProfilerWrapper.clearProfilingData();
+    FunctionProfiler.clearProfilingData();
 
     if (Memory.myMemory == null) {
         Memory.myMemory = {
