@@ -38,7 +38,7 @@ export class RoleMiner {
 
             //Work mines 2 energy per tick. I'm multiplying by 4, to allow for the 1 tick delay of creep.harvest()
             if (miner.linkIdToDepositTo != null &&
-                creep.carry[RESOURCE_ENERGY] > ((miner.amountOfWork * 4) - creep.carryCapacity)) {
+                creep.carry[RESOURCE_ENERGY] > (creep.carryCapacity - (miner.amountOfWork * 4))) {
                 const link: StructureLink | null = Game.getObjectById<StructureLink>(miner.linkIdToDepositTo);
                 if (link == null) {
                     //Setting it to null, so it doesn't do this every loop
