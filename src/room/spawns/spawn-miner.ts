@@ -78,6 +78,12 @@ export class SpawnMiner {
                         }
                 }
             );
+        let workCount: number = 0;
+        for (let i: number = 0; i < body.length; i++) {
+            if (body[i] === WORK) {
+                workCount++;
+            }
+        }
 
         if (result === OK) {
             mySource.minerName = "Creep" + id;
@@ -87,7 +93,8 @@ export class SpawnMiner {
                 assignedRoomName: spawn.room.name,
                 cachePosToMineOn: mySource.cache.pos,
                 linkIdToDepositTo: linkId,
-                sourceId: mySource.id
+                sourceId: mySource.id,
+                amountOfWork: workCount
             };
         }
 

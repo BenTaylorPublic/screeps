@@ -154,6 +154,7 @@ interface MyCreep {
 interface Miner extends MyCreep {
     sourceId: string;
     cachePosToMineOn: MyRoomPos;
+    amountOfWork: number;
     linkIdToDepositTo: string | null;
 }
 
