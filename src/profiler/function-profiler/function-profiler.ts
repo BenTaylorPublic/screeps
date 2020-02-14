@@ -11,7 +11,6 @@ export class FunctionProfiler {
             } as FunctionProfilerRawDataFunction;
         } else {
             Memory.functionProfiler[functionName].before = Game.cpu.getUsed();
-            Memory.functionProfiler[functionName].callCount++;
         }
     }
 
