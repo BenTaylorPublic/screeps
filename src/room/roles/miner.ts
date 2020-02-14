@@ -31,12 +31,12 @@ export class RoleMiner {
             }
 
             if (source.energy > 0 &&
-                creep.carry[RESOURCE_ENERGY] < (creep.carryCapacity - miner.amountOfWork * 2)) {
+                creep.carry[RESOURCE_ENERGY] <= (creep.carryCapacity - miner.amountOfWork * 2)) {
                 FunctionProfiler.startFunctionSection("RoleMiner.Run", "Mine");
                 creep.harvest(source);
                 FunctionProfiler.endFunctionSection("RoleMiner.Run", "Mine");
             } else if (miner.linkIdToDepositTo != null &&
-                creep.carry[RESOURCE_ENERGY] >= (creep.carryCapacity - miner.amountOfWork * 2)) {
+                creep.carry[RESOURCE_ENERGY] > (creep.carryCapacity - miner.amountOfWork * 2)) {
                 const link: StructureLink | null = Game.getObjectById<StructureLink>(miner.linkIdToDepositTo);
                 if (link == null) {
                     //Setting it to null, so it doesn't do this every loop
