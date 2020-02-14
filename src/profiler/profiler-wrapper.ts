@@ -112,7 +112,6 @@ export class ProfilerWrapper {
         Memory.profiler = {
             startTick: Game.time
         } as ProfilerRawData;
-        Memory.functionProfiler = {};
     }
 
     public static detectProfileReport(): void {

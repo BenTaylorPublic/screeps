@@ -146,7 +146,6 @@ export class FunctionProfiler {
         Memory.functionProfiler = {
             startTick: Game.time
         } as FunctionProfilerRawData;
-        Memory.functionProfiler = {};
     }
 }
 
