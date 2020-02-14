@@ -47,19 +47,19 @@ export class SpawnMiner {
             linkId = mySource.link.id;
             body = HelperFunctions.generateBody(
                 [MOVE, CARRY, WORK, WORK, WORK, WORK, WORK],
-                [MOVE],
+                [MOVE, CARRY, WORK, WORK, WORK, WORK, WORK],
                 Game.rooms[myRoom.name],
                 false,
-                11
+                42
             );
         } else {
             //No carry
             body = HelperFunctions.generateBody(
                 [MOVE, WORK, WORK, WORK, WORK, WORK],
-                [MOVE],
+                [MOVE, WORK, WORK, WORK, WORK, WORK],
                 Game.rooms[myRoom.name],
                 false,
-                10
+                20
             );
         }
 
