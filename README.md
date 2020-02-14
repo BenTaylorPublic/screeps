@@ -30,6 +30,13 @@ Room stages 7 to 8
     Observer
     Power Spawn
 
+Power
+    Gaining power levels
+        Use observers to check rooms
+        Send 2 creeps to get it
+```
+### Mid term:
+```
 Report/Emails
     Make it say "enemy entered", "enemy died" etc 
         Remove the log that says "tower attacking X" once thats done
@@ -38,9 +45,7 @@ Report/Emails
     Need an email controller to handle it all
     Stage "ATTENTION" should email (once!)
         If possible, a 1 day cooldown on an "ATTENTION" message
-```
-### Mid term:
-```
+
 Flag helper function to get flags
     Pass it:
         an array of strings
@@ -70,10 +75,6 @@ Writing on a room sign via a flag
 ```
 ### Long term:
 ```
-Power
-    Gaining power levels
-        Use observers to check rooms
-
 Attack
     Priority target's via flags
     Attack params/modes
