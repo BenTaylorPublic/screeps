@@ -115,23 +115,23 @@ export class FunctionProfiler {
             avgMsUsagePerTick: 0,
             sections: []
         };
-        const sections: string[] = Object.keys(functionn);
+        const sections: string[] = Object.keys(functionn.sections);
 
         for (let i = 0; i < sections.length; i++) {
-            const f: string = sections[i];
-            const functionProcessed: FunctionProfilerProcessedDataSection = {
-                functionName: f,
+            const sectionName: string = sections[i];
+            const sectionProcessed: FunctionProfilerProcessedDataSection = {
+                functionName: sectionName,
                 avgMsUsagePerTick: 0,
                 callsPerTickAvg: 0,
-                avgTime: functionn.sections[f].average,
-                callCount: functionn.sections[f].callCount
+                avgTime: functionn.sections[sectionName].average,
+                callCount: functionn.sections[sectionName].callCount
             };
-            functionProcessed.callsPerTickAvg =
-                functionn.sections[f].callCount / totalTicks;
-            functionProcessed.avgMsUsagePerTick =
-                functionProcessed.avgTime * functionProcessed.callsPerTickAvg;
+            sectionProcessed.callsPerTickAvg =
+                functionn.sections[sectionName].callCount / totalTicks;
+            sectionProcessed.avgMsUsagePerTick =
+                sectionProcessed.avgTime * sectionProcessed.callsPerTickAvg;
 
-            result.sections.push(functionProcessed);
+            result.sections.push(sectionProcessed);
         }
 
         result.sections.sort((a, b) => {
