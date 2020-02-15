@@ -126,6 +126,12 @@ Hauling between rooms
 
 Power
     Power creeps control
+
+Nukes
+    Use a nuke flag
+
+Defence against nukes
+    Use FIND_NUKES constant and instantly email
 ```
 
 ## Flag Names
