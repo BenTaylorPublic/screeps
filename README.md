@@ -11,21 +11,25 @@ Push to master to release
 ## TODO
 ### Working on
 ```
+Links should be optional after having sourceCount+1
+    After you have sourceCount+1 links, link stages are skipped
+    If you have less links than the cap, run the linkCheck logic on every stage loop
+```
+### Short term
+```
 Room stages 6 to 7
     RCL
     Tower
     10 Extensions
-    3 Labs (Skip/jump for now)
+    3 Labs (jump for now)
     Link
     Spawn
-```
-### Short term
-```
+
 Room stages 7 to 8
     RCL
     3 Towers
     10 Extensions
-    4 Labs (Skip/jump for now)
+    4 Labs (jump for now)
     Spawn
     Observer
     Power Spawn
