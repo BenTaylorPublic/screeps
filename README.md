@@ -15,7 +15,6 @@ Room stages 6 to 7
     RCL
     Tower
     10 Extensions
-    3 Labs (jump for now)
     Spawn
 ```
 ### Short term
@@ -24,9 +23,7 @@ Room stages 7 to 8
     RCL
     3 Towers
     10 Extensions
-    4 Labs (jump for now)
     Spawn
-    Observer
     Power Spawn
 
 Power
@@ -72,8 +69,12 @@ Performance
 
 Writing on a room sign via a flag
 
-Links
-    If you have less links than the cap, run the linkCheck logic on every stage loop
+Optional buildings
+    Links
+        If you have less links than the cap, run the linkCheck logic on every stage loop
+    Observer
+    Nuker
+    Labs
 ```
 ### Long term:
 ```
