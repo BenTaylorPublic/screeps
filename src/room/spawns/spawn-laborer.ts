@@ -54,7 +54,11 @@ export class SpawnLaborer {
         //Have a valid spawn now
 
         //Once the bank is setup, use the best body you can get
-        const body: BodyPartConstant[] = HelperFunctions.generateBody([MOVE, MOVE, CARRY, WORK], [MOVE, MOVE, CARRY, WORK], spawn.room, false);
+        const body: BodyPartConstant[] = HelperFunctions.generateBody(
+            [MOVE, MOVE, CARRY, WORK],
+            [MOVE, MOVE, CARRY, WORK],
+            spawn.room,
+            false);
 
         const id = HelperFunctions.getId();
         const result: ScreepsReturnCode =
