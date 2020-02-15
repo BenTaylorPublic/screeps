@@ -208,8 +208,8 @@ Loosely based on RCL
 5   ->  5.2 : RCL is level >= 6
 5   <-  5.2 : RCL is level < 6
 
-5.2 ->  5.4 : Room has 3 links
-5.2 <-  5.4 : Room has < 3 links
+5.2 ->  5.4 : Room has > sourceCount links
+5.2 <-  5.4 : Room has <= sourceCount links
 
 5.4 ->  5.6 : Room has >= 40 extensions
 5.4 <-  5.6 : Room has < 40 extensions
