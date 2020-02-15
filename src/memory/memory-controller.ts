@@ -51,7 +51,7 @@ export class MemoryController {
 
             if (myRoom == null) {
                 //Add it
-                ReportController.log("OTHER", "Adding a new room to memory" + roomName);
+                ReportController.log("OTHER", "Adding a new room to memory " + roomName);
                 const newMyRoom: MyRoom = {
                     name: roomName,
                     myCreeps: [],
