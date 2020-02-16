@@ -38,80 +38,55 @@ export class RoomStageController {
         //Ups
         if (myRoom.roomStage === -1) {
             StageDefault.up(myRoom, room);
-        }
-        if (myRoom.roomStage === 0) {
+        } else if (myRoom.roomStage === 0) {
             Stage0.up(myRoom, room);
-        }
-        if (myRoom.roomStage === 0.5) {
+        } else if (myRoom.roomStage === 0.5) {
             Stage0_5.up(myRoom, room);
-        }
-        if (myRoom.roomStage === 1) {
+        } else if (myRoom.roomStage === 1) {
             Stage1.up(myRoom, room);
-        }
-        if (myRoom.roomStage === 1.3) {
+        } else if (myRoom.roomStage === 1.3) {
             Stage1_3.up(myRoom, room);
-        }
-        if (myRoom.roomStage === 1.6) {
+        } else if (myRoom.roomStage === 1.6) {
             Stage1_6.up(myRoom, room);
-        }
-        if (myRoom.roomStage === 2) {
+        } else if (myRoom.roomStage === 2) {
             Stage2.up(myRoom, room);
-        }
-        if (myRoom.roomStage === 2.3) {
+        } else if (myRoom.roomStage === 2.3) {
             Stage2_3.up(myRoom, room);
-        }
-        if (myRoom.roomStage === 2.6) {
+        } else if (myRoom.roomStage === 2.6) {
             Stage2_6.up(myRoom, room);
-        }
-        if (myRoom.roomStage === 3) {
+        } else if (myRoom.roomStage === 3) {
             Stage3.up(myRoom, room);
-        }
-        if (myRoom.roomStage === 3.3) {
+        } else if (myRoom.roomStage === 3.3) {
             Stage3_3.up(myRoom, room);
-        }
-        if (myRoom.roomStage === 3.6) {
+        } else if (myRoom.roomStage === 3.6) {
             Stage3_6.up(myRoom, room);
-        }
-        if (myRoom.roomStage === 4) {
+        } else if (myRoom.roomStage === 4) {
             Stage4.up(myRoom, room);
-        }
-        if (myRoom.roomStage === 4.2) {
+        } else if (myRoom.roomStage === 4.2) {
             Stage4_2.up(myRoom, room);
-        }
-        if (myRoom.roomStage === 4.4) {
+        } else if (myRoom.roomStage === 4.4) {
             Stage4_4.up(myRoom, room);
-        }
-        if (myRoom.roomStage === 4.6) {
+        } else if (myRoom.roomStage === 4.6) {
             Stage4_6.up(myRoom, room);
-        }
-        if (myRoom.roomStage === 4.8) {
+        } else if (myRoom.roomStage === 4.8) {
             Stage4_8.up(myRoom, room);
-        }
-        if (myRoom.roomStage === 5) {
+        } else if (myRoom.roomStage === 5) {
             Stage5.up(myRoom, room);
-        }
-        if (myRoom.roomStage === 5.2) {
+        } else if (myRoom.roomStage === 5.2) {
             Stage5_2.up(myRoom, room);
-        }
-        if (myRoom.roomStage === 5.4) {
+        } else if (myRoom.roomStage === 5.4) {
             Stage5_4.up(myRoom, room);
-        }
-        if (myRoom.roomStage === 5.6) {
+        } else if (myRoom.roomStage === 5.6) {
             Stage5_6.up(myRoom, room);
-        }
-        if (myRoom.roomStage === 5.8) {
+        } else if (myRoom.roomStage === 5.8) {
             Stage5_8.up(myRoom, room);
-        }
-        if (myRoom.roomStage === 6) {
+        } else if (myRoom.roomStage === 6) {
             Stage6.up(myRoom, room);
-        }
-        if (myRoom.roomStage === 6.25) {
+        } else if (myRoom.roomStage === 6.25) {
             Stage6_25.up(myRoom, room);
-        }
-        if (myRoom.roomStage === 6.5) {
+        } else if (myRoom.roomStage === 6.5) {
             Stage6_5.up(myRoom, room);
-        }
-        if (myRoom.roomStage === 6.75) {
+        } else if (myRoom.roomStage === 6.75) {
             Stage6_75.up(myRoom, room);
         }
 
