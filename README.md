@@ -12,19 +12,18 @@ Push to master to release
 ### Working on
 ```
 Room stages 6 to 7
-    RCL
-    Tower
-    10 Extensions
-    Spawn
+    Tower           6.5
+    10 Extensions   6.75
+    Spawn           7
 ```
 ### Short term
 ```
 Room stages 7 to 8
-    RCL
-    3 Towers
-    10 Extensions
-    Spawn
-    Power Spawn
+    RCL             7.2
+    3 Towers        7.4
+    10 Extensions   7.6
+    Spawn           7.8
+    Power Spawn     8
 
 Power
     Gaining power levels

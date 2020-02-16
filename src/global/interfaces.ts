@@ -92,7 +92,11 @@ type Stage =
     | 5.6
     | 5.8
     | 5.9
-    | 6;
+    | 6
+    | 6.25
+    | 6.5
+    | 6.75
+    | 7;
 
 interface MyRoom {
     name: string;
@@ -177,6 +181,7 @@ interface BankLinker extends MyCreep {
 
 interface AttackQuickCreep extends MyCreep {
 }
+
 interface AttackPressureCreep extends MyCreep {
     batchNumber: number;
 }
