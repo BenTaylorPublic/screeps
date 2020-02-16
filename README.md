@@ -11,6 +11,8 @@ Push to master to release
 ## TODO
 ### Working on
 ```
+Optional buildings
+    Observer
 ```
 ### Short term
 ```
@@ -21,6 +23,13 @@ Power
 ```
 ### Mid term:
 ```
+if  stage 8 &&
+    no construction zones &&
+    energy < 200k
+        maintain 1 minimal laborer
+else
+        use current spawn rules
+
 Report/Emails
     Make it say "enemy entered", "enemy died" etc 
         Remove the log that says "tower attacking X" once thats done
@@ -50,17 +59,13 @@ New Role - Stocker
         The creep has a priority queue of things it needs to stock
             (towers > spawn > extensions, no aging)
 
-Performance
-    Ensure creep is spawned before it starts trying to control it
-    Compile construction sites in a list (once) before calling laborer.run
-    Move creep arrays into their room objects
+Piping to other rooms
 
 Writing on a room sign via a flag
 
 Optional buildings
     Links
         If you have less links than the cap, run the linkCheck logic on every stage loop
-    Observer
     Nuker
     Labs
 ```
