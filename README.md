@@ -11,8 +11,6 @@ Push to master to release
 ## TODO
 ### Working on
 ```
-Room stages 7.8 to 8
-    Power Spawn     7.8->8
 ```
 ### Short term
 ```
@@ -138,6 +136,7 @@ link-source
 link-out
 link-bank
 spawn
+power-spawn
 
 claim
 report
@@ -243,6 +242,9 @@ Loosely based on RCL
 
 7.6 ->  7.8 : Room has == 3 spawns
 7.6 <-  7.8 : Room has < 3 spawns
+
+7.8 ->  8   : Room has == 1 power spawn
+7.8 <-  8   : Room has < 1 power spawn
 ```
 ### Room controller levels in a nice format:
 
