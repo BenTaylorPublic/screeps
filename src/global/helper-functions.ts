@@ -46,13 +46,13 @@ export class HelperFunctions {
         return body;
     }
 
-    public static amountOfExtensions(room: Room, structureConstant: StructureConstant): number {
-        const extensions: StructureExtension[] = room.find<StructureExtension>(FIND_STRUCTURES, {
+    public static amountOfStructure(room: Room, structureConstant: StructureConstant): number {
+        const structures: StructureExtension[] = room.find<StructureExtension>(FIND_STRUCTURES, {
             filter: (structure: Structure) => {
                 return structure.structureType === structureConstant;
             }
         });
-        return extensions.length;
+        return structures.length;
     }
 
     public static getRoomsFlags(myRoom: MyRoom): Flag[] {

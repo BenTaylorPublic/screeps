@@ -9,7 +9,7 @@ export class Stage0_5 {
     */
     public static up(myRoom: MyRoom, room: Room): boolean {
         this.step(myRoom, room);
-        if (HelperFunctions.amountOfExtensions(room, STRUCTURE_SPAWN) >= 1) {
+        if (HelperFunctions.amountOfStructure(room, STRUCTURE_SPAWN) >= 1) {
             //Spawn has been made
             myRoom.roomStage = 1;
             ReportController.log("STAGE", "Room " + myRoom.name + " increased to room stage 1");
@@ -19,7 +19,7 @@ export class Stage0_5 {
     }
 
     public static down(myRoom: MyRoom, room: Room): boolean {
-        if (HelperFunctions.amountOfExtensions(room, STRUCTURE_SPAWN) === 0) {
+        if (HelperFunctions.amountOfStructure(room, STRUCTURE_SPAWN) === 0) {
             //Spawn has been made
             myRoom.roomStage = 0.5;
             ReportController.log("STAGE", "Room " + myRoom.name + " decreased to room stage 0.5");

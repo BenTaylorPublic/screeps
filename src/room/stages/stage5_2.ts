@@ -10,7 +10,7 @@ export class Stage5_2 {
     */
     public static up(myRoom: MyRoom, room: Room): boolean {
         this.step(myRoom, room);
-        if (HelperFunctions.amountOfExtensions(room, STRUCTURE_LINK) > myRoom.mySources.length) {
+        if (HelperFunctions.amountOfStructure(room, STRUCTURE_LINK) > myRoom.mySources.length) {
             myRoom.roomStage = 5.4;
             ReportController.log("STAGE", "Room " + myRoom.name + " increased to room stage 5.4");
             return true;
@@ -19,7 +19,7 @@ export class Stage5_2 {
     }
 
     public static down(myRoom: MyRoom, room: Room): boolean {
-        if (HelperFunctions.amountOfExtensions(room, STRUCTURE_LINK) <= myRoom.mySources.length) {
+        if (HelperFunctions.amountOfStructure(room, STRUCTURE_LINK) <= myRoom.mySources.length) {
             myRoom.roomStage = 5.2;
             ReportController.log("STAGE", "Room " + myRoom.name + " decreased to room stage 5.2");
             return true;
