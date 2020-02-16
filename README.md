@@ -12,7 +12,6 @@ Push to master to release
 ### Working on
 ```
 Room stages 7 to 8
-    RCL             7.2
     3 Towers        7.4
     10 Extensions   7.6
     Spawn           7.8
@@ -235,6 +234,9 @@ Loosely based on RCL
 
 6.75->  7   : Room has >= 2 spawns
 6.75<-  7   : Room has < 2 spawns
+
+7   ->  7.2 : RCL is level >= 8
+7   <-  7.2 : RCL is level < 8
 ```
 ### Room controller levels in a nice format:
 
