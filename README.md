@@ -223,12 +223,8 @@ Loosely based on RCL
 5.6 ->  5.8 : Room has extractor
 5.6 <-  5.8 : Room has no extractor
 
-5.8 ->  5.9 : Room has extractor
-5.8 <-  5.9 : Room has no extractor
-
-5.9 ->  6   : Room has >= 3 labs
-5.9 <-  6   : Room has < 3 labs
-
+5.8 ->  6   : Room has terminal
+5.8 <-  6   : Room has no terminal
 ```
 ### Room controller levels in a nice format:
 
