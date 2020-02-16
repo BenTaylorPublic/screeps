@@ -12,7 +12,6 @@ Push to master to release
 ### Working on
 ```
 Room stages 6 to 7
-    10 Extensions   6.75
     Spawn           7
 ```
 ### Short term
