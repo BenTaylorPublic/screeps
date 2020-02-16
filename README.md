@@ -127,10 +127,13 @@ Hauling between rooms
 Power
     Power creeps control
 
-Nukes
-    Use a nuke flag
+Nukes (Offence)
+    Flags:
+        nuke-load           //On the nuker
+        nuke-stop-loading   //On the nuker
+        nuke-launch         //On the target
 
-Defence against nukes
+Nukes (Defence)
     Use FIND_NUKES constant and instantly email
 ```
 
@@ -225,6 +228,9 @@ Loosely based on RCL
 
 5.8 ->  6   : Room has terminal
 5.8 <-  6   : Room has no terminal
+
+6   ->  6.25: RCL is level >= 7
+6   <-  6.25: RCL is level < 7
 ```
 ### Room controller levels in a nice format:
 
