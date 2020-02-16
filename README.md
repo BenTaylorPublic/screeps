@@ -231,6 +231,9 @@ Loosely based on RCL
 
 6   ->  6.25: RCL is level >= 7
 6   <-  6.25: RCL is level < 7
+
+6.25->  6.5 : Room has >= 3 tower
+6.25<-  6.5 : Room has < 3 tower
 ```
 ### Room controller levels in a nice format:
 
