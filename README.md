@@ -12,7 +12,6 @@ Push to master to release
 ### Working on
 ```
 Room stages 6 to 7
-    Tower           6.5
     10 Extensions   6.75
     Spawn           7
 ```
@@ -234,6 +233,9 @@ Loosely based on RCL
 
 6.25->  6.5 : Room has >= 3 tower
 6.25<-  6.5 : Room has < 3 tower
+
+6.5 ->  6.75 : Room has >= 50 extensions
+6.5 <-  6.75 : Room has < 50 extensions
 ```
 ### Room controller levels in a nice format:
 
