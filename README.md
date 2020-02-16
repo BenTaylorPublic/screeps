@@ -11,18 +11,15 @@ Push to master to release
 ## TODO
 ### Working on
 ```
-Room stages 6 to 7
-    Spawn           7
-```
-### Short term
-```
 Room stages 7 to 8
     RCL             7.2
     3 Towers        7.4
     10 Extensions   7.6
     Spawn           7.8
     Power Spawn     8
-
+```
+### Short term
+```
 Power
     Gaining power levels
         Use observers to check rooms

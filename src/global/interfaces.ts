@@ -95,7 +95,12 @@ type Stage =
     | 6.25
     | 6.5
     | 6.75
-    | 7;
+    | 7
+    | 7.2
+    | 7.4
+    | 7.6
+    | 7.8
+    | 8;
 
 interface MyRoom {
     name: string;
