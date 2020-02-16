@@ -16,14 +16,22 @@ Optional buildings
 ```
 ### Short term
 ```
+Observer logic
+    Scan -5 to +5 on X and Y
+    Keep a list of hostile players
+        Creeps will use this to "avoid" the room when "Fukn lost"
+        (by making it's cost matrix == 255 around the edges)
+    If there is a power bank, add it to a queue
+        Then, a power-scavenge controller can examine if it's viable to get
+```
+### Mid term:
+```
 Power
     Gaining power levels
         Use observers to check rooms
         Send 2 creeps to get it
-```
-### Mid term:
-```
-if  stage 8 &&
+
+if  room stage 8 &&
     no construction zones &&
     energy < 200k
         maintain 1 minimal laborer
