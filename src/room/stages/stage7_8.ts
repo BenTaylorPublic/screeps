@@ -11,6 +11,18 @@ export class Stage7_8 {
         this.step(myRoom, room);
         if (HelperFunctions.amountOfStructure(room, STRUCTURE_POWER_SPAWN) === 1) {
             //Power spawn has been made
+            if (myRoom.powerSpawnId == null) {
+
+                const powerSpawns: StructurePowerSpawn[] = room.find<StructurePowerSpawn>(FIND_STRUCTURES, {
+                        filter: (structure: Structure) => {
+                            return structure.structureType === STRUCTURE_TOWER;
+                        }
+                    }
+                );
+                if (powerSpawns.length === 1) {
+                    myRoom.powerSpawnId = powerSpawns[0].id;
+                }
+            }
             myRoom.roomStage = 8;
             ReportController.log("STAGE", "Room " + myRoom.name + " increased to room stage 8");
             return true;

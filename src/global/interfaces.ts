@@ -118,6 +118,7 @@ interface MyRoom {
     name: string;
     myCreeps: MyCreep[];
     spawns: MySpawn[];
+    powerSpawnId: string | null;
     mySources: MySource[];
     roomStage: Stage;
     bankPos: MyRoomPos | null;
