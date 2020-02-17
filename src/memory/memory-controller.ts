@@ -56,6 +56,7 @@ export class MemoryController {
                     name: roomName,
                     myCreeps: [],
                     spawns: [],
+                    powerSpawnId: null,
                     mySources: [],
                     roomStage: -1,
                     bankPos: null,
