@@ -35,10 +35,8 @@ interface Empire {
 
 interface ObserverMemory {
     state: "Moving" | "Observing";
-    currentTargetRoomName: string | null;
+    currentTargetIndex: number | null;
     targetList: string[];
-    topLeft: string | null;
-    size: number;
     observerIds: string[];
 }
 
@@ -158,6 +156,14 @@ interface MyRoomPos {
     x: number;
     y: number;
     roomName: string;
+}
+
+interface MyRoomName {
+    roomName: string;
+    xChar: string;
+    yChar: string;
+    xNum: number;
+    yNum: number;
 }
 
 /*

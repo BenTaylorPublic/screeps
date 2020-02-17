@@ -149,6 +149,7 @@ link-out
 link-bank
 spawn
 power-spawn
+observer-set-{WIDTH}
 
 claim
 report

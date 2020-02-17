@@ -8,6 +8,13 @@ import {FunctionProfiler} from "./profiler/function-profiler/function-profiler";
 
 console.log("Script reloaded");
 
+Memory.myMemory.empire.observer = {
+    state: "Moving",
+    observerIds: [],
+    currentTargetIndex: null,
+    targetList: []
+} as ObserverMemory;
+
 setupMyMemory();
 
 export let loop: any = function (): void {
@@ -51,10 +58,8 @@ function setupMyMemory(): void {
                 observer: {
                     state: "Moving",
                     observerIds: [],
-                    currentTargetRoomName: null,
-                    targetList: [],
-                    topLeft: null,
-                    size: 0
+                    currentTargetIndex: null,
+                    targetList: []
                 }
             },
             scheduledCommands: []
