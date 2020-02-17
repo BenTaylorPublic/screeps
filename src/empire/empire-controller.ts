@@ -1,7 +1,7 @@
 import {RoleClaimer} from "./role/claimer";
 import {SpawnClaimerController} from "./spawn-claimer-controller";
 import {AttackController} from "./attack/attack-controller";
-import {BuildObserverController} from "./build-observer-controller";
+import {BuildObserverController} from "./observer/build-observer-controller";
 
 export class EmpireController {
     public static run(myMemory: MyMemory): void {

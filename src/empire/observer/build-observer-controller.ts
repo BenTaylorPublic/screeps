@@ -1,4 +1,4 @@
-import {HelperFunctions} from "../global/helper-functions";
+import {HelperFunctions} from "../../global/helper-functions";
 
 export class BuildObserverController {
     public static run(myMemory: MyMemory): void {
