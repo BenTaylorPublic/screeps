@@ -1,9 +1,9 @@
-import {ReportController} from "../reporting/report-controller";
-import {Constants} from "../global/constants";
-import {HelperFunctions} from "../global/helper-functions";
+import {ReportController} from "../../reporting/report-controller";
+import {Constants} from "../../global/constants";
+import {HelperFunctions} from "../../global/helper-functions";
 import {AttackHelperFunctions} from "./attack-helper-functions";
-import {RoleAttackCreep} from "./role/attack-creep";
-import {ScheduleController} from "../schedule/schedule-controller";
+import {RoleAttackCreep} from "../role/attack-creep";
+import {ScheduleController} from "../../schedule/schedule-controller";
 
 export class AttackQuickController {
     public static run(myMemory: MyMemory, attackQuick: AttackQuick): void {
