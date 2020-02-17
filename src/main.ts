@@ -8,20 +8,6 @@ import {FunctionProfiler} from "./profiler/function-profiler/function-profiler";
 
 console.log("Script reloaded");
 
-
-for (let i: number = 0; i < Memory.myMemory.myRooms.length; i++) {
-    (Memory.myMemory.myRooms[i] as MyRoom).powerSpawnId = null;
-}
-
-Memory.myMemory.empire.observer = {
-    state: "Moving",
-    observerIds: [],
-    currentTargetRoomName: null,
-    targetList: [],
-    topLeft: null,
-    size: 0
-};
-
 setupMyMemory();
 
 export let loop: any = function (): void {

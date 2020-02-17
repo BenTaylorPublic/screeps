@@ -44,8 +44,7 @@ export class Stage7_8 {
         const roomFlags: Flag[] = HelperFunctions.getRoomsFlags(myRoom);
         for (let i = roomFlags.length - 1; i >= 0; i--) {
             const roomFlag: Flag = roomFlags[i];
-            const flagNameSplit: string[] = roomFlag.name.split("-");
-            if (flagNameSplit[0] !== "power-spawn") {
+            if (roomFlag.name !== "power-spawn") {
                 roomFlags.splice(i, 1);
             }
         }
