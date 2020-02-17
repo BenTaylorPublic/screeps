@@ -146,6 +146,7 @@ export class HelperFunctions {
         };
 
         const splitResult: string[] = roomName.split(/[NSEW]/g);
+        splitResult.splice(0, 1);
         //TODO: REMOVE IF WORKS
         if (splitResult.length !== 2) {
             console.log("ERROR: Got this for spltting roomName:");
