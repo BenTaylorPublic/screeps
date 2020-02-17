@@ -8,6 +8,8 @@ import {FunctionProfiler} from "./profiler/function-profiler/function-profiler";
 
 console.log("Script reloaded");
 
+Memory.myMemory.empire.observerIds = [];
+
 setupMyMemory();
 
 export let loop: any = function (): void {
@@ -46,7 +48,8 @@ function setupMyMemory(): void {
             empire: {
                 attackQuick: null,
                 attackPressure: null,
-                creeps: []
+                creeps: [],
+                observerIds: []
             },
             scheduledCommands: []
         } as MyMemory;

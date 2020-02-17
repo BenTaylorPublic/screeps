@@ -29,6 +29,7 @@ interface Empire {
     attackQuick: AttackQuick | null;
     attackPressure: AttackPressure | null;
     creeps: MyCreep[];
+    observerIds: string[];
 }
 
 type AttackStateType = "Conscripting" | "Rally" | "Charge";

@@ -11,11 +11,6 @@ Push to master to release
 ## TODO
 ### Working on
 ```
-Optional buildings
-    Observer
-```
-### Short term
-```
 Observer logic
     Scan -5 to +5 on X and Y
     Keep a list of hostile players
@@ -23,6 +18,10 @@ Observer logic
         (by making it's cost matrix == 255 around the edges)
     If there is a power bank, add it to a queue
         Then, a power-scavenge controller can examine if it's viable to get
+```
+### Short term
+```
+Avoid list built into "fukn lost" path
 ```
 ### Mid term:
 ```
