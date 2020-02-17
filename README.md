@@ -14,6 +14,7 @@ Push to master to release
 Observer logic
     Scan -5 to +5 on X and Y
     Keep a list of hostile players
+        Hostile rooms are rooms with RCL >= 3
     If there is a power bank, add it to a queue
         Then, a power-scavenge controller can examine if it's viable to get
 ```

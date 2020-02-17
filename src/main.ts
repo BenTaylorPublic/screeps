@@ -10,8 +10,11 @@ console.log("Script reloaded");
 
 Memory.myMemory.empire.observer = {
     state: "Moving",
-    avoidRooms: [],
-    observerIds: []
+    observerIds: [],
+    currentTargetRoomName: null,
+    targetList: [],
+    topLeft: null,
+    size: 0
 };
 
 setupMyMemory();
@@ -53,10 +56,14 @@ function setupMyMemory(): void {
                 attackQuick: null,
                 attackPressure: null,
                 creeps: [],
+                avoidRooms: [],
                 observer: {
                     state: "Moving",
-                    avoidRooms: [],
-                    observerIds: []
+                    observerIds: [],
+                    currentTargetRoomName: null,
+                    targetList: [],
+                    topLeft: null,
+                    size: 0
                 }
             },
             scheduledCommands: []

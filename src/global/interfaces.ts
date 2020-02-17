@@ -30,11 +30,15 @@ interface Empire {
     attackPressure: AttackPressure | null;
     creeps: MyCreep[];
     observer: ObserverMemory;
+    avoidRooms: string[];
 }
 
 interface ObserverMemory {
     state: "Moving" | "Observing";
-    avoidRooms: string[];
+    currentTargetRoomName: string | null;
+    targetList: string[];
+    topLeft: string | null;
+    size: number;
     observerIds: string[];
 }
 
