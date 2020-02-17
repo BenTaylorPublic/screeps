@@ -11,17 +11,20 @@ Push to master to release
 ## TODO
 ### Working on
 ```
-Observer logic
-    Scan -5 to +5 on X and Y
-    Keep a list of hostile players
-        Hostile rooms are rooms with RCL >= 3
-    If there is a power bank, add it to a queue
-        Then, a power-scavenge controller can examine if it's viable to get
+Avoid list built into "fukn lost" path
+    Game.map.findRoute(fromRoom, toRoom, [opts])
 ```
 ### Short term
 ```
-Avoid list built into "fukn lost" path
-    Game.map.findRoute(fromRoom, toRoom, [opts])
+Observer logic
+    Remove from avoid if no longer a threat
+
+Set a max body parts for rooms with 1 source
+
+Observer logic
+    If there is a power bank, add it to a queue
+        Then, a power-scavenge controller can examine if it's viable to get
+    Queue logic should hold items ids as a blacklist if it doesn't want them
 ```
 ### Mid term:
 ```
@@ -29,13 +32,6 @@ Power
     Gaining power levels
         Use observers to check rooms
         Send 2 creeps to get it
-
-if  room stage 8 &&
-    no construction zones &&
-    energy < 200k
-        maintain 1 minimal laborer
-else
-        use current spawn rules
 
 Report/Emails
     Make it say "enemy entered", "enemy died" etc 
