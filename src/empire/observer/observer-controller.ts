@@ -6,7 +6,8 @@ export class ObserverController {
 
         this.generateTargetsIfNeeded(observerMemory);
 
-        if (observerMemory.observerIds.length === 0) {
+        if (observerMemory.observerIds.length === 0 &&
+            observerMemory.currentTargetIndex != null) {
             return;
         }
 
@@ -43,10 +44,7 @@ export class ObserverController {
             }
         }
 
-        //TODO: REMOVE IF WORKS
-        if (observerMemory.targetList.length !== size * size) {
-            console.log("ERROR: Should be size*size " + (size * size));
-            console.log(JSON.stringify(observerMemory.targetList));
-        }
+        flag.remove();
+        observerMemory.currentTargetIndex = 0;
     }
 }

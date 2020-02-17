@@ -147,32 +147,13 @@ export class HelperFunctions {
 
         const splitResult: string[] = roomName.split(/[NSEW]/g);
         splitResult.splice(0, 1);
-        //TODO: REMOVE IF WORKS
-        if (splitResult.length !== 2) {
-            console.log("ERROR: Got this for spltting roomName:");
-            console.log(JSON.stringify(splitResult));
-            return result;
-        }
 
         const letters: string = roomName.replace(/[0-9]/g, "");
-        //TODO: REMOVE IF WORKS
-        if (letters.length !== 2) {
-            console.log("ERROR: Got this for getting numbers from room name: ");
-            console.log(JSON.stringify(letters));
-            return result;
-        }
 
         result.xNum = Number(splitResult[0]);
         result.yNum = Number(splitResult[1]);
         result.xChar = letters[0];
         result.yChar = letters[1];
-
-        //TODO: REMOVE IF WORKS
-        if ((result.xChar + result.xNum + result.yChar + result.yNum) !== roomName) {
-            console.error("ERROR: Doesn't match");
-            console.log(JSON.stringify(result));
-            console.log(roomName);
-        }
 
         return result;
     }
