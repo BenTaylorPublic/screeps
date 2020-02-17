@@ -29,8 +29,15 @@ interface Empire {
     attackQuick: AttackQuick | null;
     attackPressure: AttackPressure | null;
     creeps: MyCreep[];
+    observer: ObserverMemory;
+}
+
+interface ObserverMemory {
+    state: "Moving" | "Observing";
+    avoidRooms: string[];
     observerIds: string[];
 }
+
 
 type AttackStateType = "Conscripting" | "Rally" | "Charge";
 

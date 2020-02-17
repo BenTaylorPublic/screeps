@@ -8,7 +8,11 @@ import {FunctionProfiler} from "./profiler/function-profiler/function-profiler";
 
 console.log("Script reloaded");
 
-Memory.myMemory.empire.observerIds = [];
+Memory.myMemory.empire.observer = {
+    state: "Moving",
+    avoidRooms: [],
+    observerIds: []
+};
 
 setupMyMemory();
 
@@ -49,7 +53,11 @@ function setupMyMemory(): void {
                 attackQuick: null,
                 attackPressure: null,
                 creeps: [],
-                observerIds: []
+                observer: {
+                    state: "Moving",
+                    avoidRooms: [],
+                    observerIds: []
+                }
             },
             scheduledCommands: []
         } as MyMemory;

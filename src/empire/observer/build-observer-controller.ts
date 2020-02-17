@@ -28,12 +28,12 @@ export class BuildObserverController {
         for (let i = 0; i < myMemory.myRooms.length; i++) {
             amountOfObservers += HelperFunctions.amountOfStructure(Game.rooms[myMemory.myRooms[i].name], STRUCTURE_OBSERVER);
         }
-        if (amountOfObservers === myMemory.empire.observerIds.length) {
+        if (amountOfObservers === myMemory.empire.observer.observerIds.length) {
             return;
         }
 
         //Some need to be added
-        myMemory.empire.observerIds = [];
+        myMemory.empire.observer.observerIds = [];
         for (let i = 0; i < myMemory.myRooms.length; i++) {
             const room: Room = Game.rooms[myMemory.myRooms[i].name];
 
@@ -44,7 +44,7 @@ export class BuildObserverController {
             });
 
             for (let j = 0; j < observers.length; j++) {
-                myMemory.empire.observerIds.push(observers[j].id);
+                myMemory.empire.observer.observerIds.push(observers[j].id);
             }
         }
     }
