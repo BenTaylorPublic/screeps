@@ -6,14 +6,44 @@ export class ObserverController {
 
         this.generateTargetsIfNeeded(observerMemory);
 
-        if (observerMemory.observerIds.length === 0 &&
-            observerMemory.currentTargetIndex != null) {
+        if (observerMemory.observerIds.length === 0 ||
+            observerMemory.targetList.length === 0) {
             return;
         }
 
-        //TODO: Observe logic
-
+        this.observeLogic(observerMemory);
     }
+
+    private static observeLogic(observerMemory: ObserverMemory): void {
+        if (observerMemory.currentTargetIndex == null) {
+            return;
+        }
+
+        if (observerMemory.state === "Moving") {
+            observerMemory.currentTargetIndex++;
+            if (observerMemory.currentTargetIndex === observerMemory.targetList.length) {
+                observerMemory.currentTargetIndex = 0;
+            }
+
+            const newTargetRoomName: string = observerMemory.targetList[observerMemory.currentTargetIndex];
+            for (let i: number = 0; i < observerMemory.observerIds.length; i++) {
+                const observer: StructureObserver | null = Game.getObjectById<StructureObserver>(observerMemory.observerIds[i]);
+                if (observer == null) {
+                    observerMemory.observerIds.splice(i, 1);
+                } else {
+                    if (observer.observeRoom(newTargetRoomName) === OK) {
+                        break;
+                    }
+                }
+            }
+
+            observerMemory.state = "Observing";
+        } else { //Observing
+
+            observerMemory.state = "Moving";
+        }
+    }
+
 
     private static generateTargetsIfNeeded(observerMemory: ObserverMemory): void {
         if (Game.time % 10 !== 0) {
