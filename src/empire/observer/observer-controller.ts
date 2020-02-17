@@ -11,10 +11,27 @@ export class ObserverController {
             return;
         }
 
-        this.observeLogic(observerMemory);
+        this.observeLogic(myMemory);
     }
 
-    private static observeLogic(observerMemory: ObserverMemory): void {
+    private static observe(room: Room, myMemory: MyMemory): void {
+        const empireMemory: Empire = myMemory.empire;
+
+        if (room.controller != null &&
+            room.controller.my === false &&
+            room.controller.level >= 3 &&
+            room.controller.owner != null &&
+            !HelperFunctions.isAllyUsername(room.controller.owner.username)) {
+            //Room is hostile
+            if (!empireMemory.avoidRooms.includes(room.name)) {
+                console.log("LOG: Added " + room.name + " to avoid list");
+                empireMemory.avoidRooms.push(room.name);
+            }
+        }
+    }
+
+    private static observeLogic(myMemory: MyMemory): void {
+        const observerMemory: ObserverMemory = myMemory.empire.observer;
         if (observerMemory.currentTargetIndex == null) {
             return;
         }
@@ -39,7 +56,12 @@ export class ObserverController {
 
             observerMemory.state = "Observing";
         } else { //Observing
-
+            const room: Room | null = Game.rooms[observerMemory.targetList[observerMemory.currentTargetIndex]];
+            if (room == null) {
+                console.log("ERROR: Room from observer was null");
+            } else {
+                this.observe(room, myMemory);
+            }
             observerMemory.state = "Moving";
         }
     }
