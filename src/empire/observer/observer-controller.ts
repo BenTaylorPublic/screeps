@@ -1,4 +1,5 @@
 import {HelperFunctions} from "../../global/helper-functions";
+import {PowerScavengeController} from "../power-scavenge-controller";
 
 export class ObserverController {
     public static run(myMemory: MyMemory): void {
@@ -28,9 +29,24 @@ export class ObserverController {
                 console.log("LOG: Added " + room.name + " to avoid list");
                 empireMemory.avoidRooms.push(room.name);
             }
-        } else if (empireMemory.avoidRooms.includes(room.name)) {
-            console.log("LOG: Removing " + room.name + " from avoid list");
-            empireMemory.avoidRooms.splice(empireMemory.avoidRooms.indexOf(room.name), 1);
+        } else {
+            if (empireMemory.avoidRooms.includes(room.name)) {
+                console.log("LOG: Removing " + room.name + " from avoid list");
+                empireMemory.avoidRooms.splice(empireMemory.avoidRooms.indexOf(room.name), 1);
+            }
+            //Check if is highway
+            if (HelperFunctions.isHighway(room.name)) {
+                const powerBanks: StructurePowerBank[] = room.find<StructurePowerBank>(FIND_STRUCTURES, {
+                        filter: (structure: Structure) => {
+                            return structure.structureType === STRUCTURE_POWER_BANK;
+                        }
+                    }
+                );
+                if (powerBanks.length === 1) {
+                    //Found one
+                    PowerScavengeController.observedPowerBank(powerBanks[0]);
+                }
+            }
         }
     }
 

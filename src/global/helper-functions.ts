@@ -204,6 +204,13 @@ export class HelperFunctions {
             yResult >= 4 && yResult <= 6);
     }
 
+    public static isHighway(roomName: string): boolean {
+        const myRoomName: MyRoomName = this.getRoomNameAsInterface(roomName);
+        const xResult: number = myRoomName.xNum % 10;
+        const yResult: number = myRoomName.yNum % 10;
+        return (xResult === 0 && yResult === 6);
+    }
+
     private static avoidEdges(costMatrix: CostMatrix, room: Room): void {
         room.find(FIND_EXIT).forEach((exitPos: RoomPosition) => {
             costMatrix.set(exitPos.x, exitPos.y, Infinity);
