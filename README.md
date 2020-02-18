@@ -11,31 +11,29 @@ Push to master to release
 ## TODO
 ### Working on
 ```
-```
-### Short term
-```
-Observer logic
-
-Set a max body parts for rooms with 1 source
-
 Observer logic
     Remove from avoid if no longer a threat
     Add middle 3x3 as avoid
+```
+### Short term
+```
+Set a max body parts for rooms with 1 source
+
+Observer logic
     If there is a power bank, add it to a queue
         Then, a power-scavenge controller can examine if it's viable to get
     Queue logic should hold items ids as a blacklist if it doesn't want them
 
 Remove getRoomLinearDistance, make my own
-    User Game.map.findRoute(fromRoom, toRoom, [opts]) length
+    Use Game.map.findRoute(fromRoom, toRoom, [opts]) length
+
+Power scavenge
+    Use observers to check rooms
+    Send 2 creeps to get it
+    Note, highways are map X||Y%10 === 0
 ```
 ### Mid term:
 ```
-Power
-    Gaining power levels
-        Use observers to check rooms
-        Send 2 creeps to get it
-        Note, highways are map X||Y%10 === 0
-
 Report/Emails
     Make it say "enemy entered", "enemy died" etc 
         Remove the log that says "tower attacking X" once thats done
