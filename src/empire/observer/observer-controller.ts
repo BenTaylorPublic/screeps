@@ -17,17 +17,19 @@ export class ObserverController {
     private static observe(room: Room, myMemory: MyMemory): void {
         const empireMemory: Empire = myMemory.empire;
 
-        if (room.controller != null &&
+        if ((room.controller != null &&
             room.controller.my === false &&
             room.controller.level >= 3 &&
             room.controller.owner != null &&
-            !HelperFunctions.isAllyUsername(room.controller.owner.username)) {
+            !HelperFunctions.isAllyUsername(room.controller.owner.username)) ||
+            HelperFunctions.isMiddle3x3(room.name)) {
             //Room is hostile
             if (!empireMemory.avoidRooms.includes(room.name)) {
                 console.log("LOG: Added " + room.name + " to avoid list");
                 empireMemory.avoidRooms.push(room.name);
             }
         } else if (empireMemory.avoidRooms.includes(room.name)) {
+            console.log("LOG: Removing " + room.name + " from avoid list");
             empireMemory.avoidRooms.splice(empireMemory.avoidRooms.indexOf(room.name), 1);
         }
     }
