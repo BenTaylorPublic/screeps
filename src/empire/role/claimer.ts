@@ -1,4 +1,5 @@
 import {ReportController} from "../../reporting/report-controller";
+import {HelperFunctions} from "../../global/helper-functions";
 
 export class RoleClaimer {
     public static run(claimer: Claimer): void {
@@ -18,15 +19,14 @@ export class RoleClaimer {
         if (claimer.assignedRoomName !== creep.room.name) {
             creep.say("Fukn Lost");
 
-            //TODO: Test if this works
-            //TODO: if it does, try cache it in creep's memory
-            const ret: PathFinderPath = PathFinder.search(creep.pos, flag.pos, {
-                roomCallback(roomName: string): boolean {
-                    return !Memory.myMemory.empire.avoidRooms.includes(roomName);
-                }
-            });
+            //Set if needed, or every 50 ticks
+            if (claimer.interRoomTravelPath == null ||
+                Game.time % 50 === 0) {
+                claimer.interRoomTravelPath = HelperFunctions.getInterRoomTravelPath(creep.pos, flag.pos);
+            }
 
-            creep.moveByPath(ret.path);
+            creep.moveByPath(claimer.interRoomTravelPath);
+
             return;
         } else {
             //Inside the room

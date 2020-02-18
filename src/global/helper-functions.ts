@@ -91,6 +91,8 @@ export class HelperFunctions {
             const myRoom: MyRoom = Memory.myMemory.myRooms[i];
             if (myRoom.spawns.length >= 1) {
                 const distance: number = Game.map.getRoomLinearDistance(roomPos.roomName, myRoom.name);
+                //TODO: For testing
+                console.log("DISTANCE: " + roomPos.roomName + " TO " + myRoom.name + ": " + distance);
                 if (distance < closestDistance) {
                     closestDistance = distance;
                     spawnToReturn = Game.spawns[myRoom.spawns[0].name];
@@ -158,6 +160,15 @@ export class HelperFunctions {
         return result;
     }
 
+    public static getInterRoomTravelPath(from: RoomPosition, to: RoomPosition): RoomPosition[] {
+        const ret: PathFinderPath = PathFinder.search(from, to, {
+            roomCallback(roomName: string): boolean {
+                return !Memory.myMemory.empire.avoidRooms.includes(roomName);
+            }
+        });
+
+        return ret.path;
+    }
 
     private static calcBodyCost(body: BodyPartConstant[]): number {
         return body.reduce(function (cost: number, part: BodyPartConstant): number {

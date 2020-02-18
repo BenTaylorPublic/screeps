@@ -176,6 +176,7 @@ interface MyCreep {
     name: string;
     role: "Hauler" | "Miner" | "Laborer" | "Claimer" | "BankLinker" | "AttackQuickCreep" | "AttackPressureCreep";
     assignedRoomName: string;
+    interRoomTravelPath?: RoomPosition[];
 }
 
 interface Miner extends MyCreep {
