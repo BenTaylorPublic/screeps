@@ -168,8 +168,26 @@ export class HelperFunctions {
             }
             creepMemory.interRoomTravelCurrentTarget = this.roomPosToMyPos(target);
         }
+        if (!this.stepIntoRoom(creep)) {
+            creep.moveTo(this.myPosToRoomPos(creepMemory.interRoomTravelCurrentTarget));
+        }
+    }
 
-        console.log(creep.moveTo(this.myPosToRoomPos(creepMemory.interRoomTravelCurrentTarget)));
+    private static stepIntoRoom(creep: Creep): boolean {
+        if (creep.pos.x === 0) {
+            creep.moveTo(new RoomPosition(1, creep.pos.y, creep.pos.roomName));
+            return true;
+        } else if (creep.pos.y === 0) {
+            creep.moveTo(new RoomPosition(creep.pos.x, 1, creep.pos.roomName));
+            return true;
+        } else if (creep.pos.x === 49) {
+            creep.moveTo(new RoomPosition(48, creep.pos.y, creep.pos.roomName));
+            return true;
+        } else if (creep.pos.y === 49) {
+            creep.moveTo(new RoomPosition(creep.pos.x, 48, creep.pos.roomName));
+            return true;
+        }
+        return false;
     }
 
     private static getInterRoomTravelPathTarget(fromRoomName: string, toRoomName: string): RoomPosition | null {
