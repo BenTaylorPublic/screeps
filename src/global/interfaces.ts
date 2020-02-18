@@ -31,6 +31,7 @@ interface Empire {
     creeps: MyCreep[];
     observer: ObserverMemory;
     avoidRooms: string[];
+    powerScavenge: PowerScavenge;
 }
 
 interface ObserverMemory {
@@ -249,3 +250,19 @@ interface ScheduledCommand {
 */
 
 type FindRouteResult = Array<{ exit: ExitConstant; room: string; }> | ERR_NO_PATH;
+
+/*
+====================
+    POWER SCAVENGING:
+====================
+*/
+
+interface PowerScavenge {
+    banksScavengingFrom: PowerScavengeBank[];
+}
+
+interface PowerScavengeBank {
+    id: string;
+    pos: MyRoomPos;
+    roomsStillToProvide: string[];
+}

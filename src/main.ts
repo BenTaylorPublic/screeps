@@ -8,6 +8,10 @@ import {FunctionProfiler} from "./profiler/function-profiler/function-profiler";
 
 console.log("Script reloaded");
 
+Memory.myMemory.empire.powerScavenge = {
+    banksScavengingFrom: []
+};
+
 setupMyMemory();
 
 export let loop: any = function (): void {
@@ -48,6 +52,9 @@ function setupMyMemory(): void {
                 attackPressure: null,
                 creeps: [],
                 avoidRooms: [],
+                powerScavenge: {
+                    banksScavengingFrom: []
+                },
                 observer: {
                     state: "Moving",
                     observerIds: [],

@@ -11,17 +11,16 @@ Push to master to release
 ## TODO
 ### Working on
 ```
-Observer logic
-    If there is a power bank, add it to a queue
-        Then, a power-scavenge controller can examine if it's viable to get
-    Queue logic should hold items ids as a blacklist if it doesn't want them
+Power scavenge
+    Creeps should be scalable
+    With bodies [HEAL, HEAL, HEAL, HEAL, HEAL, ATTACK, ATTACK, MOVE, MOVE, MOVE]
 ```
 ### Short term
 ```
-Power scavenge
-    Use observers to check rooms
-    Send 2 creeps to get it
-    Note, highways are map X||Y%10 === 0
+Spawning
+    Spawns could have a queue
+    This would save the spawn logic from assembling a body every tick until it's able to be used
+    Would also allow having a priority queue (Defence > Offence > Economy)
 ```
 ### Mid term:
 ```
@@ -54,8 +53,6 @@ New Role - Stocker
         The creep has a priority queue of things it needs to stock
             (towers > spawn > extensions, no aging)
 
-Piping to other rooms
-
 Writing on a room sign via a flag
 
 Optional buildings
@@ -75,14 +72,6 @@ Attack
             Once the creep spawns, provide a time estimate of when it will begin (using tick time)
             Rooms should not make any other creeps until the attack is done (like AttackQuick)
 
-Spawning
-    Spawns could have a queue
-    This would save the spawn logic from assembling a body every tick until it's able to be used
-    Would also allow having a priority queue (Defence > Offence > Economy)
-
-Claim creeps don't seem to come from the closest (was diagonal)
-    Maybe see if the getRoomLinearDistance returns 2 for diagonal room?
-
 Links
     Should be able to skip from stage 1.6 to 4.8 (skip caches)
     Links should look at a number to determine what order to build
@@ -92,7 +81,10 @@ Links
             link-out
             link-in
 
-Mining minerals and directly selling them
+Minerals
+    Using flags
+        mine-start
+        mine-stop
 
 Marketing logic (will be at empire level)
     Price history
@@ -108,10 +100,6 @@ Lab logic
 Spawn a new miner before the old one dies, so no downtime.
     This is minor, because a creep only dies every 50 minutes
     So, with a 1 minute walk time, it would give 2% more power
-    
-Hauling between rooms 
-    (Energy, and minerals), when starting room is RoomStage 8 (maybe 7?)
-    Might help to speed up getting all rooms to 8?
 
 Power
     Power creeps control
@@ -126,7 +114,7 @@ Nukes (Defence)
     Use FIND_NUKES constant and instantly email
 
 HelperFunctions.getInterRoomTravelPathTarget
-    Should find closest exist, not just any
+    Should find closest exit, not just any
 ```
 
 ## Flag Names
