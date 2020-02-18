@@ -12,7 +12,6 @@ Push to master to release
 ### Working on
 ```
 Observer logic
-    Remove from avoid if no longer a threat
     Add middle 3x3 as avoid
 ```
 ### Short term

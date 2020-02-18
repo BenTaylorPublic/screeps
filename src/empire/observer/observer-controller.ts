@@ -27,6 +27,8 @@ export class ObserverController {
                 console.log("LOG: Added " + room.name + " to avoid list");
                 empireMemory.avoidRooms.push(room.name);
             }
+        } else if (empireMemory.avoidRooms.includes(room.name)) {
+            empireMemory.avoidRooms.splice(empireMemory.avoidRooms.indexOf(room.name), 1);
         }
     }
 
