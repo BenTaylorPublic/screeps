@@ -11,20 +11,19 @@ Push to master to release
 ## TODO
 ### Working on
 ```
-Avoid list built into "fukn lost" path
-    Game.map.findRoute(fromRoom, toRoom, [opts])
 ```
 ### Short term
 ```
 Observer logic
-    Remove from avoid if no longer a threat
 
 Set a max body parts for rooms with 1 source
 
 Observer logic
+    Remove from avoid if no longer a threat
+    Add middle 3x3 as avoid
     If there is a power bank, add it to a queue
         Then, a power-scavenge controller can examine if it's viable to get
-    Queue logic should hold items ids as a blacklist if it doesn't want them'
+    Queue logic should hold items ids as a blacklist if it doesn't want them
 
 Remove getRoomLinearDistance, make my own
     User Game.map.findRoute(fromRoom, toRoom, [opts]) length

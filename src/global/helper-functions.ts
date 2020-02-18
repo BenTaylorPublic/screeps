@@ -169,7 +169,7 @@ export class HelperFunctions {
             creepMemory.interRoomTravelCurrentTarget = this.roomPosToMyPos(target);
         }
 
-        creep.moveTo(this.myPosToRoomPos(creepMemory.interRoomTravelCurrentTarget));
+        console.log(creep.moveTo(this.myPosToRoomPos(creepMemory.interRoomTravelCurrentTarget)));
     }
 
     private static getInterRoomTravelPathTarget(fromRoomName: string, toRoomName: string): RoomPosition | null {
