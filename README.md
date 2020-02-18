@@ -32,6 +32,7 @@ Power
     Gaining power levels
         Use observers to check rooms
         Send 2 creeps to get it
+        Note, highways are map X||Y%10 === 0
 
 Report/Emails
     Make it say "enemy entered", "enemy died" etc 

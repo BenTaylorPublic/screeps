@@ -12,11 +12,21 @@ export class RoleClaimer {
             //Kill the creep
             creep.say("dthb4dshnr");
             creep.suicide();
+            return;
         }
 
         if (claimer.assignedRoomName !== creep.room.name) {
             creep.say("Fukn Lost");
-            creep.moveTo(flag.pos);
+
+            //TODO: Test if this works
+            //TODO: if it does, try cache it in creep's memory
+            const ret: PathFinderPath = PathFinder.search(creep.pos, flag.pos, {
+                roomCallback(roomName: string): boolean {
+                    return !Memory.myMemory.empire.avoidRooms.includes(roomName);
+                }
+            });
+
+            creep.moveByPath(ret.path);
             return;
         } else {
             //Inside the room
