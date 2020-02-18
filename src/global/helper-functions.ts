@@ -168,9 +168,11 @@ export class HelperFunctions {
             }
             creepMemory.interRoomTravelCurrentTarget = this.roomPosToMyPos(target);
         }
-        if (!this.stepIntoRoom(creep)) {
-            creep.moveTo(this.myPosToRoomPos(creepMemory.interRoomTravelCurrentTarget));
-        }
+        creep.moveTo(this.myPosToRoomPos(creepMemory.interRoomTravelCurrentTarget),
+            {
+                //AVOID EXITS - HOLY SHIT
+                avoid: creep.room.find(FIND_EXIT)
+            });
     }
 
     private static stepIntoRoom(creep: Creep): boolean {
