@@ -11,7 +11,7 @@ export class RoleMiner {
 
         if (miner.assignedRoomName !== creep.room.name) {
             creep.say("Fukn Lost");
-            creep.moveTo(new RoomPosition(25, 25, miner.assignedRoomName));
+            HelperFunctions.getCreepToRoom(creep, miner, miner.assignedRoomName);
             return;
         }
 

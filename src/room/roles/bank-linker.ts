@@ -1,4 +1,5 @@
 import {ReportController} from "../../reporting/report-controller";
+import {HelperFunctions} from "../../global/helper-functions";
 
 export class RoleBankLinker {
     public static run(bankLinker: BankLinker, myRoom: MyRoom): void {
@@ -10,7 +11,8 @@ export class RoleBankLinker {
 
         if (bankLinker.assignedRoomName !== creep.room.name) {
             creep.say("Fukn Lost");
-            creep.moveTo(new RoomPosition(25, 25, bankLinker.assignedRoomName));
+
+            HelperFunctions.getCreepToRoom(creep, bankLinker, bankLinker.assignedRoomName);
             return;
         }
 

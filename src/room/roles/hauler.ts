@@ -11,7 +11,8 @@ export class RoleHauler {
 
         if (hauler.assignedRoomName !== creep.room.name) {
             creep.say("Fukn Lost");
-            creep.moveTo(new RoomPosition(25, 25, hauler.assignedRoomName));
+
+            HelperFunctions.getCreepToRoom(creep, hauler, hauler.assignedRoomName);
             return;
         }
 

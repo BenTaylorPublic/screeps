@@ -12,7 +12,7 @@ export class RoleLaborer {
 
         if (laborer.assignedRoomName !== creep.room.name) {
             creep.say("Fukn Lost");
-            creep.moveTo(new RoomPosition(25, 25, laborer.assignedRoomName));
+            HelperFunctions.getCreepToRoom(creep, laborer, laborer.assignedRoomName);
             return;
         }
 
