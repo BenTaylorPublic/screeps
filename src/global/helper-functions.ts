@@ -170,13 +170,7 @@ export class HelperFunctions {
         }
         creep.moveTo(this.myPosToRoomPos(creepMemory.interRoomTravelCurrentTarget),
             {
-                visualizePathStyle: {
-                    fill: "transparent",
-                    stroke: "#fff",
-                    lineStyle: "dashed",
-                    strokeWidth: .15,
-                    opacity: .1
-                }, costCallback(roomNamee: string, costMatrix: CostMatrix): boolean | CostMatrix {
+                costCallback(roomNamee: string, costMatrix: CostMatrix): boolean | CostMatrix {
                     if (roomNamee !== creep.room.name) {
                         return false;
                     }
