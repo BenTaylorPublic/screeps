@@ -11,16 +11,13 @@ Push to master to release
 ## TODO
 ### Working on
 ```
-Remove getRoomLinearDistance, make my own
-    Use Game.map.findRoute(fromRoom, toRoom, [opts]) length
-```
-### Short term
-```
 Observer logic
     If there is a power bank, add it to a queue
         Then, a power-scavenge controller can examine if it's viable to get
     Queue logic should hold items ids as a blacklist if it doesn't want them
-
+```
+### Short term
+```
 Power scavenge
     Use observers to check rooms
     Send 2 creeps to get it

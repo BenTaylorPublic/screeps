@@ -86,7 +86,7 @@ export class AttackPressureController {
         for (let i = 0; i < myRooms.length; i++) {
             const myRoom: MyRoom = myRooms[i];
             if (myRoom.roomStage >= Constants.CONSCRIPTION_PRESSURE_MINIMUM_STAGE
-                && Game.map.getRoomLinearDistance(rallyFlag.pos.roomName, myRoom.name) < Constants.CONSCRIPTION_RANGE) {
+                && HelperFunctions.getRoomDistance(rallyFlag.pos.roomName, myRoom.name) < Constants.CONSCRIPTION_RANGE) {
                 //This room will be conscripted
                 attackPressure.roomsInRange.push(myRoom.name);
                 outputMessage += myRoom.name + ", ";

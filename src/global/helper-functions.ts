@@ -90,7 +90,7 @@ export class HelperFunctions {
         for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
             const myRoom: MyRoom = Memory.myMemory.myRooms[i];
             if (myRoom.spawns.length >= 1) {
-                const distance: number = Game.map.getRoomLinearDistance(roomPos.roomName, myRoom.name);
+                const distance: number = this.getRoomDistance(roomPos.roomName, myRoom.name);
                 if (distance < closestDistance) {
                     closestDistance = distance;
                     spawnToReturn = Game.spawns[myRoom.spawns[0].name];
@@ -178,6 +178,22 @@ export class HelperFunctions {
                     return costMatrix;
                 }
             });
+    }
+
+    public static getRoomDistance(roomOneName: string, roomTwoName: string): number {
+        const result: FindRouteResult = Game.map.findRoute(roomOneName, roomTwoName, {
+            routeCallback(room2: string, room1: string): number {
+                if (Memory.myMemory.empire.avoidRooms.includes(room2)) {
+                    // avoid this room
+                    return Infinity;
+                }
+                return 1;
+            }
+        });
+        if (result === ERR_NO_PATH) {
+            return Infinity;
+        }
+        return result.length;
     }
 
     public static isMiddle3x3(roomName: string): boolean {
