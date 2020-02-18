@@ -158,9 +158,23 @@ export class HelperFunctions {
         return result;
     }
 
-    public static getInterRoomTravelPath(from: RoomPosition, to: RoomPosition): RoomPosition[] {
+    public static getCreepToRoom(creep: Creep, creepMemory: MyCreep, roomName: string): void {
+        if (creepMemory.interRoomTravelCurrentTarget == null ||
+            creep.pos.roomName !== creepMemory.interRoomTravelCurrentTarget.roomName) {
+            //Needs a new target
+            const target: RoomPosition | null = this.getInterRoomTravelPathTarget(creep.pos.roomName, roomName);
+            if (target == null) {
+                return;
+            }
+            creepMemory.interRoomTravelCurrentTarget = this.roomPosToMyPos(target);
+        }
+
+        creep.moveTo(this.myPosToRoomPos(creepMemory.interRoomTravelCurrentTarget));
+    }
+
+    private static getInterRoomTravelPathTarget(fromRoomName: string, toRoomName: string): RoomPosition | null {
         console.log("LOG: Running getInterRoomTravelPath");
-        const result1: FindRouteResult = Game.map.findRoute(from.roomName, to.roomName, {
+        const result1: FindRouteResult = Game.map.findRoute(fromRoomName, toRoomName, {
             routeCallback(room2: string, room1: string): number {
                 if (Memory.myMemory.empire.avoidRooms.includes(room2)) {
                     // avoid this room
@@ -170,23 +184,21 @@ export class HelperFunctions {
             }
         });
         if (result1 === ERR_NO_PATH) {
-            console.log("ERROR: getInterRoomTravelPath got ERRO_NO_PATH for " + from.roomName + " to " + to.roomName);
-            return [];
+            console.log("ERROR: getInterRoomTravelPath got ERRO_NO_PATH for " + fromRoomName + " to " + toRoomName);
+            return null;
         }
         if (result1.length <= 0) {
             console.log("ERROR: getInterRoomTravelPath length <= 0");
-            return [];
+            return null;
         }
 
-        const thisRoomsExits: RoomPosition[] = Game.rooms[from.roomName].find(result1[0].exit);
+        const thisRoomsExits: RoomPosition[] = Game.rooms[fromRoomName].find(result1[0].exit);
         if (thisRoomsExits.length <= 0) {
             console.log("ERROR: thisRoomsExits length <= 0");
-            return [];
+            return null;
         }
 
-        const ret: PathFinderPath = PathFinder.search(from, thisRoomsExits[0]);
-
-        return ret.path;
+        return thisRoomsExits[0];
     }
 
     private static calcBodyCost(body: BodyPartConstant[]): number {

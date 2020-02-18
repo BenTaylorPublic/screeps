@@ -27,7 +27,7 @@ Observer logic
     Queue logic should hold items ids as a blacklist if it doesn't want them'
 
 Remove getRoomLinearDistance, make my own
-    Manhattan distance
+    User Game.map.findRoute(fromRoom, toRoom, [opts]) length
 ```
 ### Mid term:
 ```
@@ -136,6 +136,9 @@ Nukes (Offence)
 
 Nukes (Defence)
     Use FIND_NUKES constant and instantly email
+
+HelperFunctions.getInterRoomTravelPathTarget
+    Should find closest exist, not just any
 ```
 
 ## Flag Names

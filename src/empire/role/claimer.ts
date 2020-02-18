@@ -19,21 +19,7 @@ export class RoleClaimer {
         if (claimer.assignedRoomName !== creep.room.name) {
             creep.say("Fukn Lost");
 
-            //Set if needed, or every 50 ticks
-            if (claimer.interRoomTravelPath == null ||
-                claimer.interRoomTravelPath.length === 0 ||
-                Game.time % 50 === 0) {
-                claimer.interRoomTravelPath = HelperFunctions.getInterRoomTravelPath(creep.pos, flag.pos);
-            }
-            const moveResult: CreepMoveReturnCode | ERR_NOT_FOUND | ERR_INVALID_ARGS = creep.moveByPath(claimer.interRoomTravelPath);
-            if (moveResult === OK) {
-                claimer.interRoomTravelPath.splice(0, 1);
-            } else {
-                console.log("ERROR: Move result: " + moveResult);
-                claimer.interRoomTravelPath = HelperFunctions.getInterRoomTravelPath(creep.pos, flag.pos);
-            }
-
-            return;
+            HelperFunctions.getCreepToRoom(creep, claimer, flag.pos.roomName);
         } else {
             //Inside the room
             if (creep.room.controller == null) {
