@@ -180,9 +180,16 @@ export class HelperFunctions {
                     if (roomNamee !== creep.room.name) {
                         return false;
                     }
+                    HelperFunctions.avoidEdges(costMatrix, creep.room);
                     return costMatrix;
                 }
             });
+    }
+
+    private static avoidEdges(costMatrix: CostMatrix, room: Room): void {
+        room.find(FIND_EXIT).forEach((exitPos: RoomPosition) => {
+            costMatrix.set(exitPos.x, exitPos.y, Infinity);
+        });
     }
 
     private static getInterRoomTravelPathTarget(fromRoomName: string, toRoomName: string): RoomPosition | null {
