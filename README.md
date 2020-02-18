@@ -11,20 +11,15 @@ Push to master to release
 ## TODO
 ### Working on
 ```
-Observer logic
-    Add middle 3x3 as avoid
+Remove getRoomLinearDistance, make my own
+    Use Game.map.findRoute(fromRoom, toRoom, [opts]) length
 ```
 ### Short term
 ```
-Set a max body parts for rooms with 1 source
-
 Observer logic
     If there is a power bank, add it to a queue
         Then, a power-scavenge controller can examine if it's viable to get
     Queue logic should hold items ids as a blacklist if it doesn't want them
-
-Remove getRoomLinearDistance, make my own
-    Use Game.map.findRoute(fromRoom, toRoom, [opts]) length
 
 Power scavenge
     Use observers to check rooms

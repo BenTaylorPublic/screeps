@@ -42,6 +42,21 @@ export class SpawnMiner {
 
         let body: BodyPartConstant[];
 
+        let maxBodyParts: number;
+        if (myRoom.mySources.length === 1) {
+            if (mySource.link == null) {
+                maxBodyParts = 12;
+            } else {
+                maxBodyParts = 14;
+            }
+        } else {
+            if (mySource.link == null) {
+                maxBodyParts = 18;
+            } else {
+                maxBodyParts = 42;
+            }
+        }
+
         let linkId: string | null = null;
         if (mySource.link != null) {
             linkId = mySource.link.id;
@@ -50,7 +65,7 @@ export class SpawnMiner {
                 [MOVE, CARRY, WORK, WORK, WORK, WORK, WORK],
                 Game.rooms[myRoom.name],
                 false,
-                42
+                maxBodyParts
             );
         } else {
             //No carry
@@ -59,7 +74,7 @@ export class SpawnMiner {
                 [MOVE, WORK, WORK, WORK, WORK, WORK],
                 Game.rooms[myRoom.name],
                 false,
-                20
+                maxBodyParts
             );
         }
 

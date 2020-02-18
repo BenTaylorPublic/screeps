@@ -53,12 +53,18 @@ export class SpawnLaborer {
 
         //Have a valid spawn now
 
+        let maxBodyParts: number = 50;
+        if (myRoom.mySources.length === 1) {
+            maxBodyParts = 12;
+        }
+
         //Once the bank is setup, use the best body you can get
         const body: BodyPartConstant[] = HelperFunctions.generateBody(
             [MOVE, MOVE, CARRY, WORK],
             [MOVE, MOVE, CARRY, WORK],
             spawn.room,
-            false);
+            false,
+            maxBodyParts);
 
         const id = HelperFunctions.getId();
         const result: ScreepsReturnCode =
