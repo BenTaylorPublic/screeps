@@ -170,26 +170,19 @@ export class HelperFunctions {
         }
         creep.moveTo(this.myPosToRoomPos(creepMemory.interRoomTravelCurrentTarget),
             {
-                //AVOID EXITS - HOLY SHIT
-                avoid: creep.room.find(FIND_EXIT)
+                visualizePathStyle: {
+                    fill: "transparent",
+                    stroke: "#fff",
+                    lineStyle: "dashed",
+                    strokeWidth: .15,
+                    opacity: .1
+                }, costCallback(roomNamee: string, costMatrix: CostMatrix): boolean | CostMatrix {
+                    if (roomNamee !== creep.room.name) {
+                        return false;
+                    }
+                    return costMatrix;
+                }
             });
-    }
-
-    private static stepIntoRoom(creep: Creep): boolean {
-        if (creep.pos.x === 0) {
-            creep.moveTo(new RoomPosition(1, creep.pos.y, creep.pos.roomName));
-            return true;
-        } else if (creep.pos.y === 0) {
-            creep.moveTo(new RoomPosition(creep.pos.x, 1, creep.pos.roomName));
-            return true;
-        } else if (creep.pos.x === 49) {
-            creep.moveTo(new RoomPosition(48, creep.pos.y, creep.pos.roomName));
-            return true;
-        } else if (creep.pos.y === 49) {
-            creep.moveTo(new RoomPosition(creep.pos.x, 48, creep.pos.roomName));
-            return true;
-        }
-        return false;
     }
 
     private static getInterRoomTravelPathTarget(fromRoomName: string, toRoomName: string): RoomPosition | null {
