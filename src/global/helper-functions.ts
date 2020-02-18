@@ -173,7 +173,6 @@ export class HelperFunctions {
     }
 
     private static getInterRoomTravelPathTarget(fromRoomName: string, toRoomName: string): RoomPosition | null {
-        console.log("LOG: Running getInterRoomTravelPath");
         const result1: FindRouteResult = Game.map.findRoute(fromRoomName, toRoomName, {
             routeCallback(room2: string, room1: string): number {
                 if (Memory.myMemory.empire.avoidRooms.includes(room2)) {
@@ -193,10 +192,6 @@ export class HelperFunctions {
         }
 
         const thisRoomsExits: RoomPosition[] = Game.rooms[fromRoomName].find(result1[0].exit);
-        if (thisRoomsExits.length <= 0) {
-            console.log("ERROR: thisRoomsExits length <= 0");
-            return null;
-        }
 
         return thisRoomsExits[0];
     }
