@@ -241,3 +241,11 @@ interface ScheduledCommand {
     roomName: string;
     action: ScheduleAction;
 }
+
+/*
+====================
+    IN BUILT:
+====================
+*/
+
+type FindRouteResult = Array<{ exit: ExitConstant; room: string; }> | ERR_NO_PATH;

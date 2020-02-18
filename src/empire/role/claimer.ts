@@ -21,13 +21,15 @@ export class RoleClaimer {
 
             //Set if needed, or every 50 ticks
             if (claimer.interRoomTravelPath == null ||
+                claimer.interRoomTravelPath.length === 0 ||
                 Game.time % 50 === 0) {
                 claimer.interRoomTravelPath = HelperFunctions.getInterRoomTravelPath(creep.pos, flag.pos);
             }
-
-            if (creep.moveByPath(claimer.interRoomTravelPath) === OK) {
+            const moveResult: CreepMoveReturnCode | ERR_NOT_FOUND | ERR_INVALID_ARGS = creep.moveByPath(claimer.interRoomTravelPath);
+            if (moveResult === OK) {
                 claimer.interRoomTravelPath.splice(0, 1);
             } else {
+                console.log("ERROR: Move result: " + moveResult);
                 claimer.interRoomTravelPath = HelperFunctions.getInterRoomTravelPath(creep.pos, flag.pos);
             }
 
