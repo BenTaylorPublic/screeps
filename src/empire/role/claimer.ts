@@ -25,7 +25,11 @@ export class RoleClaimer {
                 claimer.interRoomTravelPath = HelperFunctions.getInterRoomTravelPath(creep.pos, flag.pos);
             }
 
-            creep.moveByPath(claimer.interRoomTravelPath);
+            if (creep.moveByPath(claimer.interRoomTravelPath) === OK) {
+                claimer.interRoomTravelPath.splice(0, 1);
+            } else {
+                claimer.interRoomTravelPath = HelperFunctions.getInterRoomTravelPath(creep.pos, flag.pos);
+            }
 
             return;
         } else {

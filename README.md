@@ -24,7 +24,10 @@ Set a max body parts for rooms with 1 source
 Observer logic
     If there is a power bank, add it to a queue
         Then, a power-scavenge controller can examine if it's viable to get
-    Queue logic should hold items ids as a blacklist if it doesn't want them
+    Queue logic should hold items ids as a blacklist if it doesn't want them'
+
+Remove getRoomLinearDistance, make my own
+    Manhattan distance
 ```
 ### Mid term:
 ```

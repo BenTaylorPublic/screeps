@@ -91,8 +91,6 @@ export class HelperFunctions {
             const myRoom: MyRoom = Memory.myMemory.myRooms[i];
             if (myRoom.spawns.length >= 1) {
                 const distance: number = Game.map.getRoomLinearDistance(roomPos.roomName, myRoom.name);
-                //TODO: For testing
-                console.log("DISTANCE: " + roomPos.roomName + " TO " + myRoom.name + ": " + distance);
                 if (distance < closestDistance) {
                     closestDistance = distance;
                     spawnToReturn = Game.spawns[myRoom.spawns[0].name];
