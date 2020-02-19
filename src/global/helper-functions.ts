@@ -199,7 +199,7 @@ export class HelperFunctions {
         const myRoomName: MyRoomName = this.getRoomNameAsInterface(roomName);
         const xResult: number = myRoomName.xNum % 10;
         const yResult: number = myRoomName.yNum % 10;
-        return (xResult === 0 && yResult === 6);
+        return (xResult === 0 || yResult === 0);
     }
 
     public static myMoveTo(creep: Creep, moveTo: MoveToParam): MoveToResult {
