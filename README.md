@@ -50,12 +50,15 @@ New Role - Stocker
     Just move and carry body
     Remove stocking logic from Laborers 
         (currently expensive I think)
-        Would mean Laborers JUST upgrade
+        Would mean Laborers JUST upgrade/build
     Logic for stocking should be
         When spawning or shooting turrent
         Request energy equal to the amount spent
         The creep has a priority queue of things it needs to stock
             (towers > spawn > extensions, no aging)
+
+Observers
+    Add a "Weakling to crush" for RCL levels 1 and 2
 
 Writing on a room sign via a flag
 
