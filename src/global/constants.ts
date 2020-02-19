@@ -15,4 +15,5 @@ export class Constants {
     public static RALLY_FLAG_RANGE: number = 3;
     public static POWER_SCAVENGE_TTL_MIN: number = 4500;
     public static POWER_SCAVENGE_RANGE_MAX: number = 10;
+    public static POWER_SCAVENGE_DAMAGE_CREEP_COUNT: number = 3;
 }

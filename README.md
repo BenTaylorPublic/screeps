@@ -13,7 +13,7 @@ Push to master to release
 ```
 Power scavenge
     Creeps should be scalable
-    With bodies [HEAL, HEAL, HEAL, HEAL, HEAL, ATTACK, ATTACK, MOVE, MOVE, MOVE]
+    With bodies [HEAL, HEAL, HEAL, HEAL, HEAL, ATTACK, ATTACK, ATTACK, ATTACK, MOVE]
 ```
 ### Short term
 ```

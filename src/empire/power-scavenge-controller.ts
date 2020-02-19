@@ -31,7 +31,7 @@ export class PowerScavengeController {
         }
 
         for (let i: number = 0; i < myMemory.empire.powerScavenge.banksScavengingFrom.length; i++) {
-            const bankScavengingFrom =  myMemory.empire.powerScavenge.banksScavengingFrom[i];
+            const bankScavengingFrom = myMemory.empire.powerScavenge.banksScavengingFrom[i];
             if (bankScavengingFrom.id === powerBank.id) {
                 //Already setup
                 return;
@@ -40,5 +40,22 @@ export class PowerScavengeController {
 
         //Otherwise, WE'RE GOOD, LET'S GO BOIZ
         console.log("LOG: Power scavenging power bank in room " + powerBank.room.name);
+
+        //This should reuse the rooms
+        const roomsToSpawnThrough: string[] = [];
+        let index: number = 0;
+        for (let count: number = 0; count < Constants.POWER_SCAVENGE_DAMAGE_CREEP_COUNT; count++) {
+            roomsToSpawnThrough.push(closestRooms[index].name);
+            index++;
+            if (index >= closestRooms.length) {
+                index = 0;
+            }
+        }
+
+        myMemory.empire.powerScavenge.banksScavengingFrom.push({
+            id: powerBank.id,
+            pos: HelperFunctions.roomPosToMyPos(powerBank.pos),
+            roomsStillToProvide: roomsToSpawnThrough
+        });
     }
 }
