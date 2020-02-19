@@ -73,10 +73,12 @@ export class PowerScavengeController {
         console.log("LOG: Power scavenging power bank in room " + powerBank.room.name);
 
         //This should reuse the rooms
-        const roomsToSpawnThrough: string[] = [];
+        const roomsToSpawnThrough1: string[] = [];
+        const roomsToSpawnThrough2: string[] = [];
         let index: number = 0;
         for (let count: number = 0; count < Constants.POWER_SCAVENGE_DAMAGE_CREEP_COUNT; count++) {
-            roomsToSpawnThrough.push(closestRooms[index].name);
+            roomsToSpawnThrough1.push(closestRooms[index].name);
+            roomsToSpawnThrough2.push(closestRooms[index].name);
             index++;
             if (index >= closestRooms.length) {
                 index = 0;
@@ -86,8 +88,8 @@ export class PowerScavengeController {
         myMemory.empire.powerScavenge.banksScavengingFrom.push({
             id: powerBank.id,
             pos: HelperFunctions.roomPosToMyPos(powerBank.pos),
-            roomsStillToProvideRound1: roomsToSpawnThrough,
-            roomsStillToProvideRound2: roomsToSpawnThrough,
+            roomsStillToProvideRound1: roomsToSpawnThrough1,
+            roomsStillToProvideRound2: roomsToSpawnThrough2,
             round: "ROUND1",
             roundTwoStartTick: Game.time + Constants.POWER_SCAVENGE_START_ROUND_TWO_TICKS,
             eol: Game.time + powerBank.ticksToDecay
@@ -98,8 +100,14 @@ export class PowerScavengeController {
         if (roomsStillToProvide.length === 0) {
             return;
         }
+
+        const providedOnesThisTick: string[] = [];
         for (let i: number = roomsStillToProvide.length - 1; i >= 0; i--) {
             const roomName: string = roomsStillToProvide[i];
+            if (providedOnesThisTick.includes(roomName)) {
+                continue;
+            }
+
             let myRoom: MyRoom | null = null;
             for (let j: number = 0; j < myMemory.myRooms.length; j++) {
                 if (myMemory.myRooms[j].name === roomName) {
@@ -116,6 +124,7 @@ export class PowerScavengeController {
                 myMemory.empire.creeps.push(newCreep);
                 console.log("LOG: Spawned a new PowerBankScavengeAttackCreep");
                 roomsStillToProvide.splice(i, 1);
+                providedOnesThisTick.push(roomName);
             }
 
         }
