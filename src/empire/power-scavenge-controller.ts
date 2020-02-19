@@ -3,36 +3,6 @@ import {HelperFunctions} from "../global/helper-functions";
 import {RolePowerBankScavengeAttackCreep} from "./role/power-bank-scavenge-attack-creep";
 
 export class PowerScavengeController {
-    public static run(myMemory: MyMemory): void {
-        if (myMemory.empire.powerScavenge.banksScavengingFrom.length === 0) {
-            return;
-        }
-        for (let i: number = myMemory.empire.powerScavenge.banksScavengingFrom.length - 1; i >= 0; i--) {
-            const bankScavengingFrom: PowerScavengeBank = myMemory.empire.powerScavenge.banksScavengingFrom[i];
-
-            if (Game.time > bankScavengingFrom.eol) {
-                //It gone
-                myMemory.empire.powerScavenge.banksScavengingFrom.splice(i, 1);
-            }
-
-            if (bankScavengingFrom.round === "ROUND1" &&
-                bankScavengingFrom.roundTwoStartTick <= Game.time &&
-                bankScavengingFrom.roomsStillToProvideRound1.length === 0) {
-                console.log("LOG Power scavenging power bank in room " + bankScavengingFrom.pos.roomName + "progressed to round 2");
-                bankScavengingFrom.round = "ROUND2";
-            }
-
-            if (bankScavengingFrom.round === "ROUND1") {
-                this.spawnCreepsIfNeeded(bankScavengingFrom.roomsStillToProvideRound1, bankScavengingFrom, myMemory);
-            } else {
-                this.spawnCreepsIfNeeded(bankScavengingFrom.roomsStillToProvideRound2, bankScavengingFrom, myMemory);
-            }
-
-            for (let j: number = 0; j < bankScavengingFrom.attackCreeps.length; j++) {
-                RolePowerBankScavengeAttackCreep.run(bankScavengingFrom.attackCreeps[j] as PowerBankScavengeAttackCreep);
-            }
-        }
-    }
 
     public static observedPowerBank(powerBank: StructurePowerBank): void {
         const myMemory: MyMemory = Memory.myMemory;
@@ -101,6 +71,40 @@ export class PowerScavengeController {
             attackCreeps: [],
             haulCreeps: []
         });
+    }
+
+    public static run(myMemory: MyMemory): void {
+        if (myMemory.empire.powerScavenge.banksScavengingFrom.length === 0) {
+            return;
+        }
+        for (let i: number = myMemory.empire.powerScavenge.banksScavengingFrom.length - 1; i >= 0; i--) {
+            const bankScavengingFrom: PowerScavengeBank = myMemory.empire.powerScavenge.banksScavengingFrom[i];
+
+            if (Game.time > bankScavengingFrom.eol) {
+                //It gone
+                myMemory.empire.powerScavenge.banksScavengingFrom.splice(i, 1);
+            }
+            this.handleBank(bankScavengingFrom, myMemory);
+        }
+    }
+
+    private static handleBank(bankScavengingFrom: PowerScavengeBank, myMemory: MyMemory): void {
+        if (bankScavengingFrom.round === "ROUND1" &&
+            bankScavengingFrom.roundTwoStartTick <= Game.time &&
+            bankScavengingFrom.roomsStillToProvideRound1.length === 0) {
+            console.log("LOG Power scavenging power bank in room " + bankScavengingFrom.pos.roomName + "progressed to round 2");
+            bankScavengingFrom.round = "ROUND2";
+        }
+
+        if (bankScavengingFrom.round === "ROUND1") {
+            this.spawnCreepsIfNeeded(bankScavengingFrom.roomsStillToProvideRound1, bankScavengingFrom, myMemory);
+        } else {
+            this.spawnCreepsIfNeeded(bankScavengingFrom.roomsStillToProvideRound2, bankScavengingFrom, myMemory);
+        }
+
+        for (let i: number = 0; i < bankScavengingFrom.attackCreeps.length; i++) {
+            RolePowerBankScavengeAttackCreep.run(bankScavengingFrom.attackCreeps[i] as PowerBankScavengeAttackCreep);
+        }
     }
 
     private static spawnCreepsIfNeeded(roomsStillToProvide: string[], bank: PowerScavengeBank, myMemory: MyMemory): void {
