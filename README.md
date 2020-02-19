@@ -24,6 +24,8 @@ Spawning
 ```
 ### Mid term:
 ```
+IsSpawned bool on creeps
+
 Report/Emails
     Make it say "enemy entered", "enemy died" etc 
         Remove the log that says "tower attacking X" once thats done
