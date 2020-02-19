@@ -36,16 +36,20 @@ export class ObserverController {
             }
             //Check if is highway
             if (HelperFunctions.isHighway(room.name)) {
+                console.log("highway " + room.name);
                 const powerBanks: StructurePowerBank[] = room.find<StructurePowerBank>(FIND_STRUCTURES, {
                         filter: (structure: Structure) => {
                             return structure.structureType === STRUCTURE_POWER_BANK;
                         }
                     }
                 );
+                console.log("powerBanks.length " + powerBanks.length);
                 if (powerBanks.length === 1) {
                     //Found one
                     PowerScavengeController.observedPowerBank(powerBanks[0]);
                 }
+            } else {
+                console.log("not highway " + room.name);
             }
         }
     }
