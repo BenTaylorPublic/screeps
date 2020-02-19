@@ -12,8 +12,8 @@ Push to master to release
 ### Working on
 ```
 Power scavenge
-    Creeps should be scalable
-    With bodies [HEAL, HEAL, HEAL, HEAL, HEAL, ATTACK, ATTACK, ATTACK, ATTACK, MOVE]
+    Re-test
+    Create haulers if it works
 ```
 ### Short term
 ```
