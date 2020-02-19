@@ -270,11 +270,10 @@ interface PowerScavenge {
 interface PowerScavengeBank {
     id: string;
     pos: MyRoomPos;
-    roomsStillToProvideRound1: string[];
-    roomsStillToProvideRound2: string[];
-    round: "ROUND1" | "ROUND2";
-    roundTwoStartTick: number;
+    roomsToGetCreepsFrom: string[];
     eol: number;
     attackCreeps: PowerBankScavengeAttackCreep[];
     haulCreeps: any[];//TODO:
+    roomDistanceToBank: number;
+    amountOfRoomAmoundBank: number;
 }

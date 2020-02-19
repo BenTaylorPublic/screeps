@@ -47,29 +47,25 @@ export class PowerScavengeController {
         //Otherwise, WE'RE GOOD, LET'S GO BOIZ
         console.log("LOG: Power scavenging power bank in room " + powerBank.room.name);
 
+        //TODO: SET THIS
+        const amountOfRoomAroundBank: number = 0;
+
         //This should reuse the rooms
-        const roomsToSpawnThrough1: string[] = [];
-        const roomsToSpawnThrough2: string[] = [];
-        let index: number = 0;
-        for (let count: number = 0; count < Constants.POWER_SCAVENGE_DAMAGE_CREEP_COUNT; count++) {
-            roomsToSpawnThrough1.push(closestRooms[index].name);
-            roomsToSpawnThrough2.push(closestRooms[index].name);
-            index++;
-            if (index >= closestRooms.length) {
-                index = 0;
-            }
+        const roomsToSpawnThrough: string[] = [];
+        for (let i: number = 0; i < closestRooms.length; i++) {
+            roomsToSpawnThrough.push(closestRooms[i].name);
         }
 
         myMemory.empire.powerScavenge.banksScavengingFrom.push({
             id: powerBank.id,
             pos: HelperFunctions.roomPosToMyPos(powerBank.pos),
-            roomsStillToProvideRound1: roomsToSpawnThrough1,
-            roomsStillToProvideRound2: roomsToSpawnThrough2,
-            round: "ROUND1",
-            roundTwoStartTick: Game.time + Constants.POWER_SCAVENGE_START_ROUND_TWO_TICKS,
+            roomsToGetCreepsFrom: roomsToSpawnThrough,
             eol: Game.time + powerBank.ticksToDecay,
+            roomDistanceToBank: closestDistance,
             attackCreeps: [],
-            haulCreeps: []
+            haulCreeps: [],
+            amountOfRoomAmoundBank: amountOfRoomAroundBank
+
         });
     }
 
@@ -89,18 +85,8 @@ export class PowerScavengeController {
     }
 
     private static handleBank(bankScavengingFrom: PowerScavengeBank, myMemory: MyMemory): void {
-        if (bankScavengingFrom.round === "ROUND1" &&
-            bankScavengingFrom.roundTwoStartTick <= Game.time &&
-            bankScavengingFrom.roomsStillToProvideRound1.length === 0) {
-            console.log("LOG Power scavenging power bank in room " + bankScavengingFrom.pos.roomName + "progressed to round 2");
-            bankScavengingFrom.round = "ROUND2";
-        }
-
-        if (bankScavengingFrom.round === "ROUND1") {
-            this.spawnCreepsIfNeeded(bankScavengingFrom.roomsStillToProvideRound1, bankScavengingFrom, myMemory);
-        } else {
-            this.spawnCreepsIfNeeded(bankScavengingFrom.roomsStillToProvideRound2, bankScavengingFrom, myMemory);
-        }
+        // TODO: Only spawn to get enough DPS to finish
+        this.spawnCreepsIfNeeded(bankScavengingFrom.roomsToGetCreepsFrom, bankScavengingFrom, myMemory);
 
         for (let i: number = 0; i < bankScavengingFrom.attackCreeps.length; i++) {
             RolePowerBankScavengeAttackCreep.run(bankScavengingFrom.attackCreeps[i] as PowerBankScavengeAttackCreep);

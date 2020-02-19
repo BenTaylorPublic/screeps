@@ -15,8 +15,6 @@ export class Constants {
     public static RALLY_FLAG_RANGE: number = 3;
     public static POWER_SCAVENGE_TTL_MIN: number = 4500;
     public static POWER_SCAVENGE_RANGE_MAX: number = 5;
-    public static POWER_SCAVENGE_DAMAGE_CREEP_COUNT: number = 3;
     public static POWER_SCAVENGE_ROOM_STAGE: Stage = 8;
-    public static POWER_SCAVENGE_START_ROUND_TWO_TICKS: number = 500;
     public static POWER_SCAVENGE_MAX_BANKS_AT_ONE_TIME: number = 0;
 }
