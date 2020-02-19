@@ -26,6 +26,8 @@ Spawning
 ```
 IsSpawned bool on creeps
 
+AvoidMatrix should be created and used for a whole tick's moveTo logic
+
 Report/Emails
     Make it say "enemy entered", "enemy died" etc 
         Remove the log that says "tower attacking X" once thats done
