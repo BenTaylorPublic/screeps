@@ -10,7 +10,7 @@ console.log("Script reloaded");
 
 Memory.myMemory.empire.powerScavenge = {
     banksScavengingFrom: []
-};
+} as PowerScavenge;
 
 setupMyMemory();
 

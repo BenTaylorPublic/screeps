@@ -175,7 +175,7 @@ interface MyRoomName {
 
 interface MyCreep {
     name: string;
-    role: "Hauler" | "Miner" | "Laborer" | "Claimer" | "BankLinker" | "AttackQuickCreep" | "AttackPressureCreep";
+    role: "Hauler" | "Miner" | "Laborer" | "Claimer" | "BankLinker" | "AttackQuickCreep" | "AttackPressureCreep" | "PowerBankScavengeAttackCreep";
     assignedRoomName: string;
     interRoomTravelCurrentTarget?: MyRoomPos;
 }
@@ -209,6 +209,10 @@ interface AttackQuickCreep extends MyCreep {
 
 interface AttackPressureCreep extends MyCreep {
     batchNumber: number;
+}
+
+interface PowerBankScavengeAttackCreep extends MyCreep {
+    powerBankId: string;
 }
 
 /*
@@ -266,5 +270,9 @@ interface PowerScavenge {
 interface PowerScavengeBank {
     id: string;
     pos: MyRoomPos;
-    roomsStillToProvide: string[];
+    roomsStillToProvideRound1: string[];
+    roomsStillToProvideRound2: string[];
+    round: "ROUND1" | "ROUND2";
+    roundTwoStartTick: number;
+    eol: number;
 }
