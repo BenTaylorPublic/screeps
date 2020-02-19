@@ -1,4 +1,4 @@
-import { HelperFunctions } from "../../global/helper-functions";
+import {HelperFunctions} from "../../global/helper-functions";
 import {ReportController} from "../../reporting/report-controller";
 
 export class RoleLaborer {
@@ -121,7 +121,7 @@ export class RoleLaborer {
             }
             creep.withdraw(bank, RESOURCE_ENERGY);
         } else {
-            creep.moveTo(bankPos);
+            HelperFunctions.myMoveTo(creep, bankPos);
         }
     }
 
@@ -139,7 +139,7 @@ export class RoleLaborer {
             if (validCacheToGrabFrom.pos.isNearTo(creep)) {
                 creep.withdraw(validCacheToGrabFrom, RESOURCE_ENERGY);
             } else {
-                creep.moveTo(validCacheToGrabFrom.pos);
+                HelperFunctions.myMoveTo(creep, validCacheToGrabFrom.pos);
             }
         }
     }
@@ -166,7 +166,7 @@ export class RoleLaborer {
             if (closestOutLink.pos.isNearTo(creep)) {
                 creep.withdraw(closestOutLink, RESOURCE_ENERGY);
             } else {
-                creep.moveTo(closestOutLink.pos);
+                HelperFunctions.myMoveTo(creep, closestOutLink.pos);
             }
         }
     }
@@ -175,7 +175,7 @@ export class RoleLaborer {
         const source: Source | null = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
 
         if (source != null && creep.harvest(source) === ERR_NOT_IN_RANGE) {
-            creep.moveTo(source);
+            HelperFunctions.myMoveTo(creep, source);
         }
     }
 
@@ -200,7 +200,7 @@ export class RoleLaborer {
             if (structureToAddTo != null) {
                 givenCommand = true;
                 if (creep.transfer(structureToAddTo, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                    creep.moveTo(structureToAddTo);
+                    HelperFunctions.myMoveTo(creep, structureToAddTo);
                 }
             }
         }
@@ -211,14 +211,14 @@ export class RoleLaborer {
             if (closestConstructionSite != null) {
                 givenCommand = true;
                 if (creep.build(closestConstructionSite) === ERR_NOT_IN_RANGE) {
-                    creep.moveTo(closestConstructionSite);
+                    HelperFunctions.myMoveTo(creep, closestConstructionSite);
                 }
             }
         }
 
         //Upgrading room controller
         if ((forceUpgradeController || !givenCommand) && creep.upgradeController(creep.room.controller as StructureController) === ERR_NOT_IN_RANGE) {
-            creep.moveTo(creep.room.controller as StructureController);
+            HelperFunctions.myMoveTo(creep, creep.room.controller as StructureController);
         }
     }
 }

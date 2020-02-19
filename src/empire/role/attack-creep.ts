@@ -1,5 +1,6 @@
 import {ReportController} from "../../reporting/report-controller";
 import {Constants} from "../../global/constants";
+import {HelperFunctions} from "../../global/helper-functions";
 
 export class RoleAttackCreep {
     public static run(attackCreep: AttackPressureCreep | AttackQuickCreep, attackState: AttackStateType, rallyOrRoomTargetFlag: Flag, attackTarget: AttackTarget | null): void {
@@ -11,7 +12,7 @@ export class RoleAttackCreep {
 
         if (attackState === "Rally" || attackState === "Conscripting") {
             //Get a nice tight ball on it
-            creep.moveTo(rallyOrRoomTargetFlag.pos);
+            HelperFunctions.myMoveTo(creep, rallyOrRoomTargetFlag.pos);
             if (!creep.pos.inRangeTo(rallyOrRoomTargetFlag.pos, Constants.RALLY_FLAG_RANGE)) {
                 //Not in range
                 creep.say("Moving");
@@ -22,7 +23,7 @@ export class RoleAttackCreep {
         } else if (attackState === "Charge") {
             if (creep.room.name !== rallyOrRoomTargetFlag.pos.roomName) {
                 creep.say("Charge!");
-                creep.moveTo(rallyOrRoomTargetFlag.pos);
+                HelperFunctions.myMoveTo(creep, rallyOrRoomTargetFlag.pos);
             } else {
                 //In the target room!
                 this.attackLogic(creep, attackTarget);
@@ -38,7 +39,7 @@ export class RoleAttackCreep {
             if (creep.pos.inRangeTo(attackTarget.roomObject.pos, 1)) {
                 creep.attack(attackTarget.roomObject as Creep | Structure<StructureConstant>);
             } else {
-                creep.moveTo(attackTarget.roomObject.pos);
+                HelperFunctions.myMoveTo(creep, attackTarget.roomObject.pos);
             }
         }
     }

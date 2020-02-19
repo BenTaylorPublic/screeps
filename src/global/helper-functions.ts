@@ -168,16 +168,7 @@ export class HelperFunctions {
             }
             creepMemory.interRoomTravelCurrentTarget = this.roomPosToMyPos(target);
         }
-        creep.moveTo(this.myPosToRoomPos(creepMemory.interRoomTravelCurrentTarget),
-            {
-                costCallback(roomNamee: string, costMatrix: CostMatrix): boolean | CostMatrix {
-                    if (roomNamee !== creep.room.name) {
-                        return false;
-                    }
-                    HelperFunctions.avoidEdges(costMatrix, creep.room);
-                    return costMatrix;
-                }
-            });
+        this.myMoveTo(creep, this.myPosToRoomPos(creepMemory.interRoomTravelCurrentTarget));
     }
 
     public static getRoomDistance(roomOneName: string, roomTwoName: string): number {
@@ -209,6 +200,19 @@ export class HelperFunctions {
         const xResult: number = myRoomName.xNum % 10;
         const yResult: number = myRoomName.yNum % 10;
         return (xResult === 0 && yResult === 6);
+    }
+
+    public static myMoveTo(creep: Creep, moveTo: MoveToParam): MoveToResult {
+        return creep.moveTo(moveTo,
+            {
+                costCallback(roomNamee: string, costMatrix: CostMatrix): boolean | CostMatrix {
+                    if (roomNamee !== creep.room.name) {
+                        return false;
+                    }
+                    HelperFunctions.avoidEdges(costMatrix, creep.room);
+                    return costMatrix;
+                }
+            });
     }
 
     private static avoidEdges(costMatrix: CostMatrix, room: Room): void {

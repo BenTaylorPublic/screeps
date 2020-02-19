@@ -41,7 +41,7 @@ export class RoleMiner {
             }
         } else {
             //Move to cache
-            creep.moveTo(cachePos);
+            HelperFunctions.myMoveTo(creep, cachePos);
         }
     }
 }

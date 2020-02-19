@@ -27,7 +27,7 @@ export class RoleClaimer {
                 return;
             }
             if (creep.claimController(creep.room.controller) === ERR_NOT_IN_RANGE) {
-                creep.moveTo(creep.room.controller);
+                HelperFunctions.myMoveTo(creep, creep.room.controller);
             }
         }
     }
