@@ -17,8 +17,11 @@ export class RolePowerBankScavengeAttackCreep {
             }
 
             if (creep.pos.isNearTo(powerBank)) {
-                creep.attack(powerBank);
-                console.log("Heal result: " + creep.heal(creep));
+                if (Game.time % 2 === 0) {
+                    creep.attack(powerBank);
+                } else {
+                    creep.heal(creep);
+                }
             } else {
                 HelperFunctions.myMoveTo(creep, powerBank);
             }
