@@ -14,7 +14,7 @@ export class Constants {
     public static CONSCRIPTION_PRESSURE_MINIMUM_STAGE: Stage = 6;
     public static RALLY_FLAG_RANGE: number = 3;
     public static POWER_SCAVENGE_TTL_MIN: number = 1000;
-    public static POWER_SCAVENGE_RANGE_MAX: number = 10;
+    public static POWER_SCAVENGE_RANGE_MAX: number = 5;
     public static POWER_SCAVENGE_DAMAGE_CREEP_COUNT: number = 3;
     public static POWER_SCAVENGE_ROOM_STAGE: Stage = 8;
     public static POWER_SCAVENGE_START_ROUND_TWO_TICKS: number = 500;
