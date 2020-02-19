@@ -1,5 +1,6 @@
 import {Constants} from "../global/constants";
 import {HelperFunctions} from "../global/helper-functions";
+import {RolePowerBankScavengeAttackCreep} from "./role/power-bank-scavenge-attack-creep";
 
 export class PowerScavengeController {
     public static run(myMemory: MyMemory): void {
@@ -25,6 +26,10 @@ export class PowerScavengeController {
                 this.spawnCreepsIfNeeded(bankScavengingFrom.roomsStillToProvideRound1, bankScavengingFrom, myMemory);
             } else {
                 this.spawnCreepsIfNeeded(bankScavengingFrom.roomsStillToProvideRound2, bankScavengingFrom, myMemory);
+            }
+
+            for (let j: number = 0; j < bankScavengingFrom.attackCreeps.length; j++) {
+                RolePowerBankScavengeAttackCreep.run(bankScavengingFrom.attackCreeps[j] as PowerBankScavengeAttackCreep);
             }
         }
     }
@@ -92,7 +97,9 @@ export class PowerScavengeController {
             roomsStillToProvideRound2: roomsToSpawnThrough2,
             round: "ROUND1",
             roundTwoStartTick: Game.time + Constants.POWER_SCAVENGE_START_ROUND_TWO_TICKS,
-            eol: Game.time + powerBank.ticksToDecay
+            eol: Game.time + powerBank.ticksToDecay,
+            attackCreeps: [],
+            haulCreeps: []
         });
     }
 
@@ -121,7 +128,7 @@ export class PowerScavengeController {
 
             const newCreep: PowerBankScavengeAttackCreep | null = this.spawnCreep(bank, myRoom);
             if (newCreep != null) {
-                myMemory.empire.creeps.push(newCreep);
+                bank.attackCreeps.push(newCreep);
                 console.log("LOG: Spawned a new PowerBankScavengeAttackCreep");
                 roomsStillToProvide.splice(i, 1);
                 providedOnesThisTick.push(roomName);

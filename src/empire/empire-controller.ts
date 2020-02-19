@@ -4,7 +4,6 @@ import {AttackController} from "./attack/attack-controller";
 import {BuildObserverController} from "./observer/build-observer-controller";
 import {ObserverController} from "./observer/observer-controller";
 import {PowerScavengeController} from "./power-scavenge-controller";
-import {RolePowerBankScavengeAttackCreep} from "./role/power-bank-scavenge-attack-creep";
 
 export class EmpireController {
     public static run(myMemory: MyMemory): void {
@@ -22,8 +21,6 @@ export class EmpireController {
             const creep: MyCreep = myMemory.empire.creeps[i];
             if (creep.role === "Claimer") {
                 RoleClaimer.run(creep as Claimer);
-            } else if (creep.role === "PowerBankScavengeAttackCreep") {
-                RolePowerBankScavengeAttackCreep.run(creep as PowerBankScavengeAttackCreep);
             }
         }
     }

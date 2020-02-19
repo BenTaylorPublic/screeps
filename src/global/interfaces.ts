@@ -275,4 +275,6 @@ interface PowerScavengeBank {
     round: "ROUND1" | "ROUND2";
     roundTwoStartTick: number;
     eol: number;
+    attackCreeps: PowerBankScavengeAttackCreep[];
+    haulCreeps: any[];//TODO:
 }
