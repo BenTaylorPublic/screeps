@@ -3,11 +3,9 @@ import {HelperFunctions} from "../global/helper-functions";
 
 export class PowerScavengeController {
     public static observedPowerBank(powerBank: StructurePowerBank): void {
-        console.log("observedPowerBank");
         const myMemory: MyMemory = Memory.myMemory;
         if (powerBank.ticksToDecay < Constants.POWER_SCAVENGE_TTL_MIN) {
             //TTL not long enough
-            console.log("TTL too low " + powerBank.ticksToDecay);
             return;
         }
         //Probably valid
@@ -29,7 +27,6 @@ export class PowerScavengeController {
 
         if (closestDistance > Constants.POWER_SCAVENGE_RANGE_MAX) {
             //Too far
-            console.log("Too far from rooms: " + closestDistance);
             return;
         }
 
@@ -37,7 +34,6 @@ export class PowerScavengeController {
             const bankScavengingFrom =  myMemory.empire.powerScavenge.banksScavengingFrom[i];
             if (bankScavengingFrom.id === powerBank.id) {
                 //Already setup
-                console.log("Already setup");
                 return;
             }
         }
