@@ -13,8 +13,8 @@ export class Constants {
     public static CONSCRIPTION_QUICK_MINIMUM_STAGE: Stage = 4;
     public static CONSCRIPTION_PRESSURE_MINIMUM_STAGE: Stage = 6;
     public static RALLY_FLAG_RANGE: number = 3;
-    public static POWER_SCAVENGE_TTL_MIN: number = 2000;
-    public static POWER_SCAVENGE_RANGE_MAX: number = 10;
+    public static POWER_SCAVENGE_TTL_MIN: number = 4500;
+    public static POWER_SCAVENGE_RANGE_MAX: number = 5;
     public static POWER_SCAVENGE_ROOM_STAGE: Stage = 8;
     public static POWER_SCAVENGE_MAX_BANKS_AT_ONE_TIME: number = 1;
     public static POWER_SCAVENGE_MAX_DAMAGE_PER_TICK_PER_AREA: number = 240;

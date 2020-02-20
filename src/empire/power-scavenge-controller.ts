@@ -46,6 +46,7 @@ export class PowerScavengeController {
 
         //Otherwise, WE'RE GOOD, LET'S GO BOIZ
         console.log("LOG: Power scavenging power bank in room " + powerBank.room.name);
+        Game.notify("Power scavenging power bank in room " + powerBank.room.name);
 
         const amountOfRoomAroundBank: number = HelperFunctions.areaAroundPos(powerBank.pos, powerBank.room);
 
