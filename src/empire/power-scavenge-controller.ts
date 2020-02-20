@@ -114,61 +114,62 @@ export class PowerScavengeController {
                 bankScavengingFrom.attackCreeps.splice(i, 1);
             }
         }
-        this.trySpawnCreepsIfNeeded(bankScavengingFrom, myMemory);
+        this.trySpawnAttackCreepIfNeeded(bankScavengingFrom, myMemory);
 
         for (let i: number = 0; i < bankScavengingFrom.attackCreeps.length; i++) {
             RolePowerBankScavengeAttackCreep.run(bankScavengingFrom.attackCreeps[i] as PowerBankScavengeAttackCreep);
         }
     }
 
-    private static trySpawnCreepsIfNeeded(bank: PowerScavengeBank, myMemory: MyMemory): void {
+    private static trySpawnAttackCreepIfNeeded(bank: PowerScavengeBank, myMemory: MyMemory): void {
 
         if (bank.attackCreepsStillNeeded <= 0) {
             return;
         }
-        const creepsToReplace: string[] = [];
+
+        let creepsToReplace: number = 0;
+        let creepsStillGood: number = 0;
         for (let i: number = 0; i < bank.attackCreeps.length; i++) {
             const creep: Creep = Game.creeps[bank.attackCreeps[i].name] as Creep;
-            if (creep.ticksToLive != null &&
+            if (!bank.attackCreeps[i].beenReplaced &&
+                creep.ticksToLive != null &&
                 creep.ticksToLive <= bank.replaceAtTTL) {
-                creepsToReplace.push(bank.attackCreeps[i].name);
+                creepsToReplace++;
+            } else {
+                //Still good
+                creepsStillGood++;
             }
         }
 
-        let amountToSpawnToHitCap: number = 0;
-        if (bank.attackCreeps.length < bank.amountOfPositionsAroundBank) {
-            amountToSpawnToHitCap = (bank.amountOfPositionsAroundBank - bank.attackCreeps.length);
+        const shouldSpawnOne = (creepsStillGood < bank.amountOfPositionsAroundBank) || creepsToReplace > 0;
+        if (!shouldSpawnOne) {
+            return;
         }
 
-        const providedOnesThisTick: string[] = [];
-        for (let i: number = 0; i < (amountToSpawnToHitCap + creepsToReplace.length); i++) {
-            for (let j: number = bank.roomsToGetCreepsFrom.length - 1; j >= 0; j--) {
-                const roomName: string = bank.roomsToGetCreepsFrom[j];
-                if (providedOnesThisTick.includes(roomName)) {
-                    continue;
-                }
-                const myRoom: MyRoom | null = HelperFunctions.getMyRoom(roomName);
-                if (myRoom == null) {
-                    continue;
-                }
+        for (let i: number = bank.roomsToGetCreepsFrom.length - 1; i >= 0; i--) {
+            const roomName: string = bank.roomsToGetCreepsFrom[i];
+            const myRoom: MyRoom | null = HelperFunctions.getMyRoom(roomName);
+            if (myRoom == null) {
+                continue;
+            }
 
-                const newCreep: PowerBankScavengeAttackCreep | null = this.spawnCreep(bank, myRoom);
-                if (newCreep != null) {
-                    bank.attackCreeps.push(newCreep);
-                    console.log("LOG: Spawned a new PowerBankScavengeAttackCreep");
-                    providedOnesThisTick.push(roomName);
-                    bank.attackCreepsStillNeeded--;
-                    if (amountToSpawnToHitCap > 0) {
-                        amountToSpawnToHitCap--;
-                    } else {
-                        for (let k: number = 0; k < bank.attackCreeps.length; k++) {
-                            if (creepsToReplace.includes(bank.attackCreeps[k].name)) {
-                                bank.attackCreeps[k].beenReplaced = true;
-                                break;
-                            }
-                        }
+            const newCreep: PowerBankScavengeAttackCreep | null = this.spawnCreep(bank, myRoom);
+            if (newCreep != null) {
+                bank.attackCreeps.push(newCreep);
+                console.log("LOG: Spawned a new PowerBankScavengeAttackCreep");
+                bank.attackCreepsStillNeeded--;
+                for (let j: number = 0; j < bank.attackCreeps.length; j++) {
+                    if (bank.attackCreeps[j].beenReplaced) {
+                        continue;
+                    }
+                    const creep: Creep = Game.creeps[bank.attackCreeps[j].name] as Creep;
+                    if (creep.ticksToLive != null &&
+                        creep.ticksToLive <= bank.replaceAtTTL) {
+                        bank.attackCreeps[j].beenReplaced = true;
+                        return;
                     }
                 }
+                return;
             }
         }
     }

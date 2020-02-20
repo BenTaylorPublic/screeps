@@ -13,6 +13,7 @@ export class RolePowerBankScavengeAttackCreep {
                 //Kill the creep
                 creep.say("dthb4dshnr");
                 creep.suicide();
+                Game.notify("Power bank destroyed at " + Game.time);
                 return;
             }
 
