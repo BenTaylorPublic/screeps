@@ -11,19 +11,6 @@ Push to master to release
 ## TODO
 ### Working on
 ```
-Power scavenging
-
-Damage per tick of a creep is 4*4*30/2=240DPT
-Creeps take ROOM_DISTANCE*50*3 ticks to get there
-So a creeps applied Damage is 240*(1500-150*ROOM_DISTANCE)
-EG: at 5 rooms away = 180,000 DAMAGE
-Calculate this at start:
-Spawn enough creeps to go over 2,000,000 damage, +1 creep
-
-Max creeps out at the AREA_SURROUNDING
-Calculate this at start:
-Spawn replacementCreep when creepX has < ROOM_DISTANCE*50*3 TTL
-
 Calculate this at start:
 Spawn the haulers when bank has hits < (ROOM_DISTANCE*50*240*AREA_SURROUNDING)
 

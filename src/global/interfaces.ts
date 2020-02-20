@@ -280,4 +280,5 @@ interface PowerScavengeBank {
     amountOfRoomAmoundBank: number;
     power: number;
     replaceAtTTL: number;
+    spawnHaulersAtHP: number;
 }

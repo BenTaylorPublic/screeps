@@ -56,9 +56,13 @@ export class PowerScavengeController {
         }
 
         //Working out how many creeps we'll need
-        const travelTime: number = closestDistance * Constants.POWER_SCAVENGE_MAX_DAMAGE_TRAVEL_TICKS_PER_ROOM;
-        const damageDonePerCreep: number = (1500 - travelTime) * amountOfRoomAroundBank * Constants.POWER_SCAVENGE_MAX_DAMAGE_PER_TICK_PER_AREA;
+        const damageTravelTime: number = closestDistance * Constants.POWER_SCAVENGE_MAX_DAMAGE_TRAVEL_TICKS_PER_ROOM;
+        const damagePerTick: number = amountOfRoomAroundBank * Constants.POWER_SCAVENGE_MAX_DAMAGE_PER_TICK_PER_AREA;
+        const damageDonePerCreep: number = (1500 - damageTravelTime) * damagePerTick;
         const amountOfCreepsNeeded: number = Math.ceil(2000000 / damageDonePerCreep);
+
+        const haulerTravelTime: number = closestDistance * Constants.POWER_SCAVENGE_MAX_HAUL_TRAVEL_TICKS_PER_ROOM;
+        const spawnHaulersAtHp: number = haulerTravelTime * damagePerTick;
 
         myMemory.empire.powerScavenge.banksScavengingFrom.push({
             id: powerBank.id,
@@ -71,7 +75,8 @@ export class PowerScavengeController {
             attackCreepsStillNeeded: amountOfCreepsNeeded,
             amountOfRoomAmoundBank: amountOfRoomAroundBank,
             power: powerBank.power,
-            replaceAtTTL: travelTime
+            replaceAtTTL: damageTravelTime,
+            spawnHaulersAtHP: spawnHaulersAtHp
         });
     }
 
@@ -163,7 +168,7 @@ export class PowerScavengeController {
         const body: BodyPartConstant[] =
             [
                 MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE,
-                MOVE,
+                MOVE, MOVE,
                 HEAL, HEAL, HEAL, HEAL, HEAL, ATTACK, ATTACK, ATTACK, ATTACK,
                 HEAL, HEAL, HEAL, HEAL, HEAL, ATTACK, ATTACK, ATTACK, ATTACK,
                 HEAL, HEAL, HEAL, HEAL, HEAL, ATTACK, ATTACK, ATTACK, ATTACK,
