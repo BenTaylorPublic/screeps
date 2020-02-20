@@ -26,7 +26,8 @@ export class RoleMiner {
             }
 
             if (source.energy > 0 &&
-                creep.carry[RESOURCE_ENERGY] <= (creep.carryCapacity - miner.amountOfWork * 2)) {
+                (creep.carry[RESOURCE_ENERGY] <= (creep.carryCapacity - miner.amountOfWork * 2) ||
+                    creep.carryCapacity === 0)) {
                 creep.harvest(source);
             } else if (miner.linkIdToDepositTo != null &&
                 creep.carry[RESOURCE_ENERGY] > (creep.carryCapacity - miner.amountOfWork * 2)) {
