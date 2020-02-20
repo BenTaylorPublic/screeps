@@ -47,14 +47,18 @@ export class PowerScavengeController {
         //Otherwise, WE'RE GOOD, LET'S GO BOIZ
         console.log("LOG: Power scavenging power bank in room " + powerBank.room.name);
 
-        //TODO: SET THIS
-        const amountOfRoomAroundBank: number = 0;
+        const amountOfRoomAroundBank: number = HelperFunctions.areaAroundPos(powerBank.pos, powerBank.room);
 
         //This should reuse the rooms
         const roomsToSpawnThrough: string[] = [];
         for (let i: number = 0; i < closestRooms.length; i++) {
             roomsToSpawnThrough.push(closestRooms[i].name);
         }
+
+        //Working out how many creeps we'll need
+        const travelTime: number = closestDistance * Constants.POWER_SCAVENGE_MAX_DAMAGE_TRAVEL_TICKS_PER_ROOM;
+        const damageDonePerCreep: number = (1500 - travelTime) * amountOfRoomAroundBank * Constants.POWER_SCAVENGE_MAX_DAMAGE_PER_TICK_PER_AREA;
+        const amountOfCreepsNeeded: number = Math.ceil(2000000 / damageDonePerCreep);
 
         myMemory.empire.powerScavenge.banksScavengingFrom.push({
             id: powerBank.id,
@@ -64,8 +68,9 @@ export class PowerScavengeController {
             roomDistanceToBank: closestDistance,
             attackCreeps: [],
             haulCreeps: [],
-            amountOfRoomAmoundBank: amountOfRoomAroundBank
-
+            attackCreepsStillNeeded: amountOfCreepsNeeded,
+            amountOfRoomAmoundBank: amountOfRoomAroundBank,
+            power: powerBank.power
         });
     }
 
@@ -85,22 +90,35 @@ export class PowerScavengeController {
     }
 
     private static handleBank(bankScavengingFrom: PowerScavengeBank, myMemory: MyMemory): void {
-        // TODO: Only spawn to get enough DPS to finish
-        this.spawnCreepsIfNeeded(bankScavengingFrom.roomsToGetCreepsFrom, bankScavengingFrom, myMemory);
+        this.trySpawnCreepsIfNeeded(bankScavengingFrom, myMemory);
 
-        for (let i: number = 0; i < bankScavengingFrom.attackCreeps.length; i++) {
-            RolePowerBankScavengeAttackCreep.run(bankScavengingFrom.attackCreeps[i] as PowerBankScavengeAttackCreep);
+        for (let i: number = bankScavengingFrom.attackCreeps.length - 1; i >= 0; i--) {
+            if (!Game.creeps[bankScavengingFrom.attackCreeps[i].name]) {
+                bankScavengingFrom.attackCreeps.splice(i, 1);
+            } else {
+                RolePowerBankScavengeAttackCreep.run(bankScavengingFrom.attackCreeps[i] as PowerBankScavengeAttackCreep);
+            }
         }
     }
 
-    private static spawnCreepsIfNeeded(roomsStillToProvide: string[], bank: PowerScavengeBank, myMemory: MyMemory): void {
-        if (roomsStillToProvide.length === 0) {
+    private static trySpawnCreepsIfNeeded(bank: PowerScavengeBank, myMemory: MyMemory): void {
+
+        if (bank.attackCreepsStillNeeded <= 0) {
             return;
         }
+        for (let i: number = 0; i < bank.attackCreeps.length; i++) {
+
+        }
+
+        /*
+        TODO:
+        Need to replace creeps, and set .beenReplaced
+        Need to spawn creeps to maintain the .amountOfRoomAmoundBank
+         */
 
         const providedOnesThisTick: string[] = [];
-        for (let i: number = roomsStillToProvide.length - 1; i >= 0; i--) {
-            const roomName: string = roomsStillToProvide[i];
+        for (let i: number = bank.roomsToGetCreepsFrom.length - 1; i >= 0; i--) {
+            const roomName: string = bank.roomsToGetCreepsFrom[i];
             if (providedOnesThisTick.includes(roomName)) {
                 continue;
             }
@@ -120,8 +138,8 @@ export class PowerScavengeController {
             if (newCreep != null) {
                 bank.attackCreeps.push(newCreep);
                 console.log("LOG: Spawned a new PowerBankScavengeAttackCreep");
-                roomsStillToProvide.splice(i, 1);
                 providedOnesThisTick.push(roomName);
+                bank.attackCreepsStillNeeded--;
             }
 
         }
@@ -162,7 +180,8 @@ export class PowerScavengeController {
                 name: "Creep" + id,
                 role: "PowerBankScavengeAttackCreep",
                 assignedRoomName: powerScavengeBank.pos.roomName,
-                powerBankId: powerScavengeBank.id
+                powerBankId: powerScavengeBank.id,
+                beenReplaced: false
             };
         }
         return null;

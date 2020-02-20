@@ -215,6 +215,29 @@ export class HelperFunctions {
             });
     }
 
+    public static areaAroundPos(pos: RoomPosition, room: Room): number {
+        let result: number = 8;
+        const terrain: RoomTerrain = room.getTerrain();
+
+        const roomPositionsAround: { x: number, y: number }[] = [];
+        roomPositionsAround.push({x: pos.x, y: pos.y - 1});
+        roomPositionsAround.push({x: pos.x, y: pos.y + 1});
+        roomPositionsAround.push({x: pos.x - 1, y: pos.y});
+        roomPositionsAround.push({x: pos.x + 1, y: pos.y});
+
+        roomPositionsAround.push({x: pos.x - 1, y: pos.y - 1});
+        roomPositionsAround.push({x: pos.x - 1, y: pos.y + 1});
+        roomPositionsAround.push({x: pos.x + 1, y: pos.y + 1});
+        roomPositionsAround.push({x: pos.x + 1, y: pos.y - 1});
+
+        for (let i: number = 0; i < 8; i++) {
+            if (terrain.get(roomPositionsAround[i].x, roomPositionsAround[i].y) === TERRAIN_MASK_WALL) {
+                result--;
+            }
+        }
+        return result;
+    }
+
     private static avoidEdges(costMatrix: CostMatrix, room: Room): void {
         room.find(FIND_EXIT).forEach((exitPos: RoomPosition) => {
             costMatrix.set(exitPos.x, exitPos.y, Infinity);

@@ -11,9 +11,25 @@ Push to master to release
 ## TODO
 ### Working on
 ```
-Power scavenge
-    Re-test
-    Create haulers if it works
+Power scavenging
+
+Damage per tick of a creep is 4*4*30/2=240DPT
+Creeps take ROOM_DISTANCE*50*3 ticks to get there
+So a creeps applied Damage is 240*(1500-150*ROOM_DISTANCE)
+EG: at 5 rooms away = 180,000 DAMAGE
+Calculate this at start:
+Spawn enough creeps to go over 2,000,000 damage, +1 creep
+
+Max creeps out at the AREA_SURROUNDING
+Calculate this at start:
+Spawn replacementCreep when creepX has < ROOM_DISTANCE*50*3 TTL
+
+Calculate this at start:
+Spawn the haulers when bank has hits < (ROOM_DISTANCE*50*240*AREA_SURROUNDING)
+
+Haulers body will be CARRY CARRY MOVE i think
+
+Haulers deposit to closest stage 8 room with 2 sources
 ```
 ### Short term
 ```
@@ -21,6 +37,9 @@ Spawning
     Spawns could have a queue
     This would save the spawn logic from assembling a body every tick until it's able to be used
     Would also allow having a priority queue (Defence > Offence > Economy)
+
+HelperFunctions.getInterRoomTravelPathTarget
+    Should find closest exit, not just any
 ```
 ### Mid term:
 ```
@@ -67,6 +86,15 @@ Optional buildings
         If you have less links than the cap, run the linkCheck logic on every stage loop
     Nuker
     Labs
+
+Room logic
+    Only do this after stockers
+    Scaling laborers value should be 200K energy
+    All stage 8 rooms maintain 1 small body laborer
+    At 200K, spawn big body laborers
+
+Log links to rooms
+    <a href="#!/room/W41N1">W41N1</a>
 ```
 ### Long term:
 ```
@@ -119,9 +147,6 @@ Nukes (Offence)
 
 Nukes (Defence)
     Use FIND_NUKES constant and instantly email
-
-HelperFunctions.getInterRoomTravelPathTarget
-    Should find closest exit, not just any
 ```
 
 ## Flag Names

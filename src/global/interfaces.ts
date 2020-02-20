@@ -213,6 +213,7 @@ interface AttackPressureCreep extends MyCreep {
 
 interface PowerBankScavengeAttackCreep extends MyCreep {
     powerBankId: string;
+    beenReplaced: boolean;
 }
 
 /*
@@ -273,7 +274,9 @@ interface PowerScavengeBank {
     roomsToGetCreepsFrom: string[];
     eol: number;
     attackCreeps: PowerBankScavengeAttackCreep[];
+    attackCreepsStillNeeded: number;
     haulCreeps: any[];//TODO:
     roomDistanceToBank: number;
     amountOfRoomAmoundBank: number;
+    power: number;
 }
