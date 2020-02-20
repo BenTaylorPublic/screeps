@@ -44,10 +44,13 @@ export class PowerScavengeController {
             return;
         }
 
+        const amountOfPositionsAroundBank: number = HelperFunctions.areaAroundPos(powerBank.pos, powerBank.room);
+        if (amountOfPositionsAroundBank < Constants.POWER_SCAVENGE_AREA_AROUND_BANK_MIN) {
+            return;
+        }
+
         //Otherwise, WE'RE GOOD, LET'S GO BOIZ
         console.log("LOG: Power scavenging power bank in room " + powerBank.room.name);
-
-        const amountOfPositionsAroundBank: number = HelperFunctions.areaAroundPos(powerBank.pos, powerBank.room);
 
         //This should reuse the rooms
         const roomsToSpawnThrough: string[] = [];
@@ -66,6 +69,7 @@ export class PowerScavengeController {
 
         const email: string = "Scavenging power bank at " + powerBank.room.name + "\n" +
             "Game.time: " + Game.time + "\n" +
+            "EOL: " + (Game.time + powerBank.ticksToDecay) + "\n" +
             "closestDistance: " + closestDistance + "\n" +
             "damageTravelTime: " + damageTravelTime + "\n" +
             "damagePerTick: " + damagePerTick + "\n" +
@@ -117,7 +121,7 @@ export class PowerScavengeController {
         this.trySpawnAttackCreepIfNeeded(bankScavengingFrom, myMemory);
 
         for (let i: number = 0; i < bankScavengingFrom.attackCreeps.length; i++) {
-            RolePowerBankScavengeAttackCreep.run(bankScavengingFrom.attackCreeps[i] as PowerBankScavengeAttackCreep);
+            RolePowerBankScavengeAttackCreep.run(bankScavengingFrom.attackCreeps[i] as PowerBankScavengeAttackCreep, bankScavengingFrom.eol);
         }
     }
 

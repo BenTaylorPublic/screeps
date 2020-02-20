@@ -20,4 +20,5 @@ export class Constants {
     public static POWER_SCAVENGE_MAX_DAMAGE_PER_TICK_PER_AREA: number = 240;
     public static POWER_SCAVENGE_MAX_DAMAGE_TRAVEL_TICKS_PER_ROOM: number = 150;
     public static POWER_SCAVENGE_MAX_HAUL_TRAVEL_TICKS_PER_ROOM: number = 50;
+    public static POWER_SCAVENGE_AREA_AROUND_BANK_MIN: number = 2;
 }
