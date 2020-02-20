@@ -277,7 +277,7 @@ interface PowerScavengeBank {
     attackCreepsStillNeeded: number;
     haulCreeps: any[]; //TODO:
     roomDistanceToBank: number;
-    amountOfRoomAmoundBank: number;
+    amountOfPositionsAroundBank: number;
     power: number;
     replaceAtTTL: number;
     spawnHaulersAtHP: number;

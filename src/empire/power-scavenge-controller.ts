@@ -46,9 +46,8 @@ export class PowerScavengeController {
 
         //Otherwise, WE'RE GOOD, LET'S GO BOIZ
         console.log("LOG: Power scavenging power bank in room " + powerBank.room.name);
-        Game.notify("Power scavenging power bank in room " + powerBank.room.name);
 
-        const amountOfRoomAroundBank: number = HelperFunctions.areaAroundPos(powerBank.pos, powerBank.room);
+        const amountOfPositionsAroundBank: number = HelperFunctions.areaAroundPos(powerBank.pos, powerBank.room);
 
         //This should reuse the rooms
         const roomsToSpawnThrough: string[] = [];
@@ -58,12 +57,25 @@ export class PowerScavengeController {
 
         //Working out how many creeps we'll need
         const damageTravelTime: number = closestDistance * Constants.POWER_SCAVENGE_MAX_DAMAGE_TRAVEL_TICKS_PER_ROOM;
-        const damagePerTick: number = amountOfRoomAroundBank * Constants.POWER_SCAVENGE_MAX_DAMAGE_PER_TICK_PER_AREA;
+        const damagePerTick: number = amountOfPositionsAroundBank * Constants.POWER_SCAVENGE_MAX_DAMAGE_PER_TICK_PER_AREA;
         const damageDonePerCreep: number = (1500 - damageTravelTime) * damagePerTick;
         const amountOfCreepsNeeded: number = Math.ceil(2000000 / damageDonePerCreep);
 
         const haulerTravelTime: number = closestDistance * Constants.POWER_SCAVENGE_MAX_HAUL_TRAVEL_TICKS_PER_ROOM;
         const spawnHaulersAtHp: number = haulerTravelTime * damagePerTick;
+
+        const email: string = "Scavenging power bank at " + powerBank.room.name + "\n" +
+            "Game.time: " + Game.time + "\n" +
+            "closestDistance: " + closestDistance + "\n" +
+            "damageTravelTime: " + damageTravelTime + "\n" +
+            "damagePerTick: " + damagePerTick + "\n" +
+            "damageDonePerCreep: " + damageDonePerCreep + "\n" +
+            "amountOfPositionsAroundBank: " + amountOfPositionsAroundBank + "\n" +
+            "amountOfCreepsNeeded: " + amountOfCreepsNeeded + "\n" +
+            "haulerTravelTime: " + haulerTravelTime + "\n" +
+            "spawnHaulersAtHp: " + spawnHaulersAtHp + "\n";
+
+        Game.notify(email);
 
         myMemory.empire.powerScavenge.banksScavengingFrom.push({
             id: powerBank.id,
@@ -74,7 +86,7 @@ export class PowerScavengeController {
             attackCreeps: [],
             haulCreeps: [],
             attackCreepsStillNeeded: amountOfCreepsNeeded,
-            amountOfRoomAmoundBank: amountOfRoomAroundBank,
+            amountOfPositionsAroundBank: amountOfPositionsAroundBank,
             power: powerBank.power,
             replaceAtTTL: damageTravelTime,
             spawnHaulersAtHP: spawnHaulersAtHp
@@ -124,8 +136,8 @@ export class PowerScavengeController {
         }
 
         let amountToSpawnToHitCap: number = 0;
-        if (bank.attackCreeps.length < bank.amountOfRoomAmoundBank) {
-            amountToSpawnToHitCap = (bank.amountOfRoomAmoundBank - bank.attackCreeps.length);
+        if (bank.attackCreeps.length < bank.amountOfPositionsAroundBank) {
+            amountToSpawnToHitCap = (bank.amountOfPositionsAroundBank - bank.attackCreeps.length);
         }
 
         const providedOnesThisTick: string[] = [];

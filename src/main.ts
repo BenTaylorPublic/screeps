@@ -7,6 +7,8 @@ import {FunctionProfiler} from "./profiler/function-profiler/function-profiler";
 
 console.log("Script reloaded");
 
+Memory.myMemory.empire.powerScavenge.banksScavengingFrom = [];
+
 setupMyMemory();
 
 export let loop: any = function (): void {
