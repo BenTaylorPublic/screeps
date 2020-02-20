@@ -162,7 +162,7 @@ export class HelperFunctions {
         if (creepMemory.interRoomTravelCurrentTarget == null ||
             creep.pos.roomName !== creepMemory.interRoomTravelCurrentTarget.roomName) {
             //Needs a new target
-            const target: RoomPosition | null = this.getInterRoomTravelPathTarget(creep.pos.roomName, roomName);
+            const target: RoomPosition | null = this.getInterRoomTravelPathTarget(creep.pos, roomName);
             if (target == null) {
                 return;
             }
@@ -253,7 +253,8 @@ export class HelperFunctions {
         });
     }
 
-    private static getInterRoomTravelPathTarget(fromRoomName: string, toRoomName: string): RoomPosition | null {
+    private static getInterRoomTravelPathTarget(currentPos: RoomPosition, toRoomName: string): RoomPosition | null {
+        const fromRoomName: string = currentPos.roomName;
         const result1: FindRouteResult = Game.map.findRoute(fromRoomName, toRoomName, {
             routeCallback(room2: string, room1: string): number {
                 if (Memory.myMemory.empire.avoidRooms.includes(room2)) {
@@ -272,9 +273,11 @@ export class HelperFunctions {
             return null;
         }
 
-        const thisRoomsExits: RoomPosition[] = Game.rooms[fromRoomName].find(result1[0].exit);
 
-        return thisRoomsExits[0];
+        const thisRoomsExits: RoomPosition[] = Game.rooms[fromRoomName].find(result1[0].exit);
+        const result: RoomPosition = currentPos.findClosestByRange(thisRoomsExits) as RoomPosition;
+
+        return result;
     }
 
     private static calcBodyCost(body: BodyPartConstant[]): number {

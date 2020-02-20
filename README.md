@@ -24,9 +24,6 @@ Spawning
     Spawns could have a queue
     This would save the spawn logic from assembling a body every tick until it's able to be used
     Would also allow having a priority queue (Defence > Offence > Economy)
-
-HelperFunctions.getInterRoomTravelPathTarget
-    Should find closest exit, not just any
 ```
 ### Mid term:
 ```
