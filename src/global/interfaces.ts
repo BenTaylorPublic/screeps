@@ -275,8 +275,9 @@ interface PowerScavengeBank {
     eol: number;
     attackCreeps: PowerBankScavengeAttackCreep[];
     attackCreepsStillNeeded: number;
-    haulCreeps: any[];//TODO:
+    haulCreeps: any[]; //TODO:
     roomDistanceToBank: number;
     amountOfRoomAmoundBank: number;
     power: number;
+    replaceAtTTL: number;
 }

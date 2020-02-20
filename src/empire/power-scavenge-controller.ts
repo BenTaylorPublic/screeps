@@ -70,7 +70,8 @@ export class PowerScavengeController {
             haulCreeps: [],
             attackCreepsStillNeeded: amountOfCreepsNeeded,
             amountOfRoomAmoundBank: amountOfRoomAroundBank,
-            power: powerBank.power
+            power: powerBank.power,
+            replaceAtTTL: travelTime
         });
     }
 
@@ -90,14 +91,15 @@ export class PowerScavengeController {
     }
 
     private static handleBank(bankScavengingFrom: PowerScavengeBank, myMemory: MyMemory): void {
-        this.trySpawnCreepsIfNeeded(bankScavengingFrom, myMemory);
-
         for (let i: number = bankScavengingFrom.attackCreeps.length - 1; i >= 0; i--) {
             if (!Game.creeps[bankScavengingFrom.attackCreeps[i].name]) {
                 bankScavengingFrom.attackCreeps.splice(i, 1);
-            } else {
-                RolePowerBankScavengeAttackCreep.run(bankScavengingFrom.attackCreeps[i] as PowerBankScavengeAttackCreep);
             }
+        }
+        this.trySpawnCreepsIfNeeded(bankScavengingFrom, myMemory);
+
+        for (let i: number = 0; i < bankScavengingFrom.attackCreeps.length; i++) {
+            RolePowerBankScavengeAttackCreep.run(bankScavengingFrom.attackCreeps[i] as PowerBankScavengeAttackCreep);
         }
     }
 
@@ -106,42 +108,50 @@ export class PowerScavengeController {
         if (bank.attackCreepsStillNeeded <= 0) {
             return;
         }
+        const creepsToReplace: string[] = [];
         for (let i: number = 0; i < bank.attackCreeps.length; i++) {
-
+            const creep: Creep = Game.creeps[bank.attackCreeps[i].name] as Creep;
+            if (creep.ticksToLive != null &&
+                creep.ticksToLive <= bank.replaceAtTTL) {
+                creepsToReplace.push(bank.attackCreeps[i].name);
+            }
         }
 
-        /*
-        TODO:
-        Need to replace creeps, and set .beenReplaced
-        Need to spawn creeps to maintain the .amountOfRoomAmoundBank
-         */
+        let amountToSpawnToHitCap: number = 0;
+        if (bank.attackCreeps.length < bank.amountOfRoomAmoundBank) {
+            amountToSpawnToHitCap = (bank.amountOfRoomAmoundBank - bank.attackCreeps.length);
+        }
 
         const providedOnesThisTick: string[] = [];
-        for (let i: number = bank.roomsToGetCreepsFrom.length - 1; i >= 0; i--) {
-            const roomName: string = bank.roomsToGetCreepsFrom[i];
-            if (providedOnesThisTick.includes(roomName)) {
-                continue;
-            }
+        for (let i: number = 0; i < (amountToSpawnToHitCap + creepsToReplace.length); i++) {
+            for (let j: number = bank.roomsToGetCreepsFrom.length - 1; j >= 0; j--) {
+                const roomName: string = bank.roomsToGetCreepsFrom[j];
+                if (providedOnesThisTick.includes(roomName)) {
+                    continue;
+                }
+                const myRoom: MyRoom | null = HelperFunctions.getMyRoom(roomName);
+                if (myRoom == null) {
+                    continue;
+                }
 
-            let myRoom: MyRoom | null = null;
-            for (let j: number = 0; j < myMemory.myRooms.length; j++) {
-                if (myMemory.myRooms[j].name === roomName) {
-                    myRoom = myMemory.myRooms[j];
-                    break;
+                const newCreep: PowerBankScavengeAttackCreep | null = this.spawnCreep(bank, myRoom);
+                if (newCreep != null) {
+                    bank.attackCreeps.push(newCreep);
+                    console.log("LOG: Spawned a new PowerBankScavengeAttackCreep");
+                    providedOnesThisTick.push(roomName);
+                    bank.attackCreepsStillNeeded--;
+                    if (amountToSpawnToHitCap > 0) {
+                        amountToSpawnToHitCap--;
+                    } else {
+                        for (let k: number = 0; k < bank.attackCreeps.length; k++) {
+                            if (creepsToReplace.includes(bank.attackCreeps[k].name)) {
+                                bank.attackCreeps[k].beenReplaced = true;
+                                break;
+                            }
+                        }
+                    }
                 }
             }
-            if (myRoom == null) {
-                continue;
-            }
-
-            const newCreep: PowerBankScavengeAttackCreep | null = this.spawnCreep(bank, myRoom);
-            if (newCreep != null) {
-                bank.attackCreeps.push(newCreep);
-                console.log("LOG: Spawned a new PowerBankScavengeAttackCreep");
-                providedOnesThisTick.push(roomName);
-                bank.attackCreepsStillNeeded--;
-            }
-
         }
     }
 

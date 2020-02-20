@@ -238,6 +238,15 @@ export class HelperFunctions {
         return result;
     }
 
+    public static getMyRoom(roomName: string): MyRoom | null {
+        for (let i: number = 0; i < Memory.myMemory.myRooms.length; i++) {
+            if (Memory.myMemory.myRooms[i].name === roomName) {
+                return Memory.myMemory.myRooms[i];
+            }
+        }
+        return null;
+    }
+
     private static avoidEdges(costMatrix: CostMatrix, room: Room): void {
         room.find(FIND_EXIT).forEach((exitPos: RoomPosition) => {
             costMatrix.set(exitPos.x, exitPos.y, Infinity);
