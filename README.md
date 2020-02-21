@@ -11,8 +11,9 @@ Push to master to release
 ## TODO
 ### Working on
 ```
-Update screeps types
-    Stop using creep.carry
+Updating node modules
+
+Testing scavenging
 ```
 ### Short term
 ```
