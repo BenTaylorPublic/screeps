@@ -7,6 +7,7 @@ import {FunctionProfiler} from "./profiler/function-profiler/function-profiler";
 import {Memory} from "screeps";
 
 console.log("Script reloaded");
+Memory.myMemory.empire.powerScavenge.banksScavengingFrom = [];
 
 setupMyMemory();
 

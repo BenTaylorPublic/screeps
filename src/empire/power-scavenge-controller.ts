@@ -61,8 +61,8 @@ export class PowerScavengeController {
         //Working out how many creeps we'll need
         const damageTravelTime: number = closestDistance * Constants.POWER_SCAVENGE_MAX_DAMAGE_TRAVEL_TICKS_PER_ROOM;
         const damagePerTick: number = amountOfPositionsAroundBank * Constants.POWER_SCAVENGE_MAX_DAMAGE_PER_TICK_PER_AREA;
-        const damageDonePerCreep: number = (1500 - damageTravelTime) * damagePerTick;
-        const amountOfCreepsNeeded: number = Math.ceil(2000000 / damageDonePerCreep);
+        const damageDonePerCreep: number = (1500 - damageTravelTime) * Constants.POWER_SCAVENGE_MAX_DAMAGE_PER_TICK_PER_AREA;
+        const amountOfAttackCreepsNeeded: number = Math.ceil(2000000 / damageDonePerCreep);
 
         const haulerTravelTime: number = closestDistance * Constants.POWER_SCAVENGE_MAX_HAUL_TRAVEL_TICKS_PER_ROOM;
         const spawnHaulersAtHp: number = haulerTravelTime * damagePerTick;
@@ -77,7 +77,7 @@ export class PowerScavengeController {
             "damagePerTick: " + damagePerTick + "\n" +
             "damageDonePerCreep: " + damageDonePerCreep + "\n" +
             "amountOfPositionsAroundBank: " + amountOfPositionsAroundBank + "\n" +
-            "amountOfCreepsNeeded: " + amountOfCreepsNeeded + "\n" +
+            "amountOfAttackCreepsNeeded: " + amountOfAttackCreepsNeeded + "\n" +
             "haulerTravelTime: " + haulerTravelTime + "\n" +
             "spawnHaulersAtHp: " + spawnHaulersAtHp + "\n" +
             "amountOfCarryBody: " + amountOfCarryBody + "\n";
@@ -91,7 +91,7 @@ export class PowerScavengeController {
             eol: Game.time + powerBank.ticksToDecay,
             roomDistanceToBank: closestDistance,
             attackCreeps: [],
-            attackCreepsStillNeeded: amountOfCreepsNeeded,
+            attackCreepsStillNeeded: amountOfAttackCreepsNeeded,
             amountOfPositionsAroundBank: amountOfPositionsAroundBank,
             power: powerBank.power,
             replaceAtTTL: damageTravelTime,
