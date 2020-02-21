@@ -23,6 +23,9 @@ Spawning
 ```
 ### Mid term:
 ```
+Update screeps types
+    Stop using creep.carry
+
 IsSpawned bool on creeps
 
 AvoidMatrix should be created and used for a whole tick's moveTo logic
