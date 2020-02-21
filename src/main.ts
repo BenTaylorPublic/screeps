@@ -4,6 +4,7 @@ import {EmpireController} from "./empire/empire-controller";
 import {ScheduleController} from "./schedule/schedule-controller";
 import {ProfilerWrapper} from "./profiler/profiler-wrapper";
 import {FunctionProfiler} from "./profiler/function-profiler/function-profiler";
+import {Memory} from "screeps";
 
 console.log("Script reloaded");
 
