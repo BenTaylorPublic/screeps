@@ -11,11 +11,7 @@ Push to master to release
 ## TODO
 ### Working on
 ```
-Calculate this at start:
-Spawn the haulers when bank has hits < (ROOM_DISTANCE*50*240*AREA_SURROUNDING)
-
-Haulers body will be CARRY CARRY MOVE i think
-
+Just need to add the haulers role
 Haulers deposit to closest stage 8 room with 2 sources
 ```
 ### Short term

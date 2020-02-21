@@ -67,6 +67,8 @@ export class PowerScavengeController {
         const haulerTravelTime: number = closestDistance * Constants.POWER_SCAVENGE_MAX_HAUL_TRAVEL_TICKS_PER_ROOM;
         const spawnHaulersAtHp: number = haulerTravelTime * damagePerTick;
 
+        const amountOfCarryBody: number = powerBank.power / 50;
+
         const email: string = "Scavenging power bank at " + powerBank.room.name + "\n" +
             "Game.time: " + Game.time + "\n" +
             "EOL: " + (Game.time + powerBank.ticksToDecay) + "\n" +
@@ -77,7 +79,8 @@ export class PowerScavengeController {
             "amountOfPositionsAroundBank: " + amountOfPositionsAroundBank + "\n" +
             "amountOfCreepsNeeded: " + amountOfCreepsNeeded + "\n" +
             "haulerTravelTime: " + haulerTravelTime + "\n" +
-            "spawnHaulersAtHp: " + spawnHaulersAtHp + "\n";
+            "spawnHaulersAtHp: " + spawnHaulersAtHp + "\n" +
+            "amountOfCarryBody: " + amountOfCarryBody + "\n";
 
         Game.notify(email);
 
@@ -88,12 +91,13 @@ export class PowerScavengeController {
             eol: Game.time + powerBank.ticksToDecay,
             roomDistanceToBank: closestDistance,
             attackCreeps: [],
-            haulCreeps: [],
             attackCreepsStillNeeded: amountOfCreepsNeeded,
             amountOfPositionsAroundBank: amountOfPositionsAroundBank,
             power: powerBank.power,
             replaceAtTTL: damageTravelTime,
-            spawnHaulersAtHP: spawnHaulersAtHp
+            spawnHaulersAtHP: spawnHaulersAtHp,
+            amountOfCarryBodyStillNeeded: amountOfCarryBody,
+            state: "high_hp"
         });
     }
 
@@ -104,7 +108,10 @@ export class PowerScavengeController {
         for (let i: number = myMemory.empire.powerScavenge.banksScavengingFrom.length - 1; i >= 0; i--) {
             const bankScavengingFrom: PowerScavengeBank = myMemory.empire.powerScavenge.banksScavengingFrom[i];
 
-            if (Game.time > bankScavengingFrom.eol) {
+            if (Game.time > bankScavengingFrom.eol &&
+                //Bank was killed by EOL, OR, I've spawned all the haulers I need
+                (bankScavengingFrom.state !== "dead" ||
+                    bankScavengingFrom.amountOfCarryBodyStillNeeded <= 0)) {
                 //It gone
                 myMemory.empire.powerScavenge.banksScavengingFrom.splice(i, 1);
             }
@@ -120,9 +127,92 @@ export class PowerScavengeController {
         }
         this.trySpawnAttackCreepIfNeeded(bankScavengingFrom, myMemory);
 
+        const powerBank: StructurePowerBank | null = Game.getObjectById<StructurePowerBank>(bankScavengingFrom.id);
+
         for (let i: number = 0; i < bankScavengingFrom.attackCreeps.length; i++) {
-            RolePowerBankScavengeAttackCreep.run(bankScavengingFrom.attackCreeps[i] as PowerBankScavengeAttackCreep, bankScavengingFrom.eol);
+            RolePowerBankScavengeAttackCreep.run(bankScavengingFrom.attackCreeps[i] as PowerBankScavengeAttackCreep, bankScavengingFrom, powerBank);
         }
+
+        if (powerBank != null &&
+            bankScavengingFrom.state === "high_hp" &&
+            powerBank.hits < bankScavengingFrom.spawnHaulersAtHP) {
+            bankScavengingFrom.state = "spawn_haulers";
+        }
+
+        if (bankScavengingFrom.state === "high_hp") {
+            return;
+        }
+
+        this.trySpawnHaulCreepIfNeeded(bankScavengingFrom, myMemory);
+
+    }
+
+    private static trySpawnHaulCreepIfNeeded(bank: PowerScavengeBank, myMemory: MyMemory): void {
+
+        //2 Carry per section
+        const carryPerSection: number = 2;
+        let sectionsNeeded = Math.ceil(bank.amountOfCarryBodyStillNeeded / carryPerSection);
+        if (sectionsNeeded > 16) {
+            sectionsNeeded = 16;
+        } else if (sectionsNeeded <= 0) {
+            return;
+        }
+        const body: BodyPartConstant[] = [];
+        for (let i: number = 0; i < sectionsNeeded; i++) {
+            body.concat([CARRY, CARRY, MOVE]);
+        }
+
+
+        for (let i: number = bank.roomsToGetCreepsFrom.length - 1; i >= 0; i--) {
+            const roomName: string = bank.roomsToGetCreepsFrom[i];
+            const myRoom: MyRoom | null = HelperFunctions.getMyRoom(roomName);
+            if (myRoom == null) {
+                continue;
+            }
+
+            const newCreep: PowerBankScavengeHaulCreep | null = this.spawnHaulCreep(bank, myRoom, body);
+            if (newCreep != null) {
+                myMemory.empire.creeps.push(newCreep);
+                console.log("LOG: Spawned a new PowerBankScavengeHaulCreep");
+                bank.amountOfCarryBodyStillNeeded -= (sectionsNeeded * carryPerSection);
+                if (bank.amountOfCarryBodyStillNeeded <= 0) {
+                    Game.notify("PowerScavenge: Spawned all the haul creeps needed");
+                }
+
+                return;
+            }
+        }
+
+    }
+
+    private static spawnHaulCreep(powerScavengeBank: PowerScavengeBank, myRoom: MyRoom, body: BodyPartConstant[]): PowerBankScavengeHaulCreep | null {
+
+        let spawn: StructureSpawn | null;
+        spawn = Game.spawns[myRoom.spawns[0].name];
+
+        const id = HelperFunctions.getId();
+        const result: ScreepsReturnCode =
+            spawn.spawnCreep(
+                body,
+                "Creep" + id,
+                {
+                    memory:
+                        {
+                            name: "Creep" + id,
+                            role: "PowerBankScavengeHaulCreep",
+                            assignedRoomName: powerScavengeBank.pos.roomName
+                        }
+                }
+            );
+
+        if (result === OK) {
+            return {
+                name: "Creep" + id,
+                role: "PowerBankScavengeHaulCreep",
+                assignedRoomName: powerScavengeBank.pos.roomName
+            };
+        }
+        return null;
     }
 
     private static trySpawnAttackCreepIfNeeded(bank: PowerScavengeBank, myMemory: MyMemory): void {
@@ -157,7 +247,7 @@ export class PowerScavengeController {
                 continue;
             }
 
-            const newCreep: PowerBankScavengeAttackCreep | null = this.spawnCreep(bank, myRoom);
+            const newCreep: PowerBankScavengeAttackCreep | null = this.spawnAttackCreep(bank, myRoom);
             if (newCreep != null) {
                 bank.attackCreeps.push(newCreep);
                 console.log("LOG: Spawned a new PowerBankScavengeAttackCreep");
@@ -178,7 +268,7 @@ export class PowerScavengeController {
         }
     }
 
-    private static spawnCreep(powerScavengeBank: PowerScavengeBank, myRoom: MyRoom): PowerBankScavengeAttackCreep | null {
+    private static spawnAttackCreep(powerScavengeBank: PowerScavengeBank, myRoom: MyRoom): PowerBankScavengeAttackCreep | null {
 
         let spawn: StructureSpawn | null;
         spawn = Game.spawns[myRoom.spawns[0].name];

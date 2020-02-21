@@ -175,7 +175,7 @@ interface MyRoomName {
 
 interface MyCreep {
     name: string;
-    role: "Hauler" | "Miner" | "Laborer" | "Claimer" | "BankLinker" | "AttackQuickCreep" | "AttackPressureCreep" | "PowerBankScavengeAttackCreep";
+    role: "Hauler" | "Miner" | "Laborer" | "Claimer" | "BankLinker" | "AttackQuickCreep" | "AttackPressureCreep" | "PowerBankScavengeAttackCreep" | "PowerBankScavengeHaulCreep";
     assignedRoomName: string;
     interRoomTravelCurrentTarget?: MyRoomPos;
 }
@@ -214,6 +214,9 @@ interface AttackPressureCreep extends MyCreep {
 interface PowerBankScavengeAttackCreep extends MyCreep {
     powerBankId: string;
     beenReplaced: boolean;
+}
+
+interface PowerBankScavengeHaulCreep extends MyCreep {
 }
 
 /*
@@ -275,10 +278,11 @@ interface PowerScavengeBank {
     eol: number;
     attackCreeps: PowerBankScavengeAttackCreep[];
     attackCreepsStillNeeded: number;
-    haulCreeps: any[]; //TODO:
+    amountOfCarryBodyStillNeeded: number;
     roomDistanceToBank: number;
     amountOfPositionsAroundBank: number;
     power: number;
     replaceAtTTL: number;
     spawnHaulersAtHP: number;
+    state: "high_hp" | "spawn_haulers" | "dead";
 }
