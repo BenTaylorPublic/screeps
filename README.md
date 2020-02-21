@@ -11,8 +11,8 @@ Push to master to release
 ## TODO
 ### Working on
 ```
-Just need to add the haulers role
-Haulers deposit to closest stage 8 room with 2 sources
+Update screeps types
+    Stop using creep.carry
 ```
 ### Short term
 ```
@@ -23,9 +23,6 @@ Spawning
 ```
 ### Mid term:
 ```
-Update screeps types
-    Stop using creep.carry
-
 IsSpawned bool on creeps
 
 AvoidMatrix should be created and used for a whole tick's moveTo logic

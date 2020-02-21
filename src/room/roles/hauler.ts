@@ -17,11 +17,11 @@ export class RoleHauler {
         }
 
         if (hauler.pickup === false &&
-            creep.carry.energy === 0) {
+            creep.store.energy === 0) {
             hauler.pickup = true;
             creep.say("pickup");
         } else if (hauler.pickup === true &&
-            creep.carry.energy === creep.carryCapacity) {
+            creep.store.energy === creep.store.getCapacity()) {
             hauler.pickup = false;
             creep.say("delivering");
         }

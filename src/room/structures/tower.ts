@@ -53,7 +53,7 @@ export class RoomTowerController {
             }
         });
         if (closestDamagedStructure != null &&
-            tower.energy >= tower.energyCapacity * Constants.TOWER_REPAIR_ABOVE_PERCENT) {
+            tower.store.energy >= tower.store.getCapacity(RESOURCE_ENERGY) * Constants.TOWER_REPAIR_ABOVE_PERCENT) {
             tower.repair(closestDamagedStructure);
             return;
         }

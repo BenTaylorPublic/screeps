@@ -17,7 +17,7 @@ export class RoomSourceLinkController {
             return;
         }
 
-        if (link.energy >= Constants.SOURCE_LINK_TRANSFER_AT) {
+        if (link.store.energy >= Constants.SOURCE_LINK_TRANSFER_AT) {
             //Need to transfer energy
 
             for (let i = 0; i < myRoom.outLinks.length; i++) {
@@ -26,7 +26,7 @@ export class RoomSourceLinkController {
                 if (myOutLink.id != null) {
                     const outLink: StructureLink | null = Game.getObjectById<StructureLink>(myOutLink.id);
                     if (outLink != null) {
-                        if (outLink.energyCapacity - outLink.energy >= link.energy) {
+                        if (outLink.store.getFreeCapacity() >= link.store.energy) {
                             link.transferEnergy(outLink);
                             return;
                         }

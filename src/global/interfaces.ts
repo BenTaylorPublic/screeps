@@ -38,7 +38,7 @@ interface ObserverMemory {
     state: "Moving" | "Observing";
     currentTargetIndex: number | null;
     targetList: string[];
-    observerIds: string[];
+    observerIds: Id<StructureObserver>[];
 }
 
 
@@ -65,7 +65,7 @@ interface AttackPressureBatch {
 
 interface AttackTarget {
     roomObject: Creep | Structure<StructureConstant>;
-    id: string;
+    id: Id<RoomObject>;
     type: string;
 }
 
@@ -117,7 +117,7 @@ interface MyRoom {
     name: string;
     myCreeps: MyCreep[];
     spawns: MySpawn[];
-    powerSpawnId: string | null;
+    powerSpawnId: Id<StructurePowerSpawn> | null;
     mySources: MySource[];
     roomStage: Stage;
     bankPos: MyRoomPos | null;
@@ -134,7 +134,7 @@ interface MySpawn {
 }
 
 interface MySource {
-    id: string;
+    id: Id<Source>;
     state: "NoCache" | "Cache" | "Link";
     minerName: string | null; //Null when miner is dead or not assigned
     haulerNames: string[];
@@ -145,12 +145,12 @@ interface MySource {
 
 interface MyCache {
     pos: MyRoomPos;
-    id: string | null;
+    id: Id<StructureContainer> | null;
 }
 
 interface MyLink {
     pos: MyRoomPos;
-    id: string | null;
+    id: Id<StructureLink> | null;
 }
 
 interface MyRoomPos {
@@ -181,10 +181,10 @@ interface MyCreep {
 }
 
 interface Miner extends MyCreep {
-    sourceId: string;
+    sourceId: Id<Source>;
     cachePosToMineOn: MyRoomPos;
     amountOfWork: number;
-    linkIdToDepositTo: string | null;
+    linkIdToDepositTo: Id<StructureLink> | null;
 }
 
 interface Hauler extends MyCreep {
@@ -212,7 +212,7 @@ interface AttackPressureCreep extends MyCreep {
 }
 
 interface PowerBankScavengeAttackCreep extends MyCreep {
-    powerBankId: string;
+    powerBankId: Id<StructurePowerBank>;
     beenReplaced: boolean;
 }
 
@@ -274,7 +274,7 @@ interface PowerScavenge {
 }
 
 interface PowerScavengeBank {
-    id: string;
+    id: Id<StructurePowerBank>;
     pos: MyRoomPos;
     roomsToGetCreepsFrom: string[];
     eol: number;

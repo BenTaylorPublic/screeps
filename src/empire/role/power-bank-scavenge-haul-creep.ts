@@ -55,8 +55,7 @@ export class RolePowerBankScavengeHaulCreep {
     }
 
     private static depositing(creep: Creep, powerBankScavengeHaul: PowerBankScavengeHaulCreep): void {
-        //@ts-ignore
-        if (creep.store.getFreeCapacity === creep.carryCapacity) {
+        if (creep.store.getUsedCapacity() === 0) {
             //All transferred
             creep.say("dthb4dshnr");
             creep.suicide();

@@ -26,11 +26,11 @@ export class RoleMiner {
             }
 
             if (source.energy > 0 &&
-                (creep.carry[RESOURCE_ENERGY] <= (creep.carryCapacity - miner.amountOfWork * 2) ||
-                    creep.carryCapacity === 0)) {
+                (creep.store.energy <= (creep.store.getCapacity() - miner.amountOfWork * 2) ||
+                    creep.store.getCapacity() === 0)) {
                 creep.harvest(source);
             } else if (miner.linkIdToDepositTo != null &&
-                creep.carry[RESOURCE_ENERGY] > (creep.carryCapacity - miner.amountOfWork * 2)) {
+                creep.store.energy > (creep.store.getCapacity() - miner.amountOfWork * 2)) {
                 const link: StructureLink | null = Game.getObjectById<StructureLink>(miner.linkIdToDepositTo);
                 if (link == null) {
                     //Setting it to null, so it doesn't do this every loop

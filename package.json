@@ -4,13 +4,13 @@
     "description": "My screeps AI",
     "main": "index.js",
     "dependencies": {
-        "@types/screeps": "^2.5.3",
-        "terser-webpack-plugin": "^1.2.3",
-        "tslint": "^5.15.0",
-        "typescript": "^3.4.3",
-        "webpack": "^4.30.0",
-        "webpack-cli": "^3.3.0",
-        "webpack-dev-server": "^3.3.1"
+        "@types/screeps": "^3.0.0",
+        "terser-webpack-plugin": "^1.4.3",
+        "tslint": "^5.20.1",
+        "typescript": "^3.8.2",
+        "webpack": "^4.41.6",
+        "webpack-cli": "^3.3.11",
+        "webpack-dev-server": "^3.10.3"
     },
     "devDependencies": {},
     "scripts": {

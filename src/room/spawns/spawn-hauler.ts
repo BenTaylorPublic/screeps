@@ -20,7 +20,7 @@ export class SpawnHauler {
                 mySource.haulerNames.length < Constants.MAX_HAULERS_PER_SOURCE &&
                 mySource.haulerCooldown === 0 &&
                 myCache != null &&
-                myCache.store[RESOURCE_ENERGY] >= myCache.storeCapacity * Constants.PERCENT_OF_CACHE_ENERGY_TO_SPAWN_HAULER) {
+                myCache.store.energy >= myCache.store.getCapacity() * Constants.PERCENT_OF_CACHE_ENERGY_TO_SPAWN_HAULER) {
                 //Spawn a new hauler
                 const newCreep: Hauler | null = this.spawnHauler(myRoom, mySource);
                 if (newCreep != null) {
