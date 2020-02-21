@@ -217,6 +217,8 @@ interface PowerBankScavengeAttackCreep extends MyCreep {
 }
 
 interface PowerBankScavengeHaulCreep extends MyCreep {
+    state: "grabbing" | "depositing";
+    roomToDepositTo: string;
 }
 
 /*

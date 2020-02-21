@@ -209,7 +209,9 @@ export class PowerScavengeController {
             return {
                 name: "Creep" + id,
                 role: "PowerBankScavengeHaulCreep",
-                assignedRoomName: powerScavengeBank.pos.roomName
+                assignedRoomName: powerScavengeBank.pos.roomName,
+                state: "grabbing",
+                roomToDepositTo: myRoom.name
             };
         }
         return null;
