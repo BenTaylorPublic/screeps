@@ -5,11 +5,11 @@
 ### Working on
 ```
 Updating node modules
-
-Testing scavenging
 ```
 ### Short term
 ```
+Manual avoid list
+
 Spawning
     Spawns could have a queue
     This would save the spawn logic from assembling a body every tick until it's able to be used
