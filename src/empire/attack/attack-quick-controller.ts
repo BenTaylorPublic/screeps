@@ -4,6 +4,7 @@ import {HelperFunctions} from "../../global/helper-functions";
 import {AttackHelperFunctions} from "./attack-helper-functions";
 import {RoleAttackCreep} from "../role/attack-creep";
 import {ScheduleController} from "../../schedule/schedule-controller";
+import {Memory} from "../../global/memory";
 
 export class AttackQuickController {
     public static run(myMemory: MyMemory, attackQuick: AttackQuick): void {

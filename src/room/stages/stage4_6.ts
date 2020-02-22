@@ -62,7 +62,7 @@ export class Stage4_6 {
             const structures: Structure<StructureConstant>[] = linkPos.lookFor(LOOK_STRUCTURES);
             for (let j = 0; j < structures.length; j++) {
                 if (structures[j].structureType === STRUCTURE_LINK) {
-                    myRoom.bankLink.id = structures[j].id;
+                    myRoom.bankLink.id = structures[j].id as Id<StructureLink>;
                     break;
                 }
             }

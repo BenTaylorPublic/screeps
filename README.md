@@ -1,12 +1,5 @@
 # My screeps AI
 ![](https://screeps.com/images/logotype-animated.svg)
- 
-## Setup
-Run `npm install` to get packages
-
-Run `npm start` to compile
-
-Push to master to release
 
 ## TODO
 ### Working on
@@ -76,6 +69,9 @@ Room logic
 
 Log links to rooms
     <a href="#!/room/W41N1">W41N1</a>
+
+HelperFunctions get creep to room
+    Needs to find closest exit by path (not closest absolute)
 ```
 ### Long term:
 ```
@@ -153,7 +149,7 @@ profile
 profile-function
 ```
 
-## Stage Progression
+## Stage Progression and other information
 ```
 Loosely based on RCL
 -1 is default room level
@@ -299,3 +295,12 @@ Removes 1 tick on unclaimed controller
 TOUGH	        10
 No affect, just for hit points
 ```
+
+## Setup
+Run `npm install` to get packages
+
+Remove `Memory` stuff from the screeps typings, that cause issues with my memory system
+
+Run `npm start` to compile
+
+Push to master to release

@@ -46,6 +46,7 @@ import {RoomTowerController} from "../room/structures/tower";
 import {RoomController} from "../room/room-controller";
 import {RoomStageController} from "../room/room-stage-controller";
 import {ScheduleController} from "../schedule/schedule-controller";
+import {Memory} from "../global/memory";
 
 export class ProfilerWrapper {
     public static setup(): void {

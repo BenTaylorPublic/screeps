@@ -57,7 +57,7 @@ export class SpawnMiner {
             }
         }
 
-        let linkId: string | null = null;
+        let linkId: Id<StructureLink> | null = null;
         if (mySource.link != null) {
             linkId = mySource.link.id;
             body = HelperFunctions.generateBody(

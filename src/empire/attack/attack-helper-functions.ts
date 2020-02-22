@@ -1,3 +1,5 @@
+import {Memory} from "../../global/memory";
+
 export class AttackHelperFunctions {
     public static getNewTargetIfNeeded(attackTarget: AttackTarget | null, flag: Flag): AttackTarget | null {
         if (attackTarget != null) {

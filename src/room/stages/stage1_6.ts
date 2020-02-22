@@ -95,7 +95,7 @@ export class Stage1_6 {
                 const structures: Structure<StructureConstant>[] = cachePos.lookFor(LOOK_STRUCTURES);
                 for (let j = 0; j < structures.length; j++) {
                     if (structures[j].structureType === STRUCTURE_CONTAINER) {
-                        mySource.cache.id = structures[j].id;
+                        mySource.cache.id = structures[j].id as Id<StructureContainer>;
                         break;
                     }
                 }

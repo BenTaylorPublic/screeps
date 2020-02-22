@@ -1,3 +1,5 @@
+import {Memory} from "../global/memory";
+
 export class Profiler {
     public static setup<T>(thing: T, classString: string, privateFunctions: string[]): void {
         const profiler: ProfilerRawData = Memory.profiler as ProfilerRawData;

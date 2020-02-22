@@ -106,7 +106,7 @@ export class StageFunctions {
                 const structures: Structure<StructureConstant>[] = linkPos.lookFor(LOOK_STRUCTURES);
                 for (let j = 0; j < structures.length; j++) {
                     if (structures[j].structureType === STRUCTURE_LINK) {
-                        mySource.link.id = structures[j].id;
+                        mySource.link.id = structures[j].id as Id<StructureLink>;
                         mySource.state = "Link";
                         break;
                     }
@@ -154,7 +154,7 @@ export class StageFunctions {
                 for (let j = 0; j < structures.length; j++) {
                     const structure: Structure = structures[j];
                     if (structure.structureType === STRUCTURE_LINK) {
-                        outLink.id = structure.id;
+                        outLink.id = structure.id as Id<StructureLink>;
                         break;
                     }
                 }

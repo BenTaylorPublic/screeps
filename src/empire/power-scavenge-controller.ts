@@ -1,6 +1,7 @@
 import {Constants} from "../global/constants";
 import {HelperFunctions} from "../global/helper-functions";
 import {RolePowerBankScavengeAttackCreep} from "./role/power-bank-scavenge-attack-creep";
+import {Memory} from "../global/memory";
 
 export class PowerScavengeController {
 
@@ -165,7 +166,7 @@ export class PowerScavengeController {
 
         for (let i: number = bank.roomsToGetCreepsFrom.length - 1; i >= 0; i--) {
             const roomName: string = bank.roomsToGetCreepsFrom[i];
-            const myRoom: MyRoom | null = HelperFunctions.getMyRoom(roomName);
+            const myRoom: MyRoom | null = HelperFunctions.getMyRoomByName(roomName);
             if (myRoom == null) {
                 continue;
             }
@@ -244,7 +245,7 @@ export class PowerScavengeController {
 
         for (let i: number = bank.roomsToGetCreepsFrom.length - 1; i >= 0; i--) {
             const roomName: string = bank.roomsToGetCreepsFrom[i];
-            const myRoom: MyRoom | null = HelperFunctions.getMyRoom(roomName);
+            const myRoom: MyRoom | null = HelperFunctions.getMyRoomByName(roomName);
             if (myRoom == null) {
                 continue;
             }

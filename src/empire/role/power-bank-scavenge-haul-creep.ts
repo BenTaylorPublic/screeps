@@ -61,7 +61,7 @@ export class RolePowerBankScavengeHaulCreep {
             creep.suicide();
         }
 
-        const myRoom: MyRoom | null = HelperFunctions.getMyRoom(powerBankScavengeHaul.roomToDepositTo);
+        const myRoom: MyRoom | null = HelperFunctions.getMyRoomByName(powerBankScavengeHaul.roomToDepositTo);
         if (myRoom == null) {
             ReportController.log("ERROR", "Room was null for a power scav hauler");
             return;

@@ -1,3 +1,5 @@
+import {Memory} from "../global/memory";
+
 export class ReportController {
 
     public static log(messageType: ReportMessageType, message: string): void {

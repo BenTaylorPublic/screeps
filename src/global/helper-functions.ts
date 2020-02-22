@@ -1,3 +1,5 @@
+import {Memory} from "./memory";
+
 export class HelperFunctions {
     public static getId(): number {
         const toReturn: number = Memory.myMemory.globalId;
@@ -236,15 +238,6 @@ export class HelperFunctions {
             }
         }
         return result;
-    }
-
-    public static getMyRoom(roomName: string): MyRoom | null {
-        for (let i: number = 0; i < Memory.myMemory.myRooms.length; i++) {
-            if (Memory.myMemory.myRooms[i].name === roomName) {
-                return Memory.myMemory.myRooms[i];
-            }
-        }
-        return null;
     }
 
     private static avoidEdges(costMatrix: CostMatrix, room: Room): void {

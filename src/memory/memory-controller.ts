@@ -1,5 +1,6 @@
 import {HelperFunctions} from "../global/helper-functions";
 import {ReportController} from "../reporting/report-controller";
+import {Memory} from "../global/memory";
 
 export class MemoryController {
     public static run(): void {

@@ -2,15 +2,6 @@ interface CreepMemory extends MyCreep {
     [key: string]: any;
 }
 
-interface FlagMemory {
-}
-
-interface SpawnMemory {
-}
-
-interface RoomMemory {
-}
-
 interface MyMemory {
     globalId: number;
     myRooms: MyRoom[];
