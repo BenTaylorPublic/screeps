@@ -8,7 +8,13 @@ Updating node modules
 ```
 ### Short term
 ```
-Manual avoid list
+Disable power bank scavenging
+
+Rename power bank scavenging stuff to PowerScav
+
+Remove private function logic from profiler
+
+Enable profiling
 
 Spawning
     Spawns could have a queue
