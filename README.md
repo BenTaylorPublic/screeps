@@ -8,6 +8,9 @@ Rename power bank scavenging stuff to PowerScav
 ```
 ### Short term
 ```
+Profiler results
+    Optimize so I can get 2 more rooms
+
 Spawning
     Spawns could have a queue
     This would save the spawn logic from assembling a body every tick until it's able to be used
