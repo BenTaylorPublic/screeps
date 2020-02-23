@@ -1,7 +1,6 @@
 import {Constants} from "../global/constants";
 import {HelperFunctions} from "../global/helper-functions";
 import {RolePowerBankScavengeAttackCreep} from "./role/power-bank-scavenge-attack-creep";
-import {Memory} from "../global/memory";
 
 export class PowerScavengeController {
 

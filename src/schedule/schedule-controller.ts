@@ -1,6 +1,4 @@
 import {ReportController} from "../reporting/report-controller";
-import {Memory} from "../global/memory";
-
 
 export class ScheduleController {
     public static preLoop(myMemory: MyMemory): void {

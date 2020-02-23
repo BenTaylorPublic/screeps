@@ -1,5 +1,4 @@
 import {HelperFunctions} from "../../global/helper-functions";
-import {Memory} from "../../global/memory";
 
 export class FunctionProfiler {
     public static startFunction(functionName: string): void {

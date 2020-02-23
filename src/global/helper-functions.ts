@@ -1,5 +1,3 @@
-import {Memory} from "./memory";
-
 export class HelperFunctions {
     public static getId(): number {
         const toReturn: number = Memory.myMemory.globalId;
