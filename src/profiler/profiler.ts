@@ -1,7 +1,7 @@
 import {Memory} from "../global/memory";
 
 export class Profiler {
-    public static setup<T>(thing: T, classString: string, privateFunctions: string[]): void {
+    public static setup<T>(thing: T, classString: string): void {
         const profiler: ProfilerRawData = Memory.profiler as ProfilerRawData;
         profiler[classString] = {} as ProfilerRawDataClass;
 
@@ -12,14 +12,8 @@ export class Profiler {
 
             profiler[classString][functionName] = {
                 callCount: 0,
-                average: 0,
-                privateFunction: false
+                average: 0
             } as ProfilerRawDataFunction;
-
-            if (privateFunctions.indexOf(functionName) !== -1) {
-                //Private function
-                profiler[classString][functionName].privateFunction = true;
-            }
 
             const originalFunction: Function = (thing as any)[functionName];
             (thing as any)[functionName] = function (): any {
@@ -78,5 +72,4 @@ export interface ProfilerRawDataClass {
 export interface ProfilerRawDataFunction {
     callCount: number;
     average: number;
-    privateFunction: boolean;
 }
