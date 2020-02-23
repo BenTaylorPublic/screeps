@@ -47,6 +47,21 @@ import {RoomController} from "../room/room-controller";
 import {RoomStageController} from "../room/room-stage-controller";
 import {ScheduleController} from "../schedule/schedule-controller";
 import {Memory} from "../global/memory";
+import {Stage6_75} from "../room/stages/stage6_75";
+import {Stage7_6} from "../room/stages/stage7_6";
+import {Stage7_8} from "../room/stages/stage7_8";
+import {Stage7_2} from "../room/stages/stage7_2";
+import {Stage6} from "../room/stages/stage6";
+import {Stage6_5} from "../room/stages/stage6_5";
+import {Stage7_4} from "../room/stages/stage7_4";
+import {Stage6_25} from "../room/stages/stage6_25";
+import {Stage7} from "../room/stages/stage7";
+import {BuildObserverController} from "../empire/observer/build-observer-controller";
+import {RolePowerBankScavengeAttackCreep} from "../empire/role/power-bank-scavenge-attack-creep";
+import {RolePowerBankScavengeHaulCreep} from "../empire/role/power-bank-scavenge-haul-creep";
+import {PowerScavengeController} from "../empire/power-scavenge-controller";
+import {ObserverController} from "../empire/observer/observer-controller";
+import {MemoryController} from "../memory/memory-controller";
 
 export class ProfilerWrapper {
     public static setup(): void {
@@ -96,6 +111,15 @@ export class ProfilerWrapper {
         Profiler.setup(Stage5_4, "Stage5_4");
         Profiler.setup(Stage5_6, "Stage5_6");
         Profiler.setup(Stage5_8, "Stage5_8");
+        Profiler.setup(Stage6, "Stage6");
+        Profiler.setup(Stage6_5, "Stage6_5");
+        Profiler.setup(Stage6_25, "Stage6_25");
+        Profiler.setup(Stage6_75, "Stage6_75");
+        Profiler.setup(Stage7, "Stage7");
+        Profiler.setup(Stage7_2, "Stage7_2");
+        Profiler.setup(Stage7_4, "Stage7_4");
+        Profiler.setup(Stage7_6, "Stage7_6");
+        Profiler.setup(Stage7_8, "Stage7_8");
         Profiler.setup(StageDefault, "StageDefault");
         Profiler.setup(StageFunctions, "StageFunctions");
 
@@ -106,6 +130,23 @@ export class ProfilerWrapper {
         Profiler.setup(RoomStageController, "RoomStageController");
 
         Profiler.setup(ScheduleController, "ScheduleController");
+
+        Profiler.setup(BuildObserverController, "BuildObserverController");
+        Profiler.setup(ObserverController, "ObserverController");
+
+        Profiler.setup(RolePowerBankScavengeAttackCreep, "RolePowerBankScavengeAttackCreep");
+        Profiler.setup(RolePowerBankScavengeHaulCreep, "RolePowerBankScavengeHaulCreep");
+        Profiler.setup(PowerScavengeController, "PowerScavengeController");
+
+        Profiler.setup(MemoryController, "MemoryController");
+
+        /**
+         * Don't profile:
+         *   ProfilerWrapper
+         *   Profiler
+         *   FunctionProfiler
+         *   Constants
+         */
     }
 
     public static clearProfilingData(): void {
