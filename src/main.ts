@@ -8,9 +8,9 @@ import {Memory} from "./global/memory";
 
 console.log("Script reloaded");
 
-ProfilerWrapper.setup();
 
 setupMyMemory();
+ProfilerWrapper.setup();
 
 export let loop: any = function (): void {
 
