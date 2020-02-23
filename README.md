@@ -4,27 +4,34 @@
 ## TODO
 ### Working on
 ```
-Updating node modules
+Rename power bank scavenging stuff to PowerScav
 ```
 ### Short term
 ```
-Disable power bank scavenging
-
-Rename power bank scavenging stuff to PowerScav
-
-Remove private function logic from profiler
-
-Enable profiling
-
 Spawning
     Spawns could have a queue
     This would save the spawn logic from assembling a body every tick until it's able to be used
     Would also allow having a priority queue (Defence > Offence > Economy)
+
+Spawning state on creeps
+    Queued, Spawning, Alive
+    Creep gets set as queued when it's accepted to a queue
+    Spawning when the queue starts spawning it
+    Alive, set by the role, when the Game.creeps[NAME] time to live is not null
+
+Update all roles to accept this new behaviour
+Logic:
+If queued
+return
+If spawning && ttl not null
+    set alive
+Else
+    return
+If Alive
+    DO THE THING
 ```
 ### Mid term:
 ```
-IsSpawned bool on creeps
-
 AvoidMatrix should be created and used for a whole tick's moveTo logic
 
 Report/Emails
@@ -305,7 +312,8 @@ No affect, just for hit points
 ## Setup
 Run `npm install` to get packages
 
-Remove `Memory` stuff from the screeps typings, that cause issues with my memory system
+Replace `declare const Memory: Memory;` with `declare const Memory: any;`    
+Because that causes issues with my memory system
 
 Run `npm start` to compile
 

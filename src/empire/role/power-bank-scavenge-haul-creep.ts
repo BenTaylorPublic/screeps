@@ -32,8 +32,7 @@ export class RolePowerBankScavengeHaulCreep {
                 HelperFunctions.myMoveTo(creep, powerBanks[0]);
             }
         } else {
-            //@ts-ignore
-            if (creep.store.getFreeCapacity > 0) {
+            if (creep.store.getFreeCapacity() > 0) {
                 //Need more
                 //Should be resources on the ground
                 const resources: Resource[] = creep.room.find(FIND_DROPPED_RESOURCES);
