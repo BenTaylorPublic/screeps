@@ -4,33 +4,15 @@
 ## TODO
 ### Working on
 ```
+Profiler results
+    Optimize so I can get 2 more rooms
 ```
 ### Short term
 ```
-Profiler results
-    Optimize so I can get 2 more rooms
-
 Spawning
     Spawns could have a queue
     This would save the spawn logic from assembling a body every tick until it's able to be used
     Would also allow having a priority queue (Defence > Offence > Economy)
-
-Spawning state on creeps
-    Queued, Spawning, Alive
-    Creep gets set as queued when it's accepted to a queue
-    Spawning when the queue starts spawning it
-    Alive, set by the role, when the Game.creeps[NAME] time to live is not null
-
-Update all roles to accept this new behaviour
-Logic:
-If queued
-return
-If spawning && ttl not null
-    set alive
-Else
-    return
-If Alive
-    DO THE THING
 ```
 ### Mid term:
 ```
@@ -42,8 +24,6 @@ Report/Emails
     This should be helpful in the longrun too once I need to have defence logic
     Needs a rework so it includes attentions, but doesn't spam like it does ingame
     Need an email controller to handle it all
-    Stage "ATTENTION" should email (once!)
-        If possible, a 1 day cooldown on an "ATTENTION" message
 
 Flag helper function to get flags
     Pass it:
@@ -84,6 +64,8 @@ Room logic
 
 Log links to rooms
     <a href="#!/room/W41N1">W41N1</a>
+
+Need an ATTENTION for towers
 ```
 ### Long term:
 ```
