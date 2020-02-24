@@ -1,5 +1,5 @@
 import {HelperFunctions} from "../../global/helper-functions";
-import {PowerScavengeController} from "../power-scavenge-controller";
+import {PowerScavController} from "../power-scav-controller";
 
 export class ObserverController {
     public static run(myMemory: MyMemory): void {
@@ -44,7 +44,7 @@ export class ObserverController {
                 );
                 if (powerBanks.length === 1) {
                     //Found one
-                    PowerScavengeController.observedPowerBank(powerBanks[0]);
+                    PowerScavController.observedPowerBank(powerBanks[0]);
                 }
             }
         }

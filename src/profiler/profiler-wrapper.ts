@@ -56,11 +56,11 @@ import {Stage7_4} from "../room/stages/stage7_4";
 import {Stage6_25} from "../room/stages/stage6_25";
 import {Stage7} from "../room/stages/stage7";
 import {BuildObserverController} from "../empire/observer/build-observer-controller";
-import {RolePowerBankScavengeAttackCreep} from "../empire/role/power-bank-scavenge-attack-creep";
-import {RolePowerBankScavengeHaulCreep} from "../empire/role/power-bank-scavenge-haul-creep";
-import {PowerScavengeController} from "../empire/power-scavenge-controller";
+import {PowerScavController} from "../empire/power-scav-controller";
 import {ObserverController} from "../empire/observer/observer-controller";
 import {MemoryController} from "../memory/memory-controller";
+import {RolePowerScavAttackCreep} from "../empire/role/power-scav-attack-creep";
+import {RolePowerScavHaulCreep} from "../empire/role/power-scav-haul-creep";
 
 export class ProfilerWrapper {
     public static setup(): void {
@@ -133,9 +133,9 @@ export class ProfilerWrapper {
         Profiler.setup(BuildObserverController, "BuildObserverController");
         Profiler.setup(ObserverController, "ObserverController");
 
-        Profiler.setup(RolePowerBankScavengeAttackCreep, "RolePowerBankScavengeAttackCreep");
-        Profiler.setup(RolePowerBankScavengeHaulCreep, "RolePowerBankScavengeHaulCreep");
-        Profiler.setup(PowerScavengeController, "PowerScavengeController");
+        Profiler.setup(RolePowerScavAttackCreep, "RolePowerScavAttackCreep");
+        Profiler.setup(RolePowerScavHaulCreep, "RolePowerScavHaulCreep");
+        Profiler.setup(PowerScavController, "PowerScavController");
 
         Profiler.setup(MemoryController, "MemoryController");
 

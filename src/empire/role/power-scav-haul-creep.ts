@@ -1,22 +1,22 @@
 import {HelperFunctions} from "../../global/helper-functions";
 import {ReportController} from "../../reporting/report-controller";
 
-export class RolePowerBankScavengeHaulCreep {
-    public static run(powerBankScavengeHaul: PowerBankScavengeHaulCreep): void {
-        const creep: Creep = Game.creeps[powerBankScavengeHaul.name];
-        if (powerBankScavengeHaul.assignedRoomName !== creep.room.name) {
+export class RolePowerScavHaulCreep {
+    public static run(powerScavHaul: PowerScavHaulCreep): void {
+        const creep: Creep = Game.creeps[powerScavHaul.name];
+        if (powerScavHaul.assignedRoomName !== creep.room.name) {
             creep.say("Fukn Lost");
-            HelperFunctions.getCreepToRoom(creep, powerBankScavengeHaul, powerBankScavengeHaul.assignedRoomName);
+            HelperFunctions.getCreepToRoom(creep, powerScavHaul, powerScavHaul.assignedRoomName);
         } else {
-            if (powerBankScavengeHaul.state === "grabbing") {
-                this.grabbing(creep, powerBankScavengeHaul);
+            if (powerScavHaul.state === "grabbing") {
+                this.grabbing(creep, powerScavHaul);
             } else {
-                this.depositing(creep, powerBankScavengeHaul);
+                this.depositing(creep, powerScavHaul);
             }
         }
     }
 
-    private static grabbing(creep: Creep, powerBankScavengeHaul: PowerBankScavengeHaulCreep): void {
+    private static grabbing(creep: Creep, powerScavHaul: PowerScavHaulCreep): void {
 
         //Inside the room
         const powerBanks: StructurePowerBank[] = creep.room.find<StructurePowerBank>(FIND_STRUCTURES, {
@@ -29,7 +29,7 @@ export class RolePowerBankScavengeHaulCreep {
             //Power bank is still alive
             if (creep.pos.getRangeTo(powerBanks[0]) > 3) {
                 //Walk near it
-                HelperFunctions.myMoveTo(creep, powerBanks[0].pos, powerBankScavengeHaul);
+                HelperFunctions.myMoveTo(creep, powerBanks[0].pos, powerScavHaul);
             }
         } else {
             if (creep.store.getFreeCapacity() > 0) {
@@ -42,25 +42,25 @@ export class RolePowerBankScavengeHaulCreep {
                     creep.suicide();
                 } else {
                     if (creep.pickup(resources[0]) === ERR_NOT_IN_RANGE) {
-                        HelperFunctions.myMoveTo(creep, resources[0].pos, powerBankScavengeHaul);
+                        HelperFunctions.myMoveTo(creep, resources[0].pos, powerScavHaul);
                     }
                 }
             } else {
                 creep.say("depositing");
-                powerBankScavengeHaul.state = "depositing";
-                powerBankScavengeHaul.assignedRoomName = powerBankScavengeHaul.roomToDepositTo;
+                powerScavHaul.state = "depositing";
+                powerScavHaul.assignedRoomName = powerScavHaul.roomToDepositTo;
             }
         }
     }
 
-    private static depositing(creep: Creep, powerBankScavengeHaul: PowerBankScavengeHaulCreep): void {
+    private static depositing(creep: Creep, powerScavHaul: PowerScavHaulCreep): void {
         if (creep.store.getUsedCapacity() === 0) {
             //All transferred
             creep.say("dthb4dshnr");
             creep.suicide();
         }
 
-        const myRoom: MyRoom | null = HelperFunctions.getMyRoomByName(powerBankScavengeHaul.roomToDepositTo);
+        const myRoom: MyRoom | null = HelperFunctions.getMyRoomByName(powerScavHaul.roomToDepositTo);
         if (myRoom == null) {
             ReportController.log("ERROR", "Room was null for a power scav hauler");
             return;
@@ -73,7 +73,7 @@ export class RolePowerBankScavengeHaulCreep {
         }
 
         if (creep.transfer(bank, RESOURCE_POWER) === ERR_NOT_IN_RANGE) {
-            HelperFunctions.myMoveTo(creep, bank.pos, powerBankScavengeHaul);
+            HelperFunctions.myMoveTo(creep, bank.pos, powerScavHaul);
         }
     }
 }

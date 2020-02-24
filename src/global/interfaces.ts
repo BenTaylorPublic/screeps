@@ -18,7 +18,7 @@ interface Empire {
     creeps: MyCreep[];
     observer: ObserverMemory;
     avoidRooms: string[];
-    powerScavenge: PowerScavenge;
+    powerScav: PowerScav;
 }
 
 interface ObserverMemory {
@@ -167,7 +167,7 @@ interface CreepRoomMoveTarget {
 
 interface MyCreep {
     name: string;
-    role: "Hauler" | "Miner" | "Laborer" | "Claimer" | "BankLinker" | "AttackQuickCreep" | "AttackPressureCreep" | "PowerBankScavengeAttackCreep" | "PowerBankScavengeHaulCreep";
+    role: "Hauler" | "Miner" | "Laborer" | "Claimer" | "BankLinker" | "AttackQuickCreep" | "AttackPressureCreep" | "PowerScavAttackCreep" | "PowerScavHaulCreep";
     assignedRoomName: string;
     interRoomTravelCurrentTarget?: MyRoomPos;
     roomMoveTarget: CreepRoomMoveTarget;
@@ -204,12 +204,12 @@ interface AttackPressureCreep extends MyCreep {
     batchNumber: number;
 }
 
-interface PowerBankScavengeAttackCreep extends MyCreep {
+interface PowerScavAttackCreep extends MyCreep {
     powerBankId: Id<StructurePowerBank>;
     beenReplaced: boolean;
 }
 
-interface PowerBankScavengeHaulCreep extends MyCreep {
+interface PowerScavHaulCreep extends MyCreep {
     state: "grabbing" | "depositing";
     roomToDepositTo: string;
 }
@@ -261,16 +261,16 @@ type MoveByPathResult = CreepMoveReturnCode | ERR_NOT_FOUND | ERR_INVALID_ARGS;
 ====================
 */
 
-interface PowerScavenge {
-    banksScavengingFrom: PowerScavengeBank[];
+interface PowerScav {
+    targetBanks: PowerScavBank[];
 }
 
-interface PowerScavengeBank {
+interface PowerScavBank {
     id: Id<StructurePowerBank>;
     pos: MyRoomPos;
     roomsToGetCreepsFrom: string[];
     eol: number;
-    attackCreeps: PowerBankScavengeAttackCreep[];
+    attackCreeps: PowerScavAttackCreep[];
     attackCreepsStillNeeded: number;
     amountOfCarryBodyStillNeeded: number;
     roomDistanceToBank: number;

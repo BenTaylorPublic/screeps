@@ -7,6 +7,8 @@ import {FunctionProfiler} from "./profiler/function-profiler/function-profiler";
 
 console.log("Script reloaded");
 
+Memory.myMemory.empire.powerScav = {targetBanks: []};
+
 
 setupMyMemory();
 ProfilerWrapper.setup();
@@ -48,8 +50,8 @@ function setupMyMemory(): void {
                 attackPressure: null,
                 creeps: [],
                 avoidRooms: [],
-                powerScavenge: {
-                    banksScavengingFrom: []
+                powerScav: {
+                    targetBanks: []
                 },
                 observer: {
                     state: "Moving",

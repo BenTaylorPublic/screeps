@@ -1,11 +1,11 @@
 import {HelperFunctions} from "../../global/helper-functions";
 
-export class RolePowerBankScavengeAttackCreep {
-    public static run(powerBankScavengeAttack: PowerBankScavengeAttackCreep, myPowerBank: PowerScavengeBank, powerBank: StructurePowerBank | null): void {
-        const creep: Creep = Game.creeps[powerBankScavengeAttack.name];
-        if (powerBankScavengeAttack.assignedRoomName !== creep.room.name) {
+export class RolePowerScavAttackCreep {
+    public static run(powerScavAttack: PowerScavAttackCreep, myPowerBank: PowerScavBank, powerBank: StructurePowerBank | null): void {
+        const creep: Creep = Game.creeps[powerScavAttack.name];
+        if (powerScavAttack.assignedRoomName !== creep.room.name) {
             creep.say("Fukn Lost");
-            HelperFunctions.getCreepToRoom(creep, powerBankScavengeAttack, powerBankScavengeAttack.assignedRoomName);
+            HelperFunctions.getCreepToRoom(creep, powerScavAttack, powerScavAttack.assignedRoomName);
         } else {
             //Inside the room
             if (powerBank == null) {
@@ -29,7 +29,7 @@ export class RolePowerBankScavengeAttackCreep {
                     creep.heal(creep);
                 }
             } else {
-                HelperFunctions.myMoveTo(creep, powerBank.pos, powerBankScavengeAttack);
+                HelperFunctions.myMoveTo(creep, powerBank.pos, powerScavAttack);
             }
         }
     }

@@ -1,12 +1,12 @@
 import {Constants} from "../global/constants";
 import {HelperFunctions} from "../global/helper-functions";
-import {RolePowerBankScavengeAttackCreep} from "./role/power-bank-scavenge-attack-creep";
+import {RolePowerScavAttackCreep} from "./role/power-scav-attack-creep";
 
-export class PowerScavengeController {
+export class PowerScavController {
 
     public static observedPowerBank(powerBank: StructurePowerBank): void {
         const myMemory: MyMemory = Memory.myMemory;
-        if (powerBank.ticksToDecay < Constants.POWER_SCAVENGE_TTL_MIN) {
+        if (powerBank.ticksToDecay < Constants.POWER_SCAV_TTL_MIN) {
             //TTL not long enough
             return;
         }
@@ -15,7 +15,7 @@ export class PowerScavengeController {
         let closestRooms: MyRoom[] = [];
         for (let i: number = 0; i < myMemory.myRooms.length; i++) {
             const myRoom: MyRoom = myMemory.myRooms[i];
-            if (myRoom.roomStage < Constants.POWER_SCAVENGE_ROOM_STAGE) {
+            if (myRoom.roomStage < Constants.POWER_SCAV_ROOM_STAGE) {
                 continue;
             }
             const roomDistance = HelperFunctions.getRoomDistance(powerBank.room.name, myRoom.name);
@@ -27,25 +27,25 @@ export class PowerScavengeController {
             }
         }
 
-        if (closestDistance > Constants.POWER_SCAVENGE_RANGE_MAX) {
+        if (closestDistance > Constants.POWER_SCAV_RANGE_MAX) {
             //Too far
             return;
         }
 
-        for (let i: number = 0; i < myMemory.empire.powerScavenge.banksScavengingFrom.length; i++) {
-            const bankScavengingFrom = myMemory.empire.powerScavenge.banksScavengingFrom[i];
+        for (let i: number = 0; i < myMemory.empire.powerScav.targetBanks.length; i++) {
+            const bankScavengingFrom = myMemory.empire.powerScav.targetBanks[i];
             if (bankScavengingFrom.id === powerBank.id) {
                 //Already setup
                 return;
             }
         }
 
-        if (myMemory.empire.powerScavenge.banksScavengingFrom.length >= Constants.POWER_SCAVENGE_MAX_BANKS_AT_ONE_TIME) {
+        if (myMemory.empire.powerScav.targetBanks.length >= Constants.POWER_SCAV_MAX_BANKS_AT_ONE_TIME) {
             return;
         }
 
         const amountOfPositionsAroundBank: number = HelperFunctions.areaAroundPos(powerBank.pos, powerBank.room);
-        if (amountOfPositionsAroundBank < Constants.POWER_SCAVENGE_AREA_AROUND_BANK_MIN) {
+        if (amountOfPositionsAroundBank < Constants.POWER_SCAV_AREA_AROUND_BANK_MIN) {
             return;
         }
 
@@ -59,12 +59,12 @@ export class PowerScavengeController {
         }
 
         //Working out how many creeps we'll need
-        const damageTravelTime: number = closestDistance * Constants.POWER_SCAVENGE_MAX_DAMAGE_TRAVEL_TICKS_PER_ROOM;
-        const damagePerTick: number = amountOfPositionsAroundBank * Constants.POWER_SCAVENGE_MAX_DAMAGE_PER_TICK_PER_AREA;
-        const damageDonePerCreep: number = (1500 - damageTravelTime) * Constants.POWER_SCAVENGE_MAX_DAMAGE_PER_TICK_PER_AREA;
+        const damageTravelTime: number = closestDistance * Constants.POWER_SCAV_MAX_DAMAGE_TRAVEL_TICKS_PER_ROOM;
+        const damagePerTick: number = amountOfPositionsAroundBank * Constants.POWER_SCAV_MAX_DAMAGE_PER_TICK_PER_AREA;
+        const damageDonePerCreep: number = (1500 - damageTravelTime) * Constants.POWER_SCAV_MAX_DAMAGE_PER_TICK_PER_AREA;
         const amountOfAttackCreepsNeeded: number = Math.ceil(2000000 / damageDonePerCreep);
 
-        const haulerTravelTime: number = closestDistance * Constants.POWER_SCAVENGE_MAX_HAUL_TRAVEL_TICKS_PER_ROOM;
+        const haulerTravelTime: number = closestDistance * Constants.POWER_SCAV_MAX_HAUL_TRAVEL_TICKS_PER_ROOM;
         const spawnHaulersAtHp: number = haulerTravelTime * damagePerTick;
 
         const amountOfCarryBody: number = powerBank.power / 50;
@@ -84,7 +84,7 @@ export class PowerScavengeController {
 
         Game.notify(email);
 
-        myMemory.empire.powerScavenge.banksScavengingFrom.push({
+        myMemory.empire.powerScav.targetBanks.push({
             id: powerBank.id,
             pos: HelperFunctions.roomPosToMyPos(powerBank.pos),
             roomsToGetCreepsFrom: roomsToSpawnThrough,
@@ -102,24 +102,24 @@ export class PowerScavengeController {
     }
 
     public static run(myMemory: MyMemory): void {
-        if (myMemory.empire.powerScavenge.banksScavengingFrom.length === 0) {
+        if (myMemory.empire.powerScav.targetBanks.length === 0) {
             return;
         }
-        for (let i: number = myMemory.empire.powerScavenge.banksScavengingFrom.length - 1; i >= 0; i--) {
-            const bankScavengingFrom: PowerScavengeBank = myMemory.empire.powerScavenge.banksScavengingFrom[i];
+        for (let i: number = myMemory.empire.powerScav.targetBanks.length - 1; i >= 0; i--) {
+            const bankScavengingFrom: PowerScavBank = myMemory.empire.powerScav.targetBanks[i];
 
             if (Game.time > bankScavengingFrom.eol &&
                 //Bank was killed by EOL, OR, I've spawned all the haulers I need
                 (bankScavengingFrom.state !== "dead" ||
                     bankScavengingFrom.amountOfCarryBodyStillNeeded <= 0)) {
                 //It gone
-                myMemory.empire.powerScavenge.banksScavengingFrom.splice(i, 1);
+                myMemory.empire.powerScav.targetBanks.splice(i, 1);
             }
             this.handleBank(bankScavengingFrom, myMemory);
         }
     }
 
-    private static handleBank(bankScavengingFrom: PowerScavengeBank, myMemory: MyMemory): void {
+    private static handleBank(bankScavengingFrom: PowerScavBank, myMemory: MyMemory): void {
         for (let i: number = bankScavengingFrom.attackCreeps.length - 1; i >= 0; i--) {
             if (!Game.creeps[bankScavengingFrom.attackCreeps[i].name]) {
                 bankScavengingFrom.attackCreeps.splice(i, 1);
@@ -130,7 +130,7 @@ export class PowerScavengeController {
         const powerBank: StructurePowerBank | null = Game.getObjectById<StructurePowerBank>(bankScavengingFrom.id);
 
         for (let i: number = 0; i < bankScavengingFrom.attackCreeps.length; i++) {
-            RolePowerBankScavengeAttackCreep.run(bankScavengingFrom.attackCreeps[i] as PowerBankScavengeAttackCreep, bankScavengingFrom, powerBank);
+            RolePowerScavAttackCreep.run(bankScavengingFrom.attackCreeps[i] as PowerScavAttackCreep, bankScavengingFrom, powerBank);
         }
 
         if (powerBank != null &&
@@ -147,7 +147,7 @@ export class PowerScavengeController {
 
     }
 
-    private static trySpawnHaulCreepIfNeeded(bank: PowerScavengeBank, myMemory: MyMemory): void {
+    private static trySpawnHaulCreepIfNeeded(bank: PowerScavBank, myMemory: MyMemory): void {
 
         //2 Carry per section
         const carryPerSection: number = 2;
@@ -170,13 +170,13 @@ export class PowerScavengeController {
                 continue;
             }
 
-            const newCreep: PowerBankScavengeHaulCreep | null = this.spawnHaulCreep(bank, myRoom, body);
+            const newCreep: PowerScavHaulCreep | null = this.spawnHaulCreep(bank, myRoom, body);
             if (newCreep != null) {
                 myMemory.empire.creeps.push(newCreep);
-                console.log("LOG: Spawned a new PowerBankScavengeHaulCreep");
+                console.log("LOG: Spawned a new PowerScavHaulCreep");
                 bank.amountOfCarryBodyStillNeeded -= (sectionsNeeded * carryPerSection);
                 if (bank.amountOfCarryBodyStillNeeded <= 0) {
-                    Game.notify("PowerScavenge: Spawned all the haul creeps needed");
+                    Game.notify("PowerScav: Spawned all the haul creeps needed");
                 }
 
                 return;
@@ -185,7 +185,7 @@ export class PowerScavengeController {
 
     }
 
-    private static spawnHaulCreep(powerScavengeBank: PowerScavengeBank, myRoom: MyRoom, body: BodyPartConstant[]): PowerBankScavengeHaulCreep | null {
+    private static spawnHaulCreep(powerScav: PowerScavBank, myRoom: MyRoom, body: BodyPartConstant[]): PowerScavHaulCreep | null {
 
         let spawn: StructureSpawn | null;
         spawn = Game.spawns[myRoom.spawns[0].name];
@@ -199,8 +199,8 @@ export class PowerScavengeController {
                     memory:
                         {
                             name: "Creep" + id,
-                            role: "PowerBankScavengeHaulCreep",
-                            assignedRoomName: powerScavengeBank.pos.roomName
+                            role: "PowerScavHaulCreep",
+                            assignedRoomName: powerScav.pos.roomName
                         }
                 }
             );
@@ -208,8 +208,8 @@ export class PowerScavengeController {
         if (result === OK) {
             return {
                 name: "Creep" + id,
-                role: "PowerBankScavengeHaulCreep",
-                assignedRoomName: powerScavengeBank.pos.roomName,
+                role: "PowerScavHaulCreep",
+                assignedRoomName: powerScav.pos.roomName,
                 roomMoveTarget: {
                     pos: null,
                     path: []
@@ -221,7 +221,7 @@ export class PowerScavengeController {
         return null;
     }
 
-    private static trySpawnAttackCreepIfNeeded(bank: PowerScavengeBank, myMemory: MyMemory): void {
+    private static trySpawnAttackCreepIfNeeded(bank: PowerScavBank, myMemory: MyMemory): void {
 
         if (bank.attackCreepsStillNeeded <= 0) {
             return;
@@ -253,10 +253,10 @@ export class PowerScavengeController {
                 continue;
             }
 
-            const newCreep: PowerBankScavengeAttackCreep | null = this.spawnAttackCreep(bank, myRoom);
+            const newCreep: PowerScavAttackCreep | null = this.spawnAttackCreep(bank, myRoom);
             if (newCreep != null) {
                 bank.attackCreeps.push(newCreep);
-                console.log("LOG: Spawned a new PowerBankScavengeAttackCreep");
+                console.log("LOG: Spawned a new PowerScavAttackCreep");
                 bank.attackCreepsStillNeeded--;
                 for (let j: number = 0; j < bank.attackCreeps.length; j++) {
                     if (bank.attackCreeps[j].beenReplaced) {
@@ -274,7 +274,7 @@ export class PowerScavengeController {
         }
     }
 
-    private static spawnAttackCreep(powerScavengeBank: PowerScavengeBank, myRoom: MyRoom): PowerBankScavengeAttackCreep | null {
+    private static spawnAttackCreep(powerScav: PowerScavBank, myRoom: MyRoom): PowerScavAttackCreep | null {
 
         let spawn: StructureSpawn | null;
         spawn = Game.spawns[myRoom.spawns[0].name];
@@ -298,8 +298,8 @@ export class PowerScavengeController {
                     memory:
                         {
                             name: "Creep" + id,
-                            role: "PowerBankScavengeAttackCreep",
-                            assignedRoomName: powerScavengeBank.pos.roomName
+                            role: "PowerScavAttackCreep",
+                            assignedRoomName: powerScav.pos.roomName
                         }
                 }
             );
@@ -307,13 +307,13 @@ export class PowerScavengeController {
         if (result === OK) {
             return {
                 name: "Creep" + id,
-                role: "PowerBankScavengeAttackCreep",
-                assignedRoomName: powerScavengeBank.pos.roomName,
+                role: "PowerScavAttackCreep",
+                assignedRoomName: powerScav.pos.roomName,
                 roomMoveTarget: {
                     pos: null,
                     path: []
                 },
-                powerBankId: powerScavengeBank.id,
+                powerBankId: powerScav.id,
                 beenReplaced: false
             };
         }
