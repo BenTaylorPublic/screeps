@@ -7,9 +7,6 @@ import {FunctionProfiler} from "./profiler/function-profiler/function-profiler";
 
 console.log("Script reloaded");
 
-Memory.myMemory.empire.powerScav = {targetBanks: []};
-
-
 setupMyMemory();
 ProfilerWrapper.setup();
 
