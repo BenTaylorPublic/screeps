@@ -211,10 +211,11 @@ export class HelperFunctions {
         if (this.posMatches(moveTo, myCreep.roomMoveTarget.pos)) {
             result = creep.moveByPath(myCreep.roomMoveTarget.path);
             if (creep.pos.roomName === "E13S17") {
-                const sayString: string = result.toString() +
+                const sayString: string = result.toString() + ":" +
+                    myCreep.roomMoveTarget.path.length +
                     ": " + myCreep.roomMoveTarget.path[0].direction +
-                    " " + myCreep.roomMoveTarget.path[0].dx +
-                    " " + myCreep.roomMoveTarget.path[0].dy;
+                    ":" + myCreep.roomMoveTarget.path[0].dx +
+                    ":" + myCreep.roomMoveTarget.path[0].dy;
                 creep.say(sayString);
             }
             if (result === OK) {
