@@ -4,7 +4,6 @@
 ## TODO
 ### Working on
 ```
-Rename power bank scavenging stuff to PowerScav
 ```
 ### Short term
 ```

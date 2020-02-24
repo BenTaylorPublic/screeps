@@ -256,10 +256,8 @@ export class HelperFunctions {
     }
 
     private static posMatches(pos: RoomPosition, myPos: MyRoomPos | null): boolean {
-        if (myPos == null) {
-            return false;
-        }
-        return pos.roomName === myPos.roomName &&
+        return myPos != null &&
+            pos.roomName === myPos.roomName &&
             pos.x === myPos.x &&
             pos.y === myPos.y;
     }
