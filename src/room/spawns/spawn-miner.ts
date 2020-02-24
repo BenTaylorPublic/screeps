@@ -106,6 +106,7 @@ export class SpawnMiner {
                 name: "Creep" + id,
                 role: "Miner",
                 assignedRoomName: spawn.room.name,
+                spawningStatus: "queued",
                 roomMoveTarget: {
                     pos: null,
                     path: []

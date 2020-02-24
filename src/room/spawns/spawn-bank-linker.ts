@@ -47,6 +47,7 @@ export class SpawnBankLinker {
                 name: "Creep" + id,
                 role: "BankLinker",
                 assignedRoomName: spawn.room.name,
+                spawningStatus: "queued",
                 roomMoveTarget: {
                     pos: null,
                     path: []

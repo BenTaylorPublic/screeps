@@ -3,6 +3,10 @@ import {ReportController} from "../../reporting/report-controller";
 
 export class RoleMiner {
     public static run(miner: Miner): void {
+        if (HelperFunctions.creepQueuedOrSpawning(miner)) {
+            return;
+        }
+
         const creep: Creep = Game.creeps[miner.name];
         if (creep == null) {
             ReportController.log("ERROR", "Miner creep is null. Creep ID: " + miner.name);

@@ -167,6 +167,7 @@ export class AttackQuickController {
             return {
                 name: "Creep" + id,
                 role: "AttackQuickCreep",
+                spawningStatus: "queued",
                 assignedRoomName: "",
                 roomMoveTarget: {
                     pos: null,

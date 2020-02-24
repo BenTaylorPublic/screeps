@@ -154,10 +154,18 @@ interface MyRoomName {
     yNum: number;
 }
 
+/*
+====================
+    CREEP THINGS:
+====================
+*/
+
 interface CreepRoomMoveTarget {
     pos: MyRoomPos | null;
     path: PathStep[];
 }
+
+type CreepSpawningStatus = "queued" | "spawning" | "alive";
 
 /*
 ====================
@@ -171,6 +179,7 @@ interface MyCreep {
     assignedRoomName: string;
     interRoomTravelCurrentTarget?: MyRoomPos;
     roomMoveTarget: CreepRoomMoveTarget;
+    spawningStatus: CreepSpawningStatus;
 }
 
 interface Miner extends MyCreep {

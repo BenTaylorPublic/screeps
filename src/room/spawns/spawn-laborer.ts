@@ -86,6 +86,7 @@ export class SpawnLaborer {
                 name: "Creep" + id,
                 role: "Laborer",
                 assignedRoomName: myRoom.name,
+                spawningStatus: "queued",
                 roomMoveTarget: {
                     pos: null,
                     path: []

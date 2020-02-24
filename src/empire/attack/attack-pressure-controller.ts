@@ -190,6 +190,7 @@ export class AttackPressureController {
             return {
                 name: "Creep" + id,
                 role: "AttackPressureCreep",
+                spawningStatus: "queued",
                 assignedRoomName: "",
                 roomMoveTarget: {
                     pos: null,

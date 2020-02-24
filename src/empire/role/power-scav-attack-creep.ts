@@ -2,7 +2,12 @@ import {HelperFunctions} from "../../global/helper-functions";
 
 export class RolePowerScavAttackCreep {
     public static run(powerScavAttack: PowerScavAttackCreep, myPowerBank: PowerScavBank, powerBank: StructurePowerBank | null): void {
+        if (HelperFunctions.creepQueuedOrSpawning(powerScavAttack)) {
+            return;
+        }
+
         const creep: Creep = Game.creeps[powerScavAttack.name];
+
         if (powerScavAttack.assignedRoomName !== creep.room.name) {
             creep.say("Fukn Lost");
             HelperFunctions.getCreepToRoom(creep, powerScavAttack, powerScavAttack.assignedRoomName);

@@ -3,11 +3,12 @@ import {HelperFunctions} from "../../global/helper-functions";
 
 export class RoleClaimer {
     public static run(claimer: Claimer): void {
-        const creep: Creep = Game.creeps[claimer.name];
-        if (creep == null) {
-            ReportController.log("ERROR", "Claimer creep is null. Creep ID: " + claimer.name);
+        if (HelperFunctions.creepQueuedOrSpawning(claimer)) {
             return;
         }
+
+        const creep: Creep = Game.creeps[claimer.name];
+
         const flag: Flag = Game.flags[claimer.flagName];
         if (flag == null) {
             //Kill the creep

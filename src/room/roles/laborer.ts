@@ -3,6 +3,10 @@ import {ReportController} from "../../reporting/report-controller";
 
 export class RoleLaborer {
     public static run(laborer: Laborer, myRoom: MyRoom): void {
+        if (HelperFunctions.creepQueuedOrSpawning(laborer)) {
+            return;
+        }
+
         const creep: Creep = Game.creeps[laborer.name];
 
         if (creep == null) {

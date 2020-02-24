@@ -3,7 +3,12 @@ import {ReportController} from "../../reporting/report-controller";
 
 export class RolePowerScavHaulCreep {
     public static run(powerScavHaul: PowerScavHaulCreep): void {
+        if (HelperFunctions.creepQueuedOrSpawning(powerScavHaul)) {
+            return;
+        }
+
         const creep: Creep = Game.creeps[powerScavHaul.name];
+
         if (powerScavHaul.assignedRoomName !== creep.room.name) {
             creep.say("Fukn Lost");
             HelperFunctions.getCreepToRoom(creep, powerScavHaul, powerScavHaul.assignedRoomName);

@@ -3,6 +3,10 @@ import {ReportController} from "../../reporting/report-controller";
 
 export class RoleHauler {
     public static run(hauler: Hauler, myRoom: MyRoom): void {
+        if (HelperFunctions.creepQueuedOrSpawning(hauler)) {
+            return;
+        }
+
         const creep: Creep = Game.creeps[hauler.name];
         if (creep == null) {
             ReportController.log("ERROR", "Hauler creep is null. Creep ID: " + hauler.name);

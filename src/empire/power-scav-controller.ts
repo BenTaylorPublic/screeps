@@ -210,6 +210,7 @@ export class PowerScavController {
                 name: "Creep" + id,
                 role: "PowerScavHaulCreep",
                 assignedRoomName: powerScav.pos.roomName,
+                spawningStatus: "queued",
                 roomMoveTarget: {
                     pos: null,
                     path: []
@@ -309,6 +310,7 @@ export class PowerScavController {
                 name: "Creep" + id,
                 role: "PowerScavAttackCreep",
                 assignedRoomName: powerScav.pos.roomName,
+                spawningStatus: "queued",
                 roomMoveTarget: {
                     pos: null,
                     path: []

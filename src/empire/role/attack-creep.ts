@@ -1,14 +1,13 @@
-import {ReportController} from "../../reporting/report-controller";
 import {Constants} from "../../global/constants";
 import {HelperFunctions} from "../../global/helper-functions";
 
 export class RoleAttackCreep {
     public static run(attackCreep: AttackPressureCreep | AttackQuickCreep, attackState: AttackStateType, rallyOrRoomTargetFlag: Flag, attackTarget: AttackTarget | null): void {
-        const creep: Creep = Game.creeps[attackCreep.name];
-        if (creep == null) {
-            ReportController.log("ERROR", "Attack Creep is null. Creep ID: " + attackCreep.name);
+        if (HelperFunctions.creepQueuedOrSpawning(attackCreep)) {
             return;
         }
+
+        const creep: Creep = Game.creeps[attackCreep.name];
 
         if (attackState === "Rally" || attackState === "Conscripting") {
             //Get a nice tight ball on it

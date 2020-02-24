@@ -255,6 +255,21 @@ export class HelperFunctions {
         return result;
     }
 
+    public static creepQueuedOrSpawning(myCreep: MyCreep): boolean {
+        if (myCreep.spawningStatus === "alive") {
+            return false;
+        } else if (myCreep.spawningStatus === "queued" &&
+            Game.creeps[myCreep.name] != null) {
+            myCreep.spawningStatus = "spawning";
+            return true;
+        } else if (myCreep.spawningStatus === "spawning" &&
+            Game.creeps[myCreep.name].ticksToLive != null) {
+            myCreep.spawningStatus = "alive";
+            return false;
+        }
+        return true;
+    }
+
     private static posMatches(pos: RoomPosition, myPos: MyRoomPos | null): boolean {
         return myPos != null &&
             pos.roomName === myPos.roomName &&

@@ -81,6 +81,7 @@ export class SpawnHauler {
                 name: "Creep" + id,
                 role: "Hauler",
                 assignedRoomName: spawn.room.name,
+                spawningStatus: "queued",
                 roomMoveTarget: {
                     pos: null,
                     path: []

@@ -3,6 +3,10 @@ import {HelperFunctions} from "../../global/helper-functions";
 
 export class RoleBankLinker {
     public static run(bankLinker: BankLinker, myRoom: MyRoom): void {
+        if (HelperFunctions.creepQueuedOrSpawning(bankLinker)) {
+            return;
+        }
+
         const creep: Creep = Game.creeps[bankLinker.name];
         if (creep == null) {
             ReportController.log("ERROR", "BankLinker creep is null. Creep ID: " + bankLinker.name);
