@@ -4,12 +4,10 @@
 ## TODO
 ### Working on
 ```
-Optimizing moving logic
+Rename power bank scavenging stuff to PowerScav
 ```
 ### Short term
 ```
-Rename power bank scavenging stuff to PowerScav
-
 Profiler results
     Optimize so I can get 2 more rooms
 
@@ -87,9 +85,6 @@ Room logic
 
 Log links to rooms
     <a href="#!/room/W41N1">W41N1</a>
-
-HelperFunctions get creep to room
-    Needs to find closest exit by path (not closest absolute)
 ```
 ### Long term:
 ```

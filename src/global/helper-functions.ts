@@ -204,12 +204,19 @@ export class HelperFunctions {
 
     public static myMoveTo(creep: Creep, moveTo: RoomPosition, myCreep: MyCreep): MoveByPathResult {
         let result: MoveByPathResult;
+        if (creep.fatigue > 0) {
+            return ERR_TIRED;
+        }
+
         if (this.posMatches(moveTo, myCreep.roomMoveTarget.pos)) {
             result = creep.moveByPath(myCreep.roomMoveTarget.path);
             if (result === OK) {
                 return result;
             }
         }
+
+        //Calculate path again
+        creep.say("🧭");
 
         myCreep.roomMoveTarget.pos = this.roomPosToMyPos(moveTo);
         myCreep.roomMoveTarget.path = creep.pos.findPathTo(moveTo,
@@ -285,7 +292,7 @@ export class HelperFunctions {
 
 
         const thisRoomsExits: RoomPosition[] = Game.rooms[fromRoomName].find(result1[0].exit);
-        const result: RoomPosition = currentPos.findClosestByRange(thisRoomsExits) as RoomPosition;
+        const result: RoomPosition = currentPos.findClosestByPath(thisRoomsExits) as RoomPosition;
 
         return result;
     }

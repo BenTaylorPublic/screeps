@@ -253,8 +253,6 @@ interface ScheduledCommand {
 */
 
 type FindRouteResult = Array<{ exit: ExitConstant; room: string; }> | ERR_NO_PATH;
-type MoveToParam = RoomPosition | { pos: RoomPosition };
-type MoveToResult = CreepMoveReturnCode | ERR_NO_PATH | ERR_INVALID_TARGET | ERR_NOT_FOUND;
 type MoveByPathResult = CreepMoveReturnCode | ERR_NOT_FOUND | ERR_INVALID_ARGS;
 
 /*
