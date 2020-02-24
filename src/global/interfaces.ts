@@ -179,6 +179,7 @@ interface MyCreep {
     assignedRoomName: string;
     interRoomTravelCurrentTarget?: MyRoomPos;
     roomMoveTarget: CreepRoomMoveTarget;
+    lastPos?: MyRoomPos | null;
     spawningStatus: CreepSpawningStatus;
 }
 

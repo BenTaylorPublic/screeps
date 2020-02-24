@@ -4,7 +4,6 @@
 ## TODO
 ### Working on
 ```
-Fix movement problem
 ```
 ### Short term
 ```

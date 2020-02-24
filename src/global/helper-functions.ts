@@ -203,23 +203,24 @@ export class HelperFunctions {
     }
 
     public static myMoveTo(creep: Creep, moveTo: RoomPosition, myCreep: MyCreep): MoveByPathResult {
-        let result: MoveByPathResult;
         if (creep.fatigue > 0) {
             return ERR_TIRED;
         }
 
+        const currentCreepPos: MyRoomPos = this.roomPosToMyPos(creep.pos);
+
         if (this.posMatches(moveTo, myCreep.roomMoveTarget.pos)) {
-            result = creep.moveByPath(myCreep.roomMoveTarget.path);
-            if (creep.pos.roomName === "E13S17") {
-                creep.say(result.toString());
-            }
-            if (result === OK) {
-                return result;
-            }
+            //Same target
+            if (!this.posMatches2(myCreep.lastPos, currentCreepPos)) {
+                myCreep.lastPos = currentCreepPos;
+                return creep.moveByPath(myCreep.roomMoveTarget.path);
+            } //Else, the creep didn't move last tick properly
         }
+        //Different target to last tick, clear their lastPos
+        myCreep.lastPos = currentCreepPos;
 
         //Calculate path again
-        // creep.say("🧭");
+        creep.say("🧭");
 
         myCreep.roomMoveTarget.pos = this.roomPosToMyPos(moveTo);
         myCreep.roomMoveTarget.path = creep.pos.findPathTo(moveTo,
@@ -278,6 +279,14 @@ export class HelperFunctions {
             pos.roomName === myPos.roomName &&
             pos.x === myPos.x &&
             pos.y === myPos.y;
+    }
+
+    private static posMatches2(myPos1: MyRoomPos | null | undefined, myPos2: MyRoomPos | null | undefined): boolean {
+        return myPos1 != null &&
+            myPos2 != null &&
+            myPos1.roomName === myPos2.roomName &&
+            myPos1.x === myPos2.x &&
+            myPos1.y === myPos2.y;
     }
 
     private static avoidEdges(costMatrix: CostMatrix, room: Room): void {
