@@ -26,7 +26,9 @@ export class RoleMiner {
             }
 
             if (source.energy > 0 &&
-                (creep.store.energy <= (creep.store.getCapacity() - miner.amountOfWork * 2) ||
+                //For the no carry ones
+                (creep.store.energy === 0 ||
+                    (creep.store.energy <= (creep.store.getCapacity() - miner.amountOfWork * 2)) ||
                     creep.store.getCapacity() === 0)) {
                 creep.harvest(source);
             } else if (miner.linkIdToDepositTo != null &&
