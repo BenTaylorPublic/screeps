@@ -21,7 +21,7 @@ import {Stage5_4} from "./stages/stage5_4";
 import {Stage5_6} from "./stages/stage5_6";
 import {Stage5_8} from "./stages/stage5_8";
 import {Stage6} from "./stages/stage6";
-import {Stage6_25} from "./stages/Stage6_25";
+import {Stage6_25} from "./stages/stage6_25";
 import {Stage6_5} from "./stages/stage6_5";
 import {Stage6_75} from "./stages/stage6_75";
 import {Stage7} from "./stages/stage7";
