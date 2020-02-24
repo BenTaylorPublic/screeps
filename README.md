@@ -4,10 +4,12 @@
 ## TODO
 ### Working on
 ```
-Rename power bank scavenging stuff to PowerScav
+Optimizing moving logic
 ```
 ### Short term
 ```
+Rename power bank scavenging stuff to PowerScav
+
 Profiler results
     Optimize so I can get 2 more rooms
 
