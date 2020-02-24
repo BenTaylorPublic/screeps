@@ -15,11 +15,7 @@ Spawning
 ```
 ### Mid term:
 ```
-
 Report/Emails
-    This should be helpful in the longrun too once I need to have defence logic
-    Needs a rework so it includes attentions, but doesn't spam like it does ingame
-    Need an email controller to handle it all
     Cooldown enum when logging
     Convert ALL logs to it
 
