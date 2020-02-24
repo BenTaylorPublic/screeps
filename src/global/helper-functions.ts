@@ -210,6 +210,9 @@ export class HelperFunctions {
 
         if (this.posMatches(moveTo, myCreep.roomMoveTarget.pos)) {
             result = creep.moveByPath(myCreep.roomMoveTarget.path);
+            if (creep.name === "Creep1140024") {
+                console.log(result);
+            }
             if (result === OK) {
                 return result;
             }
