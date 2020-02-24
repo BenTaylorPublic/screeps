@@ -210,6 +210,10 @@ export class PowerScavengeController {
                 name: "Creep" + id,
                 role: "PowerBankScavengeHaulCreep",
                 assignedRoomName: powerScavengeBank.pos.roomName,
+                roomMoveTarget: {
+                    pos: null,
+                    path: []
+                },
                 state: "grabbing",
                 roomToDepositTo: myRoom.name
             };
@@ -305,6 +309,10 @@ export class PowerScavengeController {
                 name: "Creep" + id,
                 role: "PowerBankScavengeAttackCreep",
                 assignedRoomName: powerScavengeBank.pos.roomName,
+                roomMoveTarget: {
+                    pos: null,
+                    path: []
+                },
                 powerBankId: powerScavengeBank.id,
                 beenReplaced: false
             };

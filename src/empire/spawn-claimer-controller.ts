@@ -68,6 +68,10 @@ export class SpawnClaimerController {
                 name: "Creep" + id,
                 role: "Claimer",
                 assignedRoomName: flag.pos.roomName,
+                roomMoveTarget: {
+                    pos: null,
+                    path: []
+                },
                 flagName: flag.name
             };
         }

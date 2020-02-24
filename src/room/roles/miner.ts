@@ -42,7 +42,7 @@ export class RoleMiner {
             }
         } else {
             //Move to cache
-            HelperFunctions.myMoveTo(creep, cachePos);
+            HelperFunctions.myMoveTo(creep, cachePos, miner);
         }
     }
 }

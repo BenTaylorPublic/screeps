@@ -24,7 +24,7 @@ export class RoleBankLinker {
             }
 
             if (creep.transfer(bank, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                HelperFunctions.myMoveTo(creep, bank);
+                HelperFunctions.myMoveTo(creep, bank.pos, bankLinker);
             }
         } else {
             if (myRoom.bankLink == null ||
@@ -39,7 +39,7 @@ export class RoleBankLinker {
             }
 
             if (creep.withdraw(link, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                HelperFunctions.myMoveTo(creep, link);
+                HelperFunctions.myMoveTo(creep, link.pos, bankLinker);
             }
         }
     }

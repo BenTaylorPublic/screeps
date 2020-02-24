@@ -106,6 +106,10 @@ export class SpawnMiner {
                 name: "Creep" + id,
                 role: "Miner",
                 assignedRoomName: spawn.room.name,
+                roomMoveTarget: {
+                    pos: null,
+                    path: []
+                },
                 cachePosToMineOn: mySource.cache.pos,
                 linkIdToDepositTo: linkId,
                 sourceId: mySource.id,

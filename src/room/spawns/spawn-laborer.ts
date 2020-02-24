@@ -86,6 +86,10 @@ export class SpawnLaborer {
                 name: "Creep" + id,
                 role: "Laborer",
                 assignedRoomName: myRoom.name,
+                roomMoveTarget: {
+                    pos: null,
+                    path: []
+                },
                 state: "Labor"
             };
         }

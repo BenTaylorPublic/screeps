@@ -29,7 +29,7 @@ export class RolePowerBankScavengeAttackCreep {
                     creep.heal(creep);
                 }
             } else {
-                HelperFunctions.myMoveTo(creep, powerBank);
+                HelperFunctions.myMoveTo(creep, powerBank.pos, powerBankScavengeAttack);
             }
         }
     }

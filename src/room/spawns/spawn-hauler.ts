@@ -1,5 +1,5 @@
-import { HelperFunctions } from "../../global/helper-functions";
-import { Constants } from "../../global/constants";
+import {HelperFunctions} from "../../global/helper-functions";
+import {Constants} from "../../global/constants";
 import {ReportController} from "../../reporting/report-controller";
 
 export class SpawnHauler {
@@ -68,11 +68,11 @@ export class SpawnHauler {
                 "Creep" + id,
                 {
                     memory:
-                    {
-                        name: "Creep" + id,
-                        role: "Hauler",
-                        assignedRoomName: spawn.room.name
-                    }
+                        {
+                            name: "Creep" + id,
+                            role: "Hauler",
+                            assignedRoomName: spawn.room.name
+                        }
                 }
             );
 
@@ -81,6 +81,10 @@ export class SpawnHauler {
                 name: "Creep" + id,
                 role: "Hauler",
                 assignedRoomName: spawn.room.name,
+                roomMoveTarget: {
+                    pos: null,
+                    path: []
+                },
                 cachePosToPickupFrom: mySource.cache.pos,
                 pickup: true
             };

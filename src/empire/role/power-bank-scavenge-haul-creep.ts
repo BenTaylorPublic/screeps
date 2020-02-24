@@ -29,7 +29,7 @@ export class RolePowerBankScavengeHaulCreep {
             //Power bank is still alive
             if (creep.pos.getRangeTo(powerBanks[0]) > 3) {
                 //Walk near it
-                HelperFunctions.myMoveTo(creep, powerBanks[0]);
+                HelperFunctions.myMoveTo(creep, powerBanks[0].pos, powerBankScavengeHaul);
             }
         } else {
             if (creep.store.getFreeCapacity() > 0) {
@@ -42,7 +42,7 @@ export class RolePowerBankScavengeHaulCreep {
                     creep.suicide();
                 } else {
                     if (creep.pickup(resources[0]) === ERR_NOT_IN_RANGE) {
-                        HelperFunctions.myMoveTo(creep, resources[0]);
+                        HelperFunctions.myMoveTo(creep, resources[0].pos, powerBankScavengeHaul);
                     }
                 }
             } else {
@@ -73,7 +73,7 @@ export class RolePowerBankScavengeHaulCreep {
         }
 
         if (creep.transfer(bank, RESOURCE_POWER) === ERR_NOT_IN_RANGE) {
-            HelperFunctions.myMoveTo(creep, bank);
+            HelperFunctions.myMoveTo(creep, bank.pos, powerBankScavengeHaul);
         }
     }
 }

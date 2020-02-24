@@ -167,7 +167,11 @@ export class AttackQuickController {
             return {
                 name: "Creep" + id,
                 role: "AttackQuickCreep",
-                assignedRoomName: ""
+                assignedRoomName: "",
+                roomMoveTarget: {
+                    pos: null,
+                    path: []
+                }
             };
         }
         return null;

@@ -168,7 +168,7 @@ export class HelperFunctions {
             }
             creepMemory.interRoomTravelCurrentTarget = this.roomPosToMyPos(target);
         }
-        this.myMoveTo(creep, this.myPosToRoomPos(creepMemory.interRoomTravelCurrentTarget));
+        this.myMoveTo(creep, this.myPosToRoomPos(creepMemory.interRoomTravelCurrentTarget), creepMemory);
     }
 
     public static getRoomDistance(roomOneName: string, roomTwoName: string): number {
@@ -202,8 +202,17 @@ export class HelperFunctions {
         return (xResult === 0 || yResult === 0);
     }
 
-    public static myMoveTo(creep: Creep, moveTo: MoveToParam): MoveToResult {
-        return creep.moveTo(moveTo,
+    public static myMoveTo(creep: Creep, moveTo: RoomPosition, myCreep: MyCreep): MoveByPathResult {
+        let result: MoveByPathResult;
+        if (this.posMatches(moveTo, myCreep.roomMoveTarget.pos)) {
+            result = creep.moveByPath(myCreep.roomMoveTarget.path);
+            if (result === OK) {
+                return result;
+            }
+        }
+
+        myCreep.roomMoveTarget.pos = this.roomPosToMyPos(moveTo);
+        myCreep.roomMoveTarget.path = creep.pos.findPathTo(moveTo,
             {
                 costCallback(roomNamee: string, costMatrix: CostMatrix): boolean | CostMatrix {
                     if (roomNamee !== creep.room.name) {
@@ -213,6 +222,7 @@ export class HelperFunctions {
                     return costMatrix;
                 }
             });
+        return creep.moveByPath(myCreep.roomMoveTarget.path);
     }
 
     public static areaAroundPos(pos: RoomPosition, room: Room): number {
@@ -236,6 +246,15 @@ export class HelperFunctions {
             }
         }
         return result;
+    }
+
+    private static posMatches(pos: RoomPosition, myPos: MyRoomPos | null): boolean {
+        if (myPos == null) {
+            return false;
+        }
+        return pos.roomName === myPos.roomName &&
+            pos.x === myPos.x &&
+            pos.y === myPos.y;
     }
 
     private static avoidEdges(costMatrix: CostMatrix, room: Room): void {

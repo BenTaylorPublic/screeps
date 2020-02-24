@@ -49,7 +49,7 @@ export class RoleHauler {
 
                 creep.withdraw(cacheToGrabFrom, RESOURCE_ENERGY);
             } else {
-                HelperFunctions.myMoveTo(creep, cacheToGrabFromPos);
+                HelperFunctions.myMoveTo(creep, cacheToGrabFromPos, hauler);
             }
         } else {
             //Deliver
@@ -69,7 +69,7 @@ export class RoleHauler {
                 }
                 creep.transfer(bank, RESOURCE_ENERGY);
             } else {
-                HelperFunctions.myMoveTo(creep, bankPos);
+                HelperFunctions.myMoveTo(creep, bankPos, hauler);
             }
         }
     }

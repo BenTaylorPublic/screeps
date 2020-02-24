@@ -191,6 +191,10 @@ export class AttackPressureController {
                 name: "Creep" + id,
                 role: "AttackPressureCreep",
                 assignedRoomName: "",
+                roomMoveTarget: {
+                    pos: null,
+                    path: []
+                },
                 batchNumber: batchNumber
             };
         }

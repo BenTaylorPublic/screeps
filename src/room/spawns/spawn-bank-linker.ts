@@ -46,7 +46,11 @@ export class SpawnBankLinker {
             return {
                 name: "Creep" + id,
                 role: "BankLinker",
-                assignedRoomName: spawn.room.name
+                assignedRoomName: spawn.room.name,
+                roomMoveTarget: {
+                    pos: null,
+                    path: []
+                }
             };
         }
         return null;

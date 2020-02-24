@@ -12,7 +12,7 @@ export class RoleAttackCreep {
 
         if (attackState === "Rally" || attackState === "Conscripting") {
             //Get a nice tight ball on it
-            HelperFunctions.myMoveTo(creep, rallyOrRoomTargetFlag.pos);
+            HelperFunctions.myMoveTo(creep, rallyOrRoomTargetFlag.pos, attackCreep);
             if (!creep.pos.inRangeTo(rallyOrRoomTargetFlag.pos, Constants.RALLY_FLAG_RANGE)) {
                 //Not in range
                 creep.say("Moving");
@@ -23,15 +23,15 @@ export class RoleAttackCreep {
         } else if (attackState === "Charge") {
             if (creep.room.name !== rallyOrRoomTargetFlag.pos.roomName) {
                 creep.say("Charge!");
-                HelperFunctions.myMoveTo(creep, rallyOrRoomTargetFlag.pos);
+                HelperFunctions.myMoveTo(creep, rallyOrRoomTargetFlag.pos, attackCreep);
             } else {
                 //In the target room!
-                this.attackLogic(creep, attackTarget);
+                this.attackLogic(creep, attackTarget, attackCreep);
             }
         }
     }
 
-    private static attackLogic(creep: Creep, attackTarget: AttackTarget | null): void {
+    private static attackLogic(creep: Creep, attackTarget: AttackTarget | null, attackCreep: AttackPressureCreep | AttackQuickCreep): void {
         if (attackTarget == null) {
             creep.say("No target!");
         } else {
@@ -39,7 +39,7 @@ export class RoleAttackCreep {
             if (creep.pos.inRangeTo(attackTarget.roomObject.pos, 1)) {
                 creep.attack(attackTarget.roomObject as Creep | Structure<StructureConstant>);
             } else {
-                HelperFunctions.myMoveTo(creep, attackTarget.roomObject.pos);
+                HelperFunctions.myMoveTo(creep, attackTarget.roomObject.pos, attackCreep);
             }
         }
     }
