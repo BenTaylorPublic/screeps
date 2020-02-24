@@ -175,15 +175,7 @@ export class AttackPressureController {
         const result: ScreepsReturnCode =
             spawn.spawnCreep(
                 body,
-                "Creep" + id,
-                {
-                    memory:
-                        {
-                            name: "Creep" + id,
-                            role: "AttackPressureCreep",
-                            assignedRoomName: ""
-                        }
-                }
+                "Creep" + id
             );
 
         if (result === OK) {

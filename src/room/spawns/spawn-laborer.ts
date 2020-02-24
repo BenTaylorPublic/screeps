@@ -70,15 +70,7 @@ export class SpawnLaborer {
         const result: ScreepsReturnCode =
             spawn.spawnCreep(
                 body,
-                "Creep" + id,
-                {
-                    memory:
-                        {
-                            name: "Creep" + id,
-                            role: "Laborer",
-                            assignedRoomName: myRoom.name
-                        }
-                }
+                "Creep" + id
             );
 
         if (result === OK) {

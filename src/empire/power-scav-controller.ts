@@ -194,15 +194,7 @@ export class PowerScavController {
         const result: ScreepsReturnCode =
             spawn.spawnCreep(
                 body,
-                "Creep" + id,
-                {
-                    memory:
-                        {
-                            name: "Creep" + id,
-                            role: "PowerScavHaulCreep",
-                            assignedRoomName: powerScav.pos.roomName
-                        }
-                }
+                "Creep" + id
             );
 
         if (result === OK) {
@@ -294,15 +286,7 @@ export class PowerScavController {
         const result: ScreepsReturnCode =
             spawn.spawnCreep(
                 body,
-                "Creep" + id,
-                {
-                    memory:
-                        {
-                            name: "Creep" + id,
-                            role: "PowerScavAttackCreep",
-                            assignedRoomName: powerScav.pos.roomName
-                        }
-                }
+                "Creep" + id
             );
 
         if (result === OK) {

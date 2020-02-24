@@ -83,15 +83,7 @@ export class SpawnMiner {
         const result: ScreepsReturnCode =
             spawn.spawnCreep(
                 body,
-                "Creep" + id,
-                {
-                    memory:
-                        {
-                            name: "Creep" + id,
-                            role: "Miner",
-                            assignedRoomName: spawn.room.name
-                        }
-                }
+                "Creep" + id
             );
         let workCount: number = 0;
         for (let i: number = 0; i < body.length; i++) {

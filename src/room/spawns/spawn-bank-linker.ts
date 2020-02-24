@@ -1,10 +1,14 @@
-import { HelperFunctions } from "../../global/helper-functions";
+import {HelperFunctions} from "../../global/helper-functions";
 import {ReportController} from "../../reporting/report-controller";
 
 export class SpawnBankLinker {
     public static run(myRoom: MyRoom): void {
-        if (myRoom.roomStage < 5) { return; }
-        if (myRoom.bankLinkerName != null) { return; }
+        if (myRoom.roomStage < 5) {
+            return;
+        }
+        if (myRoom.bankLinkerName != null) {
+            return;
+        }
         const bankLinker: BankLinker | null = this.spawnBankLinker(myRoom);
         if (bankLinker != null) {
             myRoom.myCreeps.push(bankLinker);
@@ -31,15 +35,7 @@ export class SpawnBankLinker {
         const result: ScreepsReturnCode =
             spawn.spawnCreep(
                 [MOVE, CARRY],
-                "Creep" + id,
-                {
-                    memory:
-                    {
-                        name: "Creep" + id,
-                        role: "BankLinker",
-                        assignedRoomName: spawn.room.name
-                    }
-                }
+                "Creep" + id
             );
 
         if (result === OK) {

@@ -52,15 +52,7 @@ export class SpawnClaimerController {
         const result: ScreepsReturnCode =
             spawn.spawnCreep(
                 [MOVE, CLAIM],
-                "Creep" + id,
-                {
-                    memory:
-                        {
-                            name: "Creep" + id,
-                            role: "Claimer",
-                            assignedRoomName: flag.pos.roomName
-                        }
-                }
+                "Creep" + id
             );
 
         if (result === OK) {

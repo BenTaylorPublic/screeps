@@ -4,8 +4,7 @@
 ## TODO
 ### Working on
 ```
-Profiler results
-    Optimize so I can get 2 more rooms
+
 ```
 ### Short term
 ```
