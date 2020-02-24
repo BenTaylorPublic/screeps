@@ -15,14 +15,16 @@ Spawning
 ```
 ### Mid term:
 ```
-AvoidMatrix should be created and used for a whole tick's moveTo logic
 
 Report/Emails
-    Make it say "enemy entered", "enemy died" etc 
-        Remove the log that says "tower attacking X" once thats done
     This should be helpful in the longrun too once I need to have defence logic
     Needs a rework so it includes attentions, but doesn't spam like it does ingame
     Need an email controller to handle it all
+    Cooldown enum when logging
+    Convert ALL logs to it
+
+Enemy detection system
+    Make it say "enemy entered", "enemy died" etc 
 
 Flag helper function to get flags
     Pass it:
@@ -35,17 +37,21 @@ New Role - Stocker
     Just used to stock extensions, spawns, and towers
     Always have 1 (maybe have more? idk, just 1 single for now)
     Just move and carry body
+    The creep has a priority queue of things it needs to stock
+        (towers > spawn > extensions, no aging)
     Remove stocking logic from Laborers 
-        (currently expensive I think)
         Would mean Laborers JUST upgrade/build
-    Logic for stocking should be
-        When spawning or shooting turrent
-        Request energy equal to the amount spent
-        The creep has a priority queue of things it needs to stock
-            (towers > spawn > extensions, no aging)
 
 Observers
     Add a "Weakling to crush" for RCL levels 1 and 2
+    Rework system:
+        Just have an array of observers
+        Remove the current flag
+        Have a constant for the height and width
+        Observers can overlap in they're area, but oh well lol
+        Data:
+            CurrentLookingPos
+            Id<StructureObserver>
 
 Writing on a room sign via a flag
 
@@ -68,6 +74,9 @@ Need an ATTENTION for towers
 ```
 ### Long term:
 ```
+Profile AvoidMatrix
+    AvoidMatrix should be created and used for a whole tick's moveTo logic
+
 Attack
     Priority target's via flags
     Attack params/modes
