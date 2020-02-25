@@ -1,27 +1,43 @@
 import {HelperFunctions} from "../../global/helper-functions";
 import {ReportController} from "../../reporting/report-controller";
+import {FunctionProfiler} from "../../profiler/function-profiler/function-profiler";
 
 export class RoleLaborer {
     public static run(laborer: Laborer, myRoom: MyRoom): void {
+        FunctionProfiler.startFunction("RoleLaborer.run");
         if (HelperFunctions.handleCreepPreRole(laborer)) {
+            FunctionProfiler.endFunction("RoleLaborer.run");
             return;
         }
 
         const creep: Creep = Game.creeps[laborer.name];
 
+        FunctionProfiler.startFunctionSection("RoleLaborer.run", "calculateCreepState");
         this.calculateCreepState(laborer, myRoom, creep);
+        FunctionProfiler.endFunctionSection("RoleLaborer.run", "calculateCreepState");
 
         if (laborer.state === "PickupBank") {
+            FunctionProfiler.startFunctionSection("RoleLaborer.run", "pickupBank");
             this.pickupBank(laborer, myRoom, creep);
+            FunctionProfiler.endFunctionSection("RoleLaborer.run", "pickupBank");
         } else if (laborer.state === "PickupCache") {
+            FunctionProfiler.startFunctionSection("RoleLaborer.run", "pickupCache");
             this.pickupCache(laborer, myRoom, creep);
+            FunctionProfiler.endFunctionSection("RoleLaborer.run", "pickupCache");
         } else if (laborer.state === "PickupOutLink") {
+            FunctionProfiler.startFunctionSection("RoleLaborer.run", "pickupOutLink");
             this.pickupOutLink(laborer, myRoom, creep);
+            FunctionProfiler.endFunctionSection("RoleLaborer.run", "pickupOutLink");
         } else if (laborer.state === "Mining") {
+            FunctionProfiler.startFunctionSection("RoleLaborer.run", "mining");
             this.mining(laborer, myRoom, creep);
+            FunctionProfiler.endFunctionSection("RoleLaborer.run", "mining");
         } else { //Labor
+            FunctionProfiler.startFunctionSection("RoleLaborer.run", "labor");
             this.labor(laborer, myRoom, creep);
+            FunctionProfiler.endFunctionSection("RoleLaborer.run", "labor");
         }
+        FunctionProfiler.endFunction("RoleLaborer.run");
     }
 
     private static calculateCreepState(laborer: Laborer, myRoom: MyRoom, creep: Creep): void {
