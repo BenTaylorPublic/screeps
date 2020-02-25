@@ -15,8 +15,11 @@ export class RoleLaborer {
         FunctionProfiler.startFunctionSection("RoleLaborer.run", "calculateCreepState");
         this.calculateCreepState(laborer, myRoom, creep);
         FunctionProfiler.endFunctionSection("RoleLaborer.run", "calculateCreepState");
-
-        if (laborer.state === "PickupBank") {
+        if (laborer.state === "Labor") {
+            FunctionProfiler.startFunctionSection("RoleLaborer.run", "labor");
+            this.labor(laborer, myRoom, creep);
+            FunctionProfiler.endFunctionSection("RoleLaborer.run", "labor");
+        } else if (laborer.state === "PickupBank") {
             FunctionProfiler.startFunctionSection("RoleLaborer.run", "pickupBank");
             this.pickupBank(laborer, myRoom, creep);
             FunctionProfiler.endFunctionSection("RoleLaborer.run", "pickupBank");
@@ -28,14 +31,10 @@ export class RoleLaborer {
             FunctionProfiler.startFunctionSection("RoleLaborer.run", "pickupOutLink");
             this.pickupOutLink(laborer, myRoom, creep);
             FunctionProfiler.endFunctionSection("RoleLaborer.run", "pickupOutLink");
-        } else if (laborer.state === "Mining") {
+        } else { //Mining
             FunctionProfiler.startFunctionSection("RoleLaborer.run", "mining");
             this.mining(laborer, myRoom, creep);
             FunctionProfiler.endFunctionSection("RoleLaborer.run", "mining");
-        } else { //Labor
-            FunctionProfiler.startFunctionSection("RoleLaborer.run", "labor");
-            this.labor(laborer, myRoom, creep);
-            FunctionProfiler.endFunctionSection("RoleLaborer.run", "labor");
         }
         FunctionProfiler.endFunction("RoleLaborer.run");
     }
