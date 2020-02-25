@@ -3,22 +3,11 @@ import {ReportController} from "../../reporting/report-controller";
 
 export class RoleLaborer {
     public static run(laborer: Laborer, myRoom: MyRoom): void {
-        if (HelperFunctions.creepQueuedOrSpawning(laborer)) {
+        if (HelperFunctions.handleCreepPreRole(laborer)) {
             return;
         }
 
         const creep: Creep = Game.creeps[laborer.name];
-
-        if (creep == null) {
-            ReportController.log("ERROR", "Laborer creep is null. Creep ID: " + laborer.name);
-            return;
-        }
-
-        if (laborer.assignedRoomName !== creep.room.name) {
-            creep.say("Fukn Lost");
-            HelperFunctions.getCreepToRoom(creep, laborer, laborer.assignedRoomName);
-            return;
-        }
 
         this.calculateCreepState(laborer, myRoom, creep);
 

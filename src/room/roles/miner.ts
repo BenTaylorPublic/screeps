@@ -3,21 +3,11 @@ import {ReportController} from "../../reporting/report-controller";
 
 export class RoleMiner {
     public static run(miner: Miner): void {
-        if (HelperFunctions.creepQueuedOrSpawning(miner)) {
+        if (HelperFunctions.handleCreepPreRole(miner)) {
             return;
         }
 
         const creep: Creep = Game.creeps[miner.name];
-        if (creep == null) {
-            ReportController.log("ERROR", "Miner creep is null. Creep ID: " + miner.name);
-            return;
-        }
-
-        if (miner.assignedRoomName !== creep.room.name) {
-            creep.say("Fukn Lost");
-            HelperFunctions.getCreepToRoom(creep, miner, miner.assignedRoomName);
-            return;
-        }
 
         const cachePos: RoomPosition = HelperFunctions.myPosToRoomPos(miner.cachePosToMineOn);
 

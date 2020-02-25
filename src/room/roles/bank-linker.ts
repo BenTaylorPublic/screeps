@@ -3,22 +3,11 @@ import {HelperFunctions} from "../../global/helper-functions";
 
 export class RoleBankLinker {
     public static run(bankLinker: BankLinker, myRoom: MyRoom): void {
-        if (HelperFunctions.creepQueuedOrSpawning(bankLinker)) {
+        if (HelperFunctions.handleCreepPreRole(bankLinker)) {
             return;
         }
 
         const creep: Creep = Game.creeps[bankLinker.name];
-        if (creep == null) {
-            ReportController.log("ERROR", "BankLinker creep is null. Creep ID: " + bankLinker.name);
-            return;
-        }
-
-        if (bankLinker.assignedRoomName !== creep.room.name) {
-            creep.say("Fukn Lost");
-
-            HelperFunctions.getCreepToRoom(creep, bankLinker, bankLinker.assignedRoomName);
-            return;
-        }
 
         if (creep.store.getFreeCapacity() === 0) {
             const bank: StructureStorage | null = myRoom.bank;

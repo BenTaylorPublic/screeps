@@ -259,6 +259,19 @@ export class HelperFunctions {
         return result;
     }
 
+    public static handleCreepPreRole(myCreep: MyCreep): boolean {
+        if (this.creepQueuedOrSpawning(myCreep)) {
+            return true;
+        }
+
+        if (myCreep.assignedRoomName !== Game.creeps[myCreep.name].room.name) {
+            Game.creeps[myCreep.name].say("Traveling");
+            HelperFunctions.getCreepToRoom(Game.creeps[myCreep.name], myCreep, myCreep.assignedRoomName);
+            return true;
+        }
+        return false;
+    }
+
     public static creepQueuedOrSpawning(myCreep: MyCreep): boolean {
         if (myCreep.spawningStatus === "alive") {
             return false;

@@ -3,21 +3,15 @@ import {ReportController} from "../../reporting/report-controller";
 
 export class RolePowerScavHaulCreep {
     public static run(powerScavHaul: PowerScavHaulCreep): void {
-        if (HelperFunctions.creepQueuedOrSpawning(powerScavHaul)) {
+        if (HelperFunctions.handleCreepPreRole(powerScavHaul)) {
             return;
         }
 
         const creep: Creep = Game.creeps[powerScavHaul.name];
-
-        if (powerScavHaul.assignedRoomName !== creep.room.name) {
-            creep.say("Fukn Lost");
-            HelperFunctions.getCreepToRoom(creep, powerScavHaul, powerScavHaul.assignedRoomName);
+        if (powerScavHaul.state === "grabbing") {
+            this.grabbing(creep, powerScavHaul);
         } else {
-            if (powerScavHaul.state === "grabbing") {
-                this.grabbing(creep, powerScavHaul);
-            } else {
-                this.depositing(creep, powerScavHaul);
-            }
+            this.depositing(creep, powerScavHaul);
         }
     }
 

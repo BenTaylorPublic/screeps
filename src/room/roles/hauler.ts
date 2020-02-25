@@ -3,22 +3,11 @@ import {ReportController} from "../../reporting/report-controller";
 
 export class RoleHauler {
     public static run(hauler: Hauler, myRoom: MyRoom): void {
-        if (HelperFunctions.creepQueuedOrSpawning(hauler)) {
+        if (HelperFunctions.handleCreepPreRole(hauler)) {
             return;
         }
 
         const creep: Creep = Game.creeps[hauler.name];
-        if (creep == null) {
-            ReportController.log("ERROR", "Hauler creep is null. Creep ID: " + hauler.name);
-            return;
-        }
-
-        if (hauler.assignedRoomName !== creep.room.name) {
-            creep.say("Fukn Lost");
-
-            HelperFunctions.getCreepToRoom(creep, hauler, hauler.assignedRoomName);
-            return;
-        }
 
         if (hauler.pickup === false &&
             creep.store.energy === 0) {

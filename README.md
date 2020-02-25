@@ -4,18 +4,10 @@
 ## TODO
 ### Working on
 ```
+Profiling
 ```
 ### Short term
 ```
-Remove null checks on all roles
-    creep == null
-
-Roles should use a helper function to get them to their room
-    That should neaten roles up a little
-    if (HelperFunctions.creepIsTravelingToRoom(creep, myCreep)) {
-        return;
-    }
-
 Spawning
     Spawns could have a queue
     This would save the spawn logic from assembling a body every tick until it's able to be used
@@ -75,6 +67,9 @@ Log links to rooms
     <a href="#!/room/W41N1">W41N1</a>
 
 Need an ATTENTION for towers
+
+Attack creeps are probably broken
+    Transfer them to the "assignedRoomName" system
 ```
 ### Long term:
 ```
