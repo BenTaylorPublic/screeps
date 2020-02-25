@@ -188,6 +188,7 @@ export class RoleLaborer {
     }
 
     private static labor(laborer: Laborer, myRoom: MyRoom, creep: Creep): void {
+        FunctionProfiler.startFunction("RoleLaborer.labor");
         let givenCommand: boolean = false;
 
         //Check if controller is anywhere close to downgrading
@@ -202,14 +203,19 @@ export class RoleLaborer {
             //Adding energy to structures that need it
             const structureToAddTo: Structure | null = creep.pos.findClosestByPath(FIND_STRUCTURES, {
                 filter: (structure: any) => {
-                    return (structure.structureType === STRUCTURE_EXTENSION || structure.structureType === STRUCTURE_SPAWN || structure.structureType === STRUCTURE_TOWER) && structure.energy < structure.energyCapacity;
+                    return (structure.structureType === STRUCTURE_EXTENSION ||
+                        structure.structureType === STRUCTURE_SPAWN ||
+                        structure.structureType === STRUCTURE_TOWER)
+                        && structure.energy < structure.energyCapacity;
                 }
             });
             if (structureToAddTo != null) {
                 givenCommand = true;
+                FunctionProfiler.startFunctionSection("RoleLaborer.labor", "external");
                 if (creep.transfer(structureToAddTo, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                     HelperFunctions.myMoveTo(creep, structureToAddTo.pos, laborer);
                 }
+                FunctionProfiler.endFunctionSection("RoleLaborer.labor", "external");
             }
         }
 
@@ -218,15 +224,22 @@ export class RoleLaborer {
             const closestConstructionSite: ConstructionSite | null = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
             if (closestConstructionSite != null) {
                 givenCommand = true;
+                FunctionProfiler.startFunctionSection("RoleLaborer.labor", "external");
                 if (creep.build(closestConstructionSite) === ERR_NOT_IN_RANGE) {
                     HelperFunctions.myMoveTo(creep, closestConstructionSite.pos, laborer);
                 }
+                FunctionProfiler.endFunctionSection("RoleLaborer.labor", "external");
             }
         }
 
         //Upgrading room controller
-        if ((forceUpgradeController || !givenCommand) && creep.upgradeController(creep.room.controller as StructureController) === ERR_NOT_IN_RANGE) {
-            HelperFunctions.myMoveTo(creep, (creep.room.controller as StructureController).pos, laborer);
+        if (forceUpgradeController || !givenCommand) {
+            FunctionProfiler.startFunctionSection("RoleLaborer.labor", "external");
+            if (creep.upgradeController(creep.room.controller as StructureController) === ERR_NOT_IN_RANGE) {
+                HelperFunctions.myMoveTo(creep, (creep.room.controller as StructureController).pos, laborer);
+            }
+            FunctionProfiler.endFunctionSection("RoleLaborer.labor", "external");
         }
+        FunctionProfiler.endFunction("RoleLaborer.labor");
     }
 }
