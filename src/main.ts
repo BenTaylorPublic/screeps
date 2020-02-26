@@ -7,12 +7,13 @@ import {FunctionProfiler} from "./profiler/function-profiler/function-profiler";
 
 console.log("Script reloaded");
 
-// for (let i: number = 0; i < Memory.myMemory.myRooms.length; i++) {
-//     const myRoom: MyRoom = Memory.myMemory.myRooms[i];
-//     for (let j: number = 0; j < myRoom.myCreeps.length; j++) {
-//
-//     }
-// }
+for (let i: number = 0; i < Memory.myMemory.myRooms.length; i++) {
+    const myRoom: MyRoom = Memory.myMemory.myRooms[i];
+    for (let j: number = 0; j < myRoom.spawns.length; j++) {
+        //@ts-ignore
+        delete myRoom.spawns[j].position;
+    }
+}
 
 setupMyMemory();
 ProfilerWrapper.setup();

@@ -83,7 +83,6 @@ export class MemoryController {
                 for (let i = 0; i < spawns.length; i++) {
                     const spawn: StructureSpawn = spawns[i];
                     newMyRoom.spawns.push({
-                        position: HelperFunctions.roomPosToMyPos(spawn.pos),
                         name: spawn.name
                     });
                 }
@@ -99,7 +98,6 @@ export class MemoryController {
                     for (let i = 0; i < spawns.length; i++) {
                         const spawn: StructureSpawn = spawns[i];
                         myRoom.spawns.push({
-                            position: HelperFunctions.roomPosToMyPos(spawn.pos),
                             name: spawn.name
                         });
                     }

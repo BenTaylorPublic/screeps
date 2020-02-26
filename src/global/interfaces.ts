@@ -116,7 +116,6 @@ interface MyRoom {
 }
 
 interface MySpawn {
-    position: MyRoomPos;
     name: string;
 }
 

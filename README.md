@@ -4,14 +4,21 @@
 ## TODO
 ### Working on
 ```
-Profiling
-```
-### Short term
-```
 Spawning
     Spawns could have a queue
     This would save the spawn logic from assembling a body every tick until it's able to be used
-    Would also allow having a priority queue (Defence > Offence > Economy)
+    Accepts a BODY[], and a constant for the creep type, that'll be used in the priority logic
+```
+### Short term
+```
+New Role - Stocker
+    Just used to stock extensions, spawns, and towers
+    Always have 1 (maybe have more? idk, just 1 single for now)
+    Just move and carry body
+    The creep has a priority queue of things it needs to stock
+        (towers > spawn > extensions, no aging)
+    Remove stocking logic from Laborers 
+        Would mean Laborers JUST upgrade/build
 ```
 ### Mid term:
 ```
@@ -28,15 +35,6 @@ Flag helper function to get flags
         bool if the array can have extra on the end (eg "derp" or "derp-uniqueNumber")
         Optional room name string, if it should be a limited to a specific room
         Returns an array (and another version of it returns a Flag | null
-
-New Role - Stocker
-    Just used to stock extensions, spawns, and towers
-    Always have 1 (maybe have more? idk, just 1 single for now)
-    Just move and carry body
-    The creep has a priority queue of things it needs to stock
-        (towers > spawn > extensions, no aging)
-    Remove stocking logic from Laborers 
-        Would mean Laborers JUST upgrade/build
 
 Observers
     Add a "Weakling to crush" for RCL levels 1 and 2
@@ -106,8 +104,7 @@ Marketing logic (will be at empire level)
     Marketer role
     
 Lab logic
-    Spawning lab assistants (to haul to/from storage)
-    LabAssistant role
+    Uses stocker creeps
     Lab logic of what to request/combine/buff
     
 Spawn a new miner before the old one dies, so no downtime.
