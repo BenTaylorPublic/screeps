@@ -87,11 +87,11 @@ export class FunctionProfiler {
                 Number(processedFunction.callsPerTickAvg.toFixed(FIXED_NUMBER)).toString(),
                 Number(processedFunction.avgTime.toFixed(FIXED_NUMBER)).toString(),
                 processedFunction.callCount.toString()];
+
             index++;
 
             for (let j = 0; j < processedFunction.sections.length; j++) {
                 const processedSection: FunctionProfilerProcessedDataSection = processedFunction.sections[j];
-
 
                 table[index] = [processedSection.sectionName,
                     Number(processedSection.avgMsUsagePerTick.toFixed(FIXED_NUMBER)).toString(),
@@ -101,6 +101,10 @@ export class FunctionProfiler {
 
                 index++;
             }
+
+            table[index] = ["", "", "", "", ""];
+
+            index++;
         }
 
         console.log("Top " + SHOW_TOP_X_FUNCTIONS + " functions, based on AvgMsPerTick");

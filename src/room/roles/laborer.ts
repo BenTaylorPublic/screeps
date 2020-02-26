@@ -1,42 +1,26 @@
 import {HelperFunctions} from "../../global/helper-functions";
 import {ReportController} from "../../reporting/report-controller";
-import {FunctionProfiler} from "../../profiler/function-profiler/function-profiler";
 
 export class RoleLaborer {
     public static run(laborer: Laborer, myRoom: MyRoom): void {
-        FunctionProfiler.startFunction("RoleLaborer.run");
         if (HelperFunctions.handleCreepPreRole(laborer)) {
-            FunctionProfiler.endFunction("RoleLaborer.run");
             return;
         }
 
         const creep: Creep = Game.creeps[laborer.name];
 
-        FunctionProfiler.startFunctionSection("RoleLaborer.run", "calculateCreepState");
         this.calculateCreepState(laborer, myRoom, creep);
-        FunctionProfiler.endFunctionSection("RoleLaborer.run", "calculateCreepState");
         if (laborer.state === "Labor") {
-            FunctionProfiler.startFunctionSection("RoleLaborer.run", "labor");
             this.labor(laborer, myRoom, creep);
-            FunctionProfiler.endFunctionSection("RoleLaborer.run", "labor");
         } else if (laborer.state === "PickupBank") {
-            FunctionProfiler.startFunctionSection("RoleLaborer.run", "pickupBank");
             this.pickupBank(laborer, myRoom, creep);
-            FunctionProfiler.endFunctionSection("RoleLaborer.run", "pickupBank");
         } else if (laborer.state === "PickupCache") {
-            FunctionProfiler.startFunctionSection("RoleLaborer.run", "pickupCache");
             this.pickupCache(laborer, myRoom, creep);
-            FunctionProfiler.endFunctionSection("RoleLaborer.run", "pickupCache");
         } else if (laborer.state === "PickupOutLink") {
-            FunctionProfiler.startFunctionSection("RoleLaborer.run", "pickupOutLink");
             this.pickupOutLink(laborer, myRoom, creep);
-            FunctionProfiler.endFunctionSection("RoleLaborer.run", "pickupOutLink");
         } else { //Mining
-            FunctionProfiler.startFunctionSection("RoleLaborer.run", "mining");
             this.mining(laborer, myRoom, creep);
-            FunctionProfiler.endFunctionSection("RoleLaborer.run", "mining");
         }
-        FunctionProfiler.endFunction("RoleLaborer.run");
     }
 
     private static calculateCreepState(laborer: Laborer, myRoom: MyRoom, creep: Creep): void {
@@ -188,7 +172,6 @@ export class RoleLaborer {
     }
 
     private static labor(laborer: Laborer, myRoom: MyRoom, creep: Creep): void {
-        FunctionProfiler.startFunction("RoleLaborer.labor");
         let givenCommand: boolean = false;
 
         //Check if controller is anywhere close to downgrading
@@ -211,11 +194,9 @@ export class RoleLaborer {
             });
             if (structureToAddTo != null) {
                 givenCommand = true;
-                FunctionProfiler.startFunctionSection("RoleLaborer.labor", "external");
                 if (creep.transfer(structureToAddTo, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                     HelperFunctions.myMoveTo(creep, structureToAddTo.pos, laborer);
                 }
-                FunctionProfiler.endFunctionSection("RoleLaborer.labor", "external");
             }
         }
 
@@ -224,22 +205,17 @@ export class RoleLaborer {
             const closestConstructionSite: ConstructionSite | null = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
             if (closestConstructionSite != null) {
                 givenCommand = true;
-                FunctionProfiler.startFunctionSection("RoleLaborer.labor", "external");
                 if (creep.build(closestConstructionSite) === ERR_NOT_IN_RANGE) {
                     HelperFunctions.myMoveTo(creep, closestConstructionSite.pos, laborer);
                 }
-                FunctionProfiler.endFunctionSection("RoleLaborer.labor", "external");
             }
         }
 
         //Upgrading room controller
         if (forceUpgradeController || !givenCommand) {
-            FunctionProfiler.startFunctionSection("RoleLaborer.labor", "external");
             if (creep.upgradeController(creep.room.controller as StructureController) === ERR_NOT_IN_RANGE) {
                 HelperFunctions.myMoveTo(creep, (creep.room.controller as StructureController).pos, laborer);
             }
-            FunctionProfiler.endFunctionSection("RoleLaborer.labor", "external");
         }
-        FunctionProfiler.endFunction("RoleLaborer.labor");
     }
 }

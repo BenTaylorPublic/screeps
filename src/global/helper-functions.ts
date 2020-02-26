@@ -1,5 +1,3 @@
-import {FunctionProfiler} from "../profiler/function-profiler/function-profiler";
-
 export class HelperFunctions {
     public static getId(): number {
         const toReturn: number = Memory.myMemory.globalId;
@@ -205,7 +203,6 @@ export class HelperFunctions {
     }
 
     public static myMoveTo(creep: Creep, moveTo: RoomPosition, myCreep: MyCreep): MoveByPathResult {
-        FunctionProfiler.startFunction("HelperFunctions.myMoveTo");
         if (creep.fatigue > 0) {
             return ERR_TIRED;
         }
@@ -216,7 +213,6 @@ export class HelperFunctions {
             //Same target
             if (!this.posMatches2(myCreep.lastPos, currentCreepPos)) {
                 myCreep.lastPos = currentCreepPos;
-                FunctionProfiler.endFunction("HelperFunctions.myMoveTo");
                 return creep.moveByPath(myCreep.roomMoveTarget.path);
             } //Else, the creep didn't move last tick properly
         }
@@ -226,7 +222,6 @@ export class HelperFunctions {
         //Calculate path again
         creep.say("🧭");
 
-        FunctionProfiler.startFunctionSection("HelperFunctions.myMoveTo", "calculating");
         myCreep.roomMoveTarget.pos = this.roomPosToMyPos(moveTo);
         myCreep.roomMoveTarget.path = creep.pos.findPathTo(moveTo,
             {
@@ -239,9 +234,7 @@ export class HelperFunctions {
                 }
             });
 
-        FunctionProfiler.endFunctionSection("HelperFunctions.myMoveTo", "calculating");
         const result: MoveByPathResult = creep.moveByPath(myCreep.roomMoveTarget.path);
-        FunctionProfiler.endFunction("HelperFunctions.myMoveTo");
         return result;
     }
 
