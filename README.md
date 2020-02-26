@@ -7,7 +7,7 @@
 Spawning
     Spawns could have a queue
     This would save the spawn logic from assembling a body every tick until it's able to be used
-    Accepts a BODY[], and a constant for the creep type, that'll be used in the priority logic
+    Accepts a BODY[], a MyRoom, and a constant for the creep type, that'll be used in the priority logic
 ```
 ### Short term
 ```
