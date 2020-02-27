@@ -8,6 +8,8 @@ Spawning
     Spawns could have a queue
     This would save the spawn logic from assembling a body every tick until it's able to be used
     Accepts a BODY[], a MyRoom, and a constant for the creep type, that'll be used in the priority logic
+        Force spawning laborer has to be top priority
+        Otherwise it could provide a body that can no longer be built by the 300 min energy
 ```
 ### Short term
 ```
