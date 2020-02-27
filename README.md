@@ -64,7 +64,9 @@ Room logic
 Log links to rooms
     <a href="#!/room/W41N1">W41N1</a>
 
-Need an ATTENTION for towers
+ATTENTION
+    Need an ATTENTION for towers
+    Need an ATTENTION for bank (storage)
 
 Attack creeps are probably broken
     Transfer them to the "assignedRoomName" system
