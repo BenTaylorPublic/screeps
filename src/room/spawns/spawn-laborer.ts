@@ -18,7 +18,7 @@ export class SpawnLaborer {
         if (bank.store[RESOURCE_ENERGY] >= Constants.AMOUNT_OF_BANK_ENERGY_TO_SPAWN_LABORER &&
             laborerCount < Constants.MAX_LABORERS) {
             //If the bank is capped, spawn another laborer
-            const newCreep: Laborer | null = this.spawnLaborer(myRoom);
+            const newCreep: Laborer | null = this.spawnLaborer(myRoom, false);
             if (newCreep != null) {
                 myRoom.myCreeps.push(newCreep);
                 console.log("LOG: Spawned a new Laborer");
@@ -27,14 +27,14 @@ export class SpawnLaborer {
     }
 
     public static forceSpawnLaborer(myRoom: MyRoom): void {
-        const newCreep: Laborer | null = this.spawnLaborer(myRoom);
+        const newCreep: Laborer | null = this.spawnLaborer(myRoom, true);
         if (newCreep != null) {
             myRoom.myCreeps.push(newCreep);
             console.log("LOG: Force spawned a new Laborer");
         }
     }
 
-    private static spawnLaborer(myRoom: MyRoom): Laborer | null {
+    private static spawnLaborer(myRoom: MyRoom, forceSpawn: boolean): Laborer | null {
 
         let spawn: StructureSpawn | null;
 
@@ -55,7 +55,7 @@ export class SpawnLaborer {
             [MOVE, MOVE, CARRY, WORK],
             [MOVE, MOVE, CARRY, WORK],
             spawn.room,
-            false);
+            !forceSpawn);
 
         const id = HelperFunctions.getId();
         const result: ScreepsReturnCode =
