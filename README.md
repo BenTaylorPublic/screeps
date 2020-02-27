@@ -22,6 +22,8 @@ New Role - Stocker
 ```
 ### Mid term:
 ```
+Miners should stop mining when the source is using the cache system, and cache is full
+
 Report/Emails
     Cooldown enum when logging
     Convert ALL logs to it
