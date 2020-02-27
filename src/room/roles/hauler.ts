@@ -39,8 +39,9 @@ export class RoleHauler {
                     ReportController.log("ERROR", "Source cache is null for hauler: " + hauler.name);
                     return;
                 }
-
-                creep.withdraw(cacheToGrabFrom, RESOURCE_ENERGY);
+                if (cacheToGrabFrom.store[RESOURCE_ENERGY] >= creep.store.getFreeCapacity()) {
+                    creep.withdraw(cacheToGrabFrom, RESOURCE_ENERGY);
+                }
             } else {
                 HelperFunctions.myMoveTo(creep, cacheToGrabFromPos, hauler);
             }
