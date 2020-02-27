@@ -59,7 +59,11 @@ export class SpawnHauler {
         }
 
         //Have a valid spawn now
-        const body: BodyPartConstant[] = HelperFunctions.generateBody([MOVE, CARRY], [MOVE, CARRY], spawn.room, true, 10);
+        const body: BodyPartConstant[] = HelperFunctions.generateBody([MOVE, CARRY],
+            [MOVE, CARRY],
+            spawn.room,
+            true,
+            10);
 
         const id = HelperFunctions.getId();
         const result: ScreepsReturnCode =

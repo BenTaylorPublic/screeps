@@ -64,7 +64,8 @@ export class MemoryController {
                     bankLink: null,
                     bank: null,
                     outLinks: [],
-                    pendingConscriptedCreep: false
+                    pendingConscriptedCreep: false,
+                    spawnQueue: []
                 };
                 const sources: Source[] = room.find(FIND_SOURCES);
                 for (let i = 0; i < sources.length; i++) {

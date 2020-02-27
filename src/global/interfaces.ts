@@ -113,6 +113,13 @@ interface MyRoom {
     bank: StructureStorage | null;
     outLinks: MyLink[];
     pendingConscriptedCreep: boolean;
+    spawnQueue: QueuedCreep[];
+}
+
+interface QueuedCreep {
+    body: BodyPartConstant[];
+    energyCost: number;
+    priority: number;
 }
 
 interface MySpawn {
