@@ -63,7 +63,7 @@ export class SpawnHauler {
             [MOVE, CARRY],
             spawn.room,
             true,
-            10);
+            20);
 
         const id = HelperFunctions.getId();
         const result: ScreepsReturnCode =
