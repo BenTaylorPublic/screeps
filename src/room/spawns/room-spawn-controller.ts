@@ -6,7 +6,15 @@ import {SpawnBankLinker} from "./spawn-bank-linker";
 
 export class RoomSpawnController {
     public static run(myRoom: MyRoom): void {
+        this.addToQueueLogic(myRoom);
+        this.handleQueueLogic(myRoom);
+    }
 
+    private static handleQueueLogic(myRoom: MyRoom): void {
+
+    }
+
+    private static addToQueueLogic(myRoom: MyRoom): void {
         let laborerCount: number = 0;
         for (let i = 0; i < myRoom.myCreeps.length; i++) {
             if (myRoom.myCreeps[i].role === "Laborer") {
