@@ -61,7 +61,7 @@ import {ObserverController} from "../empire/observer/observer-controller";
 import {MemoryController} from "../memory/memory-controller";
 import {RolePowerScavAttackCreep} from "../empire/role/power-scav-attack-creep";
 import {RolePowerScavHaulCreep} from "../empire/role/power-scav-haul-creep";
-import {SpawnController} from "../global/spawn-controller";
+import {SpawnQueueController} from "../global/spawn-queue-controller";
 
 export class ProfilerWrapper {
     public static setup(): void {
@@ -139,7 +139,7 @@ export class ProfilerWrapper {
         Profiler.setup(PowerScavController, "PowerScavController");
 
         Profiler.setup(MemoryController, "MemoryController");
-        Profiler.setup(SpawnController, "SpawnController");
+        Profiler.setup(SpawnQueueController, "SpawnController");
 
         /**
          * Don't profile:
