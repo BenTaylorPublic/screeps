@@ -5,14 +5,21 @@
 ### Working on
 ```
 Spawning
-    Spawns could have a queue
-    This would save the spawn logic from assembling a body every tick until it's able to be used
-    Accepts a BODY[], a MyRoom, and a constant for the creep type, that'll be used in the priority logic
-        Force spawning laborer has to be top priority
-        Otherwise it could provide a body that can no longer be built by the 300 min energy
+    Convert all existing spawn calls to the queue system
+        power-scav-attack
+        power-scav-haul
+        claimer
+        attack-pressure
+        attack-quick
+        bank-linker
+        hauler
+        laborer
+        miner
 ```
 ### Short term
 ```
+Remove outlink logic
+
 New Role - Stocker
     Just used to stock extensions, spawns, and towers
     Always have 1 (maybe have more? idk, just 1 single for now)
@@ -43,13 +50,8 @@ Flag helper function to get flags
 Observers
     Add a "Weakling to crush" for RCL levels 1 and 2
     Rework system:
-        Just have an array of observers
-        Remove the current flag
-        Have a constant for the height and width
-        Observers can overlap in they're area, but oh well lol
-        Data:
-            CurrentLookingPos
-            Id<StructureObserver>
+        Allow more than one obs
+        Somehow stop overlaps
 
 Writing on a room sign via a flag
 
@@ -95,8 +97,6 @@ Links
         This is because there WILL be 4 link types
             link-source
             link-bank
-            link-out
-            link-in
 
 Minerals
     Using flags
@@ -137,7 +137,6 @@ cont
 tower-1 to 6
 storage
 link-source
-link-out
 link-bank
 spawn
 power-spawn
