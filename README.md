@@ -6,7 +6,6 @@
 ```
 Spawning
     Convert all existing spawn calls to the queue system
-        claimer
         attack-pressure
         attack-quick
 ```

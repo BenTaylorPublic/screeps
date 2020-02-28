@@ -1,5 +1,7 @@
 import {HelperFunctions} from "../global/helper-functions";
 import {ReportController} from "../reporting/report-controller";
+import {SpawnQueueController} from "../global/spawn-queue-controller";
+import {SpawnConstants} from "../global/spawn-constants";
 
 export class SpawnClaimerController {
     public static run(myMemory: MyMemory): void {
@@ -46,29 +48,23 @@ export class SpawnClaimerController {
             return null;
         }
 
-        //Have a valid spawn now
+        const roomToSpawnFrom: MyRoom = HelperFunctions.getMyRoomByName(spawn.room.name) as MyRoom;
 
-        const id = HelperFunctions.getId();
-        const result: ScreepsReturnCode =
-            spawn.spawnCreep(
-                [MOVE, CLAIM],
-                "Creep" + id
-            );
+        const name: string = "Creep" + Game.time;
+        SpawnQueueController.queueCreepSpawn([MOVE, CLAIM], roomToSpawnFrom, SpawnConstants.CLAIMER, name);
 
-        if (result === OK) {
-            return {
-                name: "Creep" + id,
-                role: "Claimer",
-                assignedRoomName: flag.pos.roomName,
-                spawningStatus: "queued",
-                roomMoveTarget: {
-                    pos: null,
-                    path: []
-                },
-                flagName: flag.name
-            };
-        }
-        return null;
+        return {
+            name: name,
+            role: "Claimer",
+            assignedRoomName: flag.pos.roomName,
+            spawningStatus: "queued",
+            roomMoveTarget: {
+                pos: null,
+                path: []
+            },
+            flagName: flag.name
+        };
+
     }
 
 }
