@@ -4,6 +4,8 @@ import {HelperFunctions} from "../../global/helper-functions";
 import {AttackHelperFunctions} from "./attack-helper-functions";
 import {RoleAttackCreep} from "../role/attack-creep";
 import {ScheduleController} from "../../schedule/schedule-controller";
+import {SpawnQueueController} from "../../global/spawn-queue-controller";
+import {SpawnConstants} from "../../global/spawn-constants";
 
 export class AttackPressureController {
     public static run(myMemory: MyMemory, attackPressure: AttackPressure): void {
@@ -138,15 +140,13 @@ export class AttackPressureController {
         //Wait until every room that's required to, has added a creep
         for (let i = batch.roomsStillToProvide.length - 1; i >= 0; i--) {
             const myRoom: MyRoom = HelperFunctions.getMyRoomByName(batch.roomsStillToProvide[i]) as MyRoom;
-            const attackPressureCreep: AttackPressureCreep | null = this.spawnAttackPressureCreep(myRoom, batch.batchNumber);
-            if (attackPressureCreep != null) {
-                console.log("LOG: " + myRoom.name + " has been conscripted " + attackPressureCreep.name + " for AttackPressure");
+            const attackPressureCreep: AttackPressureCreep = this.spawnAttackPressureCreep(myRoom, batch.batchNumber);
+            console.log("LOG: " + myRoom.name + " has been conscripted " + attackPressureCreep.name + " for AttackPressure");
 
-                ScheduleController.scheduleForNextTick("SET_FALSE_ON_PENDING_CONSCRIPTED_CREEP", myRoom.name);
+            ScheduleController.scheduleForNextTick("SET_FALSE_ON_PENDING_CONSCRIPTED_CREEP", myRoom.name);
 
-                empire.creeps.push(attackPressureCreep);
-                batch.roomsStillToProvide.splice(i, 1);
-            } // else room still to provide a creep
+            empire.creeps.push(attackPressureCreep);
+            batch.roomsStillToProvide.splice(i, 1);
         }
 
         if (batch.roomsStillToProvide.length === 0) {
@@ -157,41 +157,33 @@ export class AttackPressureController {
         //Some rooms still need to provide a creep
     }
 
-    private static spawnAttackPressureCreep(myRoom: MyRoom, batchNumber: number): AttackPressureCreep | null {
-        const spawn: StructureSpawn = Game.spawns[myRoom.spawns[0].name];
-
-        //Have a valid spawn now
-        const id: number = HelperFunctions.getId();
+    private static spawnAttackPressureCreep(myRoom: MyRoom, batchNumber: number): AttackPressureCreep {
+        const room: Room = Game.rooms[myRoom.name];
 
         const body: BodyPartConstant[] =
             HelperFunctions.generateBody([MOVE, ATTACK],
                 [MOVE, ATTACK],
-                spawn.room,
+                room,
                 true,
                 50,
                 true
             );
 
-        const result: ScreepsReturnCode =
-            spawn.spawnCreep(
-                body,
-                "Creep" + id
-            );
+        const name: string = "Creep" + Game.time;
+        SpawnQueueController.queueCreepSpawn(body, myRoom, SpawnConstants.ATTACK_PRESSURE, name);
 
-        if (result === OK) {
-            return {
-                name: "Creep" + id,
-                role: "AttackPressureCreep",
-                spawningStatus: "queued",
-                assignedRoomName: "",
-                roomMoveTarget: {
-                    pos: null,
-                    path: []
-                },
-                batchNumber: batchNumber
-            };
-        }
-        return null;
+        return {
+            name: name,
+            role: "AttackPressureCreep",
+            spawningStatus: "queued",
+            assignedRoomName: "",
+            roomMoveTarget: {
+                pos: null,
+                path: []
+            },
+            batchNumber: batchNumber
+        };
+
     }
 
     private static startBatch(attackPressure: AttackPressure): void {
