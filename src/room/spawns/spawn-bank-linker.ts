@@ -17,7 +17,7 @@ export class SpawnBankLinker {
 
     private static spawnBankLinker(myRoom: MyRoom): BankLinker {
         const name: string = "Creep" + Game.time;
-        SpawnQueueController.queueCreepSpawn([MOVE, CARRY], myRoom, SpawnConstants.POWER_SCAV_ATTACK, name);
+        SpawnQueueController.queueCreepSpawn([MOVE, CARRY], myRoom, SpawnConstants.BANK_LINKER, name);
 
         return {
             name: name,

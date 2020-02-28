@@ -1,6 +1,7 @@
 import {HelperFunctions} from "../../global/helper-functions";
 import {Constants} from "../../global/constants";
-import {ReportController} from "../../reporting/report-controller";
+import {SpawnQueueController} from "../../global/spawn-queue-controller";
+import {SpawnConstants} from "../../global/spawn-constants";
 
 export class SpawnHauler {
     public static trySpawnHauler(myRoom: MyRoom): void {
@@ -22,71 +23,44 @@ export class SpawnHauler {
                 myCache != null &&
                 myCache.store.energy >= myCache.store.getCapacity() * Constants.PERCENT_OF_CACHE_ENERGY_TO_SPAWN_HAULER) {
                 //Spawn a new hauler
-                const newCreep: Hauler | null = this.spawnHauler(myRoom, mySource);
-                if (newCreep != null) {
-                    myRoom.myCreeps.push(newCreep);
-                    mySource.haulerNames.push(newCreep.name);
-                    console.log("LOG: Spawned a new hauler");
+                const newCreep: Hauler = this.spawnHauler(myRoom, mySource);
+                myRoom.myCreeps.push(newCreep);
+                mySource.haulerNames.push(newCreep.name);
+                console.log("LOG: Queued a new hauler");
 
-                    //+50 for the ticks to make the body
-                    const haulerCooldown: number = Math.round(
-                        50 +
-                        (Game.spawns[myRoom.spawns[0].name].pos.getRangeTo(myCache.pos) *
-                            Constants.HAULER_COOLDOWN_DISTANCE_FACTOR));
-                    mySource.haulerCooldown = haulerCooldown;
-                    return;
-                }
+                //+50 for the ticks to make the body
+                const haulerCooldown: number = Math.round(
+                    50 +
+                    (Game.spawns[myRoom.spawns[0].name].pos.getRangeTo(myCache.pos) *
+                        Constants.HAULER_COOLDOWN_DISTANCE_FACTOR));
+                mySource.haulerCooldown = haulerCooldown;
+
             }
-
         }
     }
 
-    private static spawnHauler(myRoom: MyRoom, mySource: MySource): Hauler | null {
-        if (myRoom.spawns.length === 0) {
-            ReportController.log("ERROR", "Attempted to spawn hauler in a room with no spawner (1)");
-            return null;
-        }
-        const spawn: StructureSpawn = Game.spawns[myRoom.spawns[0].name];
-
-        if (spawn == null) {
-            ReportController.log("ERROR", "Attempted to spawn hauler in a room with no spawner (2)");
-            return null;
-        }
-
-        if (mySource.cache == null) {
-            ReportController.log("ERROR", "Attempted to spawn hauler for a source with no cache pos");
-            return null;
-        }
-
-        //Have a valid spawn now
+    private static spawnHauler(myRoom: MyRoom, mySource: MySource): Hauler {
         const body: BodyPartConstant[] = HelperFunctions.generateBody([MOVE, CARRY],
             [MOVE, CARRY],
-            spawn.room,
+            Game.rooms[myRoom.name],
             true,
             20);
+        const name: string = "Creep" + Game.time;
+        SpawnQueueController.queueCreepSpawn(body, myRoom, SpawnConstants.HAULER, name);
 
-        const id = HelperFunctions.getId();
-        const result: ScreepsReturnCode =
-            spawn.spawnCreep(
-                body,
-                "Creep" + id
-            );
 
-        if (result === OK) {
-            return {
-                name: "Creep" + id,
-                role: "Hauler",
-                assignedRoomName: spawn.room.name,
-                spawningStatus: "queued",
-                roomMoveTarget: {
-                    pos: null,
-                    path: []
-                },
-                cachePosToPickupFrom: mySource.cache.pos,
-                pickup: true
-            };
-        }
-        return null;
+        return {
+            name: name,
+            role: "Hauler",
+            assignedRoomName: myRoom.name,
+            spawningStatus: "queued",
+            roomMoveTarget: {
+                pos: null,
+                path: []
+            },
+            cachePosToPickupFrom: (mySource.cache as MyCache).pos,
+            pickup: true
+        };
     }
 
 }
