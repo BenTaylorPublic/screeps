@@ -9,9 +9,6 @@ Spawning
         claimer
         attack-pressure
         attack-quick
-        hauler
-        laborer
-        miner
 ```
 ### Short term
 ```

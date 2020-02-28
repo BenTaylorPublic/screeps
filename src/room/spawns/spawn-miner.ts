@@ -1,5 +1,6 @@
 import {HelperFunctions} from "../../global/helper-functions";
-import {ReportController} from "../../reporting/report-controller";
+import {SpawnQueueController} from "../../global/spawn-queue-controller";
+import {SpawnConstants} from "../../global/spawn-constants";
 
 export class SpawnMiner {
     public static trySpawnMiner(myRoom: MyRoom): void {
@@ -12,34 +13,15 @@ export class SpawnMiner {
             const mySource: MySource = myRoom.mySources[i];
             if (mySource.minerName == null) {
                 //Needs a new miner
-                const newCreep: Miner | null = this.spawnMiner(myRoom, mySource);
-                if (newCreep != null) {
-                    myRoom.myCreeps.push(newCreep);
-                    console.log("LOG: Spawned a new Miner");
-                    return;
-                }
+                const newCreep: Miner = this.spawnMiner(myRoom, mySource);
+                myRoom.myCreeps.push(newCreep);
+                console.log("LOG: Queued a new Miner");
+                return;
             }
         }
     }
 
-    private static spawnMiner(myRoom: MyRoom, mySource: MySource): Miner | null {
-
-        if (myRoom.spawns.length === 0) {
-            ReportController.log("ERROR", "Attempted to spawn miner in a room with no spawner (1)");
-            return null;
-        }
-        const spawn: StructureSpawn = Game.spawns[myRoom.spawns[0].name];
-
-        if (spawn == null) {
-            ReportController.log("ERROR", "Attempted to spawn miner in a room with no spawner (2)");
-            return null;
-        }
-
-        if (mySource.cache == null) {
-            ReportController.log("ERROR", "Attempted to spawn miner to a source with no cache container pos");
-            return null;
-        }
-
+    private static spawnMiner(myRoom: MyRoom, mySource: MySource): Miner {
         let body: BodyPartConstant[];
 
         let maxBodyParts: number;
@@ -78,13 +60,10 @@ export class SpawnMiner {
             );
         }
 
+        const name: string = "Creep" + Game.time;
+        SpawnQueueController.queueCreepSpawn(body, myRoom, SpawnConstants.MINER, name);
+
         //Have a valid spawn now
-        const id = HelperFunctions.getId();
-        const result: ScreepsReturnCode =
-            spawn.spawnCreep(
-                body,
-                "Creep" + id
-            );
         let workCount: number = 0;
         for (let i: number = 0; i < body.length; i++) {
             if (body[i] === WORK) {
@@ -92,25 +71,21 @@ export class SpawnMiner {
             }
         }
 
-        if (result === OK) {
-            mySource.minerName = "Creep" + id;
-            return {
-                name: "Creep" + id,
-                role: "Miner",
-                assignedRoomName: spawn.room.name,
-                spawningStatus: "queued",
-                roomMoveTarget: {
-                    pos: null,
-                    path: []
-                },
-                cachePosToMineOn: mySource.cache.pos,
-                linkIdToDepositTo: linkId,
-                sourceId: mySource.id,
-                amountOfWork: workCount
-            };
-        }
-
-        return null;
+        mySource.minerName = name;
+        return {
+            name: name,
+            role: "Miner",
+            assignedRoomName: myRoom.name,
+            spawningStatus: "queued",
+            roomMoveTarget: {
+                pos: null,
+                path: []
+            },
+            cachePosToMineOn: (mySource.cache as MyCache).pos,
+            linkIdToDepositTo: linkId,
+            sourceId: mySource.id,
+            amountOfWork: workCount
+        };
     }
 
 }
