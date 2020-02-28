@@ -9,7 +9,6 @@ Spawning
         claimer
         attack-pressure
         attack-quick
-        bank-linker
         hauler
         laborer
         miner
