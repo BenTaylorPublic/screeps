@@ -11,7 +11,34 @@ export class RoomSpawnController {
     }
 
     private static handleQueueLogic(myRoom: MyRoom): void {
+        if (myRoom.spawnQueue.length === 0) {
+            return;
+        }
 
+        const creepToSpawn: QueuedCreep = myRoom.spawnQueue[0];
+        if (Game.rooms[myRoom.name].energyAvailable < creepToSpawn.energyCost) {
+            //Too costly to spawn
+            return;
+        }
+
+        let spawn: StructureSpawn | null = null;
+        for (let i: number = 0; i < myRoom.spawns.length; i++) {
+            spawn = Game.spawns[myRoom.spawns[i].name];
+            if (spawn.spawning != null) {
+                spawn = null;
+            } else {
+                break;
+            }
+        }
+        if (spawn != null) {
+            return;
+        }
+
+        const result: ScreepsReturnCode = (spawn as unknown as StructureSpawn).spawnCreep(creepToSpawn.body, "Creep" + Game.time);
+
+        if (result === OK) {
+            myRoom.spawnQueue.splice(0, 1);
+        }
     }
 
     private static addToQueueLogic(myRoom: MyRoom): void {
