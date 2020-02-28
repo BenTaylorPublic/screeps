@@ -1,6 +1,8 @@
 import {Constants} from "../global/constants";
 import {HelperFunctions} from "../global/helper-functions";
 import {RolePowerScavAttackCreep} from "./role/power-scav-attack-creep";
+import {SpawnQueueController} from "../global/spawn-queue-controller";
+import {SpawnConstants} from "../global/spawn-constants";
 
 export class PowerScavController {
 
@@ -88,6 +90,7 @@ export class PowerScavController {
             id: powerBank.id,
             pos: HelperFunctions.roomPosToMyPos(powerBank.pos),
             roomsToGetCreepsFrom: roomsToSpawnThrough,
+            roomsToGetCreepsFromIndex: 0,
             eol: Game.time + powerBank.ticksToDecay,
             roomDistanceToBank: closestDistance,
             attackCreeps: [],
@@ -162,56 +165,43 @@ export class PowerScavController {
             body = body.concat([CARRY, CARRY, MOVE]);
         }
 
-
-        for (let i: number = bank.roomsToGetCreepsFrom.length - 1; i >= 0; i--) {
-            const roomName: string = bank.roomsToGetCreepsFrom[i];
-            const myRoom: MyRoom | null = HelperFunctions.getMyRoomByName(roomName);
-            if (myRoom == null) {
-                continue;
-            }
-
-            const newCreep: PowerScavHaulCreep | null = this.spawnHaulCreep(bank, myRoom, body);
-            if (newCreep != null) {
-                myMemory.empire.creeps.push(newCreep);
-                console.log("LOG: Spawned a new PowerScavHaulCreep");
-                bank.amountOfCarryBodyStillNeeded -= (sectionsNeeded * carryPerSection);
-                if (bank.amountOfCarryBodyStillNeeded <= 0) {
-                    Game.notify("PowerScav: Spawned all the haul creeps needed");
-                }
-
-                return;
-            }
+        if (bank.roomsToGetCreepsFromIndex >= bank.roomsToGetCreepsFrom.length) {
+            bank.roomsToGetCreepsFromIndex = 0;
         }
+        const roomName: string = bank.roomsToGetCreepsFrom[bank.roomsToGetCreepsFromIndex];
+        bank.roomsToGetCreepsFromIndex++;
+        const myRoom: MyRoom | null = HelperFunctions.getMyRoomByName(roomName);
+        if (myRoom == null) {
+            return;
+        }
+
+        const newCreep: PowerScavHaulCreep = this.spawnHaulCreep(bank, myRoom, body);
+        myMemory.empire.creeps.push(newCreep);
+        console.log("LOG: Queued a new PowerScavHaulCreep");
+        bank.amountOfCarryBodyStillNeeded -= (sectionsNeeded * carryPerSection);
+        if (bank.amountOfCarryBodyStillNeeded <= 0) {
+            Game.notify("PowerScav: Spawned all the haul creeps needed");
+        }
+
+        return;
 
     }
 
-    private static spawnHaulCreep(powerScav: PowerScavBank, myRoom: MyRoom, body: BodyPartConstant[]): PowerScavHaulCreep | null {
-
-        let spawn: StructureSpawn | null;
-        spawn = Game.spawns[myRoom.spawns[0].name];
-
-        const id = HelperFunctions.getId();
-        const result: ScreepsReturnCode =
-            spawn.spawnCreep(
-                body,
-                "Creep" + id
-            );
-
-        if (result === OK) {
-            return {
-                name: "Creep" + id,
-                role: "PowerScavHaulCreep",
-                assignedRoomName: powerScav.pos.roomName,
-                spawningStatus: "queued",
-                roomMoveTarget: {
-                    pos: null,
-                    path: []
-                },
-                state: "grabbing",
-                roomToDepositTo: myRoom.name
-            };
-        }
-        return null;
+    private static spawnHaulCreep(powerScav: PowerScavBank, myRoom: MyRoom, body: BodyPartConstant[]): PowerScavHaulCreep {
+        const name: string = "Creep" + Game.time;
+        SpawnQueueController.queueCreepSpawn(body, myRoom, SpawnConstants.POWER_SCAV_HAUL, name);
+        return {
+            name: name,
+            role: "PowerScavHaulCreep",
+            assignedRoomName: powerScav.pos.roomName,
+            spawningStatus: "queued",
+            roomMoveTarget: {
+                pos: null,
+                path: []
+            },
+            state: "grabbing",
+            roomToDepositTo: myRoom.name
+        };
     }
 
     private static trySpawnAttackCreepIfNeeded(bank: PowerScavBank, myMemory: MyMemory): void {
@@ -239,39 +229,37 @@ export class PowerScavController {
             return;
         }
 
-        for (let i: number = bank.roomsToGetCreepsFrom.length - 1; i >= 0; i--) {
-            const roomName: string = bank.roomsToGetCreepsFrom[i];
-            const myRoom: MyRoom | null = HelperFunctions.getMyRoomByName(roomName);
-            if (myRoom == null) {
+
+        if (bank.roomsToGetCreepsFromIndex >= bank.roomsToGetCreepsFrom.length) {
+            bank.roomsToGetCreepsFromIndex = 0;
+        }
+        bank.roomsToGetCreepsFromIndex++;
+        const roomName: string = bank.roomsToGetCreepsFrom[bank.roomsToGetCreepsFromIndex];
+        const myRoom: MyRoom | null = HelperFunctions.getMyRoomByName(roomName);
+        if (myRoom == null) {
+            return;
+        }
+
+        const newCreep: PowerScavAttackCreep = this.spawnAttackCreep(bank, myRoom);
+        bank.attackCreeps.push(newCreep);
+        console.log("LOG: Queued a new PowerScavAttackCreep");
+        bank.attackCreepsStillNeeded--;
+        for (let j: number = 0; j < bank.attackCreeps.length; j++) {
+            if (bank.attackCreeps[j].beenReplaced) {
                 continue;
             }
-
-            const newCreep: PowerScavAttackCreep | null = this.spawnAttackCreep(bank, myRoom);
-            if (newCreep != null) {
-                bank.attackCreeps.push(newCreep);
-                console.log("LOG: Spawned a new PowerScavAttackCreep");
-                bank.attackCreepsStillNeeded--;
-                for (let j: number = 0; j < bank.attackCreeps.length; j++) {
-                    if (bank.attackCreeps[j].beenReplaced) {
-                        continue;
-                    }
-                    const creep: Creep = Game.creeps[bank.attackCreeps[j].name] as Creep;
-                    if (creep.ticksToLive != null &&
-                        creep.ticksToLive <= bank.replaceAtTTL) {
-                        bank.attackCreeps[j].beenReplaced = true;
-                        return;
-                    }
-                }
+            const creep: Creep = Game.creeps[bank.attackCreeps[j].name] as Creep;
+            if (creep.ticksToLive != null &&
+                creep.ticksToLive <= bank.replaceAtTTL) {
+                bank.attackCreeps[j].beenReplaced = true;
                 return;
             }
         }
+        return;
+
     }
 
-    private static spawnAttackCreep(powerScav: PowerScavBank, myRoom: MyRoom): PowerScavAttackCreep | null {
-
-        let spawn: StructureSpawn | null;
-        spawn = Game.spawns[myRoom.spawns[0].name];
-
+    private static spawnAttackCreep(powerScav: PowerScavBank, myRoom: MyRoom): PowerScavAttackCreep {
         const body: BodyPartConstant[] =
             [
                 MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE,
@@ -281,28 +269,19 @@ export class PowerScavController {
                 HEAL, HEAL, HEAL, HEAL, HEAL, ATTACK, ATTACK, ATTACK, ATTACK,
                 HEAL, HEAL, HEAL, HEAL, HEAL, ATTACK, ATTACK, ATTACK, ATTACK
             ];
-
-        const id = HelperFunctions.getId();
-        const result: ScreepsReturnCode =
-            spawn.spawnCreep(
-                body,
-                "Creep" + id
-            );
-
-        if (result === OK) {
-            return {
-                name: "Creep" + id,
-                role: "PowerScavAttackCreep",
-                assignedRoomName: powerScav.pos.roomName,
-                spawningStatus: "queued",
-                roomMoveTarget: {
-                    pos: null,
-                    path: []
-                },
-                powerBankId: powerScav.id,
-                beenReplaced: false
-            };
-        }
-        return null;
+        const name: string = "Creep" + Game.time;
+        SpawnQueueController.queueCreepSpawn(body, myRoom, SpawnConstants.POWER_SCAV_ATTACK, name);
+        return {
+            name: name,
+            role: "PowerScavAttackCreep",
+            assignedRoomName: powerScav.pos.roomName,
+            spawningStatus: "queued",
+            roomMoveTarget: {
+                pos: null,
+                path: []
+            },
+            powerBankId: powerScav.id,
+            beenReplaced: false
+        };
     }
 }

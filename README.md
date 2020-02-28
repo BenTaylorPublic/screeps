@@ -6,8 +6,6 @@
 ```
 Spawning
     Convert all existing spawn calls to the queue system
-        power-scav-attack
-        power-scav-haul
         claimer
         attack-pressure
         attack-quick

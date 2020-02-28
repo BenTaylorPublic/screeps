@@ -120,6 +120,7 @@ interface QueuedCreep {
     body: BodyPartConstant[];
     energyCost: number;
     priority: number;
+    name: string;
 }
 
 interface MySpawn {
@@ -285,6 +286,7 @@ interface PowerScavBank {
     id: Id<StructurePowerBank>;
     pos: MyRoomPos;
     roomsToGetCreepsFrom: string[];
+    roomsToGetCreepsFromIndex: number;
     eol: number;
     attackCreeps: PowerScavAttackCreep[];
     attackCreepsStillNeeded: number;
