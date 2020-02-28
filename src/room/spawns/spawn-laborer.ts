@@ -1,6 +1,8 @@
 import {HelperFunctions} from "../../global/helper-functions";
 import {Constants} from "../../global/constants";
 import {ReportController} from "../../reporting/report-controller";
+import {SpawnQueueController} from "../../global/spawn-queue-controller";
+import {SpawnConstants} from "../../global/spawn-constants";
 
 export class SpawnLaborer {
     public static trySpawnLaborer(myRoom: MyRoom, laborerCount: number): void {
@@ -34,10 +36,11 @@ export class SpawnLaborer {
         }
     }
 
-    private static spawnLaborer(myRoom: MyRoom, forceSpawn: boolean): Laborer | null {
+    private static spawnLaborer(myRoom: MyRoom, forceSpawn: boolean): Laborer {
 
         let spawn: StructureSpawn | null;
 
+        let roomToSpawnFrom: MyRoom;
         if (myRoom.spawns.length === 0 ||
             Game.spawns[myRoom.spawns[0].name] == null) {
             // A room needs a laborer, but it has no spawns yet
@@ -45,10 +48,12 @@ export class SpawnLaborer {
             spawn = HelperFunctions.findClosestSpawn(new RoomPosition(25, 25, myRoom.name));
             if (spawn == null) {
                 ReportController.log("ERROR", "Couldn't find any spawns to make a laborer for room " + myRoom.name);
-                return null;
+                throw Error("Couldn't find any spawns to make a laborer for room " + myRoom.name);
             }
+            roomToSpawnFrom = HelperFunctions.getMyRoomByName(spawn.room.name) as MyRoom;
         } else {
             spawn = Game.spawns[myRoom.spawns[0].name];
+            roomToSpawnFrom = myRoom;
         }
 
         const body: BodyPartConstant[] = HelperFunctions.generateBody(
@@ -57,27 +62,21 @@ export class SpawnLaborer {
             spawn.room,
             !forceSpawn);
 
-        const id = HelperFunctions.getId();
-        const result: ScreepsReturnCode =
-            spawn.spawnCreep(
-                body,
-                "Creep" + id
-            );
+        const name: string = "Creep" + Game.time;
+        const priority: number = forceSpawn ? SpawnConstants.FORCE_LABORER : SpawnConstants.LABORER;
+        SpawnQueueController.queueCreepSpawn(body, roomToSpawnFrom, priority, name);
 
-        if (result === OK) {
-            return {
-                name: "Creep" + id,
-                role: "Laborer",
-                assignedRoomName: myRoom.name,
-                spawningStatus: "queued",
-                roomMoveTarget: {
-                    pos: null,
-                    path: []
-                },
-                state: "Labor"
-            };
-        }
-        return null;
+        return {
+            name: name,
+            role: "Laborer",
+            assignedRoomName: myRoom.name,
+            spawningStatus: "queued",
+            roomMoveTarget: {
+                pos: null,
+                path: []
+            },
+            state: "Labor"
+        };
     }
 
 }
