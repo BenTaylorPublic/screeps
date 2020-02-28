@@ -157,9 +157,9 @@ export class PowerScavController {
         } else if (sectionsNeeded <= 0) {
             return;
         }
-        const body: BodyPartConstant[] = [];
+        let body: BodyPartConstant[] = [];
         for (let i: number = 0; i < sectionsNeeded; i++) {
-            body.concat([CARRY, CARRY, MOVE]);
+            body = body.concat([CARRY, CARRY, MOVE]);
         }
 
 
