@@ -4,7 +4,12 @@
 ## TODO
 ### Working on
 ```
-Reworking spawn logic
+Test new optimized spawning logic
+Affects:
+    Laborer
+    Miner
+    Bank Linker
+    Hauler
 ```
 ### Short term
 ```
