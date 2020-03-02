@@ -1,6 +1,5 @@
 import {HelperFunctions} from "../../global/helper-functions";
 import {ReportController} from "../../reporting/report-controller";
-import {SpawnHauler} from "../spawns/spawn-hauler";
 
 // tslint:disable-next-line: class-name
 export class Stage3_6 {
@@ -13,10 +12,6 @@ export class Stage3_6 {
         if (HelperFunctions.amountOfStructure(room, STRUCTURE_STORAGE) >= 1) {
             myRoom.roomStage = 4;
             ReportController.log("STAGE", "Room " + myRoom.name + " increased to room stage 4");
-            for (let i = 0; i < myRoom.mySources.length; i++) {
-                const mySource: MySource = myRoom.mySources[i];
-                SpawnHauler.spawnHauler(myRoom, mySource);
-            }
             return true;
         }
         return false;
