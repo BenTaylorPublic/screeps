@@ -21,4 +21,5 @@ export class Constants {
     public static POWER_SCAV_MAX_DAMAGE_TRAVEL_TICKS_PER_ROOM: number = 150;
     public static POWER_SCAV_MAX_HAUL_TRAVEL_TICKS_PER_ROOM: number = 50;
     public static POWER_SCAV_AREA_AROUND_BANK_MIN: number = 2;
+    public static MAX_STOCKERS: number = 1;
 }

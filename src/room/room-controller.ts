@@ -7,6 +7,7 @@ import {RoomSpawnController} from "./spawns/room-spawn-controller";
 import {RoleBankLinker} from "./roles/bank-linker";
 import {RoomSourceLinkController} from "./structures/source-link";
 import {ReportController} from "../reporting/report-controller";
+import {RoleStocker} from "./roles/stocker";
 
 export class RoomController {
     public static run(myRoom: MyRoom): void {
@@ -45,6 +46,8 @@ export class RoomController {
                 RoleLaborer.run(myCreep as Laborer, myRoom);
             } else if (myCreep.role === "BankLinker") {
                 RoleBankLinker.run(myCreep as BankLinker, myRoom);
+            } else if (myCreep.role === "Stocker") {
+                RoleStocker.run(myCreep as Stocker, myRoom);
             }
         }
 

@@ -241,6 +241,10 @@ interface PowerScavHaulCreep extends MyCreep {
     roomToDepositTo: string;
 }
 
+interface Stocker extends MyCreep {
+    state: "Pickup" | "Distribute";
+}
+
 /*
 ====================
     REPORTS:

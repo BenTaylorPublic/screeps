@@ -2,6 +2,7 @@ import {HelperFunctions} from "../global/helper-functions";
 import {ReportController} from "../reporting/report-controller";
 import {SpawnMiner} from "../room/spawns/spawn-miner";
 import {SpawnBankLinker} from "../room/spawns/spawn-bank-linker";
+import {SpawnStocker} from "../room/spawns/spawn-stocker";
 
 export class MemoryController {
     public static run(): void {
@@ -161,6 +162,10 @@ export class MemoryController {
             myRoom.bankLinkerName = null;
             SpawnBankLinker.spawnBankLinker(myRoom);
             console.log("LOG: A BankLinker has died");
+        } else if (myCreep.role === "Stocker") {
+            myRoom.bankLinkerName = null;
+            SpawnStocker.spawnStocker(myRoom);
+            console.log("LOG: A Stocker has died");
         } else {
             ReportController.log("ERROR", "A Creep with a weird role has died: " + myCreep.role);
         }
