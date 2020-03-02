@@ -14,25 +14,11 @@ export class SpawnQueueController {
         for (let i: number = 0; i < myRoom.spawnQueue.length; i++) {
             if (newCreep.priority > myRoom.spawnQueue[i].priority) {
                 myRoom.spawnQueue.splice(i, 0, newCreep);
-                this.tempLog(myRoom.spawnQueue);
                 return;
             }
         }
         //Still hasn't inserted yet
-        this.tempLog(myRoom.spawnQueue);
         myRoom.spawnQueue = myRoom.spawnQueue.concat(newCreep);
-    }
-
-    private static tempLog(spawnQueue: QueuedCreep[]): void {
-        if (spawnQueue.length <= 1) {
-            return;
-        }
-        let result: string = "[";
-        for (let i: number = 0; i < spawnQueue.length; i++) {
-            result += spawnQueue[i].priority + ", ";
-        }
-        result += "END]";
-        Game.notify(result);
     }
 
     private static bodyCost(body: BodyPartConstant[]): number {
