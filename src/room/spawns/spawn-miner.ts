@@ -3,25 +3,22 @@ import {SpawnQueueController} from "../../global/spawn-queue-controller";
 import {SpawnConstants} from "../../global/spawn-constants";
 
 export class SpawnMiner {
-    public static trySpawnMiner(myRoom: MyRoom): void {
+    public static spawnMiner(myRoom: MyRoom, mySource: MySource): void {
         if (myRoom.roomStage < 2) {
             //At stage 2, the caches are built, and 5 extensions
             return;
         }
 
-        for (let i = 0; i < myRoom.mySources.length; i++) {
-            const mySource: MySource = myRoom.mySources[i];
-            if (mySource.minerName == null) {
-                //Needs a new miner
-                const newCreep: Miner = this.spawnMiner(myRoom, mySource);
-                myRoom.myCreeps.push(newCreep);
-                console.log("LOG: Queued a new Miner");
-                return;
-            }
+        if (mySource.minerName == null) {
+            //Needs a new miner
+            const newCreep: Miner = this.spawnMinerInternal(myRoom, mySource);
+            myRoom.myCreeps.push(newCreep);
+            console.log("LOG: Queued a new Miner");
+            return;
         }
     }
 
-    private static spawnMiner(myRoom: MyRoom, mySource: MySource): Miner {
+    private static spawnMinerInternal(myRoom: MyRoom, mySource: MySource): Miner {
         let body: BodyPartConstant[];
 
         let maxBodyParts: number;

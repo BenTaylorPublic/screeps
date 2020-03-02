@@ -1,5 +1,4 @@
 import {SpawnLaborer} from "./spawn-laborer";
-import {SpawnMiner} from "./spawn-miner";
 import {SpawnHauler} from "./spawn-hauler";
 import {Constants} from "../../global/constants";
 import {SpawnBankLinker} from "./spawn-bank-linker";
@@ -66,7 +65,6 @@ export class RoomSpawnController {
             if (!myRoom.pendingConscriptedCreep) {
                 SpawnLaborer.trySpawnLaborer(myRoom, laborerCount);
             }
-            SpawnMiner.trySpawnMiner(myRoom);
             SpawnHauler.trySpawnHauler(myRoom);
             SpawnBankLinker.run(myRoom);
         }

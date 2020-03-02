@@ -1,5 +1,6 @@
 import {HelperFunctions} from "../global/helper-functions";
 import {ReportController} from "../reporting/report-controller";
+import {SpawnMiner} from "../room/spawns/spawn-miner";
 
 export class MemoryController {
     public static run(): void {
@@ -138,6 +139,7 @@ export class MemoryController {
                 const mySource: MySource = myRoom.mySources[i];
                 if (mySource.minerName === myCreep.name) {
                     mySource.minerName = null;
+                    SpawnMiner.spawnMiner(myRoom, mySource);
                 }
             }
             console.log("LOG: A Miner has died");
