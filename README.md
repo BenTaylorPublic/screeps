@@ -5,7 +5,7 @@
 ### Working on
 ```
 Log links to rooms
-    <a href="#!/room/W41N1">W41N1</a>
+    <a href="#!/room/shard3/W41N1">W41N1</a>
 ```
 ### Short term
 ```
