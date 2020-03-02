@@ -4,9 +4,7 @@
 ## TODO
 ### Working on
 ```
-Spawning
-    Convert all existing spawn calls to the queue system
-        attack-quick
+Testing new spawning logic
 ```
 ### Short term
 ```
