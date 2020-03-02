@@ -172,6 +172,17 @@ interface CreepRoomMoveTarget {
 }
 
 type CreepSpawningStatus = "queued" | "spawning" | "alive";
+type CreepRoles =
+    "Hauler"
+    | "Miner"
+    | "Laborer"
+    | "Claimer"
+    | "BankLinker"
+    | "AttackQuickCreep"
+    | "AttackPressureCreep"
+    | "PowerScavAttackCreep"
+    | "PowerScavHaulCreep"
+    | "Stocker";
 
 /*
 ====================
@@ -181,7 +192,7 @@ type CreepSpawningStatus = "queued" | "spawning" | "alive";
 
 interface MyCreep {
     name: string;
-    role: "Hauler" | "Miner" | "Laborer" | "Claimer" | "BankLinker" | "AttackQuickCreep" | "AttackPressureCreep" | "PowerScavAttackCreep" | "PowerScavHaulCreep";
+    role: CreepRoles;
     assignedRoomName: string;
     interRoomTravelCurrentTarget?: MyRoomPos;
     roomMoveTarget: CreepRoomMoveTarget;
