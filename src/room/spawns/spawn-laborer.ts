@@ -33,7 +33,7 @@ export class SpawnLaborer {
         }
     }
 
-    public static trySpawnLaborer(myRoom: MyRoom, laborerCount: number): void {
+    private static trySpawnLaborer(myRoom: MyRoom, laborerCount: number): void {
         if (myRoom.bankPos == null) {
             //Only spawn laborers through this method if the bank is real
             return;
@@ -54,7 +54,7 @@ export class SpawnLaborer {
         }
     }
 
-    public static forceSpawnLaborers(myRoom: MyRoom, amount: number): void {
+    private static forceSpawnLaborers(myRoom: MyRoom, amount: number): void {
         for (let i: number = 0; i < amount; i++) {
             const newCreep: Laborer | null = this.spawnLaborer(myRoom, true);
             myRoom.myCreeps.push(newCreep);

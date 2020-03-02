@@ -3,7 +3,6 @@ import {ReportController} from "../reporting/report-controller";
 import {SpawnMiner} from "../room/spawns/spawn-miner";
 import {SpawnHauler} from "../room/spawns/spawn-hauler";
 import {SpawnBankLinker} from "../room/spawns/spawn-bank-linker";
-import {SpawnLaborer} from "../room/spawns/spawn-laborer";
 
 export class MemoryController {
     public static run(): void {
@@ -93,7 +92,6 @@ export class MemoryController {
                 }
 
                 Memory.myMemory.myRooms.push(newMyRoom);
-                SpawnLaborer.laborerSpawnLogic(newMyRoom);
             } else {
                 //Already in memory
 
@@ -159,7 +157,6 @@ export class MemoryController {
             }
             console.log("LOG: A Hauler has died");
         } else if (myCreep.role === "Laborer") {
-            SpawnLaborer.laborerSpawnLogic(myRoom);
             console.log("LOG: A Laborer has died");
         } else if (myCreep.role === "Claimer") {
             console.log("LOG: A Claimer has died");

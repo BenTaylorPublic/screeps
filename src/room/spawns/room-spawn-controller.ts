@@ -1,5 +1,9 @@
+import {SpawnLaborer} from "./spawn-laborer";
+
 export class RoomSpawnController {
     public static run(myRoom: MyRoom): void {
+        SpawnLaborer.laborerSpawnLogic(myRoom);
+
         if (myRoom.spawnQueue.length === 0) {
             return;
         }
