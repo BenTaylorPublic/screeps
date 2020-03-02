@@ -4,17 +4,15 @@
 ## TODO
 ### Working on
 ```
-New Role - Stocker
-    Just used to stock extensions, spawns, and towers
-        And pickup energy on the ground
-    Always have 1, in an array (so they can scale during events?)
-    Just move and carry body
-    Laborers should never stock (just build and upgrade)
 ```
 ### Short term
 ```
 Log links to rooms
     <a href="#!/room/W41N1">W41N1</a>
+
+ATTENTION
+    Need an ATTENTION for towers
+    Need an ATTENTION for bank (storage)
 
 Report/Emails
     Cooldown enum when logging
@@ -53,12 +51,10 @@ Room logic
     All stage 8 rooms maintain 1 small body laborer
     At 200K, spawn big body laborers
 
-ATTENTION
-    Need an ATTENTION for towers
-    Need an ATTENTION for bank (storage)
-
 Attack creeps are probably broken
     Transfer them to the "assignedRoomName" system
+
+Stockers should pickup resources from the ground and containers, when they're bored
 ```
 ### Long term:
 ```
