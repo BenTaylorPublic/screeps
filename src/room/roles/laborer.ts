@@ -122,24 +122,6 @@ export class RoleLaborer {
             givenCommand = true;
         }
 
-        if (!givenCommand) {
-            //Adding energy to structures that need it
-            const structureToAddTo: Structure | null = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-                filter: (structure: any) => {
-                    return (structure.structureType === STRUCTURE_EXTENSION ||
-                        structure.structureType === STRUCTURE_SPAWN ||
-                        structure.structureType === STRUCTURE_TOWER)
-                        && structure.energy < structure.energyCapacity;
-                }
-            });
-            if (structureToAddTo != null) {
-                givenCommand = true;
-                if (creep.transfer(structureToAddTo, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                    HelperFunctions.myMoveTo(creep, structureToAddTo.pos, laborer);
-                }
-            }
-        }
-
         //Building construction sites
         if (!givenCommand) {
             const closestConstructionSite: ConstructionSite | null = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
