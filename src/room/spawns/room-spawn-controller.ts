@@ -30,11 +30,11 @@ export class RoomSpawnController {
                 break;
             }
         }
-        if (spawn != null) {
+        if (spawn == null) {
             return;
         }
 
-        const result: ScreepsReturnCode = (spawn as unknown as StructureSpawn).spawnCreep(creepToSpawn.body, creepToSpawn.name);
+        const result: ScreepsReturnCode = spawn.spawnCreep(creepToSpawn.body, creepToSpawn.name);
 
         if (result === OK) {
             myRoom.spawnQueue.splice(0, 1);
