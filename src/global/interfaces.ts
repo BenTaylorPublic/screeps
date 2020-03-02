@@ -111,7 +111,6 @@ interface MyRoom {
     bankLinkerName: string | null; //Null when bankLinker is dead or not assigned
     bankLink: MyLink | null;
     bank: StructureStorage | null;
-    outLinks: MyLink[];
     pendingConscriptedCreep: boolean;
     spawnQueue: QueuedCreep[];
 }
@@ -203,7 +202,7 @@ interface Hauler extends MyCreep {
 }
 
 interface Laborer extends MyCreep {
-    state: "PickupBank" | "Mining" | "Labor" | "PickupCache" | "PickupOutLink";
+    state: "PickupBank" | "Mining" | "Labor" | "PickupCache";
 }
 
 

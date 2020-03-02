@@ -4,17 +4,6 @@
 ## TODO
 ### Working on
 ```
-Test new optimized spawning logic
-Affects:
-    Laborer
-    Miner
-    Bank Linker
-    Hauler
-```
-### Short term
-```
-Remove outlink logic
-
 New Role - Stocker
     Just used to stock extensions, spawns, and towers
     Always have 1 (maybe have more? idk, just 1 single for now)
@@ -24,14 +13,14 @@ New Role - Stocker
     Remove stocking logic from Laborers 
         Would mean Laborers JUST upgrade/build
 ```
-### Mid term:
+### Short term
 ```
-Miners should stop mining when the source is using the cache system, and cache is full
-
 Report/Emails
     Cooldown enum when logging
     Convert ALL logs to it
-
+```
+### Mid term:
+```
 Enemy detection system
     Make it say "enemy entered", "enemy died" etc 
 

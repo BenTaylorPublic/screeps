@@ -19,21 +19,6 @@ export class RoomSourceLinkController {
 
         if (link.store.energy >= Constants.SOURCE_LINK_TRANSFER_AT) {
             //Need to transfer energy
-
-            for (let i = 0; i < myRoom.outLinks.length; i++) {
-                const myOutLink: MyLink = myRoom.outLinks[i];
-
-                if (myOutLink.id != null) {
-                    const outLink: StructureLink | null = Game.getObjectById<StructureLink>(myOutLink.id);
-                    if (outLink != null) {
-                        if (outLink.store.getFreeCapacity() >= link.store.energy) {
-                            link.transferEnergy(outLink);
-                            return;
-                        }
-                    }
-                }
-            }
-
             const bankLink: StructureLink | null = Game.getObjectById<StructureLink>(myRoom.bankLink.id);
             if (bankLink === null) {
                 ReportController.log("ERROR", "Bank link was null when accessed by ID. Setting it to null");

@@ -30,7 +30,6 @@ export class Stage5_2 {
     private static step(myRoom: MyRoom, room: Room): void {
         //Source links
         StageFunctions.setupSourceLink(myRoom);
-        StageFunctions.setupOutLink(myRoom);
         StageFunctions.clearHaulersAndCaches(myRoom);
     }
 }

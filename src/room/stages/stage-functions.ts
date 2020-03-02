@@ -116,55 +116,10 @@ export class StageFunctions {
 
         if (!placedFully &&
             Game.rooms[myRoom.name].find(FIND_CONSTRUCTION_SITES).length === 0) {
-            console.log("ATTENTION: Room " + myRoom.name + " needs source link flag (link-source-X) OR out link flag (link-out-X)");
+            console.log("ATTENTION: Room " + myRoom.name + " needs source link flag (link-source-X)");
         }
     }
 
-    public static setupOutLink(myRoom: MyRoom): void {
-        const roomFlags: Flag[] = HelperFunctions.getRoomsFlags(myRoom);
-        for (let i = roomFlags.length - 1; i >= 0; i--) {
-            const roomFlag: Flag = roomFlags[i];
-            const flagNameSplit: string[] = roomFlag.name.split("-");
-            if (flagNameSplit[0] !== "link" ||
-                flagNameSplit[1] !== "out") {
-                roomFlags.splice(i, 1);
-            }
-        }
-
-        for (let i = 0; i < roomFlags.length; i++) {
-            const roomFlag: Flag = roomFlags[i];
-            const result: ScreepsReturnCode = Game.rooms[myRoom.name].createConstructionSite(roomFlag.pos, STRUCTURE_LINK);
-            if (result === OK) {
-                myRoom.outLinks.push({
-                    pos: HelperFunctions.roomPosToMyPos(roomFlag.pos),
-                    id: null
-                });
-                console.log("LOG: Placed out link construction site");
-                roomFlag.remove();
-            } //Don't worry about errors lol
-        }
-
-        for (let i = 0; i < myRoom.outLinks.length; i++) {
-            const outLink: MyLink = myRoom.outLinks[i];
-
-            if (outLink.id == null) {
-                const outLinkPos: RoomPosition = HelperFunctions.myPosToRoomPos(outLink.pos);
-
-                const structures: Structure<StructureConstant>[] = outLinkPos.lookFor(LOOK_STRUCTURES);
-                for (let j = 0; j < structures.length; j++) {
-                    const structure: Structure = structures[j];
-                    if (structure.structureType === STRUCTURE_LINK) {
-                        outLink.id = structure.id as Id<StructureLink>;
-                        break;
-                    }
-                }
-            }
-        }
-
-        if (Game.rooms[myRoom.name].find(FIND_CONSTRUCTION_SITES).length === 0) {
-            console.log("ATTENTION: Room " + myRoom.name + " needs source link flag (link-source-X) OR out link flag (link-out-X)");
-        }
-    }
 
     public static clearHaulersAndCaches(myRoom: MyRoom): void {
         for (let i = 0; i < myRoom.mySources.length; i++) {

@@ -75,6 +75,5 @@ export class Stage4_6 {
 
         //Source links
         StageFunctions.setupSourceLink(myRoom);
-        StageFunctions.setupOutLink(myRoom);
     }
 }
