@@ -2,7 +2,7 @@ import {HelperFunctions} from "../../global/helper-functions";
 import {ReportController} from "../../reporting/report-controller";
 
 export class RoleMiner {
-    public static run(miner: Miner): void {
+    public static run(miner: Miner, myRoom: MyRoom): void {
         if (HelperFunctions.handleCreepPreRole(miner)) {
             return;
         }
@@ -24,7 +24,20 @@ export class RoleMiner {
                 (creep.store.energy === 0 ||
                     (creep.store.energy <= (creep.store.getCapacity() - miner.amountOfWork * 2)) ||
                     creep.store.getCapacity() === 0)) {
-                creep.harvest(source);
+
+                let mySource: MySource = null as unknown as MySource;
+                for (let i: number = 0; i < myRoom.mySources.length; i++) {
+                    if (myRoom.mySources[i].minerName === miner.name) {
+                        mySource = myRoom.mySources[i];
+                    }
+                }
+
+                if (!(mySource.state === "Cache" &&
+                    mySource.cache != null &&
+                    mySource.cache.id != null &&
+                    (Game.getObjectById<StructureContainer>(mySource.cache.id) as StructureContainer).store.energy >= 2000)) {
+                    creep.harvest(source);
+                }
             } else if (miner.linkIdToDepositTo != null &&
                 creep.store.energy > (creep.store.getCapacity() - miner.amountOfWork * 2)) {
                 const link: StructureLink | null = Game.getObjectById<StructureLink>(miner.linkIdToDepositTo);

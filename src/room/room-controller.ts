@@ -38,7 +38,7 @@ export class RoomController {
         for (let i = 0; i < myRoom.myCreeps.length; i++) {
             const myCreep: MyCreep = myRoom.myCreeps[i];
             if (myCreep.role === "Miner") {
-                RoleMiner.run(myCreep as Miner);
+                RoleMiner.run(myCreep as Miner, myRoom);
             } else if (myCreep.role === "Hauler") {
                 RoleHauler.run(myCreep as Hauler, myRoom);
             } else if (myCreep.role === "Laborer") {
