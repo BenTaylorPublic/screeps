@@ -5,6 +5,9 @@ import {SpawnConstants} from "../global/spawn-constants";
 
 export class SpawnClaimerController {
     public static run(myMemory: MyMemory): void {
+        if (Game.time % 10 !== 0) {
+            return;
+        }
         const flag: Flag | null = Game.flags["claim"];
         if (flag == null) {
             return;
