@@ -1,6 +1,5 @@
 import {SpawnLaborer} from "./spawn-laborer";
 import {Constants} from "../../global/constants";
-import {SpawnBankLinker} from "./spawn-bank-linker";
 
 export class RoomSpawnController {
     public static run(myRoom: MyRoom): void {
@@ -64,7 +63,6 @@ export class RoomSpawnController {
             if (!myRoom.pendingConscriptedCreep) {
                 SpawnLaborer.trySpawnLaborer(myRoom, laborerCount);
             }
-            SpawnBankLinker.run(myRoom);
         }
     }
 }
