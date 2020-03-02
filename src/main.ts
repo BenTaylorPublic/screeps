@@ -14,7 +14,7 @@ console.log("Script reloaded");
 // }
 
 setupMyMemory();
-ProfilerWrapper.setup();
+// ProfilerWrapper.setup();
 
 export let loop: any = function (): void {
 
