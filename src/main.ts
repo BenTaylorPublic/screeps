@@ -17,8 +17,6 @@ console.log("Script reloaded");
 //     }
 // }
 
-console.log("Link test: <a href='#!/room/shard3/E14S17'>E14S17</a>");
-
 setupMyMemory();
 // ProfilerWrapper.setup();
 
