@@ -121,7 +121,8 @@ export class MemoryController {
             }
             for (let j = myRoom.myCreeps.length - 1; j >= 0; j--) {
                 const myCreep: MyCreep = myRoom.myCreeps[j];
-                if (Game.creeps[myCreep.name] == null) {
+                if (Game.creeps[myCreep.name] == null &&
+                    myCreep.spawningStatus !== "queued") {
                     this.handleCreepDying(myRoom, myCreep);
                     myRoom.myCreeps.splice(j, 1);
                 }
