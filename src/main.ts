@@ -7,15 +7,11 @@ import {FunctionProfiler} from "./profiler/function-profiler/function-profiler";
 
 console.log("Script reloaded");
 
-for (let i: number = 0; i < Memory.myMemory.myRooms.length; i++) {
-    const myRoom: MyRoom = Memory.myMemory.myRooms[i];
-    for (let j: number = myRoom.myCreeps.length - 1; j >= 0; j--) {
-        if (myRoom.myCreeps[j].spawningStatus === "queued") {
-            myRoom.myCreeps.splice(j, 1);
-        }
-    }
-    myRoom.spawnQueue = [];
-}
+// for (let i: number = 0; i < Memory.myMemory.myRooms.length; i++) {
+//     const myRoom: MyRoom = Memory.myMemory.myRooms[i];
+//     for (let j: number = myRoom.myCreeps.length - 1; j >= 0; j--) {
+//     }
+// }
 
 setupMyMemory();
 // ProfilerWrapper.setup();
