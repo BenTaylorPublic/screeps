@@ -13,9 +13,13 @@ New Role - Stocker
 ```
 ### Short term
 ```
+Log links to rooms
+    <a href="#!/room/W41N1">W41N1</a>
+
 Report/Emails
     Cooldown enum when logging
-    Convert ALL logs to it
+    Convert current logs to it
+        Any that aren't worth emailing, switch to console logs
 ```
 ### Mid term:
 ```
@@ -48,9 +52,6 @@ Room logic
     Scaling laborers value should be 200K energy
     All stage 8 rooms maintain 1 small body laborer
     At 200K, spawn big body laborers
-
-Log links to rooms
-    <a href="#!/room/W41N1">W41N1</a>
 
 ATTENTION
     Need an ATTENTION for towers
