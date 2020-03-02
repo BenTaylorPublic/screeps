@@ -220,8 +220,6 @@ export class HelperFunctions {
         myCreep.lastPos = currentCreepPos;
 
         //Calculate path again
-        creep.say("🧭");
-
         myCreep.roomMoveTarget.pos = this.roomPosToMyPos(moveTo);
         myCreep.roomMoveTarget.path = creep.pos.findPathTo(moveTo,
             {
