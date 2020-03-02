@@ -4,6 +4,8 @@ import {HelperFunctions} from "../../global/helper-functions";
 import {AttackHelperFunctions} from "./attack-helper-functions";
 import {RoleAttackCreep} from "../role/attack-creep";
 import {ScheduleController} from "../../schedule/schedule-controller";
+import {SpawnQueueController} from "../../global/spawn-queue-controller";
+import {SpawnConstants} from "../../global/spawn-constants";
 
 export class AttackQuickController {
     public static run(myMemory: MyMemory, attackQuick: AttackQuick): void {
@@ -20,15 +22,13 @@ export class AttackQuickController {
             //Wait until every room that's required to, has added a creep
             for (let i = attackQuick.roomsStillToProvide.length - 1; i >= 0; i--) {
                 const myRoom: MyRoom = HelperFunctions.getMyRoomByName(attackQuick.roomsStillToProvide[i]) as MyRoom;
-                const attackQuickCreep: AttackQuickCreep | null = this.spawnAttackQuickCreep(myRoom);
-                if (attackQuickCreep != null) {
-                    console.log("LOG: " + myRoom.name + " has been conscripted " + attackQuickCreep.name + " for AttackQuick");
+                const attackQuickCreep: AttackQuickCreep = this.spawnAttackQuickCreep(myRoom);
+                console.log("LOG: " + myRoom.name + " has been conscripted " + attackQuickCreep.name + " for AttackQuick");
 
-                    ScheduleController.scheduleForNextTick("SET_FALSE_ON_PENDING_CONSCRIPTED_CREEP", myRoom.name);
+                ScheduleController.scheduleForNextTick("SET_FALSE_ON_PENDING_CONSCRIPTED_CREEP", myRoom.name);
 
-                    myMemory.empire.creeps.push(attackQuickCreep);
-                    attackQuick.roomsStillToProvide.splice(i, 1);
-                } // else room still to provide a creep
+                myMemory.empire.creeps.push(attackQuickCreep);
+                attackQuick.roomsStillToProvide.splice(i, 1);
             }
 
             if (attackQuick.roomsStillToProvide.length === 0) {
@@ -134,40 +134,31 @@ export class AttackQuickController {
         return attackQuick;
     }
 
-    private static spawnAttackQuickCreep(myRoom: MyRoom): AttackQuickCreep | null {
-        const spawn: StructureSpawn = Game.spawns[myRoom.spawns[0].name];
-
-        //Have a valid spawn now
-        const id: number = HelperFunctions.getId();
+    private static spawnAttackQuickCreep(myRoom: MyRoom): AttackQuickCreep {
+        const room: Room = Game.rooms[myRoom.name];
 
         const body: BodyPartConstant[] =
             HelperFunctions.generateBody([MOVE, ATTACK],
                 [MOVE, ATTACK],
-                spawn.room,
+                room,
                 true,
                 50,
                 true
             );
 
-        const result: ScreepsReturnCode =
-            spawn.spawnCreep(
-                body,
-                "Creep" + id
-            );
+        const name: string = "Creep" + Game.time;
+        SpawnQueueController.queueCreepSpawn(body, myRoom, SpawnConstants.ATTACK_QUICK, name);
 
-        if (result === OK) {
-            return {
-                name: "Creep" + id,
-                role: "AttackQuickCreep",
-                spawningStatus: "queued",
-                assignedRoomName: "",
-                roomMoveTarget: {
-                    pos: null,
-                    path: []
-                }
-            };
-        }
-        return null;
+        return {
+            name: name,
+            role: "AttackQuickCreep",
+            spawningStatus: "queued",
+            assignedRoomName: "",
+            roomMoveTarget: {
+                pos: null,
+                path: []
+            }
+        };
     }
 
     private static endAttack(): void {
