@@ -1,6 +1,7 @@
 import {HelperFunctions} from "../global/helper-functions";
 import {ReportController} from "../reporting/report-controller";
 import {SpawnMiner} from "../room/spawns/spawn-miner";
+import {SpawnHauler} from "../room/spawns/spawn-hauler";
 
 export class MemoryController {
     public static run(): void {
@@ -149,6 +150,7 @@ export class MemoryController {
                 for (let j = mySource.haulerNames.length - 1; j >= 0; j--) {
                     if (mySource.haulerNames[j] === myCreep.name) {
                         mySource.haulerNames.splice(j, 1);
+                        SpawnHauler.spawnHauler(myRoom, mySource);
                     }
                 }
             }
