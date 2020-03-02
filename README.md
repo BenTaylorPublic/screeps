@@ -4,12 +4,11 @@
 ## TODO
 ### Working on
 ```
+Log links to rooms
+    <a href="#!/room/W41N1">W41N1</a>
 ```
 ### Short term
 ```
-Log links to rooms
-    <a href="#!/room/W41N1">W41N1</a>
-
 ATTENTION
     Need an ATTENTION for towers
     Need an ATTENTION for bank (storage)
