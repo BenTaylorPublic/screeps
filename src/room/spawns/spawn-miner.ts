@@ -14,7 +14,6 @@ export class SpawnMiner {
             if (mySource.minerName == null) {
                 //Needs a new miner
                 const newCreep: Miner = this.spawnMiner(myRoom, mySource);
-                mySource.minerName = name;
                 myRoom.myCreeps.push(newCreep);
                 console.log("LOG: Queued a new Miner");
                 return;
@@ -72,6 +71,7 @@ export class SpawnMiner {
             }
         }
 
+        mySource.minerName = name;
         return {
             name: name,
             role: "Miner",
