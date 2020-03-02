@@ -4,7 +4,7 @@
 ## TODO
 ### Working on
 ```
-Testing new spawning logic
+Reworking spawn logic
 ```
 ### Short term
 ```
