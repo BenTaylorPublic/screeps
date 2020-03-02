@@ -50,7 +50,7 @@ export class SpawnClaimerController {
 
         const roomToSpawnFrom: MyRoom = HelperFunctions.getMyRoomByName(spawn.room.name) as MyRoom;
 
-        const name: string = "Creep" + Game.time;
+        const name: string = "Creep" + HelperFunctions.getId();
         SpawnQueueController.queueCreepSpawn([MOVE, CLAIM], roomToSpawnFrom, SpawnConstants.CLAIMER, name);
 
         return {

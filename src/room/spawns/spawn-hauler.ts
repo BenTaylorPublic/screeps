@@ -45,7 +45,7 @@ export class SpawnHauler {
             Game.rooms[myRoom.name],
             true,
             20);
-        const name: string = "Creep" + Game.time;
+        const name: string = "Creep" + HelperFunctions.getId();
         SpawnQueueController.queueCreepSpawn(body, myRoom, SpawnConstants.HAULER, name);
 
 

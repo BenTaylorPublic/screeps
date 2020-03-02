@@ -188,7 +188,7 @@ export class PowerScavController {
     }
 
     private static spawnHaulCreep(powerScav: PowerScavBank, myRoom: MyRoom, body: BodyPartConstant[]): PowerScavHaulCreep {
-        const name: string = "Creep" + Game.time;
+        const name: string = "Creep" + HelperFunctions.getId();
         SpawnQueueController.queueCreepSpawn(body, myRoom, SpawnConstants.POWER_SCAV_HAUL, name);
         return {
             name: name,
@@ -269,7 +269,7 @@ export class PowerScavController {
                 HEAL, HEAL, HEAL, HEAL, HEAL, ATTACK, ATTACK, ATTACK, ATTACK,
                 HEAL, HEAL, HEAL, HEAL, HEAL, ATTACK, ATTACK, ATTACK, ATTACK
             ];
-        const name: string = "Creep" + Game.time;
+        const name: string = "Creep" + HelperFunctions.getId();
         SpawnQueueController.queueCreepSpawn(body, myRoom, SpawnConstants.POWER_SCAV_ATTACK, name);
         return {
             name: name,

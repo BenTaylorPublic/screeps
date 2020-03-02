@@ -60,7 +60,7 @@ export class SpawnMiner {
             );
         }
 
-        const name: string = "Creep" + Game.time;
+        const name: string = "Creep" + HelperFunctions.getId();
         SpawnQueueController.queueCreepSpawn(body, myRoom, SpawnConstants.MINER, name);
 
         //Have a valid spawn now

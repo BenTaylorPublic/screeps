@@ -1,5 +1,6 @@
 import {SpawnQueueController} from "../../global/spawn-queue-controller";
 import {SpawnConstants} from "../../global/spawn-constants";
+import {HelperFunctions} from "../../global/helper-functions";
 
 export class SpawnBankLinker {
     public static run(myRoom: MyRoom): void {
@@ -16,7 +17,7 @@ export class SpawnBankLinker {
     }
 
     private static spawnBankLinker(myRoom: MyRoom): BankLinker {
-        const name: string = "Creep" + Game.time;
+        const name: string = "Creep" + HelperFunctions.getId();
         SpawnQueueController.queueCreepSpawn([MOVE, CARRY], myRoom, SpawnConstants.BANK_LINKER, name);
 
         return {
