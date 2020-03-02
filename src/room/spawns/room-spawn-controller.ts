@@ -1,13 +1,5 @@
-import {SpawnLaborer} from "./spawn-laborer";
-import {Constants} from "../../global/constants";
-
 export class RoomSpawnController {
     public static run(myRoom: MyRoom): void {
-        this.addToQueueLogic(myRoom);
-        this.handleQueueLogic(myRoom);
-    }
-
-    private static handleQueueLogic(myRoom: MyRoom): void {
         if (myRoom.spawnQueue.length === 0) {
             return;
         }
@@ -35,34 +27,6 @@ export class RoomSpawnController {
 
         if (result === OK) {
             myRoom.spawnQueue.splice(0, 1);
-        }
-    }
-
-    private static addToQueueLogic(myRoom: MyRoom): void {
-        let laborerCount: number = 0;
-        for (let i = 0; i < myRoom.myCreeps.length; i++) {
-            if (myRoom.myCreeps[i].role === "Laborer") {
-                laborerCount++;
-            }
-        }
-
-        //Force spawn a miner and worker if there are no creeps alive
-        let forceSpawnlaborers: boolean = false;
-        if (laborerCount < Constants.MIN_LABORERS) {
-            forceSpawnlaborers = true;
-        } else if (laborerCount < Constants.LABORERS_BEFORE_BANK &&
-            myRoom.roomStage < 4) {
-            //Room stage 4 is when the bank is made
-            //After then, haulers will exist
-            forceSpawnlaborers = true;
-        }
-
-        if (forceSpawnlaborers) {
-            SpawnLaborer.forceSpawnLaborer(myRoom);
-        } else {
-            if (!myRoom.pendingConscriptedCreep) {
-                SpawnLaborer.trySpawnLaborer(myRoom, laborerCount);
-            }
         }
     }
 }

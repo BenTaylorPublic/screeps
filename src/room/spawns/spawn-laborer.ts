@@ -5,6 +5,34 @@ import {SpawnQueueController} from "../../global/spawn-queue-controller";
 import {SpawnConstants} from "../../global/spawn-constants";
 
 export class SpawnLaborer {
+    public static laborerSpawnLogic(myRoom: MyRoom): void {
+        let laborerCount: number = 0;
+        for (let i = 0; i < myRoom.myCreeps.length; i++) {
+            if (myRoom.myCreeps[i].role === "Laborer") {
+                laborerCount++;
+            }
+        }
+
+        //Force spawn a miner and worker if there are no creeps alive
+        let forceSpawnlaborers: number = 0;
+        if (laborerCount < Constants.MIN_LABORERS) {
+            forceSpawnlaborers = Constants.MIN_LABORERS - laborerCount;
+        } else if (laborerCount < Constants.LABORERS_BEFORE_BANK &&
+            myRoom.roomStage < 4) {
+            //Room stage 4 is when the bank is made
+            //After then, haulers will exist
+            forceSpawnlaborers = Constants.LABORERS_BEFORE_BANK - laborerCount;
+        }
+
+        if (forceSpawnlaborers > 0) {
+            SpawnLaborer.forceSpawnLaborers(myRoom, forceSpawnlaborers);
+        } else {
+            if (!myRoom.pendingConscriptedCreep) {
+                SpawnLaborer.trySpawnLaborer(myRoom, laborerCount);
+            }
+        }
+    }
+
     public static trySpawnLaborer(myRoom: MyRoom, laborerCount: number): void {
         if (myRoom.bankPos == null) {
             //Only spawn laborers through this method if the bank is real
@@ -26,10 +54,12 @@ export class SpawnLaborer {
         }
     }
 
-    public static forceSpawnLaborer(myRoom: MyRoom): void {
-        const newCreep: Laborer | null = this.spawnLaborer(myRoom, true);
-        myRoom.myCreeps.push(newCreep);
-        console.log("LOG: Force queued a new Laborer");
+    public static forceSpawnLaborers(myRoom: MyRoom, amount: number): void {
+        for (let i: number = 0; i < amount; i++) {
+            const newCreep: Laborer | null = this.spawnLaborer(myRoom, true);
+            myRoom.myCreeps.push(newCreep);
+            console.log("LOG: Force queued a new Laborer");
+        }
     }
 
     private static spawnLaborer(myRoom: MyRoom, forceSpawn: boolean): Laborer {
