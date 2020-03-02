@@ -19,9 +19,9 @@ export class Stage4_8 {
                 mySource.cache != null &&
                 mySource.cache.id == null &&
                 mySource.haulerNames.length === 0) {
-                SpawnBankLinker.spawnBankLinker(myRoom);
                 myRoom.roomStage = 5;
                 ReportController.log("STAGE", "Room " + myRoom.name + " increased to room stage 5");
+                SpawnBankLinker.spawnBankLinker(myRoom);
                 return true;
             }
         }
