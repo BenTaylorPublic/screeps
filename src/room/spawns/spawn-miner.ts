@@ -13,6 +13,8 @@ export class SpawnMiner {
             const mySource: MySource = myRoom.mySources[i];
             if (mySource.minerName == null) {
                 //Needs a new miner
+                console.log(myRoom.name);
+                console.log(JSON.stringify(mySource));
                 const newCreep: Miner = this.spawnMiner(myRoom, mySource);
                 myRoom.myCreeps.push(newCreep);
                 console.log("LOG: Queued a new Miner");
