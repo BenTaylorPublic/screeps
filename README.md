@@ -6,12 +6,10 @@
 ```
 New Role - Stocker
     Just used to stock extensions, spawns, and towers
-    Always have 1 (maybe have more? idk, just 1 single for now)
+        And pickup energy on the ground
+    Always have 1, in an array (so they can scale during events?)
     Just move and carry body
-    The creep has a priority queue of things it needs to stock
-        (towers > spawn > extensions, no aging)
-    Remove stocking logic from Laborers 
-        Would mean Laborers JUST upgrade/build
+    Laborers should never stock (just build and upgrade)
 ```
 ### Short term
 ```
