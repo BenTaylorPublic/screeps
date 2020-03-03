@@ -5,6 +5,11 @@ import {SpawnConstants} from "../../global/spawn-constants";
 
 export class SpawnStocker {
     public static spawnStocker(myRoom: MyRoom): void {
+        if (myRoom.roomStage < 4) {
+            //Need bank
+            return;
+        }
+
         let amountOfStockers: number = 0;
         for (let i: number = 0; i < myRoom.myCreeps.length; i++) {
             const myCreep: MyCreep = myRoom.myCreeps[i];

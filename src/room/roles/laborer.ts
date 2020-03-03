@@ -121,6 +121,22 @@ export class RoleLaborer {
             forceUpgradeController = true;
             givenCommand = true;
         }
+        if (myRoom.roomStage < 4 && !givenCommand) {
+            const structureToAddTo: Structure | null = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+                filter: (structure: any) => {
+                    return (structure.structureType === STRUCTURE_EXTENSION ||
+                        structure.structureType === STRUCTURE_SPAWN ||
+                        structure.structureType === STRUCTURE_TOWER)
+                        && structure.energy < structure.energyCapacity;
+                }
+            });
+            if (structureToAddTo != null) {
+                givenCommand = true;
+                if (creep.transfer(structureToAddTo, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+                    HelperFunctions.myMoveTo(creep, structureToAddTo.pos, laborer);
+                }
+            }
+        }
 
         //Building construction sites
         if (!givenCommand) {
