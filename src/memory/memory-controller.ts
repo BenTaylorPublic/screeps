@@ -133,6 +133,12 @@ export class MemoryController {
         //Creep is dead
         if (myCreep.role === "Miner") {
             //Need to check what source it was on
+            for (let i = 0; i < myRoom.mySources.length; i++) {
+                const mySource: MySource = myRoom.mySources[i];
+                if (mySource.minerName === myCreep.name) {
+                    mySource.minerName = null;
+                }
+            }
             console.log("LOG: A Miner has died in " + HelperFunctions.roomNameAsLink(myRoom.name));
         } else if (myCreep.role === "Hauler") {
             for (let i = 0; i < myRoom.mySources.length; i++) {
