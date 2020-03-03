@@ -10,6 +10,10 @@ export class SpawnStocker {
             return;
         }
 
+        if ((myRoom.bank as StructureStorage).store.energy < 1250) {
+            return;
+        }
+
         let amountOfStockers: number = 0;
         for (let i: number = 0; i < myRoom.myCreeps.length; i++) {
             const myCreep: MyCreep = myRoom.myCreeps[i];
