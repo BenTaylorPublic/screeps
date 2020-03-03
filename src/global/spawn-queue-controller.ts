@@ -1,5 +1,5 @@
 export class SpawnQueueController {
-    public static queueCreepSpawn(body: BodyPartConstant[], myRoom: MyRoom, priority: number, name: string, role: CreepRoles): void {
+    public static queueCreepSpawn(body: BodyPartConstant[], myRoom: MyRoom, priority: number, name: string, role: CreepRoles | "ForceLaborer"): void {
         const newCreep: QueuedCreep = {
             body: body,
             energyCost: this.bodyCost(body),

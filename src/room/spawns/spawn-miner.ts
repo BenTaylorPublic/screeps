@@ -3,6 +3,15 @@ import {SpawnQueueController} from "../../global/spawn-queue-controller";
 import {SpawnConstants} from "../../global/spawn-constants";
 
 export class SpawnMiner {
+    public static minerSpawnLogic(myRoom: MyRoom): void {
+        for (let i = 0; i < myRoom.mySources.length; i++) {
+            const mySource: MySource = myRoom.mySources[i];
+            if (mySource.minerName == null) {
+                this.spawnMiner(myRoom, mySource);
+            }
+        }
+    }
+
     public static spawnMiner(myRoom: MyRoom, mySource: MySource): void {
         if (myRoom.roomStage < 2) {
             //At stage 2, the caches are built, and 5 extensions

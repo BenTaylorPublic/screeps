@@ -1,8 +1,5 @@
 import {HelperFunctions} from "../global/helper-functions";
 import {ReportController} from "../reporting/report-controller";
-import {SpawnMiner} from "../room/spawns/spawn-miner";
-import {SpawnBankLinker} from "../room/spawns/spawn-bank-linker";
-import {SpawnStocker} from "../room/spawns/spawn-stocker";
 
 export class MemoryController {
     public static run(): void {
@@ -136,13 +133,6 @@ export class MemoryController {
         //Creep is dead
         if (myCreep.role === "Miner") {
             //Need to check what source it was on
-            for (let i = 0; i < myRoom.mySources.length; i++) {
-                const mySource: MySource = myRoom.mySources[i];
-                if (mySource.minerName === myCreep.name) {
-                    mySource.minerName = null;
-                    SpawnMiner.spawnMiner(myRoom, mySource);
-                }
-            }
             console.log("LOG: A Miner has died");
         } else if (myCreep.role === "Hauler") {
             for (let i = 0; i < myRoom.mySources.length; i++) {
@@ -160,11 +150,8 @@ export class MemoryController {
             console.log("LOG: A Claimer has died");
         } else if (myCreep.role === "BankLinker") {
             myRoom.bankLinkerName = null;
-            SpawnBankLinker.spawnBankLinker(myRoom);
             console.log("LOG: A BankLinker has died");
         } else if (myCreep.role === "Stocker") {
-            myRoom.bankLinkerName = null;
-            SpawnStocker.spawnStocker(myRoom);
             console.log("LOG: A Stocker has died");
         } else {
             ReportController.log("ERROR", "A Creep with a weird role has died: " + myCreep.role);

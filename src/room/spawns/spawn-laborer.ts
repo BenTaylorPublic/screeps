@@ -106,7 +106,8 @@ export class SpawnLaborer {
 
         const name: string = "Creep" + HelperFunctions.getId();
         const priority: number = forceSpawn ? SpawnConstants.FORCE_LABORER : SpawnConstants.LABORER;
-        SpawnQueueController.queueCreepSpawn(body, roomToSpawnFrom, priority, name, "Laborer");
+        const roleInQueue: CreepRoles | "ForceLaborer" = forceSpawn ? "ForceLaborer" : "Laborer";
+        SpawnQueueController.queueCreepSpawn(body, roomToSpawnFrom, priority, name, roleInQueue);
 
         return {
             name: name,
