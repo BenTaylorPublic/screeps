@@ -14,6 +14,7 @@ export class RoomSpawnController {
             SpawnHauler.spawnHaulerLogic(myRoom);
             SpawnStocker.spawnStocker(myRoom);
             SpawnMiner.minerSpawnLogic(myRoom);
+            SpawnBankLinker.spawnBankLinker(myRoom);
         }
 
         if (myRoom.spawnQueue.length === 0) {

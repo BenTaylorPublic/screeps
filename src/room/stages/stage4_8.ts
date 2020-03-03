@@ -1,6 +1,5 @@
 import {StageFunctions} from "./stage-functions";
 import {ReportController} from "../../reporting/report-controller";
-import {SpawnBankLinker} from "../spawns/spawn-bank-linker";
 import {HelperFunctions} from "../../global/helper-functions";
 
 // tslint:disable-next-line: class-name
@@ -22,7 +21,6 @@ export class Stage4_8 {
                 mySource.haulerNames.length === 0) {
                 myRoom.roomStage = 5;
                 ReportController.log("STAGE", "Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " increased to room stage 5");
-                SpawnBankLinker.spawnBankLinker(myRoom);
                 return true;
             }
         }
