@@ -55,9 +55,12 @@ Stockers should pickup resources from the ground and containers, when they're bo
 
 Haulers should be re-Roled into Stockers instead of suiciding
 
-Fix trySpawnHaulCreepIfNeeded body logic
+Fix trySpawnHaulCreepIfNeeded body logic (power scav)
+    Subtract from carry parts needed, when spawned(like miners work parts)
 
 Logging when spawning started and spawning ended
+
+Calculate what structures need energy, room controller, so not every laborer needs to
 ```
 ### Long term:
 ```
