@@ -4,19 +4,17 @@
 ## TODO
 ### Working on
 ```
-Log links to rooms
-    <a href="#!/room/shard3/W41N1">W41N1</a>
-```
-### Short term
-```
-ATTENTION
-    Need an ATTENTION for towers
-    Need an ATTENTION for bank (storage)
-
 Report/Emails
     Cooldown enum when logging
     Convert current logs to it
         Any that aren't worth emailing, switch to console logs
+
+ATTENTION
+    Need an ATTENTION for towers
+    Need an ATTENTION for bank (storage)
+```
+### Short term
+```
 ```
 ### Mid term:
 ```
@@ -58,6 +56,8 @@ Stockers should pickup resources from the ground and containers, when they're bo
 Haulers should be re-Roled into Stockers instead of suiciding
 
 Fix trySpawnHaulCreepIfNeeded body logic
+
+Logging when spawning started and spawning ended
 ```
 ### Long term:
 ```
