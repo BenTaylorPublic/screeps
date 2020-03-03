@@ -26,12 +26,12 @@ export class ObserverController {
             HelperFunctions.isMiddle3x3(room.name)) {
             //Room is hostile
             if (!empireMemory.avoidRooms.includes(room.name)) {
-                console.log("LOG: Added " + room.name + " to avoid list");
+                console.log("LOG: Added " + HelperFunctions.roomNameAsLink(room.name) + " to avoid list");
                 empireMemory.avoidRooms.push(room.name);
             }
         } else {
             if (empireMemory.avoidRooms.includes(room.name)) {
-                console.log("LOG: Removing " + room.name + " from avoid list");
+                console.log("LOG: Removing " + HelperFunctions.roomNameAsLink(room.name) + " from avoid list");
                 empireMemory.avoidRooms.splice(empireMemory.avoidRooms.indexOf(room.name), 1);
             }
             //Check if is highway

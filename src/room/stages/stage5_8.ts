@@ -11,7 +11,7 @@ export class Stage5_8 {
         this.step(myRoom, room);
         if (HelperFunctions.amountOfStructure(room, STRUCTURE_TERMINAL) >= 1) {
             myRoom.roomStage = 6;
-            ReportController.log("STAGE", "Room " + myRoom.name + " increased to room stage 6");
+            ReportController.log("STAGE", "Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " increased to room stage 6");
             return true;
         }
         return false;
@@ -20,7 +20,7 @@ export class Stage5_8 {
     public static down(myRoom: MyRoom, room: Room): boolean {
         if (HelperFunctions.amountOfStructure(room, STRUCTURE_TERMINAL) < 1) {
             myRoom.roomStage = 5.8;
-            ReportController.log("STAGE", "Room " + myRoom.name + " decreased to room stage 5.8");
+            ReportController.log("STAGE", "Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " decreased to room stage 5.8");
             return true;
         }
         return false;
@@ -47,7 +47,7 @@ export class Stage5_8 {
 
         if (!placedTerminal &&
             room.find(FIND_CONSTRUCTION_SITES).length === 0) {
-            console.log("ATTENTION: Room " + myRoom.name + " needs a terminal flag (terminal)");
+            console.log("ATTENTION: Room " + HelperFunctions.roomNameAsLink(room.name) + " needs a terminal flag (terminal)");
         }
     }
 }

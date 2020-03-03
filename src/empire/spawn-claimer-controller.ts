@@ -20,7 +20,7 @@ export class SpawnClaimerController {
             //Room has been claimed, remove flag
             flag.remove();
 
-            ReportController.log("OTHER", "Room " + flag.room.name + " has been claimed");
+            ReportController.log("OTHER", "Room " + HelperFunctions.roomNameAsLink(flag.room.name) + " has been claimed");
         } else {
             //Room has not been claimed yet
             let claimerAlreadyMade: boolean = false;
@@ -35,7 +35,6 @@ export class SpawnClaimerController {
                 //Make a claimer
                 const claimer: Claimer | null = this.spawnClaimer(flag);
                 if (claimer != null) {
-                    console.log("LOG: Spawned a new claimer");
                     myMemory.empire.creeps.push(claimer);
                 }
             }
@@ -51,7 +50,7 @@ export class SpawnClaimerController {
         const spawn: StructureSpawn | null = HelperFunctions.findClosestSpawn(flag.pos);
         if (spawn == null) {
             flag.remove();
-            ReportController.log("ERROR", "Couldn't find a spawn to make a claimer");
+            ReportController.log("ERROR", "Couldn't find a spawn to make a claimer for " + HelperFunctions.roomNameAsLink(flag.pos.roomName));
             return null;
         }
 
@@ -59,6 +58,7 @@ export class SpawnClaimerController {
 
         const name: string = "Creep" + HelperFunctions.getId();
         SpawnQueueController.queueCreepSpawn(this.getBody(), roomToSpawnFrom, SpawnConstants.CLAIMER, name, "Claimer");
+        console.log("LOG: Queued a new claimer in " + HelperFunctions.roomNameAsLink(roomToSpawnFrom.name) + " for " + HelperFunctions.roomNameAsLink(flag.pos.roomName));
 
         return {
             name: name,

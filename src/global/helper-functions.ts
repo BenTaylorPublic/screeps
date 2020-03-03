@@ -324,11 +324,11 @@ export class HelperFunctions {
             }
         });
         if (result1 === ERR_NO_PATH) {
-            console.log("ERROR: getInterRoomTravelPath got ERRO_NO_PATH for " + fromRoomName + " to " + toRoomName);
+            console.log("ERROR: getInterRoomTravelPath got ERRO_NO_PATH for " + HelperFunctions.roomNameAsLink(fromRoomName) + " to " + HelperFunctions.roomNameAsLink(toRoomName));
             return null;
         }
         if (result1.length <= 0) {
-            console.log("ERROR: getInterRoomTravelPath length <= 0");
+            console.log("ERROR: getInterRoomTravelPath length <= 0 for " + HelperFunctions.roomNameAsLink(fromRoomName) + " to " + HelperFunctions.roomNameAsLink(toRoomName));
             return null;
         }
 

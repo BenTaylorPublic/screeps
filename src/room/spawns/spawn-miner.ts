@@ -22,7 +22,7 @@ export class SpawnMiner {
             //Needs a new miner
             const newCreep: Miner = this.spawnMinerInternal(myRoom, mySource);
             myRoom.myCreeps.push(newCreep);
-            console.log("LOG: Queued a new Miner");
+            console.log("LOG: Queued a new Miner in " + HelperFunctions.roomNameAsLink(myRoom.name));
             return;
         }
     }

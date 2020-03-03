@@ -12,7 +12,7 @@ export class Stage7_6 {
         if (HelperFunctions.amountOfStructure(room, STRUCTURE_SPAWN) >= 3) {
             //Spawn has been made
             myRoom.roomStage = 7.8;
-            ReportController.log("STAGE", "Room " + myRoom.name + " increased to room stage 7.8");
+            ReportController.log("STAGE", "Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " increased to room stage 7.8");
             return true;
         }
         return false;
@@ -22,7 +22,7 @@ export class Stage7_6 {
         if (HelperFunctions.amountOfStructure(room, STRUCTURE_SPAWN) < 3) {
             //Spawn has been made
             myRoom.roomStage = 7.6;
-            ReportController.log("STAGE", "Room " + myRoom.name + " decreased to room stage 7.6");
+            ReportController.log("STAGE", "Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " decreased to room stage 7.6");
             return true;
         }
         return false;
@@ -49,7 +49,7 @@ export class Stage7_6 {
 
         if (!placedSpawn &&
             room.find(FIND_CONSTRUCTION_SITES).length === 0) {
-            console.log("ATTENTION: Room " + myRoom.name + " needs a spawn flag (spawn)");
+            console.log("ATTENTION: Room " + HelperFunctions.roomNameAsLink(room.name) + " needs a spawn flag (spawn)");
         }
     }
 }

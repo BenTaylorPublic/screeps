@@ -13,7 +13,7 @@ export class SpawnBankLinker {
         const bankLinker: BankLinker = this.spawnBankLinkerInternal(myRoom);
         myRoom.myCreeps.push(bankLinker);
         myRoom.bankLinkerName = bankLinker.name;
-        console.log("LOG: Queued a BankLinker");
+        console.log("LOG: Queued a BankLinker in " + HelperFunctions.roomNameAsLink(myRoom.name));
     }
 
     public static getBody(): BodyPartConstant[] {

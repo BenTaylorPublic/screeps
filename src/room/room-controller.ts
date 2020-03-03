@@ -8,12 +8,13 @@ import {RoleBankLinker} from "./roles/bank-linker";
 import {RoomSourceLinkController} from "./structures/source-link";
 import {ReportController} from "../reporting/report-controller";
 import {RoleStocker} from "./roles/stocker";
+import {HelperFunctions} from "../global/helper-functions";
 
 export class RoomController {
     public static run(myRoom: MyRoom): void {
         if (Game.rooms[myRoom.name] == null) {
             //No longer have vision of this room
-            ReportController.log("ERROR", "No longer have vision of room " + myRoom.name);
+            ReportController.log("ERROR", "No longer have vision of room " + HelperFunctions.roomNameAsLink(myRoom.name));
             return;
         }
         //Can still see the room

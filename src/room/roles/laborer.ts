@@ -40,7 +40,7 @@ export class RoleLaborer {
                         if (cache == null) {
                             //Clear it
                             mySource.cache.id = null;
-                            ReportController.log("ERROR", "Source cache returned null with get by ID");
+                            ReportController.log("ERROR", "Source cache returned null with get by ID in " + HelperFunctions.roomNameAsLink(myRoom.name));
                         } else if (cache.store[RESOURCE_ENERGY] >= creep.store.getCapacity()) {
                             laborer.state = "PickupCache";
                             creep.say("PickupCache");
@@ -66,7 +66,7 @@ export class RoleLaborer {
 
     private static pickupBank(laborer: Laborer, myRoom: MyRoom, creep: Creep): void {
         if (myRoom.bankPos == null) {
-            ReportController.log("ERROR", "Room's bank pos was null");
+            ReportController.log("ERROR", "Room's bank pos was null in " + HelperFunctions.roomNameAsLink(myRoom.name));
             return;
         }
 
@@ -75,7 +75,7 @@ export class RoleLaborer {
         if (bankPos.isNearTo(creep)) {
             const bank: StructureStorage | null = myRoom.bank;
             if (bank == null) {
-                ReportController.log("ERROR", "Room's bank was null");
+                ReportController.log("ERROR", "Room's bank was null in " + HelperFunctions.roomNameAsLink(myRoom.name));
                 return;
             }
             creep.withdraw(bank, RESOURCE_ENERGY);

@@ -21,7 +21,7 @@ export class SpawnStocker {
             for (let i: number = 0; i < Constants.MAX_STOCKERS - amountOfStockers; i++) {
                 const newCreep: Stocker = this.spawnStockerInternal(myRoom);
                 myRoom.myCreeps.push(newCreep);
-                console.log("LOG: Queued a new Stocker");
+                console.log("LOG: Queued a new Stocker in " + HelperFunctions.roomNameAsLink(myRoom.name));
             }
         }
     }

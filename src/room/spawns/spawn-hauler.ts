@@ -26,7 +26,7 @@ export class SpawnHauler {
                 const newCreep: Hauler = this.spawnHaulerInternal(myRoom, mySource);
                 myRoom.myCreeps.push(newCreep);
                 mySource.haulerNames.push(newCreep.name);
-                console.log("LOG: Queued a new hauler");
+                console.log("LOG: Queued a new hauler in " + HelperFunctions.roomNameAsLink(myRoom.name));
 
                 //+50 for the ticks to make the body
                 const haulerCooldown: number = Math.round(

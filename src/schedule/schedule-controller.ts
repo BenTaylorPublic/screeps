@@ -1,4 +1,5 @@
 import {ReportController} from "../reporting/report-controller";
+import {HelperFunctions} from "../global/helper-functions";
 
 export class ScheduleController {
     public static preLoop(myMemory: MyMemory): void {
@@ -26,7 +27,7 @@ export class ScheduleController {
             }
         }
 
-        ReportController.log("ERROR", "Failed to find the room to set pendingConscriptedCreep to false. roomName: " + roomName);
+        ReportController.log("ERROR", "Failed to find the room to set pendingConscriptedCreep to false. roomName: " + HelperFunctions.roomNameAsLink(roomName));
     }
 
 }

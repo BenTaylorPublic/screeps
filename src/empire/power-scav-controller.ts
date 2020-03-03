@@ -52,7 +52,7 @@ export class PowerScavController {
         }
 
         //Otherwise, WE'RE GOOD, LET'S GO BOIZ
-        console.log("LOG: Power scavenging power bank in room " + powerBank.room.name);
+        console.log("LOG: Power scavenging power bank in room " + HelperFunctions.roomNameAsLink(powerBank.room.name));
 
         //This should reuse the rooms
         const roomsToSpawnThrough: string[] = [];
@@ -177,10 +177,10 @@ export class PowerScavController {
 
         const newCreep: PowerScavHaulCreep = this.spawnHaulCreep(bank, myRoom, body);
         myMemory.empire.creeps.push(newCreep);
-        console.log("LOG: Queued a new PowerScavHaulCreep");
+        console.log("LOG: Queued a new PowerScavHaulCreep in " + HelperFunctions.roomNameAsLink(myRoom.name));
         bank.amountOfCarryBodyStillNeeded -= (sectionsNeeded * carryPerSection);
         if (bank.amountOfCarryBodyStillNeeded <= 0) {
-            Game.notify("PowerScav: Spawned all the haul creeps needed");
+            Game.notify("PowerScav: Queued all the haul creeps needed in " + HelperFunctions.roomNameAsLink(myRoom.name));
         }
 
         return;
@@ -242,7 +242,7 @@ export class PowerScavController {
 
         const newCreep: PowerScavAttackCreep = this.spawnAttackCreep(bank, myRoom);
         bank.attackCreeps.push(newCreep);
-        console.log("LOG: Queued a new PowerScavAttackCreep");
+        console.log("LOG: Queued a new PowerScavAttackCreep in " + HelperFunctions.roomNameAsLink(myRoom.name));
         bank.attackCreepsStillNeeded--;
         for (let j: number = 0; j < bank.attackCreeps.length; j++) {
             if (bank.attackCreeps[j].beenReplaced) {

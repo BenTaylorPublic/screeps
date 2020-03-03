@@ -141,7 +141,7 @@ export class AttackPressureController {
         for (let i = batch.roomsStillToProvide.length - 1; i >= 0; i--) {
             const myRoom: MyRoom = HelperFunctions.getMyRoomByName(batch.roomsStillToProvide[i]) as MyRoom;
             const attackPressureCreep: AttackPressureCreep = this.spawnAttackPressureCreep(myRoom, batch.batchNumber);
-            console.log("LOG: " + myRoom.name + " has been conscripted " + attackPressureCreep.name + " for AttackPressure");
+            console.log("LOG: " + HelperFunctions.roomNameAsLink(myRoom.name) + " has been conscripted " + attackPressureCreep.name + " for AttackPressure");
 
             ScheduleController.scheduleForNextTick("SET_FALSE_ON_PENDING_CONSCRIPTED_CREEP", myRoom.name);
 

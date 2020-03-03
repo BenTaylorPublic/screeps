@@ -23,7 +23,7 @@ export class AttackQuickController {
             for (let i = attackQuick.roomsStillToProvide.length - 1; i >= 0; i--) {
                 const myRoom: MyRoom = HelperFunctions.getMyRoomByName(attackQuick.roomsStillToProvide[i]) as MyRoom;
                 const attackQuickCreep: AttackQuickCreep = this.spawnAttackQuickCreep(myRoom);
-                console.log("LOG: " + myRoom.name + " has been conscripted " + attackQuickCreep.name + " for AttackQuick");
+                console.log("LOG: " + HelperFunctions.roomNameAsLink(myRoom.name) + " has been conscripted " + attackQuickCreep.name + " for AttackQuick");
 
                 ScheduleController.scheduleForNextTick("SET_FALSE_ON_PENDING_CONSCRIPTED_CREEP", myRoom.name);
 
