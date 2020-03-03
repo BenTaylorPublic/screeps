@@ -287,6 +287,10 @@ export class HelperFunctions {
         return true;
     }
 
+    public static roomNameAsLink(roomName: string): string {
+        return "<a href='#!/room/shard3/" + roomName + "'>" + roomName + "</a>";
+    }
+
     private static posMatches(pos: RoomPosition, myPos: MyRoomPos | null): boolean {
         return myPos != null &&
             pos.roomName === myPos.roomName &&
