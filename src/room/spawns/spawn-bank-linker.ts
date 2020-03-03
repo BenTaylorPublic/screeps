@@ -18,7 +18,7 @@ export class SpawnBankLinker {
 
     private static spawnBankLinkerInternal(myRoom: MyRoom): BankLinker {
         const name: string = "Creep" + HelperFunctions.getId();
-        SpawnQueueController.queueCreepSpawn([MOVE, CARRY], myRoom, SpawnConstants.BANK_LINKER, name);
+        SpawnQueueController.queueCreepSpawn([MOVE, CARRY], myRoom, SpawnConstants.BANK_LINKER, name, "BankLinker");
 
         return {
             name: name,

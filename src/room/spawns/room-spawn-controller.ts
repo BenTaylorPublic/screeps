@@ -1,10 +1,12 @@
 import {SpawnLaborer} from "./spawn-laborer";
 import {SpawnHauler} from "./spawn-hauler";
+import {SpawnStocker} from "./spawn-stocker";
 
 export class RoomSpawnController {
     public static run(myRoom: MyRoom): void {
         SpawnLaborer.laborerSpawnLogic(myRoom);
         SpawnHauler.spawnHaulerLogic(myRoom);
+        SpawnStocker.spawnStocker(myRoom);
 
         if (myRoom.spawnQueue.length === 0) {
             return;

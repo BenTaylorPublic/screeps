@@ -120,6 +120,7 @@ interface QueuedCreep {
     energyCost: number;
     priority: number;
     name: string;
+    role: CreepRoles;
 }
 
 interface MySpawn {

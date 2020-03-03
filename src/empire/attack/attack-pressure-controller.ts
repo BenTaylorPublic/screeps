@@ -170,7 +170,7 @@ export class AttackPressureController {
             );
 
         const name: string = "Creep" + HelperFunctions.getId();
-        SpawnQueueController.queueCreepSpawn(body, myRoom, SpawnConstants.ATTACK_PRESSURE, name);
+        SpawnQueueController.queueCreepSpawn(body, myRoom, SpawnConstants.ATTACK_PRESSURE, name, "AttackPressureCreep");
 
         return {
             name: name,

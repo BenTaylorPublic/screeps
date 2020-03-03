@@ -59,7 +59,7 @@ export class SpawnMiner {
         }
 
         const name: string = "Creep" + HelperFunctions.getId();
-        SpawnQueueController.queueCreepSpawn(body, myRoom, SpawnConstants.MINER, name);
+        SpawnQueueController.queueCreepSpawn(body, myRoom, SpawnConstants.MINER, name, "Miner");
 
         //Have a valid spawn now
         let workCount: number = 0;

@@ -1,10 +1,11 @@
 export class SpawnQueueController {
-    public static queueCreepSpawn(body: BodyPartConstant[], myRoom: MyRoom, priority: number, name: string): void {
+    public static queueCreepSpawn(body: BodyPartConstant[], myRoom: MyRoom, priority: number, name: string, role: CreepRoles): void {
         const newCreep: QueuedCreep = {
             body: body,
             energyCost: this.bodyCost(body),
             priority: priority,
-            name: name
+            name: name,
+            role: role
         };
         if (myRoom.spawnQueue.length === 0) {
             myRoom.spawnQueue.push(newCreep);

@@ -189,7 +189,7 @@ export class PowerScavController {
 
     private static spawnHaulCreep(powerScav: PowerScavBank, myRoom: MyRoom, body: BodyPartConstant[]): PowerScavHaulCreep {
         const name: string = "Creep" + HelperFunctions.getId();
-        SpawnQueueController.queueCreepSpawn(body, myRoom, SpawnConstants.POWER_SCAV_HAUL, name);
+        SpawnQueueController.queueCreepSpawn(body, myRoom, SpawnConstants.POWER_SCAV_HAUL, name, "PowerScavHaulCreep");
         return {
             name: name,
             role: "PowerScavHaulCreep",
@@ -270,7 +270,7 @@ export class PowerScavController {
                 HEAL, HEAL, HEAL, HEAL, HEAL, ATTACK, ATTACK, ATTACK, ATTACK
             ];
         const name: string = "Creep" + HelperFunctions.getId();
-        SpawnQueueController.queueCreepSpawn(body, myRoom, SpawnConstants.POWER_SCAV_ATTACK, name);
+        SpawnQueueController.queueCreepSpawn(body, myRoom, SpawnConstants.POWER_SCAV_ATTACK, name, "PowerScavAttackCreep");
         return {
             name: name,
             role: "PowerScavAttackCreep",

@@ -147,7 +147,7 @@ export class AttackQuickController {
             );
 
         const name: string = "Creep" + HelperFunctions.getId();
-        SpawnQueueController.queueCreepSpawn(body, myRoom, SpawnConstants.ATTACK_QUICK, name);
+        SpawnQueueController.queueCreepSpawn(body, myRoom, SpawnConstants.ATTACK_QUICK, name, "AttackQuickCreep");
 
         return {
             name: name,
