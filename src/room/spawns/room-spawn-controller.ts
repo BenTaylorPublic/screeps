@@ -20,8 +20,13 @@ export class RoomSpawnController {
         if (myRoom.spawnQueue.length === 0) {
             return;
         }
-
         const creepToSpawn: QueuedCreep = myRoom.spawnQueue[0];
+        if (Game.time % 10 &&
+            myRoom.name === "E16S18") {
+            console.log(creepToSpawn);
+            console.log(Game.rooms[myRoom.name].energyAvailable);
+        }
+
         if (Game.rooms[myRoom.name].energyAvailable < creepToSpawn.energyCost) {
             //Too costly to spawn
             return;
