@@ -54,6 +54,8 @@ Attack creeps are probably broken
     Transfer them to the "assignedRoomName" system
 
 Stockers should pickup resources from the ground and containers, when they're bored
+
+Haulers should be re-Roled into Stockers instead of suiciding
 ```
 ### Long term:
 ```
