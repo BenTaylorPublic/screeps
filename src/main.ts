@@ -7,22 +7,15 @@ import {FunctionProfiler} from "./profiler/function-profiler/function-profiler";
 
 console.log("Script reloaded");
 
-for (let i: number = 0; i < Memory.myMemory.myRooms.length; i++) {
-    const myRoom: MyRoom = Memory.myMemory.myRooms[i];
-    for (let j: number = myRoom.myCreeps.length - 1; j >= 0; j--) {
-        const myCreep: MyCreep = myRoom.myCreeps[j];
-        if (Game.creeps[myCreep.name] != null) {
-            Game.creeps[myCreep.name].suicide();
-        }
-    }
-    for (let j: number = 0; j < myRoom.mySources.length; j++) {
-        const mySource: MySource = myRoom.mySources[j];
-        mySource.minerName = null;
-    }
-    myRoom.bankLinkerName = null;
-    myRoom.spawnQueue = [];
-    Memory.myMemory.globalId = 1;
-}
+// for (let i: number = 0; i < Memory.myMemory.myRooms.length; i++) {
+//     const myRoom: MyRoom = Memory.myMemory.myRooms[i];
+//     for (let j: number = myRoom.myCreeps.length - 1; j >= 0; j--) {
+//         const myCreep: MyCreep = myRoom.myCreeps[j];
+//     }
+//     for (let j: number = 0; j < myRoom.mySources.length; j++) {
+//         const mySource: MySource = myRoom.mySources[j];
+//     }
+// }
 
 setupMyMemory();
 // ProfilerWrapper.setup();
