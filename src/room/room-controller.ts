@@ -36,6 +36,8 @@ export class RoomController {
             RoomTowerController.run(towers[i]);
         }
 
+        const laborersStock: boolean = this.shouldLaborersStock(myRoom);
+
         // Creep logic
         for (let i = 0; i < myRoom.myCreeps.length; i++) {
             const myCreep: MyCreep = myRoom.myCreeps[i];
@@ -44,7 +46,7 @@ export class RoomController {
             } else if (myCreep.role === "Hauler") {
                 RoleHauler.run(myCreep as Hauler, myRoom);
             } else if (myCreep.role === "Laborer") {
-                RoleLaborer.run(myCreep as Laborer, myRoom);
+                RoleLaborer.run(myCreep as Laborer, myRoom, laborersStock);
             } else if (myCreep.role === "BankLinker") {
                 RoleBankLinker.run(myCreep as BankLinker, myRoom);
             } else if (myCreep.role === "Stocker") {
@@ -59,5 +61,34 @@ export class RoomController {
                 RoomSourceLinkController.run(myRoom, mySource.link);
             }
         }
+    }
+
+    private static shouldLaborersStock(myRoom: MyRoom): boolean {
+
+        if (myRoom.roomStage < 4) {
+            return true;
+        }
+
+        if (Game.rooms[myRoom.name].energyAvailable > 600) {
+            return false;
+        }
+
+        if ((myRoom.bank as StructureStorage).store.energy >= 1250) {
+            return false;
+        }
+
+        //So we're low energy
+        //If all miners are queued, they need to stock
+        let foundMinerWhosAlive: boolean = false;
+        for (let j = 0; j < myRoom.myCreeps.length; j++) {
+            const myCreep: MyCreep = myRoom.myCreeps[j];
+            if (myCreep.role === "Miner" &&
+                myCreep.spawningStatus !== "queued") {
+                foundMinerWhosAlive = true;
+                break;
+            }
+        }
+
+        return !foundMinerWhosAlive;
     }
 }

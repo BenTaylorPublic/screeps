@@ -2,7 +2,7 @@ import {HelperFunctions} from "../../global/helper-functions";
 import {ReportController} from "../../reporting/report-controller";
 
 export class RoleLaborer {
-    public static run(laborer: Laborer, myRoom: MyRoom): void {
+    public static run(laborer: Laborer, myRoom: MyRoom, laborersStock: boolean): void {
         if (HelperFunctions.handleCreepPreRole(laborer)) {
             return;
         }
@@ -11,7 +11,7 @@ export class RoleLaborer {
 
         this.calculateCreepState(laborer, myRoom, creep);
         if (laborer.state === "Labor") {
-            this.labor(laborer, myRoom, creep);
+            this.labor(laborer, myRoom, creep, laborersStock);
         } else if (laborer.state === "PickupBank") {
             this.pickupBank(laborer, myRoom, creep);
         } else if (laborer.state === "PickupCache") {
@@ -111,7 +111,7 @@ export class RoleLaborer {
         }
     }
 
-    private static labor(laborer: Laborer, myRoom: MyRoom, creep: Creep): void {
+    private static labor(laborer: Laborer, myRoom: MyRoom, creep: Creep, laborersStock: boolean): void {
         let givenCommand: boolean = false;
 
         //Check if controller is anywhere close to downgrading
@@ -121,7 +121,7 @@ export class RoleLaborer {
             forceUpgradeController = true;
             givenCommand = true;
         }
-        if (myRoom.roomStage < 4 && !givenCommand) {
+        if (laborersStock && !givenCommand) {
             const structureToAddTo: Structure | null = creep.pos.findClosestByPath(FIND_STRUCTURES, {
                 filter: (structure: any) => {
                     return (structure.structureType === STRUCTURE_EXTENSION ||
