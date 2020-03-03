@@ -1,6 +1,5 @@
 import {HelperFunctions} from "../../global/helper-functions";
 import {ReportController} from "../../reporting/report-controller";
-import {SpawnMiner} from "../spawns/spawn-miner";
 
 // tslint:disable-next-line: class-name
 export class Stage1_6 {
@@ -21,10 +20,6 @@ export class Stage1_6 {
         }
         myRoom.roomStage = 2;
         ReportController.log("STAGE", "Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " increased to room stage 2");
-        for (let i = 0; i < myRoom.mySources.length; i++) {
-            const mySource: MySource = myRoom.mySources[i];
-            SpawnMiner.spawnMiner(myRoom, mySource);
-        }
         return true;
     }
 
