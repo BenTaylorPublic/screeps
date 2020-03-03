@@ -26,12 +26,16 @@ export class SpawnStocker {
         }
     }
 
-    private static spawnStockerInternal(myRoom: MyRoom): Stocker {
-        const body: BodyPartConstant[] = HelperFunctions.generateBody([MOVE, CARRY],
+    public static getBody(myRoom: MyRoom): BodyPartConstant[] {
+        return HelperFunctions.generateBody([MOVE, CARRY],
             [MOVE, CARRY],
             Game.rooms[myRoom.name],
             false);
+    }
+
+    private static spawnStockerInternal(myRoom: MyRoom): Stocker {
         const name: string = "Creep" + HelperFunctions.getId();
+        const body: BodyPartConstant[] = this.getBody(myRoom);
         SpawnQueueController.queueCreepSpawn(body, myRoom, SpawnConstants.STOCKER, name);
 
         return {
