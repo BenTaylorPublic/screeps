@@ -57,7 +57,7 @@ export class SpawnClaimerController {
         const roomToSpawnFrom: MyRoom = HelperFunctions.getMyRoomByName(spawn.room.name) as MyRoom;
 
         const name: string = "Creep" + HelperFunctions.getId();
-        SpawnQueueController.queueCreepSpawn(this.getBody(), roomToSpawnFrom, SpawnConstants.CLAIMER, name, "Claimer");
+        SpawnQueueController.queueCreepSpawn(roomToSpawnFrom, SpawnConstants.CLAIMER, name, "Claimer");
         console.log("LOG: Queued a new claimer in " + HelperFunctions.roomNameAsLink(roomToSpawnFrom.name) + " for " + HelperFunctions.roomNameAsLink(flag.pos.roomName));
 
         return {

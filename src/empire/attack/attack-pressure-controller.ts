@@ -111,6 +111,19 @@ export class AttackPressureController {
         return attackPressure;
     }
 
+    public static getBody(myRoom: MyRoom): BodyPartConstant[] {
+        const room: Room = Game.rooms[myRoom.name];
+
+
+        return HelperFunctions.generateBody([MOVE, ATTACK],
+            [MOVE, ATTACK],
+            room,
+            true,
+            50,
+            true
+        );
+    }
+
     private static batchRunRally(batch: AttackPressureBatch, flag: Flag, empire: Empire): boolean {
 
         //Wait until all the creeps are within range of the rally flag
@@ -158,19 +171,9 @@ export class AttackPressureController {
     }
 
     private static spawnAttackPressureCreep(myRoom: MyRoom, batchNumber: number): AttackPressureCreep {
-        const room: Room = Game.rooms[myRoom.name];
-
-        const body: BodyPartConstant[] =
-            HelperFunctions.generateBody([MOVE, ATTACK],
-                [MOVE, ATTACK],
-                room,
-                true,
-                50,
-                true
-            );
 
         const name: string = "Creep" + HelperFunctions.getId();
-        SpawnQueueController.queueCreepSpawn(body, myRoom, SpawnConstants.ATTACK_PRESSURE, name, "AttackPressureCreep");
+        SpawnQueueController.queueCreepSpawn(myRoom, SpawnConstants.ATTACK_PRESSURE, name, "AttackPressureCreep");
 
         return {
             name: name,

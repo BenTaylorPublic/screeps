@@ -48,9 +48,8 @@ export class SpawnHauler {
     }
 
     private static spawnHaulerInternal(myRoom: MyRoom, mySource: MySource): Hauler {
-        const body = this.getBody(myRoom);
         const name: string = "Creep" + HelperFunctions.getId();
-        SpawnQueueController.queueCreepSpawn(body, myRoom, SpawnConstants.HAULER, name, "Hauler");
+        SpawnQueueController.queueCreepSpawn(myRoom, SpawnConstants.HAULER, name, "Hauler");
 
 
         return {

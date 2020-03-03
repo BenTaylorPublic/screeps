@@ -56,6 +56,8 @@ Attack creeps are probably broken
 Stockers should pickup resources from the ground and containers, when they're bored
 
 Haulers should be re-Roled into Stockers instead of suiciding
+
+Fix trySpawnHaulCreepIfNeeded body logic
 ```
 ### Long term:
 ```

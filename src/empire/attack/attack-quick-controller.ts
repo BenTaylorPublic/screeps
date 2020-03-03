@@ -134,20 +134,21 @@ export class AttackQuickController {
         return attackQuick;
     }
 
-    private static spawnAttackQuickCreep(myRoom: MyRoom): AttackQuickCreep {
+    public static getBody(myRoom: MyRoom): BodyPartConstant[] {
         const room: Room = Game.rooms[myRoom.name];
 
-        const body: BodyPartConstant[] =
-            HelperFunctions.generateBody([MOVE, ATTACK],
-                [MOVE, ATTACK],
-                room,
-                true,
-                50,
-                true
-            );
+        return HelperFunctions.generateBody([MOVE, ATTACK],
+            [MOVE, ATTACK],
+            room,
+            true,
+            50,
+            true
+        );
+    }
 
+    private static spawnAttackQuickCreep(myRoom: MyRoom): AttackQuickCreep {
         const name: string = "Creep" + HelperFunctions.getId();
-        SpawnQueueController.queueCreepSpawn(body, myRoom, SpawnConstants.ATTACK_QUICK, name, "AttackQuickCreep");
+        SpawnQueueController.queueCreepSpawn(myRoom, SpawnConstants.ATTACK_QUICK, name, "AttackQuickCreep");
 
         return {
             name: name,

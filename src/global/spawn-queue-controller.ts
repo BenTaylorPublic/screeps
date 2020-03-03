@@ -1,10 +1,6 @@
-import {HelperFunctions} from "./helper-functions";
-
 export class SpawnQueueController {
-    public static queueCreepSpawn(body: BodyPartConstant[], myRoom: MyRoom, priority: number, name: string, role: CreepRoles | "ForceLaborer"): void {
+    public static queueCreepSpawn(myRoom: MyRoom, priority: number, name: string, role: CreepRoles | "ForceLaborer"): void {
         const newCreep: QueuedCreep = {
-            body: body,
-            energyCost: HelperFunctions.bodyCost(body),
             priority: priority,
             name: name,
             role: role

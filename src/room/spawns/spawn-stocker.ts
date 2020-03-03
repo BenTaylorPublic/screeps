@@ -35,8 +35,7 @@ export class SpawnStocker {
 
     private static spawnStockerInternal(myRoom: MyRoom): Stocker {
         const name: string = "Creep" + HelperFunctions.getId();
-        const body: BodyPartConstant[] = this.getBody(myRoom);
-        SpawnQueueController.queueCreepSpawn(body, myRoom, SpawnConstants.STOCKER, name, "Stocker");
+        SpawnQueueController.queueCreepSpawn(myRoom, SpawnConstants.STOCKER, name, "Stocker");
 
         return {
             name: name,

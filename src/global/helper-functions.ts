@@ -282,6 +282,16 @@ export class HelperFunctions {
         } else if (myCreep.spawningStatus === "spawning" &&
             Game.creeps[myCreep.name].ticksToLive != null) {
             myCreep.spawningStatus = "alive";
+            if (myCreep.role === "Miner") {
+                const creep: Creep = Game.creeps[myCreep.name];
+                let workCount = 0;
+                for (let i: number = 0; i < creep.body.length; i++) {
+                    if (creep.body[i].type === WORK) {
+                        workCount++;
+                    }
+                }
+                (myCreep as Miner).amountOfWork = workCount;
+            }
             return false;
         }
         return true;

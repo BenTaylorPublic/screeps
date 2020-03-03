@@ -94,20 +94,13 @@ export class SpawnLaborer {
             }
             roomToSpawnFrom = HelperFunctions.getMyRoomByName(spawn.room.name) as MyRoom;
         } else {
-            spawn = Game.spawns[myRoom.spawns[0].name];
             roomToSpawnFrom = myRoom;
         }
-
-        const body: BodyPartConstant[] = HelperFunctions.generateBody(
-            [MOVE, MOVE, CARRY, WORK],
-            [MOVE, MOVE, CARRY, WORK],
-            spawn.room,
-            !forceSpawn);
 
         const name: string = "Creep" + HelperFunctions.getId();
         const priority: number = forceSpawn ? SpawnConstants.FORCE_LABORER : SpawnConstants.LABORER;
         const roleInQueue: CreepRoles | "ForceLaborer" = forceSpawn ? "ForceLaborer" : "Laborer";
-        SpawnQueueController.queueCreepSpawn(body, roomToSpawnFrom, priority, name, roleInQueue);
+        SpawnQueueController.queueCreepSpawn(roomToSpawnFrom, priority, name, roleInQueue);
 
         return {
             name: name,

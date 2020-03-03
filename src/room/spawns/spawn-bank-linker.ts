@@ -22,7 +22,7 @@ export class SpawnBankLinker {
 
     private static spawnBankLinkerInternal(myRoom: MyRoom): BankLinker {
         const name: string = "Creep" + HelperFunctions.getId();
-        SpawnQueueController.queueCreepSpawn(this.getBody(), myRoom, SpawnConstants.BANK_LINKER, name, "BankLinker");
+        SpawnQueueController.queueCreepSpawn(myRoom, SpawnConstants.BANK_LINKER, name, "BankLinker");
 
         return {
             name: name,

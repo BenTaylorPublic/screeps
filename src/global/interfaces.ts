@@ -116,8 +116,6 @@ interface MyRoom {
 }
 
 interface QueuedCreep {
-    body: BodyPartConstant[];
-    energyCost: number;
     priority: number;
     name: string;
     role: CreepRoles | "ForceLaborer";

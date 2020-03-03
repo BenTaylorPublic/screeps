@@ -68,17 +68,10 @@ export class SpawnMiner {
     }
 
     private static spawnMinerInternal(myRoom: MyRoom, mySource: MySource): Miner {
-        const body = this.getBody(myRoom, mySource);
         const name: string = "Creep" + HelperFunctions.getId();
-        SpawnQueueController.queueCreepSpawn(body, myRoom, SpawnConstants.MINER, name, "Miner");
+        SpawnQueueController.queueCreepSpawn(myRoom, SpawnConstants.MINER, name, "Miner");
 
         //Have a valid spawn now
-        let workCount: number = 0;
-        for (let i: number = 0; i < body.length; i++) {
-            if (body[i] === WORK) {
-                workCount++;
-            }
-        }
         let linkId: Id<StructureLink> | null = null;
         if (mySource.link != null &&
             mySource.link.id != null) {
@@ -98,7 +91,7 @@ export class SpawnMiner {
             cachePosToMineOn: (mySource.cache as MyCache).pos,
             linkIdToDepositTo: linkId,
             sourceId: mySource.id,
-            amountOfWork: workCount
+            amountOfWork: 0
         };
     }
 
