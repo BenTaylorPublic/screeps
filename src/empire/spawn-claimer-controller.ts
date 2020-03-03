@@ -42,6 +42,10 @@ export class SpawnClaimerController {
         }
     }
 
+    public static getBody(): BodyPartConstant[] {
+        return [MOVE, CLAIM];
+    }
+
     private static spawnClaimer(flag: Flag): Claimer | null {
 
         const spawn: StructureSpawn | null = HelperFunctions.findClosestSpawn(flag.pos);
@@ -54,7 +58,7 @@ export class SpawnClaimerController {
         const roomToSpawnFrom: MyRoom = HelperFunctions.getMyRoomByName(spawn.room.name) as MyRoom;
 
         const name: string = "Creep" + HelperFunctions.getId();
-        SpawnQueueController.queueCreepSpawn([MOVE, CLAIM], roomToSpawnFrom, SpawnConstants.CLAIMER, name, "Claimer");
+        SpawnQueueController.queueCreepSpawn(this.getBody(), roomToSpawnFrom, SpawnConstants.CLAIMER, name, "Claimer");
 
         return {
             name: name,

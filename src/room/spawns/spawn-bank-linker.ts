@@ -16,9 +16,13 @@ export class SpawnBankLinker {
         console.log("LOG: Queued a BankLinker");
     }
 
+    public static getBody(): BodyPartConstant[] {
+        return [MOVE, CARRY];
+    }
+
     private static spawnBankLinkerInternal(myRoom: MyRoom): BankLinker {
         const name: string = "Creep" + HelperFunctions.getId();
-        SpawnQueueController.queueCreepSpawn([MOVE, CARRY], myRoom, SpawnConstants.BANK_LINKER, name, "BankLinker");
+        SpawnQueueController.queueCreepSpawn(this.getBody(), myRoom, SpawnConstants.BANK_LINKER, name, "BankLinker");
 
         return {
             name: name,

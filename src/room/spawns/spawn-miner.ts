@@ -18,7 +18,7 @@ export class SpawnMiner {
         }
     }
 
-    private static spawnMinerInternal(myRoom: MyRoom, mySource: MySource): Miner {
+    public static getBody(myRoom: MyRoom, mySource: MySource): BodyPartConstant[] {
         let body: BodyPartConstant[];
 
         let maxBodyParts: number;
@@ -36,10 +36,8 @@ export class SpawnMiner {
             }
         }
 
-        let linkId: Id<StructureLink> | null = null;
         if (mySource.link != null &&
             mySource.link.id != null) {
-            linkId = mySource.link.id;
             body = HelperFunctions.generateBody(
                 [MOVE, CARRY, WORK, WORK, WORK, WORK, WORK],
                 [MOVE, CARRY, WORK, WORK, WORK, WORK, WORK],
@@ -57,7 +55,11 @@ export class SpawnMiner {
                 maxBodyParts
             );
         }
+        return body;
+    }
 
+    private static spawnMinerInternal(myRoom: MyRoom, mySource: MySource): Miner {
+        const body = this.getBody(myRoom, mySource);
         const name: string = "Creep" + HelperFunctions.getId();
         SpawnQueueController.queueCreepSpawn(body, myRoom, SpawnConstants.MINER, name, "Miner");
 
@@ -67,6 +69,11 @@ export class SpawnMiner {
             if (body[i] === WORK) {
                 workCount++;
             }
+        }
+        let linkId: Id<StructureLink> | null = null;
+        if (mySource.link != null &&
+            mySource.link.id != null) {
+            linkId = mySource.link.id;
         }
 
         mySource.minerName = name;

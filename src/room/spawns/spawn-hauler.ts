@@ -39,12 +39,16 @@ export class SpawnHauler {
         }
     }
 
-    private static spawnHaulerInternal(myRoom: MyRoom, mySource: MySource): Hauler {
-        const body: BodyPartConstant[] = HelperFunctions.generateBody([MOVE, CARRY],
+    public static getBody(myRoom: MyRoom): BodyPartConstant[] {
+        return HelperFunctions.generateBody([MOVE, CARRY],
             [MOVE, CARRY],
             Game.rooms[myRoom.name],
             true,
             20);
+    }
+
+    private static spawnHaulerInternal(myRoom: MyRoom, mySource: MySource): Hauler {
+        const body = this.getBody(myRoom);
         const name: string = "Creep" + HelperFunctions.getId();
         SpawnQueueController.queueCreepSpawn(body, myRoom, SpawnConstants.HAULER, name, "Hauler");
 

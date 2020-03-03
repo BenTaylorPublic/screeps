@@ -33,6 +33,22 @@ export class SpawnLaborer {
         }
     }
 
+    public static getBody(myRoom: MyRoom): BodyPartConstant[] {
+        return HelperFunctions.generateBody(
+            [MOVE, MOVE, CARRY, WORK],
+            [MOVE, MOVE, CARRY, WORK],
+            Game.rooms[myRoom.name],
+            false);
+    }
+
+    public static getForceBody(myRoom: MyRoom): BodyPartConstant[] {
+        return HelperFunctions.generateBody(
+            [MOVE, MOVE, CARRY, WORK],
+            [MOVE, MOVE, CARRY, WORK],
+            Game.rooms[myRoom.name],
+            true);
+    }
+
     private static trySpawnLaborer(myRoom: MyRoom, laborerCount: number): void {
         if (myRoom.bankPos == null) {
             //Only spawn laborers through this method if the bank is real
