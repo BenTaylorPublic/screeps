@@ -44,7 +44,9 @@ export class RoleStocker {
                 ReportController.log("ERROR", "Room's bank was null in " + HelperFunctions.roomNameAsLink(myRoom.name));
                 return;
             }
-            creep.withdraw(bank, RESOURCE_ENERGY);
+            if (bank.store.energy > 0) {
+                creep.withdraw(bank, RESOURCE_ENERGY);
+            }
         } else {
             HelperFunctions.myMoveTo(creep, bankPos, stocker);
         }

@@ -31,8 +31,10 @@ export class RoleBankLinker {
                 return;
             }
 
-            if (creep.withdraw(link, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                HelperFunctions.myMoveTo(creep, link.pos, bankLinker);
+            if (link.store.energy > 0) {
+                if (creep.withdraw(link, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+                    HelperFunctions.myMoveTo(creep, link.pos, bankLinker);
+                }
             }
         }
     }
