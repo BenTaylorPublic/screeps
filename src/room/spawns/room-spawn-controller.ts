@@ -4,6 +4,7 @@ import {SpawnStocker} from "./spawn-stocker";
 import {SpawnMiner} from "./spawn-miner";
 import {SpawnClaimerController} from "../../empire/spawn-claimer-controller";
 import {SpawnBankLinker} from "./spawn-bank-linker";
+import {HelperFunctions} from "../../global/helper-functions";
 
 export class RoomSpawnController {
     public static run(myRoom: MyRoom): void {
@@ -21,12 +22,6 @@ export class RoomSpawnController {
             return;
         }
         const creepToSpawn: QueuedCreep = myRoom.spawnQueue[0];
-        if (Game.time % 10 &&
-            myRoom.name === "E16S18") {
-            console.log(JSON.stringify(creepToSpawn));
-            console.log(Game.rooms[myRoom.name].energyAvailable);
-        }
-
         if (Game.rooms[myRoom.name].energyAvailable < creepToSpawn.energyCost) {
             //Too costly to spawn
             return;
@@ -75,6 +70,7 @@ export class RoomSpawnController {
             } else if (queuedCreep.role === "Laborer") {
                 queuedCreep.body = SpawnLaborer.getBody(myRoom);
             }
+            queuedCreep.energyCost = HelperFunctions.bodyCost(queuedCreep.body);
         }
     }
 }

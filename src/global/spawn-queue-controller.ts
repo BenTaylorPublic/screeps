@@ -1,8 +1,10 @@
+import {HelperFunctions} from "./helper-functions";
+
 export class SpawnQueueController {
     public static queueCreepSpawn(body: BodyPartConstant[], myRoom: MyRoom, priority: number, name: string, role: CreepRoles | "ForceLaborer"): void {
         const newCreep: QueuedCreep = {
             body: body,
-            energyCost: this.bodyCost(body),
+            energyCost: HelperFunctions.bodyCost(body),
             priority: priority,
             name: name,
             role: role
@@ -20,11 +22,5 @@ export class SpawnQueueController {
         }
         //Still hasn't inserted yet
         myRoom.spawnQueue = myRoom.spawnQueue.concat(newCreep);
-    }
-
-    private static bodyCost(body: BodyPartConstant[]): number {
-        return body.reduce(function (cost: number, part: BodyPartConstant): number {
-            return cost + BODYPART_COST[part];
-        }, 0);
     }
 }

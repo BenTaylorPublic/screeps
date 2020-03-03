@@ -38,7 +38,7 @@ export class SpawnLaborer {
             [MOVE, MOVE, CARRY, WORK],
             [MOVE, MOVE, CARRY, WORK],
             Game.rooms[myRoom.name],
-            false);
+            true);
     }
 
     public static getForceBody(myRoom: MyRoom): BodyPartConstant[] {
@@ -46,7 +46,7 @@ export class SpawnLaborer {
             [MOVE, MOVE, CARRY, WORK],
             [MOVE, MOVE, CARRY, WORK],
             Game.rooms[myRoom.name],
-            true);
+            false);
     }
 
     private static trySpawnLaborer(myRoom: MyRoom, laborerCount: number): void {

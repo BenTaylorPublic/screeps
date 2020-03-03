@@ -291,6 +291,12 @@ export class HelperFunctions {
         return "<a href='#!/room/shard3/" + roomName + "'>" + roomName + "</a>";
     }
 
+    public static bodyCost(body: BodyPartConstant[]): number {
+        return body.reduce(function (cost: number, part: BodyPartConstant): number {
+            return cost + BODYPART_COST[part];
+        }, 0);
+    }
+
     private static posMatches(pos: RoomPosition, myPos: MyRoomPos | null): boolean {
         return myPos != null &&
             pos.roomName === myPos.roomName &&
