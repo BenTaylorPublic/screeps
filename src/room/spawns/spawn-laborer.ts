@@ -57,7 +57,7 @@ export class SpawnLaborer {
 
         const bank: StructureStorage | null = myRoom.bank;
         if (bank == null) {
-            ReportController.log("ERROR", "Bank is null when checking if it's full in " + HelperFunctions.roomNameAsLink(myRoom.name));
+            ReportController.log("ERROR: Bank is null when checking if it's full in " + HelperFunctions.roomNameAsLink(myRoom.name));
             return;
         }
 
@@ -66,7 +66,7 @@ export class SpawnLaborer {
             //If the bank is capped, spawn another laborer
             const newCreep: Laborer = this.spawnLaborer(myRoom, false);
             myRoom.myCreeps.push(newCreep);
-            console.log("LOG: Queued a new Laborer in " + HelperFunctions.roomNameAsLink(myRoom.name));
+            ReportController.log("Queued a new Laborer in " + HelperFunctions.roomNameAsLink(myRoom.name));
         }
     }
 
@@ -74,7 +74,7 @@ export class SpawnLaborer {
         for (let i: number = 0; i < amount; i++) {
             const newCreep: Laborer | null = this.spawnLaborer(myRoom, true);
             myRoom.myCreeps.push(newCreep);
-            console.log("LOG: Force queued a new Laborer in " + HelperFunctions.roomNameAsLink(myRoom.name));
+            ReportController.log("Force queued a new Laborer in " + HelperFunctions.roomNameAsLink(myRoom.name));
         }
     }
 
@@ -89,7 +89,7 @@ export class SpawnLaborer {
             // Going to use the nearest room's spawn instead
             spawn = HelperFunctions.findClosestSpawn(new RoomPosition(25, 25, myRoom.name));
             if (spawn == null) {
-                ReportController.log("ERROR", "Couldn't find any spawns to make a laborer for " + HelperFunctions.roomNameAsLink(myRoom.name));
+                ReportController.log("ERROR: Couldn't find any spawns to make a laborer for " + HelperFunctions.roomNameAsLink(myRoom.name));
                 throw Error("Couldn't find any spawns to make a laborer for room " + myRoom.name);
             }
             roomToSpawnFrom = HelperFunctions.getMyRoomByName(spawn.room.name) as MyRoom;

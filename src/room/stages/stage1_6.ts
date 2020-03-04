@@ -19,7 +19,7 @@ export class Stage1_6 {
             }
         }
         myRoom.roomStage = 2;
-        ReportController.log("STAGE", "Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " increased to room stage 2");
+        ReportController.log("STAGE: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " increased to room stage 2");
         return true;
     }
 
@@ -31,7 +31,7 @@ export class Stage1_6 {
                 (mySource.link == null ||
                     mySource.link.id == null)) {
                 myRoom.roomStage = 1.6;
-                ReportController.log("STAGE", "Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " decreased to room stage 1.6");
+                ReportController.log("STAGE: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " decreased to room stage 1.6");
                 return true;
             }
         }
@@ -58,7 +58,7 @@ export class Stage1_6 {
                     const mySource: MySource = myRoom.mySources[j];
                     const source: Source | null = Game.getObjectById<Source>(mySource.id);
                     if (source == null) {
-                        ReportController.log("ERROR", "Source was null when trying to get it by ID in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                        ReportController.log("ERROR: Source was null when trying to get it by ID in " + HelperFunctions.roomNameAsLink(myRoom.name));
                     } else {
                         if (source.pos.inRangeTo(roomFlag.pos, 1)) {
                             mySource.cache = {
@@ -76,14 +76,14 @@ export class Stage1_6 {
                     }
                 }
                 if (placedFully) {
-                    console.log("LOG: Placed container cache construction site in " + HelperFunctions.roomNameAsLink(room.name));
+                    ReportController.log("Placed container cache construction site in " + HelperFunctions.roomNameAsLink(room.name));
                     roomFlag.remove();
                 } else {
-                    ReportController.log("ERROR", "Placed a construction site at a flag but couldn't find a source to give it to, in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                    ReportController.log("ERROR: Placed a construction site at a flag but couldn't find a source to give it to, in " + HelperFunctions.roomNameAsLink(myRoom.name));
                 }
 
             } else {
-                ReportController.log("ERROR", "Placing a container cache construction site errored in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                ReportController.log("ERROR: Placing a container cache construction site errored in " + HelperFunctions.roomNameAsLink(myRoom.name));
             }
         }
 
@@ -104,7 +104,7 @@ export class Stage1_6 {
 
         if (flagsPlaced !== myRoom.mySources.length &&
             room.find(FIND_CONSTRUCTION_SITES).length === 0) {
-            console.log("ATTENTION: Room " + HelperFunctions.roomNameAsLink(room.name) + " needs cache container flag (cont)");
+            ReportController.log("ATTENTION: Room " + HelperFunctions.roomNameAsLink(room.name) + " needs cache container flag (cont)");
         }
     }
 

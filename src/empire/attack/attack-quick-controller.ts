@@ -14,7 +14,7 @@ export class AttackQuickController {
         if (attackQuick.state === "Conscripting") {
             flag = Game.flags["attack-quick-rally"];
             if (flag == null) {
-                ReportController.log("ERROR", "attack-quick-rally flag doesn't exist during AttackQuick. Cancelling the attack.");
+                ReportController.log("ERROR: attack-quick-rally flag doesn't exist during AttackQuick. Cancelling the attack.");
                 this.endAttack();
                 return;
             }
@@ -23,7 +23,7 @@ export class AttackQuickController {
             for (let i = attackQuick.roomsStillToProvide.length - 1; i >= 0; i--) {
                 const myRoom: MyRoom = HelperFunctions.getMyRoomByName(attackQuick.roomsStillToProvide[i]) as MyRoom;
                 const attackQuickCreep: AttackQuickCreep = this.spawnAttackQuickCreep(myRoom);
-                console.log("LOG: " + HelperFunctions.roomNameAsLink(myRoom.name) + " has been conscripted " + attackQuickCreep.name + " for AttackQuick");
+                ReportController.log("" + HelperFunctions.roomNameAsLink(myRoom.name) + " has been conscripted " + attackQuickCreep.name + " for AttackQuick");
 
                 ScheduleController.scheduleForNextTick("SET_FALSE_ON_PENDING_CONSCRIPTED_CREEP", myRoom.name);
 
@@ -42,7 +42,7 @@ export class AttackQuickController {
         if (attackQuick.state === "Rally") {
             flag = Game.flags["attack-quick-rally"];
             if (flag == null) {
-                ReportController.log("ERROR", "attack-quick-rally flag doesn't exist during AttackQuick. Cancelling the attack.");
+                ReportController.log("ERROR: attack-quick-rally flag doesn't exist during AttackQuick. Cancelling the attack.");
                 this.endAttack();
                 return;
             }
@@ -63,7 +63,7 @@ export class AttackQuickController {
             }
             if (allCreepsAtFlag) {
                 //If it gets here, we're ready to charge!
-                console.log("LOG: AttackQuick Charge");
+                ReportController.log("AttackQuick Charge");
                 attackQuick.state = "Charge";
             }
         }
@@ -71,13 +71,13 @@ export class AttackQuickController {
         if (attackQuick.state === "Charge") {
             flag = Game.flags["attack-quick-room-target"];
             if (flag == null) {
-                ReportController.log("ERROR", "attack-quick-room-target flag doesn't exist during AttackQuick. Cancelling the attack.");
+                ReportController.log("ERROR: attack-quick-room-target flag doesn't exist during AttackQuick. Cancelling the attack.");
                 this.endAttack();
                 return;
             }
             if (myMemory.empire.creeps.length === 0) {
                 // Cancel attack when the creeps are dead
-                console.log("ATTACK: Creeps are all dead, ending attack");
+                ReportController.log("ATTACK: Creeps are all dead, ending attack");
                 this.endAttack();
             }
 
@@ -121,7 +121,7 @@ export class AttackQuickController {
             }
         }
         if (attackQuick.roomsStillToProvide.length === 0) {
-            console.log("LOG: Canceling an AttackQuick because no rooms were in conscription range.");
+            ReportController.log("Canceling an AttackQuick because no rooms were in conscription range.");
             this.endAttack();
             return null;
         }
@@ -129,7 +129,7 @@ export class AttackQuickController {
         //Remove the ", " from the last one
         outputMessage = outputMessage.slice(0, outputMessage.length - 2);
 
-        console.log("AttackQuick: " + attackQuick.roomsStillToProvide.length +
+        ReportController.log("AttackQuick: " + attackQuick.roomsStillToProvide.length +
             " Rooms conscripted for AttackQuick (" + outputMessage + ")");
         return attackQuick;
     }
@@ -168,7 +168,7 @@ export class AttackQuickController {
 
         for (let i = empire.creeps.length - 1; i >= 0; i--) {
             if (empire.creeps[i].role === "AttackQuickCreep") {
-                console.log("LOG: Killing AttackQuickCreep " + empire.creeps[i].name);
+                ReportController.log("Killing AttackQuickCreep " + empire.creeps[i].name);
                 Game.creeps[empire.creeps[i].name].suicide();
             }
         }

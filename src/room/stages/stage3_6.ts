@@ -11,7 +11,7 @@ export class Stage3_6 {
         this.step(myRoom, room);
         if (HelperFunctions.amountOfStructure(room, STRUCTURE_STORAGE) >= 1) {
             myRoom.roomStage = 4;
-            ReportController.log("STAGE", "Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " increased to room stage 4");
+            ReportController.log("STAGE: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " increased to room stage 4");
             return true;
         }
         return false;
@@ -20,7 +20,7 @@ export class Stage3_6 {
     public static down(myRoom: MyRoom, room: Room): boolean {
         if (HelperFunctions.amountOfStructure(room, STRUCTURE_STORAGE) < 1) {
             myRoom.roomStage = 3.6;
-            ReportController.log("STAGE", "Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " decreased to room stage 3.6");
+            ReportController.log("STAGE: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " decreased to room stage 3.6");
             return true;
         }
         return false;
@@ -47,11 +47,11 @@ export class Stage3_6 {
             if (flagNameSplit[0] === "storage") {
                 const result: ScreepsReturnCode = Game.rooms[myRoom.name].createConstructionSite(roomFlag.pos, STRUCTURE_STORAGE);
                 if (result === OK) {
-                    console.log("LOG: Placed storage bank construction site in " + HelperFunctions.roomNameAsLink(room.name));
+                    ReportController.log("Placed storage bank construction site in " + HelperFunctions.roomNameAsLink(room.name));
                     roomFlag.remove();
 
                 } else {
-                    ReportController.log("ERROR", "Placing a storage bank construction site errored in " + HelperFunctions.roomNameAsLink(room.name));
+                    ReportController.log("ERROR: Placing a storage bank construction site errored in " + HelperFunctions.roomNameAsLink(room.name));
                 }
             }
         }

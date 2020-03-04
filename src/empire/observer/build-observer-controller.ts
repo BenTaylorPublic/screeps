@@ -1,4 +1,5 @@
 import {HelperFunctions} from "../../global/helper-functions";
+import {ReportController} from "../../reporting/report-controller";
 
 export class BuildObserverController {
     public static run(myMemory: MyMemory): void {
@@ -18,7 +19,7 @@ export class BuildObserverController {
         if (result === OK) {
             flag.remove();
         } else {
-            console.log("ERROR: Failed to place observer: " + result);
+            ReportController.log("ERROR: Failed to place observer: " + result);
         }
     }
 

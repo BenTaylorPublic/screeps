@@ -36,7 +36,7 @@ export class RoleHauler {
                 }
 
                 if (cacheToGrabFrom == null) {
-                    ReportController.log("ERROR", "Source cache is null for hauler: " + hauler.name + " in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                    ReportController.log("ERROR: Source cache is null for hauler: " + hauler.name + " in " + HelperFunctions.roomNameAsLink(myRoom.name));
                     return;
                 }
                 if (cacheToGrabFrom.store[RESOURCE_ENERGY] >= creep.store.getFreeCapacity()) {
@@ -49,7 +49,7 @@ export class RoleHauler {
             //Deliver
 
             if (myRoom.bankPos == null) {
-                ReportController.log("ERROR", "Room's bank pos was null in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                ReportController.log("ERROR: Room's bank pos was null in " + HelperFunctions.roomNameAsLink(myRoom.name));
                 return;
             }
 
@@ -58,7 +58,7 @@ export class RoleHauler {
             if (bankPos.isNearTo(creep)) {
                 const bank: StructureStorage | null = myRoom.bank;
                 if (bank == null) {
-                    ReportController.log("ERROR", "Room's bank was null in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                    ReportController.log("ERROR: Room's bank was null in " + HelperFunctions.roomNameAsLink(myRoom.name));
                     return;
                 }
                 creep.transfer(bank, RESOURCE_ENERGY);

@@ -24,7 +24,7 @@ export class Stage7_8 {
                 }
             }
             myRoom.roomStage = 8;
-            ReportController.log("STAGE", "Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " increased to room stage 8");
+            ReportController.log("STAGE: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " increased to room stage 8");
             return true;
         }
         return false;
@@ -34,7 +34,7 @@ export class Stage7_8 {
         if (HelperFunctions.amountOfStructure(room, STRUCTURE_POWER_SPAWN) < 1) {
             //Power spawn has been made
             myRoom.roomStage = 7.8;
-            ReportController.log("STAGE", "Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " decreased to room stage 7.8");
+            ReportController.log("STAGE: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " decreased to room stage 7.8");
             return true;
         }
         return false;
@@ -60,7 +60,7 @@ export class Stage7_8 {
 
         if (!placedPowerSpawn &&
             room.find(FIND_CONSTRUCTION_SITES).length === 0) {
-            console.log("ATTENTION: Room " + HelperFunctions.roomNameAsLink(room.name) + " needs a power spawn flag (power-spawn)");
+            ReportController.log("ATTENTION: Room " + HelperFunctions.roomNameAsLink(room.name) + " needs a power spawn flag (power-spawn)");
         }
     }
 }

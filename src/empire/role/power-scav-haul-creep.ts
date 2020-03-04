@@ -61,13 +61,13 @@ export class RolePowerScavHaulCreep {
 
         const myRoom: MyRoom | null = HelperFunctions.getMyRoomByName(powerScavHaul.roomToDepositTo);
         if (myRoom == null) {
-            ReportController.log("ERROR", "Room was null for a power scav hauler " + HelperFunctions.roomNameAsLink(powerScavHaul.roomToDepositTo));
+            ReportController.log("ERROR: Room was null for a power scav hauler " + HelperFunctions.roomNameAsLink(powerScavHaul.roomToDepositTo));
             return;
         }
 
         const bank: StructureStorage | null = myRoom.bank;
         if (bank == null) {
-            ReportController.log("ERROR", "Bank was null for a power scav hauler in " + HelperFunctions.roomNameAsLink(myRoom.name));
+            ReportController.log("ERROR: Bank was null for a power scav hauler in " + HelperFunctions.roomNameAsLink(myRoom.name));
             return;
         }
 

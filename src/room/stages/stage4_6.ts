@@ -12,7 +12,7 @@ export class Stage4_6 {
         this.step(myRoom, room);
         if (HelperFunctions.amountOfStructure(room, STRUCTURE_LINK) >= 2) {
             myRoom.roomStage = 4.8;
-            ReportController.log("STAGE", "Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " increased to room stage 4.8");
+            ReportController.log("STAGE: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " increased to room stage 4.8");
             return true;
         }
         return false;
@@ -21,7 +21,7 @@ export class Stage4_6 {
     public static down(myRoom: MyRoom, room: Room): boolean {
         if (HelperFunctions.amountOfStructure(room, STRUCTURE_LINK) < 2) {
             myRoom.roomStage = 4.6;
-            ReportController.log("STAGE", "Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " decreased to room stage 4.6");
+            ReportController.log("STAGE: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " decreased to room stage 4.6");
             return true;
         }
         return false;
@@ -52,9 +52,9 @@ export class Stage4_6 {
                 };
                 roomFlag.remove();
                 placedBankLink = true;
-                console.log("LOG: Placed a bank link construction site in " + HelperFunctions.roomNameAsLink(room.name));
+                ReportController.log("Placed a bank link construction site in " + HelperFunctions.roomNameAsLink(room.name));
             } else {
-                ReportController.log("ERROR", "Placing a bank link construction site errored in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                ReportController.log("ERROR: Placing a bank link construction site errored in " + HelperFunctions.roomNameAsLink(myRoom.name));
             }
         }
         if (myRoom.bankLink != null) {
@@ -70,7 +70,7 @@ export class Stage4_6 {
 
         if (!placedBankLink &&
             Game.rooms[myRoom.name].find(FIND_CONSTRUCTION_SITES).length === 0) {
-            console.log("ATTENTION: Room " + HelperFunctions.roomNameAsLink(room.name) + " needs bank link flag (link-bank-X)");
+            ReportController.log("ATTENTION: Room " + HelperFunctions.roomNameAsLink(room.name) + " needs bank link flag (link-bank-X)");
         }
 
         //Source links

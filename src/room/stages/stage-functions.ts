@@ -19,16 +19,16 @@ export class StageFunctions {
             if (extensionNumber <= numberOfExtensionsToBuild) {
                 const result: ScreepsReturnCode = Game.rooms[myRoom.name].createConstructionSite(roomFlag.pos, STRUCTURE_EXTENSION);
                 if (result === OK) {
-                    console.log("LOG: Placed extension construction site in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                    ReportController.log("Placed extension construction site in " + HelperFunctions.roomNameAsLink(myRoom.name));
                     roomFlag.remove();
                 } else if (result !== ERR_RCL_NOT_ENOUGH) {
-                    ReportController.log("ERROR", "Placing a extension construction site errored " + result + " in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                    ReportController.log("ERROR: Placing a extension construction site errored " + result + " in " + HelperFunctions.roomNameAsLink(myRoom.name));
                 }
             }
         }
 
         if (Game.rooms[myRoom.name].find(FIND_CONSTRUCTION_SITES).length === 0) {
-            console.log("ATTENTION: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " needs more extension flags (up to ex-" + numberOfExtensionsToBuild.toString() + ")");
+            ReportController.log("ATTENTION: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " needs more extension flags (up to ex-" + numberOfExtensionsToBuild.toString() + ")");
         }
     }
 
@@ -48,10 +48,10 @@ export class StageFunctions {
             if (towerNumber <= numberOfTowersToBuild) {
                 const result: ScreepsReturnCode = Game.rooms[myRoom.name].createConstructionSite(roomFlag.pos, STRUCTURE_TOWER);
                 if (result === OK) {
-                    console.log("LOG: Placed tower construction site in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                    ReportController.log("Placed tower construction site in " + HelperFunctions.roomNameAsLink(myRoom.name));
                     roomFlag.remove();
                 } else {
-                    ReportController.log("ERROR", "Placing a tower construction site errored in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                    ReportController.log("ERROR: Placing a tower construction site errored in " + HelperFunctions.roomNameAsLink(myRoom.name));
                 }
             }
         }
@@ -78,7 +78,7 @@ export class StageFunctions {
                     const mySource: MySource = myRoom.mySources[j];
                     const source: Source | null = Game.getObjectById<Source>(mySource.id);
                     if (source == null) {
-                        ReportController.log("ERROR", "Source was null when trying to get it by ID in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                        ReportController.log("ERROR: Source was null when trying to get it by ID in " + HelperFunctions.roomNameAsLink(myRoom.name));
                     } else {
                         if (source.pos.inRangeTo(roomFlag.pos, 2)) {
                             mySource.link = {
@@ -90,10 +90,10 @@ export class StageFunctions {
                     }
                 }
                 if (placedFully) {
-                    console.log("LOG: Placed source link construction site in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                    ReportController.log("Placed source link construction site in " + HelperFunctions.roomNameAsLink(myRoom.name));
                     roomFlag.remove();
                 } else {
-                    ReportController.log("ERROR", "Placed a construction site at a flag but couldn't find a source to give it to in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                    ReportController.log("ERROR: Placed a construction site at a flag but couldn't find a source to give it to in " + HelperFunctions.roomNameAsLink(myRoom.name));
                 }
             } //Don't worry about errors
         }
@@ -116,7 +116,7 @@ export class StageFunctions {
 
         if (!placedFully &&
             Game.rooms[myRoom.name].find(FIND_CONSTRUCTION_SITES).length === 0) {
-            console.log("ATTENTION: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " needs source link flag (link-source-X)");
+            ReportController.log("ATTENTION: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " needs source link flag (link-source-X)");
         }
     }
 
@@ -135,7 +135,7 @@ export class StageFunctions {
                     if (creep != null) {
                         creep.say("dthb4dshnr");
                         creep.suicide();
-                        console.log("LOG: " + HelperFunctions.roomNameAsLink(myRoom.name) + " clearHaulersAndCaches killed a hauler");
+                        ReportController.log("" + HelperFunctions.roomNameAsLink(myRoom.name) + " clearHaulersAndCaches killed a hauler");
                     }
                 }
                 mySource.haulerNames = [];
@@ -148,7 +148,7 @@ export class StageFunctions {
                         creep.say("dthb4dshnr");
                         creep.suicide();
                         mySource.minerName = null;
-                        console.log("LOG: " + HelperFunctions.roomNameAsLink(myRoom.name) + " clearHaulersAndCaches killed a miner with no CARRY");
+                        ReportController.log("" + HelperFunctions.roomNameAsLink(myRoom.name) + " clearHaulersAndCaches killed a miner with no CARRY");
                     }
                 }
 
@@ -161,7 +161,7 @@ export class StageFunctions {
                     } else {
                         cache.destroy();
                         mySource.cache.id = null;
-                        console.log("LOG: " + HelperFunctions.roomNameAsLink(myRoom.name) + " clearHaulersAndCaches destroyed a cache");
+                        ReportController.log("" + HelperFunctions.roomNameAsLink(myRoom.name) + " clearHaulersAndCaches destroyed a cache");
                     }
                 }
             }

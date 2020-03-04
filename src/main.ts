@@ -7,6 +7,9 @@ import {FunctionProfiler} from "./profiler/function-profiler/function-profiler";
 
 console.log("Script reloaded");
 
+delete Memory.myMemory.report;
+Memory.myMemory.reports = {};
+
 // for (let i: number = 0; i < Memory.myMemory.myRooms.length; i++) {
 //     const myRoom: MyRoom = Memory.myMemory.myRooms[i];
 //     for (let j: number = myRoom.myCreeps.length - 1; j >= 0; j--) {
@@ -51,10 +54,7 @@ function setupMyMemory(): void {
         Memory.myMemory = {
             globalId: 0,
             myRooms: [],
-            report: {
-                lastReportTimeStamp: new Date().getTime(),
-                reports: []
-            },
+            reports: {},
             empire: {
                 attackQuick: null,
                 attackPressure: null,

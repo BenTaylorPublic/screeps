@@ -32,7 +32,7 @@ export class RoleStocker {
 
     private static pickup(stocker: Stocker, myRoom: MyRoom, creep: Creep): void {
         if (myRoom.bankPos == null) {
-            ReportController.log("ERROR", "Room's bank pos was null in " + HelperFunctions.roomNameAsLink(myRoom.name));
+            ReportController.log("ERROR: Room's bank pos was null in " + HelperFunctions.roomNameAsLink(myRoom.name));
             return;
         }
 
@@ -41,7 +41,7 @@ export class RoleStocker {
         if (bankPos.isNearTo(creep)) {
             const bank: StructureStorage | null = myRoom.bank;
             if (bank == null) {
-                ReportController.log("ERROR", "Room's bank was null in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                ReportController.log("ERROR: Room's bank was null in " + HelperFunctions.roomNameAsLink(myRoom.name));
                 return;
             }
             if (bank.store.energy > 0) {

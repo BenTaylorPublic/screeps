@@ -35,6 +35,7 @@ export class Profiler {
                 } else if (arguments.length === 7) {
                     result = originalFunction.call(thing, arguments[0], arguments[1], arguments[2], arguments[3], arguments[4], arguments[5], arguments[6]);
                 } else {
+                    //Don't use report controller (infiniteloop?)
                     console.log("ERROR87: " + arguments.length);
                 }
 

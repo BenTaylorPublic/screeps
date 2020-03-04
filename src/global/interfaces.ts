@@ -2,7 +2,7 @@ interface MyMemory {
     globalId: number;
     myRooms: MyRoom[];
     empire: Empire;
-    report: ReportLog;
+    reports: ReportLog;
     scheduledCommands: ScheduledCommand[];
 }
 
@@ -250,18 +250,8 @@ interface Stocker extends MyCreep {
 ====================
 */
 interface ReportLog {
-    lastReportTimeStamp: number;
-    reports: Report[];
+    [key: string]: number; //Datetime
 }
-
-interface Report {
-    timeStamp: number;
-    tick: number;
-    messageType: ReportMessageType;
-    message: string;
-}
-
-type ReportMessageType = "DEFENCE" | "STAGE" | "ERROR" | "OTHER";
 
 /*
 ====================

@@ -1,3 +1,5 @@
+import {ReportController} from "../../reporting/report-controller";
+
 export class AttackHelperFunctions {
     public static getNewTargetIfNeeded(attackTarget: AttackTarget | null, flag: Flag): AttackTarget | null {
         if (attackTarget != null) {
@@ -46,7 +48,7 @@ export class AttackHelperFunctions {
 
         if (spawnTarget != null) {
             //Attacking a spawn
-            console.log("LOG: New Attack Target (Spawn) " + JSON.stringify(spawnTarget.roomObject.pos));
+            ReportController.log("New Attack Target (Spawn) " + JSON.stringify(spawnTarget.roomObject.pos));
             targetFlag.setPosition(spawnTarget.roomObject.pos);
             return {
                 roomObject: spawnTarget.roomObject,
@@ -68,7 +70,7 @@ export class AttackHelperFunctions {
 
         if (towerTarget != null) {
             //Attacking a tower
-            console.log("LOG: New Attack Target (Tower) " + JSON.stringify(towerTarget.roomObject.pos));
+            ReportController.log("New Attack Target (Tower) " + JSON.stringify(towerTarget.roomObject.pos));
             targetFlag.setPosition(towerTarget.roomObject.pos);
             return {
                 roomObject: towerTarget.roomObject,
@@ -85,7 +87,7 @@ export class AttackHelperFunctions {
 
         if (creepTarget != null) {
             //Attacking a creep
-            console.log("LOG: New Attack Target (Creep) " + JSON.stringify(creepTarget.roomObject.pos));
+            ReportController.log("New Attack Target (Creep) " + JSON.stringify(creepTarget.roomObject.pos));
             targetFlag.setPosition(creepTarget.roomObject.pos);
             return {
                 roomObject: creepTarget.roomObject,
@@ -106,7 +108,7 @@ export class AttackHelperFunctions {
 
         if (rampartTarget != null) {
             //Attacking a rampart
-            console.log("LOG: New Attack Target (Rampart) " + JSON.stringify(rampartTarget.roomObject.pos));
+            ReportController.log("New Attack Target (Rampart) " + JSON.stringify(rampartTarget.roomObject.pos));
             targetFlag.setPosition(rampartTarget.roomObject.pos);
             return {
                 roomObject: rampartTarget.roomObject,
@@ -127,7 +129,7 @@ export class AttackHelperFunctions {
 
         if (wallTarget != null) {
             //Attacking a wall
-            console.log("LOG: New Attack Target (Wall) " + JSON.stringify(wallTarget.roomObject.pos));
+            ReportController.log("New Attack Target (Wall) " + JSON.stringify(wallTarget.roomObject.pos));
             targetFlag.setPosition(wallTarget.roomObject.pos);
             return {
                 roomObject: wallTarget.roomObject,
@@ -137,7 +139,7 @@ export class AttackHelperFunctions {
         }
 
         //Nothing was found as pathable
-        console.log("LOG: Nothing pathable in getAttackTarget");
+        ReportController.log("Nothing pathable in getAttackTarget");
         targetFlag.remove();
         return null;
     }

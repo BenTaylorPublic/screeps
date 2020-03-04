@@ -2,6 +2,7 @@ import {HelperFunctions} from "../../global/helper-functions";
 import {Constants} from "../../global/constants";
 import {SpawnQueueController} from "../../global/spawn-queue-controller";
 import {SpawnConstants} from "../../global/spawn-constants";
+import {ReportController} from "../../reporting/report-controller";
 
 export class SpawnHauler {
     public static spawnHaulerLogic(myRoom: MyRoom): void {
@@ -26,7 +27,7 @@ export class SpawnHauler {
                 const newCreep: Hauler = this.spawnHaulerInternal(myRoom, mySource);
                 myRoom.myCreeps.push(newCreep);
                 mySource.haulerNames.push(newCreep.name);
-                console.log("LOG: Queued a new hauler in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                ReportController.log("Queued a new hauler in " + HelperFunctions.roomNameAsLink(myRoom.name));
 
                 //+50 for the ticks to make the body
                 const haulerCooldown: number = Math.round(

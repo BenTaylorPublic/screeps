@@ -3,6 +3,7 @@ import {HelperFunctions} from "../global/helper-functions";
 import {RolePowerScavAttackCreep} from "./role/power-scav-attack-creep";
 import {SpawnQueueController} from "../global/spawn-queue-controller";
 import {SpawnConstants} from "../global/spawn-constants";
+import {ReportController} from "../reporting/report-controller";
 
 export class PowerScavController {
 
@@ -52,7 +53,7 @@ export class PowerScavController {
         }
 
         //Otherwise, WE'RE GOOD, LET'S GO BOIZ
-        console.log("LOG: Power scavenging power bank in room " + HelperFunctions.roomNameAsLink(powerBank.room.name));
+        ReportController.log("Power scavenging power bank in room " + HelperFunctions.roomNameAsLink(powerBank.room.name));
 
         //This should reuse the rooms
         const roomsToSpawnThrough: string[] = [];
@@ -187,7 +188,7 @@ export class PowerScavController {
 
         const newCreep: PowerScavHaulCreep = this.spawnHaulCreep(bank, myRoom as MyRoom);
         myMemory.empire.creeps.push(newCreep);
-        console.log("LOG: Queued a new PowerScavHaulCreep in " + HelperFunctions.roomNameAsLink(myRoom.name));
+        ReportController.log("Queued a new PowerScavHaulCreep in " + HelperFunctions.roomNameAsLink(myRoom.name));
         bank.amountOfCarryBodyStillNeeded -= (sectionsNeeded * carryPerSection);
         if (bank.amountOfCarryBodyStillNeeded <= 0) {
             Game.notify("PowerScav: Queued all the haul creeps needed in " + HelperFunctions.roomNameAsLink(myRoom.name));
@@ -252,7 +253,7 @@ export class PowerScavController {
 
         const newCreep: PowerScavAttackCreep = this.spawnAttackCreep(bank, myRoom);
         bank.attackCreeps.push(newCreep);
-        console.log("LOG: Queued a new PowerScavAttackCreep in " + HelperFunctions.roomNameAsLink(myRoom.name));
+        ReportController.log("Queued a new PowerScavAttackCreep in " + HelperFunctions.roomNameAsLink(myRoom.name));
         bank.attackCreepsStillNeeded--;
         for (let j: number = 0; j < bank.attackCreeps.length; j++) {
             if (bank.attackCreeps[j].beenReplaced) {

@@ -51,7 +51,7 @@ export class MemoryController {
 
             if (myRoom == null) {
                 //Add it
-                ReportController.log("OTHER", "Adding a new room to memory " + HelperFunctions.roomNameAsLink(roomName));
+                ReportController.log("Adding a new room to memory " + HelperFunctions.roomNameAsLink(roomName));
                 const newMyRoom: MyRoom = {
                     name: roomName,
                     myCreeps: [],
@@ -114,7 +114,7 @@ export class MemoryController {
             if (room == null ||
                 room.controller == null ||
                 room.controller.my === false) {
-                console.log("OTHER", "Removing room from memory" + HelperFunctions.roomNameAsLink(myRoom.name));
+                ReportController.log("Removing room from memory" + HelperFunctions.roomNameAsLink(myRoom.name));
                 Memory.myMemory.myRooms.splice(i, 1);
                 continue;
             }
@@ -139,7 +139,7 @@ export class MemoryController {
                     mySource.minerName = null;
                 }
             }
-            console.log("LOG: A Miner has died in " + HelperFunctions.roomNameAsLink(myRoom.name));
+            ReportController.log("A Miner has died in " + HelperFunctions.roomNameAsLink(myRoom.name));
         } else if (myCreep.role === "Hauler") {
             for (let i = 0; i < myRoom.mySources.length; i++) {
                 const mySource: MySource = myRoom.mySources[i];
@@ -149,18 +149,18 @@ export class MemoryController {
                     }
                 }
             }
-            console.log("LOG: A Hauler has died in " + HelperFunctions.roomNameAsLink(myRoom.name));
+            ReportController.log("A Hauler has died in " + HelperFunctions.roomNameAsLink(myRoom.name));
         } else if (myCreep.role === "Laborer") {
-            console.log("LOG: A Laborer has died in " + HelperFunctions.roomNameAsLink(myRoom.name));
+            ReportController.log("A Laborer has died in " + HelperFunctions.roomNameAsLink(myRoom.name));
         } else if (myCreep.role === "Claimer") {
-            console.log("LOG: A Claimer has died in " + HelperFunctions.roomNameAsLink(myRoom.name));
+            ReportController.log("A Claimer has died in " + HelperFunctions.roomNameAsLink(myRoom.name));
         } else if (myCreep.role === "BankLinker") {
             myRoom.bankLinkerName = null;
-            console.log("LOG: A BankLinker has died in " + HelperFunctions.roomNameAsLink(myRoom.name));
+            ReportController.log("A BankLinker has died in " + HelperFunctions.roomNameAsLink(myRoom.name));
         } else if (myCreep.role === "Stocker") {
-            console.log("LOG: A Stocker has died in " + HelperFunctions.roomNameAsLink(myRoom.name));
+            ReportController.log("A Stocker has died in " + HelperFunctions.roomNameAsLink(myRoom.name));
         } else {
-            ReportController.log("ERROR", "A Creep with a weird role has died: " + myCreep.role + " in " + HelperFunctions.roomNameAsLink(myRoom.name));
+            ReportController.log("ERROR: A Creep with a weird role has died: " + myCreep.role + " in " + HelperFunctions.roomNameAsLink(myRoom.name));
         }
     }
 

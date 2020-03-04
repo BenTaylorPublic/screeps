@@ -27,7 +27,7 @@ export class AttackPressureController {
             if (batch.state === "Conscripting") {
                 flag = Game.flags["attack-pressure-rally"];
                 if (flag == null) {
-                    ReportController.log("ERROR", "attack-pressure-rally flag doesn't exist during AttackPressure. Cancelling the attack.");
+                    ReportController.log("ERROR: attack-pressure-rally flag doesn't exist during AttackPressure. Cancelling the attack.");
                     this.endAttack();
                     return;
                 }
@@ -36,7 +36,7 @@ export class AttackPressureController {
             if (batch.state === "Rally") {
                 flag = Game.flags["attack-pressure-rally"];
                 if (flag == null) {
-                    ReportController.log("ERROR", "attack-pressure-rally flag doesn't exist during AttackPressure. Cancelling the attack.");
+                    ReportController.log("ERROR: attack-pressure-rally flag doesn't exist during AttackPressure. Cancelling the attack.");
                     this.endAttack();
                     return;
                 }
@@ -49,7 +49,7 @@ export class AttackPressureController {
             if (batch.state === "Charge") {
                 flag = Game.flags["attack-pressure-room-target"];
                 if (flag == null) {
-                    ReportController.log("ERROR", "attack-pressure-room-target flag doesn't exist during AttackPressure. Cancelling the attack.");
+                    ReportController.log("ERROR: attack-pressure-room-target flag doesn't exist during AttackPressure. Cancelling the attack.");
                     this.endAttack();
                     return;
                 }
@@ -95,7 +95,7 @@ export class AttackPressureController {
             }
         }
         if (attackPressure.roomsInRange.length === 0) {
-            console.log("LOG: Canceling an AttackPressure because no rooms were in conscription range.");
+            ReportController.log("Canceling an AttackPressure because no rooms were in conscription range.");
             this.endAttack();
             return null;
         }
@@ -103,8 +103,7 @@ export class AttackPressureController {
         //Remove the ", " from the last one
         outputMessage = outputMessage.slice(0, outputMessage.length - 2);
 
-        console.log("AttackPressure: " + attackPressure.roomsInRange.length +
-            " Rooms conscripted for AttackPressure (" + outputMessage + ")");
+        ReportController.log("AttackPressure: " + attackPressure.roomsInRange.length + " Rooms conscripted for AttackPressure (" + outputMessage + ")");
 
         this.startBatch(attackPressure);
 
@@ -142,7 +141,7 @@ export class AttackPressureController {
         }
         if (allCreepsAtFlag) {
             //If it gets here, we're ready to charge!
-            console.log("LOG: AttackPressure Charge");
+            ReportController.log("AttackPressure Charge");
             batch.state = "Charge";
             return true;
         }
@@ -154,7 +153,7 @@ export class AttackPressureController {
         for (let i = batch.roomsStillToProvide.length - 1; i >= 0; i--) {
             const myRoom: MyRoom = HelperFunctions.getMyRoomByName(batch.roomsStillToProvide[i]) as MyRoom;
             const attackPressureCreep: AttackPressureCreep = this.spawnAttackPressureCreep(myRoom, batch.batchNumber);
-            console.log("LOG: " + HelperFunctions.roomNameAsLink(myRoom.name) + " has been conscripted " + attackPressureCreep.name + " for AttackPressure");
+            ReportController.log("" + HelperFunctions.roomNameAsLink(myRoom.name) + " has been conscripted " + attackPressureCreep.name + " for AttackPressure");
 
             ScheduleController.scheduleForNextTick("SET_FALSE_ON_PENDING_CONSCRIPTED_CREEP", myRoom.name);
 
@@ -201,7 +200,7 @@ export class AttackPressureController {
             myRoom.pendingConscriptedCreep = true;
         }
 
-        console.log("Conscripting for batch " + attackPressure.batchesStarted);
+        ReportController.log("Conscripting for batch " + attackPressure.batchesStarted);
         attackPressure.batchesStarted++;
     }
 
@@ -211,7 +210,7 @@ export class AttackPressureController {
 
         for (let i = empire.creeps.length - 1; i >= 0; i--) {
             if (empire.creeps[i].role === "AttackPressureCreep") {
-                console.log("LOG: Killing AttackPressureCreep " + empire.creeps[i].name);
+                ReportController.log("Killing AttackPressureCreep " + empire.creeps[i].name);
                 Game.creeps[empire.creeps[i].name].suicide();
             }
         }

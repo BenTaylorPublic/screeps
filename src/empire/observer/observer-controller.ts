@@ -1,5 +1,6 @@
 import {HelperFunctions} from "../../global/helper-functions";
 import {PowerScavController} from "../power-scav-controller";
+import {ReportController} from "../../reporting/report-controller";
 
 export class ObserverController {
     public static run(myMemory: MyMemory): void {
@@ -26,12 +27,12 @@ export class ObserverController {
             HelperFunctions.isMiddle3x3(room.name)) {
             //Room is hostile
             if (!empireMemory.avoidRooms.includes(room.name)) {
-                console.log("LOG: Added " + HelperFunctions.roomNameAsLink(room.name) + " to avoid list");
+                ReportController.log("Added " + HelperFunctions.roomNameAsLink(room.name) + " to avoid list");
                 empireMemory.avoidRooms.push(room.name);
             }
         } else {
             if (empireMemory.avoidRooms.includes(room.name)) {
-                console.log("LOG: Removing " + HelperFunctions.roomNameAsLink(room.name) + " from avoid list");
+                ReportController.log("Removing " + HelperFunctions.roomNameAsLink(room.name) + " from avoid list");
                 empireMemory.avoidRooms.splice(empireMemory.avoidRooms.indexOf(room.name), 1);
             }
             //Check if is highway
@@ -78,7 +79,7 @@ export class ObserverController {
         } else { //Observing
             const room: Room | null = Game.rooms[observerMemory.targetList[observerMemory.currentTargetIndex]];
             if (room == null) {
-                console.log("ERROR: Room from observer was null");
+                ReportController.log("ERROR: Room from observer was null");
             } else {
                 this.observe(room, myMemory);
             }
