@@ -37,7 +37,9 @@ export class RoomTowerController {
             if (target != null) {
                 tower.attack(target);
                 if (target.owner.username !== "Invader") {
-                    ReportController.log("Tower attacking target with name " + target.name + " Owner: " + target.owner.username + " in " + HelperFunctions.roomNameAsLink(tower.room.name));
+                    ReportController.log("Tower attacking target with name " + target.name + " Owner: " + target.owner.username + " in " + HelperFunctions.roomNameAsLink(tower.room.name)
+                        , true,
+                        0);
                 }
                 return;
             }

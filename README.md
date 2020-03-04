@@ -4,11 +4,6 @@
 ## TODO
 ### Working on
 ```
-Report/Emails
-    Cooldown enum when logging
-    Convert current logs to it
-        Any that aren't worth emailing, switch to console logs
-
 ATTENTION
     Need an ATTENTION for towers
     Need an ATTENTION for bank (storage)
@@ -29,7 +24,6 @@ Flag helper function to get flags
         Returns an array (and another version of it returns a Flag | null
 
 Observers
-    Add a "Weakling to crush" for RCL levels 1 and 2
     Rework system:
         Allow more than one obs
         Somehow stop overlaps

@@ -1,6 +1,7 @@
 import {HelperFunctions} from "../../global/helper-functions";
 import {PowerScavController} from "../power-scav-controller";
 import {ReportController} from "../../reporting/report-controller";
+import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
 
 export class ObserverController {
     public static run(myMemory: MyMemory): void {
@@ -19,20 +20,37 @@ export class ObserverController {
     private static observe(room: Room, myMemory: MyMemory): void {
         const empireMemory: Empire = myMemory.empire;
 
+        let avoid: boolean = false;
+
         if ((room.controller != null &&
             room.controller.my === false &&
-            room.controller.level >= 3 &&
             room.controller.owner != null &&
-            !HelperFunctions.isAllyUsername(room.controller.owner.username)) ||
-            HelperFunctions.isMiddle3x3(room.name)) {
-            //Room is hostile
+            !HelperFunctions.isAllyUsername(room.controller.owner.username))) {
+            if (room.controller.level >= 3) {
+                avoid = true;
+            } else {
+                //Low level (no towers)
+                ReportController.log("Scrubs in your local area want to get wrecked " + HelperFunctions.roomNameAsLink(room.name),
+                    true,
+                    ReportCooldownConstants.DAY);
+            }
+        } else if (HelperFunctions.isMiddle3x3(room.name)) {
+            avoid = true;
+        }
+
+
+        if (avoid) {
             if (!empireMemory.avoidRooms.includes(room.name)) {
-                ReportController.log("Added " + HelperFunctions.roomNameAsLink(room.name) + " to avoid list");
+                ReportController.log("Added " + HelperFunctions.roomNameAsLink(room.name) + " to avoid list",
+                    true,
+                    ReportCooldownConstants.DAY);
                 empireMemory.avoidRooms.push(room.name);
             }
         } else {
             if (empireMemory.avoidRooms.includes(room.name)) {
-                ReportController.log("Removing " + HelperFunctions.roomNameAsLink(room.name) + " from avoid list");
+                ReportController.log("Removing " + HelperFunctions.roomNameAsLink(room.name) + " from avoid list",
+                    true,
+                    ReportCooldownConstants.DAY);
                 empireMemory.avoidRooms.splice(empireMemory.avoidRooms.indexOf(room.name), 1);
             }
             //Check if is highway
