@@ -4,10 +4,6 @@
 ## TODO
 ### Working on
 ```
-Split report log and report email
-
-Every 100 ticks, clear Memory.myMemory.reports
-
 Convert logs to emails
     Attentions, 1 day
     Errors, 1 minute
