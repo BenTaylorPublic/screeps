@@ -1,5 +1,6 @@
 import {HelperFunctions} from "../../global/helper-functions";
 import {ReportController} from "../../reporting/report-controller";
+import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
 
 // tslint:disable-next-line: class-name
 export class Stage0_5 {
@@ -30,7 +31,8 @@ export class Stage0_5 {
 
     private static step(myRoom: MyRoom, room: Room): void {
         if (Game.rooms[myRoom.name].find(FIND_CONSTRUCTION_SITES).length === 0) {
-            ReportController.log("ATTENTION: Room " + HelperFunctions.roomNameAsLink(room.name) + " needs first spawn, which should be manually placed");
+            ReportController.email("ATTENTION: Room " + HelperFunctions.roomNameAsLink(room.name) + " needs first spawn, which should be manually placed",
+                ReportCooldownConstants.DAY);
         }
     }
 }

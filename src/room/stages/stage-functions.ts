@@ -1,5 +1,6 @@
 import {HelperFunctions} from "../../global/helper-functions";
 import {ReportController} from "../../reporting/report-controller";
+import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
 
 export class StageFunctions {
 
@@ -28,7 +29,8 @@ export class StageFunctions {
         }
 
         if (Game.rooms[myRoom.name].find(FIND_CONSTRUCTION_SITES).length === 0) {
-            ReportController.log("ATTENTION: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " needs more extension flags (up to ex-" + numberOfExtensionsToBuild.toString() + ")");
+            ReportController.email("ATTENTION: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " needs more extension flags (up to ex-" + numberOfExtensionsToBuild.toString() + ")",
+                ReportCooldownConstants.DAY);
         }
     }
 
@@ -116,7 +118,8 @@ export class StageFunctions {
 
         if (!placedFully &&
             Game.rooms[myRoom.name].find(FIND_CONSTRUCTION_SITES).length === 0) {
-            ReportController.log("ATTENTION: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " needs source link flag (link-source-X)");
+            ReportController.email("ATTENTION: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " needs source link flag (link-source-X)",
+                ReportCooldownConstants.DAY);
         }
     }
 

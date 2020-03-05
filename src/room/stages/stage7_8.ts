@@ -1,5 +1,6 @@
 import {HelperFunctions} from "../../global/helper-functions";
 import {ReportController} from "../../reporting/report-controller";
+import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
 
 // tslint:disable-next-line: class-name
 export class Stage7_8 {
@@ -60,7 +61,8 @@ export class Stage7_8 {
 
         if (!placedPowerSpawn &&
             room.find(FIND_CONSTRUCTION_SITES).length === 0) {
-            ReportController.log("ATTENTION: Room " + HelperFunctions.roomNameAsLink(room.name) + " needs a power spawn flag (power-spawn)");
+            ReportController.email("ATTENTION: Room " + HelperFunctions.roomNameAsLink(room.name) + " needs a power spawn flag (power-spawn)",
+                ReportCooldownConstants.DAY);
         }
     }
 }

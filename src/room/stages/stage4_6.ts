@@ -1,6 +1,7 @@
 import {HelperFunctions} from "../../global/helper-functions";
 import {StageFunctions} from "./stage-functions";
 import {ReportController} from "../../reporting/report-controller";
+import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
 
 // tslint:disable-next-line: class-name
 export class Stage4_6 {
@@ -70,7 +71,8 @@ export class Stage4_6 {
 
         if (!placedBankLink &&
             Game.rooms[myRoom.name].find(FIND_CONSTRUCTION_SITES).length === 0) {
-            ReportController.log("ATTENTION: Room " + HelperFunctions.roomNameAsLink(room.name) + " needs bank link flag (link-bank-X)");
+            ReportController.email("ATTENTION: Room " + HelperFunctions.roomNameAsLink(room.name) + " needs bank link flag (link-bank-X)",
+                ReportCooldownConstants.DAY);
         }
 
         //Source links

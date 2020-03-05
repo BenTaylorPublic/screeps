@@ -1,5 +1,6 @@
 import {HelperFunctions} from "../../global/helper-functions";
 import {ReportController} from "../../reporting/report-controller";
+import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
 
 // tslint:disable-next-line: class-name
 export class Stage5_8 {
@@ -47,7 +48,8 @@ export class Stage5_8 {
 
         if (!placedTerminal &&
             room.find(FIND_CONSTRUCTION_SITES).length === 0) {
-            ReportController.log("ATTENTION: Room " + HelperFunctions.roomNameAsLink(room.name) + " needs a terminal flag (terminal)");
+            ReportController.email("ATTENTION: Room " + HelperFunctions.roomNameAsLink(room.name) + " needs a terminal flag (terminal)",
+                ReportCooldownConstants.DAY);
         }
     }
 }

@@ -1,5 +1,6 @@
 import {HelperFunctions} from "../../global/helper-functions";
 import {ReportController} from "../../reporting/report-controller";
+import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
 
 // tslint:disable-next-line: class-name
 export class Stage1_6 {
@@ -104,7 +105,8 @@ export class Stage1_6 {
 
         if (flagsPlaced !== myRoom.mySources.length &&
             room.find(FIND_CONSTRUCTION_SITES).length === 0) {
-            ReportController.log("ATTENTION: Room " + HelperFunctions.roomNameAsLink(room.name) + " needs cache container flag (cont)");
+            ReportController.email("ATTENTION: Room " + HelperFunctions.roomNameAsLink(room.name) + " needs cache container flag (cont)",
+                ReportCooldownConstants.DAY);
         }
     }
 
