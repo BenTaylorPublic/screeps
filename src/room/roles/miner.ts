@@ -15,7 +15,7 @@ export class RoleMiner {
             //In location
             const source: Source | null = Game.getObjectById<Source>(miner.sourceId);
             if (source == null) {
-                ReportController.log("ERROR: Miner has been given a source which is null. Creep ID: " + miner.name + " in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                ReportController.email("ERROR: Miner has been given a source which is null. Creep ID: " + miner.name + " in " + HelperFunctions.roomNameAsLink(myRoom.name));
                 return;
             }
 
@@ -44,7 +44,7 @@ export class RoleMiner {
                 if (link == null) {
                     //Setting it to null, so it doesn't do this every loop
                     miner.linkIdToDepositTo = null;
-                    ReportController.log("ERROR: A miner's link ID to deposit in was null in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                    ReportController.email("ERROR: A miner's link ID to deposit in was null in " + HelperFunctions.roomNameAsLink(myRoom.name));
                     return;
                 }
                 creep.transfer(link, RESOURCE_ENERGY);

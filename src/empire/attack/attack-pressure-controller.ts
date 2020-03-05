@@ -27,7 +27,7 @@ export class AttackPressureController {
             if (batch.state === "Conscripting") {
                 flag = Game.flags["attack-pressure-rally"];
                 if (flag == null) {
-                    ReportController.log("ERROR: attack-pressure-rally flag doesn't exist during AttackPressure. Cancelling the attack.");
+                    ReportController.email("ERROR: attack-pressure-rally flag doesn't exist during AttackPressure. Cancelling the attack.");
                     this.endAttack();
                     return;
                 }
@@ -36,7 +36,7 @@ export class AttackPressureController {
             if (batch.state === "Rally") {
                 flag = Game.flags["attack-pressure-rally"];
                 if (flag == null) {
-                    ReportController.log("ERROR: attack-pressure-rally flag doesn't exist during AttackPressure. Cancelling the attack.");
+                    ReportController.email("ERROR: attack-pressure-rally flag doesn't exist during AttackPressure. Cancelling the attack.");
                     this.endAttack();
                     return;
                 }
@@ -49,7 +49,7 @@ export class AttackPressureController {
             if (batch.state === "Charge") {
                 flag = Game.flags["attack-pressure-room-target"];
                 if (flag == null) {
-                    ReportController.log("ERROR: attack-pressure-room-target flag doesn't exist during AttackPressure. Cancelling the attack.");
+                    ReportController.email("ERROR: attack-pressure-room-target flag doesn't exist during AttackPressure. Cancelling the attack.");
                     this.endAttack();
                     return;
                 }

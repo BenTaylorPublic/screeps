@@ -12,7 +12,7 @@ export class RoleBankLinker {
         if (creep.store.getFreeCapacity() === 0) {
             const bank: StructureStorage | null = myRoom.bank;
             if (bank == null) {
-                ReportController.log("ERROR: Bank was null for a bank linker in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                ReportController.email("ERROR: Bank was null for a bank linker in " + HelperFunctions.roomNameAsLink(myRoom.name));
                 return;
             }
 
@@ -22,12 +22,12 @@ export class RoleBankLinker {
         } else {
             if (myRoom.bankLink == null ||
                 myRoom.bankLink.id == null) {
-                ReportController.log("ERROR: Bank Link was null for a bank linker in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                ReportController.email("ERROR: Bank Link was null for a bank linker in " + HelperFunctions.roomNameAsLink(myRoom.name));
                 return;
             }
             const link: StructureLink | null = Game.getObjectById(myRoom.bankLink.id);
             if (link == null) {
-                ReportController.log("ERROR: Bank Link was null for a bank linker in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                ReportController.email("ERROR: Bank Link was null for a bank linker in " + HelperFunctions.roomNameAsLink(myRoom.name));
                 return;
             }
 

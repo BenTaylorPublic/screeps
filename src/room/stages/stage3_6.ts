@@ -51,7 +51,7 @@ export class Stage3_6 {
                     roomFlag.remove();
 
                 } else {
-                    ReportController.log("ERROR: Placing a storage bank construction site errored in " + HelperFunctions.roomNameAsLink(room.name));
+                    ReportController.email("ERROR: Placing a storage bank construction site errored in " + HelperFunctions.roomNameAsLink(room.name));
                 }
             }
         }

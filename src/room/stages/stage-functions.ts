@@ -22,7 +22,7 @@ export class StageFunctions {
                     ReportController.log("Placed extension construction site in " + HelperFunctions.roomNameAsLink(myRoom.name));
                     roomFlag.remove();
                 } else if (result !== ERR_RCL_NOT_ENOUGH) {
-                    ReportController.log("ERROR: Placing a extension construction site errored " + result + " in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                    ReportController.email("ERROR: Placing a extension construction site errored " + result + " in " + HelperFunctions.roomNameAsLink(myRoom.name));
                 }
             }
         }
@@ -51,7 +51,7 @@ export class StageFunctions {
                     ReportController.log("Placed tower construction site in " + HelperFunctions.roomNameAsLink(myRoom.name));
                     roomFlag.remove();
                 } else {
-                    ReportController.log("ERROR: Placing a tower construction site errored in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                    ReportController.email("ERROR: Placing a tower construction site errored in " + HelperFunctions.roomNameAsLink(myRoom.name));
                 }
             }
         }
@@ -78,7 +78,7 @@ export class StageFunctions {
                     const mySource: MySource = myRoom.mySources[j];
                     const source: Source | null = Game.getObjectById<Source>(mySource.id);
                     if (source == null) {
-                        ReportController.log("ERROR: Source was null when trying to get it by ID in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                        ReportController.email("ERROR: Source was null when trying to get it by ID in " + HelperFunctions.roomNameAsLink(myRoom.name));
                     } else {
                         if (source.pos.inRangeTo(roomFlag.pos, 2)) {
                             mySource.link = {
@@ -93,7 +93,7 @@ export class StageFunctions {
                     ReportController.log("Placed source link construction site in " + HelperFunctions.roomNameAsLink(myRoom.name));
                     roomFlag.remove();
                 } else {
-                    ReportController.log("ERROR: Placed a construction site at a flag but couldn't find a source to give it to in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                    ReportController.email("ERROR: Placed a construction site at a flag but couldn't find a source to give it to in " + HelperFunctions.roomNameAsLink(myRoom.name));
                 }
             } //Don't worry about errors
         }

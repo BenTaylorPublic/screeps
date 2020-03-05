@@ -17,7 +17,7 @@ export class RoleClaimer {
         }
 
         if (creep.room.controller == null) {
-            ReportController.log("ERROR: Claimer can't claim a room with no controller in " + HelperFunctions.roomNameAsLink(creep.room.name));
+            ReportController.email("ERROR: Claimer can't claim a room with no controller in " + HelperFunctions.roomNameAsLink(creep.room.name));
             return;
         }
         if (creep.claimController(creep.room.controller) === ERR_NOT_IN_RANGE) {

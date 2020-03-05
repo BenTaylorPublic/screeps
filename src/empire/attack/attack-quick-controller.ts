@@ -14,7 +14,7 @@ export class AttackQuickController {
         if (attackQuick.state === "Conscripting") {
             flag = Game.flags["attack-quick-rally"];
             if (flag == null) {
-                ReportController.log("ERROR: attack-quick-rally flag doesn't exist during AttackQuick. Cancelling the attack.");
+                ReportController.email("ERROR: attack-quick-rally flag doesn't exist during AttackQuick. Cancelling the attack.");
                 this.endAttack();
                 return;
             }
@@ -42,7 +42,7 @@ export class AttackQuickController {
         if (attackQuick.state === "Rally") {
             flag = Game.flags["attack-quick-rally"];
             if (flag == null) {
-                ReportController.log("ERROR: attack-quick-rally flag doesn't exist during AttackQuick. Cancelling the attack.");
+                ReportController.email("ERROR: attack-quick-rally flag doesn't exist during AttackQuick. Cancelling the attack.");
                 this.endAttack();
                 return;
             }
@@ -71,7 +71,7 @@ export class AttackQuickController {
         if (attackQuick.state === "Charge") {
             flag = Game.flags["attack-quick-room-target"];
             if (flag == null) {
-                ReportController.log("ERROR: attack-quick-room-target flag doesn't exist during AttackQuick. Cancelling the attack.");
+                ReportController.email("ERROR: attack-quick-room-target flag doesn't exist during AttackQuick. Cancelling the attack.");
                 this.endAttack();
                 return;
             }

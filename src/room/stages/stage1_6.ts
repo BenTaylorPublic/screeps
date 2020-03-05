@@ -58,7 +58,7 @@ export class Stage1_6 {
                     const mySource: MySource = myRoom.mySources[j];
                     const source: Source | null = Game.getObjectById<Source>(mySource.id);
                     if (source == null) {
-                        ReportController.log("ERROR: Source was null when trying to get it by ID in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                        ReportController.email("ERROR: Source was null when trying to get it by ID in " + HelperFunctions.roomNameAsLink(myRoom.name));
                     } else {
                         if (source.pos.inRangeTo(roomFlag.pos, 1)) {
                             mySource.cache = {
@@ -79,11 +79,11 @@ export class Stage1_6 {
                     ReportController.log("Placed container cache construction site in " + HelperFunctions.roomNameAsLink(room.name));
                     roomFlag.remove();
                 } else {
-                    ReportController.log("ERROR: Placed a construction site at a flag but couldn't find a source to give it to, in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                    ReportController.email("ERROR: Placed a construction site at a flag but couldn't find a source to give it to, in " + HelperFunctions.roomNameAsLink(myRoom.name));
                 }
 
             } else {
-                ReportController.log("ERROR: Placing a container cache construction site errored in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                ReportController.email("ERROR: Placing a container cache construction site errored in " + HelperFunctions.roomNameAsLink(myRoom.name));
             }
         }
 

@@ -27,7 +27,7 @@ export class ScheduleController {
             }
         }
 
-        ReportController.log("ERROR: Failed to find the room to set pendingConscriptedCreep to false. roomName: " + HelperFunctions.roomNameAsLink(roomName));
+        ReportController.email("ERROR: Failed to find the room to set pendingConscriptedCreep to false. roomName: " + HelperFunctions.roomNameAsLink(roomName));
     }
 
 }

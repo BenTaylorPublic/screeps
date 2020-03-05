@@ -50,7 +50,7 @@ export class SpawnClaimerController {
         const spawn: StructureSpawn | null = HelperFunctions.findClosestSpawn(flag.pos);
         if (spawn == null) {
             flag.remove();
-            ReportController.log("ERROR: Couldn't find a spawn to make a claimer for " + HelperFunctions.roomNameAsLink(flag.pos.roomName));
+            ReportController.email("ERROR: Couldn't find a spawn to make a claimer for " + HelperFunctions.roomNameAsLink(flag.pos.roomName));
             return null;
         }
 

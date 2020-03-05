@@ -19,7 +19,7 @@ export class BuildObserverController {
         if (result === OK) {
             flag.remove();
         } else {
-            ReportController.log("ERROR: Failed to place observer: " + result);
+            ReportController.email("ERROR: Failed to place observer: " + result);
         }
     }
 

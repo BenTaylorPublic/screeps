@@ -342,11 +342,11 @@ export class HelperFunctions {
             }
         });
         if (result1 === ERR_NO_PATH) {
-            ReportController.log("ERROR: getInterRoomTravelPath got ERRO_NO_PATH for " + HelperFunctions.roomNameAsLink(fromRoomName) + " to " + HelperFunctions.roomNameAsLink(toRoomName));
+            ReportController.email("ERROR: getInterRoomTravelPath got ERRO_NO_PATH for " + HelperFunctions.roomNameAsLink(fromRoomName) + " to " + HelperFunctions.roomNameAsLink(toRoomName));
             return null;
         }
         if (result1.length <= 0) {
-            ReportController.log("ERROR: getInterRoomTravelPath length <= 0 for " + HelperFunctions.roomNameAsLink(fromRoomName) + " to " + HelperFunctions.roomNameAsLink(toRoomName));
+            ReportController.email("ERROR: getInterRoomTravelPath length <= 0 for " + HelperFunctions.roomNameAsLink(fromRoomName) + " to " + HelperFunctions.roomNameAsLink(toRoomName));
             return null;
         }
 
