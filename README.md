@@ -4,12 +4,6 @@
 ## TODO
 ### Working on
 ```
-Convert logs to emails
-    Attentions, 1 day
-    Errors, 1 minute
-    Stage downgrades, 0
-    Stage upgrade, 0
-
 ATTENTION
     Need an ATTENTION for towers
     Need an ATTENTION for bank (storage)
