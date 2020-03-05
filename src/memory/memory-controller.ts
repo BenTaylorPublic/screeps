@@ -9,6 +9,7 @@ export class MemoryController {
         this.cleanUpEmpireCreeps();
         this.getBanks();
         this.reduceCooldowns();
+        this.cleanupReportMap();
     }
 
     public static clearBanks(): void {
@@ -197,6 +198,22 @@ export class MemoryController {
                 if (mySource.haulerCooldown > 0) {
                     mySource.haulerCooldown--;
                 }
+            }
+        }
+    }
+
+    private static cleanupReportMap(): void {
+        if (Game.time % 100 !== 0) {
+            return;
+        }
+
+        const myMemory: MyMemory = Memory.myMemory;
+        const reports: string[] = Object.keys(myMemory.reports);
+        const now: number = new Date().getTime();
+        for (let i: number = 0; i < reports.length; i++) {
+            if (Memory.myMemory.reports[reports[i]] < now) {
+                console.log("Deleting report: " + reports[i]);
+                delete Memory.myMemory.reports[reports[i]];
             }
         }
     }
