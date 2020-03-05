@@ -7,17 +7,13 @@ export class ReportController {
     public static email(message: string, cooldown: number = 0): void {
         console.log(message);
 
-        if (Memory.myMemory.reports[message] == null) {
-            //Set it
-            if (cooldown > 0) {
-                Memory.myMemory.reports[message] = new Date().getTime() + cooldown;
-            }
-        } else {
-            if (new Date().getTime() < Memory.myMemory.reports[message]) {
-                //Return so it doesn't send email
-                return;
-            }
-            delete Memory.myMemory.reports[message];
+        if (Memory.myMemory.reports[message] != null &&
+            new Date().getTime() < Memory.myMemory.reports[message]) {
+            //Return so it doesn't send email
+            return;
+        }
+        if (cooldown > 0) {
+            Memory.myMemory.reports[message] = new Date().getTime() + cooldown;
         }
         //Send it
         Game.notify(Game.time + ": " + message);
