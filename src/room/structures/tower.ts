@@ -1,6 +1,7 @@
 import {HelperFunctions} from "../../global/helper-functions";
 import {Constants} from "../../global/constants";
 import {ReportController} from "../../reporting/report-controller";
+import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
 
 export class RoomTowerController {
     public static run(tower: StructureTower): void {
@@ -37,9 +38,8 @@ export class RoomTowerController {
             if (target != null) {
                 tower.attack(target);
                 if (target.owner.username !== "Invader") {
-                    ReportController.log("Tower attacking target with name " + target.name + " Owner: " + target.owner.username + " in " + HelperFunctions.roomNameAsLink(tower.room.name)
-                        , true,
-                        0);
+                    ReportController.email("Tower attacking target with name " + target.name + " Owner: " + target.owner.username + " in " + HelperFunctions.roomNameAsLink(tower.room.name),
+                        ReportCooldownConstants.NONE);
                 }
                 return;
             }

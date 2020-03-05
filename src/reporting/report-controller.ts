@@ -1,24 +1,26 @@
 export class ReportController {
 
-    public static log(message: string, email: boolean = false, cooldown: number = 0): void {
+    public static log(message: string): void {
+        console.log(message);
+    }
+
+    public static email(message: string, cooldown: number = 0): void {
         console.log(message);
 
-        if (email) {
-            if (Memory.myMemory.reports[message] == null) {
-                //Set it
-                if (cooldown > 0) {
-                    Memory.myMemory.reports[message] = new Date().getTime() + cooldown;
-                }
-            } else {
-                if (new Date().getTime() < Memory.myMemory.reports[message]) {
-                    //Return so it doesn't send email
-                    return;
-                }
-                delete Memory.myMemory.reports[message];
+        if (Memory.myMemory.reports[message] == null) {
+            //Set it
+            if (cooldown > 0) {
+                Memory.myMemory.reports[message] = new Date().getTime() + cooldown;
             }
-            //Send it
-            Game.notify(Game.time + ": " + message);
+        } else {
+            if (new Date().getTime() < Memory.myMemory.reports[message]) {
+                //Return so it doesn't send email
+                return;
+            }
+            delete Memory.myMemory.reports[message];
         }
+        //Send it
+        Game.notify(Game.time + ": " + message);
     }
 
     //@ts-ignore

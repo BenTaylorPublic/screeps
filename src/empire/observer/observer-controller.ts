@@ -30,8 +30,7 @@ export class ObserverController {
                 avoid = true;
             } else {
                 //Low level (no towers)
-                ReportController.log("Scrubs in your local area want to get wrecked " + HelperFunctions.roomNameAsLink(room.name),
-                    true,
+                ReportController.email("Scrubs in your local area want to get wrecked " + HelperFunctions.roomNameAsLink(room.name),
                     ReportCooldownConstants.DAY);
             }
         } else if (HelperFunctions.isMiddle3x3(room.name)) {
@@ -41,15 +40,13 @@ export class ObserverController {
 
         if (avoid) {
             if (!empireMemory.avoidRooms.includes(room.name)) {
-                ReportController.log("Added " + HelperFunctions.roomNameAsLink(room.name) + " to avoid list",
-                    true,
+                ReportController.email("Added " + HelperFunctions.roomNameAsLink(room.name) + " to avoid list",
                     ReportCooldownConstants.DAY);
                 empireMemory.avoidRooms.push(room.name);
             }
         } else {
             if (empireMemory.avoidRooms.includes(room.name)) {
-                ReportController.log("Removing " + HelperFunctions.roomNameAsLink(room.name) + " from avoid list",
-                    true,
+                ReportController.email("Removing " + HelperFunctions.roomNameAsLink(room.name) + " from avoid list",
                     ReportCooldownConstants.DAY);
                 empireMemory.avoidRooms.splice(empireMemory.avoidRooms.indexOf(room.name), 1);
             }
