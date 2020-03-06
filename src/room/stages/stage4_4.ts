@@ -1,5 +1,5 @@
-import { HelperFunctions } from "../../global/helper-functions";
-import { StageFunctions } from "./stage-functions";
+import {HelperFunctions} from "../../global/helper-functions";
+import {StageFunctions} from "./stage-functions";
 import {ReportController} from "../../reporting/report-controller";
 
 // tslint:disable-next-line: class-name
@@ -28,6 +28,6 @@ export class Stage4_4 {
     }
 
     private static step(myRoom: MyRoom, room: Room): void {
-        StageFunctions.buildExtensions(myRoom, 30);
+        StageFunctions.buildExtensions(myRoom, room, 30);
     }
 }

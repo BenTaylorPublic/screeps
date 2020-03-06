@@ -7,7 +7,6 @@
 ATTENTION
     Need an ATTENTION for towers
     Need an ATTENTION for bank (storage)
-    Fix ATTENTION for extensions (It logs on Stage+)
 ```
 ### Short term
 ```

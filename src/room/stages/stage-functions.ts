@@ -4,7 +4,7 @@ import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
 
 export class StageFunctions {
 
-    public static buildExtensions(myRoom: MyRoom, numberOfExtensionsToBuild: number): void {
+    public static buildExtensions(myRoom: MyRoom, room: Room, numberOfExtensionsToBuild: number): void {
         const roomFlags: Flag[] = HelperFunctions.getRoomsFlags(myRoom);
         for (let i = roomFlags.length - 1; i >= 0; i--) {
             const roomFlag: Flag = roomFlags[i];
@@ -28,7 +28,8 @@ export class StageFunctions {
             }
         }
 
-        if (Game.rooms[myRoom.name].find(FIND_CONSTRUCTION_SITES).length === 0) {
+        if (Game.rooms[myRoom.name].find(FIND_CONSTRUCTION_SITES).length === 0 &&
+            (HelperFunctions.amountOfStructure(room, STRUCTURE_EXTENSION) < numberOfExtensionsToBuild)) {
             ReportController.email("ATTENTION: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " needs more extension flags (up to ex-" + numberOfExtensionsToBuild.toString() + ")",
                 ReportCooldownConstants.DAY);
         }

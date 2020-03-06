@@ -28,6 +28,6 @@ export class Stage7_4 {
     }
 
     private static step(myRoom: MyRoom, room: Room): void {
-        StageFunctions.buildExtensions(myRoom, 60);
+        StageFunctions.buildExtensions(myRoom, room, 60);
     }
 }
