@@ -1,5 +1,6 @@
 import {HelperFunctions} from "../../global/helper-functions";
 import {ReportController} from "../../reporting/report-controller";
+import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
 
 // tslint:disable-next-line: class-name
 export class Stage3_6 {
@@ -54,6 +55,12 @@ export class Stage3_6 {
                     ReportController.email("ERROR: Placing a storage bank construction site errored in " + HelperFunctions.roomNameAsLink(room.name));
                 }
             }
+        }
+
+        if (Game.rooms[myRoom.name].find(FIND_CONSTRUCTION_SITES).length === 0 &&
+            (HelperFunctions.amountOfStructure(room, STRUCTURE_STORAGE) < 1)) {
+            ReportController.email("ATTENTION: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " needs a bank flag (storage)",
+                ReportCooldownConstants.DAY);
         }
     }
 }
