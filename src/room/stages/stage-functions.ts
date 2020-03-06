@@ -35,7 +35,7 @@ export class StageFunctions {
         }
     }
 
-    public static buildTowers(myRoom: MyRoom, numberOfTowersToBuild: number): void {
+    public static buildTowers(myRoom: MyRoom, room: Room, numberOfTowersToBuild: number): void {
         const roomFlags: Flag[] = HelperFunctions.getRoomsFlags(myRoom);
         for (let i = roomFlags.length - 1; i >= 0; i--) {
             const roomFlag: Flag = roomFlags[i];
@@ -57,6 +57,12 @@ export class StageFunctions {
                     ReportController.email("ERROR: Placing a tower construction site errored in " + HelperFunctions.roomNameAsLink(myRoom.name));
                 }
             }
+        }
+
+        if (Game.rooms[myRoom.name].find(FIND_CONSTRUCTION_SITES).length === 0 &&
+            (HelperFunctions.amountOfStructure(room, STRUCTURE_TOWER) < numberOfTowersToBuild)) {
+            ReportController.email("ATTENTION: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " needs more tower flags (up to tower-" + numberOfTowersToBuild + ")",
+                ReportCooldownConstants.DAY);
         }
     }
 

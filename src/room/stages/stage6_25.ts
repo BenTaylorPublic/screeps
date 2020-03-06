@@ -28,6 +28,6 @@ export class Stage6_25 {
     }
 
     private static step(myRoom: MyRoom, room: Room): void {
-        StageFunctions.buildTowers(myRoom, 3);
+        StageFunctions.buildTowers(myRoom, room, 3);
     }
 }

@@ -5,7 +5,6 @@
 ### Working on
 ```
 ATTENTION
-    Need an ATTENTION for towers
     Need an ATTENTION for bank (storage)
 ```
 ### Short term
