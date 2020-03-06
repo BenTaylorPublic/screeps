@@ -31,14 +31,13 @@ import {Stage7_6} from "./stages/stage7_6";
 import {Stage7_8} from "./stages/stage7_8";
 
 export class RoomStageController {
-    public static run(myRoom: MyRoom): void {
+    public static run(myRoom: MyRoom, room: Room): void {
 
         if (Game.time % 10 !== 0) {
             //Only run every 10 ticks
             return;
         }
 
-        const room: Room = Game.rooms[myRoom.name];
 
         //Ups
         if (myRoom.roomStage === -1) {

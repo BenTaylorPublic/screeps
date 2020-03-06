@@ -8,7 +8,7 @@ import {ReportController} from "../../reporting/report-controller";
 import {HelperFunctions} from "../../global/helper-functions";
 
 export class RoomSpawnController {
-    public static run(myRoom: MyRoom): void {
+    public static run(myRoom: MyRoom, room: Room): void {
         if (Game.time % 10) {
             SpawnLaborer.laborerSpawnLogic(myRoom);
             SpawnHauler.spawnHaulerLogic(myRoom);
@@ -23,7 +23,7 @@ export class RoomSpawnController {
         const creepToSpawn: QueuedCreep = myRoom.spawnQueue[0];
         const body: BodyPartConstant[] = this.getBody(creepToSpawn, myRoom);
         const energyCost = HelperFunctions.bodyCost(body);
-        if (Game.rooms[myRoom.name].energyAvailable < energyCost) {
+        if (room.energyAvailable < energyCost) {
             //Too costly to spawn
             return;
         }

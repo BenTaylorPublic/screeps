@@ -20,21 +20,9 @@ export class RoomController {
         //Can still see the room
 
         const room: Room = Game.rooms[myRoom.name];
-
-        RoomStageController.run(myRoom);
-
-        RoomSpawnController.run(myRoom);
-
-        //Tower logic
-        const towers: StructureTower[] = room.find<StructureTower>(FIND_STRUCTURES, {
-            filter: {
-                structureType: STRUCTURE_TOWER,
-                my: true
-            }
-        });
-        for (let i = 0; i < towers.length; i++) {
-            RoomTowerController.run(towers[i]);
-        }
+        RoomStageController.run(myRoom, room);
+        RoomSpawnController.run(myRoom, room);
+        RoomTowerController.run(myRoom, room);
 
         const laborersStock: boolean = this.shouldLaborersStock(myRoom);
 

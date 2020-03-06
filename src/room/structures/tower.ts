@@ -4,7 +4,20 @@ import {ReportController} from "../../reporting/report-controller";
 import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
 
 export class RoomTowerController {
-    public static run(tower: StructureTower): void {
+    public static run(myRoom: MyRoom, room: Room): void {
+        //Tower logic
+        const towers: StructureTower[] = room.find<StructureTower>(FIND_STRUCTURES, {
+            filter: {
+                structureType: STRUCTURE_TOWER,
+                my: true
+            }
+        });
+        for (let i = 0; i < towers.length; i++) {
+            this.runTower(towers[i]);
+        }
+    }
+
+    private static runTower(tower: StructureTower): void {
 
         const hostileCreeps: Creep[] = tower.room.find(FIND_HOSTILE_CREEPS);
         if (hostileCreeps.length >= 1) {
