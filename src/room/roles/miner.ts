@@ -31,12 +31,19 @@ export class RoleMiner {
                         mySource = myRoom.mySources[i];
                     }
                 }
-
-                if (!(mySource.state === "Cache" &&
-                    mySource.cache != null &&
-                    mySource.cache.id != null &&
-                    (Game.getObjectById<StructureContainer>(mySource.cache.id) as StructureContainer).store.energy >= 2000)) {
+                if (mySource.state !== "Cache") {
                     creep.harvest(source);
+                } else if (mySource.cache != null &&
+                    mySource.cache.id != null) {
+                    const cache: StructureContainer | null = Game.getObjectById<StructureContainer>(mySource.cache.id);
+                    if (cache != null) {
+                        if (cache.store.energy < 2000) {
+                            creep.harvest(source);
+                        }
+                    } else {
+                        mySource.cache.id = null;
+                        ReportController.email("ERROR: Source cache returned null with get by ID in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                    }
                 }
             } else if (miner.linkIdToDepositTo != null &&
                 creep.store.energy > (creep.store.getCapacity() - miner.amountOfWork * 2)) {
