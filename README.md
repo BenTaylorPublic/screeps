@@ -117,6 +117,8 @@ spawn
 power-spawn
 observer-set-{WIDTH}
 
+sign
+sign-all
 claim
 report
 attack-quick-rally
