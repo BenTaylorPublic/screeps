@@ -5,7 +5,7 @@ import {SpawnQueueController} from "../../global/spawn-queue-controller";
 import {SpawnConstants} from "../../global/spawn-constants";
 
 export class SpawnLaborer {
-    public static laborerSpawnLogic(myRoom: MyRoom): void {
+    public static laborerSpawnLogic(myRoom: MyRoom, room: Room): void {
         let laborerCount: number = 0;
         for (let i = 0; i < myRoom.myCreeps.length; i++) {
             if (myRoom.myCreeps[i].role === "Laborer") {
@@ -22,6 +22,14 @@ export class SpawnLaborer {
             //Room stage 4 is when the bank is made
             //After then, haulers will exist
             forceSpawnlaborers = Constants.LABORERS_BEFORE_BANK - laborerCount;
+        }
+
+        //When stage 8, only spawn laborers when the controller is 50% on the way to downgrade
+        //Or, when a lot of energy (in trySpawnLaborer)
+        if (myRoom.roomStage === 8 &&
+            room.find(FIND_CONSTRUCTION_SITES).length === 0 &&
+            (room.controller as StructureController).ticksToDowngrade > Constants.STAGE_8_SPAWN_LABORERS_WHEN_CONTROLLER_BENEATH) {
+            forceSpawnlaborers = 0;
         }
 
         if (forceSpawnlaborers > 0) {

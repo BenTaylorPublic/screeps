@@ -10,7 +10,7 @@ import {HelperFunctions} from "../../global/helper-functions";
 export class RoomSpawnController {
     public static run(myRoom: MyRoom, room: Room): void {
         if (Game.time % 10) {
-            SpawnLaborer.laborerSpawnLogic(myRoom);
+            SpawnLaborer.laborerSpawnLogic(myRoom, room);
             SpawnHauler.spawnHaulerLogic(myRoom);
             SpawnStocker.spawnStocker(myRoom);
             SpawnMiner.minerSpawnLogic(myRoom);

@@ -1,5 +1,6 @@
 import {HelperFunctions} from "../../global/helper-functions";
 import {ReportController} from "../../reporting/report-controller";
+import {Constants} from "../../global/constants";
 
 export class RoleLaborer {
     public static run(laborer: Laborer, myRoom: MyRoom, laborersStock: boolean): void {
@@ -117,7 +118,7 @@ export class RoleLaborer {
         //Check if controller is anywhere close to downgrading
         let forceUpgradeController: boolean = false;
 
-        if (creep.room.controller != null && creep.room.controller.ticksToDowngrade < 5000) {
+        if (creep.room.controller != null && creep.room.controller.ticksToDowngrade < Constants.LABORERS_UPGRADE_WHEN_CONTROLLER_BENEATH) {
             forceUpgradeController = true;
             givenCommand = true;
         }

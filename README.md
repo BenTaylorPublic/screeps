@@ -34,12 +34,6 @@ Optional buildings
     Nuker
     Labs
 
-Room logic
-    Only do this after stockers
-    Scaling laborers value should be 200K energy
-    All stage 8 rooms maintain 1 small body laborer
-    At 200K, spawn big body laborers
-
 Stockers should pickup resources from the ground and containers, when they're bored
 
 Haulers should be re-Roled into Stockers instead of suiciding
