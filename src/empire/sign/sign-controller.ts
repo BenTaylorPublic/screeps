@@ -1,4 +1,3 @@
-import {Constants} from "../../global/constants";
 import {HelperFunctions} from "../../global/helper-functions";
 import {SpawnQueueController} from "../../global/spawn-queue-controller";
 import {SpawnConstants} from "../../global/spawn-constants";
@@ -18,9 +17,6 @@ export class SignController {
         let closestRoom: MyRoom | null = null;
         for (let i: number = 0; i < myMemory.myRooms.length; i++) {
             const myRoom: MyRoom = myMemory.myRooms[i];
-            if (myRoom.roomStage < Constants.POWER_SCAV_ROOM_STAGE) {
-                continue;
-            }
             const roomDistance = HelperFunctions.getRoomDistance(flag.pos.roomName, myRoom.name);
             if (roomDistance < closestDistance) {
                 closestRoom = myRoom;
