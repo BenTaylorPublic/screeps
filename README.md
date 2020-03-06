@@ -4,6 +4,8 @@
 ## TODO
 ### Working on
 ```
+Attack creeps are probably broken
+    Transfer them to the "assignedRoomName" system
 ```
 ### Short term
 ```
@@ -37,9 +39,6 @@ Room logic
     Scaling laborers value should be 200K energy
     All stage 8 rooms maintain 1 small body laborer
     At 200K, spawn big body laborers
-
-Attack creeps are probably broken
-    Transfer them to the "assignedRoomName" system
 
 Stockers should pickup resources from the ground and containers, when they're bored
 
