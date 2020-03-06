@@ -39,6 +39,10 @@ export class SignController {
             role: "Signer",
             assignedRoomName: flag.pos.roomName,
             spawningStatus: "queued",
+            roomMoveTarget: {
+                pos: null,
+                path: []
+            },
             signWords: "Just a cute lil coder (✿◠‿◠)"
         } as Signer);
 
