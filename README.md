@@ -4,17 +4,6 @@
 ## TODO
 ### Working on
 ```
-Defense/Tower system
-    Optimization
-        Get enemyCreeps before running the towers
-        Get hurt structures before running the towers
-        If both arrays empty, dont run towers at all
-        If enemyCreeps is empty, only use 1 tower to heal
-        Else, use all
-    For logging
-        Make it say "enemy entered", "enemy died"
-        It'll require a list on myRoom.enemyCreeps: string[] for their names
-            An enemy creep in this map is not an NPC
 ```
 ### Short term
 ```

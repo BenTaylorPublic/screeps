@@ -159,6 +159,11 @@ interface MyRoomName {
     yNum: number;
 }
 
+interface FindOtherCreepsResult {
+    hostileCreeps: Creep[];
+    alliedCreeps: Creep[];
+}
+
 /*
 ====================
     CREEP THINGS:
