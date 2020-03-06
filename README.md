@@ -4,12 +4,25 @@
 ## TODO
 ### Working on
 ```
+Stage emails should be STAGE+ or STAGE-
+    So I can glance and know if it's good or not
+
 ATTENTION
     Need an ATTENTION for towers
     Need an ATTENTION for bank (storage)
+    Fix ATTENTION for extensions (It logs on Stage+)
 ```
 ### Short term
 ```
+Observers
+    Rework system:
+        Remove the Observing/Moving system
+        Observe every tick and Move every tick
+        Have a "toObserve" string roomname
+        Store current target room as MyRoomName
+        Use maths on the X Y to loop through (no need for room list array)
+    Keep the top left flag system, but log the 4 corners after setting it
+    Then set the area to be my 11x11 grid
 ```
 ### Mid term:
 ```
@@ -22,11 +35,6 @@ Flag helper function to get flags
         bool if the array can have extra on the end (eg "derp" or "derp-uniqueNumber")
         Optional room name string, if it should be a limited to a specific room
         Returns an array (and another version of it returns a Flag | null
-
-Observers
-    Rework system:
-        Allow more than one obs
-        Somehow stop overlaps
 
 Writing on a room sign via a flag
 
