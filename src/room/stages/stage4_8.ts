@@ -20,7 +20,7 @@ export class Stage4_8 {
                 mySource.cache.id == null &&
                 mySource.haulerNames.length === 0) {
                 myRoom.roomStage = 5;
-                ReportController.email("STAGE: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " increased to room stage 5");
+                ReportController.email("STAGE+: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " increased to room stage 5");
                 return true;
             }
         }
@@ -43,7 +43,7 @@ export class Stage4_8 {
         }
         if (!foundLinkedSource) {
             myRoom.roomStage = 4.8;
-            ReportController.email("STAGE: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " decreased to room stage 4.8");
+            ReportController.email("STAGE-: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " decreased to room stage 4.8");
             return true;
         }
         return false;

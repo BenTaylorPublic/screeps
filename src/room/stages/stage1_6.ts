@@ -20,7 +20,7 @@ export class Stage1_6 {
             }
         }
         myRoom.roomStage = 2;
-        ReportController.email("STAGE: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " increased to room stage 2");
+        ReportController.email("STAGE+: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " increased to room stage 2");
         return true;
     }
 
@@ -32,7 +32,7 @@ export class Stage1_6 {
                 (mySource.link == null ||
                     mySource.link.id == null)) {
                 myRoom.roomStage = 1.6;
-                ReportController.email("STAGE: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " decreased to room stage 1.6");
+                ReportController.email("STAGE-: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " decreased to room stage 1.6");
                 return true;
             }
         }

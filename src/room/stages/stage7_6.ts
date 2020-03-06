@@ -13,7 +13,7 @@ export class Stage7_6 {
         if (HelperFunctions.amountOfStructure(room, STRUCTURE_SPAWN) >= 3) {
             //Spawn has been made
             myRoom.roomStage = 7.8;
-            ReportController.email("STAGE: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " increased to room stage 7.8");
+            ReportController.email("STAGE+: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " increased to room stage 7.8");
             return true;
         }
         return false;
@@ -23,7 +23,7 @@ export class Stage7_6 {
         if (HelperFunctions.amountOfStructure(room, STRUCTURE_SPAWN) < 3) {
             //Spawn has been made
             myRoom.roomStage = 7.6;
-            ReportController.email("STAGE: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " decreased to room stage 7.6");
+            ReportController.email("STAGE-: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " decreased to room stage 7.6");
             return true;
         }
         return false;

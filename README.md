@@ -4,9 +4,6 @@
 ## TODO
 ### Working on
 ```
-Stage emails should be STAGE+ or STAGE-
-    So I can glance and know if it's good or not
-
 ATTENTION
     Need an ATTENTION for towers
     Need an ATTENTION for bank (storage)
