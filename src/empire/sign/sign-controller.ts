@@ -59,6 +59,7 @@ export class SignController {
         if (signResult === ERR_NOT_IN_RANGE) {
             HelperFunctions.myMoveTo(creep, creep.room.controller.pos, signer);
         } else if (signResult === OK) {
+            ReportController.log("Successfully signed " + HelperFunctions.roomNameAsLink(signer.assignedRoomName));
             creep.say("dthb4dshnr");
             creep.suicide();
         }
