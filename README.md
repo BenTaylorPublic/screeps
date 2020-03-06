@@ -9,6 +9,9 @@ Attack creeps are probably broken
 ```
 ### Short term
 ```
+Stocker
+    Body size should be relative to room stage
+
 Observers
     Rework system:
         Remove the Observing/Moving system
