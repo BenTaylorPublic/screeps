@@ -68,6 +68,8 @@ export class RoomSpawnController {
             return SpawnBankLinker.getBody();
         } else if (queuedCreep.role === "Laborer") {
             return SpawnLaborer.getBody(myRoom);
+        } else if (queuedCreep.role === "Signer") {
+            return [MOVE];
         }
         ReportController.email("ERROR: Creep role doesn't have a getBody function " + queuedCreep.role);
         return [];

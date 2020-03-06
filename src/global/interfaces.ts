@@ -186,7 +186,8 @@ type CreepRoles =
     | "AttackPressureCreep"
     | "PowerScavAttackCreep"
     | "PowerScavHaulCreep"
-    | "Stocker";
+    | "Stocker"
+    | "Signer";
 
 /*
 ====================
@@ -247,6 +248,10 @@ interface PowerScavHaulCreep extends MyCreep {
 
 interface Stocker extends MyCreep {
     state: "Pickup" | "Distribute";
+}
+
+interface Signer extends MyCreep {
+    signWords: string;
 }
 
 /*

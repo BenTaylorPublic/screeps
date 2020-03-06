@@ -10,4 +10,5 @@ export class SpawnConstants {
     public static ATTACK_PRESSURE: number = 2.5;
     public static HAULER: number = 2;
     public static LABORER: number = 1;
+    public static SIGNER: number = 0.5;
 }
