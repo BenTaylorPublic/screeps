@@ -177,4 +177,31 @@ export class StageFunctions {
             }
         }
     }
+
+    public static buildSpawns(myRoom: MyRoom, room: Room, amount: number): void {
+        const roomFlags: Flag[] = HelperFunctions.getRoomsFlags(myRoom);
+        for (let i = roomFlags.length - 1; i >= 0; i--) {
+            const roomFlag: Flag = roomFlags[i];
+            const flagNameSplit: string[] = roomFlag.name.split("-");
+            if (flagNameSplit[0] !== "spawn") {
+                roomFlags.splice(i, 1);
+            }
+        }
+
+        let placedSpawn: boolean = false;
+        if (roomFlags.length === 1) {
+            const result: ScreepsReturnCode = roomFlags[0].pos.createConstructionSite(STRUCTURE_SPAWN);
+            if (result === OK) {
+                placedSpawn = true;
+                roomFlags[0].remove();
+            }
+        }
+
+        if (!placedSpawn &&
+            room.find(FIND_CONSTRUCTION_SITES).length === 0 &&
+            HelperFunctions.amountOfStructure(room, STRUCTURE_SPAWN) < amount) {
+            ReportController.email("ATTENTION: Room " + HelperFunctions.roomNameAsLink(room.name) + " needs a spawn flag (spawn)",
+                ReportCooldownConstants.DAY);
+        }
+    }
 }
