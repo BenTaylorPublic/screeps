@@ -26,7 +26,8 @@ export class SpawnLaborer {
 
         //When stage 8, only spawn laborers when the controller is 50% on the way to downgrade
         //Or, when a lot of energy (in trySpawnLaborer)
-        if (myRoom.roomStage === 8 &&
+        if (forceSpawnlaborers > 0 &&
+            myRoom.roomStage === 8 &&
             room.find(FIND_CONSTRUCTION_SITES).length === 0 &&
             (room.controller as StructureController).ticksToDowngrade > Constants.STAGE_8_SPAWN_LABORERS_WHEN_CONTROLLER_BENEATH) {
             forceSpawnlaborers = 0;
@@ -35,8 +36,13 @@ export class SpawnLaborer {
         if (forceSpawnlaborers > 0) {
             SpawnLaborer.forceSpawnLaborers(myRoom, forceSpawnlaborers);
         } else {
+            let maxLaborers: number = Constants.MAX_LABORERS;
+            if (myRoom.roomStage === 8 &&
+                room.find(FIND_CONSTRUCTION_SITES).length === 0) {
+                maxLaborers = Constants.MAX_LABORERS_STAGE_8;
+            }
             if (!myRoom.pendingConscriptedCreep) {
-                SpawnLaborer.trySpawnLaborer(myRoom, laborerCount);
+                SpawnLaborer.trySpawnLaborer(myRoom, laborerCount, maxLaborers);
             }
         }
     }
@@ -57,7 +63,7 @@ export class SpawnLaborer {
             false);
     }
 
-    private static trySpawnLaborer(myRoom: MyRoom, laborerCount: number): void {
+    private static trySpawnLaborer(myRoom: MyRoom, laborerCount: number, maxLaborers: number): void {
         if (myRoom.bankPos == null) {
             //Only spawn laborers through this method if the bank is real
             return;
@@ -70,7 +76,7 @@ export class SpawnLaborer {
         }
 
         if (bank.store[RESOURCE_ENERGY] >= Constants.AMOUNT_OF_BANK_ENERGY_TO_SPAWN_LABORER &&
-            laborerCount < Constants.MAX_LABORERS) {
+            laborerCount < maxLaborers) {
             //If the bank is capped, spawn another laborer
             const newCreep: Laborer = this.spawnLaborer(myRoom, false);
             myRoom.myCreeps.push(newCreep);
