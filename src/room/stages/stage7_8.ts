@@ -60,7 +60,8 @@ export class Stage7_8 {
         }
 
         if (!placedPowerSpawn &&
-            room.find(FIND_CONSTRUCTION_SITES).length === 0) {
+            room.find(FIND_CONSTRUCTION_SITES).length === 0 &&
+            HelperFunctions.amountOfStructure(room, STRUCTURE_POWER_SPAWN) < 1) {
             ReportController.email("ATTENTION: Room " + HelperFunctions.roomNameAsLink(room.name) + " needs a power spawn flag (power-spawn)",
                 ReportCooldownConstants.DAY);
         }
