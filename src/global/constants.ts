@@ -3,7 +3,7 @@ export class Constants {
     public static PERCENT_OF_CACHE_ENERGY_TO_SPAWN_HAULER: number = 0.5;
     public static HAULER_COOLDOWN_DISTANCE_FACTOR: number = 1.2;
     public static AMOUNT_OF_BANK_ENERGY_TO_SPAWN_LABORER: number = 100_000;
-    public static MAX_LABORERS: number = 10;
+    public static MAX_LABORERS: number = 6;
     public static MIN_LABORERS: number = 1;
     public static LABORERS_BEFORE_BANK: number = 3;
     public static SOURCE_LINK_TRANSFER_AT: number = 0.5;
