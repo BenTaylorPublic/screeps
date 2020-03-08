@@ -3,6 +3,9 @@ import {HelperFunctions} from "../../global/helper-functions";
 
 export class AttackHelperFunctions {
     public static getNewTargetIfNeeded(attackTarget: AttackTarget | null, flagToPathFrom: Flag): AttackTarget | null {
+        if (flagToPathFrom.room == null) {
+            return null;
+        }
 
         if (Game.flags["attack-target"] == null) {
             //Will update with the actual position
@@ -30,12 +33,8 @@ export class AttackHelperFunctions {
     }
 
     public static getAttackTarget(flagToPathFrom: Flag, attackTargetFlag: Flag): AttackTarget | null {
-        if (flagToPathFrom.room == null) {
-            return null;
-        }
-
         const flagPos: RoomPosition = flagToPathFrom.pos;
-        const room: Room = flagToPathFrom.room;
+        const room: Room = flagToPathFrom.room as Room;
         //Make cost matrix for the room
 
         const costMatrix: CostMatrix = new PathFinder.CostMatrix;
