@@ -5,11 +5,9 @@ export class AttackHelperFunctions {
     public static getNewTargetIfNeeded(attackTarget: AttackTarget | null, flag: Flag): AttackTarget | null {
         const attackPrioFlag: Flag | null = Game.flags["attack-prio"];
         if (attackPrioFlag != null) {
-            console.log("1");
-            attackTarget = this.attackPrio(flag);
+            attackTarget = this.attackPrio(attackPrioFlag);
         }
         if (attackTarget != null) {
-            console.log("X");
             const roomObject: RoomObject | null = Game.getObjectById<RoomObject>(attackTarget.id);
             if (roomObject == null) {
                 //No longer exists, get a new target
@@ -18,7 +16,6 @@ export class AttackHelperFunctions {
                 attackTarget.roomObject = roomObject as Creep | Structure<StructureConstant>;
             }
         } else {
-            console.log("Y");
             attackTarget = AttackHelperFunctions.getAttackTarget(flag);
         }
         return attackTarget;
@@ -241,7 +238,6 @@ export class AttackHelperFunctions {
     private static attackPrio(flag: Flag): AttackTarget | null {
         const structures: Structure<StructureConstant>[] = flag.pos.lookFor(LOOK_STRUCTURES);
         if (structures.length === 0) {
-            console.log("NULL");
             return null;
         }
         return {
