@@ -9,6 +9,7 @@ import {SignController} from "./sign/sign-controller";
 
 export class EmpireController {
     public static run(myMemory: MyMemory): void {
+        console.log(myMemory.empire.creeps.length);
 
         SpawnClaimerController.run(myMemory);
         AttackController.run(myMemory);

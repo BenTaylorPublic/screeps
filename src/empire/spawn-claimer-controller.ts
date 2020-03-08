@@ -35,7 +35,9 @@ export class SpawnClaimerController {
                 //Make a claimer
                 const claimer: Claimer | null = this.spawnClaimer(flag);
                 if (claimer != null) {
+                    console.log("Adding");
                     myMemory.empire.creeps.push(claimer);
+                    console.log(myMemory.empire.creeps.length);
                 }
             }
         }
