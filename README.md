@@ -52,6 +52,8 @@ PowerScav
 ```
 ### Long term:
 ```
+Stages should log what they are, briefly, when stage + or -
+
 Attack
     Attack params/modes
         Large
