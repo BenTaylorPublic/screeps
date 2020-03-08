@@ -56,7 +56,6 @@ PowerScav
 ### Long term:
 ```
 Attack
-    Priority target's via flags
     Attack params/modes
         Large
             Very similar to AttackQuick
@@ -108,11 +107,13 @@ observer-set-{WIDTH}
 sign
 sign-all
 claim
-report
+
 attack-quick-rally
 attack-quick-room-target
 attack-pressure-rally
 attack-pressure-room-target
+attack-prio
+
 profile
 profile-function
 ```

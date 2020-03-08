@@ -3,6 +3,10 @@ import {HelperFunctions} from "../../global/helper-functions";
 
 export class AttackHelperFunctions {
     public static getNewTargetIfNeeded(attackTarget: AttackTarget | null, flag: Flag): AttackTarget | null {
+        const attackPrioFlag: Flag | null = Game.flags["attack-prio"];
+        if (attackPrioFlag != null) {
+            attackTarget = this.attackPrio(flag);
+        }
         if (attackTarget != null) {
             const roomObject: RoomObject | null = Game.getObjectById<RoomObject>(attackTarget.id);
             if (roomObject == null) {
@@ -229,6 +233,18 @@ export class AttackHelperFunctions {
         }
 
         return result;
+    }
+
+    private static attackPrio(flag: Flag): AttackTarget | null {
+        const structures: Structure<StructureConstant>[] = flag.pos.lookFor(LOOK_STRUCTURES);
+        if (structures.length === 0) {
+            return null;
+        }
+        return {
+            roomObject: structures[0],
+            id: structures[0].id,
+            type: structures[0].structureType
+        };
     }
 
 }
