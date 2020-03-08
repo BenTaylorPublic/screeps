@@ -2,37 +2,37 @@ import {ReportController} from "../../reporting/report-controller";
 import {HelperFunctions} from "../../global/helper-functions";
 
 export class AttackHelperFunctions {
-    public static getNewTargetIfNeeded(attackTarget: AttackTarget | null, flag: Flag): AttackTarget | null {
+    public static getNewTargetIfNeeded(attackTarget: AttackTarget | null, flagToPathFrom: Flag): AttackTarget | null {
+
+        if (Game.flags["attack-target"] == null) {
+            //Will update with the actual position
+            Game.flags["attack-target"] =
+                new Flag("attack-target", COLOR_RED, COLOR_RED, flagToPathFrom.pos.roomName, 1, 1);
+        }
+        const attackTargetFlag: Flag = Game.flags["attack-target"];
+
         const attackPrioFlag: Flag | null = Game.flags["attack-prio"];
         if (attackPrioFlag != null) {
-            attackTarget = this.attackPrio(attackPrioFlag);
+            attackTarget = this.attackPrio(attackPrioFlag, attackTargetFlag);
         }
         if (attackTarget != null) {
             const roomObject: RoomObject | null = Game.getObjectById<RoomObject>(attackTarget.id);
             if (roomObject == null) {
                 //No longer exists, get a new target
-                attackTarget = AttackHelperFunctions.getAttackTarget(flag);
+                attackTarget = AttackHelperFunctions.getAttackTarget(flagToPathFrom, attackTargetFlag);
             } else {
                 attackTarget.roomObject = roomObject as Creep | Structure<StructureConstant>;
             }
         } else {
-            attackTarget = AttackHelperFunctions.getAttackTarget(flag);
+            attackTarget = AttackHelperFunctions.getAttackTarget(flagToPathFrom, attackTargetFlag);
         }
         return attackTarget;
     }
 
-    public static getAttackTarget(flagToPathFrom: Flag): AttackTarget | null {
+    public static getAttackTarget(flagToPathFrom: Flag, attackTargetFlag: Flag): AttackTarget | null {
         if (flagToPathFrom.room == null) {
             return null;
         }
-
-        if (Game.flags["attack-target"] == null) {
-            //Will update with the actual position
-            Game.flags["attack-target"] =
-                new Flag("attack-target", COLOR_RED, COLOR_RED, flagToPathFrom.room.name, 1, 1);
-
-        }
-        const targetFlag: Flag = Game.flags["attack-target"];
 
         const flagPos: RoomPosition = flagToPathFrom.pos;
         const room: Room = flagToPathFrom.room;
@@ -54,7 +54,7 @@ export class AttackHelperFunctions {
         if (spawnTarget != null) {
             //Attacking a spawn
             ReportController.log("New Attack Target (Spawn) " + JSON.stringify(spawnTarget.roomObject.pos));
-            targetFlag.setPosition(spawnTarget.roomObject.pos);
+            attackTargetFlag.setPosition(spawnTarget.roomObject.pos);
             return {
                 roomObject: spawnTarget.roomObject,
                 id: spawnTarget.roomObject.id,
@@ -76,7 +76,7 @@ export class AttackHelperFunctions {
         if (towerTarget != null) {
             //Attacking a tower
             ReportController.log("New Attack Target (Tower) " + JSON.stringify(towerTarget.roomObject.pos));
-            targetFlag.setPosition(towerTarget.roomObject.pos);
+            attackTargetFlag.setPosition(towerTarget.roomObject.pos);
             return {
                 roomObject: towerTarget.roomObject,
                 id: towerTarget.roomObject.id,
@@ -93,7 +93,7 @@ export class AttackHelperFunctions {
         if (creepTarget != null) {
             //Attacking a creep
             ReportController.log("New Attack Target (Creep) " + JSON.stringify(creepTarget.roomObject.pos));
-            targetFlag.setPosition(creepTarget.roomObject.pos);
+            attackTargetFlag.setPosition(creepTarget.roomObject.pos);
             return {
                 roomObject: creepTarget.roomObject,
                 id: creepTarget.roomObject.id,
@@ -114,7 +114,7 @@ export class AttackHelperFunctions {
         if (rampartTarget != null) {
             //Attacking a rampart
             ReportController.log("New Attack Target (Rampart) " + JSON.stringify(rampartTarget.roomObject.pos));
-            targetFlag.setPosition(rampartTarget.roomObject.pos);
+            attackTargetFlag.setPosition(rampartTarget.roomObject.pos);
             return {
                 roomObject: rampartTarget.roomObject,
                 id: rampartTarget.roomObject.id,
@@ -135,7 +135,7 @@ export class AttackHelperFunctions {
         if (wallTarget != null) {
             //Attacking a wall
             ReportController.log("New Attack Target (Wall) " + JSON.stringify(wallTarget.roomObject.pos));
-            targetFlag.setPosition(wallTarget.roomObject.pos);
+            attackTargetFlag.setPosition(wallTarget.roomObject.pos);
             return {
                 roomObject: wallTarget.roomObject,
                 id: wallTarget.roomObject.id,
@@ -145,7 +145,7 @@ export class AttackHelperFunctions {
 
         //Nothing was found as pathable
         ReportController.log("Nothing pathable in getAttackTarget");
-        targetFlag.remove();
+        attackTargetFlag.remove();
         return null;
     }
 
@@ -235,15 +235,21 @@ export class AttackHelperFunctions {
         return result;
     }
 
-    private static attackPrio(flag: Flag): AttackTarget | null {
-        const structures: Structure<StructureConstant>[] = flag.pos.lookFor(LOOK_STRUCTURES);
+    private static attackPrio(attackPrioFlag: Flag, attackTargetFlag: Flag): AttackTarget | null {
+        const structures: Structure<StructureConstant>[] = attackPrioFlag.pos.lookFor(LOOK_STRUCTURES);
+        attackTargetFlag.setPosition(attackPrioFlag.pos);
+        attackPrioFlag.remove();
         if (structures.length === 0) {
             return null;
+        }
+        let structureType: string = structures[0].structureType;
+        if (structureType === "constructedWall") {
+            structureType = "Wall";
         }
         return {
             roomObject: structures[0],
             id: structures[0].id,
-            type: structures[0].structureType
+            type: structureType
         };
     }
 
