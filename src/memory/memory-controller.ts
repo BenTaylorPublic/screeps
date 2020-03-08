@@ -168,7 +168,8 @@ export class MemoryController {
     private static cleanUpEmpireCreeps(): void {
         for (let i = Memory.myMemory.empire.creeps.length - 1; i >= 0; i--) {
             const myCreep: MyCreep = Memory.myMemory.empire.creeps[i];
-            if (Game.creeps[myCreep.name] == null) {
+            if (Game.creeps[myCreep.name] == null &&
+                myCreep.spawningStatus !== "queued") {
                 Memory.myMemory.empire.creeps.splice(i, 1);
             }
         }
