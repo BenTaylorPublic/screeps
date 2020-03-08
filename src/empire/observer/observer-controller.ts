@@ -134,5 +134,6 @@ export class ObserverController {
 
         flag.remove();
         observerMemory.currentTargetIndex = 0;
+        ReportController.log("Observer width set");
     }
 }
