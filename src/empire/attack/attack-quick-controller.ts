@@ -22,7 +22,7 @@ export class AttackQuickController {
             //Wait until every room that's required to, has added a creep
             for (let i = attackQuick.roomsStillToProvide.length - 1; i >= 0; i--) {
                 const myRoom: MyRoom = HelperFunctions.getMyRoomByName(attackQuick.roomsStillToProvide[i]) as MyRoom;
-                const attackQuickCreep: AttackQuickCreep = this.spawnAttackQuickCreep(myRoom);
+                const attackQuickCreep: AttackQuickCreep = this.spawnAttackQuickCreep(myRoom, flag.pos.roomName);
                 ReportController.log("" + HelperFunctions.roomNameAsLink(myRoom.name) + " has been conscripted " + attackQuickCreep.name + " for AttackQuick");
 
                 ScheduleController.scheduleForNextTick("SET_FALSE_ON_PENDING_CONSCRIPTED_CREEP", myRoom.name);
@@ -65,13 +65,28 @@ export class AttackQuickController {
                 //If it gets here, we're ready to charge!
                 ReportController.log("AttackQuick Charge");
                 attackQuick.state = "Charge";
+
+                //Setting their assigned room, to the room target
+                const roomTagetFlag: Flag | null = Game.flags["attack-quick-room-target"];
+                if (roomTagetFlag == null) {
+                    ReportController.email("ERROR: attack-quick-room-target flag doesn't exist during AttackQuick. Cancelling the attack. (1)");
+                    this.endAttack();
+                    return;
+                }
+                for (let i = 0; i < myMemory.empire.creeps.length; i++) {
+                    const myCreep: MyCreep = myMemory.empire.creeps[i];
+                    if (myCreep.role !== "AttackQuickCreep") {
+                        continue;
+                    }
+                    myCreep.assignedRoomName = roomTagetFlag.pos.roomName;
+                }
             }
         }
 
         if (attackQuick.state === "Charge") {
             flag = Game.flags["attack-quick-room-target"];
             if (flag == null) {
-                ReportController.email("ERROR: attack-quick-room-target flag doesn't exist during AttackQuick. Cancelling the attack.");
+                ReportController.email("ERROR: attack-quick-room-target flag doesn't exist during AttackQuick. Cancelling the attack. (2)");
                 this.endAttack();
                 return;
             }
@@ -146,7 +161,7 @@ export class AttackQuickController {
         );
     }
 
-    private static spawnAttackQuickCreep(myRoom: MyRoom): AttackQuickCreep {
+    private static spawnAttackQuickCreep(myRoom: MyRoom, rallyRoomName: string): AttackQuickCreep {
         const name: string = "Creep" + HelperFunctions.getId();
         SpawnQueueController.queueCreepSpawn(myRoom, SpawnConstants.ATTACK_QUICK, name, "AttackQuickCreep");
 
@@ -154,7 +169,7 @@ export class AttackQuickController {
             name: name,
             role: "AttackQuickCreep",
             spawningStatus: "queued",
-            assignedRoomName: "",
+            assignedRoomName: rallyRoomName,
             roomMoveTarget: {
                 pos: null,
                 path: []

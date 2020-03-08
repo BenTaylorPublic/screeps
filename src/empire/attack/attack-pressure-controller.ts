@@ -31,7 +31,7 @@ export class AttackPressureController {
                     this.endAttack();
                     return;
                 }
-                this.batchRunConscript(batch, myMemory.empire);
+                this.batchRunConscript(batch, myMemory.empire, flag.pos.roomName);
             }
             if (batch.state === "Rally") {
                 flag = Game.flags["attack-pressure-rally"];
@@ -49,7 +49,7 @@ export class AttackPressureController {
             if (batch.state === "Charge") {
                 flag = Game.flags["attack-pressure-room-target"];
                 if (flag == null) {
-                    ReportController.email("ERROR: attack-pressure-room-target flag doesn't exist during AttackPressure. Cancelling the attack.");
+                    ReportController.email("ERROR: attack-pressure-room-target flag doesn't exist during AttackPressure. Cancelling the attack. (1)");
                     this.endAttack();
                     return;
                 }
@@ -129,7 +129,8 @@ export class AttackPressureController {
         let allCreepsAtFlag: boolean = true;
         for (let i = 0; i < empire.creeps.length; i++) {
             const myCreep: MyCreep = empire.creeps[i];
-            if (myCreep.role !== "AttackPressureCreep") {
+            if (myCreep.role !== "AttackPressureCreep" ||
+                (myCreep as AttackPressureCreep).batchNumber !== batch.batchNumber) {
                 continue;
             }
             const creep: Creep = Game.creeps[myCreep.name];
@@ -143,16 +144,31 @@ export class AttackPressureController {
             //If it gets here, we're ready to charge!
             ReportController.log("AttackPressure Charge");
             batch.state = "Charge";
+            const roomTagetFlag: Flag | null = Game.flags["attack-pressure-room-target"];
+            if (roomTagetFlag == null) {
+                ReportController.email("ERROR: attack-pressure-room-target flag doesn't exist during AttackPressure. Cancelling the attack. (2)");
+                this.endAttack();
+                return false;
+            }
+            for (let i = 0; i < empire.creeps.length; i++) {
+                const myCreep: MyCreep = empire.creeps[i];
+                if (myCreep.role !== "AttackPressureCreep" ||
+                    (myCreep as AttackPressureCreep).batchNumber !== batch.batchNumber) {
+                    continue;
+                }
+                myCreep.assignedRoomName = roomTagetFlag.pos.roomName;
+            }
+
             return true;
         }
         return false;
     }
 
-    private static batchRunConscript(batch: AttackPressureBatch, empire: Empire): void {
+    private static batchRunConscript(batch: AttackPressureBatch, empire: Empire, rallyRoomName: string): void {
         //Wait until every room that's required to, has added a creep
         for (let i = batch.roomsStillToProvide.length - 1; i >= 0; i--) {
             const myRoom: MyRoom = HelperFunctions.getMyRoomByName(batch.roomsStillToProvide[i]) as MyRoom;
-            const attackPressureCreep: AttackPressureCreep = this.spawnAttackPressureCreep(myRoom, batch.batchNumber);
+            const attackPressureCreep: AttackPressureCreep = this.spawnAttackPressureCreep(myRoom, batch.batchNumber, rallyRoomName);
             ReportController.log("" + HelperFunctions.roomNameAsLink(myRoom.name) + " has been conscripted " + attackPressureCreep.name + " for AttackPressure");
 
             ScheduleController.scheduleForNextTick("SET_FALSE_ON_PENDING_CONSCRIPTED_CREEP", myRoom.name);
@@ -169,7 +185,7 @@ export class AttackPressureController {
         //Some rooms still need to provide a creep
     }
 
-    private static spawnAttackPressureCreep(myRoom: MyRoom, batchNumber: number): AttackPressureCreep {
+    private static spawnAttackPressureCreep(myRoom: MyRoom, batchNumber: number, rallyRoomName: string): AttackPressureCreep {
 
         const name: string = "Creep" + HelperFunctions.getId();
         SpawnQueueController.queueCreepSpawn(myRoom, SpawnConstants.ATTACK_PRESSURE, name, "AttackPressureCreep");
@@ -178,7 +194,7 @@ export class AttackPressureController {
             name: name,
             role: "AttackPressureCreep",
             spawningStatus: "queued",
-            assignedRoomName: "",
+            assignedRoomName: rallyRoomName,
             roomMoveTarget: {
                 pos: null,
                 path: []

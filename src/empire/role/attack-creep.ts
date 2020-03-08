@@ -3,7 +3,7 @@ import {HelperFunctions} from "../../global/helper-functions";
 
 export class RoleAttackCreep {
     public static run(attackCreep: AttackPressureCreep | AttackQuickCreep, attackState: AttackStateType, rallyOrRoomTargetFlag: Flag, attackTarget: AttackTarget | null): void {
-        if (HelperFunctions.creepQueuedOrSpawning(attackCreep)) {
+        if (HelperFunctions.handleCreepPreRole(attackCreep)) {
             return;
         }
 
@@ -15,18 +15,9 @@ export class RoleAttackCreep {
             if (!creep.pos.inRangeTo(rallyOrRoomTargetFlag.pos, Constants.RALLY_FLAG_RANGE)) {
                 //Not in range
                 creep.say("Moving");
-            } else {
-                //In range of rally flag, just wait
-                creep.say("Rallying");
             }
         } else if (attackState === "Charge") {
-            if (creep.room.name !== rallyOrRoomTargetFlag.pos.roomName) {
-                creep.say("Charge!");
-                HelperFunctions.myMoveTo(creep, rallyOrRoomTargetFlag.pos, attackCreep);
-            } else {
-                //In the target room!
-                this.attackLogic(creep, attackTarget, attackCreep);
-            }
+            this.attackLogic(creep, attackTarget, attackCreep);
         }
     }
 
