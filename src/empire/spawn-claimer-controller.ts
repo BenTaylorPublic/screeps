@@ -41,13 +41,17 @@ export class SpawnClaimerController {
         }
     }
 
-    public static getBody(): BodyPartConstant[] {
-        return [MOVE, CLAIM];
+    public static getBody(myRoom: MyRoom): BodyPartConstant[] {
+        return HelperFunctions.generateBody([MOVE, CLAIM],
+            [MOVE],
+            Game.rooms[myRoom.name],
+            true,
+            6);
     }
 
     private static spawnClaimer(flag: Flag): Claimer | null {
 
-        const spawn: StructureSpawn | null = HelperFunctions.findClosestSpawn(flag.pos);
+        const spawn: StructureSpawn | null = HelperFunctions.findClosestSpawn(flag.pos, 3);
         if (spawn == null) {
             flag.remove();
             ReportController.email("ERROR: Couldn't find a spawn to make a claimer for " + HelperFunctions.roomNameAsLink(flag.pos.roomName));

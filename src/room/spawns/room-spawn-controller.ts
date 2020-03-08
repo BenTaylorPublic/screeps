@@ -55,7 +55,7 @@ export class RoomSpawnController {
         } else if (queuedCreep.role === "Stocker") {
             return SpawnStocker.getBody(myRoom);
         } else if (queuedCreep.role === "Claimer") {
-            return SpawnClaimerController.getBody();
+            return SpawnClaimerController.getBody(myRoom);
         } else if (queuedCreep.role === "Miner") {
             for (let k: number = 0; k < myRoom.mySources.length; k++) {
                 const mySource: MySource = myRoom.mySources[k];
