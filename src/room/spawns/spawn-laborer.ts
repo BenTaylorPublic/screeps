@@ -101,7 +101,7 @@ export class SpawnLaborer {
             Game.spawns[myRoom.spawns[0].name] == null) {
             // A room needs a laborer, but it has no spawns yet
             // Going to use the nearest room's spawn instead
-            spawn = HelperFunctions.findClosestSpawn(new RoomPosition(25, 25, myRoom.name));
+            spawn = HelperFunctions.findClosestSpawn(new RoomPosition(25, 25, myRoom.name), 4);
             if (spawn == null) {
                 ReportController.email("ERROR: Couldn't find any spawns to make a laborer for " + HelperFunctions.roomNameAsLink(myRoom.name));
                 throw Error("Couldn't find any spawns to make a laborer for room " + myRoom.name);
