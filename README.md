@@ -40,8 +40,10 @@ Optional buildings
 Haulers 
     Should be re-Roled into Stockers instead of suiciding
 
-Fix trySpawnHaulCreepIfNeeded body logic (power scav)
-    Subtract from carry parts needed, when spawned(like miners work parts)
+PowerScav
+    Fix trySpawnHaulCreepIfNeeded body logic (power scav)
+    Subtract from carry parts needed, when spawned
+        (like miners work parts)
 
 Logging when spawning started and spawning ended
 
