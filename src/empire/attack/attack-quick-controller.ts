@@ -132,7 +132,7 @@ export class AttackQuickController {
                 //This room will be conscripted
                 myRoom.pendingConscriptedCreep = true;
                 attackQuick.roomsStillToProvide.push(myRoom.name);
-                outputMessage += myRoom.name + ", ";
+                outputMessage += HelperFunctions.roomNameAsLink(myRoom.name) + ", ";
             }
         }
         if (attackQuick.roomsStillToProvide.length === 0) {

@@ -91,7 +91,7 @@ export class AttackPressureController {
                 && HelperFunctions.getRoomDistance(rallyFlag.pos.roomName, myRoom.name) < Constants.CONSCRIPTION_RANGE) {
                 //This room will be conscripted
                 attackPressure.roomsInRange.push(myRoom.name);
-                outputMessage += myRoom.name + ", ";
+                outputMessage += HelperFunctions.roomNameAsLink(myRoom.name) + ", ";
             }
         }
         if (attackPressure.roomsInRange.length === 0) {
