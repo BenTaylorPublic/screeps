@@ -39,7 +39,8 @@ export class Stage5_6 {
         }
 
         if (!placedExtractor &&
-            room.find(FIND_CONSTRUCTION_SITES).length === 0) {
+            room.find(FIND_CONSTRUCTION_SITES).length === 0 &&
+            HelperFunctions.amountOfStructure(room, STRUCTURE_EXTRACTOR) < 1) {
             ReportController.email("ATTENTION: Room " + HelperFunctions.roomNameAsLink(room.name) + " couldn't place an extractor",
                 ReportCooldownConstants.DAY);
         }
