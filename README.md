@@ -4,14 +4,11 @@
 ## TODO
 ### Working on
 ```
-Attack creeps are probably broken
-    Transfer them to the "assignedRoomName" system
+Stocker
+    Should pickup resources from the ground and containers, when they're bored
 ```
 ### Short term
 ```
-Stocker
-    Should pickup resources from the ground and containers, when they're bored
-
 Observers
     Rework system:
         Remove the Observing/Moving system
