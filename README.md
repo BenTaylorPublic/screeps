@@ -10,7 +10,7 @@ Attack creeps are probably broken
 ### Short term
 ```
 Stocker
-    Body size should be relative to room stage
+    Should pickup resources from the ground and containers, when they're bored
 
 Observers
     Rework system:
@@ -37,9 +37,8 @@ Optional buildings
     Nuker
     Labs
 
-Stockers should pickup resources from the ground and containers, when they're bored
-
-Haulers should be re-Roled into Stockers instead of suiciding
+Haulers 
+    Should be re-Roled into Stockers instead of suiciding
 
 Fix trySpawnHaulCreepIfNeeded body logic (power scav)
     Subtract from carry parts needed, when spawned(like miners work parts)
