@@ -213,7 +213,6 @@ export class MemoryController {
         const now: number = new Date().getTime();
         for (let i: number = 0; i < reports.length; i++) {
             if (Memory.myMemory.reports[reports[i]] < now) {
-                console.log("Deleting report: " + reports[i]);
                 delete Memory.myMemory.reports[reports[i]];
             }
         }
