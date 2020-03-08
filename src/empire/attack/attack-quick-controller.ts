@@ -149,18 +149,6 @@ export class AttackQuickController {
         return attackQuick;
     }
 
-    public static getBody(myRoom: MyRoom): BodyPartConstant[] {
-        const room: Room = Game.rooms[myRoom.name];
-
-        return HelperFunctions.generateBody([MOVE, ATTACK],
-            [MOVE, ATTACK],
-            room,
-            true,
-            50,
-            true
-        );
-    }
-
     private static spawnAttackQuickCreep(myRoom: MyRoom, rallyRoomName: string): AttackQuickCreep {
         const name: string = "Creep" + HelperFunctions.getId();
         SpawnQueueController.queueCreepSpawn(myRoom, SpawnConstants.ATTACK_QUICK, name, "AttackQuickCreep");

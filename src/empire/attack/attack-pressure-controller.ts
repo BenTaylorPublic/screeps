@@ -110,19 +110,6 @@ export class AttackPressureController {
         return attackPressure;
     }
 
-    public static getBody(myRoom: MyRoom): BodyPartConstant[] {
-        const room: Room = Game.rooms[myRoom.name];
-
-
-        return HelperFunctions.generateBody([MOVE, ATTACK],
-            [MOVE, ATTACK],
-            room,
-            true,
-            50,
-            true
-        );
-    }
-
     private static batchRunRally(batch: AttackPressureBatch, flag: Flag, empire: Empire): boolean {
 
         //Wait until all the creeps are within range of the rally flag

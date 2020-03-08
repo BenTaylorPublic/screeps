@@ -6,6 +6,7 @@ import {SpawnClaimerController} from "../../empire/spawn-claimer-controller";
 import {SpawnBankLinker} from "./spawn-bank-linker";
 import {ReportController} from "../../reporting/report-controller";
 import {HelperFunctions} from "../../global/helper-functions";
+import {AttackHelperFunctions} from "../../empire/attack/attack-helper-functions";
 
 export class RoomSpawnController {
     public static run(myRoom: MyRoom, room: Room): void {
@@ -68,6 +69,8 @@ export class RoomSpawnController {
             return SpawnBankLinker.getBody();
         } else if (queuedCreep.role === "Laborer") {
             return SpawnLaborer.getBody(myRoom);
+        } else if (queuedCreep.role === "AttackQuickCreep" || queuedCreep.role === "AttackPressureCreep") {
+            return AttackHelperFunctions.getBody(myRoom);
         } else if (queuedCreep.role === "Signer") {
             return [MOVE];
         }

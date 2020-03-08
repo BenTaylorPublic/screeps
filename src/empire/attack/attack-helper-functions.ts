@@ -1,4 +1,5 @@
 import {ReportController} from "../../reporting/report-controller";
+import {HelperFunctions} from "../../global/helper-functions";
 
 export class AttackHelperFunctions {
     public static getNewTargetIfNeeded(attackTarget: AttackTarget | null, flag: Flag): AttackTarget | null {
@@ -159,6 +160,18 @@ export class AttackHelperFunctions {
         for (let i: number = 0; i < myRooms.length; i++) {
             myRooms[i].pendingConscriptedCreep = false;
         }
+    }
+
+    public static getBody(myRoom: MyRoom): BodyPartConstant[] {
+        const room: Room = Game.rooms[myRoom.name];
+
+        return HelperFunctions.generateBody([MOVE, ATTACK],
+            [MOVE, ATTACK],
+            room,
+            true,
+            50,
+            true
+        );
     }
 
     private static pathFindToRoomObject<T extends RoomObject>(start: RoomPosition, roomObjects: T[], costmatrix: CostMatrix): BestPathFindRoomObjectResult<T> | null {
