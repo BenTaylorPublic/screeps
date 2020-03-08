@@ -51,7 +51,7 @@ export class SpawnStocker {
                 pos: null,
                 path: []
             },
-            state: "Pickup"
+            state: "PickupEnergy"
         };
     }
 }

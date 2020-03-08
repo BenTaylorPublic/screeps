@@ -247,7 +247,7 @@ interface PowerScavHaulCreep extends MyCreep {
 }
 
 interface Stocker extends MyCreep {
-    state: "Pickup" | "Distribute";
+    state: "PickupEnergy" | "DistributeEnergy" | "PickupResources" | "DepositResources";
 }
 
 interface Signer extends MyCreep {

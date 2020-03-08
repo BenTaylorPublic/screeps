@@ -11,26 +11,26 @@ export class RoleStocker {
 
         this.calculateCreepState(stocker, myRoom, creep);
 
-        if (stocker.state === "Pickup") {
-            this.pickup(stocker, myRoom, creep);
+        if (stocker.state === "PickupEnergy") {
+            this.pickupEnergy(stocker, myRoom, creep);
         } else {
-            this.distribute(stocker, creep);
+            this.distributeEnergy(stocker, creep);
         }
     }
 
     private static calculateCreepState(stocker: Stocker, myRoom: MyRoom, creep: Creep): void {
-        if (stocker.state === "Distribute" &&
+        if (stocker.state === "DistributeEnergy" &&
             creep.store.energy === 0) {
-            stocker.state = "Pickup";
-            creep.say("pickup");
+            stocker.state = "PickupEnergy";
+            creep.say("pickup energy");
         } else if (creep.store.getFreeCapacity() === 0) {
-            stocker.state = "Distribute";
+            stocker.state = "DistributeEnergy";
             creep.say("work work");
         }
     }
 
 
-    private static pickup(stocker: Stocker, myRoom: MyRoom, creep: Creep): void {
+    private static pickupEnergy(stocker: Stocker, myRoom: MyRoom, creep: Creep): void {
         if (myRoom.bankPos == null) {
             ReportController.email("ERROR: Room's bank pos was null in " + HelperFunctions.roomNameAsLink(myRoom.name));
             return;
@@ -52,7 +52,7 @@ export class RoleStocker {
         }
     }
 
-    private static distribute(stocker: Stocker, creep: Creep): void {
+    private static distributeEnergy(stocker: Stocker, creep: Creep): void {
         const structureToAddTo: Structure | null = creep.pos.findClosestByPath(FIND_STRUCTURES, {
             filter: (structure: any) => {
                 return (structure.structureType === STRUCTURE_EXTENSION ||
