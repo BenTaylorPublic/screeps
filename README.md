@@ -4,8 +4,6 @@
 ## TODO
 ### Working on
 ```
-Stocker
-    Should pickup resources from the ground and containers, when they're bored
 ```
 ### Short term
 ```
