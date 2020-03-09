@@ -47,7 +47,8 @@ export class Stage5_8 {
         }
 
         if (!placedTerminal &&
-            room.find(FIND_CONSTRUCTION_SITES).length === 0) {
+            room.find(FIND_CONSTRUCTION_SITES).length === 0 &&
+            HelperFunctions.amountOfStructure(room, STRUCTURE_TERMINAL) < 1) {
             ReportController.email("ATTENTION: Room " + HelperFunctions.roomNameAsLink(room.name) + " needs a terminal flag (terminal)",
                 ReportCooldownConstants.DAY);
         }
