@@ -41,12 +41,17 @@ export class RoleStocker {
             } else {
                 //No structures to add to
                 //Check for resources
-                if ((room.find(FIND_TOMBSTONES).length > 0 ||
-                    room.find(FIND_DROPPED_RESOURCES).length > 0) &&
-                    creep.store.getUsedCapacity() === 0) {
-                    stocker.state = "PickupResources";
-                    creep.say("Pickup R");
+                if (room.find(FIND_TOMBSTONES).length > 0 ||
+                    room.find(FIND_DROPPED_RESOURCES).length > 0) {
+                    if (creep.store.getUsedCapacity() === 0) {
+                        stocker.state = "DepositResources";
+                        creep.say("Deposit R");
+                    } else {
+                        stocker.state = "PickupResources";
+                        creep.say("Pickup R");
+                    }
                 }
+
             }
         } else if (stocker.state === "PickupEnergy" &&
             creep.store.getFreeCapacity() === 0) {
