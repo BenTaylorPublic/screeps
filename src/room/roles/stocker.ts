@@ -95,6 +95,7 @@ export class RoleStocker {
 
     private static pickupResources(stocker: Stocker, creep: Creep): void {
         if (creep.store.getFreeCapacity() === 0) {
+            creep.say("Deposit R");
             stocker.state = "DepositResources";
         }
 
@@ -123,6 +124,7 @@ export class RoleStocker {
 
         //If it gets here, there are no resources or tombstones
         //Now it can swap the state to DepositResources
+        creep.say("Deposit R");
         stocker.state = "DepositResources";
     }
 
