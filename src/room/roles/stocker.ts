@@ -24,9 +24,9 @@ export class RoleStocker {
     }
 
     private static calculateCreepState(stocker: Stocker, room: Room, creep: Creep): void {
-        if ((stocker.state === "DistributeEnergy" ||
-            stocker.state === "DepositResources") &&
-            creep.store.getUsedCapacity() === 0) {
+        if (stocker.state === "DistributeEnergy" ||
+            (stocker.state === "DepositResources" &&
+                creep.store.getUsedCapacity() === 0)) {
             const structuresToAddTo: Structure[] = room.find(FIND_STRUCTURES, {
                 filter: (structure: any) => {
                     return (structure.structureType === STRUCTURE_EXTENSION ||
