@@ -16,8 +16,7 @@ Observers
         Have a "toObserve" string roomname
         Store current target room as MyRoomName
         Use maths on the X Y to loop through (no need for room list array)
-    Keep the top left flag system, but log the 4 corners after setting it
-    Then set the area to be my 12x12 grid
+    Keep the top left flag system, but log the 4 corners after setting it, and the amount of rooms (12x12=144)
 ```
 ### Mid term:
 ```
@@ -32,16 +31,13 @@ Flag helper function to get flags
         Returns an array (and another version of it returns a Flag | null)
 
 Minerals
-    New stage, 5.9
-        Needs a container next to the mineral to mine on
-    Start >= stage 6 (terminal + mineral container)
     Mark one room as the main room, with flag (main-room)
         That sets it's name in the empire memory object
-    If the room is the main room, stockers will deposit minerals into terminal
-    Otherwise, stockers will deposit minerals into storage
+    If the room isn't the main room, miners will deposit minerals into terminal
+    If it is the main room, stockers will carry minerals from containers and deposit into storage
         After depositing minerals, into storage, if above a constant cap for the mineral
-        Mining should stop (can repurpose miners to shitty laborers?)
-    This should be a bool "mining", on every room, and a bool set on stockers "mainRoom"
+        Mining should stop (can repurpose miners to shitty laborers? Only if they have CARRY)
+    This should be a bool "miningActive", on every room, and a bool set on stockers "mainRoom"
     Stockers in the main room should be withdrawing all resources from terminal and depositing to bank
     Stockers in non main room should be maintaining a constant amount of energy in the terminal for transactions
 
