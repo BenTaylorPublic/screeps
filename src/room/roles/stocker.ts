@@ -25,8 +25,7 @@ export class RoleStocker {
 
     private static calculateCreepState(stocker: Stocker, room: Room, creep: Creep): void {
         if (stocker.state === "DistributeEnergy" ||
-            (stocker.state === "DepositResources" &&
-                creep.store.getUsedCapacity() === 0)) {
+            stocker.state === "DepositResources") {
             const structuresToAddTo: Structure[] = room.find(FIND_STRUCTURES, {
                 filter: (structure: any) => {
                     return (structure.structureType === STRUCTURE_EXTENSION ||
@@ -35,14 +34,16 @@ export class RoleStocker {
                         && structure.energy < structure.energyCapacity;
                 }
             });
-            if (structuresToAddTo.length > 0) {
+            if (structuresToAddTo.length > 0 &&
+                creep.store.getUsedCapacity() === 0) {
                 stocker.state = "PickupEnergy";
                 creep.say("Pickup E");
             } else {
                 //No structures to add to
                 //Check for resources
-                if (room.find(FIND_TOMBSTONES).length > 0 ||
-                    room.find(FIND_DROPPED_RESOURCES).length > 0) {
+                if ((room.find(FIND_TOMBSTONES).length > 0 ||
+                    room.find(FIND_DROPPED_RESOURCES).length > 0) &&
+                    creep.store.getUsedCapacity() === 0) {
                     stocker.state = "PickupResources";
                     creep.say("Pickup R");
                 }
