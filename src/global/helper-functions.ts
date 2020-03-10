@@ -91,7 +91,7 @@ export class HelperFunctions {
         let closestDistance: number = 9999;
         for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
             const myRoom: MyRoom = Memory.myMemory.myRooms[i];
-            if (myRoom.roomStage > minimumStage &&
+            if (myRoom.roomStage >= minimumStage &&
                 myRoom.spawns.length >= 1) {
                 const distance: number = this.getRoomDistance(roomPos.roomName, myRoom.name);
                 if (distance < closestDistance) {
