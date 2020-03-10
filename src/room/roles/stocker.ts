@@ -9,7 +9,6 @@ export class RoleStocker {
 
         const room: Room = Game.rooms[myRoom.name];
         const creep: Creep = Game.creeps[stocker.name];
-        creep.say(stocker.state);
 
         this.calculateCreepState(stocker, room, creep);
 
@@ -39,7 +38,7 @@ export class RoleStocker {
             if (structuresToAddTo.length > 0) {
                 if (creep.store.getUsedCapacity() === 0) {
                     stocker.state = "PickupEnergy";
-                    // creep.say("Pickup E");
+                    creep.say("Pickup E");
                 }
             } else {
                 considerResources = true;
@@ -47,7 +46,7 @@ export class RoleStocker {
         } else if (stocker.state === "PickupEnergy") {
             if (creep.store.getFreeCapacity() === 0) {
                 stocker.state = "DistributeEnergy";
-                // creep.say("Distribute");
+                creep.say("Distribute");
             }
         } else if (stocker.state === "DepositResources") {
             if (creep.store.getUsedCapacity() === 0) {
@@ -56,13 +55,17 @@ export class RoleStocker {
             }
         } else if (stocker.state === "PickupResources") {
             if (creep.store.getFreeCapacity() === 0 ||
-                (room.find(FIND_TOMBSTONES).length === 0 &&
+                (room.find(FIND_TOMBSTONES, {
+                        filter: (t: Tombstone) => {
+                            return t.store.getUsedCapacity() > 0;
+                        }
+                    }).length === 0 &&
                     room.find(FIND_DROPPED_RESOURCES).length === 0)) {
                 if (creep.store.getUsedCapacity() === 0) {
                     considerEnergy = true;
                 } else {
                     stocker.state = "DepositResources";
-                    // creep.say("Deposit R");
+                    creep.say("Deposit R");
                 }
             }
         }
@@ -79,21 +82,25 @@ export class RoleStocker {
             if (structuresToAddTo.length > 0) {
                 if (creep.store.getFreeCapacity() !== 0) {
                     stocker.state = "PickupEnergy";
-                    // creep.say("Pickup E");
+                    creep.say("Pickup E");
                     return;
                 }
             }
         }
 
         if (considerResources) {
-            if (room.find(FIND_TOMBSTONES).length > 0 ||
+            if (room.find(FIND_TOMBSTONES, {
+                    filter: (t: Tombstone) => {
+                        return t.store.getUsedCapacity() > 0;
+                    }
+                }).length > 0 ||
                 room.find(FIND_DROPPED_RESOURCES).length > 0) {
                 if (creep.store.getUsedCapacity() !== 0) {
                     stocker.state = "DepositResources";
-                    // creep.say("Deposit R");
+                    creep.say("Deposit R");
                 } else {
                     stocker.state = "PickupResources";
-                    // creep.say("Pickup R");
+                    creep.say("Pickup R");
                 }
             }
         }
@@ -150,7 +157,11 @@ export class RoleStocker {
             return;
         }
 
-        const tombstone: Tombstone | null = creep.pos.findClosestByPath(FIND_TOMBSTONES);
+        const tombstone: Tombstone | null = creep.pos.findClosestByPath(FIND_TOMBSTONES, {
+            filter: (t: Tombstone) => {
+                return t.store.getUsedCapacity() > 0;
+            }
+        });
         if (tombstone != null) {
             if (creep.pos.isNearTo(tombstone.pos)) {
                 const resourcesInTombstone: ResourceConstant[] = Object.keys(tombstone.store) as ResourceConstant[];
