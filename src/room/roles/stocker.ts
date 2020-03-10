@@ -77,7 +77,7 @@ export class RoleStocker {
                 }
             });
             if (structuresToAddTo.length > 0) {
-                if (creep.store.getFreeCapacity() === 0) {
+                if (creep.store.getFreeCapacity() !== 0) {
                     stocker.state = "PickupEnergy";
                     // creep.say("Pickup E");
                     return;
