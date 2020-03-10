@@ -13,6 +13,7 @@ export class StageFunctions {
                 roomFlags.splice(i, 1);
             }
         }
+        let placedAtleastOne: boolean = false;
         for (let i = 0; i < roomFlags.length; i++) {
             const roomFlag: Flag = roomFlags[i];
             const flagNameSplit: string[] = roomFlag.name.split("-");
@@ -22,14 +23,16 @@ export class StageFunctions {
                 if (result === OK) {
                     ReportController.log("Placed extension construction site in " + HelperFunctions.roomNameAsLink(myRoom.name));
                     roomFlag.remove();
+                    placedAtleastOne = true;
                 } else if (result !== ERR_RCL_NOT_ENOUGH) {
                     ReportController.email("ERROR: Placing a extension construction site errored " + result + " in " + HelperFunctions.roomNameAsLink(myRoom.name));
                 }
             }
         }
 
-        if (Game.rooms[myRoom.name].find(FIND_CONSTRUCTION_SITES).length === 0 &&
-            (HelperFunctions.amountOfStructure(room, STRUCTURE_EXTENSION) < numberOfExtensionsToBuild)) {
+        if (!placedAtleastOne &&
+            Game.rooms[myRoom.name].find(FIND_CONSTRUCTION_SITES).length === 0 &&
+            HelperFunctions.amountOfStructure(room, STRUCTURE_EXTENSION) < numberOfExtensionsToBuild) {
             ReportController.email("ATTENTION: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " needs more extension flags (up to ex-" + numberOfExtensionsToBuild.toString() + ")",
                 ReportCooldownConstants.DAY);
         }
