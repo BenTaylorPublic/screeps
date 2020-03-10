@@ -24,8 +24,9 @@ export class RoleStocker {
     }
 
     private static calculateCreepState(stocker: Stocker, room: Room, creep: Creep): void {
-        if (stocker.state === "DistributeEnergy" ||
-            stocker.state === "DepositResources") {
+        let considerResources: boolean = false;
+        let considerEnergy: boolean = false;
+        if (stocker.state === "DistributeEnergy") {
             const structuresToAddTo: Structure[] = room.find(FIND_STRUCTURES, {
                 filter: (structure: any) => {
                     return (structure.structureType === STRUCTURE_EXTENSION ||
@@ -34,29 +35,66 @@ export class RoleStocker {
                         && structure.energy < structure.energyCapacity;
                 }
             });
-            if (structuresToAddTo.length > 0 &&
-                creep.store.getUsedCapacity() === 0) {
-                stocker.state = "PickupEnergy";
-                creep.say("Pickup E");
-            } else {
-                //No structures to add to
-                //Check for resources
-                if (room.find(FIND_TOMBSTONES).length > 0 ||
-                    room.find(FIND_DROPPED_RESOURCES).length > 0) {
-                    if (creep.store.getUsedCapacity() === 0) {
-                        stocker.state = "DepositResources";
-                        creep.say("Deposit R");
-                    } else {
-                        stocker.state = "PickupResources";
-                        creep.say("Pickup R");
-                    }
+            if (structuresToAddTo.length > 0) {
+                if (creep.store.getUsedCapacity() === 0) {
+                    stocker.state = "PickupEnergy";
+                    creep.say("Pickup E");
                 }
-
+            } else {
+                considerResources = true;
             }
-        } else if (stocker.state === "PickupEnergy" &&
-            creep.store.getFreeCapacity() === 0) {
-            stocker.state = "DistributeEnergy";
-            creep.say("Distribute");
+        } else if (stocker.state === "PickupEnergy") {
+            if (creep.store.getFreeCapacity() === 0) {
+                stocker.state = "DistributeEnergy";
+                creep.say("Distribute");
+            }
+        } else if (stocker.state === "DepositResources") {
+            if (creep.store.getUsedCapacity() === 0) {
+                considerEnergy = true;
+                considerResources = true;
+            }
+        } else if (stocker.state === "PickupResources") {
+            if (creep.store.getFreeCapacity() === 0 ||
+                (room.find(FIND_TOMBSTONES).length === 0 &&
+                    room.find(FIND_DROPPED_RESOURCES).length === 0)) {
+                if (creep.store.getUsedCapacity() === 0) {
+                    considerEnergy = true;
+                } else {
+                    stocker.state = "DepositResources";
+                    creep.say("Deposit R");
+                }
+            }
+        }
+
+        if (considerEnergy) {
+            const structuresToAddTo: Structure[] = room.find(FIND_STRUCTURES, {
+                filter: (structure: any) => {
+                    return (structure.structureType === STRUCTURE_EXTENSION ||
+                        structure.structureType === STRUCTURE_SPAWN ||
+                        structure.structureType === STRUCTURE_TOWER)
+                        && structure.energy < structure.energyCapacity;
+                }
+            });
+            if (structuresToAddTo.length > 0) {
+                if (creep.store.getFreeCapacity() === 0) {
+                    stocker.state = "PickupEnergy";
+                    creep.say("Pickup E");
+                    return;
+                }
+            }
+        }
+
+        if (considerResources) {
+            if (room.find(FIND_TOMBSTONES).length > 0 ||
+                room.find(FIND_DROPPED_RESOURCES).length > 0) {
+                if (creep.store.getUsedCapacity() !== 0) {
+                    stocker.state = "DepositResources";
+                    creep.say("Deposit R");
+                } else {
+                    stocker.state = "PickupResources";
+                    creep.say("Pickup R");
+                }
+            }
         }
     }
 
@@ -100,10 +138,6 @@ export class RoleStocker {
     }
 
     private static pickupResources(stocker: Stocker, creep: Creep): void {
-        if (creep.store.getFreeCapacity() === 0) {
-            creep.say("Deposit R");
-            stocker.state = "DepositResources";
-        }
 
         const resource: Resource | null = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES);
         if (resource != null) {
@@ -127,11 +161,6 @@ export class RoleStocker {
             }
             return;
         }
-
-        //If it gets here, there are no resources or tombstones
-        //Now it can swap the state to DepositResources
-        creep.say("Deposit R");
-        stocker.state = "DepositResources";
     }
 
     private static depositResources(stocker: Stocker, myRoom: MyRoom, creep: Creep): void {
