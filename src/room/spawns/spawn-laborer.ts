@@ -17,21 +17,16 @@ export class SpawnLaborer {
         let forceSpawnlaborers: number = 0;
         if (laborerCount < Constants.MIN_LABORERS) {
             forceSpawnlaborers = Constants.MIN_LABORERS - laborerCount;
-        } else if (laborerCount < Constants.LABORERS_BEFORE_BANK &&
-            myRoom.roomStage < 4) {
-            //Room stage 4 is when the bank is made
-            //After then, haulers will exist
-            forceSpawnlaborers = Constants.LABORERS_BEFORE_BANK - laborerCount;
+
+            //When stage 8, only spawn laborers when the controller is 50% on the way to downgrade
+            //Or, when a lot of energy (in trySpawnLaborer)
+            if (myRoom.roomStage === 8 &&
+                room.find(FIND_CONSTRUCTION_SITES).length === 0 &&
+                (room.controller as StructureController).ticksToDowngrade > Constants.STAGE_8_SPAWN_LABORERS_WHEN_CONTROLLER_BENEATH) {
+                forceSpawnlaborers = 0;
+            }
         }
 
-        //When stage 8, only spawn laborers when the controller is 50% on the way to downgrade
-        //Or, when a lot of energy (in trySpawnLaborer)
-        if (forceSpawnlaborers > 0 &&
-            myRoom.roomStage === 8 &&
-            room.find(FIND_CONSTRUCTION_SITES).length === 0 &&
-            (room.controller as StructureController).ticksToDowngrade > Constants.STAGE_8_SPAWN_LABORERS_WHEN_CONTROLLER_BENEATH) {
-            forceSpawnlaborers = 0;
-        }
 
         if (forceSpawnlaborers > 0) {
             SpawnLaborer.forceSpawnLaborers(myRoom, forceSpawnlaborers);
@@ -75,8 +70,10 @@ export class SpawnLaborer {
             return;
         }
 
-        if (bank.store[RESOURCE_ENERGY] >= Constants.AMOUNT_OF_BANK_ENERGY_TO_SPAWN_LABORER &&
-            laborerCount < maxLaborers) {
+        if ((bank.store[RESOURCE_ENERGY] >= Constants.AMOUNT_OF_BANK_ENERGY_TO_SPAWN_LABORER &&
+            laborerCount < maxLaborers) ||
+            (myRoom.roomStage < 4 &&
+                laborerCount < Constants.LABORERS_BEFORE_BANK)) {
             //If the bank is capped, spawn another laborer
             const newCreep: Laborer = this.spawnLaborer(myRoom, false);
             myRoom.myCreeps.push(newCreep);

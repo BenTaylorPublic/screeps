@@ -6,7 +6,7 @@ export class Constants {
     public static MAX_LABORERS: number = 6;
     public static MIN_LABORERS: number = 1;
     public static MAX_LABORERS_STAGE_8: number = 2;
-    public static LABORERS_BEFORE_BANK: number = 3;
+    public static LABORERS_BEFORE_BANK: number = 6;
     public static SOURCE_LINK_TRANSFER_AT: number = 0.5;
     public static WALL_AND_RAMPART_GOAL_HEALTH: number = 10_000;
     public static TOWER_REPAIR_ABOVE_PERCENT: number = 0.5;
