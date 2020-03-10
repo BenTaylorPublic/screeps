@@ -59,21 +59,24 @@ export class SpawnLaborer {
     }
 
     private static trySpawnLaborer(myRoom: MyRoom, laborerCount: number, maxLaborers: number): void {
-        if (myRoom.bankPos == null) {
-            //Only spawn laborers through this method if the bank is real
-            return;
+        let spawn: boolean = (myRoom.roomStage < 4 &&
+            laborerCount < Constants.LABORERS_BEFORE_BANK);
+        if (!spawn) {
+            if (myRoom.bankPos == null) {
+                //Only spawn laborers through this method if the bank is real
+                return;
+            }
+
+            const bank: StructureStorage | null = myRoom.bank;
+            if (bank == null) {
+                ReportController.email("ERROR: Bank is null when checking if it's full in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                return;
+            }
+            spawn = (bank.store[RESOURCE_ENERGY] >= Constants.AMOUNT_OF_BANK_ENERGY_TO_SPAWN_LABORER &&
+                laborerCount < maxLaborers);
         }
 
-        const bank: StructureStorage | null = myRoom.bank;
-        if (bank == null) {
-            ReportController.email("ERROR: Bank is null when checking if it's full in " + HelperFunctions.roomNameAsLink(myRoom.name));
-            return;
-        }
-
-        if ((bank.store[RESOURCE_ENERGY] >= Constants.AMOUNT_OF_BANK_ENERGY_TO_SPAWN_LABORER &&
-            laborerCount < maxLaborers) ||
-            (myRoom.roomStage < 4 &&
-                laborerCount < Constants.LABORERS_BEFORE_BANK)) {
+        if (spawn) {
             //If the bank is capped, spawn another laborer
             const newCreep: Laborer = this.spawnLaborer(myRoom, false);
             myRoom.myCreeps.push(newCreep);
