@@ -1,4 +1,4 @@
-import {HelperFunctions} from "../global/helpers/helper-functions";
+
 import {ReportController} from "../reporting/report-controller";
 import {SpawnQueueController} from "../global/spawn-queue-controller";
 import {SpawnConstants} from "../global/spawn-constants";
@@ -20,7 +20,7 @@ export class SpawnClaimerController {
             //Room has been claimed, remove flag
             flag.remove();
 
-            ReportController.log("Room " + HelperFunctions.roomNameAsLink(flag.room.name) + " has been claimed");
+            ReportController.log("Room " + LogHelper.roomNameAsLink(flag.room.name) + " has been claimed");
         } else {
             //Room has not been claimed yet
             let claimerAlreadyMade: boolean = false;
@@ -54,15 +54,15 @@ export class SpawnClaimerController {
         const spawn: StructureSpawn | null = HelperFunctions.findClosestSpawn(flag.pos, 3);
         if (spawn == null) {
             flag.remove();
-            ReportController.email("ERROR: Couldn't find a spawn to make a claimer for " + HelperFunctions.roomNameAsLink(flag.pos.roomName));
+            ReportController.email("ERROR: Couldn't find a spawn to make a claimer for " + LogHelper.roomNameAsLink(flag.pos.roomName));
             return null;
         }
 
-        const roomToSpawnFrom: MyRoom = HelperFunctions.getMyRoomByName(spawn.room.name) as MyRoom;
+        const roomToSpawnFrom: MyRoom = RoomHelper.getMyRoomByName(spawn.room.name) as MyRoom;
 
-        const name: string = "Creep" + HelperFunctions.getId();
+        const name: string = CreepHelper.getName();
         SpawnQueueController.queueCreepSpawn(roomToSpawnFrom, SpawnConstants.CLAIMER, name, "Claimer");
-        ReportController.log("Queued a new claimer in " + HelperFunctions.roomNameAsLink(roomToSpawnFrom.name) + " for " + HelperFunctions.roomNameAsLink(flag.pos.roomName));
+        ReportController.log("Queued a new claimer in " + LogHelper.roomNameAsLink(roomToSpawnFrom.name) + " for " + LogHelper.roomNameAsLink(flag.pos.roomName));
 
         return {
             name: name,

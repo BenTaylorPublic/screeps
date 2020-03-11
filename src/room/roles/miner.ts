@@ -1,9 +1,9 @@
-import {HelperFunctions} from "../../global/helpers/helper-functions";
+
 import {ReportController} from "../../reporting/report-controller";
 
 export class RoleMiner {
     public static run(miner: Miner, myRoom: MyRoom): void {
-        if (HelperFunctions.handleCreepPreRole(miner)) {
+        if (CreepHelper.handleCreepPreRole(miner)) {
             return;
         }
 
@@ -15,7 +15,7 @@ export class RoleMiner {
             //In location
             const source: Source | null = Game.getObjectById<Source>(miner.sourceId);
             if (source == null) {
-                ReportController.email("ERROR: Miner has been given a source which is null. Creep ID: " + miner.name + " in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                ReportController.email("ERROR: Miner has been given a source which is null. Creep ID: " + miner.name + " in " + LogHelper.roomNameAsLink(myRoom.name));
                 return;
             }
 
@@ -41,7 +41,7 @@ export class RoleMiner {
                             creep.harvest(source);
                         }
                     } else {
-                        ReportController.email("ERROR: Source cache returned null with get by ID in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                        ReportController.email("ERROR: Source cache returned null with get by ID in " + LogHelper.roomNameAsLink(myRoom.name));
                     }
                 }
             } else if (miner.linkIdToDepositTo != null &&
@@ -50,14 +50,14 @@ export class RoleMiner {
                 if (link == null) {
                     //Setting it to null, so it doesn't do this every loop
                     miner.linkIdToDepositTo = null;
-                    ReportController.email("ERROR: A miner's link ID to deposit in was null in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                    ReportController.email("ERROR: A miner's link ID to deposit in was null in " + LogHelper.roomNameAsLink(myRoom.name));
                     return;
                 }
                 creep.transfer(link, RESOURCE_ENERGY);
             }
         } else {
             //Move to cache
-            HelperFunctions.myMoveTo(creep, cachePos, miner);
+            MovementHelper.myMoveTo(creep, cachePos, miner);
         }
     }
 }

@@ -1,6 +1,6 @@
 import {SpawnQueueController} from "../../global/spawn-queue-controller";
 import {SpawnConstants} from "../../global/spawn-constants";
-import {HelperFunctions} from "../../global/helpers/helper-functions";
+
 import {ReportController} from "../../reporting/report-controller";
 
 export class SpawnBankLinker {
@@ -14,7 +14,7 @@ export class SpawnBankLinker {
         const bankLinker: BankLinker = this.spawnBankLinkerInternal(myRoom);
         myRoom.myCreeps.push(bankLinker);
         myRoom.bankLinkerName = bankLinker.name;
-        ReportController.log("Queued a BankLinker in " + HelperFunctions.roomNameAsLink(myRoom.name));
+        ReportController.log("Queued a BankLinker in " + LogHelper.roomNameAsLink(myRoom.name));
     }
 
     public static getBody(): BodyPartConstant[] {
@@ -22,7 +22,7 @@ export class SpawnBankLinker {
     }
 
     private static spawnBankLinkerInternal(myRoom: MyRoom): BankLinker {
-        const name: string = "Creep" + HelperFunctions.getId();
+        const name: string = CreepHelper.getName();
         SpawnQueueController.queueCreepSpawn(myRoom, SpawnConstants.BANK_LINKER, name, "BankLinker");
 
         return {

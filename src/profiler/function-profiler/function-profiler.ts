@@ -1,4 +1,4 @@
-import {HelperFunctions} from "../../global/helpers/helper-functions";
+
 
 export class FunctionProfiler {
     public static startFunction(functionName: string): void {

@@ -1,4 +1,4 @@
-import {HelperFunctions} from "../../global/helpers/helper-functions";
+
 import {ReportController} from "../../reporting/report-controller";
 import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
 
@@ -10,18 +10,18 @@ export class Stage3_6 {
     */
     public static up(myRoom: MyRoom, room: Room): boolean {
         this.step(myRoom, room);
-        if (HelperFunctions.amountOfStructure(room, STRUCTURE_STORAGE) >= 1) {
+        if (RoomHelper.amountOfStructure(room, STRUCTURE_STORAGE) >= 1) {
             myRoom.roomStage = 4;
-            ReportController.email("STAGE+: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " increased to room stage 4");
+            ReportController.email("STAGE+: Room " + LogHelper.roomNameAsLink(myRoom.name) + " increased to room stage 4");
             return true;
         }
         return false;
     }
 
     public static down(myRoom: MyRoom, room: Room): boolean {
-        if (HelperFunctions.amountOfStructure(room, STRUCTURE_STORAGE) < 1) {
+        if (RoomHelper.amountOfStructure(room, STRUCTURE_STORAGE) < 1) {
             myRoom.roomStage = 3.6;
-            ReportController.email("STAGE-: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " decreased to room stage 3.6");
+            ReportController.email("STAGE-: Room " + LogHelper.roomNameAsLink(myRoom.name) + " decreased to room stage 3.6");
             return true;
         }
         return false;
@@ -48,18 +48,18 @@ export class Stage3_6 {
             if (flagNameSplit[0] === "storage") {
                 const result: ScreepsReturnCode = Game.rooms[myRoom.name].createConstructionSite(roomFlag.pos, STRUCTURE_STORAGE);
                 if (result === OK) {
-                    ReportController.log("Placed storage bank construction site in " + HelperFunctions.roomNameAsLink(room.name));
+                    ReportController.log("Placed storage bank construction site in " + LogHelper.roomNameAsLink(room.name));
                     roomFlag.remove();
 
                 } else {
-                    ReportController.email("ERROR: Placing a storage bank construction site errored in " + HelperFunctions.roomNameAsLink(room.name));
+                    ReportController.email("ERROR: Placing a storage bank construction site errored in " + LogHelper.roomNameAsLink(room.name));
                 }
             }
         }
 
         if (Game.rooms[myRoom.name].find(FIND_CONSTRUCTION_SITES).length === 0 &&
-            (HelperFunctions.amountOfStructure(room, STRUCTURE_STORAGE) < 1)) {
-            ReportController.email("ATTENTION: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " needs a bank flag (storage)",
+            (RoomHelper.amountOfStructure(room, STRUCTURE_STORAGE) < 1)) {
+            ReportController.email("ATTENTION: Room " + LogHelper.roomNameAsLink(myRoom.name) + " needs a bank flag (storage)",
                 ReportCooldownConstants.DAY);
         }
     }

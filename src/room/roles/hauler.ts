@@ -1,9 +1,9 @@
-import {HelperFunctions} from "../../global/helpers/helper-functions";
+
 import {ReportController} from "../../reporting/report-controller";
 
 export class RoleHauler {
     public static run(hauler: Hauler, myRoom: MyRoom): void {
-        if (HelperFunctions.handleCreepPreRole(hauler)) {
+        if (CreepHelper.handleCreepPreRole(hauler)) {
             return;
         }
 
@@ -36,20 +36,20 @@ export class RoleHauler {
                 }
 
                 if (cacheToGrabFrom == null) {
-                    ReportController.email("ERROR: Source cache is null for hauler: " + hauler.name + " in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                    ReportController.email("ERROR: Source cache is null for hauler: " + hauler.name + " in " + LogHelper.roomNameAsLink(myRoom.name));
                     return;
                 }
                 if (cacheToGrabFrom.store[RESOURCE_ENERGY] >= creep.store.getFreeCapacity()) {
                     creep.withdraw(cacheToGrabFrom, RESOURCE_ENERGY);
                 }
             } else {
-                HelperFunctions.myMoveTo(creep, cacheToGrabFromPos, hauler);
+                MovementHelper.myMoveTo(creep, cacheToGrabFromPos, hauler);
             }
         } else {
             //Deliver
 
             if (myRoom.bankPos == null) {
-                ReportController.email("ERROR: Room's bank pos was null in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                ReportController.email("ERROR: Room's bank pos was null in " + LogHelper.roomNameAsLink(myRoom.name));
                 return;
             }
 
@@ -58,12 +58,12 @@ export class RoleHauler {
             if (bankPos.isNearTo(creep)) {
                 const bank: StructureStorage | null = myRoom.bank;
                 if (bank == null) {
-                    ReportController.email("ERROR: Room's bank was null in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                    ReportController.email("ERROR: Room's bank was null in " + LogHelper.roomNameAsLink(myRoom.name));
                     return;
                 }
                 creep.transfer(bank, RESOURCE_ENERGY);
             } else {
-                HelperFunctions.myMoveTo(creep, bankPos, hauler);
+                MovementHelper.myMoveTo(creep, bankPos, hauler);
             }
         }
     }

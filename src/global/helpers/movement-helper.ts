@@ -1,5 +1,6 @@
 import {ReportController} from "../../reporting/report-controller";
 import {LogHelper} from "./log-helper";
+import {RoomHelper} from "./room-helper";
 
 export class MovementHelper {
     public static myMoveTo(creep: Creep, moveTo: RoomPosition, myCreep: MyCreep): MoveByPathResult {
@@ -7,7 +8,7 @@ export class MovementHelper {
             return ERR_TIRED;
         }
 
-        const currentCreepPos: MyRoomPos = this.roomPosToMyPos(creep.pos);
+        const currentCreepPos: MyRoomPos = RoomHelper.roomPosToMyPos(creep.pos);
 
         if (this.posMatches(moveTo, myCreep.roomMoveTarget.pos)) {
             //Same target
@@ -20,7 +21,7 @@ export class MovementHelper {
         myCreep.lastPos = currentCreepPos;
 
         //Calculate path again
-        myCreep.roomMoveTarget.pos = this.roomPosToMyPos(moveTo);
+        myCreep.roomMoveTarget.pos = RoomHelper.roomPosToMyPos(moveTo);
         myCreep.roomMoveTarget.path = creep.pos.findPathTo(moveTo,
             {
                 costCallback(roomNamee: string, costMatrix: CostMatrix): boolean | CostMatrix {
@@ -44,21 +45,9 @@ export class MovementHelper {
             if (target == null) {
                 return;
             }
-            creepMemory.interRoomTravelCurrentTarget = this.roomPosToMyPos(target);
+            creepMemory.interRoomTravelCurrentTarget = RoomHelper.roomPosToMyPos(target);
         }
-        MovementHelper.myMoveTo(creep, this.myPosToRoomPos(creepMemory.interRoomTravelCurrentTarget), creepMemory);
-    }
-
-    public static roomPosToMyPos(roomPos: RoomPosition): MyRoomPos {
-        return {
-            x: roomPos.x,
-            y: roomPos.y,
-            roomName: roomPos.roomName
-        };
-    }
-
-    public static myPosToRoomPos(myPos: MyRoomPos): RoomPosition {
-        return new RoomPosition(myPos.x, myPos.y, myPos.roomName);
+        MovementHelper.myMoveTo(creep, RoomHelper.myPosToRoomPos(creepMemory.interRoomTravelCurrentTarget), creepMemory);
     }
 
     private static posMatches(pos: RoomPosition, myPos: MyRoomPos | null): boolean {

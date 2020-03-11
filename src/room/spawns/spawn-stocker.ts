@@ -1,5 +1,5 @@
 import {Constants} from "../../global/constants";
-import {HelperFunctions} from "../../global/helpers/helper-functions";
+
 import {SpawnQueueController} from "../../global/spawn-queue-controller";
 import {SpawnConstants} from "../../global/spawn-constants";
 import {ReportController} from "../../reporting/report-controller";
@@ -26,7 +26,7 @@ export class SpawnStocker {
             for (let i: number = 0; i < Constants.MAX_STOCKERS - amountOfStockers; i++) {
                 const newCreep: Stocker = this.spawnStockerInternal(myRoom);
                 myRoom.myCreeps.push(newCreep);
-                ReportController.log("Queued a new Stocker in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                ReportController.log("Queued a new Stocker in " + LogHelper.roomNameAsLink(myRoom.name));
             }
         }
     }
@@ -39,7 +39,7 @@ export class SpawnStocker {
     }
 
     private static spawnStockerInternal(myRoom: MyRoom): Stocker {
-        const name: string = "Creep" + HelperFunctions.getId();
+        const name: string = CreepHelper.getName();
         SpawnQueueController.queueCreepSpawn(myRoom, SpawnConstants.STOCKER, name, "Stocker");
 
         return {

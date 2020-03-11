@@ -1,9 +1,9 @@
-import {HelperFunctions} from "../../global/helpers/helper-functions";
+
 import {ReportController} from "../../reporting/report-controller";
 
 export class RoleStocker {
     public static run(stocker: Stocker, myRoom: MyRoom): void {
-        if (HelperFunctions.handleCreepPreRole(stocker)) {
+        if (CreepHelper.handleCreepPreRole(stocker)) {
             return;
         }
 
@@ -108,7 +108,7 @@ export class RoleStocker {
 
     private static pickupEnergy(stocker: Stocker, myRoom: MyRoom, creep: Creep): void {
         if (myRoom.bankPos == null) {
-            ReportController.email("ERROR: Room's bank pos was null in " + HelperFunctions.roomNameAsLink(myRoom.name));
+            ReportController.email("ERROR: Room's bank pos was null in " + LogHelper.roomNameAsLink(myRoom.name));
             return;
         }
 
@@ -117,14 +117,14 @@ export class RoleStocker {
         if (bankPos.isNearTo(creep)) {
             const bank: StructureStorage | null = myRoom.bank;
             if (bank == null) {
-                ReportController.email("ERROR: Room's bank was null in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                ReportController.email("ERROR: Room's bank was null in " + LogHelper.roomNameAsLink(myRoom.name));
                 return;
             }
             if (bank.store.energy > 0) {
                 creep.withdraw(bank, RESOURCE_ENERGY);
             }
         } else {
-            HelperFunctions.myMoveTo(creep, bankPos, stocker);
+            MovementHelper.myMoveTo(creep, bankPos, stocker);
         }
     }
 
@@ -141,7 +141,7 @@ export class RoleStocker {
             return;
         }
         if (creep.transfer(structureToAddTo, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-            HelperFunctions.myMoveTo(creep, structureToAddTo.pos, stocker);
+            MovementHelper.myMoveTo(creep, structureToAddTo.pos, stocker);
         }
     }
 
@@ -152,7 +152,7 @@ export class RoleStocker {
             if (creep.pos.isNearTo(resource.pos)) {
                 creep.pickup(resource);
             } else {
-                HelperFunctions.myMoveTo(creep, resource.pos, stocker);
+                MovementHelper.myMoveTo(creep, resource.pos, stocker);
             }
             return;
         }
@@ -169,7 +169,7 @@ export class RoleStocker {
                     creep.withdraw(tombstone, resourcesInTombstone[i]);
                 }
             } else {
-                HelperFunctions.myMoveTo(creep, tombstone.pos, stocker);
+                MovementHelper.myMoveTo(creep, tombstone.pos, stocker);
             }
             return;
         }
@@ -177,7 +177,7 @@ export class RoleStocker {
 
     private static depositResources(stocker: Stocker, myRoom: MyRoom, creep: Creep): void {
         if (myRoom.bankPos == null) {
-            ReportController.email("ERROR: Room's bank pos was null in " + HelperFunctions.roomNameAsLink(myRoom.name));
+            ReportController.email("ERROR: Room's bank pos was null in " + LogHelper.roomNameAsLink(myRoom.name));
             return;
         }
 
@@ -186,7 +186,7 @@ export class RoleStocker {
         if (bankPos.isNearTo(creep)) {
             const bank: StructureStorage | null = myRoom.bank;
             if (bank == null) {
-                ReportController.email("ERROR: Room's bank was null in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                ReportController.email("ERROR: Room's bank was null in " + LogHelper.roomNameAsLink(myRoom.name));
                 return;
             }
             const resources: ResourceConstant[] = Object.keys(creep.store) as ResourceConstant[];
@@ -194,7 +194,7 @@ export class RoleStocker {
                 creep.transfer(bank, resources[i]);
             }
         } else {
-            HelperFunctions.myMoveTo(creep, bankPos, stocker);
+            MovementHelper.myMoveTo(creep, bankPos, stocker);
         }
     }
 }

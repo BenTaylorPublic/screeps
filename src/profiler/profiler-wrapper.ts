@@ -8,7 +8,7 @@ import {AttackHelperFunctions} from "../empire/attack/attack-helper-functions";
 import {AttackPressureController} from "../empire/attack/attack-pressure-controller";
 import {AttackQuickController} from "../empire/attack/attack-quick-controller";
 import {SpawnClaimerController} from "../empire/spawn-claimer-controller";
-import {HelperFunctions} from "../global/helpers/helper-functions";
+
 import {ReportController} from "../reporting/report-controller";
 import {RoleBankLinker} from "../room/roles/bank-linker";
 import {RoleHauler} from "../room/roles/hauler";

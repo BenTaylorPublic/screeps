@@ -1,10 +1,10 @@
-import {HelperFunctions} from "../../global/helpers/helper-functions";
+
 import {ReportController} from "../../reporting/report-controller";
 import {Constants} from "../../global/constants";
 
 export class RoleLaborer {
     public static run(laborer: Laborer, myRoom: MyRoom, laborersStock: boolean): void {
-        if (HelperFunctions.handleCreepPreRole(laborer)) {
+        if (CreepHelper.handleCreepPreRole(laborer)) {
             return;
         }
 
@@ -41,7 +41,7 @@ export class RoleLaborer {
                         if (cache == null) {
                             //Clear it
                             mySource.cache.id = null;
-                            ReportController.email("ERROR: Source cache returned null with get by ID in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                            ReportController.email("ERROR: Source cache returned null with get by ID in " + LogHelper.roomNameAsLink(myRoom.name));
                         } else if (cache.store[RESOURCE_ENERGY] >= creep.store.getCapacity()) {
                             laborer.state = "PickupCache";
                             creep.say("PickupCache");
@@ -67,7 +67,7 @@ export class RoleLaborer {
 
     private static pickupBank(laborer: Laborer, myRoom: MyRoom, creep: Creep): void {
         if (myRoom.bankPos == null) {
-            ReportController.email("ERROR: Room's bank pos was null in " + HelperFunctions.roomNameAsLink(myRoom.name));
+            ReportController.email("ERROR: Room's bank pos was null in " + LogHelper.roomNameAsLink(myRoom.name));
             return;
         }
 
@@ -76,12 +76,12 @@ export class RoleLaborer {
         if (bankPos.isNearTo(creep)) {
             const bank: StructureStorage | null = myRoom.bank;
             if (bank == null) {
-                ReportController.email("ERROR: Room's bank was null in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                ReportController.email("ERROR: Room's bank was null in " + LogHelper.roomNameAsLink(myRoom.name));
                 return;
             }
             creep.withdraw(bank, RESOURCE_ENERGY);
         } else {
-            HelperFunctions.myMoveTo(creep, bankPos, laborer);
+            MovementHelper.myMoveTo(creep, bankPos, laborer);
         }
     }
 
@@ -99,7 +99,7 @@ export class RoleLaborer {
             if (validCacheToGrabFrom.pos.isNearTo(creep)) {
                 creep.withdraw(validCacheToGrabFrom, RESOURCE_ENERGY);
             } else {
-                HelperFunctions.myMoveTo(creep, validCacheToGrabFrom.pos, laborer);
+                MovementHelper.myMoveTo(creep, validCacheToGrabFrom.pos, laborer);
             }
         }
     }
@@ -108,7 +108,7 @@ export class RoleLaborer {
         const source: Source | null = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
 
         if (source != null && creep.harvest(source) === ERR_NOT_IN_RANGE) {
-            HelperFunctions.myMoveTo(creep, source.pos, laborer);
+            MovementHelper.myMoveTo(creep, source.pos, laborer);
         }
     }
 
@@ -134,7 +134,7 @@ export class RoleLaborer {
             if (structureToAddTo != null) {
                 givenCommand = true;
                 if (creep.transfer(structureToAddTo, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                    HelperFunctions.myMoveTo(creep, structureToAddTo.pos, laborer);
+                    MovementHelper.myMoveTo(creep, structureToAddTo.pos, laborer);
                 }
             }
         }
@@ -145,7 +145,7 @@ export class RoleLaborer {
             if (closestConstructionSite != null) {
                 givenCommand = true;
                 if (creep.build(closestConstructionSite) === ERR_NOT_IN_RANGE) {
-                    HelperFunctions.myMoveTo(creep, closestConstructionSite.pos, laborer);
+                    MovementHelper.myMoveTo(creep, closestConstructionSite.pos, laborer);
                 }
             }
         }
@@ -153,7 +153,7 @@ export class RoleLaborer {
         //Upgrading room controller
         if (forceUpgradeController || !givenCommand) {
             if (creep.upgradeController(creep.room.controller as StructureController) === ERR_NOT_IN_RANGE) {
-                HelperFunctions.myMoveTo(creep, (creep.room.controller as StructureController).pos, laborer);
+                MovementHelper.myMoveTo(creep, (creep.room.controller as StructureController).pos, laborer);
             }
         }
     }

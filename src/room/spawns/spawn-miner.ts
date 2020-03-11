@@ -1,4 +1,4 @@
-import {HelperFunctions} from "../../global/helpers/helper-functions";
+
 import {SpawnQueueController} from "../../global/spawn-queue-controller";
 import {SpawnConstants} from "../../global/spawn-constants";
 import {ReportController} from "../../reporting/report-controller";
@@ -23,7 +23,7 @@ export class SpawnMiner {
             //Needs a new miner
             const newCreep: Miner = this.spawnMinerInternal(myRoom, mySource);
             myRoom.myCreeps.push(newCreep);
-            ReportController.log("Queued a new Miner in " + HelperFunctions.roomNameAsLink(myRoom.name));
+            ReportController.log("Queued a new Miner in " + LogHelper.roomNameAsLink(myRoom.name));
             return;
         }
     }
@@ -69,7 +69,7 @@ export class SpawnMiner {
     }
 
     private static spawnMinerInternal(myRoom: MyRoom, mySource: MySource): Miner {
-        const name: string = "Creep" + HelperFunctions.getId();
+        const name: string = CreepHelper.getName();
         SpawnQueueController.queueCreepSpawn(myRoom, SpawnConstants.MINER, name, "Miner");
 
         //Have a valid spawn now

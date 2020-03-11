@@ -1,7 +1,10 @@
-import {HelperFunctions} from "../../global/helpers/helper-functions";
 import {SpawnQueueController} from "../../global/spawn-queue-controller";
 import {SpawnConstants} from "../../global/spawn-constants";
 import {ReportController} from "../../reporting/report-controller";
+import {CreepHelper} from "../../global/helpers/creep-helper";
+import {MovementHelper} from "../../global/helpers/movement-helper";
+import {LogHelper} from "../../global/helpers/log-helper";
+import {MapHelper} from "../../global/helpers/map-helper";
 
 export class SignController {
     private static message: string = "Just a cute lil coder (✿◠‿◠)";
@@ -25,18 +28,18 @@ export class SignController {
 
     public static runCreep(signer: Signer): void {
         const creep: Creep = Game.creeps[signer.name];
-        if (HelperFunctions.handleCreepPreRole(signer)) {
+        if (CreepHelper.handleCreepPreRole(signer)) {
             return;
         }
         if (creep.room.controller == null) {
-            ReportController.email("ERROR: Signer can't sign a room with no controller in " + HelperFunctions.roomNameAsLink(creep.room.name));
+            ReportController.email("ERROR: Signer can't sign a room with no controller in " + LogHelper.roomNameAsLink(creep.room.name));
             return;
         }
         const signResult = creep.signController(creep.room.controller, signer.signWords);
         if (signResult === ERR_NOT_IN_RANGE) {
-            HelperFunctions.myMoveTo(creep, creep.room.controller.pos, signer);
+            MovementHelper.myMoveTo(creep, creep.room.controller.pos, signer);
         } else if (signResult === OK) {
-            ReportController.log("Successfully signed " + HelperFunctions.roomNameAsLink(signer.assignedRoomName));
+            ReportController.log("Successfully signed " + LogHelper.roomNameAsLink(signer.assignedRoomName));
             creep.say("dthb4dshnr");
             creep.suicide();
         }
@@ -45,7 +48,7 @@ export class SignController {
     private static signAll(flag: Flag, myMemory: MyMemory): void {
         for (let i: number = 0; i < myMemory.myRooms.length; i++) {
             const myRoom: MyRoom = myMemory.myRooms[i];
-            const name: string = "Creep" + HelperFunctions.getId();
+            const name: string = CreepHelper.getName();
             SpawnQueueController.queueCreepSpawn(myRoom, SpawnConstants.SIGNER, name, "Signer");
             myMemory.empire.creeps.push({
                 name: name,
@@ -69,7 +72,7 @@ export class SignController {
         let closestRoom: MyRoom | null = null;
         for (let i: number = 0; i < myMemory.myRooms.length; i++) {
             const myRoom: MyRoom = myMemory.myRooms[i];
-            const roomDistance = HelperFunctions.getRoomDistance(flag.pos.roomName, myRoom.name);
+            const roomDistance = MapHelper.getRoomDistance(flag.pos.roomName, myRoom.name);
             if (roomDistance < closestDistance) {
                 closestRoom = myRoom;
                 closestDistance = roomDistance;
@@ -80,7 +83,7 @@ export class SignController {
             return;
         }
 
-        const name: string = "Creep" + HelperFunctions.getId();
+        const name: string = CreepHelper.getName();
         SpawnQueueController.queueCreepSpawn(closestRoom, SpawnConstants.SIGNER, name, "Signer");
         myMemory.empire.creeps.push({
             name: name,
@@ -94,7 +97,7 @@ export class SignController {
             signWords: this.message
         } as Signer);
 
-        ReportController.log("Queued a Signer for room " + HelperFunctions.roomNameAsLink(flag.pos.roomName));
+        ReportController.log("Queued a Signer for room " + LogHelper.roomNameAsLink(flag.pos.roomName));
         flag.remove();
     }
 }

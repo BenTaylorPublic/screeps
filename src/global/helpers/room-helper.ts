@@ -61,4 +61,16 @@ export class RoomHelper {
         });
         return structures.length;
     }
+
+    public static roomPosToMyPos(roomPos: RoomPosition): MyRoomPos {
+        return {
+            x: roomPos.x,
+            y: roomPos.y,
+            roomName: roomPos.roomName
+        };
+    }
+
+    public static myPosToRoomPos(myPos: MyRoomPos): RoomPosition {
+        return new RoomPosition(myPos.x, myPos.y, myPos.roomName);
+    }
 }

@@ -1,5 +1,5 @@
-import {HelperFunctions} from "../../global/helpers/helper-functions";
 import {ReportController} from "../../reporting/report-controller";
+import {RoomHelper} from "../../global/helpers/room-helper";
 
 export class BuildObserverController {
     public static run(myMemory: MyMemory): void {
@@ -27,7 +27,7 @@ export class BuildObserverController {
 
         let amountOfObservers: number = 0;
         for (let i = 0; i < myMemory.myRooms.length; i++) {
-            amountOfObservers += HelperFunctions.amountOfStructure(Game.rooms[myMemory.myRooms[i].name], STRUCTURE_OBSERVER);
+            amountOfObservers += RoomHelper.amountOfStructure(Game.rooms[myMemory.myRooms[i].name], STRUCTURE_OBSERVER);
         }
         if (amountOfObservers === myMemory.empire.observer.observerIds.length) {
             return;

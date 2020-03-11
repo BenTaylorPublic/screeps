@@ -2,8 +2,8 @@ import {MovementHelper} from "./movement-helper";
 
 export class CreepHelper {
 
-    public static getId(): number {
-        const toReturn: number = Memory.myMemory.globalId;
+    public static getName(): string {
+        const toReturn: string = "Creep" + Memory.myMemory.globalId;
         Memory.myMemory.globalId++;
         return toReturn;
     }

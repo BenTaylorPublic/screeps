@@ -1,9 +1,10 @@
-import {HelperFunctions} from "../../global/helpers/helper-functions";
+import {CreepHelper} from "../../global/helpers/creep-helper";
+import {MovementHelper} from "../../global/helpers/movement-helper";
 
 export class RolePowerScavAttackCreep {
     public static run(powerScavAttack: PowerScavAttackCreep, myPowerBank: PowerScavBank, powerBank: StructurePowerBank | null): void {
 
-        if (HelperFunctions.handleCreepPreRole(powerScavAttack)) {
+        if (CreepHelper.handleCreepPreRole(powerScavAttack)) {
             return;
         }
 
@@ -30,7 +31,7 @@ export class RolePowerScavAttackCreep {
                 creep.heal(creep);
             }
         } else {
-            HelperFunctions.myMoveTo(creep, powerBank.pos, powerScavAttack);
+            MovementHelper.myMoveTo(creep, powerBank.pos, powerScavAttack);
         }
     }
 }

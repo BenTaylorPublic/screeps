@@ -1,5 +1,5 @@
 import {ReportController} from "../../reporting/report-controller";
-import {HelperFunctions} from "../../global/helpers/helper-functions";
+
 
 export class AttackHelperFunctions {
     public static getNewTargetIfNeeded(attackTarget: AttackTarget | null, flagToPathFrom: Flag): AttackTarget | null {

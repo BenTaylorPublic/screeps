@@ -1,4 +1,4 @@
-import {HelperFunctions} from "../../global/helpers/helper-functions";
+
 import {ReportController} from "../../reporting/report-controller";
 import {StageFunctions} from "./stage-functions";
 
@@ -10,20 +10,20 @@ export class Stage6_75 {
     */
     public static up(myRoom: MyRoom, room: Room): boolean {
         this.step(myRoom, room);
-        if (HelperFunctions.amountOfStructure(room, STRUCTURE_SPAWN) >= 2) {
+        if (RoomHelper.amountOfStructure(room, STRUCTURE_SPAWN) >= 2) {
             //Spawn has been made
             myRoom.roomStage = 7;
-            ReportController.email("STAGE+: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " increased to room stage 7");
+            ReportController.email("STAGE+: Room " + LogHelper.roomNameAsLink(myRoom.name) + " increased to room stage 7");
             return true;
         }
         return false;
     }
 
     public static down(myRoom: MyRoom, room: Room): boolean {
-        if (HelperFunctions.amountOfStructure(room, STRUCTURE_SPAWN) < 2) {
+        if (RoomHelper.amountOfStructure(room, STRUCTURE_SPAWN) < 2) {
             //Spawn has been made
             myRoom.roomStage = 6.75;
-            ReportController.email("STAGE-: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " decreased to room stage 6.75");
+            ReportController.email("STAGE-: Room " + LogHelper.roomNameAsLink(myRoom.name) + " decreased to room stage 6.75");
             return true;
         }
         return false;

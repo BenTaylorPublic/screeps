@@ -1,6 +1,6 @@
 import {Constants} from "../../global/constants";
 import {ReportController} from "../../reporting/report-controller";
-import {HelperFunctions} from "../../global/helpers/helper-functions";
+
 
 export class RoomSourceLinkController {
     public static run(myRoom: MyRoom, myLink: MyLink): void {
@@ -13,7 +13,7 @@ export class RoomSourceLinkController {
 
         const link: StructureLink | null = Game.getObjectById<StructureLink>(myLink.id);
         if (link === null) {
-            ReportController.email("ERROR: Link was null when accessed by ID. Setting it to null in " + HelperFunctions.roomNameAsLink(myRoom.name));
+            ReportController.email("ERROR: Link was null when accessed by ID. Setting it to null in " + LogHelper.roomNameAsLink(myRoom.name));
             myLink.id = null;
             return;
         }
@@ -22,7 +22,7 @@ export class RoomSourceLinkController {
             //Need to transfer energy
             const bankLink: StructureLink | null = Game.getObjectById<StructureLink>(myRoom.bankLink.id);
             if (bankLink === null) {
-                ReportController.email("ERROR: Bank link was null when accessed by ID. Setting it to null in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                ReportController.email("ERROR: Bank link was null when accessed by ID. Setting it to null in " + LogHelper.roomNameAsLink(myRoom.name));
                 myRoom.bankLink.id = null;
                 return;
             }
