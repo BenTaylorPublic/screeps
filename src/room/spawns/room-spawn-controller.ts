@@ -5,7 +5,7 @@ import {SpawnMiner} from "./spawn-miner";
 import {SpawnClaimerController} from "../../empire/spawn-claimer-controller";
 import {SpawnBankLinker} from "./spawn-bank-linker";
 import {ReportController} from "../../reporting/report-controller";
-import {HelperFunctions} from "../../global/helper-functions";
+import {HelperFunctions} from "../../global/helpers/helper-functions";
 import {AttackHelperFunctions} from "../../empire/attack/attack-helper-functions";
 
 export class RoomSpawnController {

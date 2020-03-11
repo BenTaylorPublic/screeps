@@ -1,4 +1,4 @@
-import {HelperFunctions} from "../../global/helper-functions";
+import {HelperFunctions} from "../../global/helpers/helper-functions";
 import {PowerScavController} from "../power-scav-controller";
 import {ReportController} from "../../reporting/report-controller";
 import {ReportCooldownConstants} from "../../global/report-cooldown-constants";

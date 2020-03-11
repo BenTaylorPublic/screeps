@@ -8,7 +8,7 @@ import {RoleBankLinker} from "./roles/bank-linker";
 import {RoomSourceLinkController} from "./structures/source-link";
 import {ReportController} from "../reporting/report-controller";
 import {RoleStocker} from "./roles/stocker";
-import {HelperFunctions} from "../global/helper-functions";
+import {HelperFunctions} from "../global/helpers/helper-functions";
 import {RoomDefenseController} from "./room-defense-controller";
 
 export class RoomController {

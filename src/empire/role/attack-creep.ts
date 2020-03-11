@@ -1,5 +1,5 @@
 import {Constants} from "../../global/constants";
-import {HelperFunctions} from "../../global/helper-functions";
+import {HelperFunctions} from "../../global/helpers/helper-functions";
 
 export class RoleAttackCreep {
     public static run(attackCreep: AttackPressureCreep | AttackQuickCreep, attackState: AttackStateType, rallyOrRoomTargetFlag: Flag, attackTarget: AttackTarget | null): void {

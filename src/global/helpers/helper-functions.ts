@@ -1,4 +1,4 @@
-import {ReportController} from "../reporting/report-controller";
+import {ReportController} from "../../reporting/report-controller";
 
 export class HelperFunctions {
     public static getId(): number {

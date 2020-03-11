@@ -1,6 +1,6 @@
 // tslint:disable-next-line: class-name
 import {ReportController} from "../../reporting/report-controller";
-import {HelperFunctions} from "../../global/helper-functions";
+import {HelperFunctions} from "../../global/helpers/helper-functions";
 
 export class StageDefault {
     /*

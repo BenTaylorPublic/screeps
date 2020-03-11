@@ -1,6 +1,6 @@
 import {Constants} from "../../global/constants";
 import {ReportController} from "../../reporting/report-controller";
-import {HelperFunctions} from "../../global/helper-functions";
+import {HelperFunctions} from "../../global/helpers/helper-functions";
 
 export class RoomSourceLinkController {
     public static run(myRoom: MyRoom, myLink: MyLink): void {

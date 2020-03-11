@@ -1,4 +1,4 @@
-import {HelperFunctions} from "../../global/helper-functions";
+import {HelperFunctions} from "../../global/helpers/helper-functions";
 import {ReportController} from "../../reporting/report-controller";
 
 export class RoleMiner {

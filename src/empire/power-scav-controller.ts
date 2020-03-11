@@ -1,5 +1,5 @@
 import {Constants} from "../global/constants";
-import {HelperFunctions} from "../global/helper-functions";
+import {HelperFunctions} from "../global/helpers/helper-functions";
 import {RolePowerScavAttackCreep} from "./role/power-scav-attack-creep";
 import {SpawnQueueController} from "../global/spawn-queue-controller";
 import {SpawnConstants} from "../global/spawn-constants";

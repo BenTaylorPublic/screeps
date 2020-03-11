@@ -1,6 +1,6 @@
 import {SpawnQueueController} from "../../global/spawn-queue-controller";
 import {SpawnConstants} from "../../global/spawn-constants";
-import {HelperFunctions} from "../../global/helper-functions";
+import {HelperFunctions} from "../../global/helpers/helper-functions";
 import {ReportController} from "../../reporting/report-controller";
 
 export class SpawnBankLinker {
