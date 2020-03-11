@@ -1,4 +1,18 @@
 export class FlagHelper {
+
+    public static getRoomsFlags(myRoom: MyRoom): Flag[] {
+        const result: Flag[] = [];
+        const flagNames: string[] = Object.keys(Game.flags);
+        for (let i = 0; i < flagNames.length; i++) {
+            const flag: Flag = Game.flags[flagNames[i]];
+            if (flag.room != null &&
+                flag.room.name === myRoom.name) {
+                result.push(flag);
+            }
+        }
+        return result;
+    }
+
     public static getFlag(nameArray: string[], roomName: string): Flag | null {
         const flagNames: string[] = Object.keys(Game.flags);
         for (let i = 0; i < flagNames.length; i++) {
