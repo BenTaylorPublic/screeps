@@ -16,36 +16,36 @@ export class RoomTowerController {
             return;
         }
 
-        const otherCreeps: FindOtherCreepsResult = this.findOtherCreeps(room);
-        if (otherCreeps.hostileCreeps.length !== 0) {
-            const target: Creep = this.getBestCreepTarget(otherCreeps.hostileCreeps);
-            if (target.owner.username !== "Invader") {
-                ReportController.email("Tower attacking target with name " + target.name + " Owner: " + target.owner.username + " in " + HelperFunctions.roomNameAsLink(room.name),
-                    ReportCooldownConstants.FIVE_MINUTE);
-            }
-
-            //Fire them all
-            for (let i = 0; i < towers.length; i++) {
-                towers[i].attack(target);
-            }
-        } else {
-            const damagedStructures: AnyStructure[] = room.find(FIND_STRUCTURES, {
-                filter: (structure: Structure) => {
-                    if (structure.structureType !== STRUCTURE_WALL &&
-                        structure.structureType !== STRUCTURE_RAMPART) {
-                        return structure.hits < structure.hitsMax;
-                    } else {
-                        return structure.hits < Constants.WALL_AND_RAMPART_GOAL_HEALTH;
-                    }
+        const damagedStructures: AnyStructure[] = room.find(FIND_STRUCTURES, {
+            filter: (structure: Structure) => {
+                if (structure.structureType !== STRUCTURE_WALL &&
+                    structure.structureType !== STRUCTURE_RAMPART) {
+                    return structure.hits < structure.hitsMax;
+                } else {
+                    return structure.hits < Constants.WALL_AND_RAMPART_GOAL_HEALTH;
                 }
-            });
-            if (damagedStructures.length !== 0) {
-                //Break once 1 tower has repaired
-                //This stoped all 6 towers repairing once, so the stocker has to fill 6 towers
+            }
+        });
+        if (damagedStructures.length !== 0) {
+            //Break once 1 tower has repaired
+            //This stoped all 6 towers repairing once, so the stocker has to fill 6 towers
+            for (let i = 0; i < towers.length; i++) {
+                if (this.repairIfEnoughEnergy(towers[i], damagedStructures[0])) {
+                    break;
+                }
+            }
+        } else if ((room.controller as StructureController).safeMode == null) {
+            const otherCreeps: FindOtherCreepsResult = this.findOtherCreeps(room);
+            if (otherCreeps.hostileCreeps.length !== 0) {
+                const target: Creep = this.getBestCreepTarget(otherCreeps.hostileCreeps);
+                if (target.owner.username !== "Invader") {
+                    ReportController.email("Tower attacking target with name " + target.name + " Owner: " + target.owner.username + " in " + HelperFunctions.roomNameAsLink(room.name),
+                        ReportCooldownConstants.FIVE_MINUTE);
+                }
+
+                //Fire them all
                 for (let i = 0; i < towers.length; i++) {
-                    if (this.repairIfEnoughEnergy(towers[i], damagedStructures[0])) {
-                        break;
-                    }
+                    this.attackIfEnoughEnergy(towers[i], target);
                 }
             }
 
@@ -53,11 +53,17 @@ export class RoomTowerController {
     }
 
     private static repairIfEnoughEnergy(tower: StructureTower, structure: AnyStructure): boolean {
-        if (tower.store.energy >= tower.store.getCapacity(RESOURCE_ENERGY) * Constants.TOWER_REPAIR_ABOVE_PERCENT) {
+        if (tower.store.energy >= 0) {
             tower.repair(structure);
             return true;
         }
         return false;
+    }
+
+    private static attackIfEnoughEnergy(tower: StructureTower, target: Creep): void {
+        if (tower.store.energy >= tower.store.getCapacity(RESOURCE_ENERGY) * Constants.TOWER_ATTACK_ABOVE_PERCENT) {
+            tower.attack(target);
+        }
     }
 
     private static getBestCreepTarget(hostileCreeps: Creep[]): Creep {
