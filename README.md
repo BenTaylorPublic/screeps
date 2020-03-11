@@ -4,6 +4,15 @@
 ## TODO
 ### Working on
 ```
+Flag helper function to get flags
+    Pass it:
+        An array of strings
+        Number, if it's exntensions or towers
+        Optional room name string, if it should be a limited to a specific room
+        Returns an array (and another version of it returns a Flag | null)
+```
+### Short term
+```
 Observers
     Rework system:
         Remove the Observing/Moving system
@@ -13,20 +22,10 @@ Observers
         Use maths on the X Y to loop through (no need for room list array)
     Keep the top left flag system, but log the 4 corners after setting it, and the amount of rooms (12x12=144)
 ```
-### Short term
-```
-```
 ### Mid term:
 ```
 Haulers 
     Should be re-Roled into Stockers instead of suiciding
-
-Flag helper function to get flags
-    Pass it:
-        An array of strings
-        Number, if it's exntensions or towers
-        Optional room name string, if it should be a limited to a specific room
-        Returns an array (and another version of it returns a Flag | null)
 
 Minerals
     Mark one room as the main room, with flag (main-room)
@@ -67,10 +66,6 @@ Marketing logic (will be at empire level)
 Lab logic
     Uses stocker creeps
     Lab logic of what to request/combine/buff
-    
-Spawn a new miner before the old one dies, so no downtime.
-    This is minor, because a creep only dies every 50 minutes
-    So, with a 1 minute walk time, it would give 2% more power
 
 Power
     Power creeps control
@@ -80,9 +75,6 @@ Nukes (Offence)
         nuke-load           //On the nuker
         nuke-stop-loading   //On the nuker
         nuke-launch         //On the target
-
-Nukes (Defence)
-    Use FIND_NUKES constant and instantly email
 ```
 
 ## Flag Names

@@ -9,6 +9,7 @@ import {RoomSourceLinkController} from "./structures/source-link";
 import {ReportController} from "../reporting/report-controller";
 import {RoleStocker} from "./roles/stocker";
 import {HelperFunctions} from "../global/helper-functions";
+import {RoomDefenseController} from "./room-defense-controller";
 
 export class RoomController {
     public static run(myRoom: MyRoom): void {
@@ -23,6 +24,7 @@ export class RoomController {
         RoomStageController.run(myRoom, room);
         RoomSpawnController.run(myRoom, room);
         RoomTowerController.run(myRoom, room);
+        RoomDefenseController.run(myRoom, room);
 
         const laborersStock: boolean = this.shouldLaborersStock(myRoom);
 
