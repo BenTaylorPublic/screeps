@@ -105,7 +105,7 @@ export class Stage1_6 {
 
         if (flagsPlaced !== myRoom.mySources.length &&
             room.find(FIND_CONSTRUCTION_SITES).length === 0 &&
-            HelperFunctions.amountOfStructure(room, STRUCTURE_CONTAINER) < 1) {
+            HelperFunctions.amountOfStructure(room, STRUCTURE_CONTAINER) < myRoom.mySources.length) {
             ReportController.email("ATTENTION: Room " + HelperFunctions.roomNameAsLink(room.name) + " needs cache container flag (cont)",
                 ReportCooldownConstants.DAY);
         }
