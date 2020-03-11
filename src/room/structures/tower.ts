@@ -26,17 +26,20 @@ export class RoomTowerController {
                 }
             }
         });
+        const otherCreeps: FindOtherCreepsResult = this.findOtherCreeps(room);
         if (damagedStructures.length !== 0) {
             //Break once 1 tower has repaired
             //This stoped all 6 towers repairing once, so the stocker has to fill 6 towers
             for (let i = 0; i < towers.length; i++) {
-                if (this.repairIfEnoughEnergy(towers[i], damagedStructures[0])) {
+                if (this.repairIfEnoughEnergy(towers[i], damagedStructures[0]) &&
+                    otherCreeps.hostileCreeps.length > 0) {
+                    //Only use 1 tower to repair, if there's no hostiles
                     break;
                 }
             }
-        } else if ((room.controller as StructureController).safeMode == null) {
-            const otherCreeps: FindOtherCreepsResult = this.findOtherCreeps(room);
-            if (otherCreeps.hostileCreeps.length !== 0) {
+        } else {
+            if ((room.controller as StructureController).safeMode == null &&
+                otherCreeps.hostileCreeps.length !== 0) {
                 const target: Creep = this.getBestCreepTarget(otherCreeps.hostileCreeps);
                 if (target.owner.username !== "Invader") {
                     ReportController.email("Tower attacking target with name " + target.name + " Owner: " + target.owner.username + " in " + HelperFunctions.roomNameAsLink(room.name),
