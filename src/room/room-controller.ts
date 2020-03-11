@@ -70,15 +70,23 @@ export class RoomController {
         //So we're low energy
         //If all miners are queued, they need to stock
         let foundMinerWhosAlive: boolean = false;
+        let foundStockerWhosAlive: boolean = false;
         for (let j = 0; j < myRoom.myCreeps.length; j++) {
             const myCreep: MyCreep = myRoom.myCreeps[j];
             if (myCreep.role === "Miner" &&
                 myCreep.spawningStatus !== "queued") {
                 foundMinerWhosAlive = true;
-                break;
+            }
+            if (myCreep.role === "Stocker" &&
+                myCreep.spawningStatus !== "queued") {
+                foundStockerWhosAlive = true;
             }
         }
-
-        return !foundMinerWhosAlive;
+        //If there's a stocker alive and a miner, it's fine, return false
+        //Otherwise, we need laborer to stock
+        if (foundStockerWhosAlive) {
+            return !foundMinerWhosAlive;
+        }
+        return true;
     }
 }
