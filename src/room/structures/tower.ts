@@ -61,7 +61,8 @@ export class RoomTowerController {
             if ((room.controller as StructureController).safeMode == null &&
                 otherCreeps.hostileCreeps.length !== 0) {
                 const target: Creep = this.getBestCreepTarget(otherCreeps.hostileCreeps);
-                if (target.owner.username !== "Invader") {
+                if (target.owner.username !== "Invader" &&
+                    !target.name.includes("Harvester_mine")) {
                     ReportController.email("Tower attacking target with name " + target.name + " Owner: " + target.owner.username + " in " + LogHelper.roomNameAsLink(room.name),
                         ReportCooldownConstants.FIVE_MINUTE);
                 }
