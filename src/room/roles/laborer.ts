@@ -128,10 +128,15 @@ export class RoleLaborer {
         if (laborersStock && !givenCommand) {
             const structureToAddTo: Structure | null = creep.pos.findClosestByPath(FIND_STRUCTURES, {
                 filter: (structure: any) => {
-                    return (structure.structureType === STRUCTURE_EXTENSION ||
-                        structure.structureType === STRUCTURE_SPAWN ||
-                        (myRoom.roomStage < 4 && structure.structureType === STRUCTURE_TOWER))
-                        && structure.energy < structure.energyCapacity;
+                    if (structure.structureType !== STRUCTURE_TOWER) {
+                        return (structure.structureType === STRUCTURE_EXTENSION ||
+                            structure.structureType === STRUCTURE_SPAWN)
+                            && structure.energy < structure.energyCapacity;
+
+                    } else {
+                        return myRoom.roomStage < 4 &&
+                            structure.energy < Constants.STOCK_TOWER_TO;
+                    }
                 }
             });
             if (structureToAddTo != null) {

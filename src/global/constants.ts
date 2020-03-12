@@ -25,4 +25,5 @@ export class Constants {
     public static MAX_STOCKERS: number = 1;
     public static LABORERS_UPGRADE_WHEN_CONTROLLER_BENEATH: number = 5000;
     public static STAGE_8_SPAWN_LABORERS_WHEN_CONTROLLER_BENEATH: number = 100_000;
+    public static STOCK_TOWER_TO: number = 900;
 }

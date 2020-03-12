@@ -3,6 +3,7 @@ import {CreepHelper} from "../../global/helpers/creep-helper";
 import {RoomHelper} from "../../global/helpers/room-helper";
 import {LogHelper} from "../../global/helpers/log-helper";
 import {MovementHelper} from "../../global/helpers/movement-helper";
+import {Constants} from "../../global/constants";
 
 export class RoleStocker {
     public static run(stocker: Stocker, myRoom: MyRoom): void {
@@ -32,10 +33,14 @@ export class RoleStocker {
         if (stocker.state === "DistributeEnergy") {
             const structuresToAddTo: Structure[] = room.find(FIND_STRUCTURES, {
                 filter: (structure: any) => {
-                    return (structure.structureType === STRUCTURE_EXTENSION ||
-                        structure.structureType === STRUCTURE_SPAWN ||
-                        structure.structureType === STRUCTURE_TOWER)
-                        && structure.energy < structure.energyCapacity;
+                    if (structure.structureType !== STRUCTURE_TOWER) {
+                        return (structure.structureType === STRUCTURE_EXTENSION ||
+                            structure.structureType === STRUCTURE_SPAWN)
+                            && structure.energy < structure.energyCapacity;
+
+                    } else {
+                        return structure.energy < Constants.STOCK_TOWER_TO;
+                    }
                 }
             });
             if (structuresToAddTo.length > 0) {
