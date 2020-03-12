@@ -25,15 +25,14 @@ export class RoomTowerController {
             return;
         }
 
-
         const onlyRepairDefensiveStructures: boolean = otherCreeps.hostileCreeps.length > 0;
 
         const damagedStructures: AnyStructure[] = room.find(FIND_STRUCTURES, {
             filter: (structure: Structure) => {
                 if (structure.structureType !== STRUCTURE_WALL &&
-                    structure.structureType !== STRUCTURE_RAMPART &&
-                    !onlyRepairDefensiveStructures) {
-                    return structure.hits < structure.hitsMax;
+                    structure.structureType !== STRUCTURE_RAMPART) {
+                    return structure.hits < structure.hitsMax &&
+                        !onlyRepairDefensiveStructures;
                 } else {
                     return structure.hits < Constants.WALL_AND_RAMPART_GOAL_HEALTH;
                 }
