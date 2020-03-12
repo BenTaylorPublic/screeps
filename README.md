@@ -8,6 +8,14 @@ Towers should attack hostiles before repairing, if there are no healers
 ```
 ### Short term
 ```
+Attack
+    Attack params/modes
+        HealerDrain
+            Sends a bunch of healers (just HEAL + MOVE)
+            They move in a tight ball
+            They just get off the edge of the map and heal each other
+            Will be used to empty their towers before the attack
+
 Flag helper function to get flags
     Pass it:
         An array of strings
