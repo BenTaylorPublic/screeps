@@ -126,19 +126,21 @@ export class RoleLaborer {
             givenCommand = true;
         }
         if (laborersStock && !givenCommand) {
-            const structureToAddTo: Structure | null = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+            let structureToAddTo: Structure | null = creep.pos.findClosestByPath(FIND_STRUCTURES, {
                 filter: (structure: any) => {
-                    if (structure.structureType !== STRUCTURE_TOWER) {
-                        return (structure.structureType === STRUCTURE_EXTENSION ||
-                            structure.structureType === STRUCTURE_SPAWN)
-                            && structure.energy < structure.energyCapacity;
-
-                    } else {
-                        return myRoom.roomStage < 4 &&
-                            structure.energy < Constants.STOCK_TOWER_TO;
-                    }
+                    return (structure.structureType === STRUCTURE_EXTENSION ||
+                        structure.structureType === STRUCTURE_SPAWN) &&
+                        structure.energy < structure.energyCapacity;
                 }
             });
+            if (structureToAddTo == null) {
+                structureToAddTo = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+                    filter: (structure: any) => {
+                        return (structure.structureType === STRUCTURE_TOWER)
+                            && structure.energy < Constants.STOCK_TOWER_TO;
+                    }
+                });
+            }
             if (structureToAddTo != null) {
                 givenCommand = true;
                 if (creep.transfer(structureToAddTo, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {

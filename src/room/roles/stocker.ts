@@ -137,16 +137,23 @@ export class RoleStocker {
     }
 
     private static distributeEnergy(stocker: Stocker, creep: Creep): void {
-        const structureToAddTo: Structure | null = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+        let structureToAddTo: Structure | null = creep.pos.findClosestByPath(FIND_STRUCTURES, {
             filter: (structure: any) => {
                 return (structure.structureType === STRUCTURE_EXTENSION ||
-                    structure.structureType === STRUCTURE_SPAWN ||
-                    structure.structureType === STRUCTURE_TOWER)
-                    && structure.energy < structure.energyCapacity;
+                    structure.structureType === STRUCTURE_SPAWN) &&
+                    structure.energy < structure.energyCapacity;
             }
         });
         if (structureToAddTo == null) {
-            return;
+            structureToAddTo = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+                filter: (structure: any) => {
+                    return (structure.structureType === STRUCTURE_TOWER)
+                        && structure.energy < Constants.STOCK_TOWER_TO;
+                }
+            });
+            if (structureToAddTo == null) {
+                return;
+            }
         }
         if (creep.transfer(structureToAddTo, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
             MovementHelper.myMoveTo(creep, structureToAddTo.pos, stocker);
