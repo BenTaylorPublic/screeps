@@ -6,9 +6,11 @@ import {ObserverController} from "./observer/observer-controller";
 import {PowerScavController} from "./power-scav-controller";
 import {RolePowerScavHaulCreep} from "./role/power-scav-haul-creep";
 import {SignController} from "./sign/sign-controller";
+import {ReportController} from "../reporting/report-controller";
 
 export class EmpireController {
     public static run(myMemory: MyMemory): void {
+        this.oddThousandLogic(myMemory);
         SpawnClaimerController.run(myMemory);
         AttackController.run(myMemory);
 
@@ -28,6 +30,13 @@ export class EmpireController {
             } else if (creep.role === "Signer") {
                 SignController.runCreep(creep as Signer);
             }
+        }
+    }
+
+    private static oddThousandLogic(myMemory: MyMemory): void {
+        if (Game.time % 1000 === 0) {
+            myMemory.empire.oddThousand = !myMemory.empire.oddThousand;
+            ReportController.email("Odd thousand swapped to " + myMemory.empire.oddThousand);
         }
     }
 }

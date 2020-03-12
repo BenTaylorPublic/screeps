@@ -53,6 +53,7 @@ function setupMyMemory(): void {
             myRooms: [],
             reports: {},
             empire: {
+                oddThousand: false,
                 attackQuick: null,
                 attackPressure: null,
                 creeps: [],

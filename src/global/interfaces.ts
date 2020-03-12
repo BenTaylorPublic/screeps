@@ -13,6 +13,7 @@ interface MyMemory {
 */
 
 interface Empire {
+    oddThousand: boolean;
     attackQuick: AttackQuick | null;
     attackPressure: AttackPressure | null;
     creeps: MyCreep[];

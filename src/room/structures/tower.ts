@@ -17,6 +17,15 @@ export class RoomTowerController {
             return;
         }
         const otherCreeps: FindOtherCreepsResult = this.findOtherCreeps(room);
+
+        if (Constants.REPAIR_ONLY_ON_ODD_THOUSAND &&
+            otherCreeps.hostileCreeps.length === 0 &&
+            !Memory.myMemory.empire.oddThousand) {
+            //Only repair when the odd thousand is true
+            return;
+        }
+
+
         const onlyRepairDefensiveStructures: boolean = otherCreeps.hostileCreeps.length > 0;
 
         const damagedStructures: AnyStructure[] = room.find(FIND_STRUCTURES, {
