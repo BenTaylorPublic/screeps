@@ -16,18 +16,20 @@ export class RoomTowerController {
         if (towers.length === 0) {
             return;
         }
+        const otherCreeps: FindOtherCreepsResult = this.findOtherCreeps(room);
+        const onlyRepairDefensiveStructures: boolean = otherCreeps.hostileCreeps.length > 0;
 
         const damagedStructures: AnyStructure[] = room.find(FIND_STRUCTURES, {
             filter: (structure: Structure) => {
                 if (structure.structureType !== STRUCTURE_WALL &&
-                    structure.structureType !== STRUCTURE_RAMPART) {
+                    structure.structureType !== STRUCTURE_RAMPART &&
+                    !onlyRepairDefensiveStructures) {
                     return structure.hits < structure.hitsMax;
                 } else {
                     return structure.hits < Constants.WALL_AND_RAMPART_GOAL_HEALTH;
                 }
             }
         });
-        const otherCreeps: FindOtherCreepsResult = this.findOtherCreeps(room);
         if (damagedStructures.length !== 0) {
             //Break once 1 tower has repaired
             //This stoped all 6 towers repairing once, so the stocker has to fill 6 towers
