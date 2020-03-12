@@ -68,7 +68,7 @@ export class RoomTowerController {
     }
 
     private static repairIfEnoughEnergy(tower: StructureTower, structure: AnyStructure): boolean {
-        if (tower.store.energy >= 0) {
+        if (tower.store.energy >= 10) {
             tower.repair(structure);
             return true;
         }
