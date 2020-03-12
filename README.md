@@ -103,6 +103,11 @@ profile
 profile-function
 ```
 
+## Kill List
+- JayOfEarth  
+- _Lalalenya  
+- slowmotionghost
+
 ## Stage Progression and other information
 ```
 Loosely based on RCL
