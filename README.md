@@ -8,6 +8,13 @@ Towers should attack hostiles before repairing, if there are no healers
 ```
 ### Short term
 ```
+Flag helper function to get flags
+    Pass it:
+        An array of strings
+        Number, if it's exntensions or towers
+        Optional room name string, if it should be a limited to a specific room
+        Returns an array (and another version of it returns a Flag | null)
+
 Attack
     Attack params/modes
         HealerDrain
@@ -15,13 +22,6 @@ Attack
             They move in a tight ball
             They just get off the edge of the map and heal each other
             Will be used to empty their towers before the attack
-
-Flag helper function to get flags
-    Pass it:
-        An array of strings
-        Number, if it's exntensions or towers
-        Optional room name string, if it should be a limited to a specific room
-        Returns an array (and another version of it returns a Flag | null)
 
 Observers
     Rework system:

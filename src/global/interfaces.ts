@@ -161,6 +161,7 @@ interface MyRoomName {
 }
 
 interface FindOtherCreepsResult {
+    healers: boolean;
     hostileCreeps: Creep[];
     alliedCreeps: Creep[];
 }
