@@ -1,3 +1,4 @@
+import {LogHelper} from "../../global/helpers/log-helper";
 import {Constants} from "../../global/constants";
 import {ReportController} from "../../reporting/report-controller";
 

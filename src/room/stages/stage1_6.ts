@@ -1,6 +1,8 @@
-
 import {ReportController} from "../../reporting/report-controller";
 import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
+import {RoomHelper} from "../../global/helpers/room-helper";
+import {LogHelper} from "../../global/helpers/log-helper";
+import {FlagHelper} from "../../global/helpers/flag-helper";
 
 // tslint:disable-next-line: class-name
 export class Stage1_6 {
@@ -40,7 +42,7 @@ export class Stage1_6 {
     }
 
     private static step(myRoom: MyRoom, room: Room): void {
-        const roomFlags: Flag[] = HelperFunctions.getRoomsFlags(myRoom);
+        const roomFlags: Flag[] = FlagHelper.getRoomsFlags(myRoom);
         for (let i = roomFlags.length - 1; i >= 0; i--) {
             const roomFlag: Flag = roomFlags[i];
             const flagNameSplit: string[] = roomFlag.name.split("-");
@@ -92,7 +94,7 @@ export class Stage1_6 {
             const mySource: MySource = myRoom.mySources[i];
             if (mySource.cache != null &&
                 mySource.cache.id == null) {
-                const cachePos: RoomPosition = HelperFunctions.myPosToRoomPos(mySource.cache.pos);
+                const cachePos: RoomPosition = RoomHelper.myPosToRoomPos(mySource.cache.pos);
                 const structures: Structure<StructureConstant>[] = cachePos.lookFor(LOOK_STRUCTURES);
                 for (let j = 0; j < structures.length; j++) {
                     if (structures[j].structureType === STRUCTURE_CONTAINER) {

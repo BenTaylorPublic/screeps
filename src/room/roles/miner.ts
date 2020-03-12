@@ -1,5 +1,8 @@
-
 import {ReportController} from "../../reporting/report-controller";
+import {CreepHelper} from "../../global/helpers/creep-helper";
+import {RoomHelper} from "../../global/helpers/room-helper";
+import {LogHelper} from "../../global/helpers/log-helper";
+import {MovementHelper} from "../../global/helpers/movement-helper";
 
 export class RoleMiner {
     public static run(miner: Miner, myRoom: MyRoom): void {
@@ -9,7 +12,7 @@ export class RoleMiner {
 
         const creep: Creep = Game.creeps[miner.name];
 
-        const cachePos: RoomPosition = HelperFunctions.myPosToRoomPos(miner.cachePosToMineOn);
+        const cachePos: RoomPosition = RoomHelper.myPosToRoomPos(miner.cachePosToMineOn);
 
         if (cachePos.isEqualTo(creep.pos)) {
             //In location

@@ -62,6 +62,13 @@ import {MemoryController} from "../memory/memory-controller";
 import {RolePowerScavAttackCreep} from "../empire/role/power-scav-attack-creep";
 import {RolePowerScavHaulCreep} from "../empire/role/power-scav-haul-creep";
 import {SpawnQueueController} from "../global/spawn-queue-controller";
+import {CreepHelper} from "../global/helpers/creep-helper";
+import {RoomHelper} from "../global/helpers/room-helper";
+import {LogHelper} from "../global/helpers/log-helper";
+import {MovementHelper} from "../global/helpers/movement-helper";
+import {MapHelper} from "../global/helpers/map-helper";
+import {FlagHelper} from "../global/helpers/flag-helper";
+import {EmpireHelper} from "../global/helpers/empire-helper";
 
 export class ProfilerWrapper {
     public static setup(): void {
@@ -75,7 +82,13 @@ export class ProfilerWrapper {
         Profiler.setup(EmpireController, "EmpireController");
         Profiler.setup(SpawnClaimerController, "SpawnClaimerController");
 
-        Profiler.setup(HelperFunctions, "HelperFunctions");
+        Profiler.setup(CreepHelper, "CreepHelper");
+        Profiler.setup(EmpireHelper, "EmpireHelper");
+        Profiler.setup(FlagHelper, "FlagHelper");
+        Profiler.setup(LogHelper, "LogHelper");
+        Profiler.setup(MapHelper, "MapHelper");
+        Profiler.setup(MovementHelper, "MovementHelper");
+        Profiler.setup(RoomHelper, "RoomHelper");
 
         Profiler.setup(ReportController, "ReportController");
 
@@ -215,7 +228,7 @@ export class ProfilerWrapper {
 
         console.log("Top " + SHOW_TOP_X_CLASSES + " classes, based on AvgMsPerTick");
 
-        HelperFunctions.logTable(table);
+        LogHelper.logTable(table);
 
         Game.flags["profile"].remove();
     }

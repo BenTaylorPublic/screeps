@@ -1,5 +1,8 @@
-
 import {ReportController} from "../../reporting/report-controller";
+import {CreepHelper} from "../../global/helpers/creep-helper";
+import {RoomHelper} from "../../global/helpers/room-helper";
+import {LogHelper} from "../../global/helpers/log-helper";
+import {MovementHelper} from "../../global/helpers/movement-helper";
 
 export class RoleHauler {
     public static run(hauler: Hauler, myRoom: MyRoom): void {
@@ -22,7 +25,7 @@ export class RoleHauler {
         if (hauler.pickup) {
             //Picking up more
 
-            const cacheToGrabFromPos: RoomPosition = HelperFunctions.myPosToRoomPos(hauler.cachePosToPickupFrom);
+            const cacheToGrabFromPos: RoomPosition = RoomHelper.myPosToRoomPos(hauler.cachePosToPickupFrom);
             if (cacheToGrabFromPos.isNearTo(creep)) {
 
                 let cacheToGrabFrom: StructureContainer | null = null;
@@ -53,7 +56,7 @@ export class RoleHauler {
                 return;
             }
 
-            const bankPos: RoomPosition = HelperFunctions.myPosToRoomPos(myRoom.bankPos);
+            const bankPos: RoomPosition = RoomHelper.myPosToRoomPos(myRoom.bankPos);
 
             if (bankPos.isNearTo(creep)) {
                 const bank: StructureStorage | null = myRoom.bank;

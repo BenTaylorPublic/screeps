@@ -7,6 +7,7 @@ import {SpawnBankLinker} from "./spawn-bank-linker";
 import {ReportController} from "../../reporting/report-controller";
 
 import {AttackHelperFunctions} from "../../empire/attack/attack-helper-functions";
+import {CreepHelper} from "../../global/helpers/creep-helper";
 
 export class RoomSpawnController {
     public static run(myRoom: MyRoom, room: Room): void {
@@ -23,7 +24,7 @@ export class RoomSpawnController {
         }
         const creepToSpawn: QueuedCreep = myRoom.spawnQueue[0];
         const body: BodyPartConstant[] = this.getBody(creepToSpawn, myRoom);
-        const energyCost = HelperFunctions.bodyCost(body);
+        const energyCost = CreepHelper.bodyCost(body);
         if (room.energyAvailable < energyCost) {
             //Too costly to spawn
             return;

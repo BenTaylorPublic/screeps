@@ -1,5 +1,5 @@
 import {ReportController} from "../../reporting/report-controller";
-
+import {CreepHelper} from "../../global/helpers/creep-helper";
 
 export class AttackHelperFunctions {
     public static getNewTargetIfNeeded(attackTarget: AttackTarget | null, flagToPathFrom: Flag): AttackTarget | null {
@@ -168,7 +168,7 @@ export class AttackHelperFunctions {
     public static getBody(myRoom: MyRoom): BodyPartConstant[] {
         const room: Room = Game.rooms[myRoom.name];
 
-        return HelperFunctions.generateBody([MOVE, ATTACK],
+        return CreepHelper.generateBody([MOVE, ATTACK],
             [MOVE, ATTACK],
             room,
             true,

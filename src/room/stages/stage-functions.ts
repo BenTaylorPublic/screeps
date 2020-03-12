@@ -1,11 +1,13 @@
-
+import {RoomHelper} from "../../global/helpers/room-helper";
+import {LogHelper} from "../../global/helpers/log-helper";
+import {FlagHelper} from "../../global/helpers/flag-helper";
 import {ReportController} from "../../reporting/report-controller";
 import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
 
 export class StageFunctions {
 
     public static buildExtensions(myRoom: MyRoom, room: Room, numberOfExtensionsToBuild: number): void {
-        const roomFlags: Flag[] = HelperFunctions.getRoomsFlags(myRoom);
+        const roomFlags: Flag[] = FlagHelper.getRoomsFlags(myRoom);
         for (let i = roomFlags.length - 1; i >= 0; i--) {
             const roomFlag: Flag = roomFlags[i];
             const flagNameSplit: string[] = roomFlag.name.split("-");
@@ -39,7 +41,7 @@ export class StageFunctions {
     }
 
     public static buildTowers(myRoom: MyRoom, room: Room, numberOfTowersToBuild: number): void {
-        const roomFlags: Flag[] = HelperFunctions.getRoomsFlags(myRoom);
+        const roomFlags: Flag[] = FlagHelper.getRoomsFlags(myRoom);
         for (let i = roomFlags.length - 1; i >= 0; i--) {
             const roomFlag: Flag = roomFlags[i];
             const flagNameSplit: string[] = roomFlag.name.split("-");
@@ -70,7 +72,7 @@ export class StageFunctions {
     }
 
     public static setupSourceLink(myRoom: MyRoom): void {
-        const roomFlags: Flag[] = HelperFunctions.getRoomsFlags(myRoom);
+        const roomFlags: Flag[] = FlagHelper.getRoomsFlags(myRoom);
         for (let i = roomFlags.length - 1; i >= 0; i--) {
             const roomFlag: Flag = roomFlags[i];
             const flagNameSplit: string[] = roomFlag.name.split("-");
@@ -114,7 +116,7 @@ export class StageFunctions {
             const mySource: MySource = myRoom.mySources[i];
             if (mySource.link != null &&
                 mySource.link.id == null) {
-                const linkPos: RoomPosition = HelperFunctions.myPosToRoomPos(mySource.link.pos);
+                const linkPos: RoomPosition = RoomHelper.myPosToRoomPos(mySource.link.pos);
                 const structures: Structure<StructureConstant>[] = linkPos.lookFor(LOOK_STRUCTURES);
                 for (let j = 0; j < structures.length; j++) {
                     if (structures[j].structureType === STRUCTURE_LINK) {
@@ -182,7 +184,7 @@ export class StageFunctions {
     }
 
     public static buildSpawns(myRoom: MyRoom, room: Room, amount: number): void {
-        const roomFlags: Flag[] = HelperFunctions.getRoomsFlags(myRoom);
+        const roomFlags: Flag[] = FlagHelper.getRoomsFlags(myRoom);
         for (let i = roomFlags.length - 1; i >= 0; i--) {
             const roomFlag: Flag = roomFlags[i];
             const flagNameSplit: string[] = roomFlag.name.split("-");

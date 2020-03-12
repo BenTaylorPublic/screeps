@@ -1,4 +1,6 @@
-
+import {RoomHelper} from "../../global/helpers/room-helper";
+import {LogHelper} from "../../global/helpers/log-helper";
+import {FlagHelper} from "../../global/helpers/flag-helper";
 import {ReportController} from "../../reporting/report-controller";
 import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
 
@@ -41,7 +43,7 @@ export class Stage3_6 {
             };
             return;
         }
-        const roomFlags: Flag[] = HelperFunctions.getRoomsFlags(myRoom);
+        const roomFlags: Flag[] = FlagHelper.getRoomsFlags(myRoom);
         for (let i = 0; i < roomFlags.length; i++) {
             const roomFlag: Flag = roomFlags[i];
             const flagNameSplit: string[] = roomFlag.name.split("-");

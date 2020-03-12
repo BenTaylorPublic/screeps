@@ -1,6 +1,7 @@
-
 import {StageFunctions} from "./stage-functions";
 import {ReportController} from "../../reporting/report-controller";
+import {RoomHelper} from "../../global/helpers/room-helper";
+import {LogHelper} from "../../global/helpers/log-helper";
 
 // tslint:disable-next-line: class-name
 export class Stage2_6 {

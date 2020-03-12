@@ -1,7 +1,8 @@
-
 import {SpawnQueueController} from "../../global/spawn-queue-controller";
 import {SpawnConstants} from "../../global/spawn-constants";
 import {ReportController} from "../../reporting/report-controller";
+import {CreepHelper} from "../../global/helpers/creep-helper";
+import {LogHelper} from "../../global/helpers/log-helper";
 
 export class SpawnMiner {
     public static minerSpawnLogic(myRoom: MyRoom): void {
@@ -48,7 +49,7 @@ export class SpawnMiner {
 
         if (mySource.link != null &&
             mySource.link.id != null) {
-            body = HelperFunctions.generateBody(
+            body = CreepHelper.generateBody(
                 [MOVE, CARRY, WORK, WORK, WORK, WORK, WORK],
                 [MOVE, CARRY, WORK, WORK, WORK, WORK, WORK],
                 Game.rooms[myRoom.name],
@@ -57,7 +58,7 @@ export class SpawnMiner {
             );
         } else {
             //No carry
-            body = HelperFunctions.generateBody(
+            body = CreepHelper.generateBody(
                 [MOVE, WORK, WORK, WORK, WORK, WORK],
                 [MOVE, WORK, WORK, WORK, WORK, WORK],
                 Game.rooms[myRoom.name],

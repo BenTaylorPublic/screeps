@@ -1,8 +1,9 @@
-
 import {Constants} from "../../global/constants";
 import {SpawnQueueController} from "../../global/spawn-queue-controller";
 import {SpawnConstants} from "../../global/spawn-constants";
 import {ReportController} from "../../reporting/report-controller";
+import {CreepHelper} from "../../global/helpers/creep-helper";
+import {LogHelper} from "../../global/helpers/log-helper";
 
 export class SpawnHauler {
     public static spawnHaulerLogic(myRoom: MyRoom): void {
@@ -41,7 +42,7 @@ export class SpawnHauler {
     }
 
     public static getBody(myRoom: MyRoom): BodyPartConstant[] {
-        return HelperFunctions.generateBody([MOVE, CARRY],
+        return CreepHelper.generateBody([MOVE, CARRY],
             [MOVE, CARRY],
             Game.rooms[myRoom.name],
             true,

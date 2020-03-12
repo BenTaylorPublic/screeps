@@ -1,5 +1,5 @@
 import {ReportController} from "../reporting/report-controller";
-
+import {LogHelper} from "../global/helpers/log-helper";
 
 export class ScheduleController {
     public static preLoop(myMemory: MyMemory): void {

@@ -1,5 +1,6 @@
-
 import {ReportController} from "../reporting/report-controller";
+import {LogHelper} from "../global/helpers/log-helper";
+import {RoomHelper} from "../global/helpers/room-helper";
 
 export class MemoryController {
     public static run(): void {
@@ -179,7 +180,7 @@ export class MemoryController {
         for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
             const myRoom: MyRoom = Memory.myMemory.myRooms[i];
             if (myRoom.bankPos != null) {
-                const bankPos: RoomPosition = HelperFunctions.myPosToRoomPos(myRoom.bankPos);
+                const bankPos: RoomPosition = RoomHelper.myPosToRoomPos(myRoom.bankPos);
                 const structures: Structure<StructureConstant>[] = bankPos.lookFor(LOOK_STRUCTURES);
                 for (let j = 0; j < structures.length; j++) {
                     if (structures[j].structureType === STRUCTURE_STORAGE) {

@@ -1,4 +1,6 @@
-
+import {RoomHelper} from "../../global/helpers/room-helper";
+import {LogHelper} from "../../global/helpers/log-helper";
+import {FlagHelper} from "../../global/helpers/flag-helper";
 import {ReportController} from "../../reporting/report-controller";
 import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
 
@@ -28,7 +30,7 @@ export class Stage5_8 {
     }
 
     private static step(myRoom: MyRoom, room: Room): void {
-        const roomFlags: Flag[] = HelperFunctions.getRoomsFlags(myRoom);
+        const roomFlags: Flag[] = FlagHelper.getRoomsFlags(myRoom);
         for (let i = roomFlags.length - 1; i >= 0; i--) {
             const roomFlag: Flag = roomFlags[i];
             const flagNameSplit: string[] = roomFlag.name.split("-");

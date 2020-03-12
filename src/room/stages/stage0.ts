@@ -1,5 +1,5 @@
 import {ReportController} from "../../reporting/report-controller";
-
+import {LogHelper} from "../../global/helpers/log-helper";
 
 // tslint:disable-next-line: class-name
 export class Stage0 {

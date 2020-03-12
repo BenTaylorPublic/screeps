@@ -1,5 +1,8 @@
-
 import {ReportController} from "../../reporting/report-controller";
+import {CreepHelper} from "../../global/helpers/creep-helper";
+import {RoomHelper} from "../../global/helpers/room-helper";
+import {LogHelper} from "../../global/helpers/log-helper";
+import {MovementHelper} from "../../global/helpers/movement-helper";
 
 export class RoleStocker {
     public static run(stocker: Stocker, myRoom: MyRoom): void {
@@ -112,7 +115,7 @@ export class RoleStocker {
             return;
         }
 
-        const bankPos: RoomPosition = HelperFunctions.myPosToRoomPos(myRoom.bankPos);
+        const bankPos: RoomPosition = RoomHelper.myPosToRoomPos(myRoom.bankPos);
 
         if (bankPos.isNearTo(creep)) {
             const bank: StructureStorage | null = myRoom.bank;
@@ -181,7 +184,7 @@ export class RoleStocker {
             return;
         }
 
-        const bankPos: RoomPosition = HelperFunctions.myPosToRoomPos(myRoom.bankPos);
+        const bankPos: RoomPosition = RoomHelper.myPosToRoomPos(myRoom.bankPos);
 
         if (bankPos.isNearTo(creep)) {
             const bank: StructureStorage | null = myRoom.bank;

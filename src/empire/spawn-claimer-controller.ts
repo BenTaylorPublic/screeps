@@ -1,7 +1,10 @@
-
 import {ReportController} from "../reporting/report-controller";
 import {SpawnQueueController} from "../global/spawn-queue-controller";
 import {SpawnConstants} from "../global/spawn-constants";
+import {RoomHelper} from "../global/helpers/room-helper";
+import {CreepHelper} from "../global/helpers/creep-helper";
+import {LogHelper} from "../global/helpers/log-helper";
+import {MapHelper} from "../global/helpers/map-helper";
 
 export class SpawnClaimerController {
     public static run(myMemory: MyMemory): void {
@@ -42,7 +45,7 @@ export class SpawnClaimerController {
     }
 
     public static getBody(myRoom: MyRoom): BodyPartConstant[] {
-        return HelperFunctions.generateBody([MOVE, CLAIM],
+        return CreepHelper.generateBody([MOVE, CLAIM],
             [MOVE],
             Game.rooms[myRoom.name],
             true,
@@ -51,7 +54,7 @@ export class SpawnClaimerController {
 
     private static spawnClaimer(flag: Flag): Claimer | null {
 
-        const spawn: StructureSpawn | null = HelperFunctions.findClosestSpawn(flag.pos, 3);
+        const spawn: StructureSpawn | null = MapHelper.findClosestSpawn(flag.pos, 3);
         if (spawn == null) {
             flag.remove();
             ReportController.email("ERROR: Couldn't find a spawn to make a claimer for " + LogHelper.roomNameAsLink(flag.pos.roomName));
