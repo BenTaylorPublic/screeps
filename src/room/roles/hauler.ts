@@ -39,7 +39,18 @@ export class RoleHauler {
                 }
 
                 if (cacheToGrabFrom == null) {
-                    ReportController.email("ERROR: Source cache is null for hauler: " + hauler.name + " in " + LogHelper.roomNameAsLink(myRoom.name));
+                    ReportController.email("Source cache is null for hauler: " + hauler.name + " in " + LogHelper.roomNameAsLink(myRoom.name) + ". Marking as NoCache");
+                    for (let i = 0; i < myRoom.mySources.length; i++) {
+                        const cache: MyCache | null = myRoom.mySources[i].cache;
+                        if (cache != null &&
+                            RoomHelper.posMatches2(cache.pos, hauler.cachePosToPickupFrom)) {
+                            myRoom.mySources[i].cache = null;
+                            myRoom.mySources[i].state = "NoCache";
+                            creep.suicide();
+                            return;
+                        }
+                    }
+                    ReportController.email("ERROR: Failed to mark source as NoCache");
                     return;
                 }
                 if (cacheToGrabFrom.store[RESOURCE_ENERGY] >= creep.store.getFreeCapacity()) {
