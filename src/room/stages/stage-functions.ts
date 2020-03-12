@@ -1,11 +1,13 @@
-import {HelperFunctions} from "../../global/helper-functions";
+import {RoomHelper} from "../../global/helpers/room-helper";
+import {LogHelper} from "../../global/helpers/log-helper";
+import {FlagHelper} from "../../global/helpers/flag-helper";
 import {ReportController} from "../../reporting/report-controller";
 import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
 
 export class StageFunctions {
 
     public static buildExtensions(myRoom: MyRoom, room: Room, numberOfExtensionsToBuild: number): void {
-        const roomFlags: Flag[] = HelperFunctions.getRoomsFlags(myRoom);
+        const roomFlags: Flag[] = FlagHelper.getRoomsFlags(myRoom);
         for (let i = roomFlags.length - 1; i >= 0; i--) {
             const roomFlag: Flag = roomFlags[i];
             const flagNameSplit: string[] = roomFlag.name.split("-");
@@ -21,25 +23,25 @@ export class StageFunctions {
             if (extensionNumber <= numberOfExtensionsToBuild) {
                 const result: ScreepsReturnCode = Game.rooms[myRoom.name].createConstructionSite(roomFlag.pos, STRUCTURE_EXTENSION);
                 if (result === OK) {
-                    ReportController.log("Placed extension construction site in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                    ReportController.log("Placed extension construction site in " + LogHelper.roomNameAsLink(myRoom.name));
                     roomFlag.remove();
                     placedAtleastOne = true;
                 } else if (result !== ERR_RCL_NOT_ENOUGH) {
-                    ReportController.email("ERROR: Placing a extension construction site errored " + result + " in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                    ReportController.email("ERROR: Placing a extension construction site errored " + result + " in " + LogHelper.roomNameAsLink(myRoom.name));
                 }
             }
         }
 
         if (!placedAtleastOne &&
             Game.rooms[myRoom.name].find(FIND_CONSTRUCTION_SITES).length === 0 &&
-            HelperFunctions.amountOfStructure(room, STRUCTURE_EXTENSION) < numberOfExtensionsToBuild) {
-            ReportController.email("ATTENTION: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " needs more extension flags (up to ex-" + numberOfExtensionsToBuild.toString() + ")",
+            RoomHelper.amountOfStructure(room, STRUCTURE_EXTENSION) < numberOfExtensionsToBuild) {
+            ReportController.email("ATTENTION: Room " + LogHelper.roomNameAsLink(myRoom.name) + " needs more extension flags (up to ex-" + numberOfExtensionsToBuild.toString() + ")",
                 ReportCooldownConstants.DAY);
         }
     }
 
     public static buildTowers(myRoom: MyRoom, room: Room, numberOfTowersToBuild: number): void {
-        const roomFlags: Flag[] = HelperFunctions.getRoomsFlags(myRoom);
+        const roomFlags: Flag[] = FlagHelper.getRoomsFlags(myRoom);
         for (let i = roomFlags.length - 1; i >= 0; i--) {
             const roomFlag: Flag = roomFlags[i];
             const flagNameSplit: string[] = roomFlag.name.split("-");
@@ -54,23 +56,23 @@ export class StageFunctions {
             if (towerNumber <= numberOfTowersToBuild) {
                 const result: ScreepsReturnCode = Game.rooms[myRoom.name].createConstructionSite(roomFlag.pos, STRUCTURE_TOWER);
                 if (result === OK) {
-                    ReportController.log("Placed tower construction site in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                    ReportController.log("Placed tower construction site in " + LogHelper.roomNameAsLink(myRoom.name));
                     roomFlag.remove();
                 } else {
-                    ReportController.email("ERROR: Placing a tower construction site errored in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                    ReportController.email("ERROR: Placing a tower construction site errored in " + LogHelper.roomNameAsLink(myRoom.name));
                 }
             }
         }
 
         if (Game.rooms[myRoom.name].find(FIND_CONSTRUCTION_SITES).length === 0 &&
-            (HelperFunctions.amountOfStructure(room, STRUCTURE_TOWER) < numberOfTowersToBuild)) {
-            ReportController.email("ATTENTION: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " needs more tower flags (up to tower-" + numberOfTowersToBuild + ")",
+            (RoomHelper.amountOfStructure(room, STRUCTURE_TOWER) < numberOfTowersToBuild)) {
+            ReportController.email("ATTENTION: Room " + LogHelper.roomNameAsLink(myRoom.name) + " needs more tower flags (up to tower-" + numberOfTowersToBuild + ")",
                 ReportCooldownConstants.DAY);
         }
     }
 
     public static setupSourceLink(myRoom: MyRoom): void {
-        const roomFlags: Flag[] = HelperFunctions.getRoomsFlags(myRoom);
+        const roomFlags: Flag[] = FlagHelper.getRoomsFlags(myRoom);
         for (let i = roomFlags.length - 1; i >= 0; i--) {
             const roomFlag: Flag = roomFlags[i];
             const flagNameSplit: string[] = roomFlag.name.split("-");
@@ -90,11 +92,11 @@ export class StageFunctions {
                     const mySource: MySource = myRoom.mySources[j];
                     const source: Source | null = Game.getObjectById<Source>(mySource.id);
                     if (source == null) {
-                        ReportController.email("ERROR: Source was null when trying to get it by ID in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                        ReportController.email("ERROR: Source was null when trying to get it by ID in " + LogHelper.roomNameAsLink(myRoom.name));
                     } else {
                         if (source.pos.inRangeTo(roomFlag.pos, 2)) {
                             mySource.link = {
-                                pos: HelperFunctions.roomPosToMyPos(roomFlag.pos),
+                                pos: RoomHelper.roomPosToMyPos(roomFlag.pos),
                                 id: null
                             };
                             placedFully = true;
@@ -102,10 +104,10 @@ export class StageFunctions {
                     }
                 }
                 if (placedFully) {
-                    ReportController.log("Placed source link construction site in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                    ReportController.log("Placed source link construction site in " + LogHelper.roomNameAsLink(myRoom.name));
                     roomFlag.remove();
                 } else {
-                    ReportController.email("ERROR: Placed a construction site at a flag but couldn't find a source to give it to in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                    ReportController.email("ERROR: Placed a construction site at a flag but couldn't find a source to give it to in " + LogHelper.roomNameAsLink(myRoom.name));
                 }
             } //Don't worry about errors
         }
@@ -114,7 +116,7 @@ export class StageFunctions {
             const mySource: MySource = myRoom.mySources[i];
             if (mySource.link != null &&
                 mySource.link.id == null) {
-                const linkPos: RoomPosition = HelperFunctions.myPosToRoomPos(mySource.link.pos);
+                const linkPos: RoomPosition = RoomHelper.myPosToRoomPos(mySource.link.pos);
                 const structures: Structure<StructureConstant>[] = linkPos.lookFor(LOOK_STRUCTURES);
                 for (let j = 0; j < structures.length; j++) {
                     if (structures[j].structureType === STRUCTURE_LINK) {
@@ -128,7 +130,7 @@ export class StageFunctions {
 
         if (!placedFully &&
             Game.rooms[myRoom.name].find(FIND_CONSTRUCTION_SITES).length === 0) {
-            ReportController.email("ATTENTION: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " needs source link flag (link-source-X)",
+            ReportController.email("ATTENTION: Room " + LogHelper.roomNameAsLink(myRoom.name) + " needs source link flag (link-source-X)",
                 ReportCooldownConstants.DAY);
         }
     }
@@ -148,7 +150,7 @@ export class StageFunctions {
                     if (creep != null) {
                         creep.say("dthb4dshnr");
                         creep.suicide();
-                        ReportController.log("" + HelperFunctions.roomNameAsLink(myRoom.name) + " clearHaulersAndCaches killed a hauler");
+                        ReportController.log("" + LogHelper.roomNameAsLink(myRoom.name) + " clearHaulersAndCaches killed a hauler");
                     }
                 }
                 mySource.haulerNames = [];
@@ -161,7 +163,7 @@ export class StageFunctions {
                         creep.say("dthb4dshnr");
                         creep.suicide();
                         mySource.minerName = null;
-                        ReportController.log("" + HelperFunctions.roomNameAsLink(myRoom.name) + " clearHaulersAndCaches killed a miner with no CARRY");
+                        ReportController.log("" + LogHelper.roomNameAsLink(myRoom.name) + " clearHaulersAndCaches killed a miner with no CARRY");
                     }
                 }
 
@@ -174,7 +176,7 @@ export class StageFunctions {
                     } else {
                         cache.destroy();
                         mySource.cache.id = null;
-                        ReportController.log("" + HelperFunctions.roomNameAsLink(myRoom.name) + " clearHaulersAndCaches destroyed a cache");
+                        ReportController.log("" + LogHelper.roomNameAsLink(myRoom.name) + " clearHaulersAndCaches destroyed a cache");
                     }
                 }
             }
@@ -182,7 +184,7 @@ export class StageFunctions {
     }
 
     public static buildSpawns(myRoom: MyRoom, room: Room, amount: number): void {
-        const roomFlags: Flag[] = HelperFunctions.getRoomsFlags(myRoom);
+        const roomFlags: Flag[] = FlagHelper.getRoomsFlags(myRoom);
         for (let i = roomFlags.length - 1; i >= 0; i--) {
             const roomFlag: Flag = roomFlags[i];
             const flagNameSplit: string[] = roomFlag.name.split("-");
@@ -202,8 +204,8 @@ export class StageFunctions {
 
         if (!placedSpawn &&
             room.find(FIND_CONSTRUCTION_SITES).length === 0 &&
-            HelperFunctions.amountOfStructure(room, STRUCTURE_SPAWN) < amount) {
-            ReportController.email("ATTENTION: Room " + HelperFunctions.roomNameAsLink(room.name) + " needs a spawn flag (spawn)",
+            RoomHelper.amountOfStructure(room, STRUCTURE_SPAWN) < amount) {
+            ReportController.email("ATTENTION: Room " + LogHelper.roomNameAsLink(room.name) + " needs a spawn flag (spawn)",
                 ReportCooldownConstants.DAY);
         }
     }

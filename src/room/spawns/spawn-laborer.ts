@@ -1,8 +1,11 @@
-import {HelperFunctions} from "../../global/helper-functions";
 import {Constants} from "../../global/constants";
 import {ReportController} from "../../reporting/report-controller";
 import {SpawnQueueController} from "../../global/spawn-queue-controller";
 import {SpawnConstants} from "../../global/spawn-constants";
+import {CreepHelper} from "../../global/helpers/creep-helper";
+import {RoomHelper} from "../../global/helpers/room-helper";
+import {LogHelper} from "../../global/helpers/log-helper";
+import {MapHelper} from "../../global/helpers/map-helper";
 
 export class SpawnLaborer {
     public static laborerSpawnLogic(myRoom: MyRoom, room: Room): void {
@@ -43,7 +46,7 @@ export class SpawnLaborer {
     }
 
     public static getBody(myRoom: MyRoom): BodyPartConstant[] {
-        return HelperFunctions.generateBody(
+        return CreepHelper.generateBody(
             [MOVE, MOVE, CARRY, WORK],
             [MOVE, MOVE, CARRY, WORK],
             Game.rooms[myRoom.name],
@@ -51,7 +54,7 @@ export class SpawnLaborer {
     }
 
     public static getForceBody(myRoom: MyRoom): BodyPartConstant[] {
-        return HelperFunctions.generateBody(
+        return CreepHelper.generateBody(
             [MOVE, MOVE, CARRY, WORK],
             [MOVE, MOVE, CARRY, WORK],
             Game.rooms[myRoom.name],
@@ -69,7 +72,7 @@ export class SpawnLaborer {
 
             const bank: StructureStorage | null = myRoom.bank;
             if (bank == null) {
-                ReportController.email("ERROR: Bank is null when checking if it's full in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                ReportController.email("ERROR: Bank is null when checking if it's full in " + LogHelper.roomNameAsLink(myRoom.name));
                 return;
             }
             spawn = (bank.store[RESOURCE_ENERGY] >= Constants.AMOUNT_OF_BANK_ENERGY_TO_SPAWN_LABORER &&
@@ -80,7 +83,7 @@ export class SpawnLaborer {
             //If the bank is capped, spawn another laborer
             const newCreep: Laborer = this.spawnLaborer(myRoom, false);
             myRoom.myCreeps.push(newCreep);
-            ReportController.log("Queued a new Laborer in " + HelperFunctions.roomNameAsLink(myRoom.name));
+            ReportController.log("Queued a new Laborer in " + LogHelper.roomNameAsLink(myRoom.name));
         }
     }
 
@@ -88,7 +91,7 @@ export class SpawnLaborer {
         for (let i: number = 0; i < amount; i++) {
             const newCreep: Laborer | null = this.spawnLaborer(myRoom, true);
             myRoom.myCreeps.push(newCreep);
-            ReportController.log("Force queued a new Laborer in " + HelperFunctions.roomNameAsLink(myRoom.name));
+            ReportController.log("Force queued a new Laborer in " + LogHelper.roomNameAsLink(myRoom.name));
         }
     }
 
@@ -101,17 +104,17 @@ export class SpawnLaborer {
             Game.spawns[myRoom.spawns[0].name] == null) {
             // A room needs a laborer, but it has no spawns yet
             // Going to use the nearest room's spawn instead
-            spawn = HelperFunctions.findClosestSpawn(new RoomPosition(25, 25, myRoom.name), 4);
+            spawn = MapHelper.findClosestSpawn(new RoomPosition(25, 25, myRoom.name), 4);
             if (spawn == null) {
-                ReportController.email("ERROR: Couldn't find any spawns to make a laborer for " + HelperFunctions.roomNameAsLink(myRoom.name));
+                ReportController.email("ERROR: Couldn't find any spawns to make a laborer for " + LogHelper.roomNameAsLink(myRoom.name));
                 throw Error("Couldn't find any spawns to make a laborer for room " + myRoom.name);
             }
-            roomToSpawnFrom = HelperFunctions.getMyRoomByName(spawn.room.name) as MyRoom;
+            roomToSpawnFrom = RoomHelper.getMyRoomByName(spawn.room.name) as MyRoom;
         } else {
             roomToSpawnFrom = myRoom;
         }
 
-        const name: string = "Creep" + HelperFunctions.getId();
+        const name: string = CreepHelper.getName();
         const priority: number = forceSpawn ? SpawnConstants.FORCE_LABORER : SpawnConstants.LABORER;
         const roleInQueue: CreepRoles | "ForceLaborer" = forceSpawn ? "ForceLaborer" : "Laborer";
         SpawnQueueController.queueCreepSpawn(roomToSpawnFrom, priority, name, roleInQueue);

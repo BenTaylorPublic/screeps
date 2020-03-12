@@ -1,5 +1,6 @@
-import {HelperFunctions} from "../global/helper-functions";
 import {ReportController} from "../reporting/report-controller";
+import {LogHelper} from "../global/helpers/log-helper";
+import {RoomHelper} from "../global/helpers/room-helper";
 
 export class MemoryController {
     public static run(): void {
@@ -52,7 +53,7 @@ export class MemoryController {
 
             if (myRoom == null) {
                 //Add it
-                ReportController.log("Adding a new room to memory " + HelperFunctions.roomNameAsLink(roomName));
+                ReportController.log("Adding a new room to memory " + LogHelper.roomNameAsLink(roomName));
                 const newMyRoom: MyRoom = {
                     name: roomName,
                     myCreeps: [],
@@ -115,7 +116,7 @@ export class MemoryController {
             if (room == null ||
                 room.controller == null ||
                 room.controller.my === false) {
-                ReportController.log("Removing room from memory" + HelperFunctions.roomNameAsLink(myRoom.name));
+                ReportController.log("Removing room from memory" + LogHelper.roomNameAsLink(myRoom.name));
                 Memory.myMemory.myRooms.splice(i, 1);
                 continue;
             }
@@ -140,7 +141,7 @@ export class MemoryController {
                     mySource.minerName = null;
                 }
             }
-            ReportController.log("A Miner has died in " + HelperFunctions.roomNameAsLink(myRoom.name));
+            ReportController.log("A Miner has died in " + LogHelper.roomNameAsLink(myRoom.name));
         } else if (myCreep.role === "Hauler") {
             for (let i = 0; i < myRoom.mySources.length; i++) {
                 const mySource: MySource = myRoom.mySources[i];
@@ -150,18 +151,18 @@ export class MemoryController {
                     }
                 }
             }
-            ReportController.log("A Hauler has died in " + HelperFunctions.roomNameAsLink(myRoom.name));
+            ReportController.log("A Hauler has died in " + LogHelper.roomNameAsLink(myRoom.name));
         } else if (myCreep.role === "Laborer") {
-            ReportController.log("A Laborer has died in " + HelperFunctions.roomNameAsLink(myRoom.name));
+            ReportController.log("A Laborer has died in " + LogHelper.roomNameAsLink(myRoom.name));
         } else if (myCreep.role === "Claimer") {
-            ReportController.log("A Claimer has died in " + HelperFunctions.roomNameAsLink(myRoom.name));
+            ReportController.log("A Claimer has died in " + LogHelper.roomNameAsLink(myRoom.name));
         } else if (myCreep.role === "BankLinker") {
             myRoom.bankLinkerName = null;
-            ReportController.log("A BankLinker has died in " + HelperFunctions.roomNameAsLink(myRoom.name));
+            ReportController.log("A BankLinker has died in " + LogHelper.roomNameAsLink(myRoom.name));
         } else if (myCreep.role === "Stocker") {
-            ReportController.log("A Stocker has died in " + HelperFunctions.roomNameAsLink(myRoom.name));
+            ReportController.log("A Stocker has died in " + LogHelper.roomNameAsLink(myRoom.name));
         } else {
-            ReportController.email("ERROR: A Creep with a weird role has died: " + myCreep.role + " in " + HelperFunctions.roomNameAsLink(myRoom.name));
+            ReportController.email("ERROR: A Creep with a weird role has died: " + myCreep.role + " in " + LogHelper.roomNameAsLink(myRoom.name));
         }
     }
 
@@ -179,7 +180,7 @@ export class MemoryController {
         for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
             const myRoom: MyRoom = Memory.myMemory.myRooms[i];
             if (myRoom.bankPos != null) {
-                const bankPos: RoomPosition = HelperFunctions.myPosToRoomPos(myRoom.bankPos);
+                const bankPos: RoomPosition = RoomHelper.myPosToRoomPos(myRoom.bankPos);
                 const structures: Structure<StructureConstant>[] = bankPos.lookFor(LOOK_STRUCTURES);
                 for (let j = 0; j < structures.length; j++) {
                     if (structures[j].structureType === STRUCTURE_STORAGE) {

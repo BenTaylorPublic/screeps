@@ -1,6 +1,7 @@
 import {ReportController} from "../reporting/report-controller";
-import {HelperFunctions} from "../global/helper-functions";
+
 import {ReportCooldownConstants} from "../global/report-cooldown-constants";
+import {LogHelper} from "../global/helpers/log-helper";
 
 export class RoomDefenseController {
     public static run(myRoom: MyRoom, room: Room): void {
@@ -12,7 +13,7 @@ export class RoomDefenseController {
         if (nukes.length > 0) {
             //uh o
             const landingTime: number = Game.time + nukes[0].timeToLand;
-            ReportController.email("NUKE DETECTED in " + HelperFunctions.roomNameAsLink(myRoom.name) + " will land in tick: " + landingTime,
+            ReportController.email("NUKE DETECTED in " + LogHelper.roomNameAsLink(myRoom.name) + " will land in tick: " + landingTime,
                 ReportCooldownConstants.DAY);
         }
     }

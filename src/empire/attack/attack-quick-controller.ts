@@ -1,11 +1,14 @@
 import {ReportController} from "../../reporting/report-controller";
 import {Constants} from "../../global/constants";
-import {HelperFunctions} from "../../global/helper-functions";
 import {AttackHelperFunctions} from "./attack-helper-functions";
 import {RoleAttackCreep} from "../role/attack-creep";
 import {ScheduleController} from "../../schedule/schedule-controller";
 import {SpawnQueueController} from "../../global/spawn-queue-controller";
 import {SpawnConstants} from "../../global/spawn-constants";
+import {CreepHelper} from "../../global/helpers/creep-helper";
+import {LogHelper} from "../../global/helpers/log-helper";
+import {RoomHelper} from "../../global/helpers/room-helper";
+import {MapHelper} from "../../global/helpers/map-helper";
 
 export class AttackQuickController {
     public static run(myMemory: MyMemory, attackQuick: AttackQuick): void {
@@ -21,9 +24,9 @@ export class AttackQuickController {
 
             //Wait until every room that's required to, has added a creep
             for (let i = attackQuick.roomsStillToProvide.length - 1; i >= 0; i--) {
-                const myRoom: MyRoom = HelperFunctions.getMyRoomByName(attackQuick.roomsStillToProvide[i]) as MyRoom;
+                const myRoom: MyRoom = RoomHelper.getMyRoomByName(attackQuick.roomsStillToProvide[i]) as MyRoom;
                 const attackQuickCreep: AttackQuickCreep = this.spawnAttackQuickCreep(myRoom, flag.pos.roomName);
-                ReportController.log("" + HelperFunctions.roomNameAsLink(myRoom.name) + " has been conscripted " + attackQuickCreep.name + " for AttackQuick");
+                ReportController.log("" + LogHelper.roomNameAsLink(myRoom.name) + " has been conscripted " + attackQuickCreep.name + " for AttackQuick");
 
                 ScheduleController.scheduleForNextTick("SET_FALSE_ON_PENDING_CONSCRIPTED_CREEP", myRoom.name);
 
@@ -128,11 +131,11 @@ export class AttackQuickController {
         for (let i = 0; i < myRooms.length; i++) {
             const myRoom: MyRoom = myRooms[i];
             if (myRoom.roomStage >= Constants.CONSCRIPTION_QUICK_MINIMUM_STAGE
-                && HelperFunctions.getRoomDistance(rallyFlag.pos.roomName, myRoom.name) < Constants.CONSCRIPTION_RANGE) {
+                && MapHelper.getRoomDistance(rallyFlag.pos.roomName, myRoom.name) < Constants.CONSCRIPTION_RANGE) {
                 //This room will be conscripted
                 myRoom.pendingConscriptedCreep = true;
                 attackQuick.roomsStillToProvide.push(myRoom.name);
-                outputMessage += HelperFunctions.roomNameAsLink(myRoom.name) + ", ";
+                outputMessage += LogHelper.roomNameAsLink(myRoom.name) + ", ";
             }
         }
         if (attackQuick.roomsStillToProvide.length === 0) {
@@ -150,7 +153,7 @@ export class AttackQuickController {
     }
 
     private static spawnAttackQuickCreep(myRoom: MyRoom, rallyRoomName: string): AttackQuickCreep {
-        const name: string = "Creep" + HelperFunctions.getId();
+        const name: string = CreepHelper.getName();
         SpawnQueueController.queueCreepSpawn(myRoom, SpawnConstants.ATTACK_QUICK, name, "AttackQuickCreep");
 
         return {

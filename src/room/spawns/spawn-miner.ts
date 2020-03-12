@@ -1,7 +1,8 @@
-import {HelperFunctions} from "../../global/helper-functions";
 import {SpawnQueueController} from "../../global/spawn-queue-controller";
 import {SpawnConstants} from "../../global/spawn-constants";
 import {ReportController} from "../../reporting/report-controller";
+import {CreepHelper} from "../../global/helpers/creep-helper";
+import {LogHelper} from "../../global/helpers/log-helper";
 
 export class SpawnMiner {
     public static minerSpawnLogic(myRoom: MyRoom): void {
@@ -23,7 +24,7 @@ export class SpawnMiner {
             //Needs a new miner
             const newCreep: Miner = this.spawnMinerInternal(myRoom, mySource);
             myRoom.myCreeps.push(newCreep);
-            ReportController.log("Queued a new Miner in " + HelperFunctions.roomNameAsLink(myRoom.name));
+            ReportController.log("Queued a new Miner in " + LogHelper.roomNameAsLink(myRoom.name));
             return;
         }
     }
@@ -48,7 +49,7 @@ export class SpawnMiner {
 
         if (mySource.link != null &&
             mySource.link.id != null) {
-            body = HelperFunctions.generateBody(
+            body = CreepHelper.generateBody(
                 [MOVE, CARRY, WORK, WORK, WORK, WORK, WORK],
                 [MOVE, CARRY, WORK, WORK, WORK, WORK, WORK],
                 Game.rooms[myRoom.name],
@@ -57,7 +58,7 @@ export class SpawnMiner {
             );
         } else {
             //No carry
-            body = HelperFunctions.generateBody(
+            body = CreepHelper.generateBody(
                 [MOVE, WORK, WORK, WORK, WORK, WORK],
                 [MOVE, WORK, WORK, WORK, WORK, WORK],
                 Game.rooms[myRoom.name],
@@ -69,7 +70,7 @@ export class SpawnMiner {
     }
 
     private static spawnMinerInternal(myRoom: MyRoom, mySource: MySource): Miner {
-        const name: string = "Creep" + HelperFunctions.getId();
+        const name: string = CreepHelper.getName();
         SpawnQueueController.queueCreepSpawn(myRoom, SpawnConstants.MINER, name, "Miner");
 
         //Have a valid spawn now

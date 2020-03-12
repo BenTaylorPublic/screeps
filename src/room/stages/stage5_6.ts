@@ -1,4 +1,5 @@
-import {HelperFunctions} from "../../global/helper-functions";
+import {RoomHelper} from "../../global/helpers/room-helper";
+import {LogHelper} from "../../global/helpers/log-helper";
 import {ReportController} from "../../reporting/report-controller";
 import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
 
@@ -10,18 +11,18 @@ export class Stage5_6 {
     */
     public static up(myRoom: MyRoom, room: Room): boolean {
         this.step(myRoom, room);
-        if (HelperFunctions.amountOfStructure(room, STRUCTURE_EXTRACTOR) >= 1) {
+        if (RoomHelper.amountOfStructure(room, STRUCTURE_EXTRACTOR) >= 1) {
             myRoom.roomStage = 5.8;
-            ReportController.email("STAGE+: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " increased to room stage 5.8");
+            ReportController.email("STAGE+: Room " + LogHelper.roomNameAsLink(myRoom.name) + " increased to room stage 5.8");
             return true;
         }
         return false;
     }
 
     public static down(myRoom: MyRoom, room: Room): boolean {
-        if (HelperFunctions.amountOfStructure(room, STRUCTURE_EXTRACTOR) < 1) {
+        if (RoomHelper.amountOfStructure(room, STRUCTURE_EXTRACTOR) < 1) {
             myRoom.roomStage = 5.6;
-            ReportController.email("STAGE-: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " decreased to room stage 5.6");
+            ReportController.email("STAGE-: Room " + LogHelper.roomNameAsLink(myRoom.name) + " decreased to room stage 5.6");
             return true;
         }
         return false;
@@ -40,8 +41,8 @@ export class Stage5_6 {
 
         if (!placedExtractor &&
             room.find(FIND_CONSTRUCTION_SITES).length === 0 &&
-            HelperFunctions.amountOfStructure(room, STRUCTURE_EXTRACTOR) < 1) {
-            ReportController.email("ATTENTION: Room " + HelperFunctions.roomNameAsLink(room.name) + " couldn't place an extractor",
+            RoomHelper.amountOfStructure(room, STRUCTURE_EXTRACTOR) < 1) {
+            ReportController.email("ATTENTION: Room " + LogHelper.roomNameAsLink(room.name) + " couldn't place an extractor",
                 ReportCooldownConstants.DAY);
         }
     }

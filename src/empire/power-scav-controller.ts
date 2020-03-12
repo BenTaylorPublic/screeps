@@ -1,9 +1,12 @@
 import {Constants} from "../global/constants";
-import {HelperFunctions} from "../global/helper-functions";
 import {RolePowerScavAttackCreep} from "./role/power-scav-attack-creep";
 import {SpawnQueueController} from "../global/spawn-queue-controller";
 import {SpawnConstants} from "../global/spawn-constants";
 import {ReportController} from "../reporting/report-controller";
+import {MapHelper} from "../global/helpers/map-helper";
+import {RoomHelper} from "../global/helpers/room-helper";
+import {LogHelper} from "../global/helpers/log-helper";
+import {CreepHelper} from "../global/helpers/creep-helper";
 
 export class PowerScavController {
 
@@ -21,7 +24,7 @@ export class PowerScavController {
             if (myRoom.roomStage < Constants.POWER_SCAV_ROOM_STAGE) {
                 continue;
             }
-            const roomDistance = HelperFunctions.getRoomDistance(powerBank.room.name, myRoom.name);
+            const roomDistance = MapHelper.getRoomDistance(powerBank.room.name, myRoom.name);
             if (roomDistance === closestDistance) {
                 closestRooms.push(myRoom);
             } else if (roomDistance < closestDistance) {
@@ -47,13 +50,13 @@ export class PowerScavController {
             return;
         }
 
-        const amountOfPositionsAroundBank: number = HelperFunctions.areaAroundPos(powerBank.pos, powerBank.room);
+        const amountOfPositionsAroundBank: number = RoomHelper.areaAroundPos(powerBank.pos, powerBank.room);
         if (amountOfPositionsAroundBank < Constants.POWER_SCAV_AREA_AROUND_BANK_MIN) {
             return;
         }
 
         //Otherwise, WE'RE GOOD, LET'S GO BOIZ
-        ReportController.log("Power scavenging power bank in room " + HelperFunctions.roomNameAsLink(powerBank.room.name));
+        ReportController.log("Power scavenging power bank in room " + LogHelper.roomNameAsLink(powerBank.room.name));
 
         //This should reuse the rooms
         const roomsToSpawnThrough: string[] = [];
@@ -89,7 +92,7 @@ export class PowerScavController {
 
         myMemory.empire.powerScav.targetBanks.push({
             id: powerBank.id,
-            pos: HelperFunctions.roomPosToMyPos(powerBank.pos),
+            pos: RoomHelper.roomPosToMyPos(powerBank.pos),
             roomsToGetCreepsFrom: roomsToSpawnThrough,
             roomsToGetCreepsFromIndex: 0,
             eol: Game.time + powerBank.ticksToDecay,
@@ -181,17 +184,17 @@ export class PowerScavController {
         }
         const roomName: string = bank.roomsToGetCreepsFrom[bank.roomsToGetCreepsFromIndex];
         bank.roomsToGetCreepsFromIndex++;
-        const myRoom: MyRoom | null = HelperFunctions.getMyRoomByName(roomName);
+        const myRoom: MyRoom | null = RoomHelper.getMyRoomByName(roomName);
         if (myRoom == null) {
             return;
         }
 
         const newCreep: PowerScavHaulCreep = this.spawnHaulCreep(bank, myRoom as MyRoom);
         myMemory.empire.creeps.push(newCreep);
-        ReportController.log("Queued a new PowerScavHaulCreep in " + HelperFunctions.roomNameAsLink(myRoom.name));
+        ReportController.log("Queued a new PowerScavHaulCreep in " + LogHelper.roomNameAsLink(myRoom.name));
         bank.amountOfCarryBodyStillNeeded -= (sectionsNeeded * carryPerSection);
         if (bank.amountOfCarryBodyStillNeeded <= 0) {
-            Game.notify("PowerScav: Queued all the haul creeps needed in " + HelperFunctions.roomNameAsLink(myRoom.name));
+            Game.notify("PowerScav: Queued all the haul creeps needed in " + LogHelper.roomNameAsLink(myRoom.name));
         }
 
         return;
@@ -199,7 +202,7 @@ export class PowerScavController {
     }
 
     private static spawnHaulCreep(powerScav: PowerScavBank, myRoom: MyRoom): PowerScavHaulCreep {
-        const name: string = "Creep" + HelperFunctions.getId();
+        const name: string = CreepHelper.getName();
         SpawnQueueController.queueCreepSpawn(myRoom, SpawnConstants.POWER_SCAV_HAUL, name, "PowerScavHaulCreep");
         return {
             name: name,
@@ -246,14 +249,14 @@ export class PowerScavController {
         }
         bank.roomsToGetCreepsFromIndex++;
         const roomName: string = bank.roomsToGetCreepsFrom[bank.roomsToGetCreepsFromIndex];
-        const myRoom: MyRoom | null = HelperFunctions.getMyRoomByName(roomName);
+        const myRoom: MyRoom | null = RoomHelper.getMyRoomByName(roomName);
         if (myRoom == null) {
             return;
         }
 
         const newCreep: PowerScavAttackCreep = this.spawnAttackCreep(bank, myRoom);
         bank.attackCreeps.push(newCreep);
-        ReportController.log("Queued a new PowerScavAttackCreep in " + HelperFunctions.roomNameAsLink(myRoom.name));
+        ReportController.log("Queued a new PowerScavAttackCreep in " + LogHelper.roomNameAsLink(myRoom.name));
         bank.attackCreepsStillNeeded--;
         for (let j: number = 0; j < bank.attackCreeps.length; j++) {
             if (bank.attackCreeps[j].beenReplaced) {
@@ -271,7 +274,7 @@ export class PowerScavController {
     }
 
     private static spawnAttackCreep(powerScav: PowerScavBank, myRoom: MyRoom): PowerScavAttackCreep {
-        const name: string = "Creep" + HelperFunctions.getId();
+        const name: string = CreepHelper.getName();
         SpawnQueueController.queueCreepSpawn(myRoom, SpawnConstants.POWER_SCAV_ATTACK, name, "PowerScavAttackCreep");
         return {
             name: name,

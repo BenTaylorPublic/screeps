@@ -1,5 +1,6 @@
+import {LogHelper} from "../../global/helpers/log-helper";
 import {ReportController} from "../../reporting/report-controller";
-import {HelperFunctions} from "../../global/helper-functions";
+
 
 export class Stage7 {
     /*
@@ -10,7 +11,7 @@ export class Stage7 {
         if (room.controller != null &&
             room.controller.level === 8) {
             myRoom.roomStage = 7.2;
-            ReportController.email("STAGE+: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " increased to room stage 7.2");
+            ReportController.email("STAGE+: Room " + LogHelper.roomNameAsLink(myRoom.name) + " increased to room stage 7.2");
             return true;
         }
         return false;
@@ -20,7 +21,7 @@ export class Stage7 {
         if (room.controller == null ||
             room.controller.level < 8) {
             myRoom.roomStage = 7;
-            ReportController.email("STAGE-: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " decreased to room stage 7");
+            ReportController.email("STAGE-: Room " + LogHelper.roomNameAsLink(myRoom.name) + " decreased to room stage 7");
             return true;
         }
         return false;

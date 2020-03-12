@@ -1,4 +1,4 @@
-import {HelperFunctions} from "../../global/helper-functions";
+import {LogHelper} from "../../global/helpers/log-helper";
 
 export class FunctionProfiler {
     public static startFunction(functionName: string): void {
@@ -109,9 +109,16 @@ export class FunctionProfiler {
 
         console.log("Top " + SHOW_TOP_X_FUNCTIONS + " functions, based on AvgMsPerTick");
 
-        HelperFunctions.logTable(table);
+        LogHelper.logTable(table);
 
         Game.flags["profile-function"].remove();
+    }
+
+    public static clearProfilingData(): void {
+        //Clear all profiling on setup
+        Memory.functionProfiler = {
+            startTick: Game.time
+        } as FunctionProfilerRawData;
     }
 
     private static getProcessedFunctionData(functionn: FunctionProfilerRawDataFunction, functionName: string, totalTicks: number): FunctionProfilerProcessedDataFunction {
@@ -154,13 +161,6 @@ export class FunctionProfiler {
 
         return result;
     }
-
-    public static clearProfilingData(): void {
-        //Clear all profiling on setup
-        Memory.functionProfiler = {
-            startTick: Game.time
-        } as FunctionProfilerRawData;
-    }
 }
 
 interface FunctionProfilerProcessedDataFunction {
@@ -181,8 +181,9 @@ interface FunctionProfilerProcessedDataSection {
 }
 
 export interface FunctionProfilerRawData {
-    [key: string]: any; //FunctionProfilerRawDataFunction
     startTick: number;
+
+    [key: string]: any; //FunctionProfilerRawDataFunction
 }
 
 export interface FunctionProfilerRawDataFunction {

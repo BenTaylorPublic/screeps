@@ -1,5 +1,5 @@
 import {ReportController} from "../../reporting/report-controller";
-import {HelperFunctions} from "../../global/helper-functions";
+import {LogHelper} from "../../global/helpers/log-helper";
 
 // tslint:disable-next-line: class-name
 export class Stage2 {
@@ -11,7 +11,7 @@ export class Stage2 {
         if (room.controller != null &&
             room.controller.level >= 3) {
             myRoom.roomStage = 2.3;
-            ReportController.email("STAGE+: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " increased to room stage 2.3");
+            ReportController.email("STAGE+: Room " + LogHelper.roomNameAsLink(myRoom.name) + " increased to room stage 2.3");
             return true;
         }
         return false;
@@ -21,7 +21,7 @@ export class Stage2 {
         if (room.controller == null ||
             room.controller.level < 3) {
             myRoom.roomStage = 2;
-            ReportController.email("STAGE-: Room " + HelperFunctions.roomNameAsLink(myRoom.name) + " decreased to room stage 2");
+            ReportController.email("STAGE-: Room " + LogHelper.roomNameAsLink(myRoom.name) + " decreased to room stage 2");
             return true;
         }
         return false;

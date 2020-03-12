@@ -1,9 +1,12 @@
-import {HelperFunctions} from "../../global/helper-functions";
 import {ReportController} from "../../reporting/report-controller";
+import {CreepHelper} from "../../global/helpers/creep-helper";
+import {RoomHelper} from "../../global/helpers/room-helper";
+import {LogHelper} from "../../global/helpers/log-helper";
+import {MovementHelper} from "../../global/helpers/movement-helper";
 
 export class RoleHauler {
     public static run(hauler: Hauler, myRoom: MyRoom): void {
-        if (HelperFunctions.handleCreepPreRole(hauler)) {
+        if (CreepHelper.handleCreepPreRole(hauler)) {
             return;
         }
 
@@ -22,7 +25,7 @@ export class RoleHauler {
         if (hauler.pickup) {
             //Picking up more
 
-            const cacheToGrabFromPos: RoomPosition = HelperFunctions.myPosToRoomPos(hauler.cachePosToPickupFrom);
+            const cacheToGrabFromPos: RoomPosition = RoomHelper.myPosToRoomPos(hauler.cachePosToPickupFrom);
             if (cacheToGrabFromPos.isNearTo(creep)) {
 
                 let cacheToGrabFrom: StructureContainer | null = null;
@@ -36,34 +39,34 @@ export class RoleHauler {
                 }
 
                 if (cacheToGrabFrom == null) {
-                    ReportController.email("ERROR: Source cache is null for hauler: " + hauler.name + " in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                    ReportController.email("ERROR: Source cache is null for hauler: " + hauler.name + " in " + LogHelper.roomNameAsLink(myRoom.name));
                     return;
                 }
                 if (cacheToGrabFrom.store[RESOURCE_ENERGY] >= creep.store.getFreeCapacity()) {
                     creep.withdraw(cacheToGrabFrom, RESOURCE_ENERGY);
                 }
             } else {
-                HelperFunctions.myMoveTo(creep, cacheToGrabFromPos, hauler);
+                MovementHelper.myMoveTo(creep, cacheToGrabFromPos, hauler);
             }
         } else {
             //Deliver
 
             if (myRoom.bankPos == null) {
-                ReportController.email("ERROR: Room's bank pos was null in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                ReportController.email("ERROR: Room's bank pos was null in " + LogHelper.roomNameAsLink(myRoom.name));
                 return;
             }
 
-            const bankPos: RoomPosition = HelperFunctions.myPosToRoomPos(myRoom.bankPos);
+            const bankPos: RoomPosition = RoomHelper.myPosToRoomPos(myRoom.bankPos);
 
             if (bankPos.isNearTo(creep)) {
                 const bank: StructureStorage | null = myRoom.bank;
                 if (bank == null) {
-                    ReportController.email("ERROR: Room's bank was null in " + HelperFunctions.roomNameAsLink(myRoom.name));
+                    ReportController.email("ERROR: Room's bank was null in " + LogHelper.roomNameAsLink(myRoom.name));
                     return;
                 }
                 creep.transfer(bank, RESOURCE_ENERGY);
             } else {
-                HelperFunctions.myMoveTo(creep, bankPos, hauler);
+                MovementHelper.myMoveTo(creep, bankPos, hauler);
             }
         }
     }

@@ -1,7 +1,10 @@
-import {HelperFunctions} from "../../global/helper-functions";
 import {PowerScavController} from "../power-scav-controller";
 import {ReportController} from "../../reporting/report-controller";
 import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
+import {EmpireHelper} from "../../global/helpers/empire-helper";
+import {MapHelper} from "../../global/helpers/map-helper";
+import {LogHelper} from "../../global/helpers/log-helper";
+import {RoomHelper} from "../../global/helpers/room-helper";
 
 export class ObserverController {
     public static run(myMemory: MyMemory): void {
@@ -25,33 +28,33 @@ export class ObserverController {
         if ((room.controller != null &&
             room.controller.my === false &&
             room.controller.owner != null &&
-            !HelperFunctions.isAllyUsername(room.controller.owner.username))) {
+            !EmpireHelper.isAllyUsername(room.controller.owner.username))) {
             if (room.controller.level >= 3) {
                 avoid = true;
             } else {
                 //Low level (no towers)
-                ReportController.email("Scrubs in your local area want to get wrecked " + HelperFunctions.roomNameAsLink(room.name),
+                ReportController.email("Scrubs in your local area want to get wrecked " + LogHelper.roomNameAsLink(room.name),
                     ReportCooldownConstants.DAY);
             }
-        } else if (HelperFunctions.isMiddle3x3(room.name)) {
+        } else if (MapHelper.isMiddle3x3(room.name)) {
             avoid = true;
         }
 
 
         if (avoid) {
             if (!empireMemory.avoidRooms.includes(room.name)) {
-                ReportController.email("Added " + HelperFunctions.roomNameAsLink(room.name) + " to avoid list",
+                ReportController.email("Added " + LogHelper.roomNameAsLink(room.name) + " to avoid list",
                     ReportCooldownConstants.DAY);
                 empireMemory.avoidRooms.push(room.name);
             }
         } else {
             if (empireMemory.avoidRooms.includes(room.name)) {
-                ReportController.email("Removing " + HelperFunctions.roomNameAsLink(room.name) + " from avoid list",
+                ReportController.email("Removing " + LogHelper.roomNameAsLink(room.name) + " from avoid list",
                     ReportCooldownConstants.DAY);
                 empireMemory.avoidRooms.splice(empireMemory.avoidRooms.indexOf(room.name), 1);
             }
             //Check if is highway
-            if (HelperFunctions.isHighway(room.name)) {
+            if (MapHelper.isHighway(room.name)) {
                 const powerBanks: StructurePowerBank[] = room.find<StructurePowerBank>(FIND_STRUCTURES, {
                         filter: (structure: Structure) => {
                             return structure.structureType === STRUCTURE_POWER_BANK;
@@ -124,7 +127,7 @@ export class ObserverController {
         const flag: Flag = Game.flags[flagNames[0]];
         const size: number = Number(flag.name.split("-")[2]);
 
-        const topLeftRoomName: MyRoomName = HelperFunctions.getRoomNameAsInterface(flag.pos.roomName);
+        const topLeftRoomName: MyRoomName = RoomHelper.getRoomNameAsInterface(flag.pos.roomName);
         observerMemory.targetList = [];
         for (let x: number = topLeftRoomName.xNum; x < topLeftRoomName.xNum + size; x++) {
             for (let y: number = topLeftRoomName.yNum; y < topLeftRoomName.yNum + size; y++) {

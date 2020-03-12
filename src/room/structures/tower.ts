@@ -1,7 +1,8 @@
-import {HelperFunctions} from "../../global/helper-functions";
+import {LogHelper} from "../../global/helpers/log-helper";
 import {Constants} from "../../global/constants";
 import {ReportController} from "../../reporting/report-controller";
 import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
+import {EmpireHelper} from "../../global/helpers/empire-helper";
 
 export class RoomTowerController {
     public static run(myRoom: MyRoom, room: Room): void {
@@ -51,7 +52,7 @@ export class RoomTowerController {
                 otherCreeps.hostileCreeps.length !== 0) {
                 const target: Creep = this.getBestCreepTarget(otherCreeps.hostileCreeps);
                 if (target.owner.username !== "Invader") {
-                    ReportController.email("Tower attacking target with name " + target.name + " Owner: " + target.owner.username + " in " + HelperFunctions.roomNameAsLink(room.name),
+                    ReportController.email("Tower attacking target with name " + target.name + " Owner: " + target.owner.username + " in " + LogHelper.roomNameAsLink(room.name),
                         ReportCooldownConstants.FIVE_MINUTE);
                 }
 
@@ -114,7 +115,7 @@ export class RoomTowerController {
         const otherCreeps: Creep[] = room.find(FIND_HOSTILE_CREEPS);
         for (let i: number = 0; i < otherCreeps.length; i++) {
             const possibleHostileCreep: Creep = otherCreeps[i];
-            if (HelperFunctions.isAllyUsername(possibleHostileCreep.owner.username)) {
+            if (EmpireHelper.isAllyUsername(possibleHostileCreep.owner.username)) {
                 result.alliedCreeps.push(possibleHostileCreep);
             } else {
                 result.hostileCreeps.push(possibleHostileCreep);

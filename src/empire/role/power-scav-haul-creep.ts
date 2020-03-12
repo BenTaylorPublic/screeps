@@ -1,9 +1,12 @@
-import {HelperFunctions} from "../../global/helper-functions";
 import {ReportController} from "../../reporting/report-controller";
+import {CreepHelper} from "../../global/helpers/creep-helper";
+import {MovementHelper} from "../../global/helpers/movement-helper";
+import {RoomHelper} from "../../global/helpers/room-helper";
+import {LogHelper} from "../../global/helpers/log-helper";
 
 export class RolePowerScavHaulCreep {
     public static run(powerScavHaul: PowerScavHaulCreep): void {
-        if (HelperFunctions.handleCreepPreRole(powerScavHaul)) {
+        if (CreepHelper.handleCreepPreRole(powerScavHaul)) {
             return;
         }
 
@@ -28,7 +31,7 @@ export class RolePowerScavHaulCreep {
             //Power bank is still alive
             if (creep.pos.getRangeTo(powerBanks[0]) > 3) {
                 //Walk near it
-                HelperFunctions.myMoveTo(creep, powerBanks[0].pos, powerScavHaul);
+                MovementHelper.myMoveTo(creep, powerBanks[0].pos, powerScavHaul);
             }
         } else {
             if (creep.store.getFreeCapacity() > 0) {
@@ -41,7 +44,7 @@ export class RolePowerScavHaulCreep {
                     creep.suicide();
                 } else {
                     if (creep.pickup(resources[0]) === ERR_NOT_IN_RANGE) {
-                        HelperFunctions.myMoveTo(creep, resources[0].pos, powerScavHaul);
+                        MovementHelper.myMoveTo(creep, resources[0].pos, powerScavHaul);
                     }
                 }
             } else {
@@ -59,20 +62,20 @@ export class RolePowerScavHaulCreep {
             creep.suicide();
         }
 
-        const myRoom: MyRoom | null = HelperFunctions.getMyRoomByName(powerScavHaul.roomToDepositTo);
+        const myRoom: MyRoom | null = RoomHelper.getMyRoomByName(powerScavHaul.roomToDepositTo);
         if (myRoom == null) {
-            ReportController.email("ERROR: Room was null for a power scav hauler " + HelperFunctions.roomNameAsLink(powerScavHaul.roomToDepositTo));
+            ReportController.email("ERROR: Room was null for a power scav hauler " + LogHelper.roomNameAsLink(powerScavHaul.roomToDepositTo));
             return;
         }
 
         const bank: StructureStorage | null = myRoom.bank;
         if (bank == null) {
-            ReportController.email("ERROR: Bank was null for a power scav hauler in " + HelperFunctions.roomNameAsLink(myRoom.name));
+            ReportController.email("ERROR: Bank was null for a power scav hauler in " + LogHelper.roomNameAsLink(myRoom.name));
             return;
         }
 
         if (creep.transfer(bank, RESOURCE_POWER) === ERR_NOT_IN_RANGE) {
-            HelperFunctions.myMoveTo(creep, bank.pos, powerScavHaul);
+            MovementHelper.myMoveTo(creep, bank.pos, powerScavHaul);
         }
     }
 }
