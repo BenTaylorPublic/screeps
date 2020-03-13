@@ -16,6 +16,7 @@ interface Empire {
     oddThousand: boolean;
     attackQuick: AttackQuick | null;
     attackPressure: AttackPressure | null;
+    attackHealerDrain: AttackHealerDrain | null;
     creeps: MyCreep[];
     observer: ObserverMemory;
     avoidRooms: string[];
@@ -33,6 +34,12 @@ interface ObserverMemory {
 type AttackStateType = "Conscripting" | "Rally" | "Charge";
 
 interface AttackQuick {
+    state: AttackStateType;
+    roomsStillToProvide: string[];
+    attackTarget: AttackTarget | null;
+}
+
+interface AttackHealerDrain {
     state: AttackStateType;
     roomsStillToProvide: string[];
     attackTarget: AttackTarget | null;
@@ -189,7 +196,8 @@ type CreepRoles =
     | "PowerScavAttackCreep"
     | "PowerScavHaulCreep"
     | "Stocker"
-    | "Signer";
+    | "Signer"
+    | "AttackHealerDrainCreep";
 
 /*
 ====================
@@ -246,6 +254,9 @@ interface PowerScavAttackCreep extends MyCreep {
 interface PowerScavHaulCreep extends MyCreep {
     state: "grabbing" | "depositing";
     roomToDepositTo: string;
+}
+
+interface AttackHealerDrainCreep extends MyCreep {
 }
 
 interface Stocker extends MyCreep {
