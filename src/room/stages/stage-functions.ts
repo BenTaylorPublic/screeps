@@ -7,17 +7,10 @@ import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
 export class StageFunctions {
 
     public static buildExtensions(myRoom: MyRoom, room: Room, numberOfExtensionsToBuild: number): void {
-        const roomFlags: Flag[] = FlagHelper.getRoomsFlags(myRoom);
-        for (let i = roomFlags.length - 1; i >= 0; i--) {
-            const roomFlag: Flag = roomFlags[i];
-            const flagNameSplit: string[] = roomFlag.name.split("-");
-            if (flagNameSplit[0] !== "ex") {
-                roomFlags.splice(i, 1);
-            }
-        }
+        const flags: Flag[] = FlagHelper.getFlags3(["ex"], room.name, numberOfExtensionsToBuild);
         let placedAtleastOne: boolean = false;
-        for (let i = 0; i < roomFlags.length; i++) {
-            const roomFlag: Flag = roomFlags[i];
+        for (let i = 0; i < flags.length; i++) {
+            const roomFlag: Flag = flags[i];
             const flagNameSplit: string[] = roomFlag.name.split("-");
             const extensionNumber: number = Number(flagNameSplit[1]);
             if (extensionNumber <= numberOfExtensionsToBuild) {
@@ -41,26 +34,16 @@ export class StageFunctions {
     }
 
     public static buildTowers(myRoom: MyRoom, room: Room, numberOfTowersToBuild: number): void {
-        const roomFlags: Flag[] = FlagHelper.getRoomsFlags(myRoom);
-        for (let i = roomFlags.length - 1; i >= 0; i--) {
-            const roomFlag: Flag = roomFlags[i];
-            const flagNameSplit: string[] = roomFlag.name.split("-");
-            if (flagNameSplit[0] !== "tower") {
-                roomFlags.splice(i, 1);
-            }
-        }
-        for (let i = 0; i < roomFlags.length; i++) {
-            const roomFlag: Flag = roomFlags[i];
-            const flagNameSplit: string[] = roomFlag.name.split("-");
-            const towerNumber: number = Number(flagNameSplit[1]);
-            if (towerNumber <= numberOfTowersToBuild) {
-                const result: ScreepsReturnCode = Game.rooms[myRoom.name].createConstructionSite(roomFlag.pos, STRUCTURE_TOWER);
-                if (result === OK) {
-                    ReportController.log("Placed tower construction site in " + LogHelper.roomNameAsLink(myRoom.name));
-                    roomFlag.remove();
-                } else {
-                    ReportController.email("ERROR: Placing a tower construction site errored in " + LogHelper.roomNameAsLink(myRoom.name));
-                }
+        const flags: Flag[] = FlagHelper.getFlags3(["tower"], room.name, numberOfTowersToBuild);
+
+        for (let i = 0; i < flags.length; i++) {
+            const flag: Flag = flags[i];
+            const result: ScreepsReturnCode = Game.rooms[myRoom.name].createConstructionSite(flag.pos, STRUCTURE_TOWER);
+            if (result === OK) {
+                ReportController.log("Placed tower construction site in " + LogHelper.roomNameAsLink(myRoom.name));
+                flag.remove();
+            } else {
+                ReportController.email("ERROR: Placing a tower construction site errored in " + LogHelper.roomNameAsLink(myRoom.name));
             }
         }
 
@@ -72,21 +55,13 @@ export class StageFunctions {
     }
 
     public static setupSourceLink(myRoom: MyRoom): void {
-        const roomFlags: Flag[] = FlagHelper.getRoomsFlags(myRoom);
-        for (let i = roomFlags.length - 1; i >= 0; i--) {
-            const roomFlag: Flag = roomFlags[i];
-            const flagNameSplit: string[] = roomFlag.name.split("-");
-            if (flagNameSplit[0] !== "link" ||
-                flagNameSplit[1] !== "source") {
-                roomFlags.splice(i, 1);
-            }
-        }
+        const flags: Flag[] = FlagHelper.getFlags2(["link", "source"], myRoom.name);
 
         let placedFully: boolean = false;
 
-        for (let i = 0; i < roomFlags.length; i++) {
-            const roomFlag: Flag = roomFlags[i];
-            const result: ScreepsReturnCode = Game.rooms[myRoom.name].createConstructionSite(roomFlag.pos, STRUCTURE_LINK);
+        for (let i = 0; i < flags.length; i++) {
+            const flag: Flag = flags[i];
+            const result: ScreepsReturnCode = Game.rooms[myRoom.name].createConstructionSite(flag.pos, STRUCTURE_LINK);
             if (result === OK) {
                 for (let j = 0; j < myRoom.mySources.length; j++) {
                     const mySource: MySource = myRoom.mySources[j];
@@ -94,9 +69,9 @@ export class StageFunctions {
                     if (source == null) {
                         ReportController.email("ERROR: Source was null when trying to get it by ID in " + LogHelper.roomNameAsLink(myRoom.name));
                     } else {
-                        if (source.pos.inRangeTo(roomFlag.pos, 2)) {
+                        if (source.pos.inRangeTo(flag.pos, 2)) {
                             mySource.link = {
-                                pos: RoomHelper.roomPosToMyPos(roomFlag.pos),
+                                pos: RoomHelper.roomPosToMyPos(flag.pos),
                                 id: null
                             };
                             placedFully = true;
@@ -105,7 +80,7 @@ export class StageFunctions {
                 }
                 if (placedFully) {
                     ReportController.log("Placed source link construction site in " + LogHelper.roomNameAsLink(myRoom.name));
-                    roomFlag.remove();
+                    flag.remove();
                 } else {
                     ReportController.email("ERROR: Placed a construction site at a flag but couldn't find a source to give it to in " + LogHelper.roomNameAsLink(myRoom.name));
                 }
