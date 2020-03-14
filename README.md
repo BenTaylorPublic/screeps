@@ -4,15 +4,17 @@
 ## TODO
 ### Working on
 ```
+Fix the laborer rut
+```
+### Short term
+```
 Flag helper function to get flags
     Pass it:
         An array of strings
         Number, if it's exntensions or towers
         Optional room name string, if it should be a limited to a specific room
         Returns an array (and another version of it returns a Flag | null)
-```
-### Short term
-```
+
 Attack
     Attack params/modes
         HealerDrain
