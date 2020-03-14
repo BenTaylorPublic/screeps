@@ -33,7 +33,9 @@ export class ObserverController {
                 avoid = true;
             } else {
                 //Low level (no towers)
-                ReportController.email("Scrubs in your local area want to get wrecked " + LogHelper.roomNameAsLink(room.name),
+                ReportController.email("Scrubs in your local area want to get wrecked " + LogHelper.roomNameAsLink(room.name) +
+                    " Owner: " + room.controller.owner.username +
+                    " Safemode: " + (room.controller.safeMode != null),
                     ReportCooldownConstants.DAY);
             }
         } else if (MapHelper.isMiddle3x3(room.name)) {
@@ -97,7 +99,7 @@ export class ObserverController {
         } else { //Observing
             const room: Room | null = Game.rooms[observerMemory.targetList[observerMemory.currentTargetIndex]];
             if (room == null) {
-                ReportController.email("ERROR: Room from observer was null");
+                ReportController.email("ERROR: Room from observer was null " + LogHelper.roomNameAsLink(observerMemory.targetList[observerMemory.currentTargetIndex]));
             } else {
                 this.observe(room, myMemory);
             }
