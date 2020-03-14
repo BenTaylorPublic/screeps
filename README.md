@@ -4,8 +4,6 @@
 ## TODO
 ### Working on
 ```
-Towers should attack hostiles before repairing, if there are no healers
-
 Attack
     Attack params/modes
         HealerDrain
