@@ -4,16 +4,6 @@
 ## TODO
 ### Working on
 ```
-Attack
-    Attack params/modes
-        HealerDrain
-            Sends a bunch of healers (just HEAL + MOVE)
-            They move in a tight ball
-            They just get off the edge of the map and heal each other
-            Will be used to empty their towers before the attack
-```
-### On hold
-```
 Flag helper function to get flags
     Pass it:
         An array of strings
@@ -23,6 +13,14 @@ Flag helper function to get flags
 ```
 ### Short term
 ```
+Attack
+    Attack params/modes
+        HealerDrain
+            Sends a bunch of healers (just HEAL + MOVE)
+            They move in a tight ball
+            They just get off the edge of the map and heal each other
+            Will be used to empty their towers before the attack
+
 Observers
     Rework system:
         Remove the Observing/Moving system
