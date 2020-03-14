@@ -47,14 +47,6 @@ export class RoomTowerController {
 
             if (damagedStructures.length !== 0) {
 
-                if (Constants.REPAIR_ONLY_ON_ODD_THOUSAND &&
-                    otherCreeps.hostileCreeps.length === 0 &&
-                    !Memory.myMemory.empire.oddThousand) {
-                    //Only repair when the odd thousand is true
-                    return;
-                }
-                const minimumEnergyToRepair: number = (otherCreeps.hostileCreeps.length === 0) ? 500 : 10;
-
                 //Break once 1 tower has repaired
                 //This stoped all 6 towers repairing once, so the stocker has to fill 6 towers
                 let lowestStructure: AnyStructure = damagedStructures[0];
@@ -65,6 +57,17 @@ export class RoomTowerController {
                         lowestStructureHealth = lowestStructure.hits;
                     }
                 }
+
+                if (Constants.REPAIR_ONLY_ON_ODD_THOUSAND &&
+                    otherCreeps.hostileCreeps.length === 0 &&
+                    !Memory.myMemory.empire.oddThousand &&
+                    //If the lowest structure is a rampart below 5K, repair regardless of oddThousand
+                    (lowestStructure.structureType !== STRUCTURE_RAMPART ||
+                        lowestStructure.hits > 5_000)) {
+                    //Only repair when the odd thousand is true
+                    return;
+                }
+                const minimumEnergyToRepair: number = (otherCreeps.hostileCreeps.length === 0) ? 500 : 10;
 
                 for (let i = 0; i < towers.length; i++) {
                     if (this.repairIfEnoughEnergy(towers[i], lowestStructure, minimumEnergyToRepair) &&
