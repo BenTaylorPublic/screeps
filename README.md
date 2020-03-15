@@ -4,7 +4,7 @@
 ## TODO
 ### Working on
 ```
-Fix the laborer rut
+    Hold logic with "attack-hold" flag
 ```
 ### Short term
 ```
@@ -16,7 +16,6 @@ Flag helper function to get flags
         Returns an array (and another version of it returns a Flag | null)
 
 Attack
-    Hold logic with "attack-hold" flag
     Attack params/modes
         HealerDrain
             Sends a bunch of healers (just HEAL + MOVE)
