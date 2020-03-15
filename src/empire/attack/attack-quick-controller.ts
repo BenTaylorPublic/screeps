@@ -65,6 +65,10 @@ export class AttackQuickController {
                 }
             }
             if (allCreepsAtFlag) {
+                if (Game.flags["attack-hold"] != null) {
+                    return;
+                }
+
                 //If it gets here, we're ready to charge!
                 ReportController.log("AttackQuick Charge");
                 attackQuick.state = "Charge";
