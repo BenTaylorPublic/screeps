@@ -4,16 +4,19 @@
 ## TODO
 ### Working on
 ```
+Tower healing ramparts/other structures fix
+```
+### Short term
+```
 Flag helper function to get flags
     Pass it:
         An array of strings
         Number, if it's exntensions or towers
         Optional room name string, if it should be a limited to a specific room
         Returns an array (and another version of it returns a Flag | null)
-```
-### Short term
-```
+
 Attack
+    Clean up target selection
     Seems to be some problem with ending an attack smoothly
     HealerDrain
         healer-drain
