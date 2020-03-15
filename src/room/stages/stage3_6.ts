@@ -44,6 +44,7 @@ export class Stage3_6 {
             return;
         }
         const roomFlags: Flag[] = FlagHelper.getRoomsFlags(myRoom);
+        let placedBank: boolean = false;
         for (let i = 0; i < roomFlags.length; i++) {
             const roomFlag: Flag = roomFlags[i];
             const flagNameSplit: string[] = roomFlag.name.split("-");
@@ -52,7 +53,7 @@ export class Stage3_6 {
                 if (result === OK) {
                     ReportController.log("Placed storage bank construction site in " + LogHelper.roomNameAsLink(room.name));
                     roomFlag.remove();
-
+                    placedBank = true;
                 } else {
                     ReportController.email("ERROR: Placing a storage bank construction site errored in " + LogHelper.roomNameAsLink(room.name));
                 }
@@ -60,7 +61,8 @@ export class Stage3_6 {
         }
 
         if (Game.rooms[myRoom.name].find(FIND_CONSTRUCTION_SITES).length === 0 &&
-            (RoomHelper.amountOfStructure(room, STRUCTURE_STORAGE) < 1)) {
+            RoomHelper.amountOfStructure(room, STRUCTURE_STORAGE) < 1 &&
+            !placedBank) {
             ReportController.email("ATTENTION: Room " + LogHelper.roomNameAsLink(myRoom.name) + " needs a bank flag (storage)",
                 ReportCooldownConstants.DAY);
         }
