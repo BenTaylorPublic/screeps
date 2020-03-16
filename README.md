@@ -9,6 +9,7 @@ Stages should log what they are, briefly, when stage + or -
 ### Short term
 ```
 Attack
+    Try RoomVisualisation instead of flags for target
     Clean up target selection
     Seems to be some problem with ending an attack smoothly
     HealerDrain
