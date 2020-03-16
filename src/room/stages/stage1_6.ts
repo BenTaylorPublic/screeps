@@ -42,18 +42,11 @@ export class Stage1_6 {
     }
 
     private static step(myRoom: MyRoom, room: Room): void {
-        const roomFlags: Flag[] = FlagHelper.getRoomsFlags(myRoom);
-        for (let i = roomFlags.length - 1; i >= 0; i--) {
-            const roomFlag: Flag = roomFlags[i];
-            const flagNameSplit: string[] = roomFlag.name.split("-");
-            if (flagNameSplit[0] !== "cont") {
-                roomFlags.splice(i, 1);
-            }
-        }
+        const flags: Flag[] = FlagHelper.getFlags2(["cont"], myRoom.name);
 
         let flagsPlaced: number = 0;
-        for (let i = 0; i < roomFlags.length; i++) {
-            const roomFlag: Flag = roomFlags[i];
+        for (let i = 0; i < flags.length; i++) {
+            const roomFlag: Flag = flags[i];
             const result: ScreepsReturnCode = Game.rooms[myRoom.name].createConstructionSite(roomFlag.pos, STRUCTURE_CONTAINER);
             if (result === OK || this.containerInPos(roomFlag.pos)) {
                 let placedFully: boolean = false;

@@ -30,21 +30,14 @@ export class Stage5_8 {
     }
 
     private static step(myRoom: MyRoom, room: Room): void {
-        const roomFlags: Flag[] = FlagHelper.getRoomsFlags(myRoom);
-        for (let i = roomFlags.length - 1; i >= 0; i--) {
-            const roomFlag: Flag = roomFlags[i];
-            const flagNameSplit: string[] = roomFlag.name.split("-");
-            if (flagNameSplit[0] !== "terminal") {
-                roomFlags.splice(i, 1);
-            }
-        }
+        const flag: Flag | null = FlagHelper.getFlag(["terminal"], myRoom.name);
 
         let placedTerminal: boolean = false;
-        if (roomFlags.length === 1) {
-            const result: ScreepsReturnCode = roomFlags[0].pos.createConstructionSite(STRUCTURE_TERMINAL);
+        if (flag != null) {
+            const result: ScreepsReturnCode = flag.pos.createConstructionSite(STRUCTURE_TERMINAL);
             if (result === OK) {
                 placedTerminal = true;
-                roomFlags[0].remove();
+                flag.remove();
             }
         }
 

@@ -44,20 +44,13 @@ export class Stage7_8 {
     }
 
     private static step(myRoom: MyRoom, room: Room): void {
-        const roomFlags: Flag[] = FlagHelper.getRoomsFlags(myRoom);
-        for (let i = roomFlags.length - 1; i >= 0; i--) {
-            const roomFlag: Flag = roomFlags[i];
-            if (roomFlag.name !== "power-spawn") {
-                roomFlags.splice(i, 1);
-            }
-        }
-
+        const flag: Flag | null = FlagHelper.getFlag(["power", "spawn"], myRoom.name);
         let placedPowerSpawn: boolean = false;
-        if (roomFlags.length === 1) {
-            const result: ScreepsReturnCode = roomFlags[0].pos.createConstructionSite(STRUCTURE_POWER_SPAWN);
+        if (flag != null) {
+            const result: ScreepsReturnCode = flag.pos.createConstructionSite(STRUCTURE_POWER_SPAWN);
             if (result === OK) {
                 placedPowerSpawn = true;
-                roomFlags[0].remove();
+                flag.remove();
             }
         }
 

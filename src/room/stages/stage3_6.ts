@@ -43,20 +43,16 @@ export class Stage3_6 {
             };
             return;
         }
-        const roomFlags: Flag[] = FlagHelper.getRoomsFlags(myRoom);
+        const flag: Flag | null = FlagHelper.getFlag(["storage"], myRoom.name);
         let placedBank: boolean = false;
-        for (let i = 0; i < roomFlags.length; i++) {
-            const roomFlag: Flag = roomFlags[i];
-            const flagNameSplit: string[] = roomFlag.name.split("-");
-            if (flagNameSplit[0] === "storage") {
-                const result: ScreepsReturnCode = Game.rooms[myRoom.name].createConstructionSite(roomFlag.pos, STRUCTURE_STORAGE);
-                if (result === OK) {
-                    ReportController.log("Placed storage bank construction site in " + LogHelper.roomNameAsLink(room.name));
-                    roomFlag.remove();
-                    placedBank = true;
-                } else {
-                    ReportController.email("ERROR: Placing a storage bank construction site errored in " + LogHelper.roomNameAsLink(room.name));
-                }
+        if (flag != null) {
+            const result: ScreepsReturnCode = Game.rooms[myRoom.name].createConstructionSite(flag.pos, STRUCTURE_STORAGE);
+            if (result === OK) {
+                ReportController.log("Placed storage bank construction site in " + LogHelper.roomNameAsLink(room.name));
+                flag.remove();
+                placedBank = true;
+            } else {
+                ReportController.email("ERROR: Placing a storage bank construction site errored in " + LogHelper.roomNameAsLink(room.name));
             }
         }
 

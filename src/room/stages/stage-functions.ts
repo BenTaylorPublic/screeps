@@ -159,21 +159,14 @@ export class StageFunctions {
     }
 
     public static buildSpawns(myRoom: MyRoom, room: Room, amount: number): void {
-        const roomFlags: Flag[] = FlagHelper.getRoomsFlags(myRoom);
-        for (let i = roomFlags.length - 1; i >= 0; i--) {
-            const roomFlag: Flag = roomFlags[i];
-            const flagNameSplit: string[] = roomFlag.name.split("-");
-            if (flagNameSplit[0] !== "spawn") {
-                roomFlags.splice(i, 1);
-            }
-        }
+        const flags: Flag[] = FlagHelper.getFlags2(["spawn"], myRoom.name);
 
         let placedSpawn: boolean = false;
-        if (roomFlags.length === 1) {
-            const result: ScreepsReturnCode = roomFlags[0].pos.createConstructionSite(STRUCTURE_SPAWN);
+        if (flags.length === 1) {
+            const result: ScreepsReturnCode = flags[0].pos.createConstructionSite(STRUCTURE_SPAWN);
             if (result === OK) {
                 placedSpawn = true;
-                roomFlags[0].remove();
+                flags[0].remove();
             }
         }
 

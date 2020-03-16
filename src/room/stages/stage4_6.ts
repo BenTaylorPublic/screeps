@@ -33,27 +33,18 @@ export class Stage4_6 {
     private static step(myRoom: MyRoom, room: Room): void {
 
         //Bank link logic
-        const roomFlags: Flag[] = FlagHelper.getRoomsFlags(myRoom);
-        for (let i = roomFlags.length - 1; i >= 0; i--) {
-            const roomFlag: Flag = roomFlags[i];
-            const flagNameSplit: string[] = roomFlag.name.split("-");
-            if (flagNameSplit[0] !== "link" ||
-                flagNameSplit[1] !== "bank") {
-                roomFlags.splice(i, 1);
-            }
-        }
+        const flag: Flag | null = FlagHelper.getFlag(["link", "bank"], myRoom.name);
 
         let placedBankLink: boolean = false;
 
-        for (let i = 0; i < roomFlags.length; i++) {
-            const roomFlag: Flag = roomFlags[i];
-            const result: ScreepsReturnCode = Game.rooms[myRoom.name].createConstructionSite(roomFlag.pos, STRUCTURE_LINK);
+        if (flag != null) {
+            const result: ScreepsReturnCode = Game.rooms[myRoom.name].createConstructionSite(flag.pos, STRUCTURE_LINK);
             if (result === OK) {
                 myRoom.bankLink = {
-                    pos: RoomHelper.roomPosToMyPos(roomFlag.pos),
+                    pos: RoomHelper.roomPosToMyPos(flag.pos),
                     id: null
                 };
-                roomFlag.remove();
+                flag.remove();
                 placedBankLink = true;
                 ReportController.log("Placed a bank link construction site in " + LogHelper.roomNameAsLink(room.name));
             } else {
