@@ -33,14 +33,41 @@ export class RoomTowerController {
                 this.attackIfEnoughEnergy(towers[i], target);
             }
         } else {
+            const oddThousand: boolean = Memory.myMemory.empire.oddThousand;
             const damagedStructures: AnyStructure[] = room.find(FIND_STRUCTURES, {
                 filter: (structure: Structure) => {
-                    if (structure.structureType !== STRUCTURE_WALL &&
-                        structure.structureType !== STRUCTURE_RAMPART) {
-                        return structure.hits < structure.hitsMax &&
-                            !otherCreeps.healers; //Only heal defensive structures if there's healer present
+                    if (structure.hits === structure.hitsMax) {
+                        return false;
+                    }
+
+                    if (structure.structureType === STRUCTURE_WALL) {
+                        if (Constants.REPAIR_ONLY_ON_ODD_THOUSAND) {
+                            if (!oddThousand &&
+                                !otherCreeps.healers) {
+                                return false;
+                            } else {
+                                return structure.hits < Constants.WALL_AND_RAMPART_GOAL_HEALTH;
+                            }
+                        } else {
+                            return structure.hits < Constants.WALL_AND_RAMPART_GOAL_HEALTH;
+                        }
+                    } else if (structure.structureType === STRUCTURE_RAMPART) {
+
+                        if (Constants.REPAIR_ONLY_ON_ODD_THOUSAND) {
+                            if (structure.hits < 5_000 ||
+                                otherCreeps.healers) {
+                                return true;
+                            } else if (oddThousand &&
+                                structure.hits < Constants.WALL_AND_RAMPART_GOAL_HEALTH) {
+                                return true;
+                            }
+                            return false;
+                        } else {
+                            return structure.hits < Constants.WALL_AND_RAMPART_GOAL_HEALTH;
+                        }
                     } else {
-                        return structure.hits < Constants.WALL_AND_RAMPART_GOAL_HEALTH;
+                        //Normal structure
+                        return !otherCreeps.healers;
                     }
                 }
             });
@@ -52,7 +79,10 @@ export class RoomTowerController {
                 let lowestStructure: AnyStructure = damagedStructures[0];
                 let lowestStructureHealth: number = lowestStructure.hits;
                 for (let i = 0; i < damagedStructures.length; i++) {
-                    if (damagedStructures[i].hits < lowestStructureHealth) {
+                    if (damagedStructures[i].hits < lowestStructureHealth ||
+                        //If it's the same hits, prefer not walls
+                        (damagedStructures[i].hits === lowestStructureHealth &&
+                            damagedStructures[i].structureType !== STRUCTURE_WALL)) {
                         lowestStructure = damagedStructures[i];
                         lowestStructureHealth = lowestStructure.hits;
                     }
@@ -60,7 +90,7 @@ export class RoomTowerController {
 
                 if (Constants.REPAIR_ONLY_ON_ODD_THOUSAND &&
                     otherCreeps.hostileCreeps.length === 0 &&
-                    !Memory.myMemory.empire.oddThousand &&
+                    !oddThousand &&
                     //If the lowest structure is a rampart below 5K, repair regardless of oddThousand
                     (lowestStructure.structureType !== STRUCTURE_RAMPART ||
                         lowestStructure.hits > 5_000)) {
