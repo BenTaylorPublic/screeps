@@ -105,8 +105,41 @@ export class Stage1_6 {
             }
         }
 
+        const amountOfContainers: number = RoomHelper.amountOfStructure(room, STRUCTURE_CONTAINER);
+        if (amountOfContainers >= myRoom.mySources.length) {
+            const containers: StructureContainer[] = room.find<StructureContainer>(FIND_STRUCTURES, {
+                filter: (structure: Structure) => {
+                    return structure.structureType === STRUCTURE_CONTAINER;
+                }
+            });
+
+            for (let i = 0; i < containers.length; i++) {
+                const container: StructureContainer = containers[i];
+                for (let j = 0; j < myRoom.mySources.length; j++) {
+                    const mySource: MySource = myRoom.mySources[j];
+                    if (mySource.state !== "NoCache") {
+                        continue;
+                    }
+                    const source: Source = Game.getObjectById(myRoom.mySources[j].id) as Source;
+                    if (source.pos.inRangeTo(containers[i].pos, 1)) {
+                        mySource.state = "Cache";
+                        mySource.cache = {
+                            pos: {
+                                x: container.pos.x,
+                                y: container.pos.y,
+                                roomName: myRoom.name
+                            },
+                            id: container.id
+                        };
+                        ReportController.log("Fixed container cache in " + LogHelper.roomNameAsLink(room.name));
+
+                    }
+                }
+            }
+        }
+
         if (room.find(FIND_CONSTRUCTION_SITES).length === 0 &&
-            flagsPlaced + RoomHelper.amountOfStructure(room, STRUCTURE_CONTAINER) < myRoom.mySources.length) {
+            flagsPlaced + amountOfContainers < myRoom.mySources.length) {
             ReportController.email("ATTENTION: Room " + LogHelper.roomNameAsLink(room.name) + " needs cache container flag (cont)",
                 ReportCooldownConstants.DAY);
         }

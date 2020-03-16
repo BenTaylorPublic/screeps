@@ -100,6 +100,26 @@ export class AttackHelperFunctions {
             };
         }
 
+        //EXTENSIONS
+        const extensions: AnyStructure[] = room.find(FIND_STRUCTURES, {
+            filter: (structure: Structure) => {
+                return structure.structureType === STRUCTURE_EXTENSION;
+            }
+        });
+        const extensionTarget: BestPathFindRoomObjectResult<AnyStructure> | null
+            = this.pathFindToRoomObject(flagPos, extensions, costMatrix);
+
+        if (extensionTarget != null) {
+            //Attacking a extension
+            ReportController.log("New Attack Target (Extension) " + JSON.stringify(extensionTarget.roomObject.pos));
+            attackTargetFlag.setPosition(extensionTarget.roomObject.pos);
+            return {
+                roomObject: extensionTarget.roomObject,
+                id: extensionTarget.roomObject.id,
+                type: "Extension"
+            };
+        }
+
         //RAMPARTS
         const ramparts: StructureRampart[] = room.find<StructureRampart>(FIND_STRUCTURES, {
                 filter: (structure: Structure) => {

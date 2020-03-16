@@ -81,10 +81,14 @@ export class RoleStocker {
         if (considerEnergy) {
             const structuresToAddTo: Structure[] = room.find(FIND_STRUCTURES, {
                 filter: (structure: any) => {
-                    return (structure.structureType === STRUCTURE_EXTENSION ||
-                        structure.structureType === STRUCTURE_SPAWN ||
-                        structure.structureType === STRUCTURE_TOWER)
-                        && structure.energy < structure.energyCapacity;
+                    if (structure.structureType !== STRUCTURE_TOWER) {
+                        return (structure.structureType === STRUCTURE_EXTENSION ||
+                            structure.structureType === STRUCTURE_SPAWN)
+                            && structure.energy < structure.energyCapacity;
+
+                    } else {
+                        return structure.energy < Constants.STOCK_TOWER_TO;
+                    }
                 }
             });
             if (structuresToAddTo.length > 0) {
@@ -204,6 +208,7 @@ export class RoleStocker {
                 ReportController.email("ERROR: Room's bank was null in " + LogHelper.roomNameAsLink(myRoom.name));
                 return;
             }
+            //It will only transfer one resource type per tick
             const resources: ResourceConstant[] = Object.keys(creep.store) as ResourceConstant[];
             for (let i: number = 0; i < resources.length; i++) {
                 creep.transfer(bank, resources[i]);

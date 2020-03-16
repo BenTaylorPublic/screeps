@@ -56,6 +56,7 @@ function setupMyMemory(): void {
                 oddThousand: false,
                 attackQuick: null,
                 attackPressure: null,
+                attackHealerDrain: null,
                 creeps: [],
                 avoidRooms: [],
                 powerScav: {

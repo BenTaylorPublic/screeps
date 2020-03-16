@@ -131,6 +131,10 @@ export class AttackPressureController {
             }
         }
         if (allCreepsAtFlag) {
+            if (Game.flags["attack-hold"] != null) {
+                return false;
+            }
+
             //If it gets here, we're ready to charge!
             ReportController.log("AttackPressure Charge");
             batch.state = "Charge";
