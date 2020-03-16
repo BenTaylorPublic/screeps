@@ -7,7 +7,7 @@ import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
 export class StageFunctions {
 
     public static buildExtensions(myRoom: MyRoom, room: Room, numberOfExtensionsToBuild: number): void {
-        const flags: Flag[] = FlagHelper.getFlags3(["ex"], room.name, numberOfExtensionsToBuild);
+        const flags: Flag[] = FlagHelper.getFlags2(["ex"], room.name, numberOfExtensionsToBuild);
         let placedAtleastOne: boolean = false;
         for (let i = 0; i < flags.length; i++) {
             const roomFlag: Flag = flags[i];
@@ -34,7 +34,7 @@ export class StageFunctions {
     }
 
     public static buildTowers(myRoom: MyRoom, room: Room, numberOfTowersToBuild: number): void {
-        const flags: Flag[] = FlagHelper.getFlags3(["tower"], room.name, numberOfTowersToBuild);
+        const flags: Flag[] = FlagHelper.getFlags2(["tower"], room.name, numberOfTowersToBuild);
 
         for (let i = 0; i < flags.length; i++) {
             const flag: Flag = flags[i];
@@ -55,7 +55,7 @@ export class StageFunctions {
     }
 
     public static setupSourceLink(myRoom: MyRoom): void {
-        const flags: Flag[] = FlagHelper.getFlags2(["link", "source"], myRoom.name);
+        const flags: Flag[] = FlagHelper.getFlags1(["link", "source"], myRoom.name);
 
         let placedFully: boolean = false;
 
@@ -159,7 +159,7 @@ export class StageFunctions {
     }
 
     public static buildSpawns(myRoom: MyRoom, room: Room, amount: number): void {
-        const flags: Flag[] = FlagHelper.getFlags2(["spawn"], myRoom.name);
+        const flags: Flag[] = FlagHelper.getFlags1(["spawn"], myRoom.name);
 
         let placedSpawn: boolean = false;
         if (flags.length === 1) {

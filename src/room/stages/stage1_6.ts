@@ -42,7 +42,7 @@ export class Stage1_6 {
     }
 
     private static step(myRoom: MyRoom, room: Room): void {
-        const flags: Flag[] = FlagHelper.getFlags2(["cont"], myRoom.name);
+        const flags: Flag[] = FlagHelper.getFlags1(["cont"], myRoom.name);
 
         let flagsPlaced: number = 0;
         for (let i = 0; i < flags.length; i++) {

@@ -26,32 +26,7 @@ export class FlagHelper {
         return null;
     }
 
-    public static getFlags1(nameArray: string[]): Flag[] {
-        const result: Flag[] = [];
-        const flagNames: string[] = Object.keys(Game.flags);
-        for (let i = 0; i < flagNames.length; i++) {
-            const flag: Flag = Game.flags[flagNames[i]];
-
-            const flagNameSplit: string[] = flag.name.split("-");
-            if (flagNameSplit.length < nameArray.length) {
-                continue;
-            }
-            let noMatch: boolean = false;
-            for (let j = 0; j < nameArray.length; j++) {
-                if (flagNameSplit[j] !== nameArray[j]) {
-                    noMatch = true;
-                    break;
-                }
-            }
-            if (noMatch) {
-                continue;
-            }
-            result.push(flag);
-        }
-        return result;
-    }
-
-    public static getFlags2(nameArray: string[], roomName: string): Flag[] {
+    public static getFlags1(nameArray: string[], roomName: string): Flag[] {
         const result: Flag[] = [];
         const flagNames: string[] = Object.keys(Game.flags);
         for (let i = 0; i < flagNames.length; i++) {
@@ -79,7 +54,7 @@ export class FlagHelper {
         return result;
     }
 
-    public static getFlags3(nameArray: string[], roomName: string, numberUpToInclusive: number): Flag[] {
+    public static getFlags2(nameArray: string[], roomName: string, numberUpToInclusive: number): Flag[] {
         const result: Flag[] = [];
         const flagNames: string[] = Object.keys(Game.flags);
         for (let i = 0; i < flagNames.length; i++) {
