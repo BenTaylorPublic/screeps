@@ -81,10 +81,14 @@ export class RoleStocker {
         if (considerEnergy) {
             const structuresToAddTo: Structure[] = room.find(FIND_STRUCTURES, {
                 filter: (structure: any) => {
-                    return (structure.structureType === STRUCTURE_EXTENSION ||
-                        structure.structureType === STRUCTURE_SPAWN ||
-                        structure.structureType === STRUCTURE_TOWER)
-                        && structure.energy < structure.energyCapacity;
+                    if (structure.structureType !== STRUCTURE_TOWER) {
+                        return (structure.structureType === STRUCTURE_EXTENSION ||
+                            structure.structureType === STRUCTURE_SPAWN)
+                            && structure.energy < structure.energyCapacity;
+
+                    } else {
+                        return structure.energy < Constants.STOCK_TOWER_TO;
+                    }
                 }
             });
             if (structuresToAddTo.length > 0) {
