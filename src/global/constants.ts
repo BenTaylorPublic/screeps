@@ -8,7 +8,7 @@ export class Constants {
     public static MAX_LABORERS_STAGE_8: number = 2;
     public static LABORERS_BEFORE_BANK: number = 6;
     public static SOURCE_LINK_TRANSFER_AT: number = 0.5;
-    public static WALL_AND_RAMPART_GOAL_HEALTH: number = 1_000_000;
+    public static WALL_AND_RAMPART_GOAL_HEALTH: number = 500_000;
     public static CONSCRIPTION_RANGE: number = 15;
     public static CONSCRIPTION_QUICK_MINIMUM_STAGE: Stage = 1;
     public static CONSCRIPTION_PRESSURE_MINIMUM_STAGE: Stage = 6;
