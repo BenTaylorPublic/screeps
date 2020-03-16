@@ -30,7 +30,8 @@ export class MovementHelper {
                     }
                     MovementHelper.avoidEdges(costMatrix, creep.room);
                     return costMatrix;
-                }
+                },
+                maxRooms: 1
             });
 
         const result: MoveByPathResult = creep.moveByPath(myCreep.roomMoveTarget.path);
