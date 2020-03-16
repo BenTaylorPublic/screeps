@@ -24,13 +24,13 @@ export class MovementHelper {
         myCreep.roomMoveTarget.pos = RoomHelper.roomPosToMyPos(moveTo);
         myCreep.roomMoveTarget.path = creep.pos.findPathTo(moveTo,
             {
-                costCallback(roomNamee: string, costMatrix: CostMatrix): boolean | CostMatrix {
-                    if (roomNamee !== creep.room.name) {
-                        return false;
-                    }
-                    MovementHelper.avoidEdges(costMatrix, creep.room);
-                    return costMatrix;
-                },
+                // costCallback(roomNamee: string, costMatrix: CostMatrix): boolean | CostMatrix {
+                //     if (roomNamee !== creep.room.name) {
+                //         return false;
+                //     }
+                //     MovementHelper.avoidEdges(costMatrix, creep.room);
+                //     return costMatrix;
+                // },
                 maxRooms: 1
             });
 
@@ -58,6 +58,7 @@ export class MovementHelper {
             pos.y === myPos.y;
     }
 
+    //@ts-ignore
     private static avoidEdges(costMatrix: CostMatrix, room: Room): void {
         room.find(FIND_EXIT).forEach((exitPos: RoomPosition) => {
             costMatrix.set(exitPos.x, exitPos.y, Infinity);
