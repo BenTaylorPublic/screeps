@@ -118,14 +118,27 @@ export class StageFunctions {
                 mySource.link != null &&
                 mySource.link.id != null) {
                 // Source has a link that's setup
-                // Kill all the haulers
+                // Convert haulers into stockers
                 for (let j = 0; j < mySource.haulerNames.length; j++) {
                     const haulerName: string = mySource.haulerNames[j];
-                    const creep: Creep | null = Game.creeps[haulerName];
-                    if (creep != null) {
-                        creep.say("dthb4dshnr");
-                        creep.suicide();
-                        ReportController.log("" + LogHelper.roomNameAsLink(myRoom.name) + " clearHaulersAndCaches killed a hauler");
+                    let found: boolean = false;
+                    for (let k = 0; k < myRoom.myCreeps.length; k++) {
+                        if (myRoom.myCreeps[k].name === haulerName) {
+                            const myCreep: Stocker = myRoom.myCreeps[k] as Stocker;
+                            myCreep.state = "PickupEnergy";
+                            myCreep.role = "Stocker";
+                            found = true;
+                            ReportController.email("clearHaulersAndCaches: Converted a hauler with name " + haulerName + " in " + LogHelper.roomNameAsLink(myRoom.name) + " to stocker");
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        const creep: Creep | null = Game.creeps[haulerName];
+                        if (creep != null) {
+                            creep.say("dthb4dshnr");
+                            creep.suicide();
+                            ReportController.email("ERROR: clearHaulersAndCaches: hauler " + haulerName + " in " + LogHelper.roomNameAsLink(myRoom.name) + " had to be killed");
+                        }
                     }
                 }
                 mySource.haulerNames = [];
