@@ -137,7 +137,6 @@ export class StageFunctions {
                         creep.getActiveBodyparts(CARRY) === 0) {
                         creep.say("dthb4dshnr");
                         creep.suicide();
-                        mySource.minerName = null;
                         ReportController.log("" + LogHelper.roomNameAsLink(myRoom.name) + " clearHaulersAndCaches killed a miner with no CARRY");
                     }
                 }
