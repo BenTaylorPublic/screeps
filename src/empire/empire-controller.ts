@@ -9,6 +9,8 @@ import {SignController} from "./sign/sign-controller";
 import {ScavengeController} from "./scavenge-controller";
 import {RoleScavenger} from "./role/scavenger";
 import {RoomHelper} from "../global/helpers/room-helper";
+import {ReportController} from "../reporting/report-controller";
+import {LogHelper} from "../global/helpers/log-helper";
 
 export class EmpireController {
     public static run(myMemory: MyMemory): void {
@@ -66,5 +68,6 @@ export class EmpireController {
             mySource.minerName = null;
             mySource.haulerNames = [];
         }
+        ReportController.log("Reset spawn for " + LogHelper.roomNameAsLink(myRoom.name));
     }
 }
