@@ -6,6 +6,7 @@ import {ObserverController} from "./observer/observer-controller";
 import {PowerScavController} from "./power-scav-controller";
 import {RolePowerScavHaulCreep} from "./role/power-scav-haul-creep";
 import {SignController} from "./sign/sign-controller";
+import {ScavengeController} from "./scavenge-controller";
 
 export class EmpireController {
     public static run(myMemory: MyMemory): void {
@@ -18,6 +19,7 @@ export class EmpireController {
         SignController.run(myMemory);
 
         PowerScavController.run(myMemory);
+        ScavengeController.run(myMemory);
 
         //Controlling claimers and power scav haulers
         for (let i = 0; i < myMemory.empire.creeps.length; i++) {

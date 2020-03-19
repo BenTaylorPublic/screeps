@@ -96,6 +96,7 @@ observer-set-{WIDTH}
 sign
 sign-all
 claim
+scavenge-{RESOURCE_AMOUNT}
 
 attack-quick-rally
 attack-quick-room-target
