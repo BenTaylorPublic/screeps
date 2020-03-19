@@ -55,7 +55,7 @@ export class ScavengeController {
             return;
         }
 
-        const amountOfCarryPartsNeeded: number = Math.ceil(amountOfResources / 50) + 1;
+        const amountOfCarryPartsNeeded: number = Math.ceil(amountOfResources / 50);
         let amountOfCarryPartsQueued: number = 0;
         let amountOfCreepsSpawned: number = 0;
         let roomIndex: number = 0;
