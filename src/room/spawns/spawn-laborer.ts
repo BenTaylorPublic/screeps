@@ -32,7 +32,9 @@ export class SpawnLaborer {
         let forceSpawnlaborers: number = 0;
 
         if (laborerAliveOrSpawningCount === 0 &&
-            forceLaborerQueuedCount === 0) {
+            forceLaborerQueuedCount === 0 &&
+            //Stops it spamming other rooms when it doesn't have a spawn itself
+            myRoom.roomStage >= 1) {
             forceSpawnlaborers = 1;
         } else if (laborerCount < Constants.MIN_LABORERS) {
             forceSpawnlaborers = Constants.MIN_LABORERS - laborerCount;
