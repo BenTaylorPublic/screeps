@@ -11,7 +11,7 @@ export class StageDefault {
         if (room.controller != null &&
             room.controller.my === true) {
             myRoom.roomStage = 0;
-            ReportController.email("STAGE+: Room " + LogHelper.roomNameAsLink(myRoom.name) + " increased to room stage 0");
+            ReportController.email("STAGE+ 0 " + LogHelper.roomNameAsLink(myRoom.name) + " my controller");
             return true;
         }
         return false;
@@ -21,7 +21,7 @@ export class StageDefault {
         if (room.controller == null ||
             room.controller.my === false) {
             myRoom.roomStage = -1;
-            ReportController.email("STAGE-: Room " + LogHelper.roomNameAsLink(myRoom.name) + " decreased to room stage -1");
+            ReportController.email("STAGE- 0 " + LogHelper.roomNameAsLink(myRoom.name) + " my controller");
             return true;
         }
         return false;
