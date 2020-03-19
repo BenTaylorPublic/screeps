@@ -34,6 +34,37 @@ export class RoleScavenger {
                     });
                     if (tombstones.length === 0) {
                         returning = true;
+
+                        const ruins: Ruin[] = creep.room.find(FIND_RUINS, {
+                            filter: (t: Ruin) => {
+                                return t.store.getUsedCapacity() > 0;
+                            }
+                        });
+                        if (ruins.length === 0) {
+                            returning = true;
+
+                            // const structures: AnyStoreStructure[] = creep.room.find(FIND_HOSTILE_STRUCTURES, {
+                            //     filter: (struc: AnyStructure) => {
+                            //         if (struc.structureType === STRUCTURE_EXTENSION ||
+                            //             struc.structureType === STRUCTURE_FACTORY ||
+                            //             struc.structureType === STRUCTURE_LAB ||
+                            //             struc.structureType === STRUCTURE_LINK ||
+                            //             struc.structureType === STRUCTURE_NUKER ||
+                            //             struc.structureType === STRUCTURE_POWER_SPAWN ||
+                            //             struc.structureType === STRUCTURE_SPAWN ||
+                            //             struc.structureType === STRUCTURE_STORAGE ||
+                            //             struc.structureType === STRUCTURE_TERMINAL ||
+                            //             struc.structureType === STRUCTURE_TOWER ||
+                            //             struc.structureType === STRUCTURE_CONTAINER
+                            //         ) {
+                            //
+                            //             return struc.store.getFreeCapacity() < struc.store.getCapacity<>();
+                            //         } else {
+                            //             return false;
+                            //         }
+                            //     }
+                            // });
+                        }
                     }
                 }
             }
@@ -77,6 +108,23 @@ export class RoleScavenger {
                 }
             } else {
                 MovementHelper.myMoveTo(creep, tombstone.pos, scavenger);
+            }
+            return;
+        }
+
+        const ruin: Ruin | null = creep.pos.findClosestByPath(FIND_RUINS, {
+            filter: (t: Ruin) => {
+                return t.store.getUsedCapacity() > 0;
+            }
+        });
+        if (ruin != null) {
+            if (creep.pos.isNearTo(ruin.pos)) {
+                const resourcesInRuin: ResourceConstant[] = Object.keys(ruin.store) as ResourceConstant[];
+                for (let i: number = 0; i < resourcesInRuin.length; i++) {
+                    creep.withdraw(ruin, resourcesInRuin[i]);
+                }
+            } else {
+                MovementHelper.myMoveTo(creep, ruin.pos, scavenger);
             }
             return;
         }
