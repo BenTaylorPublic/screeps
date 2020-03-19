@@ -197,7 +197,8 @@ type CreepRoles =
     | "PowerScavHaulCreep"
     | "Stocker"
     | "Signer"
-    | "AttackHealerDrainCreep";
+    | "AttackHealerDrainCreep"
+    | "Scavenger";
 
 /*
 ====================
@@ -267,6 +268,10 @@ interface Signer extends MyCreep {
     signWords: string;
 }
 
+interface Scavenger extends MyCreep {
+    state: "Scavenging" | "Returning";
+}
+
 /*
 ====================
     REPORTS:
@@ -323,4 +328,15 @@ interface PowerScavBank {
     replaceAtTTL: number;
     spawnHaulersAtHP: number;
     state: "high_hp" | "spawn_haulers" | "dead";
+}
+
+/*
+====================
+    SCAVENGING:
+====================
+*/
+
+interface ScavengeMyRoom {
+    myRoom: MyRoom;
+    amountOfCarryPerCreep: number;
 }

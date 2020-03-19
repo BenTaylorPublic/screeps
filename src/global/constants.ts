@@ -26,4 +26,6 @@ export class Constants {
     public static STAGE_8_SPAWN_LABORERS_WHEN_CONTROLLER_BENEATH: number = 100_000;
     public static STOCK_TOWER_TO: number = 900;
     public static REPAIR_ONLY_ON_ODD_THOUSAND: boolean = true;
+    public static SCAVENGE_MIN_STAGE: Stage = 4;
+    public static SCAVENGE_MAX_DISTANCE: Stage = 10;
 }

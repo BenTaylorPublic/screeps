@@ -1,6 +1,7 @@
 export class SpawnConstants {
     public static ATTACK_QUICK: number = 5;
     public static FORCE_LABORER: number = 4.5;
+    public static SCAVENGER: number = 4.4;
     public static STOCKER: number = 4.25;
     public static CLAIMER: number = 4;
     public static BANK_LINKER: number = 3.5;
