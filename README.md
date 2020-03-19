@@ -97,6 +97,7 @@ sign
 sign-all
 claim
 scavenge-{RESOURCE_AMOUNT}
+reset-spawn
 
 attack-quick-rally
 attack-quick-room-target
