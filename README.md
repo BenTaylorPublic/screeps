@@ -4,10 +4,12 @@
 ## TODO
 ### Working on
 ```
-Stages should log what they are, briefly, when stage + or -
+ScavengeController
 ```
 ### Short term
 ```
+Stages should log what they are, briefly, when stage + or -
+
 Attack
     Try RoomVisualisation instead of flags for target
     Clean up target selection
@@ -45,9 +47,7 @@ Minerals
     Stockers in non main room should be maintaining a constant amount of energy in the terminal for transactions
 
 PowerScav
-    Fix trySpawnHaulCreepIfNeeded body logic (power scav)
-    Subtract from carry parts needed, when spawned
-        (like miners work parts)
+    Use ScavengeController
 ```
 ### Long term:
 ```
