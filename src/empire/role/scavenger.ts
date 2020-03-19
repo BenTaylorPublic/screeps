@@ -33,8 +33,6 @@ export class RoleScavenger {
                         }
                     });
                     if (tombstones.length === 0) {
-                        returning = true;
-
                         const ruins: Ruin[] = creep.room.find(FIND_RUINS, {
                             filter: (t: Ruin) => {
                                 return t.store.getUsedCapacity() > 0;
@@ -47,18 +45,21 @@ export class RoleScavenger {
                             //     filter: (struc: AnyStructure) => {
                             //         if (struc.structureType === STRUCTURE_EXTENSION ||
                             //             struc.structureType === STRUCTURE_FACTORY ||
-                            //             struc.structureType === STRUCTURE_LAB ||
-                            //             struc.structureType === STRUCTURE_LINK ||
-                            //             struc.structureType === STRUCTURE_NUKER ||
-                            //             struc.structureType === STRUCTURE_POWER_SPAWN ||
-                            //             struc.structureType === STRUCTURE_SPAWN ||
-                            //             struc.structureType === STRUCTURE_STORAGE ||
-                            //             struc.structureType === STRUCTURE_TERMINAL ||
-                            //             struc.structureType === STRUCTURE_TOWER ||
-                            //             struc.structureType === STRUCTURE_CONTAINER
+                            //             // struc.structureType === STRUCTURE_LAB ||
+                            //             struc.structureType === STRUCTURE_LINK //||
+                            //             // struc.structureType === STRUCTURE_NUKER ||
+                            //             // struc.structureType === STRUCTURE_POWER_SPAWN ||
+                            //             // struc.structureType === STRUCTURE_SPAWN ||
+                            //             // struc.structureType === STRUCTURE_STORAGE ||
+                            //             // struc.structureType === STRUCTURE_TERMINAL ||
+                            //             // struc.structureType === STRUCTURE_TOWER ||
+                            //             // struc.structureType === STRUCTURE_CONTAINER
                             //         ) {
-                            //
-                            //             return struc.store.getFreeCapacity() < struc.store.getCapacity<>();
+                            //             if (struc.structureType === STRUCTURE_FACTORY) {
+                            //                 return struc.store.getUsedCapacity() > 0;
+                            //             }
+                            //             // return struc.store.getUsedCapacity(RESOURCE_ENERGY) > 0;
+                            //             return false;
                             //         } else {
                             //             return false;
                             //         }
