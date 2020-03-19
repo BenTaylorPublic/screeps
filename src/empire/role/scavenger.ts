@@ -27,8 +27,6 @@ export class RoleScavenger {
             } else {
                 const resources: Resource[] = creep.room.find(FIND_DROPPED_RESOURCES);
                 if (resources.length === 0) {
-                    returning = true;
-                } else {
                     const tombstones: Tombstone[] = creep.room.find(FIND_TOMBSTONES, {
                         filter: (t: Tombstone) => {
                             return t.store.getUsedCapacity() > 0;
