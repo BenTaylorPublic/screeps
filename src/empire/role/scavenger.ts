@@ -39,32 +39,41 @@ export class RoleScavenger {
                             }
                         });
                         if (ruins.length === 0) {
-                            returning = true;
+                            const structures: AnyStoreStructure[] = creep.room.find<AnyStoreStructure>(FIND_HOSTILE_STRUCTURES, {
+                                filter: (struc: AnyStructure) => {
+                                    if (struc.structureType === STRUCTURE_EXTENSION) {
+                                        return struc.store.getUsedCapacity(RESOURCE_ENERGY) > 0;
+                                    } else if (struc.structureType === STRUCTURE_FACTORY) {
+                                        return struc.store.getUsedCapacity() > 0;
+                                    } else if (struc.structureType === STRUCTURE_LAB) {
+                                        return struc.store.getFreeCapacity() < LAB_ENERGY_CAPACITY + LAB_MINERAL_CAPACITY;
+                                    } else if (struc.structureType === STRUCTURE_LINK) {
+                                        return struc.store.getUsedCapacity(RESOURCE_ENERGY) > 0;
+                                    } else if (struc.structureType === STRUCTURE_NUKER) {
+                                        return struc.store.getUsedCapacity(RESOURCE_ENERGY) > 0 &&
+                                            struc.store.getUsedCapacity(RESOURCE_GHODIUM_OXIDE) > 0;
+                                    } else if (struc.structureType === STRUCTURE_POWER_SPAWN) {
+                                        return struc.store.getUsedCapacity(RESOURCE_ENERGY) > 0 &&
+                                            struc.store.getUsedCapacity(RESOURCE_POWER) > 0;
+                                    } else if (struc.structureType === STRUCTURE_SPAWN) {
+                                        return struc.store.getUsedCapacity(RESOURCE_ENERGY) > 0;
+                                    } else if (struc.structureType === STRUCTURE_STORAGE) {
+                                        return struc.store.getUsedCapacity() > 0;
+                                    } else if (struc.structureType === STRUCTURE_TERMINAL) {
+                                        return struc.store.getUsedCapacity() > 0;
+                                    } else if (struc.structureType === STRUCTURE_TOWER) {
+                                        return struc.store.getUsedCapacity(RESOURCE_ENERGY) > 0;
+                                    } else if (struc.structureType === STRUCTURE_CONTAINER) {
+                                        return struc.store.getUsedCapacity() > 0;
+                                    } else {
+                                        return false;
+                                    }
+                                }
+                            });
 
-                            // const structures: AnyStoreStructure[] = creep.room.find(FIND_HOSTILE_STRUCTURES, {
-                            //     filter: (struc: AnyStructure) => {
-                            //         if (struc.structureType === STRUCTURE_EXTENSION ||
-                            //             struc.structureType === STRUCTURE_FACTORY ||
-                            //             // struc.structureType === STRUCTURE_LAB ||
-                            //             struc.structureType === STRUCTURE_LINK //||
-                            //             // struc.structureType === STRUCTURE_NUKER ||
-                            //             // struc.structureType === STRUCTURE_POWER_SPAWN ||
-                            //             // struc.structureType === STRUCTURE_SPAWN ||
-                            //             // struc.structureType === STRUCTURE_STORAGE ||
-                            //             // struc.structureType === STRUCTURE_TERMINAL ||
-                            //             // struc.structureType === STRUCTURE_TOWER ||
-                            //             // struc.structureType === STRUCTURE_CONTAINER
-                            //         ) {
-                            //             if (struc.structureType === STRUCTURE_FACTORY) {
-                            //                 return struc.store.getUsedCapacity() > 0;
-                            //             }
-                            //             // return struc.store.getUsedCapacity(RESOURCE_ENERGY) > 0;
-                            //             return false;
-                            //         } else {
-                            //             return false;
-                            //         }
-                            //     }
-                            // });
+                            if (structures.length === 0) {
+                                returning = true;
+                            }
                         }
                     }
                 }
@@ -126,6 +135,49 @@ export class RoleScavenger {
                 }
             } else {
                 MovementHelper.myMoveTo(creep, ruin.pos, scavenger);
+            }
+            return;
+        }
+
+        const structure: AnyStoreStructure | null = creep.pos.findClosestByPath<AnyStoreStructure>(FIND_HOSTILE_STRUCTURES, {
+            filter: (struc: AnyStructure) => {
+                if (struc.structureType === STRUCTURE_EXTENSION) {
+                    return struc.store.getUsedCapacity(RESOURCE_ENERGY) > 0;
+                } else if (struc.structureType === STRUCTURE_FACTORY) {
+                    return struc.store.getUsedCapacity() > 0;
+                } else if (struc.structureType === STRUCTURE_LAB) {
+                    return struc.store.getFreeCapacity() < LAB_ENERGY_CAPACITY + LAB_MINERAL_CAPACITY;
+                } else if (struc.structureType === STRUCTURE_LINK) {
+                    return struc.store.getUsedCapacity(RESOURCE_ENERGY) > 0;
+                } else if (struc.structureType === STRUCTURE_NUKER) {
+                    return struc.store.getUsedCapacity(RESOURCE_ENERGY) > 0 &&
+                        struc.store.getUsedCapacity(RESOURCE_GHODIUM_OXIDE) > 0;
+                } else if (struc.structureType === STRUCTURE_POWER_SPAWN) {
+                    return struc.store.getUsedCapacity(RESOURCE_ENERGY) > 0 &&
+                        struc.store.getUsedCapacity(RESOURCE_POWER) > 0;
+                } else if (struc.structureType === STRUCTURE_SPAWN) {
+                    return struc.store.getUsedCapacity(RESOURCE_ENERGY) > 0;
+                } else if (struc.structureType === STRUCTURE_STORAGE) {
+                    return struc.store.getUsedCapacity() > 0;
+                } else if (struc.structureType === STRUCTURE_TERMINAL) {
+                    return struc.store.getUsedCapacity() > 0;
+                } else if (struc.structureType === STRUCTURE_TOWER) {
+                    return struc.store.getUsedCapacity(RESOURCE_ENERGY) > 0;
+                } else if (struc.structureType === STRUCTURE_CONTAINER) {
+                    return struc.store.getUsedCapacity() > 0;
+                } else {
+                    return false;
+                }
+            }
+        });
+        if (structure != null) {
+            if (creep.pos.isNearTo(structure.pos)) {
+                const resourcesInStructure: ResourceConstant[] = Object.keys(structure.store) as ResourceConstant[];
+                for (let i: number = 0; i < resourcesInStructure.length; i++) {
+                    creep.withdraw(structure, resourcesInStructure[i]);
+                }
+            } else {
+                MovementHelper.myMoveTo(creep, structure.pos, scavenger);
             }
             return;
         }
