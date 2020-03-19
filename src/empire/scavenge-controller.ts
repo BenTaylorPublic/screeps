@@ -59,18 +59,24 @@ export class ScavengeController {
         let amountOfCarryPartsQueued: number = 0;
         let amountOfCreepsSpawned: number = 0;
         let roomIndex: number = 0;
+        let spawnedFromString: string = "";
+        let loopedThroughOnce: boolean = false;
         do {
             const scavengeMyRoom: ScavengeMyRoom = myRooms[roomIndex];
             this.spawnScavengeCreep(scavengeMyRoom.myRoom, roomName, myMemory);
             amountOfCarryPartsQueued += scavengeMyRoom.amountOfCarryPerCreep;
             amountOfCreepsSpawned++;
             roomIndex++;
+            if (!loopedThroughOnce) {
+                spawnedFromString += LogHelper.roomNameAsLink(scavengeMyRoom.myRoom.name) + " ";
+            }
             if (roomIndex === myRooms.length) {
                 roomIndex = 0;
+                loopedThroughOnce = true;
             }
         } while (amountOfCarryPartsQueued < amountOfCarryPartsNeeded);
-
-        ReportController.log("Spawned " + amountOfCreepsSpawned + " creeps across " + myRooms.length + " rooms for scavenging " + LogHelper.roomNameAsLink(roomName));
+        ReportController.log("Scavenging: Spawned from rooms: " + spawnedFromString);
+        ReportController.log("Scavenging: Spawned " + amountOfCreepsSpawned + " creeps across (up to) " + myRooms.length + " rooms for scavenging " + LogHelper.roomNameAsLink(roomName));
     }
 
     private static spawnScavengeCreep(myRoom: MyRoom, scavengingRoomName: string, myMemory: MyMemory): void {
