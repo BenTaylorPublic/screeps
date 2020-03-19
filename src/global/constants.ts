@@ -27,5 +27,5 @@ export class Constants {
     public static STOCK_TOWER_TO: number = 900;
     public static REPAIR_ONLY_ON_ODD_THOUSAND: boolean = true;
     public static SCAVENGE_MIN_STAGE: Stage = 4;
-    public static SCAVENGE_MAX_DISTANCE: Stage = 10;
+    public static SCAVENGE_MAX_DISTANCE: number = 10;
 }

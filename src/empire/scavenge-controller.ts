@@ -3,6 +3,8 @@ import {MapHelper} from "../global/helpers/map-helper";
 import {SpawnQueueController} from "../global/spawn-queue-controller";
 import {CreepHelper} from "../global/helpers/creep-helper";
 import {SpawnConstants} from "../global/spawn-constants";
+import {ReportController} from "../reporting/report-controller";
+import {LogHelper} from "../global/helpers/log-helper";
 
 export class ScavengeController {
 
@@ -55,13 +57,20 @@ export class ScavengeController {
 
         const amountOfCarryPartsNeeded: number = amountOfResources / 50;
         let amountOfCarryPartsQueued: number = 0;
+        let amountOfCreepsSpawned: number = 0;
+        let roomIndex: number = 0;
         do {
-            for (let i = 0; i < myRooms.length; i++) {
-                const scavengeMyRoom: ScavengeMyRoom = myRooms[i];
-                this.spawnScavengeCreep(scavengeMyRoom.myRoom, roomName, myMemory);
-                amountOfCarryPartsQueued += scavengeMyRoom.amountOfCarryPerCreep;
+            const scavengeMyRoom: ScavengeMyRoom = myRooms[roomIndex];
+            this.spawnScavengeCreep(scavengeMyRoom.myRoom, roomName, myMemory);
+            amountOfCarryPartsQueued += scavengeMyRoom.amountOfCarryPerCreep;
+            amountOfCreepsSpawned++;
+            roomIndex++;
+            if (roomIndex === myRooms.length) {
+                roomIndex = 0;
             }
         } while (amountOfCarryPartsQueued < amountOfCarryPartsNeeded);
+
+        ReportController.log("Spawned " + amountOfCreepsSpawned + " creeps across " + myRooms.length + " rooms for scavenging " + LogHelper.roomNameAsLink(roomName));
     }
 
     private static spawnScavengeCreep(myRoom: MyRoom, scavengingRoomName: string, myMemory: MyMemory): void {

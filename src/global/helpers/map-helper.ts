@@ -48,4 +48,21 @@ export class MapHelper {
         }
         return spawnToReturn;
     }
+
+    public static findClosestBank(roomName: string, spareCapacity: number): StructureStorage | null {
+        let bankToReturn: StructureStorage | null = null;
+        let closestDistance: number = 9999;
+        for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
+            const myRoom: MyRoom = Memory.myMemory.myRooms[i];
+            if (myRoom.bank != null &&
+                myRoom.bank.store.getFreeCapacity() > spareCapacity) {
+                const distance: number = this.getRoomDistance(roomName, myRoom.name);
+                if (distance < closestDistance) {
+                    closestDistance = distance;
+                    bankToReturn = myRoom.bank;
+                }
+            }
+        }
+        return bankToReturn;
+    }
 }

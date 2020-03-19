@@ -7,6 +7,7 @@ import {PowerScavController} from "./power-scav-controller";
 import {RolePowerScavHaulCreep} from "./role/power-scav-haul-creep";
 import {SignController} from "./sign/sign-controller";
 import {ScavengeController} from "./scavenge-controller";
+import {RoleScavenger} from "./role/scavenger";
 
 export class EmpireController {
     public static run(myMemory: MyMemory): void {
@@ -26,6 +27,8 @@ export class EmpireController {
             const creep: MyCreep = myMemory.empire.creeps[i];
             if (creep.role === "Claimer") {
                 RoleClaimer.run(creep as Claimer);
+            } else if (creep.role === "Scavenger") {
+                RoleScavenger.run(creep as Scavenger);
             } else if (creep.role === "PowerScavHaulCreep") {
                 RolePowerScavHaulCreep.run(creep as PowerScavHaulCreep);
             } else if (creep.role === "Signer") {
