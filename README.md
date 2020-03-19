@@ -4,12 +4,10 @@
 ## TODO
 ### Working on
 ```
-Fix force laborer spam for a new room
+Stages should log what they are, briefly, when stage + or -
 ```
 ### Short term
 ```
-Stages should log what they are, briefly, when stage + or -
-
 Attack
     Try RoomVisualisation instead of flags for target
     Clean up target selection
