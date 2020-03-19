@@ -8,6 +8,8 @@ ScavengeController
 ```
 ### Short term
 ```
+Fix force laborer spam for a new room
+
 Stages should log what they are, briefly, when stage + or -
 
 Attack
