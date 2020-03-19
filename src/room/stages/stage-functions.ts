@@ -36,19 +36,22 @@ export class StageFunctions {
     public static buildTowers(myRoom: MyRoom, room: Room, numberOfTowersToBuild: number): void {
         const flags: Flag[] = FlagHelper.getFlags2(["tower"], room.name, numberOfTowersToBuild);
 
+        let placedOne: boolean = false;
         for (let i = 0; i < flags.length; i++) {
             const flag: Flag = flags[i];
             const result: ScreepsReturnCode = Game.rooms[myRoom.name].createConstructionSite(flag.pos, STRUCTURE_TOWER);
             if (result === OK) {
                 ReportController.log("Placed tower construction site in " + LogHelper.roomNameAsLink(myRoom.name));
                 flag.remove();
+                placedOne = true;
             } else {
                 ReportController.email("ERROR: Placing a tower construction site errored in " + LogHelper.roomNameAsLink(myRoom.name));
             }
         }
 
         if (Game.rooms[myRoom.name].find(FIND_CONSTRUCTION_SITES).length === 0 &&
-            (RoomHelper.amountOfStructure(room, STRUCTURE_TOWER) < numberOfTowersToBuild)) {
+            (RoomHelper.amountOfStructure(room, STRUCTURE_TOWER) < numberOfTowersToBuild) &&
+            !placedOne) {
             ReportController.email("ATTENTION: Room " + LogHelper.roomNameAsLink(myRoom.name) + " needs more tower flags (up to tower-" + numberOfTowersToBuild + ")",
                 ReportCooldownConstants.DAY);
         }
