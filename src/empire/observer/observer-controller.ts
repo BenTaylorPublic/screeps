@@ -1,7 +1,6 @@
 import {PowerScavController} from "../power-scav-controller";
 import {ReportController} from "../../reporting/report-controller";
 import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
-import {EmpireHelper} from "../../global/helpers/empire-helper";
 import {MapHelper} from "../../global/helpers/map-helper";
 import {LogHelper} from "../../global/helpers/log-helper";
 import {RoomHelper} from "../../global/helpers/room-helper";
@@ -27,8 +26,9 @@ export class ObserverController {
 
         if ((room.controller != null &&
             room.controller.my === false &&
-            room.controller.owner != null &&
-            !EmpireHelper.isAllyUsername(room.controller.owner.username))) {
+            room.controller.owner != null
+            // && !EmpireHelper.isAllyUsername(room.controller.owner.username)
+        )) {
             if (room.controller.level >= 3) {
                 avoid = true;
             } else {

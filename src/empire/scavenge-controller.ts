@@ -17,8 +17,8 @@ export class ScavengeController {
         if (flagNames.length !== 1) {
             return;
         }
-        const flag: Flag = Game.flags[flagNames[0]];
-        const size: number = Number(flag.name.split("-")[1]);
+        // const flag: Flag = Game.flags[flagNames[0]];
+        // const size: number = Number(flag.name.split("-")[1]);
 
     }
 
