@@ -8,6 +8,7 @@ import {ReportController} from "../../reporting/report-controller";
 
 import {AttackHelperFunctions} from "../../empire/attack/attack-helper-functions";
 import {CreepHelper} from "../../global/helpers/creep-helper";
+import {ScavengeController} from "../../empire/scavenge-controller";
 
 export class RoomSpawnController {
     public static run(myRoom: MyRoom, room: Room): void {
@@ -70,6 +71,8 @@ export class RoomSpawnController {
             return SpawnBankLinker.getBody();
         } else if (queuedCreep.role === "Laborer") {
             return SpawnLaborer.getBody(myRoom);
+        } else if (queuedCreep.role === "Scavenger") {
+            return ScavengeController.getBody(myRoom);
         } else if (queuedCreep.role === "AttackQuickCreep" || queuedCreep.role === "AttackPressureCreep") {
             return AttackHelperFunctions.getBody(myRoom);
         } else if (queuedCreep.role === "Signer") {

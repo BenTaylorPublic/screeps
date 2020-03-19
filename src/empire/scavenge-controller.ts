@@ -55,7 +55,7 @@ export class ScavengeController {
             return;
         }
 
-        const amountOfCarryPartsNeeded: number = amountOfResources / 50;
+        const amountOfCarryPartsNeeded: number = Math.ceil(amountOfResources / 50) + 1;
         let amountOfCarryPartsQueued: number = 0;
         let amountOfCreepsSpawned: number = 0;
         let roomIndex: number = 0;
@@ -77,6 +77,13 @@ export class ScavengeController {
         } while (amountOfCarryPartsQueued < amountOfCarryPartsNeeded);
         ReportController.log("Scavenging: Spawned from rooms: " + spawnedFromString);
         ReportController.log("Scavenging: Spawned " + amountOfCreepsSpawned + " creeps across (up to) " + myRooms.length + " rooms for scavenging " + LogHelper.roomNameAsLink(roomName));
+    }
+
+    public static getBody(myRoom: MyRoom): BodyPartConstant[] {
+        return CreepHelper.generateBody([MOVE, CARRY],
+            [MOVE, CARRY],
+            Game.rooms[myRoom.name],
+            true);
     }
 
     private static spawnScavengeCreep(myRoom: MyRoom, scavengingRoomName: string, myMemory: MyMemory): void {
