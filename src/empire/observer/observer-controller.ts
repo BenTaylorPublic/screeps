@@ -99,7 +99,7 @@ export class ObserverController {
         } else { //Observing
             const room: Room | null = Game.rooms[observerMemory.targetList[observerMemory.currentTargetIndex]];
             if (room == null) {
-                ReportController.email("ERROR: Room from observer was null " + LogHelper.roomNameAsLink(observerMemory.targetList[observerMemory.currentTargetIndex]));
+                ReportController.log("ERROR: Room from observer was null " + LogHelper.roomNameAsLink(observerMemory.targetList[observerMemory.currentTargetIndex]));
             } else {
                 this.observe(room, myMemory);
             }
