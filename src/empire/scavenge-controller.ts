@@ -40,14 +40,25 @@ export class ScavengeController {
             if (myRoom.roomStage < Constants.SCAVENGE_MIN_STAGE) {
                 continue;
             }
+            const roomDistance: number = MapHelper.getRoomDistance(roomName, myRoom.name);
             if (MapHelper.getRoomDistance(roomName, myRoom.name) > Constants.SCAVENGE_MAX_DISTANCE) {
                 continue;
             }
             //Room is good
             const amountOfCarryPerCreep: number = Game.rooms[myRoom.name].energyCapacityAvailable / 100;
+            const ttlForOneTrip: number = (roomDistance + 1) * 50 * 2;
+            const amountOfTripsOneCreepCanDo: number = Math.floor(1500 / ttlForOneTrip);
+            const repeatedCarryPerCreep: number = amountOfTripsOneCreepCanDo * amountOfCarryPerCreep;
+
+            console.log("amountOfCarryPerCreep: " + amountOfCarryPerCreep);
+            console.log("ttlForOneTrip: " + ttlForOneTrip);
+            console.log("amountOfTripsOneCreepCanDo: " + amountOfTripsOneCreepCanDo);
+            console.log("repeatedCarryPerCreep: " + repeatedCarryPerCreep);
+
             myRooms.push({
-                amountOfCarryPerCreep: amountOfCarryPerCreep,
-                myRoom: myRoom
+                amountOfCarryPerCreep: repeatedCarryPerCreep,
+                myRoom: myRoom,
+                scavengeAgainWhenTtlAbove: ttlForOneTrip
             });
         }
 
@@ -63,7 +74,7 @@ export class ScavengeController {
         let loopedThroughOnce: boolean = false;
         do {
             const scavengeMyRoom: ScavengeMyRoom = myRooms[roomIndex];
-            this.spawnScavengeCreep(scavengeMyRoom.myRoom, roomName, myMemory);
+            this.spawnScavengeCreep(scavengeMyRoom, roomName, myMemory);
             amountOfCarryPartsQueued += scavengeMyRoom.amountOfCarryPerCreep;
             amountOfCreepsSpawned++;
             roomIndex++;
@@ -86,9 +97,9 @@ export class ScavengeController {
             true);
     }
 
-    private static spawnScavengeCreep(myRoom: MyRoom, scavengingRoomName: string, myMemory: MyMemory): void {
+    private static spawnScavengeCreep(scavengeMyRoom: ScavengeMyRoom, scavengingRoomName: string, myMemory: MyMemory): void {
         const name: string = CreepHelper.getName();
-        SpawnQueueController.queueCreepSpawn(myRoom, SpawnConstants.SCAVENGER, name, "Scavenger");
+        SpawnQueueController.queueCreepSpawn(scavengeMyRoom.myRoom, SpawnConstants.SCAVENGER, name, "Scavenger");
         myMemory.empire.creeps.push({
             name: name,
             role: "Scavenger",
@@ -98,7 +109,9 @@ export class ScavengeController {
                 pos: null,
                 path: []
             },
-            state: "Scavenging"
+            state: "Scavenging",
+            scavengingRoomName: scavengingRoomName,
+            scavengeAgainWhenTtlAbove: scavengeMyRoom.scavengeAgainWhenTtlAbove
         } as Scavenger);
     }
 

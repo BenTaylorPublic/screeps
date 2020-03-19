@@ -89,7 +89,13 @@ export class RoleScavenger {
             }
         } else if (scavenger.state === "Returning") {
             if (creep.store.getUsedCapacity() === 0) {
-                creep.suicide();
+                if (creep.ticksToLive != null &&
+                    creep.ticksToLive >= scavenger.scavengeAgainWhenTtlAbove) {
+                    scavenger.assignedRoomName = scavenger.scavengingRoomName;
+                    scavenger.state = "Scavenging";
+                } else {
+                    creep.suicide();
+                }
             }
         }
     }

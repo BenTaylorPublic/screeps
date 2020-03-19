@@ -270,6 +270,8 @@ interface Signer extends MyCreep {
 
 interface Scavenger extends MyCreep {
     state: "Scavenging" | "Returning";
+    scavengeAgainWhenTtlAbove: number;
+    scavengingRoomName: string;
 }
 
 /*
@@ -339,4 +341,5 @@ interface PowerScavBank {
 interface ScavengeMyRoom {
     myRoom: MyRoom;
     amountOfCarryPerCreep: number;
+    scavengeAgainWhenTtlAbove: number;
 }
