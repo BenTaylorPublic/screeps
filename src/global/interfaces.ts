@@ -119,7 +119,6 @@ interface MyRoom {
     bankLinkerName: string | null; //Null when bankLinker is dead or not assigned
     bankLink: MyLink | null;
     bank: StructureStorage | null;
-    pendingConscriptedCreep: boolean;
     spawnQueue: QueuedCreep[];
     rampartsUp: boolean;
 }

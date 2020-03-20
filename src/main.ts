@@ -1,7 +1,6 @@
 import {RoomController} from "./room/room-controller";
 import {MemoryController} from "./memory/memory-controller";
 import {EmpireController} from "./empire/empire-controller";
-import {ScheduleController} from "./schedule/schedule-controller";
 import {ProfilerWrapper} from "./profiler/profiler-wrapper";
 import {FunctionProfiler} from "./profiler/function-profiler/function-profiler";
 
@@ -27,8 +26,6 @@ export let loop: any = function (): void {
 
     const myMemory: MyMemory = Memory.myMemory;
     MemoryController.run();
-
-    ScheduleController.preLoop(myMemory);
 
     EmpireController.run(myMemory);
 

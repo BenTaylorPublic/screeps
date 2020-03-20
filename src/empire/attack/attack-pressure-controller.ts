@@ -2,7 +2,6 @@ import {Constants} from "../../global/constants";
 import {ReportController} from "../../reporting/report-controller";
 import {AttackHelperFunctions} from "./attack-helper-functions";
 import {RoleAttackCreep} from "../role/attack-creep";
-import {ScheduleController} from "../../schedule/schedule-controller";
 import {SpawnQueueController} from "../../global/spawn-queue-controller";
 import {SpawnConstants} from "../../global/spawn-constants";
 import {MapHelper} from "../../global/helpers/map-helper";
@@ -165,8 +164,6 @@ export class AttackPressureController {
             const attackPressureCreep: AttackPressureCreep = this.spawnAttackPressureCreep(myRoom, batch.batchNumber, rallyRoomName);
             ReportController.log("" + LogHelper.roomNameAsLink(myRoom.name) + " has been conscripted " + attackPressureCreep.name + " for AttackPressure");
 
-            ScheduleController.scheduleForNextTick("SET_FALSE_ON_PENDING_CONSCRIPTED_CREEP", myRoom.name);
-
             empire.creeps.push(attackPressureCreep);
             batch.roomsStillToProvide.splice(i, 1);
         }
@@ -204,11 +201,6 @@ export class AttackPressureController {
             batchNumber: attackPressure.batchesStarted,
             roomsStillToProvide: attackPressure.roomsInRange
         });
-
-        for (let i: number = 0; i < attackPressure.roomsInRange.length; i++) {
-            const myRoom: MyRoom = RoomHelper.getMyRoomByName(attackPressure.roomsInRange[i]) as MyRoom;
-            myRoom.pendingConscriptedCreep = true;
-        }
 
         ReportController.log("Conscripting for batch " + attackPressure.batchesStarted);
         attackPressure.batchesStarted++;

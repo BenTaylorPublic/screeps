@@ -65,7 +65,6 @@ export class MemoryController {
                     bankLinkerName: null,
                     bankLink: null,
                     bank: null,
-                    pendingConscriptedCreep: false,
                     spawnQueue: [],
                     rampartsUp: true
                 };

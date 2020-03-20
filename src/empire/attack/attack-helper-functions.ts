@@ -177,12 +177,6 @@ export class AttackHelperFunctions {
                 flag.remove();
             }
         }
-
-
-        const myRooms: MyRoom[] = Memory.myMemory.myRooms;
-        for (let i: number = 0; i < myRooms.length; i++) {
-            myRooms[i].pendingConscriptedCreep = false;
-        }
     }
 
     public static getBody(myRoom: MyRoom): BodyPartConstant[] {

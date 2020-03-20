@@ -45,7 +45,6 @@ import {RoomSourceLinkController} from "../room/structures/source-link";
 import {RoomTowerController} from "../room/structures/tower";
 import {RoomController} from "../room/room-controller";
 import {RoomStageController} from "../room/room-stage-controller";
-import {ScheduleController} from "../schedule/schedule-controller";
 import {Stage6_75} from "../room/stages/stage6_75";
 import {Stage7_6} from "../room/stages/stage7_6";
 import {Stage7_8} from "../room/stages/stage7_8";
@@ -69,6 +68,8 @@ import {MovementHelper} from "../global/helpers/movement-helper";
 import {MapHelper} from "../global/helpers/map-helper";
 import {FlagHelper} from "../global/helpers/flag-helper";
 import {EmpireHelper} from "../global/helpers/empire-helper";
+import {ScavengeController} from "../empire/scavenge-controller";
+import {RoleScavenger} from "../empire/role/scavenger";
 
 export class ProfilerWrapper {
     public static setup(): void {
@@ -142,14 +143,14 @@ export class ProfilerWrapper {
         Profiler.setup(RoomController, "RoomController");
         Profiler.setup(RoomStageController, "RoomStageController");
 
-        Profiler.setup(ScheduleController, "ScheduleController");
-
         Profiler.setup(BuildObserverController, "BuildObserverController");
         Profiler.setup(ObserverController, "ObserverController");
 
         Profiler.setup(RolePowerScavAttackCreep, "RolePowerScavAttackCreep");
         Profiler.setup(RolePowerScavHaulCreep, "RolePowerScavHaulCreep");
         Profiler.setup(PowerScavController, "PowerScavController");
+        Profiler.setup(ScavengeController, "ScavengeController");
+        Profiler.setup(RoleScavenger, "RoleScavenger");
 
         Profiler.setup(MemoryController, "MemoryController");
         Profiler.setup(SpawnQueueController, "SpawnController");

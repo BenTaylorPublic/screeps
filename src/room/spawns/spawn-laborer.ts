@@ -58,9 +58,7 @@ export class SpawnLaborer {
                 room.find(FIND_CONSTRUCTION_SITES).length === 0) {
                 maxLaborers = Constants.MAX_LABORERS_STAGE_8;
             }
-            if (!myRoom.pendingConscriptedCreep) {
-                SpawnLaborer.trySpawnLaborer(myRoom, laborerCount, maxLaborers);
-            }
+            SpawnLaborer.trySpawnLaborer(myRoom, laborerCount, maxLaborers);
         }
     }
 

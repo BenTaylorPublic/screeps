@@ -2,7 +2,6 @@ import {ReportController} from "../../reporting/report-controller";
 import {Constants} from "../../global/constants";
 import {AttackHelperFunctions} from "./attack-helper-functions";
 import {RoleAttackCreep} from "../role/attack-creep";
-import {ScheduleController} from "../../schedule/schedule-controller";
 import {SpawnQueueController} from "../../global/spawn-queue-controller";
 import {SpawnConstants} from "../../global/spawn-constants";
 import {CreepHelper} from "../../global/helpers/creep-helper";
@@ -27,8 +26,6 @@ export class AttackQuickController {
                 const myRoom: MyRoom = RoomHelper.getMyRoomByName(attackQuick.roomsStillToProvide[i]) as MyRoom;
                 const attackQuickCreep: AttackQuickCreep = this.spawnAttackQuickCreep(myRoom, flag.pos.roomName);
                 ReportController.log("" + LogHelper.roomNameAsLink(myRoom.name) + " has been conscripted " + attackQuickCreep.name + " for AttackQuick");
-
-                ScheduleController.scheduleForNextTick("SET_FALSE_ON_PENDING_CONSCRIPTED_CREEP", myRoom.name);
 
                 myMemory.empire.creeps.push(attackQuickCreep);
                 attackQuick.roomsStillToProvide.splice(i, 1);
@@ -137,7 +134,6 @@ export class AttackQuickController {
             if (myRoom.roomStage >= Constants.CONSCRIPTION_QUICK_MINIMUM_STAGE
                 && MapHelper.getRoomDistance(rallyFlag.pos.roomName, myRoom.name) < Constants.CONSCRIPTION_RANGE) {
                 //This room will be conscripted
-                myRoom.pendingConscriptedCreep = true;
                 attackQuick.roomsStillToProvide.push(myRoom.name);
                 outputMessage += LogHelper.roomNameAsLink(myRoom.name) + ", ";
             }
