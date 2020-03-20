@@ -9,6 +9,7 @@ Stages should log what they are, briefly, when stage + or -
 ### Short term
 ```
 Attack
+    Stop doing the stillToProvide bool shit
     Try RoomVisualisation instead of flags for target
     Clean up target selection
     Seems to be some problem with ending an attack smoothly
@@ -30,20 +31,6 @@ Observers
 ```
 ### Mid term:
 ```
-Haulers 
-    Should be re-Roled into Stockers instead of suiciding
-
-Minerals
-    Mark one room as the main room, with flag (main-room)
-        That sets it's name in the empire memory object
-    If the room isn't the main room, miners will deposit minerals into terminal
-    If it is the main room, stockers will carry minerals from containers and deposit into storage
-        After depositing minerals, into storage, if above a constant cap for the mineral
-        Mining should stop (can repurpose miners to shitty laborers? Only if they have CARRY)
-    This should be a bool "miningActive", on every room, and a bool set on stockers "mainRoom"
-    Stockers in the main room should be withdrawing all resources from terminal and depositing to bank
-    Stockers in non main room should be maintaining a constant amount of energy in the terminal for transactions
-
 PowerScav
     Use ScavengeController
 ```
@@ -58,16 +45,18 @@ Attack
             Rooms should not make any other creeps until the attack is done (like AttackQuick)
 
 Optional buildings
-    Nuker
     Labs
+    Nuker
+    
+Minerals
+
+Lab logic
+    Uses stocker creeps
+    Lab logic of what to request/combine/buff
 
 Marketing logic (will be at empire level)
     Price history
     Buy/sell logic
-    
-Lab logic
-    Uses stocker creeps
-    Lab logic of what to request/combine/buff
 
 Power
     Power creeps control

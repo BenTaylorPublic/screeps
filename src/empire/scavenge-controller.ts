@@ -50,10 +50,10 @@ export class ScavengeController {
             const amountOfTripsOneCreepCanDo: number = Math.floor(1500 / ttlForOneTrip);
             const repeatedCarryPerCreep: number = amountOfTripsOneCreepCanDo * amountOfCarryPerCreep;
 
-            console.log("amountOfCarryPerCreep: " + amountOfCarryPerCreep);
-            console.log("ttlForOneTrip: " + ttlForOneTrip);
-            console.log("amountOfTripsOneCreepCanDo: " + amountOfTripsOneCreepCanDo);
-            console.log("repeatedCarryPerCreep: " + repeatedCarryPerCreep);
+            ReportController.log(LogHelper.roomNameAsLink(myRoom.name) + ": amountOfCarryPerCreep: " + amountOfCarryPerCreep);
+            ReportController.log(LogHelper.roomNameAsLink(myRoom.name) + ": ttlForOneTrip: " + ttlForOneTrip);
+            ReportController.log(LogHelper.roomNameAsLink(myRoom.name) + ": amountOfTripsOneCreepCanDo: " + amountOfTripsOneCreepCanDo);
+            ReportController.log(LogHelper.roomNameAsLink(myRoom.name) + ": repeatedCarryPerCreep: " + repeatedCarryPerCreep);
 
             myRooms.push({
                 amountOfCarryPerCreep: repeatedCarryPerCreep,
