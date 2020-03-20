@@ -4,12 +4,12 @@
 ## TODO
 ### Working on
 ```
-Ramparts up down logic
+Attack
+    Stop doing the stillToProvide bool shit
 ```
 ### Short term
 ```
 Attack
-    Stop doing the stillToProvide bool shit
     Try RoomVisualisation instead of flags for target
     Clean up target selection
     Seems to be some problem with ending an attack smoothly

@@ -185,8 +185,7 @@ export class RoomTowerController {
                 //Put ramparts up
                 this.setRampartStatus(myRoom, room, true);
             }
-        } else if (Game.time % 5 === 0 &&
-            findOtherCreepsResult.alliedCreeps.length > 0 &&
+        } else if (findOtherCreepsResult.alliedCreeps.length > 0 &&
             findOtherCreepsResult.hostileCreeps.length === 0) {
             this.setRampartStatus(myRoom, room, false);
         }
