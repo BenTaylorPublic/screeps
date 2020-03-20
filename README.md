@@ -5,12 +5,11 @@
 ### Working on
 ```
 Attack
-    Stop doing the stillToProvide bool shit
+    Try RoomVisualisation instead of flags for target
 ```
 ### Short term
 ```
 Attack
-    Try RoomVisualisation instead of flags for target
     Clean up target selection
     Seems to be some problem with ending an attack smoothly
         Flags aren't being removed
