@@ -121,6 +121,7 @@ interface MyRoom {
     bank: StructureStorage | null;
     pendingConscriptedCreep: boolean;
     spawnQueue: QueuedCreep[];
+    rampartsUp: boolean;
 }
 
 interface QueuedCreep {

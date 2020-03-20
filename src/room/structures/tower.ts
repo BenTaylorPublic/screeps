@@ -17,6 +17,7 @@ export class RoomTowerController {
             return;
         }
         const otherCreeps: FindOtherCreepsResult = this.findOtherCreeps(room);
+        this.handleRamparts(myRoom, room, otherCreeps);
 
         if (otherCreeps.hostileCreeps.length > 0 &&
             (room.controller as StructureController).safeMode == null &&
@@ -175,5 +176,33 @@ export class RoomTowerController {
             }
         }
         return result;
+    }
+
+    private static handleRamparts(myRoom: MyRoom, room: Room, findOtherCreepsResult: FindOtherCreepsResult): void {
+        if (!myRoom.rampartsUp) {
+            if (findOtherCreepsResult.alliedCreeps.length === 0 ||
+                findOtherCreepsResult.hostileCreeps.length > 0) {
+                //Put ramparts up
+                this.setRampartStatus(myRoom, room, true);
+            }
+        } else if (Game.time % 5 === 0 &&
+            findOtherCreepsResult.alliedCreeps.length > 0 &&
+            findOtherCreepsResult.hostileCreeps.length === 0) {
+            this.setRampartStatus(myRoom, room, false);
+        }
+    }
+
+    private static setRampartStatus(myRoom: MyRoom, room: Room, up: boolean): void {
+        const ramparts: StructureRampart[] = room.find<StructureRampart>(FIND_MY_STRUCTURES, {
+            filter(structure: AnyStructure): boolean {
+                return structure.structureType === STRUCTURE_RAMPART;
+            }
+        });
+
+        for (let i = 0; i < ramparts.length; i++) {
+            ramparts[i].setPublic(!up);
+        }
+
+        myRoom.rampartsUp = up;
     }
 }
