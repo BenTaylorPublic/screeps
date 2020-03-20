@@ -4,12 +4,10 @@
 ## TODO
 ### Working on
 ```
-Fixing scavenger logic
+Ramparts up down logic
 ```
 ### Short term
 ```
-Ramparts up down logic
-
 Attack
     Stop doing the stillToProvide bool shit
     Try RoomVisualisation instead of flags for target
@@ -68,6 +66,9 @@ Nukes (Offence)
         nuke-load           //On the nuker
         nuke-stop-loading   //On the nuker
         nuke-launch         //On the target
+
+Scavengers
+    Optimize their logic so they get their target Id and don't calculate every tick
 ```
 
 ## Flag Names
