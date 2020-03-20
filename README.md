@@ -67,8 +67,15 @@ Nukes (Offence)
         nuke-stop-loading   //On the nuker
         nuke-launch         //On the target
 
+Offload
+    offload-start & offload-end
+    Used when abandoning a room or being nuked
+    Keep spawning like usual, but also it spawns scavengers itself (as well as other neighbours)
+    Use scavengers to come loot it
+    Scavenger logic will have to be modified to not desposit to offloading rooms
+
 Scavengers
-    Optimize their logic so they get their target Id and don't calculate every tick
+    Optimize their logic so they get their target pos and don't calculate every tick
 ```
 
 ## Flag Names
