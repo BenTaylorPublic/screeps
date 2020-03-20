@@ -184,9 +184,11 @@ export class RoomTowerController {
                 findOtherCreepsResult.hostileCreeps.length > 0) {
                 //Put ramparts up
                 this.setRampartStatus(myRoom, room, true);
+                ReportController.email("Putting ramparts UP in " + LogHelper.roomNameAsLink(myRoom.name));
             }
         } else if (findOtherCreepsResult.alliedCreeps.length > 0 &&
             findOtherCreepsResult.hostileCreeps.length === 0) {
+            ReportController.email("Putting ramparts DOWN in " + LogHelper.roomNameAsLink(myRoom.name));
             this.setRampartStatus(myRoom, room, false);
         }
     }
