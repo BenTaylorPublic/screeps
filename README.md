@@ -4,10 +4,12 @@
 ## TODO
 ### Working on
 ```
-Ramparts up down logic
+Fixing scavenger logic
 ```
 ### Short term
 ```
+Ramparts up down logic
+
 Attack
     Stop doing the stillToProvide bool shit
     Try RoomVisualisation instead of flags for target
