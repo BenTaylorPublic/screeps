@@ -15,7 +15,7 @@ export class Stage4_6 {
         this.step(myRoom, room);
         if (RoomHelper.amountOfStructure(room, STRUCTURE_LINK) >= 2) {
             myRoom.roomStage = 4.8;
-            ReportController.email("STAGE+: Room " + LogHelper.roomNameAsLink(myRoom.name) + " increased to room stage 4.8");
+            ReportController.email("STAGE+ 4.8 " + LogHelper.roomNameAsLink(myRoom.name) + " 2 links");
             return true;
         }
         return false;
@@ -24,7 +24,7 @@ export class Stage4_6 {
     public static down(myRoom: MyRoom, room: Room): boolean {
         if (RoomHelper.amountOfStructure(room, STRUCTURE_LINK) < 2) {
             myRoom.roomStage = 4.6;
-            ReportController.email("STAGE-: Room " + LogHelper.roomNameAsLink(myRoom.name) + " decreased to room stage 4.6");
+            ReportController.email("STAGE- 4.6 " + LogHelper.roomNameAsLink(myRoom.name) + " 2 links");
             return true;
         }
         return false;

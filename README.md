@@ -4,7 +4,7 @@
 ## TODO
 ### Working on
 ```
-Stages should log what they are, briefly, when stage + or -
+Ramparts up down logic
 ```
 ### Short term
 ```
@@ -13,12 +13,7 @@ Attack
     Try RoomVisualisation instead of flags for target
     Clean up target selection
     Seems to be some problem with ending an attack smoothly
-    HealerDrain
-        healer-drain
-        Sends a bunch of healers (just HEAL + MOVE)
-        They move in a tight ball
-        They just get off the edge of the map and heal each other
-        Will be used to empty their towers before the attack
+        Flags aren't being removed
 
 Observers
     Rework system:
@@ -37,12 +32,17 @@ PowerScav
 ### Long term:
 ```
 Attack
-    Attack params/modes
-        Large
-            Very similar to AttackQuick
-            Only attack when 1 of the attack creeps has < 300ish ticks to live
-            Once the creep spawns, provide a time estimate of when it will begin (using tick time)
-            Rooms should not make any other creeps until the attack is done (like AttackQuick)
+    Large
+        Very similar to AttackQuick
+        Only attack when 1 of the attack creeps has < 300ish ticks to live
+        Once the creep spawns, provide a time estimate of when it will begin (using tick time)
+        Rooms should not make any other creeps until the attack is done (like AttackQuick)
+    HealerDrain
+        healer-drain
+        Sends a bunch of healers (just HEAL + MOVE)
+        They move in a tight ball
+        They just get off the edge of the map and heal each other
+        Will be used to empty their towers before the attack
 
 Optional buildings
     Labs

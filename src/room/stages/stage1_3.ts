@@ -13,7 +13,7 @@ export class Stage1_3 {
         this.step(myRoom, room);
         if (RoomHelper.amountOfStructure(room, STRUCTURE_EXTENSION) >= 5) {
             myRoom.roomStage = 1.6;
-            ReportController.email("STAGE+ 1.6 " + LogHelper.roomNameAsLink(myRoom.name) + " extensions");
+            ReportController.email("STAGE+ 1.6 " + LogHelper.roomNameAsLink(myRoom.name) + " 5 extensions");
             return true;
         }
         return false;
@@ -22,7 +22,7 @@ export class Stage1_3 {
     public static down(myRoom: MyRoom, room: Room): boolean {
         if (RoomHelper.amountOfStructure(room, STRUCTURE_EXTENSION) < 5) {
             myRoom.roomStage = 1.3;
-            ReportController.email("STAGE- 1.3 " + LogHelper.roomNameAsLink(myRoom.name) + " extensions");
+            ReportController.email("STAGE- 1.3 " + LogHelper.roomNameAsLink(myRoom.name) + " 5 extensions");
             return true;
         }
         return false;
