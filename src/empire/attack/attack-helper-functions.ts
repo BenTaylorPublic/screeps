@@ -1,38 +1,31 @@
 import {ReportController} from "../../reporting/report-controller";
 import {CreepHelper} from "../../global/helpers/creep-helper";
+import {LogHelper} from "../../global/helpers/log-helper";
 
 export class AttackHelperFunctions {
     public static getNewTargetIfNeeded(attackTarget: AttackTarget | null, flagToPathFrom: Flag): AttackTarget | null {
         if (flagToPathFrom.room == null) {
             return null;
         }
-
-        if (Game.flags["attack-target"] == null) {
-            //Will update with the actual position
-            Game.flags["attack-target"] =
-                new Flag("attack-target", COLOR_RED, COLOR_RED, flagToPathFrom.pos.roomName, 1, 1);
-        }
-        const attackTargetFlag: Flag = Game.flags["attack-target"];
-
         const attackPrioFlag: Flag | null = Game.flags["attack-prio"];
         if (attackPrioFlag != null) {
-            attackTarget = this.attackPrio(attackPrioFlag, attackTargetFlag);
+            attackTarget = this.attackPrio(attackPrioFlag);
         }
         if (attackTarget != null) {
             const roomObject: RoomObject | null = Game.getObjectById<RoomObject>(attackTarget.id);
             if (roomObject == null) {
                 //No longer exists, get a new target
-                attackTarget = AttackHelperFunctions.getAttackTarget(flagToPathFrom, attackTargetFlag);
+                attackTarget = this.getAttackTarget(flagToPathFrom);
             } else {
                 attackTarget.roomObject = roomObject as Creep | Structure<StructureConstant>;
             }
         } else {
-            attackTarget = AttackHelperFunctions.getAttackTarget(flagToPathFrom, attackTargetFlag);
+            attackTarget = this.getAttackTarget(flagToPathFrom);
         }
         return attackTarget;
     }
 
-    public static getAttackTarget(flagToPathFrom: Flag, attackTargetFlag: Flag): AttackTarget | null {
+    public static getAttackTarget(flagToPathFrom: Flag): AttackTarget | null {
         const flagPos: RoomPosition = flagToPathFrom.pos;
         const room: Room = flagToPathFrom.room as Room;
         //Make cost matrix for the room
@@ -53,7 +46,7 @@ export class AttackHelperFunctions {
         if (spawnTarget != null) {
             //Attacking a spawn
             ReportController.log("New Attack Target (Spawn) " + JSON.stringify(spawnTarget.roomObject.pos));
-            attackTargetFlag.setPosition(spawnTarget.roomObject.pos);
+            LogHelper.markTarget(spawnTarget.roomObject.pos);
             return {
                 roomObject: spawnTarget.roomObject,
                 id: spawnTarget.roomObject.id,
@@ -75,7 +68,7 @@ export class AttackHelperFunctions {
         if (towerTarget != null) {
             //Attacking a tower
             ReportController.log("New Attack Target (Tower) " + JSON.stringify(towerTarget.roomObject.pos));
-            attackTargetFlag.setPosition(towerTarget.roomObject.pos);
+            LogHelper.markTarget(towerTarget.roomObject.pos);
             return {
                 roomObject: towerTarget.roomObject,
                 id: towerTarget.roomObject.id,
@@ -92,7 +85,7 @@ export class AttackHelperFunctions {
         if (creepTarget != null) {
             //Attacking a creep
             ReportController.log("New Attack Target (Creep) " + JSON.stringify(creepTarget.roomObject.pos));
-            attackTargetFlag.setPosition(creepTarget.roomObject.pos);
+            LogHelper.markTarget(creepTarget.roomObject.pos);
             return {
                 roomObject: creepTarget.roomObject,
                 id: creepTarget.roomObject.id,
@@ -112,7 +105,7 @@ export class AttackHelperFunctions {
         if (extensionTarget != null) {
             //Attacking a extension
             ReportController.log("New Attack Target (Extension) " + JSON.stringify(extensionTarget.roomObject.pos));
-            attackTargetFlag.setPosition(extensionTarget.roomObject.pos);
+            LogHelper.markTarget(extensionTarget.roomObject.pos);
             return {
                 roomObject: extensionTarget.roomObject,
                 id: extensionTarget.roomObject.id,
@@ -133,7 +126,7 @@ export class AttackHelperFunctions {
         if (rampartTarget != null) {
             //Attacking a rampart
             ReportController.log("New Attack Target (Rampart) " + JSON.stringify(rampartTarget.roomObject.pos));
-            attackTargetFlag.setPosition(rampartTarget.roomObject.pos);
+            LogHelper.markTarget(rampartTarget.roomObject.pos);
             return {
                 roomObject: rampartTarget.roomObject,
                 id: rampartTarget.roomObject.id,
@@ -154,7 +147,7 @@ export class AttackHelperFunctions {
         if (wallTarget != null) {
             //Attacking a wall
             ReportController.log("New Attack Target (Wall) " + JSON.stringify(wallTarget.roomObject.pos));
-            attackTargetFlag.setPosition(wallTarget.roomObject.pos);
+            LogHelper.markTarget(wallTarget.roomObject.pos);
             return {
                 roomObject: wallTarget.roomObject,
                 id: wallTarget.roomObject.id,
@@ -164,7 +157,6 @@ export class AttackHelperFunctions {
 
         //Nothing was found as pathable
         ReportController.log("Nothing pathable in getAttackTarget");
-        attackTargetFlag.remove();
         return null;
     }
 
@@ -248,9 +240,9 @@ export class AttackHelperFunctions {
         return result;
     }
 
-    private static attackPrio(attackPrioFlag: Flag, attackTargetFlag: Flag): AttackTarget | null {
+    private static attackPrio(attackPrioFlag: Flag): AttackTarget | null {
         const structures: Structure<StructureConstant>[] = attackPrioFlag.pos.lookFor(LOOK_STRUCTURES);
-        attackTargetFlag.setPosition(attackPrioFlag.pos);
+        LogHelper.markTarget(attackPrioFlag.pos);
         attackPrioFlag.remove();
         if (structures.length === 0) {
             return null;

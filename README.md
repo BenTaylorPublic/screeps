@@ -4,15 +4,6 @@
 ## TODO
 ### Working on
 ```
-Attack
-    Try RoomVisualisation instead of flags for target
-```
-### Short term
-```
-Attack
-    Clean up target selection
-    Seems to be some problem with ending an attack smoothly
-        Flags aren't being removed
 
 Observers
     Rework system:
@@ -22,6 +13,13 @@ Observers
         Store current target room as MyRoomName
         Use maths on the X Y to loop through (no need for room list array)
     Keep the top left flag system, but log the 4 corners after setting it, and the amount of rooms (12x12=144)
+```
+### Short term
+```
+Attack
+    Clean up target selection
+    Seems to be some problem with ending an attack smoothly
+        Flags aren't being removed?
 ```
 ### Mid term:
 ```
@@ -74,6 +72,7 @@ Offload
     Scavenger logic will have to be modified to not desposit to offloading rooms
 
 Scavengers
+    Their carry parts provided is based on returning to their current room
     Optimize their logic so they get their target pos and don't calculate every tick
 ```
 
