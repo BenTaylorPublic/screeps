@@ -4,10 +4,6 @@
 ## TODO
 ### Working on
 ```
-Debugging scavengers
-```
-### Short term
-```
 Observers
     Rework system:
         Remove the Observing/Moving system
@@ -16,7 +12,9 @@ Observers
         Store current target room as MyRoomName
         Use maths on the X Y to loop through (no need for room list array)
     Keep the top left flag system, but log the 4 corners after setting it, and the amount of rooms (12x12=144)
-
+```
+### Short term
+```
 Attack
     Clean up target selection
     Seems to be some problem with ending an attack smoothly
@@ -41,6 +39,11 @@ Attack
         They move in a tight ball
         They just get off the edge of the map and heal each other
         Will be used to empty their towers before the attack
+    Put in an optional attack-renew flag
+        For all attacks, it'd be another state before rally
+        Like another rally flag, but they wait until they're all there
+        Once they're all there, they all renew and head to rally flag
+        They wait again at the rally flag
 
 Optional buildings
     Labs
@@ -84,6 +87,9 @@ Offload
 
 Scavengers
     Their carry parts provided is based on returning to their current room
+        Set returningTtl on first return
+        Calculate rescavenge when fully depsited based on returningTtl
+        Both values nullable 
 ```
 
 ## Flag Names
