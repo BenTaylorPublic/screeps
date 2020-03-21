@@ -111,7 +111,8 @@ export class ScavengeController {
             },
             state: "Scavenging",
             scavengingRoomName: scavengingRoomName,
-            scavengeAgainWhenTtlAbove: scavengeMyRoom.scavengeAgainWhenTtlAbove
+            scavengeAgainWhenTtlAbove: scavengeMyRoom.scavengeAgainWhenTtlAbove,
+            scavengeTargetPos: null
         } as Scavenger);
     }
 

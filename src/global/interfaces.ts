@@ -272,6 +272,14 @@ interface Scavenger extends MyCreep {
     state: "Scavenging" | "Returning";
     scavengeAgainWhenTtlAbove: number;
     scavengingRoomName: string;
+    scavengeTargetPos: MyRoomPos | null;
+}
+
+interface ScavengerTargetResult {
+    isResource: boolean;
+    structure: AnyStoreStructure | Tombstone | Ruin | null;
+    resource: Resource | null;
+    pos: RoomPosition;
 }
 
 /*

@@ -74,6 +74,13 @@ export class RoomHelper {
         return new RoomPosition(myPos.x, myPos.y, myPos.roomName);
     }
 
+    public static posMatches(pos: RoomPosition, myPos: MyRoomPos | null): boolean {
+        return myPos != null &&
+            pos.roomName === myPos.roomName &&
+            pos.x === myPos.x &&
+            pos.y === myPos.y;
+    }
+
     public static posMatches2(myPos1: MyRoomPos | null | undefined, myPos2: MyRoomPos | null | undefined): boolean {
         return myPos1 != null &&
             myPos2 != null &&

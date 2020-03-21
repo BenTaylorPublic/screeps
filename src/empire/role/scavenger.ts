@@ -101,14 +101,50 @@ export class RoleScavenger {
     }
 
     private static scavenging(scavenger: Scavenger, creep: Creep): void {
+        if (scavenger.scavengeTargetPos == null) {
+            const scavengerTargetResult: ScavengerTargetResult | null = this.getTarget(creep);
+            if (scavengerTargetResult == null) {
+                return;
+            }
+            scavenger.scavengeTargetPos = RoomHelper.roomPosToMyPos(scavengerTargetResult.pos);
+        }
+        const targetPos: RoomPosition = RoomHelper.myPosToRoomPos(scavenger.scavengeTargetPos);
+        if (creep.pos.isNearTo(targetPos)) {
+            //Grab it again and withdraw
+            const scavengerTargetResult: ScavengerTargetResult | null = this.getTarget(creep);
+            if (scavengerTargetResult == null) {
+                return;
+            }
+            if (!RoomHelper.posMatches(targetPos, scavengerTargetResult.pos)) {
+                scavenger.scavengeTargetPos = null;
+                return;
+            }
+            if (scavengerTargetResult.isResource &&
+                scavengerTargetResult.resource != null) {
+                creep.pickup(scavengerTargetResult.resource);
+            } else if (!scavengerTargetResult.isResource &&
+                scavengerTargetResult.structure != null) {
+                const resourcesInStructure: ResourceConstant[] = Object.keys(scavengerTargetResult.structure.store) as ResourceConstant[];
+                for (let i: number = 0; i < resourcesInStructure.length; i++) {
+                    creep.withdraw(scavengerTargetResult.structure, resourcesInStructure[i]);
+                }
+            }
+        } else {
+            MovementHelper.myMoveTo(creep, targetPos, scavenger);
+        }
+    }
+
+    private static getTarget(creep: Creep): ScavengerTargetResult | null {
+        console.log("Scavenger.getTarget");
+
         const resource: Resource | null = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES);
         if (resource != null) {
-            if (creep.pos.isNearTo(resource.pos)) {
-                creep.pickup(resource);
-            } else {
-                MovementHelper.myMoveTo(creep, resource.pos, scavenger);
-            }
-            return;
+            return {
+                isResource: true,
+                resource: resource,
+                pos: resource.pos,
+                structure: null
+            };
         }
 
         const tombstone: Tombstone | null = creep.pos.findClosestByPath(FIND_TOMBSTONES, {
@@ -117,15 +153,12 @@ export class RoleScavenger {
             }
         });
         if (tombstone != null) {
-            if (creep.pos.isNearTo(tombstone.pos)) {
-                const resourcesInTombstone: ResourceConstant[] = Object.keys(tombstone.store) as ResourceConstant[];
-                for (let i: number = 0; i < resourcesInTombstone.length; i++) {
-                    creep.withdraw(tombstone, resourcesInTombstone[i]);
-                }
-            } else {
-                MovementHelper.myMoveTo(creep, tombstone.pos, scavenger);
-            }
-            return;
+            return {
+                isResource: false,
+                resource: null,
+                pos: tombstone.pos,
+                structure: tombstone
+            };
         }
 
         const ruin: Ruin | null = creep.pos.findClosestByPath(FIND_RUINS, {
@@ -134,15 +167,12 @@ export class RoleScavenger {
             }
         });
         if (ruin != null) {
-            if (creep.pos.isNearTo(ruin.pos)) {
-                const resourcesInRuin: ResourceConstant[] = Object.keys(ruin.store) as ResourceConstant[];
-                for (let i: number = 0; i < resourcesInRuin.length; i++) {
-                    creep.withdraw(ruin, resourcesInRuin[i]);
-                }
-            } else {
-                MovementHelper.myMoveTo(creep, ruin.pos, scavenger);
-            }
-            return;
+            return {
+                isResource: false,
+                resource: null,
+                pos: ruin.pos,
+                structure: ruin
+            };
         }
 
         const structure: AnyStoreStructure | null = creep.pos.findClosestByPath<AnyStoreStructure>(FIND_HOSTILE_STRUCTURES, {
@@ -177,16 +207,15 @@ export class RoleScavenger {
             }
         });
         if (structure != null) {
-            if (creep.pos.isNearTo(structure.pos)) {
-                const resourcesInStructure: ResourceConstant[] = Object.keys(structure.store) as ResourceConstant[];
-                for (let i: number = 0; i < resourcesInStructure.length; i++) {
-                    creep.withdraw(structure, resourcesInStructure[i]);
-                }
-            } else {
-                MovementHelper.myMoveTo(creep, structure.pos, scavenger);
-            }
-            return;
+            return {
+                isResource: false,
+                resource: null,
+                pos: structure.pos,
+                structure: structure
+            };
         }
+
+        return null;
     }
 
     private static returning(scavenger: Scavenger, creep: Creep): void {

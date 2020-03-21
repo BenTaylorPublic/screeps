@@ -10,7 +10,7 @@ export class MovementHelper {
 
         const currentCreepPos: MyRoomPos = RoomHelper.roomPosToMyPos(creep.pos);
 
-        if (this.posMatches(moveTo, myCreep.roomMoveTarget.pos)) {
+        if (RoomHelper.posMatches(moveTo, myCreep.roomMoveTarget.pos)) {
             //Same target
             if (!RoomHelper.posMatches2(myCreep.lastPos, currentCreepPos)) {
                 myCreep.lastPos = currentCreepPos;
@@ -49,13 +49,6 @@ export class MovementHelper {
             creepMemory.interRoomTravelCurrentTarget = RoomHelper.roomPosToMyPos(target);
         }
         MovementHelper.myMoveTo(creep, RoomHelper.myPosToRoomPos(creepMemory.interRoomTravelCurrentTarget), creepMemory);
-    }
-
-    private static posMatches(pos: RoomPosition, myPos: MyRoomPos | null): boolean {
-        return myPos != null &&
-            pos.roomName === myPos.roomName &&
-            pos.x === myPos.x &&
-            pos.y === myPos.y;
     }
 
     //@ts-ignore
