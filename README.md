@@ -4,6 +4,14 @@
 ## TODO
 ### Working on
 ```
+Scavengers
+    Their carry parts provided is based on returning to their current room
+        Set returningTtl on first return
+        Calculate rescavenge when fully depsited based on returningTtl
+        Both values nullable
+```
+### Short term
+```
 Observers
     Rework system:
         Remove the Observing/Moving system
@@ -12,22 +20,33 @@ Observers
         Store current target room as MyRoomName
         Use maths on the X Y to loop through (no need for room list array)
     Keep the top left flag system, but log the 4 corners after setting it, and the amount of rooms (12x12=144)
-```
-### Short term
-```
-Attack
-    Clean up target selection
-    Seems to be some problem with ending an attack smoothly
-        Flags aren't being removed?
+
+PowerScav
+    Use ScavengeController
 ```
 ### Mid term:
 ```
-PowerScav
-    Use ScavengeController
+Minerals
+    Will be a peer to peer system
+    All rooms will obey a constant system, using 2 numbers
+        ResourceTooLittle, ResourceTooMuch
+        If they have too little, they'll look for a room which has > tooLittle
+        If a room has too much, they'll look for a room with < tooMuch
+        If all rooms have too much, it'll stop mining it
+    This logic will be done by the empire controller with rooms that are RCL8 I think
+    Only every 100 ticks
+    Transactions will have to have a queue system
+    The controller will have to take into account existing transactions that haven't been completed yet
+
+Lab logic
+    Uses stocker creeps
+    Lab logic of what to request/combine/buff
 ```
 ### Long term:
 ```
 Attack
+    Seems to be some problem with ending an attack smoothly
+        Flags aren't being removed?
     Large
         Very similar to AttackQuick
         Only attack when 1 of the attack creeps has < 300ish ticks to live
@@ -48,22 +67,6 @@ Attack
 Optional buildings
     Labs
     Nuker
-    
-Minerals
-    Will be a peer to peer system
-    All rooms will obey a constant system, using 2 numbers
-        ResourceTooLittle, ResourceTooMuch
-        If they have too little, they'll look for a room which has > tooLittle
-        If a room has too much, they'll look for a room with < tooMuch
-        If all rooms have too much, it'll stop mining it
-    This logic will be done by the empire controller with rooms that are RCL8 I think
-    Only every 100 ticks
-    Transactions will have to have a queue system
-    The controller will have to take into account existing transactions that haven't been completed yet
-
-Lab logic
-    Uses stocker creeps
-    Lab logic of what to request/combine/buff
 
 Marketing logic (will be at empire level)
     Price history
@@ -84,12 +87,6 @@ Offload
     Keep spawning like usual, but also it spawns scavengers itself (as well as other neighbours)
     Use scavengers to come loot it
     Scavenger logic will have to be modified to not desposit to offloading rooms
-
-Scavengers
-    Their carry parts provided is based on returning to their current room
-        Set returningTtl on first return
-        Calculate rescavenge when fully depsited based on returningTtl
-        Both values nullable 
 ```
 
 ## Flag Names
