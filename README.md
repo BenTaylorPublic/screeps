@@ -4,7 +4,11 @@
 ## TODO
 ### Working on
 ```
-
+Scavengers
+    Optimize their logic so they get their target pos and don't calculate every tick
+```
+### Short term
+```
 Observers
     Rework system:
         Remove the Observing/Moving system
@@ -13,9 +17,7 @@ Observers
         Store current target room as MyRoomName
         Use maths on the X Y to loop through (no need for room list array)
     Keep the top left flag system, but log the 4 corners after setting it, and the amount of rooms (12x12=144)
-```
-### Short term
-```
+
 Attack
     Clean up target selection
     Seems to be some problem with ending an attack smoothly
@@ -73,7 +75,6 @@ Offload
 
 Scavengers
     Their carry parts provided is based on returning to their current room
-    Optimize their logic so they get their target pos and don't calculate every tick
 ```
 
 ## Flag Names
