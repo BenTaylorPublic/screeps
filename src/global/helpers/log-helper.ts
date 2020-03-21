@@ -26,6 +26,10 @@ export class LogHelper {
         }
     }
 
+    public static logPos(myRoomPos: MyRoomPos): void {
+        console.log("[room " + myRoomPos.roomName + " pos " + myRoomPos.x + "," + myRoomPos.y + "]");
+    }
+
     public static roomNameAsLink(roomName: string): string {
         return "<a href='#!/room/shard3/" + roomName + "'>" + roomName + "</a>";
     }
