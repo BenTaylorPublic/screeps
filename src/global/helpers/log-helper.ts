@@ -29,4 +29,19 @@ export class LogHelper {
     public static roomNameAsLink(roomName: string): string {
         return "<a href='#!/room/shard3/" + roomName + "'>" + roomName + "</a>";
     }
+
+    public static markTarget(pos: RoomPosition): void {
+        if (pos.x === 49 ||
+            pos.x === 0 ||
+            pos.y === 0 ||
+            pos.y === 49) {
+            return;
+        }
+
+        new RoomVisual(pos.roomName).line(pos.x - 1, pos.y, pos.x + 1, pos.y, {color: "red"});
+        new RoomVisual(pos.roomName).line(pos.x, pos.y - 1, pos.x, pos.y + 1, {color: "red"});
+        new RoomVisual(pos.roomName).circle(pos.x, pos.y, {stroke: "red", fill: "transparent", radius: 0.5});
+        new RoomVisual(pos.roomName).circle(pos.x, pos.y, {stroke: "red", fill: "transparent", radius: 1});
+
+    }
 }
