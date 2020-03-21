@@ -135,8 +135,6 @@ export class RoleScavenger {
     }
 
     private static getTarget(creep: Creep): ScavengerTargetResult | null {
-        console.log("Scavenger.getTarget");
-
         const resource: Resource | null = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES);
         if (resource != null) {
             return {

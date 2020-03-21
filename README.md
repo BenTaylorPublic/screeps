@@ -4,11 +4,6 @@
 ## TODO
 ### Working on
 ```
-Scavengers
-    Optimize their logic so they get their target pos and don't calculate every tick
-```
-### Short term
-```
 Observers
     Rework system:
         Remove the Observing/Moving system
@@ -17,7 +12,9 @@ Observers
         Store current target room as MyRoomName
         Use maths on the X Y to loop through (no need for room list array)
     Keep the top left flag system, but log the 4 corners after setting it, and the amount of rooms (12x12=144)
-
+```
+### Short term
+```
 Attack
     Clean up target selection
     Seems to be some problem with ending an attack smoothly
@@ -48,6 +45,16 @@ Optional buildings
     Nuker
     
 Minerals
+    Will be a peer to peer system
+    All rooms will obey a constant system, using 2 numbers
+        ResourceTooLittle, ResourceTooMuch
+        If they have too little, they'll look for a room which has > tooLittle
+        If a room has too much, they'll look for a room with < tooMuch
+        If all rooms have too much, it'll stop mining it
+    This logic will be done by the empire controller with rooms that are RCL8 I think
+    Only every 100 ticks
+    Transactions will have to have a queue system
+    The controller will have to take into account existing transactions that haven't been completed yet
 
 Lab logic
     Uses stocker creeps
