@@ -33,6 +33,7 @@ Minerals
     The controller will have to take into account existing transactions that haven't been completed yet
 
 Lab logic
+    It'll be adding another stage in 7 -> 8, so 7.9
     Uses stocker creeps
     Lab logic of what to request/combine/buff
 ```
@@ -60,6 +61,7 @@ Attack
 
 Stage 8 Laborer logic
     Will have 15 work, and a few move
+    They only need 3 carry
     There'll be a link for ugrading the controller
 
 Optional buildings
