@@ -4,14 +4,6 @@
 ## TODO
 ### Working on
 ```
-Scavengers
-    Their carry parts provided is based on returning to their current room
-        Set returningTtl on first return
-        Calculate rescavenge when fully depsited based on returningTtl
-        Both values nullable
-```
-### Short term
-```
 Observers
     Rework system:
         Remove the Observing/Moving system
@@ -20,7 +12,9 @@ Observers
         Store current target room as MyRoomName
         Use maths on the X Y to loop through (no need for room list array)
     Keep the top left flag system, but log the 4 corners after setting it, and the amount of rooms (12x12=144)
-
+```
+### Short term
+```
 PowerScav
     Use ScavengeController
 ```
