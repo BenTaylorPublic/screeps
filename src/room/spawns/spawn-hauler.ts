@@ -16,7 +16,7 @@ export class SpawnHauler {
             const mySource: MySource = myRoom.mySources[i];
             if (mySource.cache == null ||
                 mySource.cache.id == null) {
-                return;
+                continue;
             }
             const myCache: StructureContainer | null = Game.getObjectById<StructureContainer>(mySource.cache.id);
             if (mySource.state === "Cache" &&
