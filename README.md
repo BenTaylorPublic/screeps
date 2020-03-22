@@ -58,6 +58,10 @@ Attack
         Once they're all there, they all renew and head to rally flag
         They wait again at the rally flag
 
+Stage 8 Laborer logic
+    Will have 15 work, and a few move
+    There'll be a link for ugrading the controller
+
 Optional buildings
     Labs
     Nuker
@@ -78,9 +82,7 @@ Nukes (Offence)
 Offload
     offload-start & offload-end
     Used when abandoning a room or being nuked
-    Keep spawning like usual, but also it spawns scavengers itself (as well as other neighbours)
-    Use scavengers to come loot it
-    Scavenger logic will have to be modified to not desposit to offloading rooms
+    Just pushes everything out via the terminal
 ```
 
 ## Flag Names
