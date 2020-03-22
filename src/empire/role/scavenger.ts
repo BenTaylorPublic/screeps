@@ -80,7 +80,7 @@ export class RoleScavenger {
             }
             if (returning) {
                 scavenger.state = "Returning";
-                const closestBank: StructureStorage | null = MapHelper.findClosestBank(creep.room.name, creep.store.getUsedCapacity());
+                const closestBank: StructureStorage | null = MapHelper.findClosestBank(creep.room.name, 50_000);
                 if (closestBank == null) {
                     ReportController.email("ERROR: closestBank was null in RoleScavenger.checkStates");
                     return;
