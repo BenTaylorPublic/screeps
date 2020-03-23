@@ -7,12 +7,9 @@ import {RoomHelper} from "../../global/helpers/room-helper";
 
 export class ObserverController {
     public static run(myMemory: MyMemory): void {
-        const observerMemory: ObserverMemory = myMemory.empire.observer;
+        this.generateTargetsIfNeeded(myMemory);
 
-        this.generateTargetsIfNeeded(observerMemory);
-
-        if (observerMemory.observerIds.length === 0 ||
-            observerMemory.targetList.length === 0) {
+        if (myMemory.empire.observer == null) {
             return;
         }
 
@@ -27,6 +24,7 @@ export class ObserverController {
         if ((room.controller != null &&
             room.controller.my === false &&
             room.controller.owner != null
+            //TODO: Enable this when allies do ramparts logic
             // && !EmpireHelper.isAllyUsername(room.controller.owner.username)
         )) {
             if (room.controller.level >= 3) {
@@ -108,7 +106,7 @@ export class ObserverController {
     }
 
 
-    private static generateTargetsIfNeeded(observerMemory: ObserverMemory): void {
+    private static generateTargetsIfNeeded(myMemory: MyMemory): void {
         if (Game.time % 10 !== 0) {
             return;
         }
@@ -127,18 +125,37 @@ export class ObserverController {
             return;
         }
         const flag: Flag = Game.flags[flagNames[0]];
-        const size: number = Number(flag.name.split("-")[2]);
 
+        const size: number = Number(flag.name.split("-")[2]);
         const topLeftRoomName: MyRoomName = RoomHelper.getRoomNameAsInterface(flag.pos.roomName);
-        observerMemory.targetList = [];
-        for (let x: number = topLeftRoomName.xNum; x < topLeftRoomName.xNum + size; x++) {
-            for (let y: number = topLeftRoomName.yNum; y < topLeftRoomName.yNum + size; y++) {
-                observerMemory.targetList.push(topLeftRoomName.xChar + x + topLeftRoomName.yChar + y);
+        let observer: StructureObserver | null = null;
+        for (let i: number = 0; i < myMemory.myRooms.length; i++) {
+            const observers: StructureObserver[] = Game.rooms[myMemory.myRooms[i].name].find<StructureObserver>(FIND_MY_STRUCTURES, {
+                filter: (structure: AnyStructure): boolean => {
+                    return structure.structureType === STRUCTURE_OBSERVER;
+                }
+            });
+            if (observers.length >= 1) {
+                observer = observers[0];
             }
         }
+        if (observer == null) {
+            flag.remove();
+            return;
+        }
 
+        if (myMemory.empire.observer == null) {
+            myMemory.empire.observer = {
+                nextObservingRoom: topLeftRoomName,
+                currentObservingRoomName: RoomHelper.getRoomNameAsString(topLeftRoomName),
+                observerId: observer.id,
+                size: size,
+                topLeftX: topLeftRoomName.xNum,
+                topLeftY: topLeftRoomName.yNum
+            };
+        }
+
+        ReportController.log("Observer set with size " + size + ", rooms: " + (size * size));
         flag.remove();
-        observerMemory.currentTargetIndex = 0;
-        ReportController.log("Observer width set");
     }
 }

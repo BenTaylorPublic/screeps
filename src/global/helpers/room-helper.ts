@@ -30,6 +30,10 @@ export class RoomHelper {
         return result;
     }
 
+    public static getRoomNameAsString(myRoomName: MyRoomName): string {
+        return myRoomName.xChar + myRoomName.xNum + myRoomName.yChar + myRoomName.yNum;
+    }
+
     public static areaAroundPos(pos: RoomPosition, room: Room): number {
         let result: number = 8;
         const terrain: RoomTerrain = room.getTerrain();
