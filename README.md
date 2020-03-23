@@ -8,7 +8,6 @@ Observers
     Rework system:
         Remove the Observing/Moving system
         Observe every tick and Move every tick
-        Have a "toObserve" string roomname
         Store current target room as MyRoomName
         Use maths on the X Y to loop through (no need for room list array)
     Keep the top left flag system, but log the 4 corners after setting it, and the amount of rooms (12x12=144)
@@ -31,11 +30,25 @@ Minerals
     Only every 100 ticks
     Transactions will have to have a queue system
     The controller will have to take into account existing transactions that haven't been completed yet
+        Mineral ratios are:
+            Z 3
+            K 3
+            U 4
+            L 3
+            O 10
+            H 11
+            X 7
 
 Lab logic
     It'll be adding another stage in 7 -> 8, so 7.9
     Uses stocker creeps
     Lab logic of what to request/combine/buff
+    Memory will be an array of lab Ids, with length 5
+    1 lab will be the buffing lab
+    It will be locked with a bool when it needs to be used to buff
+        Essentially making it last in the list of labs to use
+    Rest of the time it can be used with the array
+    2 origin labs will be the middle ones    
 ```
 ### Long term:
 ```
