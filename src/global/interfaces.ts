@@ -18,16 +18,18 @@ interface Empire {
     attackPressure: AttackPressure | null;
     attackHealerDrain: AttackHealerDrain | null;
     creeps: MyCreep[];
-    observer: ObserverMemory;
+    observer: ObserverMemory | null;
     avoidRooms: string[];
     powerScav: PowerScav;
 }
 
 interface ObserverMemory {
-    state: "Moving" | "Observing";
-    currentTargetIndex: number | null;
-    targetList: string[];
-    observerIds: Id<StructureObserver>[];
+    currentObservingRoomName: string;
+    nextObservingRoom: MyRoomName;
+    observerId: string;
+    topLeftX: number;
+    topLeftY: number;
+    size: number;
 }
 
 

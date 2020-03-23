@@ -5,6 +5,7 @@ import {ProfilerWrapper} from "./profiler/profiler-wrapper";
 import {FunctionProfiler} from "./profiler/function-profiler/function-profiler";
 
 console.log("Script reloaded");
+Memory.myMemory.empire.observer = null;
 
 // for (let i: number = 0; i < Memory.myMemory.myRooms.length; i++) {
 //     const myRoom: MyRoom = Memory.myMemory.myRooms[i];
@@ -59,12 +60,7 @@ function setupMyMemory(): void {
                 powerScav: {
                     targetBanks: []
                 },
-                observer: {
-                    state: "Moving",
-                    observerIds: [],
-                    currentTargetIndex: null,
-                    targetList: []
-                }
+                observer: null
             },
             scheduledCommands: []
         } as MyMemory;
