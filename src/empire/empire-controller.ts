@@ -19,7 +19,7 @@ export class EmpireController {
         SpawnClaimerController.run(myMemory);
         AttackController.run(myMemory);
 
-        BuildObserverController.run(myMemory);
+        BuildObserverController.run();
         ObserverController.run(myMemory);
         SignController.run(myMemory);
 

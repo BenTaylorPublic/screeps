@@ -1,7 +1,7 @@
 import {ReportController} from "../../reporting/report-controller";
 
 export class BuildObserverController {
-    public static run(myMemory: MyMemory): void {
+    public static run(): void {
         if (Game.time % 10 !== 0) {
             return;
         }
