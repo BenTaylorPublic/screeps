@@ -7,7 +7,9 @@ import {RoomHelper} from "../../global/helpers/room-helper";
 
 export class ObserverController {
     public static run(myMemory: MyMemory): void {
-        this.generateTargetsIfNeeded(myMemory);
+        if (this.generateTargetsIfNeeded(myMemory)) {
+            return;
+        }
 
         if (myMemory.empire.observer == null) {
             return;
@@ -104,9 +106,9 @@ export class ObserverController {
     }
 
 
-    private static generateTargetsIfNeeded(myMemory: MyMemory): void {
+    private static generateTargetsIfNeeded(myMemory: MyMemory): boolean {
         if (Game.time % 10 !== 0) {
-            return;
+            return false;
         }
 
         const flagNames: string[] = Object.keys(Game.flags);
@@ -120,7 +122,7 @@ export class ObserverController {
         }
 
         if (flagNames.length !== 1) {
-            return;
+            return false;
         }
         const flag: Flag = Game.flags[flagNames[0]];
 
@@ -139,7 +141,7 @@ export class ObserverController {
         }
         if (observer == null) {
             flag.remove();
-            return;
+            return false;
         }
         const topLeftRoomNameAsString: string = RoomHelper.getRoomNameAsString(topLeftRoomName);
         if (myMemory.empire.observer == null) {
@@ -157,5 +159,6 @@ export class ObserverController {
 
         ReportController.log("Observer set with size " + size + ", rooms: " + (size * size));
         flag.remove();
+        return true;
     }
 }
