@@ -91,4 +91,26 @@ export class CreepHelper {
             return cost + BODYPART_COST[part];
         }, 0);
     }
+
+    public static creepContainsBodyPart(creep: Creep, bodyPart: BodyPartConstant): boolean {
+        for (let i = 0; i < creep.body.length; i++) {
+            const currentBodyPart: BodyPartDefinition = creep.body[i];
+            if (currentBodyPart.type === bodyPart) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static creepContainsBodyParts(creep: Creep, bodyParts: BodyPartConstant[]): boolean {
+        for (let i = 0; i < creep.body.length; i++) {
+            const currentBodyPart: BodyPartDefinition = creep.body[i];
+            for (let j = 0; j < bodyParts.length; j++) {
+                if (currentBodyPart.type === bodyParts[j]) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

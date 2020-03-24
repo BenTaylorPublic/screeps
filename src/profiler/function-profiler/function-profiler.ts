@@ -46,8 +46,7 @@ export class FunctionProfiler {
     }
 
     public static detectProfileReport(): void {
-        if (Game.time % 10 !== 0 ||
-            Game.flags["profile-function"] == null) {
+        if (Game.flags["profile-function"] == null) {
             return;
         }
 

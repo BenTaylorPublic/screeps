@@ -34,10 +34,14 @@ export let loop: any = function (): void {
         RoomController.run(myMemory.myRooms[i]);
     }
 
-    MemoryController.clearBanks();
+    if (Game.time % 10 === 0) {
+        ProfilerWrapper.detectProfileReport();
+        FunctionProfiler.detectProfileReport();
+    }
 
-    ProfilerWrapper.detectProfileReport();
-    FunctionProfiler.detectProfileReport();
+    if (Game.cpu.getUsed() > 20) {
+        console.log(Game.time + ": Used " + Game.cpu.getUsed() + ", bucket: " + Game.cpu.bucket);
+    }
 };
 
 function setupMyMemory(): void {

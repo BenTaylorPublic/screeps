@@ -51,6 +51,9 @@ export class RoomController {
                 RoomSourceLinkController.run(myRoom, mySource.link);
             }
         }
+
+        //Deleting the bank
+        myRoom.bank = null;
     }
 
     private static shouldLaborersStock(myRoom: MyRoom): boolean {

@@ -4,16 +4,14 @@
 ## TODO
 ### Working on
 ```
-Observers
-    Rework system:
-        Remove the Observing/Moving system
-        Observe every tick and Move every tick
-        Store current target room as MyRoomName
-        Use maths on the X Y to loop through (no need for room list array)
-    Keep the top left flag system, but log the 4 corners after setting it, and the amount of rooms (12x12=144)
+Skew the % 10s
+    Stages+ is +1 %10
+    Stages- is +2 %10
 ```
 ### Short term
 ```
+Get asserts working
+
 PowerScav
     Use ScavengeController
 ```

@@ -13,13 +13,6 @@ export class MemoryController {
         this.cleanupReportMap();
     }
 
-    public static clearBanks(): void {
-        for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
-            const myRoom: MyRoom = Memory.myMemory.myRooms[i];
-            myRoom.bank = null;
-        }
-    }
-
     private static clearDeadCreeps(): void {
         //Clear all dead creeps
         for (const i in Memory.creeps) {

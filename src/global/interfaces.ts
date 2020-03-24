@@ -26,7 +26,7 @@ interface Empire {
 interface ObserverMemory {
     currentObservingRoomName: string;
     nextObservingRoom: MyRoomName;
-    observerId: string;
+    observerId: Id<StructureObserver>;
     topLeftX: number;
     topLeftY: number;
     size: number;

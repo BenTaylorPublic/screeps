@@ -1,5 +1,4 @@
 import {ReportController} from "../reporting/report-controller";
-
 import {ReportCooldownConstants} from "../global/report-cooldown-constants";
 import {LogHelper} from "../global/helpers/log-helper";
 

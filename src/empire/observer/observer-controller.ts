@@ -70,38 +70,36 @@ export class ObserverController {
     }
 
     private static observeLogic(myMemory: MyMemory): void {
-        const observerMemory: ObserverMemory = myMemory.empire.observer;
-        if (observerMemory.currentTargetIndex == null) {
+        const observerMemory: ObserverMemory = myMemory.empire.observer as ObserverMemory;
+        if (observerMemory == null) {
             return;
         }
 
-        if (observerMemory.state === "Moving") {
-            observerMemory.currentTargetIndex++;
-            if (observerMemory.currentTargetIndex === observerMemory.targetList.length) {
-                observerMemory.currentTargetIndex = 0;
-            }
+        const room: Room | null = Game.rooms[observerMemory.currentObservingRoomName];
+        if (room == null) {
+            ReportController.log("ERROR: Room from observer was null " + LogHelper.roomNameAsLink(observerMemory.currentObservingRoomName));
+        } else {
+            console.log("Observing " + LogHelper.roomNameAsLink(observerMemory.currentObservingRoomName));
+            this.observe(room, myMemory);
+        }
 
-            const newTargetRoomName: string = observerMemory.targetList[observerMemory.currentTargetIndex];
-            for (let i: number = 0; i < observerMemory.observerIds.length; i++) {
-                const observer: StructureObserver | null = Game.getObjectById<StructureObserver>(observerMemory.observerIds[i]);
-                if (observer == null) {
-                    observerMemory.observerIds.splice(i, 1);
-                } else {
-                    if (observer.observeRoom(newTargetRoomName) === OK) {
-                        break;
-                    }
-                }
+        //Getting next room
+        observerMemory.nextObservingRoom.xNum++;
+        if (observerMemory.nextObservingRoom.xNum === observerMemory.topLeftX + observerMemory.size) {
+            observerMemory.nextObservingRoom.xNum = observerMemory.topLeftX;
+            observerMemory.nextObservingRoom.yNum++;
+            if (observerMemory.nextObservingRoom.yNum === observerMemory.topLeftY + observerMemory.size) {
+                observerMemory.nextObservingRoom.yNum = observerMemory.topLeftY;
             }
+        }
 
-            observerMemory.state = "Observing";
-        } else { //Observing
-            const room: Room | null = Game.rooms[observerMemory.targetList[observerMemory.currentTargetIndex]];
-            if (room == null) {
-                ReportController.log("ERROR: Room from observer was null " + LogHelper.roomNameAsLink(observerMemory.targetList[observerMemory.currentTargetIndex]));
-            } else {
-                this.observe(room, myMemory);
-            }
-            observerMemory.state = "Moving";
+        observerMemory.currentObservingRoomName = RoomHelper.getRoomNameAsString(observerMemory.nextObservingRoom);
+        const observer: StructureObserver | null = Game.getObjectById<StructureObserver>(observerMemory.observerId);
+        if (observer != null) {
+            observer.observeRoom(observerMemory.currentObservingRoomName);
+        } else {
+            ReportController.email("ERROR: Observer was null. Stopping observers");
+            myMemory.empire.observer = null;
         }
     }
 
@@ -143,17 +141,19 @@ export class ObserverController {
             flag.remove();
             return;
         }
-
+        const topLeftRoomNameAsString: string = RoomHelper.getRoomNameAsString(topLeftRoomName);
         if (myMemory.empire.observer == null) {
             myMemory.empire.observer = {
                 nextObservingRoom: topLeftRoomName,
-                currentObservingRoomName: RoomHelper.getRoomNameAsString(topLeftRoomName),
+                currentObservingRoomName: topLeftRoomNameAsString,
                 observerId: observer.id,
                 size: size,
                 topLeftX: topLeftRoomName.xNum,
                 topLeftY: topLeftRoomName.yNum
             };
         }
+
+        observer.observeRoom(topLeftRoomNameAsString);
 
         ReportController.log("Observer set with size " + size + ", rooms: " + (size * size));
         flag.remove();

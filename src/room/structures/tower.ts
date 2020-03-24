@@ -3,6 +3,7 @@ import {Constants} from "../../global/constants";
 import {ReportController} from "../../reporting/report-controller";
 import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
 import {EmpireHelper} from "../../global/helpers/empire-helper";
+import {CreepHelper} from "../../global/helpers/creep-helper";
 
 export class RoomTowerController {
     public static run(myRoom: MyRoom, room: Room): void {
@@ -23,10 +24,12 @@ export class RoomTowerController {
             (room.controller as StructureController).safeMode == null &&
             !otherCreeps.healers) {
             const target: Creep = this.getBestCreepTarget(otherCreeps.hostileCreeps);
-            if (target.owner.username !== "Invader" &&
-                !target.name.includes("Harvester_mine")) {
-                ReportController.email("Tower attacking target with name " + target.name + " Owner: " + target.owner.username + " in " + LogHelper.roomNameAsLink(room.name),
-                    ReportCooldownConstants.FIVE_MINUTE);
+            if (target.owner.username !== "Invader") {
+                //Only let me know if they're hostile
+                if (CreepHelper.creepContainsBodyParts(target, [HEAL, CLAIM, ATTACK, RANGED_ATTACK])) {
+                    ReportController.email("Tower attacking target with name " + target.name + " Owner: " + target.owner.username + " in " + LogHelper.roomNameAsLink(room.name),
+                        ReportCooldownConstants.FIVE_MINUTE);
+                }
             }
 
             //Fire them all
@@ -165,12 +168,8 @@ export class RoomTowerController {
             } else {
                 result.hostileCreeps.push(possibleHostileCreep);
                 if (!result.healers) {
-                    for (let j = 0; j < possibleHostileCreep.body.length; j++) {
-                        const bodyPart: BodyPartDefinition = possibleHostileCreep.body[j];
-                        if (bodyPart.type === HEAL) {
-                            result.healers = true;
-                            break;
-                        }
+                    if (CreepHelper.creepContainsBodyPart(possibleHostileCreep, HEAL)) {
+                        result.healers = true;
                     }
                 }
             }

@@ -70,17 +70,34 @@ import {FlagHelper} from "../global/helpers/flag-helper";
 import {EmpireHelper} from "../global/helpers/empire-helper";
 import {ScavengeController} from "../empire/scavenge-controller";
 import {RoleScavenger} from "../empire/role/scavenger";
+import {AttackHealerDrainController} from "../empire/attack/attack-healer-drain-controller";
+import {SignController} from "../empire/sign/sign-controller";
+import {RoleStocker} from "../room/roles/stocker";
+import {SpawnStocker} from "../room/spawns/spawn-stocker";
+import {RoomDefenseController} from "../room/room-defense-controller";
 
 export class ProfilerWrapper {
     public static setup(): void {
-        Profiler.setup(RoleAttackCreep, "RoleAttackCreep");
-        Profiler.setup(RoleClaimer, "RoleClaimer");
-
         Profiler.setup(AttackController, "AttackController");
+        Profiler.setup(AttackHealerDrainController, "AttackHealerDrainController");
         Profiler.setup(AttackHelperFunctions, "AttackHelperFunctions");
         Profiler.setup(AttackPressureController, "AttackPressureController");
         Profiler.setup(AttackQuickController, "AttackQuickController");
+
+        Profiler.setup(BuildObserverController, "BuildObserverController");
+        Profiler.setup(ObserverController, "ObserverController");
+
+        Profiler.setup(RoleAttackCreep, "RoleAttackCreep");
+        Profiler.setup(RoleClaimer, "RoleClaimer");
+        Profiler.setup(RolePowerScavAttackCreep, "RolePowerScavAttackCreep");
+        Profiler.setup(RolePowerScavHaulCreep, "RolePowerScavHaulCreep");
+        Profiler.setup(RoleScavenger, "RoleScavenger");
+
+        Profiler.setup(SignController, "SignController");
+
         Profiler.setup(EmpireController, "EmpireController");
+        Profiler.setup(PowerScavController, "PowerScavController");
+        Profiler.setup(ScavengeController, "ScavengeController");
         Profiler.setup(SpawnClaimerController, "SpawnClaimerController");
 
         Profiler.setup(CreepHelper, "CreepHelper");
@@ -91,18 +108,24 @@ export class ProfilerWrapper {
         Profiler.setup(MovementHelper, "MovementHelper");
         Profiler.setup(RoomHelper, "RoomHelper");
 
+        Profiler.setup(SpawnQueueController, "SpawnQueueController");
+
+        Profiler.setup(MemoryController, "MemoryController");
+
         Profiler.setup(ReportController, "ReportController");
 
         Profiler.setup(RoleBankLinker, "RoleBankLinker");
         Profiler.setup(RoleHauler, "RoleHauler");
-        Profiler.setup(RoleLaborer, "RoleLaborer");
         Profiler.setup(RoleMiner, "RoleMiner");
+        Profiler.setup(RoleLaborer, "RoleLaborer");
+        Profiler.setup(RoleStocker, "RoleStocker");
 
         Profiler.setup(RoomSpawnController, "RoomSpawnController");
         Profiler.setup(SpawnBankLinker, "SpawnBankLinker");
         Profiler.setup(SpawnHauler, "SpawnHauler");
         Profiler.setup(SpawnLaborer, "SpawnLaborer");
         Profiler.setup(SpawnMiner, "SpawnMiner");
+        Profiler.setup(SpawnStocker, "SpawnStocker");
 
         Profiler.setup(Stage0, "Stage0");
         Profiler.setup(Stage0_5, "Stage0_5");
@@ -141,19 +164,8 @@ export class ProfilerWrapper {
         Profiler.setup(RoomTowerController, "RoomTowerController");
 
         Profiler.setup(RoomController, "RoomController");
+        Profiler.setup(RoomDefenseController, "RoomDefenseController");
         Profiler.setup(RoomStageController, "RoomStageController");
-
-        Profiler.setup(BuildObserverController, "BuildObserverController");
-        Profiler.setup(ObserverController, "ObserverController");
-
-        Profiler.setup(RolePowerScavAttackCreep, "RolePowerScavAttackCreep");
-        Profiler.setup(RolePowerScavHaulCreep, "RolePowerScavHaulCreep");
-        Profiler.setup(PowerScavController, "PowerScavController");
-        Profiler.setup(ScavengeController, "ScavengeController");
-        Profiler.setup(RoleScavenger, "RoleScavenger");
-
-        Profiler.setup(MemoryController, "MemoryController");
-        Profiler.setup(SpawnQueueController, "SpawnController");
 
         /**
          * Don't profile:
@@ -161,6 +173,8 @@ export class ProfilerWrapper {
          *   Profiler
          *   FunctionProfiler
          *   Constants
+         *   ReportCooldownConstants
+         *   SpawnConstants
          */
     }
 
@@ -172,8 +186,7 @@ export class ProfilerWrapper {
     }
 
     public static detectProfileReport(): void {
-        if (Game.time % 10 !== 0 ||
-            Game.flags["profile"] == null) {
+        if (Game.flags["profile"] == null) {
             return;
         }
 
