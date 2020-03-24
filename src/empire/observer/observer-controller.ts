@@ -81,7 +81,6 @@ export class ObserverController {
         if (room == null) {
             ReportController.log("ERROR: Room from observer was null " + LogHelper.roomNameAsLink(observerMemory.currentObservingRoomName));
         } else {
-            console.log("Observing " + LogHelper.roomNameAsLink(observerMemory.currentObservingRoomName));
             this.observe(room, myMemory);
         }
 
