@@ -85,10 +85,10 @@ export class ObserverController {
 
         //Getting next room
         observerMemory.nextObservingRoom.xNum++;
-        if (observerMemory.nextObservingRoom.xNum === observerMemory.topLeftX + observerMemory.size) {
+        if (observerMemory.nextObservingRoom.xNum > observerMemory.topLeftX + observerMemory.size) {
             observerMemory.nextObservingRoom.xNum = observerMemory.topLeftX;
             observerMemory.nextObservingRoom.yNum++;
-            if (observerMemory.nextObservingRoom.yNum === observerMemory.topLeftY + observerMemory.size) {
+            if (observerMemory.nextObservingRoom.yNum > observerMemory.topLeftY + observerMemory.size) {
                 observerMemory.nextObservingRoom.yNum = observerMemory.topLeftY;
             }
         }
