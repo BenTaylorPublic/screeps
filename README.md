@@ -4,14 +4,10 @@
 ## TODO
 ### Working on
 ```
-Skew the % 10s
-    Stages+ is +1 %10
-    Stages- is +2 %10
+Get asserts working
 ```
 ### Short term
 ```
-Get asserts working
-
 PowerScav
     Use ScavengeController
 ```
