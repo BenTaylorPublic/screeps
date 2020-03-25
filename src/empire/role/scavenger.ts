@@ -58,7 +58,7 @@ export class RoleScavenger {
                                     } else if (struc.structureType === STRUCTURE_SPAWN) {
                                         return struc.store.getUsedCapacity(RESOURCE_ENERGY) > 0;
                                     } else if (struc.structureType === STRUCTURE_STORAGE) {
-                                        return struc.store.getUsedCapacity() > 0;
+                                        return Object.keys(struc.store).length > 0;
                                     } else if (struc.structureType === STRUCTURE_TERMINAL) {
                                         return struc.store.getUsedCapacity() > 0;
                                     } else if (struc.structureType === STRUCTURE_TOWER) {
@@ -192,7 +192,7 @@ export class RoleScavenger {
                 } else if (struc.structureType === STRUCTURE_SPAWN) {
                     return struc.store.getUsedCapacity(RESOURCE_ENERGY) > 0;
                 } else if (struc.structureType === STRUCTURE_STORAGE) {
-                    return struc.store.getUsedCapacity() > 0;
+                    return Object.keys(struc.store).length > 0;
                 } else if (struc.structureType === STRUCTURE_TERMINAL) {
                     return struc.store.getUsedCapacity() > 0;
                 } else if (struc.structureType === STRUCTURE_TOWER) {
