@@ -20,6 +20,7 @@ Minerals
         If they have too little, they'll look for a room which has > tooLittle
         If a room has too much, they'll look for a room with < tooMuch
         If all rooms have too much, it'll stop mining it
+        Some minerals will be marked to break them back down
     This logic will be done by the empire controller with rooms that are RCL8 I think
     Only every 100 ticks
     Transactions will have to have a queue system
