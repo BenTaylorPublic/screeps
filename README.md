@@ -10,6 +10,9 @@ Get asserts working
 ```
 PowerScav
     Use ScavengeController
+
+Scavenger shouldn't check state every tick
+    Only when they get to their target
 ```
 ### Mid term:
 ```
