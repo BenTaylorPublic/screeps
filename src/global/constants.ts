@@ -9,7 +9,7 @@ export class Constants {
     public static LABORERS_BEFORE_BANK: number = 6;
     public static SOURCE_LINK_TRANSFER_AT: number = 0.5;
     public static WALL_AND_RAMPART_GOAL_HEALTH: number = 500_000;
-    public static CONSCRIPTION_RANGE: number = 15;
+    public static CONSCRIPTION_RANGE: number = 9;
     public static CONSCRIPTION_QUICK_MINIMUM_STAGE: Stage = 1;
     public static CONSCRIPTION_PRESSURE_MINIMUM_STAGE: Stage = 6;
     public static RALLY_FLAG_RANGE: number = 3;
