@@ -123,7 +123,8 @@ export class AttackPressureController {
                 continue;
             }
             const creep: Creep = Game.creeps[myCreep.name];
-            if (!creep.pos.inRangeTo(flag.pos, Constants.RALLY_FLAG_RANGE)) {
+            if (creep != null &&
+                !creep.pos.inRangeTo(flag.pos, Constants.RALLY_FLAG_RANGE)) {
                 //Not in range
                 allCreepsAtFlag = false;
                 break;
