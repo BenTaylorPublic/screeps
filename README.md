@@ -10,9 +10,6 @@ Get asserts working
 ```
 PowerScav
     Use ScavengeController
-
-Scavenger shouldn't check state every tick
-    Only when they get to their target
 ```
 ### Mid term:
 ```
@@ -47,6 +44,12 @@ Lab logic
         Essentially making it last in the list of labs to use
     Rest of the time it can be used with the array
     2 origin labs will be the middle ones    
+
+Downgrade controller creep
+    Flag name "downgrade-{X}"
+    Where X is how many CLAIM parts (matched by MOVE parts)
+    It varies in claim parts because 1 would block it, but 25 would be reducing it a lot
+    Maybe a repeat option, for when it dies
 ```
 ### Long term:
 ```
@@ -96,6 +99,9 @@ Offload
     offload-start & offload-end
     Used when abandoning a room or being nuked
     Just pushes everything out via the terminal
+
+Scavenger shouldn't check state every tick
+    Only when they get to their target
 ```
 
 ## Flag Names
