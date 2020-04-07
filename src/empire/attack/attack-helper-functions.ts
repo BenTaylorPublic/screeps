@@ -13,8 +13,10 @@ export class AttackHelperFunctions {
         }
         if (attackTarget != null) {
             const roomObject: RoomObject | null = Game.getObjectById<RoomObject>(attackTarget.id);
-            if (roomObject == null) {
-                //No longer exists, get a new target
+            if (roomObject == null ||
+                Game.time % 10 === 0) {
+                //No longer exists, or recalculating ever 10
+                //Get a new target
                 attackTarget = this.getAttackTarget(flagToPathFrom);
             } else {
                 attackTarget.roomObject = roomObject as Creep | Structure<StructureConstant>;
