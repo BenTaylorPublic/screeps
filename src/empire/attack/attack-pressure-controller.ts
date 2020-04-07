@@ -123,7 +123,7 @@ export class AttackPressureController {
                 continue;
             }
             const creep: Creep = Game.creeps[myCreep.name];
-            if (creep != null &&
+            if (creep == null ||
                 !creep.pos.inRangeTo(flag.pos, Constants.RALLY_FLAG_RANGE)) {
                 //Not in range
                 allCreepsAtFlag = false;
@@ -213,8 +213,11 @@ export class AttackPressureController {
 
         for (let i = empire.creeps.length - 1; i >= 0; i--) {
             if (empire.creeps[i].role === "AttackPressureCreep") {
-                ReportController.log("Killing AttackPressureCreep " + empire.creeps[i].name);
-                Game.creeps[empire.creeps[i].name].suicide();
+                const creep: Creep = Game.creeps[empire.creeps[i].name];
+                if (creep != null) {
+                    ReportController.log("Killing AttackPressureCreep " + empire.creeps[i].name);
+                    Game.creeps[empire.creeps[i].name].suicide();
+                }
             }
         }
 
