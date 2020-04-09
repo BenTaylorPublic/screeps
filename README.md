@@ -8,54 +8,49 @@ Get asserts working
 ```
 ### Short term
 ```
-PowerScav
-    Use ScavengeController
+Minerals & Lab logic
+    Checklist (unordered):
+        Stage 7.9 -> 8, labs
+    Checklist (in order):
+        Stockers to stock terminal with energy (needs a constant value)
+            Test
+        Mining Stop/Start setting
+            If the empire has ResourceX < Stage8RoomCount * ResourceTooLittle, mining start, else stop
+            Mining stop is just a bool. When the miner creep dies, it just wont spawn a new one.
+            Test with 1 resource 
+        Mining room logic
+            Test with 1 resource 
+        ResourceTooMuch logic to create TransferToRoom orders
+        Stockers to obey TransferToRoom orders (bank to terminal)
+        Terminal to obey TransferToRoom orders
+        Stockers to unload from TransferToRoom orders 
+            They should unload anything in terminal that isn't in a current order
+        ResourceTooLittle logic to create TransferToRoom orders
+    Mineral ratios are:
+        Z 3
+        K 3
+        U 4
+        L 3
+        O 10
+        H 11
+        X 7
+    Lab Memory
+        Memory will be an array of lab Ids, with length 5
+        1 lab will be the buffing lab
+        It will be locked with a bool when it needs to be used to buff
+            Essentially making it last in the list of labs to use
+        Rest of the time it can be used with the array
+        2 origin labs will be the middle ones
+        
 ```
 ### Mid term:
 ```
-Minerals
-    Will be a peer to peer system
-    All rooms will obey a constant system, using 2 numbers
-        ResourceTooLittle, ResourceTooMuch
-        If they have too little, they'll look for a room which has > tooLittle
-        If a room has too much, they'll look for a room with < tooMuch
-        If all rooms have too much, it'll stop mining it
-        Some minerals will be marked to break them back down
-    This logic will be done by the empire controller with rooms that are RCL8 I think
-    Only every 100 ticks
-    Transactions will have to have a queue system
-    The controller will have to take into account existing transactions that haven't been completed yet
-        Mineral ratios are:
-            Z 3
-            K 3
-            U 4
-            L 3
-            O 10
-            H 11
-            X 7
-
-Lab logic
-    It'll be adding another stage in 7 -> 8, so 7.9
-    Uses stocker creeps
-    Lab logic of what to request/combine/buff
-    Memory will be an array of lab Ids, with length 5
-    1 lab will be the buffing lab
-    It will be locked with a bool when it needs to be used to buff
-        Essentially making it last in the list of labs to use
-    Rest of the time it can be used with the array
-    2 origin labs will be the middle ones    
-
-Downgrade controller creep
-    Flag name "downgrade-{X}"
-    Where X is how many CLAIM parts (matched by MOVE parts)
-    It varies in claim parts because 1 would block it, but 25 would be reducing it a lot
-    Maybe a repeat option, for when it dies
+PowerScav
+    Use ScavengeController
 ```
 ### Long term:
 ```
 Attack
-    Seems to be some problem with ending an attack smoothly
-        Flags aren't being removed?
     Large
         Very similar to AttackQuick
         Only attack when 1 of the attack creeps has < 300ish ticks to live
@@ -101,7 +96,20 @@ Offload
     Just pushes everything out via the terminal
 
 Scavenger shouldn't check state every tick
-    Only when they get to their target
+    Only when they get to their target    
+
+Downgrade controller creep
+    Flag name "downgrade-{X}"
+    Where X is how many CLAIM parts (matched by MOVE parts)
+    It varies in claim parts because 1 would block it, but 25 would be reducing it a lot
+    Maybe a repeat option, for when it dies
+
+MyMemory.Settings
+    Settings I can change via flags (that directly match the settings key)
+    Constants are all numbers
+    eg:
+        set-CONSCRIPTION_RANGE-5
+        set-OBSERVER_WIDTH-5
 ```
 
 ## Flag Names
@@ -133,108 +141,11 @@ profile-function
 ```
 
 ## Kill List
-- JayOfEarth  
-- _Lalalenya  
+- _Lalalenya
+- JayOfEarth
+- Patch
 - slowmotionghost
 
-## Stage Progression and other information
-```
-Loosely based on RCL
--1 is default room level
-
--1  ->  0   : Get a room controller that's mine
--1  <-  0   : Have no room controller that's mine
-
-0   ->  0.5 : RCL is level >= 1
-0   <-  0.5 : RCL is level < 1
-
-0.5 ->  1   : Room has >= 1 spawn
-0.5 <-  1   : Room has < 1 spawns
-
-1   ->  1.3 : RCL is level >= 2
-1   <-  1.3 : RCL is level < 2
-
-1.3 ->  1.6 : Room has >= 5 extensions
-1.3 <-  1.6 : Room has < 5 extensions
-
-1.6 ->  2   : Room has caches length >= source amount
-1.6 <-  2   : Room has caches length < source amount
-
-2   ->  2.3 : RCL is level >= 3
-2   <-  2.3 : RCL is level < 3
-
-2.3 ->  2.6 : Room has >= 1 tower
-2.3 <-  2.6 : Room has < 1 tower
-
-2.6 ->  3   : Room has >= 10 extensions
-2.6 <-  3   : Room has < 10 extensions
-
-3   ->  3.3 : RCL is level >= 4
-3   <-  3.3 : RCL is level < 4
-
-3.3 ->  3.6 : Room has >= 20 extensions
-3.3 <-  3.6 : Room has < 20 extensions
-
-3.6 ->  4   : Room has a storage bank
-3.6 <-  4   : Room does not have a storage bank
-
-4   ->  4.2 : RCL is level >= 5
-4   <-  4.2 : RCL is level < 5
-
-4.2 ->  4.4 : Room has >= 2 tower
-4.2 <-  4.4 : Room has < 2 tower
-
-4.4 ->  4.6 : Room has >= 30 extensions
-4.4 <-  4.6 : Room has < 30 extensions
-
-4.6 ->  4.8 : Room has 2 links
-4.6 <-  4.8 : Room has < 2 links
-
-4.8 ->  5   : Room has 1 sources using links, no cache or hauler
-4.8 <-  5   : Room has 0 sources using links, no cache or hauler
-
-5   ->  5.2 : RCL is level >= 6
-5   <-  5.2 : RCL is level < 6
-
-5.2 ->  5.4 : Room has > sourceCount links
-5.2 <-  5.4 : Room has <= sourceCount links
-
-5.4 ->  5.6 : Room has >= 40 extensions
-5.4 <-  5.6 : Room has < 40 extensions
-
-5.6 ->  5.8 : Room has extractor
-5.6 <-  5.8 : Room has no extractor
-
-5.8 ->  6   : Room has terminal
-5.8 <-  6   : Room has no terminal
-
-6   ->  6.25: RCL is level >= 7
-6   <-  6.25: RCL is level < 7
-
-6.25->  6.5 : Room has >= 3 tower
-6.25<-  6.5 : Room has < 3 tower
-
-6.5 ->  6.75: Room has >= 50 extensions
-6.5 <-  6.75: Room has < 50 extensions
-
-6.75->  7   : Room has >= 2 spawns
-6.75<-  7   : Room has < 2 spawns
-
-7   ->  7.2 : RCL is level == 8
-7   <-  7.2 : RCL is level < 8
-
-7.2 ->  7.4 : Room has == 6 tower
-7.2 <-  7.4 : Room has < 6 tower
-
-7.4 ->  7.6 : Room has == 60 extensions
-7.4 <-  7.6 : Room has < 60 extensions
-
-7.6 ->  7.8 : Room has == 3 spawns
-7.6 <-  7.8 : Room has < 3 spawns
-
-7.8 ->  8   : Room has == 1 power spawn
-7.8 <-  8   : Room has < 1 power spawn
-```
 ### Room controller levels in a nice format:
 
 | Lvl  | Req        | Other                 | Towers | Links | Spawns | Extensions | Ramparts | Labs |
