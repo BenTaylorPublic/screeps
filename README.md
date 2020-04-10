@@ -5,7 +5,6 @@
 ### Working on
 ```
 Miners & Lab logic
-    BankLinker should use a rooms bankLinkerPos
     Move terminals next to bank and get bank linkers to stock them
 ```
 ### Short term
