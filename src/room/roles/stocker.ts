@@ -149,7 +149,7 @@ export class RoleStocker {
             if (terminals.length === 1 &&
                 terminals[0].store.getUsedCapacity(RESOURCE_ENERGY) < Constants.TERMINAL_GOAL_ENERGY) {
                 stocker.state = "StockTerminalEnergy";
-                creep.say("");
+                creep.say("StocTermEn");
             }
         }
     }
