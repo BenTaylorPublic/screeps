@@ -34,7 +34,8 @@ export class SpawnBankLinker {
             roomMoveTarget: {
                 pos: null,
                 path: []
-            }
+            },
+            inPos: false
         };
     }
 }

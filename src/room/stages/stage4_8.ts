@@ -1,6 +1,8 @@
 import {LogHelper} from "../../global/helpers/log-helper";
 import {StageFunctions} from "./stage-functions";
 import {ReportController} from "../../reporting/report-controller";
+import {FlagHelper} from "../../global/helpers/flag-helper";
+import {RoomHelper} from "../../global/helpers/room-helper";
 
 
 // tslint:disable-next-line: class-name
@@ -19,7 +21,8 @@ export class Stage4_8 {
                 mySource.link.id != null &&
                 mySource.cache != null &&
                 mySource.cache.id == null &&
-                mySource.haulerNames.length === 0) {
+                mySource.haulerNames.length === 0 &&
+                myRoom.bankLinkerPos != null) {
                 myRoom.roomStage = 5;
                 ReportController.email("STAGE+ 5 " + LogHelper.roomNameAsLink(myRoom.name) + " 1 source using links");
                 return true;
@@ -42,7 +45,7 @@ export class Stage4_8 {
                 break;
             }
         }
-        if (!foundLinkedSource) {
+        if (!foundLinkedSource || myRoom.bankLinkerPos == null) {
             myRoom.roomStage = 4.8;
             ReportController.email("STAGE- 4.8 " + LogHelper.roomNameAsLink(myRoom.name) + " 1 source using links");
             return true;
@@ -52,6 +55,11 @@ export class Stage4_8 {
     }
 
     private static step(myRoom: MyRoom, room: Room): void {
+        const flag: Flag | null = FlagHelper.getFlag(["bank", "linker", "pos"], myRoom.name);
+        if (flag != null) {
+            myRoom.bankLinkerPos = RoomHelper.roomPosToMyPos(flag.pos);
+            flag.remove();
+        }
         StageFunctions.clearHaulersAndCaches(myRoom);
     }
 }

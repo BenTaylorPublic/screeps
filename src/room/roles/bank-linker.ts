@@ -2,6 +2,7 @@ import {ReportController} from "../../reporting/report-controller";
 import {CreepHelper} from "../../global/helpers/creep-helper";
 import {LogHelper} from "../../global/helpers/log-helper";
 import {MovementHelper} from "../../global/helpers/movement-helper";
+import {RoomHelper} from "../../global/helpers/room-helper";
 
 
 export class RoleBankLinker {
@@ -11,6 +12,20 @@ export class RoleBankLinker {
         }
 
         const creep: Creep = Game.creeps[bankLinker.name];
+
+        if (!bankLinker.inPos) {
+            if (myRoom.bankLinkerPos == null) {
+                ReportController.email("ERROR: BankLinkerPos was null for a bank linker in " + LogHelper.roomNameAsLink(myRoom.name));
+                return;
+            }
+            const position: RoomPosition = RoomHelper.myPosToRoomPos(myRoom.bankLinkerPos);
+            if (creep.pos.getRangeTo(position) === 0) {
+                bankLinker.inPos = true;
+            } else {
+                MovementHelper.myMoveTo(creep, position, bankLinker);
+                return;
+            }
+        }
 
         if (creep.store.getFreeCapacity() === 0) {
             const bank: StructureStorage | null = myRoom.bank;

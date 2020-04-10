@@ -118,7 +118,8 @@ interface MyRoom {
     mySources: MySource[];
     roomStage: Stage;
     bankPos: MyRoomPos | null;
-    bankLinkerName: string | null; //Null when bankLinker is dead or not assigned
+    bankLinkerName: string | null;
+    bankLinkerPos: MyRoomPos | null;
     bankLink: MyLink | null;
     bank: StructureStorage | null;
     spawnQueue: QueuedCreep[];
@@ -240,6 +241,7 @@ interface Claimer extends MyCreep {
 }
 
 interface BankLinker extends MyCreep {
+    inPos: boolean;
 }
 
 interface AttackQuickCreep extends MyCreep {

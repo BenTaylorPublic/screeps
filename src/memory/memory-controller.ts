@@ -56,6 +56,7 @@ export class MemoryController {
                     roomStage: -1,
                     bankPos: null,
                     bankLinkerName: null,
+                    bankLinkerPos: null,
                     bankLink: null,
                     bank: null,
                     spawnQueue: [],

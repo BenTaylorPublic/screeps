@@ -131,7 +131,6 @@ export class StageFunctions {
                             myCreep.state = "PickupEnergy";
                             myCreep.role = "Stocker";
                             found = true;
-                            ReportController.email("clearHaulersAndCaches: Converted a hauler with name " + haulerName + " in " + LogHelper.roomNameAsLink(myRoom.name) + " to stocker");
                             break;
                         }
                     }
@@ -140,7 +139,6 @@ export class StageFunctions {
                         if (creep != null) {
                             creep.say("dthb4dshnr");
                             creep.suicide();
-                            ReportController.email("ERROR: clearHaulersAndCaches: hauler " + haulerName + " in " + LogHelper.roomNameAsLink(myRoom.name) + " had to be killed");
                         }
                     }
                 }
@@ -153,7 +151,6 @@ export class StageFunctions {
                         creep.getActiveBodyparts(CARRY) === 0) {
                         creep.say("dthb4dshnr");
                         creep.suicide();
-                        ReportController.log("" + LogHelper.roomNameAsLink(myRoom.name) + " clearHaulersAndCaches killed a miner with no CARRY");
                     }
                 }
 
@@ -166,7 +163,6 @@ export class StageFunctions {
                     } else {
                         cache.destroy();
                         mySource.cache.id = null;
-                        ReportController.log("" + LogHelper.roomNameAsLink(myRoom.name) + " clearHaulersAndCaches destroyed a cache");
                     }
                 }
             }
