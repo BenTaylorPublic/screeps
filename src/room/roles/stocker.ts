@@ -31,7 +31,9 @@ export class RoleStocker {
 
     private static calculateCreepState(stocker: Stocker, room: Room, creep: Creep): void {
         if (stocker.state === "DistributeEnergy") {
-            if (!this.structureNeedsEnergy(room)) {
+            if (!this.structureNeedsEnergy(room) &&
+                (this.resourcesToPickup(room) ||
+                    this.terminalNeedsEnergy(room))) {
                 stocker.state = "DepositResources";
                 creep.say("Deposit R");
             } else if (creep.store.getUsedCapacity() === 0) {
