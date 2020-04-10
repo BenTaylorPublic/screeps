@@ -25,7 +25,7 @@ export class RoleStocker {
         } else if (stocker.state === "DepositResources") {
             this.depositResources(stocker, myRoom, creep);
         } else {
-            //StockTerminalEnergy
+            this.stockTerminalEnergy(stocker, creep);
         }
     }
 
@@ -190,6 +190,21 @@ export class RoleStocker {
             }
         } else {
             MovementHelper.myMoveTo(creep, bankPos, stocker);
+        }
+    }
+
+    private static stockTerminalEnergy(stocker: Stocker, creep: Creep): void {
+        const terminals: StructureTerminal[] | null = creep.room.find<StructureTerminal>(FIND_MY_STRUCTURES, {
+            filter(structure: AnyStructure): boolean {
+                return structure.structureType === STRUCTURE_TERMINAL;
+            }
+        });
+        if (terminals.length === 0) {
+            return;
+        }
+        const terminal: StructureTerminal = terminals[0];
+        if (creep.transfer(terminal, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+            MovementHelper.myMoveTo(creep, terminal.pos, stocker);
         }
     }
 
