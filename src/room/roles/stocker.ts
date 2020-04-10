@@ -22,14 +22,17 @@ export class RoleStocker {
             this.distributeEnergy(stocker, creep);
         } else if (stocker.state === "PickupResources") {
             this.pickupResources(stocker, creep);
-        } else {
+        } else if (stocker.state === "DepositResources") {
             this.depositResources(stocker, myRoom, creep);
+        } else {
+            //StockTerminalEnergy
         }
     }
 
     private static calculateCreepState(stocker: Stocker, room: Room, creep: Creep): void {
         let considerResources: boolean = false;
         let considerEnergy: boolean = false;
+        let considerStockTerminalEnergy: boolean = false;
         if (stocker.state === "DistributeEnergy") {
             const structuresToAddTo: Structure[] = room.find(FIND_STRUCTURES, {
                 filter: (structure: any) => {
@@ -50,6 +53,7 @@ export class RoleStocker {
                 }
             } else {
                 considerResources = true;
+                considerStockTerminalEnergy = true;
             }
         } else if (stocker.state === "PickupEnergy") {
             if (creep.store.getFreeCapacity() === 0) {
@@ -60,6 +64,7 @@ export class RoleStocker {
             if (creep.store.getUsedCapacity() === 0) {
                 considerEnergy = true;
                 considerResources = true;
+                considerStockTerminalEnergy = true;
             }
         } else if (stocker.state === "PickupResources") {
             if (creep.store.getFreeCapacity() === 0 ||
@@ -74,6 +79,23 @@ export class RoleStocker {
                 } else {
                     stocker.state = "DepositResources";
                     creep.say("Deposit R");
+                }
+            }
+        } else if (stocker.state === "StockTerminalEnergy") {
+            if (creep.store.getUsedCapacity() === 0) {
+                considerEnergy = true;
+                considerResources = true;
+                considerStockTerminalEnergy = true;
+            } else {
+                const terminals: StructureTerminal[] | null = room.find<StructureTerminal>(FIND_MY_STRUCTURES, {
+                    filter(structure: AnyStructure): boolean {
+                        return structure.structureType === STRUCTURE_TERMINAL;
+                    }
+                });
+                if (terminals.length === 0 ||
+                    terminals[0].store.getUsedCapacity(RESOURCE_ENERGY) >= Constants.TERMINAL_GOAL_ENERGY) {
+                    considerEnergy = true;
+                    considerResources = true;
                 }
             }
         }
@@ -114,6 +136,20 @@ export class RoleStocker {
                     stocker.state = "PickupResources";
                     creep.say("Pickup R");
                 }
+                return;
+            }
+        }
+
+        if (considerStockTerminalEnergy) {
+            const terminals: StructureTerminal[] | null = room.find<StructureTerminal>(FIND_MY_STRUCTURES, {
+                filter(structure: AnyStructure): boolean {
+                    return structure.structureType === STRUCTURE_TERMINAL;
+                }
+            });
+            if (terminals.length === 1 &&
+                terminals[0].store.getUsedCapacity(RESOURCE_ENERGY) < Constants.TERMINAL_GOAL_ENERGY) {
+                stocker.state = "StockTerminalEnergy";
+                creep.say("");
             }
         }
     }
