@@ -47,6 +47,12 @@ export class MemoryController {
             if (myRoom == null) {
                 //Add it
                 ReportController.log("Adding a new room to memory " + LogHelper.roomNameAsLink(roomName));
+
+                const minerals: Mineral[] = room.find(FIND_MINERALS);
+                if (minerals.length !== 1) {
+                    ReportController.email("ERROR: Room didn't have a mineral");
+                    return;
+                }
                 const newMyRoom: MyRoom = {
                     name: roomName,
                     myCreeps: [],
@@ -60,7 +66,9 @@ export class MemoryController {
                     bankLink: null,
                     bank: null,
                     spawnQueue: [],
-                    rampartsUp: true
+                    rampartsUp: true,
+                    mining: false,
+                    mineral: minerals[0].mineralType
                 };
                 const sources: Source[] = room.find(FIND_SOURCES);
                 for (let i = 0; i < sources.length; i++) {

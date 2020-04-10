@@ -124,6 +124,8 @@ interface MyRoom {
     bank: StructureStorage | null;
     spawnQueue: QueuedCreep[];
     rampartsUp: boolean;
+    mining: boolean;
+    mineral: MineralConstant;
 }
 
 interface QueuedCreep {
