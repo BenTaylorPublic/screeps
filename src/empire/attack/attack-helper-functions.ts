@@ -27,7 +27,31 @@ export class AttackHelperFunctions {
         return attackTarget;
     }
 
-    public static getAttackTarget(flagToPathFrom: Flag): AttackTarget | null {
+
+    public static endAttack(): void {
+
+        const flagNames: string[] = Object.keys(Game.flags);
+        for (let i = flagNames.length - 1; i >= 0; i--) {
+            if (flagNames[i].includes("attack")) {
+                const flag: Flag = Game.flags[flagNames[i]];
+                flag.remove();
+            }
+        }
+    }
+
+    public static getBody(myRoom: MyRoom): BodyPartConstant[] {
+        const room: Room = Game.rooms[myRoom.name];
+
+        return CreepHelper.generateBody([MOVE, ATTACK],
+            [MOVE, ATTACK],
+            room,
+            true,
+            50,
+            true
+        );
+    }
+
+    private static getAttackTarget(flagToPathFrom: Flag): AttackTarget | null {
         const flagPos: RoomPosition = flagToPathFrom.pos;
         const room: Room = flagToPathFrom.room as Room;
         //Make cost matrix for the room
@@ -160,29 +184,6 @@ export class AttackHelperFunctions {
         //Nothing was found as pathable
         ReportController.log("Nothing pathable in getAttackTarget");
         return null;
-    }
-
-    public static endAttack(): void {
-
-        const flagNames: string[] = Object.keys(Game.flags);
-        for (let i = flagNames.length - 1; i >= 0; i--) {
-            if (flagNames[i].includes("attack")) {
-                const flag: Flag = Game.flags[flagNames[i]];
-                flag.remove();
-            }
-        }
-    }
-
-    public static getBody(myRoom: MyRoom): BodyPartConstant[] {
-        const room: Room = Game.rooms[myRoom.name];
-
-        return CreepHelper.generateBody([MOVE, ATTACK],
-            [MOVE, ATTACK],
-            room,
-            true,
-            50,
-            true
-        );
     }
 
     private static pathFindToRoomObject<T extends RoomObject>(start: RoomPosition, roomObjects: T[], costmatrix: CostMatrix): BestPathFindRoomObjectResult<T> | null {
