@@ -4,14 +4,14 @@
 ## TODO
 ### Working on
 ```
-Minerals & Lab logic
-    Stockers to stock terminal with energy (needs a constant value)
+Asserts
 ```
 ### Short term
 ```
     Checklist (unordered):
         Stage 7.9 -> 8, labs
     Checklist (in order):
+        Stockers to stock terminal with energy (needs a constant value)
         Mining Stop/Start setting
             If the empire has ResourceX < Stage8RoomCount * ResourceTooLittle, mining start, else stop
             Mining stop is just a bool. When the miner creep dies, it just wont spawn a new one.
@@ -108,6 +108,8 @@ MyMemory.Settings
     eg:
         set-CONSCRIPTION_RANGE-5
         set-OBSERVER_WIDTH-5
+
+Stage 8 rooms using terminal to feed < stage 8 rooms
 ```
 
 ## Flag Names
