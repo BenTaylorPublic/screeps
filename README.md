@@ -142,12 +142,6 @@ profile
 profile-function
 ```
 
-## Kill List
-- _Lalalenya
-- JayOfEarth
-- Patch
-- slowmotionghost
-
 ### Room controller levels in a nice format:
 
 | Lvl  | Req        | Other                 | Towers | Links | Spawns | Extensions | Ramparts | Labs |
