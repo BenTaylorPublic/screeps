@@ -5,10 +5,7 @@
 ### Working on
 ```
 Miners & Lab logic
-    Mining Stop/Start setting
-        If the empire has ResourceX < Stage8RoomCount * ResourceTooLittle, mining start, else stop
-        Mining stop is just a bool. When the miner creep dies, it just wont spawn a new one.
-        Test with 1 resource 
+    Move terminals next to bank and get bank linkers to stock them
 ```
 ### Short term
 ```
@@ -16,30 +13,27 @@ Miners & Lab logic
     Checklist (unordered):
         Stage 7.9 -> 8, labs
     Checklist (in order):
+        Mining Stop/Start setting
+            If the empire has ResourceX < Stage8RoomCount * ResourceTooLittle, mining start, else stop
+            Mining stop is just a bool. When the miner creep dies, it just wont spawn a new one.
+            Test with 1 resource 
         Mining room logic
             Test with 1 resource 
         ResourceTooMuch logic to create TransferToRoom orders
-        Stockers to obey TransferToRoom orders (bank to terminal)
+        BankLinkers to obey TransferToRoom orders (bank to terminal)
         Terminal to obey TransferToRoom orders
-        Stockers to unload from TransferToRoom orders 
+        BankLinkers to unload from TransferToRoom orders 
             They should unload anything in terminal that isn't in a current order
         ResourceTooLittle logic to create TransferToRoom orders
-    Mineral ratios are:
-        Z 3
-        K 3
-        U 4
-        L 3
-        O 10
-        H 11
-        X 7
     Lab Memory
-        Memory will be an array of lab Ids, with length 5
-        1 lab will be the buffing lab
-        It will be locked with a bool when it needs to be used to buff
-            Essentially making it last in the list of labs to use
-        Rest of the time it can be used with the array
-        2 origin labs will be the middle ones
-        
+        MyRoom will have an id of a buffing one
+            Next to bank
+            BankLinker will be responsible for it
+        Rest will use the 8 format but 1 missing
+        Should be stored in MyRoom.Labs
+        Array of 2 for center ones
+        Array of 7 for outside ones
+        Hopefully I can get it to assign the memory manually with 1 flag saying "lab-buffer"
 ```
 ### Mid term:
 ```
