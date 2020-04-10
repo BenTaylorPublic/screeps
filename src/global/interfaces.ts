@@ -3,7 +3,6 @@ interface MyMemory {
     myRooms: MyRoom[];
     empire: Empire;
     reports: ReportLog;
-    scheduledCommands: ScheduledCommand[];
 }
 
 /*
