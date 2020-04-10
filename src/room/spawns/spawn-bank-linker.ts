@@ -35,7 +35,8 @@ export class SpawnBankLinker {
                 pos: null,
                 path: []
             },
-            inPos: false
+            inPos: false,
+            state: "LinkToBank"
         };
     }
 }

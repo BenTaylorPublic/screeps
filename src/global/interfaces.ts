@@ -242,6 +242,7 @@ interface Claimer extends MyCreep {
 
 interface BankLinker extends MyCreep {
     inPos: boolean;
+    state: "LinkToBank" | "EnergyToTerminal";
 }
 
 interface AttackQuickCreep extends MyCreep {
@@ -265,7 +266,7 @@ interface AttackHealerDrainCreep extends MyCreep {
 }
 
 interface Stocker extends MyCreep {
-    state: "PickupEnergy" | "DistributeEnergy" | "PickupResources" | "DepositResources" | "StockTerminalEnergy";
+    state: "PickupEnergy" | "DistributeEnergy" | "PickupResources" | "DepositResources";
 }
 
 interface Signer extends MyCreep {

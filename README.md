@@ -5,7 +5,7 @@
 ### Working on
 ```
 Miners & Lab logic
-    Move terminals next to bank and get bank linkers to stock them
+    Bank linker to stock terminal with energy
 ```
 ### Short term
 ```
