@@ -4,10 +4,12 @@
 ## TODO
 ### Working on
 ```
-Asserts
+Miners & Lab logic
+    Stockers to stock terminal with energy (needs a constant value)
 ```
 ### Short term
 ```
+Miners & Lab logic
     Checklist (unordered):
         Stage 7.9 -> 8, labs
     Checklist (in order):
