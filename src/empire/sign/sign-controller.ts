@@ -7,7 +7,7 @@ import {LogHelper} from "../../global/helpers/log-helper";
 import {MapHelper} from "../../global/helpers/map-helper";
 
 export class SignController {
-    private static message: string = "Just a cute lil coder (✿◠‿◠)";
+    private static message: string = "X";
 
     public static run(myMemory: MyMemory): void {
         if (Game.time % 100 !== 0) {
