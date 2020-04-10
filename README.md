@@ -104,6 +104,8 @@ MyMemory.Settings
         set-OBSERVER_WIDTH-5
 
 Stage 8 rooms using terminal to feed < stage 8 rooms
+    Bank linkers will unload terminals when > a constant
+    Not sure about transfering TO room logic yet
 ```
 
 ## Flag Names
