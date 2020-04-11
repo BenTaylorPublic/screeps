@@ -16,20 +16,21 @@ export class MineralController {
 
     private static generateResourceMap(roomsToUse: MyRoom[]): GenerateResourceMapResult {
         const result: GenerateResourceMapResult = {
-            myRoomsWithResourceMap: [],
+            myRoomMaps: {},
             totalResourceMap: {}
         };
 
         for (let i: number = 0; i < roomsToUse.length; i++) {
-            const myRoomWithResourceMap: MyRoomWithResourceMap = {...roomsToUse[i], resourceMap: {}};
-            const room: Room = Game.rooms[myRoomWithResourceMap.name];
+            const myRoom: MyRoom = roomsToUse[i];
+            const roomResourceMap: ResourceMap = {};
+            const room: Room = Game.rooms[myRoom.name];
             room.find(FIND_MY_CREEPS, {
                 filter(creep: Creep): boolean {
                     if (creep.store.getUsedCapacity() > 0) {
                         const resources: ResourceConstant[] = Object.keys(creep.store) as ResourceConstant[];
                         for (let j: number = 0; j < resources.length; j++) {
                             const resource: ResourceConstant = resources[j];
-                            MineralController.addToResourceMap(myRoomWithResourceMap.resourceMap, resource, creep.store[resource]);
+                            MineralController.addToResourceMap(roomResourceMap, resource, creep.store[resource]);
                             MineralController.addToResourceMap(result.totalResourceMap, resource, creep.store[resource]);
                         }
                     }
@@ -37,7 +38,7 @@ export class MineralController {
                 }
             });
 
-            result.myRoomsWithResourceMap.push(myRoomWithResourceMap);
+            result.myRoomMaps[myRoom.name] = roomResourceMap;
         }
 
         return result;

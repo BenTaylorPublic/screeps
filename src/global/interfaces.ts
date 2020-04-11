@@ -308,12 +308,8 @@ type MoveByPathResult = CreepMoveReturnCode | ERR_NOT_FOUND | ERR_INVALID_ARGS;
 
 type ResourceMap = Partial<Record<ResourceConstant, number>>;
 
-interface MyRoomWithResourceMap extends MyRoom {
-    resourceMap: ResourceMap;
-}
-
 interface GenerateResourceMapResult {
-    myRoomsWithResourceMap: MyRoomWithResourceMap[];
+    myRoomMaps: Record<string, ResourceMap>;
     totalResourceMap: ResourceMap;
 }
 
