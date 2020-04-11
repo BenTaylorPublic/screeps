@@ -39,7 +39,12 @@ export class MineralController {
             });
             room.find(FIND_MY_STRUCTURES, {
                 filter(structure: AnyStructure): boolean {
-                    if (RoomHelper.structureHasResources(structure)) {
+                    if (structure.structureType !== STRUCTURE_EXTENSION &&
+                        structure.structureType !== STRUCTURE_SPAWN &&
+                        structure.structureType !== STRUCTURE_NUKER &&
+                        structure.structureType !== STRUCTURE_FACTORY &&
+                        structure.structureType !== STRUCTURE_TOWER &&
+                        RoomHelper.structureHasResources(structure)) {
                         const resources: ResourceConstant[] = Object.keys((structure as AnyStoreStructure).store) as ResourceConstant[];
                         for (let j: number = 0; j < resources.length; j++) {
                             const resource: ResourceConstant = resources[j];
