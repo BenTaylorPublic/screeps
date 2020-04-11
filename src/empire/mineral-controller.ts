@@ -12,7 +12,6 @@ export class MineralController {
         const roomsToUse: MyRoom[] = RoomHelper.getMyRoomsAtOrAboveStageWithXSources(Constants.MINERAL_START_STAGE, 2);
         const resourceMap: GenerateResourceMapResult = this.generateResourceMap(roomsToUse);
         console.log(JSON.stringify(resourceMap));
-        console.log(resourceMap);
     }
 
     private static generateResourceMap(roomsToUse: MyRoom[]): GenerateResourceMapResult {
@@ -33,6 +32,19 @@ export class MineralController {
                             const resource: ResourceConstant = resources[j];
                             MineralController.addToResourceMap(roomResourceMap, resource, creep.store[resource]);
                             MineralController.addToResourceMap(result.totalResourceMap, resource, creep.store[resource]);
+                        }
+                    }
+                    return false;
+                }
+            });
+            room.find(FIND_MY_STRUCTURES, {
+                filter(structure: AnyStructure): boolean {
+                    if (RoomHelper.structureHasResources(structure)) {
+                        const resources: ResourceConstant[] = Object.keys((structure as AnyStoreStructure).store) as ResourceConstant[];
+                        for (let j: number = 0; j < resources.length; j++) {
+                            const resource: ResourceConstant = resources[j];
+                            MineralController.addToResourceMap(roomResourceMap, resource, (structure as AnyStoreStructure).store[resource]);
+                            MineralController.addToResourceMap(result.totalResourceMap, resource, (structure as AnyStoreStructure).store[resource]);
                         }
                     }
                     return false;

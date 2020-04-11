@@ -104,4 +104,34 @@ export class RoomHelper {
         }
         return result;
     }
+
+    public static structureHasResources(structure: AnyStructure): boolean {
+        if (structure.structureType === STRUCTURE_EXTENSION) {
+            return structure.store.getUsedCapacity(RESOURCE_ENERGY) > 0;
+        } else if (structure.structureType === STRUCTURE_FACTORY) {
+            return structure.store.getUsedCapacity() > 0;
+        } else if (structure.structureType === STRUCTURE_LAB) {
+            return Object.keys(structure.store).length > 0;
+        } else if (structure.structureType === STRUCTURE_LINK) {
+            return structure.store.getUsedCapacity(RESOURCE_ENERGY) > 0;
+        } else if (structure.structureType === STRUCTURE_NUKER) {
+            return structure.store.getUsedCapacity(RESOURCE_ENERGY) > 0 &&
+                structure.store.getUsedCapacity(RESOURCE_GHODIUM_OXIDE) > 0;
+        } else if (structure.structureType === STRUCTURE_POWER_SPAWN) {
+            return structure.store.getUsedCapacity(RESOURCE_ENERGY) > 0 &&
+                structure.store.getUsedCapacity(RESOURCE_POWER) > 0;
+        } else if (structure.structureType === STRUCTURE_SPAWN) {
+            return structure.store.getUsedCapacity(RESOURCE_ENERGY) > 0;
+        } else if (structure.structureType === STRUCTURE_STORAGE) {
+            return Object.keys(structure.store).length > 0;
+        } else if (structure.structureType === STRUCTURE_TERMINAL) {
+            return structure.store.getUsedCapacity() > 0;
+        } else if (structure.structureType === STRUCTURE_TOWER) {
+            return structure.store.getUsedCapacity(RESOURCE_ENERGY) > 0;
+        } else if (structure.structureType === STRUCTURE_CONTAINER) {
+            return structure.store.getUsedCapacity() > 0;
+        } else {
+            return false;
+        }
+    }
 }

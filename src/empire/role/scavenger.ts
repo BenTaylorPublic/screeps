@@ -41,33 +41,7 @@ export class RoleScavenger {
                         if (ruins.length === 0) {
                             const structures: AnyStoreStructure[] = creep.room.find<AnyStoreStructure>(FIND_HOSTILE_STRUCTURES, {
                                 filter: (struc: AnyStructure) => {
-                                    if (struc.structureType === STRUCTURE_EXTENSION) {
-                                        return struc.store.getUsedCapacity(RESOURCE_ENERGY) > 0;
-                                    } else if (struc.structureType === STRUCTURE_FACTORY) {
-                                        return struc.store.getUsedCapacity() > 0;
-                                    } else if (struc.structureType === STRUCTURE_LAB) {
-                                        return Object.keys(struc.store).length > 0;
-                                    } else if (struc.structureType === STRUCTURE_LINK) {
-                                        return struc.store.getUsedCapacity(RESOURCE_ENERGY) > 0;
-                                    } else if (struc.structureType === STRUCTURE_NUKER) {
-                                        return struc.store.getUsedCapacity(RESOURCE_ENERGY) > 0 &&
-                                            struc.store.getUsedCapacity(RESOURCE_GHODIUM_OXIDE) > 0;
-                                    } else if (struc.structureType === STRUCTURE_POWER_SPAWN) {
-                                        return struc.store.getUsedCapacity(RESOURCE_ENERGY) > 0 &&
-                                            struc.store.getUsedCapacity(RESOURCE_POWER) > 0;
-                                    } else if (struc.structureType === STRUCTURE_SPAWN) {
-                                        return struc.store.getUsedCapacity(RESOURCE_ENERGY) > 0;
-                                    } else if (struc.structureType === STRUCTURE_STORAGE) {
-                                        return Object.keys(struc.store).length > 0;
-                                    } else if (struc.structureType === STRUCTURE_TERMINAL) {
-                                        return struc.store.getUsedCapacity() > 0;
-                                    } else if (struc.structureType === STRUCTURE_TOWER) {
-                                        return struc.store.getUsedCapacity(RESOURCE_ENERGY) > 0;
-                                    } else if (struc.structureType === STRUCTURE_CONTAINER) {
-                                        return struc.store.getUsedCapacity() > 0;
-                                    } else {
-                                        return false;
-                                    }
+                                    return RoomHelper.structureHasResources(struc);
                                 }
                             });
 
@@ -175,33 +149,7 @@ export class RoleScavenger {
 
         const structure: AnyStoreStructure | null = creep.pos.findClosestByPath<AnyStoreStructure>(FIND_HOSTILE_STRUCTURES, {
             filter: (struc: AnyStructure) => {
-                if (struc.structureType === STRUCTURE_EXTENSION) {
-                    return struc.store.getUsedCapacity(RESOURCE_ENERGY) > 0;
-                } else if (struc.structureType === STRUCTURE_FACTORY) {
-                    return struc.store.getUsedCapacity() > 0;
-                } else if (struc.structureType === STRUCTURE_LAB) {
-                    return Object.keys(struc.store).length > 0;
-                } else if (struc.structureType === STRUCTURE_LINK) {
-                    return struc.store.getUsedCapacity(RESOURCE_ENERGY) > 0;
-                } else if (struc.structureType === STRUCTURE_NUKER) {
-                    return struc.store.getUsedCapacity(RESOURCE_ENERGY) > 0 &&
-                        struc.store.getUsedCapacity(RESOURCE_GHODIUM_OXIDE) > 0;
-                } else if (struc.structureType === STRUCTURE_POWER_SPAWN) {
-                    return struc.store.getUsedCapacity(RESOURCE_ENERGY) > 0 &&
-                        struc.store.getUsedCapacity(RESOURCE_POWER) > 0;
-                } else if (struc.structureType === STRUCTURE_SPAWN) {
-                    return struc.store.getUsedCapacity(RESOURCE_ENERGY) > 0;
-                } else if (struc.structureType === STRUCTURE_STORAGE) {
-                    return Object.keys(struc.store).length > 0;
-                } else if (struc.structureType === STRUCTURE_TERMINAL) {
-                    return struc.store.getUsedCapacity() > 0;
-                } else if (struc.structureType === STRUCTURE_TOWER) {
-                    return struc.store.getUsedCapacity(RESOURCE_ENERGY) > 0;
-                } else if (struc.structureType === STRUCTURE_CONTAINER) {
-                    return struc.store.getUsedCapacity() > 0;
-                } else {
-                    return false;
-                }
+                return RoomHelper.structureHasResources(struc);
             }
         });
         if (structure != null) {
