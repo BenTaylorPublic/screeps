@@ -12,6 +12,7 @@ export class MineralController {
         const roomsToUse: MyRoom[] = RoomHelper.getMyRoomsAtOrAboveStageWithXSources(Constants.MINERAL_START_STAGE, 2);
         const resourceMap: GenerateResourceMapResult = this.generateResourceMap(roomsToUse);
         console.log(JSON.stringify(resourceMap));
+        console.log(resourceMap);
     }
 
     private static generateResourceMap(roomsToUse: MyRoom[]): GenerateResourceMapResult {
