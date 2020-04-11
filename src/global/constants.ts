@@ -29,4 +29,5 @@ export class Constants {
     public static SCAVENGE_MIN_STAGE: Stage = 4;
     public static SCAVENGE_MAX_DISTANCE: number = 10;
     public static TERMINAL_GOAL_ENERGY: number = 5_000;
+    public static MINERAL_START_STAGE: Stage = 7;
 }

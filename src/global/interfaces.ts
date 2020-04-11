@@ -299,25 +299,21 @@ interface ReportLog {
 
 /*
 ====================
-    SCHEDULE:
-====================
-*/
-
-type ScheduleAction = "SET_FALSE_ON_PENDING_CONSCRIPTED_CREEP";
-
-interface ScheduledCommand {
-    roomName: string;
-    action: ScheduleAction;
-}
-
-/*
-====================
-    IN BUILT:
+    OTHER:
 ====================
 */
 
 type FindRouteResult = Array<{ exit: ExitConstant; room: string; }> | ERR_NO_PATH;
 type MoveByPathResult = CreepMoveReturnCode | ERR_NOT_FOUND | ERR_INVALID_ARGS;
+
+interface MyRoomWithResourceMap extends MyRoom {
+    resourceMap: Partial<Record<ResourceConstant, number>>;
+}
+
+interface GenerateResourceMapResult {
+    myRoomsWithResourceMap: MyRoomWithResourceMap[];
+    totalResourceMap: Partial<Record<ResourceConstant, number>>;
+}
 
 /*
 ====================

@@ -11,6 +11,7 @@ import {RoleScavenger} from "./role/scavenger";
 import {RoomHelper} from "../global/helpers/room-helper";
 import {ReportController} from "../reporting/report-controller";
 import {LogHelper} from "../global/helpers/log-helper";
+import {MineralController} from "./mineral-controller";
 
 export class EmpireController {
     public static run(myMemory: MyMemory): void {
@@ -22,6 +23,8 @@ export class EmpireController {
         BuildObserverController.run();
         ObserverController.run(myMemory);
         SignController.run(myMemory);
+
+        MineralController.run(myMemory);
 
         PowerScavController.run(myMemory);
         ScavengeController.run(myMemory);
