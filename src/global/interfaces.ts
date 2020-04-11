@@ -306,13 +306,15 @@ interface ReportLog {
 type FindRouteResult = Array<{ exit: ExitConstant; room: string; }> | ERR_NO_PATH;
 type MoveByPathResult = CreepMoveReturnCode | ERR_NOT_FOUND | ERR_INVALID_ARGS;
 
+type ResourceMap = Partial<Record<ResourceConstant, number>>;
+
 interface MyRoomWithResourceMap extends MyRoom {
-    resourceMap: Partial<Record<ResourceConstant, number>>;
+    resourceMap: ResourceMap;
 }
 
 interface GenerateResourceMapResult {
     myRoomsWithResourceMap: MyRoomWithResourceMap[];
-    totalResourceMap: Partial<Record<ResourceConstant, number>>;
+    totalResourceMap: ResourceMap;
 }
 
 /*

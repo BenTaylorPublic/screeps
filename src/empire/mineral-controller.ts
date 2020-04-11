@@ -29,19 +29,26 @@ export class MineralController {
                         const resources: ResourceConstant[] = Object.keys(creep.store) as ResourceConstant[];
                         for (let j: number = 0; j < resources.length; j++) {
                             const resource: ResourceConstant = resources[j];
-                            if (myRoomWithResourceMap.resourceMap[resource] == null) {
-                                myRoomWithResourceMap.resourceMap[resource] = creep.store[resource];
-                            } else {
-                                (myRoomWithResourceMap.resourceMap[resource] as number) += creep.store[resource];
-                            }
+                            MineralController.addToResourceMap(myRoomWithResourceMap.resourceMap, resource, creep.store[resource]);
+                            MineralController.addToResourceMap(result.totalResourceMap, resource, creep.store[resource]);
                         }
                     }
                     return false;
                 }
             });
+
+            result.myRoomsWithResourceMap.push(myRoomWithResourceMap);
         }
 
         return result;
+    }
+
+    public static addToResourceMap(resourceMap: ResourceMap, resource: ResourceConstant, amount: number): void {
+        if (resourceMap[resource] == null) {
+            resourceMap[resource] = amount;
+        } else {
+            (resourceMap[resource] as number) += amount;
+        }
     }
 
 }
