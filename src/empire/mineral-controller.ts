@@ -3,7 +3,7 @@ import {Constants} from "../global/constants";
 
 export class MineralController {
     public static run(myMemory: MyMemory): void {
-        const flag: Flag | null = Game.flags["mineral"];
+        const flag: Flag | null = Game.flags["test-run"];
         if (flag == null) {
             return;
         }
