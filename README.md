@@ -6,8 +6,9 @@
 ```
 Miners & Lab logic
     Mining Stop/Start setting
-        If the empire has ResourceX < Stage8RoomCount * ResourceTooLittle, mining start, else stop
-        Mining stop is just a bool. When the miner creep dies, it just wont spawn a new one.
+        If the empire has ResourceX < MineralRoomCount * LimitLower, mining start
+        If the empire has ResourceX > MineralRoomCount * LimitUpper, mining stop
+        Mining stop is just a bool. When the digger creep/ hauler dies, it just wont spawn a new one.
         Test with 1 resource
 ```
 ### Short term
@@ -16,14 +17,18 @@ Miners & Lab logic
     Checklist (unordered):
         Stage 7.9 -> 8, labs
     Checklist (in order):
+        Change mineral into an object
+            active: boolean
+            mineralType: MineralType
+            diggerName: string | null
+            haulerName: string | null
         Mining room logic
             Test with 1 resource 
-        ResourceTooMuch logic to create TransferToRoom orders
+        LimitLower logic to create TransferToRoom orders
         BankLinkers to obey TransferToRoom orders (bank to terminal)
         Terminal to obey TransferToRoom orders
         BankLinkers to unload from TransferToRoom orders 
             They should unload anything in terminal that isn't in a current order
-        ResourceTooLittle logic to create TransferToRoom orders
     Lab Memory
         MyRoom will have an id of a buffing one
             Next to bank
