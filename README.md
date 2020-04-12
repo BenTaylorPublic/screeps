@@ -6,7 +6,11 @@
 ```
 Digging & Lab logic
     Digging room logic
-        Test with 1 resource 
+        Placing container with extractor stage
+        Spawning digger
+        Digger role
+        Spawning hauler
+        Hauler role (if it's different to normal hauler?)
 ```
 ### Short term
 ```
