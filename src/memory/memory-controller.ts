@@ -67,8 +67,12 @@ export class MemoryController {
                     bank: null,
                     spawnQueue: [],
                     rampartsUp: true,
-                    mining: false,
-                    mineral: minerals[0].mineralType
+                    digging: {
+                        active: false,
+                        mineral: minerals[0].mineralType,
+                        diggerName: null,
+                        haulerName: null
+                    }
                 };
                 const sources: Source[] = room.find(FIND_SOURCES);
                 for (let i = 0; i < sources.length; i++) {

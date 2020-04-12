@@ -1,5 +1,7 @@
 import {RoomHelper} from "../global/helpers/room-helper";
 import {Constants} from "../global/constants";
+import {LogHelper} from "../global/helpers/log-helper";
+import {ReportController} from "../reporting/report-controller";
 
 export class MineralController {
     public static run(myMemory: MyMemory): void {
@@ -11,7 +13,43 @@ export class MineralController {
 
         const roomsToUse: MyRoom[] = RoomHelper.getMyRoomsAtOrAboveStageWithXSources(Constants.MINERAL_START_STAGE, 2);
         const resourceMap: GenerateResourceMapResult = this.generateResourceMap(roomsToUse);
+
         console.log(JSON.stringify(resourceMap));
+        this.startOrStopDigging(roomsToUse, resourceMap.totalResourceMap);
+    }
+
+    private static startOrStopDigging(roomsToUse: MyRoom[], totalResourceMap: ResourceMap): void {
+        const resourceLimits: MineralLimits = {
+            K: {
+                lower: 100,
+                upper: 200
+            }
+        };
+        const minerals: MineralConstant[] = Object.keys(resourceLimits) as MineralConstant[];
+        for (let i: number = 0; i < minerals.length; i++) {
+            const mineral: MineralConstant = minerals[i];
+            const mineralLimits: ResourceLimitUpperLower = resourceLimits[mineral] as ResourceLimitUpperLower;
+            if (totalResourceMap[mineral] != null) {
+                const amountOfMineral: number = totalResourceMap[mineral] as number;
+                if (amountOfMineral < mineralLimits.lower) {
+                    //Start digging
+                    this.setDiggingActive(roomsToUse, mineral, true);
+                } else if (amountOfMineral > mineralLimits.upper) {
+                    //Stop digging
+                    this.setDiggingActive(roomsToUse, mineral, false);
+                }
+            } //else there's none
+        }
+    }
+
+    private static setDiggingActive(roomsToUse: MyRoom[], mineral: MineralConstant, active: boolean): void {
+        for (let i: number = 0; i < roomsToUse.length; i++) {
+            const myRoom: MyRoom = roomsToUse[i];
+            if (myRoom.digging.mineral === mineral) {
+                myRoom.digging.active = active;
+                ReportController.log("Set digging active to " + active + " in room " + LogHelper.roomNameAsLink(myRoom.name));
+            }
+        }
     }
 
     private static generateResourceMap(roomsToUse: MyRoom[]): GenerateResourceMapResult {

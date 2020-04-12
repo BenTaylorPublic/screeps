@@ -123,8 +123,14 @@ interface MyRoom {
     bank: StructureStorage | null;
     spawnQueue: QueuedCreep[];
     rampartsUp: boolean;
-    mining: boolean;
+    digging: Digging;
+}
+
+interface Digging {
+    active: boolean;
     mineral: MineralConstant;
+    diggerName: string | null;
+    haulerName: string | null;
 }
 
 interface QueuedCreep {
@@ -312,6 +318,13 @@ interface GenerateResourceMapResult {
     myRoomMaps: Record<string, ResourceMap>;
     totalResourceMap: ResourceMap;
 }
+
+interface ResourceLimitUpperLower {
+    upper: number;
+    lower: number;
+}
+
+type MineralLimits = Partial<Record<MineralConstant, ResourceLimitUpperLower>>;
 
 /*
 ====================
