@@ -6,8 +6,6 @@
 ```
 Digging & Lab logic
     Digging room logic
-        Placing container with extractor stage
-        Spawning digger
         Digger role
         Spawning hauler
         Hauler role (if it's different to normal hauler?)

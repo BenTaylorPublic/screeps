@@ -209,7 +209,8 @@ type CreepRoles =
     | "Stocker"
     | "Signer"
     | "AttackHealerDrainCreep"
-    | "Scavenger";
+    | "Scavenger"
+    | "Digger";
 
 /*
 ====================
@@ -288,11 +289,7 @@ interface Scavenger extends MyCreep {
     scavengeTargetPos: MyRoomPos | null;
 }
 
-interface ScavengerTargetResult {
-    isResource: boolean;
-    structure: AnyStoreStructure | Tombstone | Ruin | null;
-    resource: Resource | null;
-    pos: RoomPosition;
+interface Digger extends MyCreep {
 }
 
 /*
@@ -326,6 +323,13 @@ interface ResourceLimitUpperLower {
 }
 
 type MineralLimits = Partial<Record<MineralConstant, ResourceLimitUpperLower>>;
+
+interface ScavengerTargetResult {
+    isResource: boolean;
+    structure: AnyStoreStructure | Tombstone | Ruin | null;
+    resource: Resource | null;
+    pos: RoomPosition;
+}
 
 /*
 ====================

@@ -168,6 +168,9 @@ export class MemoryController {
             ReportController.log("A BankLinker has died in " + LogHelper.roomNameAsLink(myRoom.name));
         } else if (myCreep.role === "Stocker") {
             ReportController.log("A Stocker has died in " + LogHelper.roomNameAsLink(myRoom.name));
+        } else if (myCreep.role === "Digger") {
+            myRoom.digging.diggerName = null;
+            ReportController.log("A Digger has died in " + LogHelper.roomNameAsLink(myRoom.name));
         } else {
             ReportController.email("ERROR: A Creep with a weird role has died: " + myCreep.role + " in " + LogHelper.roomNameAsLink(myRoom.name));
         }
