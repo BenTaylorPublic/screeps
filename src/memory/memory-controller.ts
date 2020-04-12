@@ -70,6 +70,7 @@ export class MemoryController {
                     digging: {
                         active: false,
                         mineral: minerals[0].mineralType,
+                        cache: null,
                         diggerName: null,
                         haulerName: null
                     }

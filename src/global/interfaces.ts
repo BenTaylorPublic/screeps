@@ -131,6 +131,7 @@ interface Digging {
     mineral: MineralConstant;
     diggerName: string | null;
     haulerName: string | null;
+    cache: MyCache | null;
 }
 
 interface QueuedCreep {
