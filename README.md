@@ -14,8 +14,6 @@ Digging & Lab logic
     Checklist (unordered):
         Stage 7.9 -> 8, labs
     Checklist (in order):
-        Digging room logic
-            Test with 1 resource 
         LimitLower logic to create TransferToRoom orders
         BankLinkers to obey TransferToRoom orders (bank to terminal)
         Terminal to obey TransferToRoom orders
