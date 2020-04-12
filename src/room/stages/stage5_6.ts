@@ -44,6 +44,7 @@ export class Stage5_6 {
 
         const flag: Flag | null = FlagHelper.getFlag(["digger", "cont"], myRoom.name);
         if (flag != null) {
+            flag.remove();
             const result: ScreepsReturnCode = flag.pos.createConstructionSite(STRUCTURE_CONTAINER);
             if (result === OK) {
                 placedSomething = true;
@@ -78,8 +79,8 @@ export class Stage5_6 {
 
         if (!placedSomething &&
             room.find(FIND_CONSTRUCTION_SITES).length === 0 &&
-            RoomHelper.amountOfStructure(room, STRUCTURE_EXTRACTOR) < 1) {
-            ReportController.email("ATTENTION: Room " + LogHelper.roomNameAsLink(room.name) + " couldn't place an extractor",
+            RoomHelper.amountOfStructure(room, STRUCTURE_CONTAINER) < 1) {
+            ReportController.email("ATTENTION: Room " + LogHelper.roomNameAsLink(room.name) + " needs a digger cont (digger-cont)",
                 ReportCooldownConstants.DAY);
         }
     }
