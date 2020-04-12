@@ -26,28 +26,26 @@ export class MineralController {
             }
         };
         const minerals: MineralConstant[] = Object.keys(resourceLimits) as MineralConstant[];
-        console.log("length: " + minerals.length);
         for (let i: number = 0; i < minerals.length; i++) {
             const mineral: MineralConstant = minerals[i];
-            console.log("mineral " + mineral);
             const mineralLimits: ResourceLimitUpperLower = resourceLimits[mineral] as ResourceLimitUpperLower;
-            console.log("limits: " + JSON.stringify(mineralLimits));
-            if (totalResourceMap[mineral] != null) {
-                const amountOfMineral: number = totalResourceMap[mineral] as number;
-                console.log("amount: " + amountOfMineral);
-                if (amountOfMineral < mineralLimits.lower) {
-                    //Start digging
-                    this.setDiggingActive(roomsToUse, mineral, true);
-                } else if (amountOfMineral > mineralLimits.upper) {
-                    //Stop digging
-                    this.setDiggingActive(roomsToUse, mineral, false);
-                }
-            } //else there's none
+            let amountOfMineral: number;
+            if (totalResourceMap[mineral] == null) {
+                amountOfMineral = 0;
+            } else {
+                amountOfMineral = totalResourceMap[mineral] as number;
+            }
+            if (amountOfMineral < mineralLimits.lower) {
+                //Start digging
+                this.setDiggingActive(roomsToUse, mineral, true);
+            } else if (amountOfMineral > mineralLimits.upper) {
+                //Stop digging
+                this.setDiggingActive(roomsToUse, mineral, false);
+            }
         }
     }
 
     private static setDiggingActive(roomsToUse: MyRoom[], mineral: MineralConstant, active: boolean): void {
-        console.log("setting active status for mineral " + mineral + " to " + active);
         for (let i: number = 0; i < roomsToUse.length; i++) {
             const myRoom: MyRoom = roomsToUse[i];
             if (myRoom.digging.mineral === mineral) {
