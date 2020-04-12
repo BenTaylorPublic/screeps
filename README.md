@@ -117,6 +117,8 @@ link-bank
 spawn
 power-spawn
 observer-set-{WIDTH}
+bank-linker-pos
+digger-cont
 
 sign
 sign-all
