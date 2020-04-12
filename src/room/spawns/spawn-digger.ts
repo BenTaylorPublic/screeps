@@ -14,11 +14,12 @@ export class SpawnDigger {
         flag.remove();
         if (myRoom.roomStage < Constants.MINERAL_START_STAGE ||
             myRoom.digging.active ||
-            myRoom.digging.diggerName != null) {
+            myRoom.digging.diggerName != null ||
+            myRoom.digging.cache == null) {
             return;
         }
 
-        const digger: Digger = this.spawnDiggerInternal(myRoom);
+        const digger: Digger = this.spawnDiggerInternal(myRoom, myRoom.digging.cache.pos);
         myRoom.myCreeps.push(digger);
         myRoom.digging.diggerName = digger.name;
         ReportController.log("Queued a Digger in " + LogHelper.roomNameAsLink(myRoom.name));
@@ -34,7 +35,7 @@ export class SpawnDigger {
         );
     }
 
-    private static spawnDiggerInternal(myRoom: MyRoom): Digger {
+    private static spawnDiggerInternal(myRoom: MyRoom, cachePos: MyRoomPos): Digger {
         const name: string = CreepHelper.getName();
         SpawnQueueController.queueCreepSpawn(myRoom, SpawnConstants.DIGGER, name, "Digger");
 
@@ -46,7 +47,9 @@ export class SpawnDigger {
             roomMoveTarget: {
                 pos: null,
                 path: []
-            }
+            },
+            cachePosToDigOn: cachePos,
+            mineralId: myRoom.digging.mineralId
         };
     }
 }

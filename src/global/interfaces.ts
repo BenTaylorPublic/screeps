@@ -129,6 +129,7 @@ interface MyRoom {
 interface Digging {
     active: boolean;
     mineral: MineralConstant;
+    mineralId: Id<Mineral>;
     diggerName: string | null;
     haulerName: string | null;
     cache: MyCache | null;
@@ -290,6 +291,8 @@ interface Scavenger extends MyCreep {
 }
 
 interface Digger extends MyCreep {
+    mineralId: Id<Mineral>;
+    cachePosToDigOn: MyRoomPos;
 }
 
 /*
