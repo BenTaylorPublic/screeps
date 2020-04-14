@@ -7,11 +7,9 @@ import {Constants} from "../../global/constants/constants";
 
 export class SpawnDigger {
     public static spawnDigger(myRoom: MyRoom): void {
-        const flag: Flag | null = Game.flags["test-run-2"];
-        if (flag == null) {
+        if (Game.time % 100 !== 0) {
             return;
         }
-        flag.remove();
         if (myRoom.roomStage < Constants.MINERAL_START_STAGE ||
             !myRoom.digging.active ||
             myRoom.digging.diggerName != null ||

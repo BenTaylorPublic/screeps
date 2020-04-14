@@ -25,11 +25,9 @@ export class SpawnHauler {
     }
 
     private static diggingLogic(myRoom: MyRoom): void {
-        const flag: Flag | null = Game.flags["test-run-3"];
-        if (flag == null) {
+        if (Game.time % 100 !== 0) {
             return;
         }
-        flag.remove();
         if (myRoom.roomStage < Constants.MINERAL_START_STAGE ||
             !myRoom.digging.active ||
             myRoom.digging.haulerName != null ||
