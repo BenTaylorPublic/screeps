@@ -73,6 +73,8 @@ export class RoomSpawnController {
             return SpawnBankLinker.getBody();
         } else if (queuedCreep.role === "Laborer") {
             return SpawnLaborer.getBody(myRoom);
+        } else if (queuedCreep.role === "Digger") {
+            return SpawnDigger.getBody(myRoom);
         } else if (queuedCreep.role === "Scavenger") {
             return ScavengeController.getBody(myRoom);
         } else if (queuedCreep.role === "AttackQuickCreep" || queuedCreep.role === "AttackPressureCreep") {
