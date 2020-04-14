@@ -35,7 +35,7 @@ export class RoleDigger {
                 if (cache != null) {
                     if (cache.store.energy < 1965) {
                         creep.harvest(mineral);
-                        digger.digInTick = Game.time + 5;
+                        digger.digInTick = Game.time + 4;
                     }
                 } else {
                     ReportController.email("ERROR: Mineral cache returned null with get by ID in " + LogHelper.roomNameAsLink(myRoom.name));
