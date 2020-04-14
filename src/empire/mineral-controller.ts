@@ -47,7 +47,7 @@ export class MineralController {
             const myRoom: MyRoom = roomsToUse[i];
             if (myRoom.digging.mineral === mineral) {
                 myRoom.digging.active = active;
-                ReportController.log("Set digging active to " + active + " in room " + LogHelper.roomNameAsLink(myRoom.name));
+                ReportController.email("Set digging active to " + active + " in room " + LogHelper.roomNameAsLink(myRoom.name));
             }
         }
     }
