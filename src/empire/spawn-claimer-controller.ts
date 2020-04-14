@@ -1,6 +1,6 @@
 import {ReportController} from "../reporting/report-controller";
 import {SpawnQueueController} from "../global/spawn-queue-controller";
-import {SpawnConstants} from "../global/spawn-constants";
+import {SpawnConstants} from "../global/constants/spawn-constants";
 import {RoomHelper} from "../global/helpers/room-helper";
 import {CreepHelper} from "../global/helpers/creep-helper";
 import {LogHelper} from "../global/helpers/log-helper";

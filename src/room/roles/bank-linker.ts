@@ -3,7 +3,7 @@ import {CreepHelper} from "../../global/helpers/creep-helper";
 import {LogHelper} from "../../global/helpers/log-helper";
 import {MovementHelper} from "../../global/helpers/movement-helper";
 import {RoomHelper} from "../../global/helpers/room-helper";
-import {Constants} from "../../global/constants";
+import {Constants} from "../../global/constants/constants";
 
 
 export class RoleBankLinker {

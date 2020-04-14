@@ -121,28 +121,14 @@ export class StageFunctions {
                 mySource.link != null &&
                 mySource.link.id != null) {
                 // Source has a link that's setup
-                // Convert haulers into stockers
-                for (let j = 0; j < mySource.haulerNames.length; j++) {
-                    const haulerName: string = mySource.haulerNames[j];
-                    let found: boolean = false;
-                    for (let k = 0; k < myRoom.myCreeps.length; k++) {
-                        if (myRoom.myCreeps[k].name === haulerName) {
-                            const myCreep: Stocker = myRoom.myCreeps[k] as Stocker;
-                            myCreep.state = "PickupEnergy";
-                            myCreep.role = "Stocker";
-                            found = true;
-                            break;
-                        }
+                if (mySource.haulerName != null) {
+                    const creep: Creep | null = Game.creeps[mySource.haulerName];
+                    if (creep != null) {
+                        creep.say("dthb4dshnr");
+                        creep.suicide();
                     }
-                    if (!found) {
-                        const creep: Creep | null = Game.creeps[haulerName];
-                        if (creep != null) {
-                            creep.say("dthb4dshnr");
-                            creep.suicide();
-                        }
-                    }
+                    mySource.haulerName = null;
                 }
-                mySource.haulerNames = [];
 
                 // Kill the miner if he doesn't have 1 Carry part
                 if (mySource.minerName != null) {

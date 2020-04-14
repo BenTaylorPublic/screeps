@@ -21,7 +21,7 @@ export class Stage4_8 {
                 mySource.link.id != null &&
                 mySource.cache != null &&
                 mySource.cache.id == null &&
-                mySource.haulerNames.length === 0 &&
+                mySource.haulerName == null &&
                 myRoom.bankLinkerPos != null) {
                 myRoom.roomStage = 5;
                 ReportController.email("STAGE+ 5 " + LogHelper.roomNameAsLink(myRoom.name) + " 1 source using links");
@@ -40,7 +40,7 @@ export class Stage4_8 {
                 mySource.link.id != null &&
                 mySource.cache != null &&
                 mySource.cache.id == null &&
-                mySource.haulerNames.length === 0) {
+                mySource.haulerName == null) {
                 foundLinkedSource = true;
                 break;
             }

@@ -4,37 +4,44 @@
 ## TODO
 ### Working on
 ```
-Digging & Lab logic
-    Digging room logic
-        Digger role
-        Spawning hauler
-        Hauler role (if it's different to normal hauler?)
+Testing of digger, and hauler
 ```
 ### Short term
 ```
 Digging & Lab logic
-    Checklist (unordered):
-        Stage 7.9 -> 8, labs
     Checklist (in order):
+        Run digging logic every 100 ticks
         LimitLower logic to create TransferToRoom orders
         BankLinkers to obey TransferToRoom orders (bank to terminal)
         Terminal to obey TransferToRoom orders
         BankLinkers to unload from TransferToRoom orders 
-            They should unload anything in terminal that isn't in a current order
+            They should unload anything in terminal that isn't in a transfer out order
+    Checklist (unordered):
+        Stage 7.9 -> 8, labs
+        Buffing
     Lab Memory
         MyRoom will have an id of a buffing one
             Next to bank
             BankLinker will be responsible for it
-        Rest will use the 8 format but 1 missing
+        Rest will use the person format but 1 missing
         Should be stored in MyRoom.Labs
         Array of 2 for center ones
+            id
         Array of 7 for outside ones
+            id
+            cooldownTill
         Hopefully I can get it to assign the memory manually with 1 flag saying "lab-buffer"
 ```
 ### Mid term:
 ```
-PowerScav
-    Use ScavengeController
+
+Stage 8 rooms using terminal to feed < stage 8 rooms
+    Bank linkers will unload terminals when > a constant
+    Not sure about transfering TO room logic yet
+
+Haulers
+    Dont use array
+    Remove cooldown logic
 ```
 ### Long term:
 ```
@@ -60,6 +67,7 @@ Stage 8 Laborer logic
     Will have 15 work, and a few move
     They only need 3 carry
     There'll be a link for ugrading the controller
+    Only after I get buffing going
 
 Optional buildings
     Labs
@@ -69,14 +77,17 @@ Marketing logic (will be at empire level)
     Price history
     Buy/sell logic
 
+PowerScav
+    Use ScavengeController
+
 Power
     Power creeps control
 
+Watch-start/stop flag
+    A 2nd observer to continuously watch a room
+
 Nukes (Offence)
-    Flags:
-        nuke-load           //On the nuker
-        nuke-stop-loading   //On the nuker
-        nuke-launch         //On the target
+    nuke-launch flag
 
 Offload
     offload-start & offload-end
@@ -98,10 +109,6 @@ MyMemory.Settings
     eg:
         set-CONSCRIPTION_RANGE-5
         set-OBSERVER_WIDTH-5
-
-Stage 8 rooms using terminal to feed < stage 8 rooms
-    Bank linkers will unload terminals when > a constant
-    Not sure about transfering TO room logic yet
 ```
 
 ## Flag Names
@@ -122,7 +129,6 @@ sign
 sign-all
 claim
 scavenge-{RESOURCE_AMOUNT}
-reset-spawn
 
 attack-quick-rally
 attack-quick-room-target

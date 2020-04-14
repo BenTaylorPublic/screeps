@@ -8,15 +8,11 @@ import {RolePowerScavHaulCreep} from "./role/power-scav-haul-creep";
 import {SignController} from "./sign/sign-controller";
 import {ScavengeController} from "./scavenge-controller";
 import {RoleScavenger} from "./role/scavenger";
-import {RoomHelper} from "../global/helpers/room-helper";
-import {ReportController} from "../reporting/report-controller";
-import {LogHelper} from "../global/helpers/log-helper";
 import {MineralController} from "./mineral-controller";
 
 export class EmpireController {
     public static run(myMemory: MyMemory): void {
         this.oddThousandLogic(myMemory);
-        this.resetSpawnLogic();
         SpawnClaimerController.run(myMemory);
         AttackController.run(myMemory);
 
@@ -48,29 +44,5 @@ export class EmpireController {
         if (Game.time % 1000 === 0) {
             myMemory.empire.oddThousand = !myMemory.empire.oddThousand;
         }
-    }
-
-    private static resetSpawnLogic(): void {
-        if (Game.time % 100 !== 0 ||
-            Game.flags["reset-spawn"] == null) {
-            return;
-        }
-
-        const flag: Flag = Game.flags["reset-spawn"];
-        const myRoom: MyRoom | null = RoomHelper.getMyRoomByName(flag.pos.roomName);
-        flag.remove();
-        if (myRoom == null) {
-            return;
-        }
-
-        myRoom.myCreeps = [];
-        myRoom.bankLinkerName = null;
-        myRoom.spawnQueue = [];
-        for (let i = 0; i < myRoom.mySources.length; i++) {
-            const mySource: MySource = myRoom.mySources[i];
-            mySource.minerName = null;
-            mySource.haulerNames = [];
-        }
-        ReportController.log("Reset spawn for " + LogHelper.roomNameAsLink(myRoom.name));
     }
 }

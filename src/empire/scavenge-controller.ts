@@ -1,8 +1,8 @@
-import {Constants} from "../global/constants";
+import {Constants} from "../global/constants/constants";
 import {MapHelper} from "../global/helpers/map-helper";
 import {SpawnQueueController} from "../global/spawn-queue-controller";
 import {CreepHelper} from "../global/helpers/creep-helper";
-import {SpawnConstants} from "../global/spawn-constants";
+import {SpawnConstants} from "../global/constants/spawn-constants";
 import {ReportController} from "../reporting/report-controller";
 import {LogHelper} from "../global/helpers/log-helper";
 

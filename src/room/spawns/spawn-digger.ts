@@ -1,9 +1,9 @@
 import {SpawnQueueController} from "../../global/spawn-queue-controller";
-import {SpawnConstants} from "../../global/spawn-constants";
+import {SpawnConstants} from "../../global/constants/spawn-constants";
 import {ReportController} from "../../reporting/report-controller";
 import {LogHelper} from "../../global/helpers/log-helper";
 import {CreepHelper} from "../../global/helpers/creep-helper";
-import {Constants} from "../../global/constants";
+import {Constants} from "../../global/constants/constants";
 
 export class SpawnDigger {
     public static spawnDigger(myRoom: MyRoom): void {
@@ -13,10 +13,16 @@ export class SpawnDigger {
         }
         flag.remove();
         if (myRoom.roomStage < Constants.MINERAL_START_STAGE ||
-            myRoom.digging.active ||
+            !myRoom.digging.active ||
             myRoom.digging.diggerName != null ||
             myRoom.digging.cache == null) {
             return;
+        } else {
+            const minerals: Mineral[] = Game.rooms[myRoom.name].find(FIND_MINERALS);
+            if (minerals.length === 1 &&
+                minerals[0].mineralAmount === 0) {
+                return;
+            }
         }
 
         const digger: Digger = this.spawnDiggerInternal(myRoom, myRoom.digging.cache.pos);
@@ -49,7 +55,8 @@ export class SpawnDigger {
                 path: []
             },
             cachePosToDigOn: cachePos,
-            mineralId: myRoom.digging.mineralId
+            mineralId: myRoom.digging.mineralId,
+            digInTick: 0
         };
     }
 }

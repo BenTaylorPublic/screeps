@@ -9,7 +9,6 @@ export class MemoryController {
         this.validateRoomsInMyMemory();
         this.cleanUpEmpireCreeps();
         this.getBanks();
-        this.reduceCooldowns();
         this.cleanupReportMap();
     }
 
@@ -83,8 +82,7 @@ export class MemoryController {
                         id: source.id,
                         state: "NoCache",
                         minerName: null,
-                        haulerNames: [],
-                        haulerCooldown: 0,
+                        haulerName: null,
                         cache: null,
                         link: null
                     });
@@ -153,13 +151,16 @@ export class MemoryController {
         } else if (myCreep.role === "Hauler") {
             for (let i = 0; i < myRoom.mySources.length; i++) {
                 const mySource: MySource = myRoom.mySources[i];
-                for (let j = mySource.haulerNames.length - 1; j >= 0; j--) {
-                    if (mySource.haulerNames[j] === myCreep.name) {
-                        mySource.haulerNames.splice(j, 1);
-                    }
+                if (mySource.haulerName === myCreep.name) {
+                    mySource.haulerName = null;
+                    ReportController.log("A Hauler has died in " + LogHelper.roomNameAsLink(myRoom.name));
+                    return;
                 }
             }
-            ReportController.log("A Hauler has died in " + LogHelper.roomNameAsLink(myRoom.name));
+            if (myRoom.digging.haulerName === myCreep.name) {
+                myRoom.digging.haulerName = null;
+                ReportController.log("A Digging Hauler has died in " + LogHelper.roomNameAsLink(myRoom.name));
+            }
         } else if (myCreep.role === "Laborer") {
             ReportController.log("A Laborer has died in " + LogHelper.roomNameAsLink(myRoom.name));
         } else if (myCreep.role === "Claimer") {
@@ -198,18 +199,6 @@ export class MemoryController {
                         myRoom.bank = structures[j] as StructureStorage;
                         break;
                     }
-                }
-            }
-        }
-    }
-
-    private static reduceCooldowns(): void {
-        for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
-            const myRoom: MyRoom = Memory.myMemory.myRooms[i];
-            for (let j = 0; j < myRoom.mySources.length; j++) {
-                const mySource: MySource = myRoom.mySources[j];
-                if (mySource.haulerCooldown > 0) {
-                    mySource.haulerCooldown--;
                 }
             }
         }

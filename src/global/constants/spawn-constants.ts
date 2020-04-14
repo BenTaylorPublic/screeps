@@ -6,6 +6,7 @@ export class SpawnConstants {
     public static BANK_LINKER: number = 3.5;
     public static MINER: number = 3;
     public static DIGGER: number = 2.75;
+    public static DIGGING_HAULER: number = 2.6;
     public static POWER_SCAV_ATTACK: number = 2.5;
     public static POWER_SCAV_HAUL: number = 2.5;
     public static ATTACK_PRESSURE: number = 2.5;

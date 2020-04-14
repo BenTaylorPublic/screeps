@@ -1,5 +1,5 @@
 import {LogHelper} from "../../global/helpers/log-helper";
-import {Constants} from "../../global/constants";
+import {Constants} from "../../global/constants/constants";
 import {ReportController} from "../../reporting/report-controller";
 import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
 import {EmpireHelper} from "../../global/helpers/empire-helper";

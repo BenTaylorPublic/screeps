@@ -148,9 +148,8 @@ interface MySpawn {
 interface MySource {
     id: Id<Source>;
     state: "NoCache" | "Cache" | "Link";
-    minerName: string | null; //Null when miner is dead or not assigned
-    haulerNames: string[];
-    haulerCooldown: number;
+    minerName: string | null;
+    haulerName: string | null;
     cache: MyCache | null;
     link: MyLink | null;
 }
@@ -293,6 +292,7 @@ interface Scavenger extends MyCreep {
 interface Digger extends MyCreep {
     mineralId: Id<Mineral>;
     cachePosToDigOn: MyRoomPos;
+    digInTick: number;
 }
 
 /*

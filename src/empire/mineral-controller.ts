@@ -1,11 +1,12 @@
 import {RoomHelper} from "../global/helpers/room-helper";
-import {Constants} from "../global/constants";
+import {Constants} from "../global/constants/constants";
 import {LogHelper} from "../global/helpers/log-helper";
 import {ReportController} from "../reporting/report-controller";
+import {MineralConstants} from "../global/constants/mineral-constants";
 
 export class MineralController {
     public static run(myMemory: MyMemory): void {
-        const flag: Flag | null = Game.flags["test-run"];
+        const flag: Flag | null = Game.flags["test-run-1"];
         if (flag == null) {
             return;
         }
@@ -19,16 +20,12 @@ export class MineralController {
     }
 
     private static startOrStopDigging(roomsToUse: MyRoom[], totalResourceMap: ResourceMap): void {
-        const resourceLimits: MineralLimits = {
-            K: {
-                lower: 100,
-                upper: 200
-            }
-        };
-        const minerals: MineralConstant[] = Object.keys(resourceLimits) as MineralConstant[];
+        const t1MineralLimits: MineralLimits = MineralConstants.getT1MineralConstants();
+
+        const minerals: MineralConstant[] = Object.keys(t1MineralLimits) as MineralConstant[];
         for (let i: number = 0; i < minerals.length; i++) {
             const mineral: MineralConstant = minerals[i];
-            const mineralLimits: ResourceLimitUpperLower = resourceLimits[mineral] as ResourceLimitUpperLower;
+            const mineralLimits: ResourceLimitUpperLower = t1MineralLimits[mineral] as ResourceLimitUpperLower;
             let amountOfMineral: number;
             if (totalResourceMap[mineral] == null) {
                 amountOfMineral = 0;

@@ -1,5 +1,5 @@
 import {ReportController} from "../../reporting/report-controller";
-import {Constants} from "../../global/constants";
+import {Constants} from "../../global/constants/constants";
 import {CreepHelper} from "../../global/helpers/creep-helper";
 import {RoomHelper} from "../../global/helpers/room-helper";
 import {LogHelper} from "../../global/helpers/log-helper";

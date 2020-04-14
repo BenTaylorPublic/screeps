@@ -12,12 +12,12 @@ export class RoleHauler {
 
         const creep: Creep = Game.creeps[hauler.name];
 
-        if (hauler.pickup === false &&
-            creep.store.energy === 0) {
+        if (!hauler.pickup &&
+            creep.store.getUsedCapacity() === 0) {
             hauler.pickup = true;
             creep.say("pickup");
-        } else if (hauler.pickup === true &&
-            creep.store.energy === creep.store.getCapacity()) {
+        } else if (hauler.pickup &&
+            creep.store.getFreeCapacity() === 0) {
             hauler.pickup = false;
             creep.say("delivering");
         }
@@ -39,22 +39,13 @@ export class RoleHauler {
                 }
 
                 if (cacheToGrabFrom == null) {
-                    ReportController.email("Source cache is null for hauler: " + hauler.name + " in " + LogHelper.roomNameAsLink(myRoom.name) + ". Marking as NoCache");
-                    for (let i = 0; i < myRoom.mySources.length; i++) {
-                        const cache: MyCache | null = myRoom.mySources[i].cache;
-                        if (cache != null &&
-                            RoomHelper.posMatches2(cache.pos, hauler.cachePosToPickupFrom)) {
-                            myRoom.mySources[i].cache = null;
-                            myRoom.mySources[i].state = "NoCache";
-                            creep.suicide();
-                            return;
-                        }
-                    }
-                    ReportController.email("ERROR: Failed to mark source as NoCache");
+                    ReportController.email("Source cache is null for hauler: " + hauler.name + " in " + LogHelper.roomNameAsLink(myRoom.name));
                     return;
-                }
-                if (cacheToGrabFrom.store[RESOURCE_ENERGY] >= creep.store.getFreeCapacity()) {
-                    creep.withdraw(cacheToGrabFrom, RESOURCE_ENERGY);
+                } else if (cacheToGrabFrom.store.getUsedCapacity() >= creep.store.getFreeCapacity()) {
+                    const resources: ResourceConstant[] = Object.keys(cacheToGrabFrom.store) as ResourceConstant[];
+                    for (let i: number = 0; i < resources.length; i++) {
+                        creep.withdraw(cacheToGrabFrom, resources[i]);
+                    }
                 }
             } else {
                 MovementHelper.myMoveTo(creep, cacheToGrabFromPos, hauler);
@@ -75,7 +66,10 @@ export class RoleHauler {
                     ReportController.email("ERROR: Room's bank was null in " + LogHelper.roomNameAsLink(myRoom.name));
                     return;
                 }
-                creep.transfer(bank, RESOURCE_ENERGY);
+                const resources: ResourceConstant[] = Object.keys(creep.store) as ResourceConstant[];
+                for (let i: number = 0; i < resources.length; i++) {
+                    creep.transfer(bank, resources[i]);
+                }
             } else {
                 MovementHelper.myMoveTo(creep, bankPos, hauler);
             }

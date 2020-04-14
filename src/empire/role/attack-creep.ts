@@ -1,4 +1,4 @@
-import {Constants} from "../../global/constants";
+import {Constants} from "../../global/constants/constants";
 import {MovementHelper} from "../../global/helpers/movement-helper";
 import {CreepHelper} from "../../global/helpers/creep-helper";
 
