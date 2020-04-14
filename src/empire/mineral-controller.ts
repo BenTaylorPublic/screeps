@@ -41,7 +41,8 @@ export class MineralController {
     private static setDiggingActive(roomsToUse: MyRoom[], mineral: MineralConstant, active: boolean): void {
         for (let i: number = 0; i < roomsToUse.length; i++) {
             const myRoom: MyRoom = roomsToUse[i];
-            if (myRoom.digging.mineral === mineral) {
+            if (myRoom.digging.mineral === mineral &&
+                myRoom.digging.active !== active) {
                 myRoom.digging.active = active;
                 ReportController.email("Set digging active to " + active + " in room " + LogHelper.roomNameAsLink(myRoom.name));
             }
