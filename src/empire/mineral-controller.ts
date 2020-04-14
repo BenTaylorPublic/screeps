@@ -79,6 +79,7 @@ export class MineralController {
                         structure.structureType !== STRUCTURE_NUKER &&
                         structure.structureType !== STRUCTURE_FACTORY &&
                         structure.structureType !== STRUCTURE_TOWER &&
+                        structure.structureType !== STRUCTURE_TERMINAL &&
                         RoomHelper.structureHasResources(structure)) {
                         const resources: ResourceConstant[] = Object.keys((structure as AnyStoreStructure).store) as ResourceConstant[];
                         for (let j: number = 0; j < resources.length; j++) {
