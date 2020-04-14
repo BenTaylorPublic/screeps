@@ -6,16 +6,12 @@ import {MineralConstants} from "../global/constants/mineral-constants";
 
 export class MineralController {
     public static run(myMemory: MyMemory): void {
-        const flag: Flag | null = Game.flags["test-run-1"];
-        if (flag == null) {
+        if (Game.time % 100 !== 0) {
             return;
         }
-        flag.remove();
 
         const roomsToUse: MyRoom[] = RoomHelper.getMyRoomsAtOrAboveStageWithXSources(Constants.MINERAL_START_STAGE, 2);
         const resourceMap: GenerateResourceMapResult = this.generateResourceMap(roomsToUse);
-
-        console.log(JSON.stringify(resourceMap));
         this.startOrStopDigging(roomsToUse, resourceMap.totalResourceMap);
     }
 
