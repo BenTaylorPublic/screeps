@@ -4,18 +4,18 @@
 ## TODO
 ### Working on
 ```
-Testing of digger, and hauler
+Digging & Lab logic
+    TransferToRoom storage
 ```
 ### Short term
 ```
 Digging & Lab logic
     Checklist (in order):
-        Run digging logic every 100 ticks
-        LimitLower logic to create TransferToRoom orders
         BankLinkers to obey TransferToRoom orders (bank to terminal)
-        Terminal to obey TransferToRoom orders
         BankLinkers to unload from TransferToRoom orders 
             They should unload anything in terminal that isn't in a transfer out order
+        LimitLower logic to create TransferToRoom orders
+        Terminal to obey TransferToRoom orders
     Checklist (unordered):
         Stage 7.9 -> 8, labs
         Buffing
@@ -34,6 +34,8 @@ Digging & Lab logic
 ```
 ### Mid term:
 ```
+Spawns should use an array of strings
+    Needs to be done so I can restructure rooms
 
 Stage 8 rooms using terminal to feed < stage 8 rooms
     Bank linkers will unload terminals when > a constant
