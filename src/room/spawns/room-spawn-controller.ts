@@ -13,7 +13,7 @@ import {SpawnDigger} from "./spawn-digger";
 
 export class RoomSpawnController {
     public static run(myRoom: MyRoom, room: Room): void {
-        if (Game.time % 10) {
+        if (Game.time % 10 === 0) {
             SpawnLaborer.laborerSpawnLogic(myRoom, room);
             SpawnHauler.spawnHaulerLogic(myRoom);
             SpawnStocker.spawnStocker(myRoom);
