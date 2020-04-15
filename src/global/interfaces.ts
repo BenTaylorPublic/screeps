@@ -20,6 +20,7 @@ interface Empire {
     observer: ObserverMemory | null;
     avoidRooms: string[];
     powerScav: PowerScav;
+    transfers: Transfer[];
 }
 
 interface ObserverMemory {
@@ -68,6 +69,15 @@ interface AttackTarget {
 interface BestPathFindRoomObjectResult<T extends RoomObject> {
     roomObject: T;
     pathFinderPath: PathFinderPath;
+}
+
+interface Transfer {
+    roomTo: string;
+    roomFrom: string;
+    state: "Loading" | "Sending" | "Unloading";
+    amount: number;
+    amountLeft: number;
+    resource: ResourceConstant;
 }
 
 /*

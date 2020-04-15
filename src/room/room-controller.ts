@@ -13,7 +13,7 @@ import {RoomDefenseController} from "./room-defense-controller";
 import {RoleDigger} from "./roles/digger";
 
 export class RoomController {
-    public static run(myRoom: MyRoom): void {
+    public static run(myRoom: MyRoom, transfer: Transfer | null): void {
         if (Game.rooms[myRoom.name] == null) {
             //No longer have vision of this room
             ReportController.email("ERROR: No longer have vision of room " + LogHelper.roomNameAsLink(myRoom.name));
@@ -39,7 +39,7 @@ export class RoomController {
             } else if (myCreep.role === "Laborer") {
                 RoleLaborer.run(myCreep as Laborer, myRoom, laborersStock);
             } else if (myCreep.role === "BankLinker") {
-                RoleBankLinker.run(myCreep as BankLinker, myRoom);
+                RoleBankLinker.run(myCreep as BankLinker, myRoom, transfer);
             } else if (myCreep.role === "Stocker") {
                 RoleStocker.run(myCreep as Stocker, myRoom);
             } else if (myCreep.role === "Digger") {

@@ -12,8 +12,7 @@ Digging & Lab logic
 Digging & Lab logic
     Checklist (in order):
         BankLinkers to obey TransferToRoom orders (bank to terminal)
-        BankLinkers to unload from TransferToRoom orders 
-            They should unload anything in terminal that isn't in a transfer out order
+        BankLinkers to unload from TransferToRoom orders
         LimitLower logic to create TransferToRoom orders
         Terminal to obey TransferToRoom orders
     Checklist (unordered):

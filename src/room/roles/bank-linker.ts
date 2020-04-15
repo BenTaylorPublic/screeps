@@ -7,7 +7,7 @@ import {Constants} from "../../global/constants/constants";
 
 
 export class RoleBankLinker {
-    public static run(bankLinker: BankLinker, myRoom: MyRoom): void {
+    public static run(bankLinker: BankLinker, myRoom: MyRoom, transfer: Transfer | null): void {
         if (CreepHelper.handleCreepPreRole(bankLinker)) {
             return;
         }
@@ -60,7 +60,7 @@ export class RoleBankLinker {
                 bankLinker.state = "EnergyToTerminal";
             }
         } else if (bankLinker.state === "EnergyToTerminal") {
-            const terminals: StructureTerminal[] | null = room.find<StructureTerminal>(FIND_MY_STRUCTURES, {
+            const terminals: StructureTerminal[] = room.find<StructureTerminal>(FIND_MY_STRUCTURES, {
                 filter(structure: AnyStructure): boolean {
                     return structure.structureType === STRUCTURE_TERMINAL;
                 }
@@ -73,7 +73,7 @@ export class RoleBankLinker {
     }
 
     private static terminalNeedsEnergy(room: Room): boolean {
-        const terminals: StructureTerminal[] | null = room.find<StructureTerminal>(FIND_MY_STRUCTURES, {
+        const terminals: StructureTerminal[] = room.find<StructureTerminal>(FIND_MY_STRUCTURES, {
             filter(structure: AnyStructure): boolean {
                 return structure.structureType === STRUCTURE_TERMINAL;
             }
