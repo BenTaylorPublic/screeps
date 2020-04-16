@@ -36,7 +36,7 @@ export class SpawnBankLinker {
                 path: []
             },
             inPos: false,
-            state: "LinkToBank"
+            state: "Default"
         };
     }
 }
