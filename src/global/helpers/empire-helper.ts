@@ -34,9 +34,17 @@ export class EmpireHelper {
                 } else if (transfer.state === "Sending") {
                     ReportController.log("Unloading " + transfer.amount + " " + transfer.resource + " from " + LogHelper.roomNameAsLink(transfer.roomFrom) + " to " + LogHelper.roomNameAsLink(transfer.roomTo));
                     transfer.state = "Unloading";
-                    return transfer;
+                    return null;
                 }
-
+            } else if (transfer.roomTo === roomName) {
+                if (transfer.state === "Unloading") {
+                    if (transfer.amountLeft === 0) {
+                        //TODO: Splice it out
+                        return null;
+                    } else {
+                        return transfer;
+                    }
+                }
             }
         }
 
