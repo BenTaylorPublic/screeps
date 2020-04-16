@@ -4,11 +4,11 @@
 ## TODO
 ### Working on
 ```
+Transfers to affect resource map
 ```
 ### Short term
 ```
 Digging & Lab logic
-    Transfers to affect resource map
     LimitLower logic to create Transfers orders
         They must affect the resource map in the same tick 
         So room A isn't requested to send to B and C
