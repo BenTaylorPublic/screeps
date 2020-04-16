@@ -83,6 +83,18 @@ export class RoleBankLinker {
                 transfer.amountLeft -= creep.store.getCapacity();
             }
             bankLinker.state = "Default";
+        } else if (bankLinker.state === "ResourceToBank") {
+            const terminal: StructureTerminal | null = this.getTerminal(room);
+            if (terminal != null) {
+                const resources: ResourceConstant[] = Object.keys(creep.store) as ResourceConstant[];
+                for (let i: number = 0; i < resources.length; i++) {
+                    creep.transfer(bank, resources[i]);
+                }
+            }
+            if (transfer != null) {
+                transfer.amountLeft -= creep.store.getCapacity();
+            }
+            bankLinker.state = "Default";
         }
     }
 
@@ -90,6 +102,12 @@ export class RoleBankLinker {
         if (transfer.state === "Loading") {
             creep.withdraw(bank, transfer.resource);
             bankLinker.state = "ResourceToTerminal";
+        } else if (transfer.state === "Unloading") {
+            const terminal: StructureTerminal | null = this.getTerminal(room);
+            if (terminal != null) {
+                creep.withdraw(terminal, transfer.resource);
+                bankLinker.state = "ResourceToBank";
+            }
         }
     }
 
