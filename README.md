@@ -4,13 +4,20 @@
 ## TODO
 ### Working on
 ```
-Stage 8 rooms using terminal to feed < stage 8 rooms with energy
 ```
 ### Short term
 ```
 Digging & Lab logic
     Transfers to affect resource map
     LimitLower logic to create Transfers orders
+        They must affect the resource map in the same tick 
+        So room A isn't requested to send to B and C
+        Thus running room A dry
+    Stage 8 rooms using terminal to feed < stage 8 rooms with energy (but above stage 6)
+        Spawn laborers if going to downgrade
+        Otherwise if theres a 6 or 7 room
+            > 100k, transfer 50k
+            > 200k, spawn laborer
 ```
 ### Mid term:
 ```
@@ -30,10 +37,6 @@ Stage 7.9 -> 8, labs
 
 Spawns should use an array of strings
     Needs to be done so I can restructure rooms
-
-Haulers
-    Dont use array
-    Remove cooldown logic
 ```
 ### Long term:
 ```
@@ -62,10 +65,6 @@ Stage 8 Laborer logic
     They only need 3 carry
     There'll be a link for ugrading the controller
     Only after I get buffing going
-
-Optional buildings
-    Labs
-    Nuker
 
 Marketing logic (will be at empire level)
     Price history
