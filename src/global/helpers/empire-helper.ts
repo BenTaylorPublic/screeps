@@ -40,7 +40,10 @@ export class EmpireHelper {
             } else if (transfer.roomTo === roomName) {
                 if (transfer.state === "Unloading") {
                     if (transfer.amountLeft === 0) {
-                        //TODO: Splice it out
+                        ReportController.log("Unloaded " + transfer.amount + " " + transfer.resource + " from " + LogHelper.roomNameAsLink(transfer.roomFrom) + " to " + LogHelper.roomNameAsLink(transfer.roomTo));
+                        empire.transfers.splice(i, 1);
+                        i--;
+                        //Have a break for 1 tick
                         return null;
                     } else {
                         return transfer;
