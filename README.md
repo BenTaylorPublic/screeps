@@ -4,20 +4,17 @@
 ## TODO
 ### Working on
 ```
-Digging & Lab logic
-    TransferToRoom storage
+Stage 8 rooms using terminal to feed < stage 8 rooms with energy
 ```
 ### Short term
 ```
 Digging & Lab logic
-    Checklist (in order):
-        BankLinkers to obey TransferToRoom orders (bank to terminal)
-        BankLinkers to unload from TransferToRoom orders
-        LimitLower logic to create TransferToRoom orders
-        Terminal to obey TransferToRoom orders
-    Checklist (unordered):
-        Stage 7.9 -> 8, labs
-        Buffing
+    Transfers to affect resource map
+    LimitLower logic to create Transfers orders
+```
+### Mid term:
+```
+Stage 7.9 -> 8, labs
     Lab Memory
         MyRoom will have an id of a buffing one
             Next to bank
@@ -30,15 +27,9 @@ Digging & Lab logic
             id
             cooldownTill
         Hopefully I can get it to assign the memory manually with 1 flag saying "lab-buffer"
-```
-### Mid term:
-```
+
 Spawns should use an array of strings
     Needs to be done so I can restructure rooms
-
-Stage 8 rooms using terminal to feed < stage 8 rooms
-    Bank linkers will unload terminals when > a constant
-    Not sure about transfering TO room logic yet
 
 Haulers
     Dont use array
@@ -46,6 +37,8 @@ Haulers
 ```
 ### Long term:
 ```
+Buffing
+
 Attack
     Large
         Very similar to AttackQuick
