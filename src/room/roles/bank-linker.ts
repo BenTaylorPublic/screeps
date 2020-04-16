@@ -80,7 +80,7 @@ export class RoleBankLinker {
                 }
             }
             if (transfer != null) {
-                transfer.amountLeft -= 50;
+                transfer.amountLeft -= creep.store.getCapacity();
             }
             bankLinker.state = "Default";
         }

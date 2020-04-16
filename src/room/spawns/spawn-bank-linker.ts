@@ -19,7 +19,7 @@ export class SpawnBankLinker {
     }
 
     public static getBody(): BodyPartConstant[] {
-        return [MOVE, CARRY];
+        return [MOVE, CARRY, CARRY];
     }
 
     private static spawnBankLinkerInternal(myRoom: MyRoom): BankLinker {
