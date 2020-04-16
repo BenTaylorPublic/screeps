@@ -24,6 +24,7 @@ export class EmpireHelper {
                                 if (transferResult === OK) {
                                     ReportController.log("Sending " + transfer.amount + " " + transfer.resource + " from " + LogHelper.roomNameAsLink(transfer.roomFrom) + " to " + LogHelper.roomNameAsLink(transfer.roomTo));
                                     transfer.state = "Sending";
+                                    transfer.amountLeft = transfer.amount;
                                 }
                             }
                         }
