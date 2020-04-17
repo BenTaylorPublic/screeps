@@ -75,15 +75,18 @@ export class RoleBankLinker {
             bankLinker.state = "Default";
         } else if (bankLinker.state === "ResourceToTerminal") {
             const terminal: StructureTerminal | null = this.getTerminal(room);
+            let resource: ResourceConstant | null = null;
             if (terminal != null) {
                 const resources: ResourceConstant[] = Object.keys(creep.store) as ResourceConstant[];
                 for (let i: number = 0; i < resources.length; i++) {
                     if (creep.transfer(terminal, resources[i]) === OK) {
+                        resource = resources[i];
                         break;
                     }
                 }
             }
-            if (transfer != null) {
+            if (transfer != null &&
+                transfer.resource === resource) {
                 transfer.amountLeft -= Constants.BANK_LINKER_CAPACITY;
             }
             bankLinker.state = "Default";
@@ -100,7 +103,6 @@ export class RoleBankLinker {
                 }
             }
             if (transfer != null &&
-                resource != null &&
                 transfer.resource === resource) {
                 transfer.amountLeft -= Constants.BANK_LINKER_CAPACITY;
             }
