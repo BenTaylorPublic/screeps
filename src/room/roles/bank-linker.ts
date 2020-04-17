@@ -4,6 +4,7 @@ import {LogHelper} from "../../global/helpers/log-helper";
 import {MovementHelper} from "../../global/helpers/movement-helper";
 import {RoomHelper} from "../../global/helpers/room-helper";
 import {Constants} from "../../global/constants/constants";
+import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
 
 
 export class RoleBankLinker {
@@ -124,6 +125,7 @@ export class RoleBankLinker {
                 }
                 if (creep.withdraw(terminal, resources[i]) === OK) {
                     bankLinker.state = "ResourceToBank";
+                    ReportController.email("Creep is cleaning the terminal in " + LogHelper.roomNameAsLink(room.name), ReportCooldownConstants.HOUR);
                     break;
                 }
             }
