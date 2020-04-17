@@ -4,11 +4,10 @@
 ## TODO
 ### Working on
 ```
-Test all the transfer stuff
+Bank memory should be all grouped inside one key
 ```
 ### Short term
 ```
-Bank memory should be all grouped inside one key
 
 6.2 = 6.25
 6.4 = 6.5
