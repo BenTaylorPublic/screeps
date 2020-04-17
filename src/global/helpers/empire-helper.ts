@@ -43,6 +43,9 @@ export class EmpireHelper {
                         ReportController.log("Unloaded " + transfer.amount + " " + transfer.resource + " from " + LogHelper.roomNameAsLink(transfer.roomFrom) + " to " + LogHelper.roomNameAsLink(transfer.roomTo));
                         empire.transfers.splice(i, 1);
                         i--;
+                        if (empire.transfers.length === 0) {
+                            ReportController.log("No more transfers");
+                        }
                         //Have a break for 1 tick
                         return null;
                     } else {
