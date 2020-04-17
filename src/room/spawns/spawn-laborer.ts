@@ -92,7 +92,10 @@ export class SpawnLaborer {
                 ReportController.email("ERROR: Bank is null when checking if it's full in " + LogHelper.roomNameAsLink(myRoom.name));
                 return;
             }
-            spawn = (bank.store[RESOURCE_ENERGY] >= Constants.AMOUNT_OF_BANK_ENERGY_TO_SPAWN_LABORER &&
+
+            const amountOfEnergyRequired: number = myRoom.roomStage === 8 ? Constants.AMOUNT_OF_BANK_ENERGY_TO_SPAWN_LABORER_STAGE_8 : Constants.AMOUNT_OF_BANK_ENERGY_TO_SPAWN_LABORER;
+
+            spawn = (bank.store[RESOURCE_ENERGY] >= amountOfEnergyRequired &&
                 laborerCount < maxLaborers);
         }
 

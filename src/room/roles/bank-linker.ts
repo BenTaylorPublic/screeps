@@ -52,10 +52,10 @@ export class RoleBankLinker {
         if (bankLinker.state === "Default") {
             if (creep.store.getFreeCapacity() === 0) {
                 creep.transfer(bank, RESOURCE_ENERGY);
-            } else if (link.store.energy >= creep.store.getCapacity()) {
+            } else if (link.store.energy >= Constants.BANK_LINKER_CAPACITY) {
                 creep.withdraw(link, RESOURCE_ENERGY);
             } else if (this.terminalNeedsEnergy(room, transfer) &&
-                bank.store.energy >= creep.store.getCapacity()) {
+                bank.store.energy >= Constants.BANK_LINKER_CAPACITY) {
                 creep.withdraw(bank, RESOURCE_ENERGY);
                 bankLinker.state = "ResourceToTerminal";
             } else if (transfer != null) {
@@ -80,7 +80,7 @@ export class RoleBankLinker {
                 }
             }
             if (transfer != null) {
-                transfer.amountLeft -= creep.store.getCapacity();
+                transfer.amountLeft -= Constants.BANK_LINKER_CAPACITY;
             }
             bankLinker.state = "Default";
         } else if (bankLinker.state === "ResourceToBank") {
@@ -92,7 +92,7 @@ export class RoleBankLinker {
                 }
             }
             if (transfer != null) {
-                transfer.amountLeft -= creep.store.getCapacity();
+                transfer.amountLeft -= Constants.BANK_LINKER_CAPACITY;
             }
             bankLinker.state = "Default";
         }

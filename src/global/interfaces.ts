@@ -335,7 +335,7 @@ interface ResourceLimitUpperLower {
     lower: number;
 }
 
-type MineralLimits = Partial<Record<MineralConstant, ResourceLimitUpperLower>>;
+type ResourceLimits = Partial<Record<ResourceConstant, ResourceLimitUpperLower>>;
 
 interface ScavengerTargetResult {
     isResource: boolean;

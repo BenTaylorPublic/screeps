@@ -30,8 +30,6 @@ export let loop: any = function (): void {
 
     EmpireController.run(myMemory);
 
-    temp(myMemory);
-
     for (let i = 0; i < myMemory.myRooms.length; i++) {
         const transfer: Transfer | null = EmpireHelper.getValidResourceTransfer(myMemory.empire, myMemory.myRooms[i].name);
         RoomController.run(myMemory.myRooms[i], transfer);
@@ -73,23 +71,4 @@ function setupMyMemory(): void {
             scheduledCommands: []
         } as MyMemory;
     }
-}
-
-function temp(myMemory: MyMemory): void {
-    const flag: Flag | null = Game.flags["test-run-1"];
-
-    if (flag == null) {
-        return;
-    }
-    flag.remove();
-
-    myMemory.empire.transfers.push({
-        amount: 500,
-        amountLeft: 500,
-        resource: "Z",
-        roomFrom: "E17S11",
-        roomTo: "E16S18",
-        state: "Loading"
-
-    });
 }

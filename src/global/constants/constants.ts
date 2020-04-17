@@ -1,6 +1,7 @@
 export class Constants {
     public static PERCENT_OF_CACHE_ENERGY_TO_SPAWN_HAULER: number = 0.5;
     public static AMOUNT_OF_BANK_ENERGY_TO_SPAWN_LABORER: number = 100_000;
+    public static AMOUNT_OF_BANK_ENERGY_TO_SPAWN_LABORER_STAGE_8: number = 200_000;
     public static MAX_LABORERS: number = 6;
     public static MIN_LABORERS: number = 1;
     public static MAX_LABORERS_STAGE_8: number = 2;
@@ -27,5 +28,8 @@ export class Constants {
     public static SCAVENGE_MIN_STAGE: Stage = 4;
     public static SCAVENGE_MAX_DISTANCE: number = 10;
     public static TERMINAL_GOAL_ENERGY: number = 5_000;
-    public static MINERAL_START_STAGE: Stage = 8;
+    public static MINERAL_START_STAGE: Stage = 6;
+    public static BANK_LINKER_CAPACITY: number = 100;
+    public static STAGE_8_DONATE_AT: number = 100_000;
+    public static STAGE_8_DONATE_AMOUNT: number = 100_000;
 }

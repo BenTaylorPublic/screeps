@@ -4,23 +4,24 @@
 ## TODO
 ### Working on
 ```
-Transfers to affect resource map
+Test all the transfer stuff
 ```
 ### Short term
 ```
-Digging & Lab logic
-    LimitLower logic to create Transfers orders
-        They must affect the resource map in the same tick 
-        So room A isn't requested to send to B and C
-        Thus running room A dry
-    Stage 8 rooms using terminal to feed < stage 8 rooms with energy (but above stage 6)
-        Spawn laborers if going to downgrade
-        Otherwise if theres a 6 or 7 room
-            > 100k, transfer 50k
-            > 200k, spawn laborer
+Bank memory should be all grouped inside one key
+
+6.2 = 6.25
+6.4 = 6.5
+Stage 6.6 -> 6.8, controller link
+    Link placed beside controller for laborer creep to use
+    Source links should check it before going to bank
+6.8 = 6.75
 ```
 ### Mid term:
 ```
+Spawns should NOT use an array of strings
+    Needs to be done so I can restructure rooms
+
 Stage 7.9 -> 8, labs
     Lab Memory
         MyRoom will have an id of a buffing one
@@ -34,13 +35,13 @@ Stage 7.9 -> 8, labs
             id
             cooldownTill
         Hopefully I can get it to assign the memory manually with 1 flag saying "lab-buffer"
-
-Spawns should use an array of strings
-    Needs to be done so I can restructure rooms
 ```
 ### Long term:
 ```
 Buffing
+
+Upgrader role
+    For 6.8+
 
 Attack
     Large
@@ -59,12 +60,6 @@ Attack
         Like another rally flag, but they wait until they're all there
         Once they're all there, they all renew and head to rally flag
         They wait again at the rally flag
-
-Stage 8 Laborer logic
-    Will have 15 work, and a few move
-    They only need 3 carry
-    There'll be a link for ugrading the controller
-    Only after I get buffing going
 
 Marketing logic (will be at empire level)
     Price history
