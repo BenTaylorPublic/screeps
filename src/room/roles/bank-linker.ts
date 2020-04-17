@@ -60,6 +60,8 @@ export class RoleBankLinker {
                 bankLinker.state = "ResourceToTerminal";
             } else if (transfer != null) {
                 this.tryHandleTransfer(bankLinker, room, creep, bank, transfer);
+            } else {
+                this.cleanTerminalIfNeeded(bankLinker, room, creep);
             }
         } else if (bankLinker.state === "EnergyToTerminal") {
             const terminals: StructureTerminal[] = room.find<StructureTerminal>(FIND_MY_STRUCTURES, {
@@ -85,16 +87,42 @@ export class RoleBankLinker {
             bankLinker.state = "Default";
         } else if (bankLinker.state === "ResourceToBank") {
             const terminal: StructureTerminal | null = this.getTerminal(room);
+            let resource: ResourceConstant | null = null;
             if (terminal != null) {
                 const resources: ResourceConstant[] = Object.keys(creep.store) as ResourceConstant[];
                 for (let i: number = 0; i < resources.length; i++) {
-                    creep.transfer(bank, resources[i]);
+                    if (creep.transfer(bank, resources[i]) === OK) {
+                        resource = resources[i];
+                        break;
+                    }
                 }
             }
-            if (transfer != null) {
+            if (transfer != null &&
+                resource != null &&
+                transfer.resource === resource) {
                 transfer.amountLeft -= Constants.BANK_LINKER_CAPACITY;
             }
             bankLinker.state = "Default";
+        }
+    }
+
+    //Hopefully don't need this function forever
+    private static cleanTerminalIfNeeded(bankLinker: BankLinker, room: Room, creep: Creep): void {
+        if (Memory.myMemory.empire.transfers.length !== 0) {
+            return;
+        }
+        const terminal: StructureTerminal | null = this.getTerminal(room);
+        if (terminal != null) {
+            const resources: ResourceConstant[] = Object.keys(terminal.store) as ResourceConstant[];
+            for (let i: number = 0; i < resources.length; i++) {
+                if (resources[i] === "energy") {
+                    continue;
+                }
+                if (creep.withdraw(terminal, resources[i]) === OK) {
+                    bankLinker.state = "ResourceToBank";
+                    break;
+                }
+            }
         }
     }
 
