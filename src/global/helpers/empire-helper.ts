@@ -28,8 +28,6 @@ export class EmpireHelper {
                         if (empire.transfers.length === 0) {
                             ReportController.log("No more transfers");
                         }
-                        //Have a break for 1 tick
-                        return null;
                     } else {
                         if (result == null) {
                             result = transfer;
