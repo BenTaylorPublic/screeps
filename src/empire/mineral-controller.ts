@@ -200,11 +200,12 @@ export class MineralController {
                     return false;
                 }
             });
+
+            //Transfers affect this room only, not the total map
             for (let j: number = 0; j < transfers.length; j++) {
                 const transfer: Transfer = transfers[j];
                 if (transfer.roomFrom === myRoom.name &&
                     transfer.state === "Loading") {
-                    //Removing just from this one, not total
                     MineralController.addToResourceMap(roomResourceMap, transfer.resource, -transfer.amountLeft);
                 } else if (transfer.roomTo === myRoom.name) {
                     if (transfer.state === "Loading") {

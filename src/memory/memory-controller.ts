@@ -147,32 +147,24 @@ export class MemoryController {
                     mySource.minerName = null;
                 }
             }
-            ReportController.log("A Miner has died in " + LogHelper.roomNameAsLink(myRoom.name));
         } else if (myCreep.role === "Hauler") {
             for (let i = 0; i < myRoom.mySources.length; i++) {
                 const mySource: MySource = myRoom.mySources[i];
                 if (mySource.haulerName === myCreep.name) {
                     mySource.haulerName = null;
-                    ReportController.log("A Hauler has died in " + LogHelper.roomNameAsLink(myRoom.name));
                     return;
                 }
             }
             if (myRoom.digging.haulerName === myCreep.name) {
                 myRoom.digging.haulerName = null;
-                ReportController.log("A Digging Hauler has died in " + LogHelper.roomNameAsLink(myRoom.name));
             }
         } else if (myCreep.role === "Laborer") {
-            ReportController.log("A Laborer has died in " + LogHelper.roomNameAsLink(myRoom.name));
         } else if (myCreep.role === "Claimer") {
-            ReportController.log("A Claimer has died in " + LogHelper.roomNameAsLink(myRoom.name));
         } else if (myCreep.role === "BankLinker") {
             myRoom.bankLinkerName = null;
-            ReportController.log("A BankLinker has died in " + LogHelper.roomNameAsLink(myRoom.name));
         } else if (myCreep.role === "Stocker") {
-            ReportController.log("A Stocker has died in " + LogHelper.roomNameAsLink(myRoom.name));
         } else if (myCreep.role === "Digger") {
             myRoom.digging.diggerName = null;
-            ReportController.log("A Digger has died in " + LogHelper.roomNameAsLink(myRoom.name));
         } else {
             ReportController.email("ERROR: A Creep with a weird role has died: " + myCreep.role + " in " + LogHelper.roomNameAsLink(myRoom.name));
         }
