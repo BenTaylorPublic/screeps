@@ -89,7 +89,7 @@ export class MineralController {
                 potentialRoomToTransferFromResourceMap[resource] == null ||
                 (potentialRoomToTransferFromResourceMap[resource] as number) <= highestFoundAmount ||
                 (potentialRoomToTransferFromResourceMap[resource] as number) <= amountNeeded ||
-                (potentialRoomToTransferFromResourceMap[resource] as number) <= resourceLimitLower) {
+                (potentialRoomToTransferFromResourceMap[resource] as number) <= amountNeeded + resourceLimitLower) {
                 continue;
             }
 
