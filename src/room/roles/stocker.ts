@@ -156,10 +156,12 @@ export class RoleStocker {
                 ReportController.email("ERROR: Room's bank was null in " + LogHelper.roomNameAsLink(myRoom.name));
                 return;
             }
-            //It will only transfer one resource type per tick
+
             const resources: ResourceConstant[] = Object.keys(creep.store) as ResourceConstant[];
             for (let i: number = 0; i < resources.length; i++) {
-                creep.transfer(bank, resources[i]);
+                if (creep.transfer(bank, resources[i]) === OK) {
+                    break;
+                }
             }
         } else {
             MovementHelper.myMoveTo(creep, bankPos, stocker);

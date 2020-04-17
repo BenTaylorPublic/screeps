@@ -78,7 +78,9 @@ export class RoleBankLinker {
             if (terminal != null) {
                 const resources: ResourceConstant[] = Object.keys(creep.store) as ResourceConstant[];
                 for (let i: number = 0; i < resources.length; i++) {
-                    creep.transfer(terminal, resources[i]);
+                    if (creep.transfer(terminal, resources[i]) === OK) {
+                        break;
+                    }
                 }
             }
             if (transfer != null) {

@@ -68,7 +68,9 @@ export class RoleHauler {
                 }
                 const resources: ResourceConstant[] = Object.keys(creep.store) as ResourceConstant[];
                 for (let i: number = 0; i < resources.length; i++) {
-                    creep.transfer(bank, resources[i]);
+                    if (creep.transfer(bank, resources[i]) === OK) {
+                        break;
+                    }
                 }
             } else {
                 MovementHelper.myMoveTo(creep, bankPos, hauler);
