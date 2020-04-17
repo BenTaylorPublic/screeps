@@ -111,8 +111,8 @@ export class MineralController {
             resource: resource,
             roomFrom: sendingRoomName,
             roomTo: receivingRoomName,
-            state: "Loading"
-
+            state: "Loading",
+            actionStarted: false
         };
         transfers.push(transfer);
         (sendingRoomResourceMap[resource] as number) -= amount;

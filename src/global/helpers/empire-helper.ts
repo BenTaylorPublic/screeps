@@ -7,35 +7,15 @@ export class EmpireHelper {
     }
 
     public static getValidResourceTransfer(empire: Empire, roomName: string): Transfer | null {
+        let result: Transfer | null = null;
         for (let i: number = 0; i < empire.transfers.length; i++) {
             const transfer: Transfer = empire.transfers[i];
             if (transfer.roomFrom === roomName) {
-                if (transfer.state === "Loading") {
-                    if (transfer.amountLeft === 0) {
-                        const terminals: StructureTerminal[] = Game.rooms[roomName].find<StructureTerminal>(FIND_MY_STRUCTURES, {
-                            filter(structure: AnyStructure): boolean {
-                                return structure.structureType === STRUCTURE_TERMINAL;
-                            }
-                        });
-                        if (terminals.length === 1) {
-                            const terminal: StructureTerminal = terminals[0];
-                            if (terminal.store.getUsedCapacity(transfer.resource) >= transfer.amount) {
-                                const transferResult: ScreepsReturnCode = terminal.send(transfer.resource, transfer.amount, transfer.roomTo);
-                                if (transferResult === OK) {
-                                    ReportController.log("Sending " + transfer.amount + " " + transfer.resource + " from " + LogHelper.roomNameAsLink(transfer.roomFrom) + " to " + LogHelper.roomNameAsLink(transfer.roomTo));
-                                    transfer.state = "Sending";
-                                    transfer.amountLeft = transfer.amount;
-                                }
-                            }
-                        }
-                        return null;
-                    } else {
-                        return transfer;
+                if (transfer.state === "Loading" || transfer.state === "Sending") {
+                    result = transfer;
+                    if (transfer.actionStarted) {
+                        break;
                     }
-                } else if (transfer.state === "Sending") {
-                    ReportController.log("Unloading " + transfer.amount + " " + transfer.resource + " from " + LogHelper.roomNameAsLink(transfer.roomFrom) + " to " + LogHelper.roomNameAsLink(transfer.roomTo));
-                    transfer.state = "Unloading";
-                    return null;
                 }
             } else if (transfer.roomTo === roomName) {
                 if (transfer.state === "Unloading") {
@@ -49,12 +29,47 @@ export class EmpireHelper {
                         //Have a break for 1 tick
                         return null;
                     } else {
-                        return transfer;
+                        result = transfer;
+                        if (transfer.actionStarted) {
+                            break;
+                        }
                     }
                 }
             }
         }
 
-        return null;
+        if (result == null) {
+            return null;
+        }
+        result.actionStarted = true;
+        if (result.roomFrom === roomName) {
+            if (result.state === "Loading") {
+                if (result.amountLeft === 0) {
+                    const terminals: StructureTerminal[] = Game.rooms[roomName].find<StructureTerminal>(FIND_MY_STRUCTURES, {
+                        filter(structure: AnyStructure): boolean {
+                            return structure.structureType === STRUCTURE_TERMINAL;
+                        }
+                    });
+                    if (terminals.length === 1) {
+                        const terminal: StructureTerminal = terminals[0];
+                        if (terminal.store.getUsedCapacity(result.resource) >= result.amount) {
+                            const transferResult: ScreepsReturnCode = terminal.send(result.resource, result.amount, result.roomTo);
+                            if (transferResult === OK) {
+                                ReportController.log("Sending " + result.amount + " " + result.resource + " from " + LogHelper.roomNameAsLink(result.roomFrom) + " to " + LogHelper.roomNameAsLink(result.roomTo));
+                                result.state = "Sending";
+                                result.amountLeft = result.amount;
+                            }
+                        }
+                    }
+                    return null;
+                }
+            } else if (result.state === "Sending") {
+                ReportController.log("Unloading " + result.amount + " " + result.resource + " from " + LogHelper.roomNameAsLink(result.roomFrom) + " to " + LogHelper.roomNameAsLink(result.roomTo));
+                result.state = "Unloading";
+                result.actionStarted = false;
+                return null;
+            }
+        }
+        return result;
     }
 }
