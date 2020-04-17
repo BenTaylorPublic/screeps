@@ -31,5 +31,5 @@ export class Constants {
     public static MINERAL_START_STAGE: Stage = 6;
     public static BANK_LINKER_CAPACITY: number = 100;
     public static STAGE_8_DONATE_AT: number = 100_000;
-    public static STAGE_8_DONATE_AMOUNT: number = 100_000;
+    public static STAGE_8_DONATE_AMOUNT: number = 50_000;
 }
