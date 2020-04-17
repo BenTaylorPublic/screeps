@@ -12,8 +12,10 @@ export class EmpireHelper {
             const transfer: Transfer = empire.transfers[i];
             if (transfer.roomFrom === roomName) {
                 if (transfer.state === "Loading" || transfer.state === "Sending") {
-                    result = transfer;
-                    if (transfer.actionStarted) {
+                    if (result == null) {
+                        result = transfer;
+                    } else if (transfer.actionStarted) {
+                        result = transfer;
                         break;
                     }
                 }
@@ -29,8 +31,10 @@ export class EmpireHelper {
                         //Have a break for 1 tick
                         return null;
                     } else {
-                        result = transfer;
-                        if (transfer.actionStarted) {
+                        if (result == null) {
+                            result = transfer;
+                        } else if (transfer.actionStarted) {
+                            result = transfer;
                             break;
                         }
                     }
