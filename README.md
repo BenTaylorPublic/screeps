@@ -100,6 +100,12 @@ MyMemory.Settings
 Bank object shouldn't be nullable
     It should be stored as a different type
     But pulled out as type MyRoom
+
+Scrubs to wreck message
+    If it's a respawn or novice area, include the time it wears off
+    Give the message a cooldown of the ending time - 5 minutes so if they're low level still it'll re-email
+    Api is Game.map.getRoomStatus(roomName)
+        https://docs.screeps.com/api/#Game.map.getRoomStatus
 ```
 
 ## Flag Names
