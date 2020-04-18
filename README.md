@@ -4,15 +4,12 @@
 ## TODO
 ### Working on
 ```
-6.2 = 6.25
-6.4 = 6.5
-Stage 6.6 -> 6.8, controller link
-    Link placed beside controller for laborer creep to use
-    Source links should check it before going to bank
-6.8 = 6.75
+Source links should check it before going to bank
 ```
 ### Short term
 ```
+Laborer creep to use controller link
+
 Spawns should NOT use an array of strings
     Needs to be done so I can restructure rooms
 
@@ -116,6 +113,7 @@ tower-1 to 6
 storage
 link-source
 link-bank
+link-controller
 spawn
 power-spawn
 observer-set-{WIDTH}

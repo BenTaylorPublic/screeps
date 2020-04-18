@@ -132,6 +132,7 @@ interface MyRoom {
     rampartsUp: boolean;
     digging: Digging;
     bank: Bank | null;
+    controllerLink: MyLink | null;
 }
 
 interface Bank {

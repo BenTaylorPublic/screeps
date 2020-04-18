@@ -62,6 +62,7 @@ export class MemoryController {
                     bank: null,
                     spawnQueue: [],
                     rampartsUp: true,
+                    controllerLink: null,
                     digging: {
                         active: false,
                         mineral: minerals[0].mineralType,
