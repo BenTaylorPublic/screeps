@@ -4,12 +4,10 @@
 ## TODO
 ### Working on
 ```
-Source links should check it before going to bank
+Laborer creep to use controller link
 ```
 ### Short term
 ```
-Laborer creep to use controller link
-
 Spawns should NOT use an array of strings
     Needs to be done so I can restructure rooms
 
