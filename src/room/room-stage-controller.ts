@@ -21,9 +21,9 @@ import {Stage5_4} from "./stages/stage5_4";
 import {Stage5_6} from "./stages/stage5_6";
 import {Stage5_8} from "./stages/stage5_8";
 import {Stage6} from "./stages/stage6";
-import {Stage6_25} from "./stages/stage6_25";
-import {Stage6_5} from "./stages/stage6_5";
-import {Stage6_75} from "./stages/stage6_75";
+import {Stage6_2} from "./stages/stage6_2";
+import {Stage6_4} from "./stages/stage6_4";
+import {Stage6_8} from "./stages/stage6_8";
 import {Stage7} from "./stages/stage7";
 import {Stage7_2} from "./stages/stage7_2";
 import {Stage7_4} from "./stages/stage7_4";
@@ -109,14 +109,15 @@ export class RoomStageController {
         if (myRoom.roomStage === 6) {
             Stage6.up(myRoom, room);
         }
-        if (myRoom.roomStage === 6.25) {
-            Stage6_25.up(myRoom, room);
+        if (myRoom.roomStage === 6.2) {
+            Stage6_2.up(myRoom, room);
         }
-        if (myRoom.roomStage === 6.5) {
-            Stage6_5.up(myRoom, room);
+        if (myRoom.roomStage === 6.4) {
+            Stage6_4.up(myRoom, room);
         }
-        if (myRoom.roomStage === 6.75) {
-            Stage6_75.up(myRoom, room);
+        //TODO: Add 6.6
+        if (myRoom.roomStage === 6.8) {
+            Stage6_8.up(myRoom, room);
         }
         if (myRoom.roomStage === 7) {
             Stage7.up(myRoom, room);
@@ -150,14 +151,15 @@ export class RoomStageController {
         if (myRoom.roomStage > 7) {
             Stage7.down(myRoom, room);
         }
-        if (myRoom.roomStage > 6.75) {
-            Stage6_75.down(myRoom, room);
+        if (myRoom.roomStage > 6.8) {
+            Stage6_8.down(myRoom, room);
         }
-        if (myRoom.roomStage > 6.5) {
-            Stage6_5.down(myRoom, room);
+        //TODO: Add 6.6
+        if (myRoom.roomStage > 6.4) {
+            Stage6_4.down(myRoom, room);
         }
-        if (myRoom.roomStage > 6.25) {
-            Stage6_25.down(myRoom, room);
+        if (myRoom.roomStage > 6.2) {
+            Stage6_2.down(myRoom, room);
         }
         if (myRoom.roomStage > 6) {
             Stage6.down(myRoom, room);
