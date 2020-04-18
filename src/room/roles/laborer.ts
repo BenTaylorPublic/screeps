@@ -28,7 +28,7 @@ export class RoleLaborer {
     private static calculateCreepState(laborer: Laborer, myRoom: MyRoom, creep: Creep): void {
         if (laborer.state === "Labor" && creep.store.energy === 0) {
 
-            const bank: StructureStorage | null = myRoom.bank;
+            const bank: StructureStorage | null = myRoom.bank == null ? null : myRoom.bank.object;
             if (bank != null && bank.store[RESOURCE_ENERGY] >= creep.store.getCapacity()) {
                 //Bank is an option
                 laborer.state = "PickupBank";
@@ -69,15 +69,15 @@ export class RoleLaborer {
 
 
     private static pickupBank(laborer: Laborer, myRoom: MyRoom, creep: Creep): void {
-        if (myRoom.bankPos == null) {
-            ReportController.email("ERROR: Room's bank pos was null in " + LogHelper.roomNameAsLink(myRoom.name));
+        if (myRoom.bank == null) {
+            ReportController.email("ERROR: Room's bank memory was null in " + LogHelper.roomNameAsLink(myRoom.name));
             return;
         }
 
-        const bankPos: RoomPosition = RoomHelper.myPosToRoomPos(myRoom.bankPos);
+        const bankPos: RoomPosition = RoomHelper.myPosToRoomPos(myRoom.bank.bankPos);
 
         if (bankPos.isNearTo(creep)) {
-            const bank: StructureStorage | null = myRoom.bank;
+            const bank: StructureStorage | null = myRoom.bank.object;
             if (bank == null) {
                 ReportController.email("ERROR: Room's bank was null in " + LogHelper.roomNameAsLink(myRoom.name));
                 return;

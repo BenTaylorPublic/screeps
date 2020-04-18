@@ -59,10 +59,6 @@ export class MemoryController {
                     powerSpawnId: null,
                     mySources: [],
                     roomStage: -1,
-                    bankPos: null,
-                    bankLinkerName: null,
-                    bankLinkerPos: null,
-                    bankLink: null,
                     bank: null,
                     spawnQueue: [],
                     rampartsUp: true,
@@ -161,7 +157,7 @@ export class MemoryController {
         } else if (myCreep.role === "Laborer") {
         } else if (myCreep.role === "Claimer") {
         } else if (myCreep.role === "BankLinker") {
-            myRoom.bankLinkerName = null;
+            (myRoom.bank as Bank).bankLinkerName = null;
         } else if (myCreep.role === "Stocker") {
         } else if (myCreep.role === "Digger") {
             myRoom.digging.diggerName = null;
@@ -183,12 +179,12 @@ export class MemoryController {
     private static getBanks(): void {
         for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
             const myRoom: MyRoom = Memory.myMemory.myRooms[i];
-            if (myRoom.bankPos != null) {
-                const bankPos: RoomPosition = RoomHelper.myPosToRoomPos(myRoom.bankPos);
+            if (myRoom.bank != null) {
+                const bankPos: RoomPosition = RoomHelper.myPosToRoomPos(myRoom.bank.bankPos);
                 const structures: Structure<StructureConstant>[] = bankPos.lookFor(LOOK_STRUCTURES);
                 for (let j = 0; j < structures.length; j++) {
                     if (structures[j].structureType === STRUCTURE_STORAGE) {
-                        myRoom.bank = structures[j] as StructureStorage;
+                        myRoom.bank.object = structures[j] as StructureStorage;
                         break;
                     }
                 }

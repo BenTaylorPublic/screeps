@@ -9,12 +9,12 @@ export class SpawnBankLinker {
         if (myRoom.roomStage < 5) {
             return;
         }
-        if (myRoom.bankLinkerName != null) {
+        if ((myRoom.bank as Bank).bankLinkerName != null) {
             return;
         }
         const bankLinker: BankLinker = this.spawnBankLinkerInternal(myRoom);
         myRoom.myCreeps.push(bankLinker);
-        myRoom.bankLinkerName = bankLinker.name;
+        (myRoom.bank as Bank).bankLinkerName = bankLinker.name;
         ReportController.log("Queued a BankLinker in " + LogHelper.roomNameAsLink(myRoom.name));
     }
 

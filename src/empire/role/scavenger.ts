@@ -170,15 +170,15 @@ export class RoleScavenger {
             ReportController.email("ERROR: myRoom was null in RoleScavenger.returning");
             return;
         }
-        if (myRoom.bankPos == null) {
+        if (myRoom.bank == null) {
             ReportController.email("ERROR: Scavenging deposit room's bank pos was null in " + LogHelper.roomNameAsLink(myRoom.name));
             return;
         }
 
-        const bankPos: RoomPosition = RoomHelper.myPosToRoomPos(myRoom.bankPos);
+        const bankPos: RoomPosition = RoomHelper.myPosToRoomPos(myRoom.bank.bankPos);
 
         if (bankPos.isNearTo(creep)) {
-            const bank: StructureStorage | null = myRoom.bank;
+            const bank: StructureStorage | null = myRoom.bank.object;
             if (bank == null) {
                 ReportController.email("ERROR: Room's bank was null in " + LogHelper.roomNameAsLink(myRoom.name));
                 return;

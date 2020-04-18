@@ -30,16 +30,27 @@ export class Stage3_6 {
     }
 
     private static step(myRoom: MyRoom, room: Room): void {
+        const bankLinkerPosFlag: Flag | null = FlagHelper.getFlag(["bank", "linker", "pos"], myRoom.name);
+        if (bankLinkerPosFlag == null) {
+            return;
+        }
+        bankLinkerPosFlag.remove();
         const storage: StructureStorage[] = room.find<StructureStorage>(FIND_STRUCTURES, {
             filter: (structure: Structure) => {
                 return structure.structureType === STRUCTURE_STORAGE;
             }
         });
         if (storage.length === 1) {
-            myRoom.bankPos = {
-                x: storage[0].pos.x,
-                y: storage[0].pos.y,
-                roomName: myRoom.name
+            myRoom.bank = {
+                bankPos: {
+                    x: storage[0].pos.x,
+                    y: storage[0].pos.y,
+                    roomName: myRoom.name
+                },
+                bankLinkerName: null,
+                bankLinkerPos: RoomHelper.roomPosToMyPos(bankLinkerPosFlag.pos),
+                bankLink: null,
+                object: null
             };
             return;
         }

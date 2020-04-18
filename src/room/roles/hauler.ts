@@ -53,15 +53,15 @@ export class RoleHauler {
         } else {
             //Deliver
 
-            if (myRoom.bankPos == null) {
-                ReportController.email("ERROR: Room's bank pos was null in " + LogHelper.roomNameAsLink(myRoom.name));
+            if (myRoom.bank == null) {
+                ReportController.email("ERROR: Room's bank memory was null in " + LogHelper.roomNameAsLink(myRoom.name));
                 return;
             }
 
-            const bankPos: RoomPosition = RoomHelper.myPosToRoomPos(myRoom.bankPos);
+            const bankPos: RoomPosition = RoomHelper.myPosToRoomPos(myRoom.bank.bankPos);
 
             if (bankPos.isNearTo(creep)) {
-                const bank: StructureStorage | null = myRoom.bank;
+                const bank: StructureStorage | null = myRoom.bank.object;
                 if (bank == null) {
                     ReportController.email("ERROR: Room's bank was null in " + LogHelper.roomNameAsLink(myRoom.name));
                     return;

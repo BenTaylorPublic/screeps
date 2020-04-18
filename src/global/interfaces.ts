@@ -127,14 +127,18 @@ interface MyRoom {
     powerSpawnId: Id<StructurePowerSpawn> | null;
     mySources: MySource[];
     roomStage: Stage;
-    bankPos: MyRoomPos | null;
-    bankLinkerName: string | null;
-    bankLinkerPos: MyRoomPos | null;
-    bankLink: MyLink | null;
-    bank: StructureStorage | null;
     spawnQueue: QueuedCreep[];
     rampartsUp: boolean;
     digging: Digging;
+    bank: Bank | null;
+}
+
+interface Bank {
+    bankPos: MyRoomPos;
+    bankLinkerName: string | null;
+    bankLinkerPos: MyRoomPos;
+    bankLink: MyLink | null;
+    object: StructureStorage | null;
 }
 
 interface Digging {
@@ -262,7 +266,7 @@ interface Claimer extends MyCreep {
 
 interface BankLinker extends MyCreep {
     inPos: boolean;
-    state: "Default" | "EnergyToTerminal" | "ResourceToTerminal"| "ResourceToBank";
+    state: "Default" | "EnergyToTerminal" | "ResourceToTerminal" | "ResourceToBank";
 }
 
 interface AttackQuickCreep extends MyCreep {

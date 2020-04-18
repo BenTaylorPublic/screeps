@@ -55,11 +55,11 @@ export class MapHelper {
         for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
             const myRoom: MyRoom = Memory.myMemory.myRooms[i];
             if (myRoom.bank != null &&
-                myRoom.bank.store.getFreeCapacity() > spareCapacity) {
+                (myRoom.bank.object as StructureStorage).store.getFreeCapacity() > spareCapacity) {
                 const distance: number = this.getRoomDistance(roomName, myRoom.name);
                 if (distance < closestDistance) {
                     closestDistance = distance;
-                    bankToReturn = myRoom.bank;
+                    bankToReturn = myRoom.bank.object;
                 }
             }
         }

@@ -40,7 +40,7 @@ export class Stage4_6 {
         if (flag != null) {
             const result: ScreepsReturnCode = Game.rooms[myRoom.name].createConstructionSite(flag.pos, STRUCTURE_LINK);
             if (result === OK) {
-                myRoom.bankLink = {
+                (myRoom.bank as Bank).bankLink = {
                     pos: RoomHelper.roomPosToMyPos(flag.pos),
                     id: null
                 };
@@ -51,12 +51,12 @@ export class Stage4_6 {
                 ReportController.email("ERROR: Placing a bank link construction site errored in " + LogHelper.roomNameAsLink(myRoom.name));
             }
         }
-        if (myRoom.bankLink != null) {
-            const linkPos: RoomPosition = RoomHelper.myPosToRoomPos(myRoom.bankLink.pos);
+        if ((myRoom.bank as Bank).bankLink != null) {
+            const linkPos: RoomPosition = RoomHelper.myPosToRoomPos(((myRoom.bank as Bank).bankLink as MyLink).pos);
             const structures: Structure<StructureConstant>[] = linkPos.lookFor(LOOK_STRUCTURES);
             for (let j = 0; j < structures.length; j++) {
                 if (structures[j].structureType === STRUCTURE_LINK) {
-                    myRoom.bankLink.id = structures[j].id as Id<StructureLink>;
+                    ((myRoom.bank as Bank).bankLink as MyLink).id = structures[j].id as Id<StructureLink>;
                     break;
                 }
             }

@@ -82,12 +82,12 @@ export class SpawnLaborer {
         let spawn: boolean = (myRoom.roomStage < 4 &&
             laborerCount < Constants.LABORERS_BEFORE_BANK);
         if (!spawn) {
-            if (myRoom.bankPos == null) {
+            if (myRoom.bank == null) {
                 //Only spawn laborers through this method if the bank is real
                 return;
             }
 
-            const bank: StructureStorage | null = myRoom.bank;
+            const bank: StructureStorage | null = myRoom.bank.object;
             if (bank == null) {
                 ReportController.email("ERROR: Bank is null when checking if it's full in " + LogHelper.roomNameAsLink(myRoom.name));
                 return;

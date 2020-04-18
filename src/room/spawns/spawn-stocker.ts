@@ -13,7 +13,7 @@ export class SpawnStocker {
             return;
         }
 
-        if ((myRoom.bank as StructureStorage).store.energy < 1250) {
+        if (((myRoom.bank as Bank).object as StructureStorage).store.energy < 1250) {
             return;
         }
 

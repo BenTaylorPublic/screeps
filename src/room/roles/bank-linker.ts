@@ -12,15 +12,15 @@ export class RoleBankLinker {
         if (CreepHelper.handleCreepPreRole(bankLinker)) {
             return;
         }
+        if (myRoom.bank == null) {
+            ReportController.email("ERROR: BankMemory was null for a bank linker in " + LogHelper.roomNameAsLink(myRoom.name));
+            return;
+        }
 
         const creep: Creep = Game.creeps[bankLinker.name];
 
         if (!bankLinker.inPos) {
-            if (myRoom.bankLinkerPos == null) {
-                ReportController.email("ERROR: BankLinkerPos was null for a bank linker in " + LogHelper.roomNameAsLink(myRoom.name));
-                return;
-            }
-            const position: RoomPosition = RoomHelper.myPosToRoomPos(myRoom.bankLinkerPos);
+            const position: RoomPosition = RoomHelper.myPosToRoomPos(myRoom.bank.bankLinkerPos);
             if (creep.pos.getRangeTo(position) === 0) {
                 bankLinker.inPos = true;
             } else {
@@ -29,17 +29,17 @@ export class RoleBankLinker {
             }
         }
         const room: Room = Game.rooms[myRoom.name];
-        const bank: StructureStorage | null = myRoom.bank;
+        const bank: StructureStorage | null = myRoom.bank.object;
         if (bank == null) {
             ReportController.email("ERROR: Bank was null for a bank linker in " + LogHelper.roomNameAsLink(myRoom.name));
             return;
         }
-        if (myRoom.bankLink == null ||
-            myRoom.bankLink.id == null) {
+        if (myRoom.bank.bankLink == null ||
+            myRoom.bank.bankLink.id == null) {
             ReportController.email("ERROR: Bank Link was null for a bank linker in " + LogHelper.roomNameAsLink(myRoom.name));
             return;
         }
-        const link: StructureLink | null = Game.getObjectById(myRoom.bankLink.id);
+        const link: StructureLink | null = Game.getObjectById(myRoom.bank.bankLink.id);
         if (link == null) {
             ReportController.email("ERROR: Bank Link was null for a bank linker in " + LogHelper.roomNameAsLink(myRoom.name));
             return;

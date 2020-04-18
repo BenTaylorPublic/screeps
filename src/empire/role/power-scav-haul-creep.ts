@@ -68,7 +68,7 @@ export class RolePowerScavHaulCreep {
             return;
         }
 
-        const bank: StructureStorage | null = myRoom.bank;
+        const bank: StructureStorage | null = myRoom.bank == null ? null : myRoom.bank.object;
         if (bank == null) {
             ReportController.email("ERROR: Bank was null for a power scav hauler in " + LogHelper.roomNameAsLink(myRoom.name));
             return;
