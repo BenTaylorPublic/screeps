@@ -27,7 +27,7 @@ export class Constants {
     public static REPAIR_ONLY_ON_ODD_THOUSAND: boolean = true;
     public static SCAVENGE_MIN_STAGE: Stage = 4;
     public static SCAVENGE_MAX_DISTANCE: number = 10;
-    public static TERMINAL_GOAL_ENERGY: number = 5_000;
+    public static TERMINAL_GOAL_ENERGY: number = 20_000;
     public static MINERAL_START_STAGE: Stage = 6;
     public static BANK_LINKER_CAPACITY: number = 100;
     public static STAGE_8_DONATE_AT: number = 100_000;
