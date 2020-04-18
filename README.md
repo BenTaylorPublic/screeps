@@ -13,12 +13,14 @@ Stage 6.6 -> 6.8, controller link
 ```
 ### Short term
 ```
-```
-### Mid term:
-```
 Spawns should NOT use an array of strings
     Needs to be done so I can restructure rooms
 
+PowerSpawnId
+    Doesn't need to be on the room
+```
+### Mid term:
+```
 Stage 7.9 -> 8, labs
     Lab Memory
         MyRoom will have an id of a buffing one
