@@ -27,11 +27,11 @@ export class RoomSourceLinkController {
             if (myRoom.controllerLink != null &&
                 myRoom.controllerLink.id != null) {
                 const controllerLink: StructureLink | null = Game.getObjectById<StructureLink>(myRoom.controllerLink.id);
-                if (controllerLink === null) {
+                if (controllerLink == null) {
                     ReportController.email("ERROR: Controller link was null when accessed by ID. Setting it to null in " + LogHelper.roomNameAsLink(myRoom.name));
                     myRoom.controllerLink.id = null;
                 } else {
-                    if (controllerLink.store.getFreeCapacity() >= link.store.energy) {
+                    if (controllerLink.store.getFreeCapacity(RESOURCE_ENERGY) >= link.store.energy) {
                         if (link.transferEnergy(controllerLink) === OK) {
                             return;
                         }
