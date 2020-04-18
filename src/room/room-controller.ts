@@ -56,7 +56,9 @@ export class RoomController {
         }
 
         //Deleting the bank
-        myRoom.bank = null;
+        if (myRoom.bank != null) {
+            myRoom.bank.object = null;
+        }
     }
 
     private static shouldLaborersStock(myRoom: MyRoom): boolean {
