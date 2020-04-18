@@ -7,14 +7,14 @@ import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
 // tslint:disable-next-line: class-name
 export class Stage6_6 {
     /*
-    6.4 ->  6.6 : Room has controller link
-    6.4 <-  6.6 : Room has no controller link
+    6.6 ->  6.8 : Room has controller link
+    6.6 <-  6.8 : Room has no controller link
     */
     public static up(myRoom: MyRoom, room: Room): boolean {
         this.step(myRoom, room);
         if (RoomHelper.amountOfStructure(room, STRUCTURE_LINK) >= myRoom.mySources.length + 2) {
-            myRoom.roomStage = 6.6;
-            ReportController.email("STAGE+ 6.6 " + LogHelper.roomNameAsLink(myRoom.name) + " controller link");
+            myRoom.roomStage = 6.8;
+            ReportController.email("STAGE+ 6.8 " + LogHelper.roomNameAsLink(myRoom.name) + " controller link");
             return true;
         }
         return false;
@@ -22,8 +22,8 @@ export class Stage6_6 {
 
     public static down(myRoom: MyRoom, room: Room): boolean {
         if (RoomHelper.amountOfStructure(room, STRUCTURE_LINK) < myRoom.mySources.length + 2) {
-            myRoom.roomStage = 6.4;
-            ReportController.email("STAGE- 6.4 " + LogHelper.roomNameAsLink(myRoom.name) + " controller link");
+            myRoom.roomStage = 6.6;
+            ReportController.email("STAGE- 6.6 " + LogHelper.roomNameAsLink(myRoom.name) + " controller link");
             return true;
         }
         return false;
