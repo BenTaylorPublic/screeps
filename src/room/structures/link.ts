@@ -20,7 +20,7 @@ export class RoomLinkController {
             if (controllerLink == null) {
                 ReportController.email("ERROR: Controller link was null when accessed by ID. Setting it to null in " + LogHelper.roomNameAsLink(myRoom.name));
                 myRoom.controllerLink.id = null;
-            } else if (controllerLink.store.getUsedCapacity(RESOURCE_ENERGY) < 600) {
+            } else if (controllerLink.store.getUsedCapacity(RESOURCE_ENERGY) < Constants.LINK_CONTROLLER_GOAL_ENERGY) {
                 linkControllerNeedsEnergy = true;
             } else {
                 controllerLink = null;

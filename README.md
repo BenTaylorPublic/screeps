@@ -4,15 +4,14 @@
 ## TODO
 ### Working on
 ```
-Laborer creep to use controller link
-```
-### Short term
-```
 Spawns should NOT use an array of strings
     Needs to be done so I can restructure rooms
 
 PowerSpawnId
     Doesn't need to be on the room
+```
+### Short term
+```
 ```
 ### Mid term:
 ```
