@@ -45,16 +45,19 @@ export class Stage3_6 {
             }
         }
         const bankLinkerPosFlag: Flag | null = FlagHelper.getFlag(["bank", "linker", "pos"], myRoom.name);
-        if (bankLinkerPosFlag == null) {
-            return;
-        }
-        bankLinkerPosFlag.remove();
         const storage: StructureStorage[] = room.find<StructureStorage>(FIND_STRUCTURES, {
             filter: (structure: Structure) => {
                 return structure.structureType === STRUCTURE_STORAGE;
             }
         });
-        if (storage.length === 1) {
+        if (bankLinkerPosFlag == null) {
+            if (storage.length === 0 ||
+                myRoom.bank == null) {
+                ReportController.email("ATTENTION: Room " + LogHelper.roomNameAsLink(myRoom.name) + " needs a bank linker pos flag (bank-linker-pos)",
+                    ReportCooldownConstants.DAY);
+            }
+            return;
+        } else if (storage.length === 1) {
             myRoom.bank = {
                 bankPos: {
                     x: storage[0].pos.x,
@@ -66,11 +69,9 @@ export class Stage3_6 {
                 bankLink: null,
                 object: storage[0]
             };
-            return;
-        }
-
-        if (Game.rooms[myRoom.name].find(FIND_CONSTRUCTION_SITES).length === 0 &&
-            RoomHelper.amountOfStructure(room, STRUCTURE_STORAGE) < 1 &&
+            bankLinkerPosFlag.remove();
+        } else if (Game.rooms[myRoom.name].find(FIND_CONSTRUCTION_SITES).length === 0 &&
+            storage.length === 0 &&
             !placedBank) {
             ReportController.email("ATTENTION: Room " + LogHelper.roomNameAsLink(myRoom.name) + " needs a bank flag (storage)",
                 ReportCooldownConstants.DAY);
