@@ -42,8 +42,7 @@ export class RoomLinkController {
             if (bankLink == null) {
                 ReportController.email("ERROR: Bank link was null when accessed by ID. Setting it to null in " + LogHelper.roomNameAsLink(myRoom.name));
                 myRoom.bank.bankLink.id = null;
-            } else if (bankLink.store.energy >= Constants.LINK_TRANSFER_AT &&
-                (controllerLink as StructureLink).store.getFreeCapacity(RESOURCE_ENERGY) >= bankLink.store.energy) {
+            } else if (bankLink.store.energy >= Constants.LINK_TRANSFER_AT) {
                 if (bankLink.transferEnergy(controllerLink as StructureLink) === OK) {
                     console.log("Transfered energy from bank link to controller link in " + LogHelper.roomNameAsLink(myRoom.name));
                     linkControllerNeedsEnergy = false;
@@ -72,8 +71,7 @@ export class RoomLinkController {
 
         if (link.store.energy >= Constants.LINK_TRANSFER_AT) {
             //Need to transfer energy
-            if (controllerLink != null &&
-                controllerLink.store.getFreeCapacity(RESOURCE_ENERGY) >= link.store.energy) {
+            if (controllerLink != null) {
                 if (link.transferEnergy(controllerLink) === OK) {
                     return true;
                 }
