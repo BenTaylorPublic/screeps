@@ -4,18 +4,8 @@
 ## TODO
 ### Working on
 ```
-Spawns should NOT use an array of strings
-    Needs to be done so I can restructure rooms
-
-PowerSpawnId
-    Doesn't need to be on the room
-```
-### Short term
-```
-```
-### Mid term:
-```
 Stage 7.9 -> 8, labs
+    Setting the lab memory
     Lab Memory
         MyRoom will have an id of a buffing one
             Next to bank
@@ -29,12 +19,23 @@ Stage 7.9 -> 8, labs
             cooldownTill
         Hopefully I can get it to assign the memory manually with 1 flag saying "lab-buffer"
 ```
+### Short term
+```
+Lab logic
+    Stockers stocking labs with energy
+    Creating orders
+    Stockers stocking labs resources
+    Labs doing orders
+    Stockers unloading labs
+```
+### Mid term:
+```
+Upgrader role
+    For 6.8+
+```
 ### Long term:
 ```
 Buffing
-
-Upgrader role
-    For 6.8+
 
 Attack
     Large
@@ -53,10 +54,6 @@ Attack
         Like another rally flag, but they wait until they're all there
         Once they're all there, they all renew and head to rally flag
         They wait again at the rally flag
-
-Marketing logic (will be at empire level)
-    Price history
-    Buy/sell logic
 
 PowerScav
     Use ScavengeController
@@ -100,6 +97,8 @@ Scrubs to wreck message
     Give the message a cooldown of the ending time - 5 minutes so if they're low level still it'll re-email
     Api is Game.map.getRoomStatus(roomName)
         https://docs.screeps.com/api/#Game.map.getRoomStatus
+
+Link pos and storage pos might not need to be stored
 ```
 
 ## Flag Names
