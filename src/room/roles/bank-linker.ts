@@ -113,7 +113,6 @@ export class RoleBankLinker {
             }
             bankLinker.state = "Default";
         } else if (bankLinker.state === "EnergyToLink") {
-            console.log("Energy to link in " + LogHelper.roomNameAsLink(room.name));
             creep.transfer(link, RESOURCE_ENERGY);
             bankLinker.state = "Default";
         }

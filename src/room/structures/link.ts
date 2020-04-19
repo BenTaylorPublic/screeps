@@ -44,7 +44,6 @@ export class RoomLinkController {
                 myRoom.bank.bankLink.id = null;
             } else if (bankLink.store.energy >= Constants.LINK_TRANSFER_AT) {
                 if (bankLink.transferEnergy(controllerLink as StructureLink) === OK) {
-                    console.log("Transfered energy from bank link to controller link in " + LogHelper.roomNameAsLink(myRoom.name));
                     linkControllerNeedsEnergy = false;
                 }
             }
