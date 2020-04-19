@@ -55,7 +55,6 @@ export class MemoryController {
                 const newMyRoom: MyRoom = {
                     name: roomName,
                     myCreeps: [],
-                    spawns: [],
                     mySources: [],
                     roomStage: -1,
                     bank: null,
@@ -83,29 +82,8 @@ export class MemoryController {
                         link: null
                     });
                 }
-                const spawns: StructureSpawn[] = room.find(FIND_MY_SPAWNS);
-                for (let i = 0; i < spawns.length; i++) {
-                    const spawn: StructureSpawn = spawns[i];
-                    newMyRoom.spawns.push({
-                        name: spawn.name
-                    });
-                }
 
                 Memory.myMemory.myRooms.push(newMyRoom);
-            } else {
-                //Already in memory
-
-                //If the room has more or less spawns than in the MyRoom, add them to it
-                const spawns: StructureSpawn[] = room.find(FIND_MY_SPAWNS);
-                if (spawns.length !== myRoom.spawns.length) {
-                    myRoom.spawns = [];
-                    for (let i = 0; i < spawns.length; i++) {
-                        const spawn: StructureSpawn = spawns[i];
-                        myRoom.spawns.push({
-                            name: spawn.name
-                        });
-                    }
-                }
             }
         }
     }

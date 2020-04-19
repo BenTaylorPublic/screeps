@@ -117,19 +117,22 @@ export class SpawnLaborer {
 
     private static spawnLaborer(myRoom: MyRoom, forceSpawn: boolean): Laborer {
 
-        let spawn: StructureSpawn | null;
+        let roomToSpawnFromName: string | null;
 
         let roomToSpawnFrom: MyRoom;
-        if (myRoom.spawns.length === 0 ||
-            Game.spawns[myRoom.spawns[0].name] == null) {
+        if (Game.rooms[myRoom.name].find<StructureSpawn>(FIND_MY_STRUCTURES, {
+            filter: (structure: Structure) => {
+                return structure.structureType === STRUCTURE_SPAWN;
+            }
+        }).length === 0) {
             // A room needs a laborer, but it has no spawns yet
             // Going to use the nearest room's spawn instead
-            spawn = MapHelper.findClosestSpawn(new RoomPosition(25, 25, myRoom.name), 4);
-            if (spawn == null) {
+            roomToSpawnFromName = MapHelper.findClosestSpawnRoomName(new RoomPosition(25, 25, myRoom.name), 4);
+            if (roomToSpawnFromName == null) {
                 ReportController.email("ERROR: Couldn't find any spawns to make a laborer for " + LogHelper.roomNameAsLink(myRoom.name));
                 throw Error("Couldn't find any spawns to make a laborer for room " + myRoom.name);
             }
-            roomToSpawnFrom = RoomHelper.getMyRoomByName(spawn.room.name) as MyRoom;
+            roomToSpawnFrom = RoomHelper.getMyRoomByName(roomToSpawnFromName) as MyRoom;
         } else {
             roomToSpawnFrom = myRoom;
         }

@@ -124,7 +124,6 @@ type Stage =
 interface MyRoom {
     name: string;
     myCreeps: MyCreep[];
-    spawns: MySpawn[];
     mySources: MySource[];
     roomStage: Stage;
     spawnQueue: QueuedCreep[];
@@ -155,10 +154,6 @@ interface QueuedCreep {
     priority: number;
     name: string;
     role: CreepRoles | "ForceLaborer";
-}
-
-interface MySpawn {
-    name: string;
 }
 
 interface MySource {

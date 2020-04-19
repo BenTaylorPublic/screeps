@@ -32,21 +32,20 @@ export class MapHelper {
         return (xResult === 0 || yResult === 0);
     }
 
-    public static findClosestSpawn(roomPos: RoomPosition, minimumStage: number = 1): StructureSpawn | null {
-        let spawnToReturn: StructureSpawn | null = null;
+    public static findClosestSpawnRoomName(roomPos: RoomPosition, minimumStage: number = 1): string | null {
+        let result: string | null = null;
         let closestDistance: number = 9999;
         for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {
             const myRoom: MyRoom = Memory.myMemory.myRooms[i];
-            if (myRoom.roomStage >= minimumStage &&
-                myRoom.spawns.length >= 1) {
+            if (myRoom.roomStage >= minimumStage) {
                 const distance: number = this.getRoomDistance(roomPos.roomName, myRoom.name);
                 if (distance < closestDistance) {
                     closestDistance = distance;
-                    spawnToReturn = Game.spawns[myRoom.spawns[0].name];
+                    result = myRoom.name;
                 }
             }
         }
-        return spawnToReturn;
+        return result;
     }
 
     public static findClosestBank(roomName: string, spareCapacity: number): StructureStorage | null {

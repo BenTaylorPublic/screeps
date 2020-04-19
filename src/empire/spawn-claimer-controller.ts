@@ -54,14 +54,14 @@ export class SpawnClaimerController {
 
     private static spawnClaimer(flag: Flag): Claimer | null {
 
-        const spawn: StructureSpawn | null = MapHelper.findClosestSpawn(flag.pos, 3);
-        if (spawn == null) {
+        const roomToSpawnFromName: string | null = MapHelper.findClosestSpawnRoomName(flag.pos, 3);
+        if (roomToSpawnFromName == null) {
             flag.remove();
             ReportController.email("ERROR: Couldn't find a spawn to make a claimer for " + LogHelper.roomNameAsLink(flag.pos.roomName));
             return null;
         }
 
-        const roomToSpawnFrom: MyRoom = RoomHelper.getMyRoomByName(spawn.room.name) as MyRoom;
+        const roomToSpawnFrom: MyRoom = RoomHelper.getMyRoomByName(roomToSpawnFromName) as MyRoom;
 
         const name: string = CreepHelper.getName();
         SpawnQueueController.queueCreepSpawn(roomToSpawnFrom, SpawnConstants.CLAIMER, name, "Claimer");

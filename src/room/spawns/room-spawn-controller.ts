@@ -34,8 +34,13 @@ export class RoomSpawnController {
         }
 
         let spawn: StructureSpawn | null = null;
-        for (let i: number = 0; i < myRoom.spawns.length; i++) {
-            spawn = Game.spawns[myRoom.spawns[i].name];
+        const spawns: StructureSpawn[] = room.find<StructureSpawn>(FIND_MY_STRUCTURES, {
+            filter: (structure: Structure) => {
+                return structure.structureType === STRUCTURE_SPAWN;
+            }
+        });
+        for (let i: number = 0; i < spawns.length; i++) {
+            spawn = spawns[i];
             if (spawn.spawning != null) {
                 spawn = null;
             } else {
