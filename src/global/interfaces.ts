@@ -125,7 +125,6 @@ interface MyRoom {
     name: string;
     myCreeps: MyCreep[];
     spawns: MySpawn[];
-    powerSpawnId: Id<StructurePowerSpawn> | null;
     mySources: MySource[];
     roomStage: Stage;
     spawnQueue: QueuedCreep[];
