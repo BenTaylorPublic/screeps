@@ -5,10 +5,10 @@ import {ReportController} from "../../reporting/report-controller";
 import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
 
 // tslint:disable-next-line: class-name
-export class Stage7_8 {
+export class Stage7_9 {
     /*
-    7.8 ->  8   : Room has == 1 power spawn
-    7.8 <-  8   : Room has < 1 power spawn
+    7.9 ->  8   : Room has == 1 power spawn
+    7.9 <-  8   : Room has < 1 power spawn
     */
     public static up(myRoom: MyRoom, room: Room): boolean {
         this.step(myRoom, room);
@@ -24,8 +24,8 @@ export class Stage7_8 {
     public static down(myRoom: MyRoom, room: Room): boolean {
         if (RoomHelper.amountOfStructure(room, STRUCTURE_POWER_SPAWN) < 1) {
             //Power spawn has been made
-            myRoom.roomStage = 7.8;
-            ReportController.email("STAGE- 7.8 " + LogHelper.roomNameAsLink(myRoom.name) + " 1 power spawn");
+            myRoom.roomStage = 7.9;
+            ReportController.email("STAGE- 7.9 " + LogHelper.roomNameAsLink(myRoom.name) + " 1 power spawn");
             return true;
         }
         return false;

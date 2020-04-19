@@ -46,7 +46,7 @@ import {RoomController} from "../room/room-controller";
 import {RoomStageController} from "../room/room-stage-controller";
 import {Stage6_8} from "../room/stages/stage6_8";
 import {Stage7_6} from "../room/stages/stage7_6";
-import {Stage7_8} from "../room/stages/stage7_8";
+import {Stage7_9} from "../room/stages/stage7_9";
 import {Stage7_2} from "../room/stages/stage7_2";
 import {Stage6} from "../room/stages/stage6";
 import {Stage6_4} from "../room/stages/stage6_4";
@@ -156,7 +156,7 @@ export class ProfilerWrapper {
         Profiler.setup(Stage7_2, "Stage7_2");
         Profiler.setup(Stage7_4, "Stage7_4");
         Profiler.setup(Stage7_6, "Stage7_6");
-        Profiler.setup(Stage7_8, "Stage7_8");
+        Profiler.setup(Stage7_9, "Stage7_8");
         Profiler.setup(StageDefault, "StageDefault");
         Profiler.setup(StageFunctions, "StageFunctions");
 

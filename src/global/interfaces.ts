@@ -119,6 +119,7 @@ type Stage =
     | 7.4
     | 7.6
     | 7.8
+    | 7.9
     | 8;
 
 interface MyRoom {
