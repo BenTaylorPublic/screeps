@@ -41,7 +41,6 @@ import {Stage5_6} from "../room/stages/stage5_6";
 import {Stage5_8} from "../room/stages/stage5_8";
 import {StageDefault} from "../room/stages/stage-default";
 import {StageFunctions} from "../room/stages/stage-functions";
-import {RoomSourceLinkController} from "../room/structures/source-link";
 import {RoomTowerController} from "../room/structures/tower";
 import {RoomController} from "../room/room-controller";
 import {RoomStageController} from "../room/room-stage-controller";
@@ -75,6 +74,7 @@ import {SignController} from "../empire/sign/sign-controller";
 import {RoleStocker} from "../room/roles/stocker";
 import {SpawnStocker} from "../room/spawns/spawn-stocker";
 import {RoomDefenseController} from "../room/room-defense-controller";
+import {RoomLinkController} from "../room/structures/link";
 
 export class ProfilerWrapper {
     public static setup(): void {
@@ -160,7 +160,7 @@ export class ProfilerWrapper {
         Profiler.setup(StageDefault, "StageDefault");
         Profiler.setup(StageFunctions, "StageFunctions");
 
-        Profiler.setup(RoomSourceLinkController, "RoomSourceLinkController");
+        Profiler.setup(RoomLinkController, "RoomLinkController");
         Profiler.setup(RoomTowerController, "RoomTowerController");
 
         Profiler.setup(RoomController, "RoomController");

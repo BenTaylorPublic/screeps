@@ -5,7 +5,7 @@ import {RoomStageController} from "./room-stage-controller";
 import {RoleLaborer} from "./roles/laborer";
 import {RoomSpawnController} from "./spawns/room-spawn-controller";
 import {RoleBankLinker} from "./roles/bank-linker";
-import {RoomSourceLinkController} from "./structures/source-link";
+import {RoomLinkController} from "./structures/link";
 import {ReportController} from "../reporting/report-controller";
 import {RoleStocker} from "./roles/stocker";
 import {LogHelper} from "../global/helpers/log-helper";
@@ -48,12 +48,7 @@ export class RoomController {
         }
 
         // Room source link logic
-        for (let i = 0; i < myRoom.mySources.length; i++) {
-            const mySource: MySource = myRoom.mySources[i];
-            if (mySource.link != null) {
-                RoomSourceLinkController.run(myRoom, mySource.link);
-            }
-        }
+        RoomLinkController.run(myRoom);
 
         //Deleting the bank
         if (myRoom.bank != null) {
