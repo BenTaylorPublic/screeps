@@ -18,6 +18,8 @@ export class RoleLaborer {
             this.labor(laborer, myRoom, creep, laborersStock);
         } else if (laborer.state === "PickupBank") {
             this.pickupBank(laborer, myRoom, creep);
+        } else if (laborer.state === "PickupControllerLink") {
+            this.pickupControllerLink(laborer, myRoom, creep);
         } else if (laborer.state === "PickupCache") {
             this.pickupCache(laborer, myRoom, creep);
         } else { //Mining
@@ -28,11 +30,26 @@ export class RoleLaborer {
     private static calculateCreepState(laborer: Laborer, myRoom: MyRoom, creep: Creep): void {
         if (laborer.state === "Labor" && creep.store.energy === 0) {
 
+            let distanceToControllerLink: number = 999;
+            if (myRoom.controllerLink != null &&
+                myRoom.controllerLink.id != null) {
+                const controllerLink: StructureLink | null = Game.getObjectById(myRoom.controllerLink.id);
+                if (controllerLink != null &&
+                    controllerLink.store.energy >= creep.store.getCapacity()) {
+                    distanceToControllerLink = creep.pos.getRangeTo(controllerLink);
+                }
+            }
+
             const bank: StructureStorage | null = myRoom.bank == null ? null : myRoom.bank.object;
-            if (bank != null && bank.store[RESOURCE_ENERGY] >= creep.store.getCapacity()) {
-                //Bank is an option
+            if (bank != null &&
+                bank.store[RESOURCE_ENERGY] >= creep.store.getCapacity() &&
+                creep.pos.getRangeTo(bank) < distanceToControllerLink) {
                 laborer.state = "PickupBank";
                 creep.say("PickupBank");
+                return;
+            } else if (distanceToControllerLink !== 999) {
+                laborer.state = "PickupControllerLink";
+                creep.say("PickupCnLink");
                 return;
             }
 
@@ -67,6 +84,25 @@ export class RoleLaborer {
         }
     }
 
+    private static pickupControllerLink(laborer: Laborer, myRoom: MyRoom, creep: Creep): void {
+        if (myRoom.controllerLink == null ||
+            myRoom.controllerLink.id == null) {
+            return;
+        }
+
+        const controllerLinkPos: RoomPosition = RoomHelper.myPosToRoomPos(myRoom.controllerLink.pos);
+
+        if (controllerLinkPos.isNearTo(creep)) {
+            const controllerLink: StructureLink | null = Game.getObjectById(myRoom.controllerLink.id);
+            if (controllerLink == null) {
+                ReportController.email("ERROR: Room's controller link was null in " + LogHelper.roomNameAsLink(myRoom.name));
+                return;
+            }
+            creep.withdraw(controllerLink, RESOURCE_ENERGY);
+        } else {
+            MovementHelper.myMoveTo(creep, controllerLinkPos, laborer);
+        }
+    }
 
     private static pickupBank(laborer: Laborer, myRoom: MyRoom, creep: Creep): void {
         if (myRoom.bank == null) {
