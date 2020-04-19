@@ -29,6 +29,8 @@ export class RoomController {
 
         const laborersStock: boolean = this.shouldLaborersStock(myRoom);
 
+        const bankLinkerShouldStockLink: boolean = RoomLinkController.run(myRoom);
+
         // Creep logic
         for (let i = 0; i < myRoom.myCreeps.length; i++) {
             const myCreep: MyCreep = myRoom.myCreeps[i];
@@ -39,17 +41,13 @@ export class RoomController {
             } else if (myCreep.role === "Laborer") {
                 RoleLaborer.run(myCreep as Laborer, myRoom, laborersStock);
             } else if (myCreep.role === "BankLinker") {
-                RoleBankLinker.run(myCreep as BankLinker, myRoom, transfer);
+                RoleBankLinker.run(myCreep as BankLinker, myRoom, transfer, bankLinkerShouldStockLink);
             } else if (myCreep.role === "Stocker") {
                 RoleStocker.run(myCreep as Stocker, myRoom);
             } else if (myCreep.role === "Digger") {
                 RoleDigger.run(myCreep as Digger, myRoom);
             }
         }
-
-        // Room source link logic
-        RoomLinkController.run(myRoom);
-
         //Deleting the bank
         if (myRoom.bank != null) {
             myRoom.bank.object = null;

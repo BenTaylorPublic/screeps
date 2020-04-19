@@ -37,6 +37,7 @@ export class RoomLinkController {
         }
 
         if (linkControllerNeedsEnergy) {
+            //Try use the bank link
             const bankLink: StructureLink | null = Game.getObjectById<StructureLink>(myRoom.bank.bankLink.id);
             if (bankLink == null) {
                 ReportController.email("ERROR: Bank link was null when accessed by ID. Setting it to null in " + LogHelper.roomNameAsLink(myRoom.name));
@@ -44,12 +45,10 @@ export class RoomLinkController {
             } else if (bankLink.store.energy >= Constants.LINK_TRANSFER_AT &&
                 (controllerLink as StructureLink).store.getFreeCapacity(RESOURCE_ENERGY) >= bankLink.store.energy) {
                 if (bankLink.transferEnergy(controllerLink as StructureLink) === OK) {
+                    console.log("Transfered energy from bank link to controller link in " + LogHelper.roomNameAsLink(myRoom.name));
                     linkControllerNeedsEnergy = false;
                 }
-
             }
-
-
         }
         return linkControllerNeedsEnergy;
     }

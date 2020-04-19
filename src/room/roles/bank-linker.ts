@@ -8,7 +8,7 @@ import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
 
 
 export class RoleBankLinker {
-    public static run(bankLinker: BankLinker, myRoom: MyRoom, transfer: Transfer | null): void {
+    public static run(bankLinker: BankLinker, myRoom: MyRoom, transfer: Transfer | null, bankLinkerShouldStockLink: boolean): void {
         if (CreepHelper.handleCreepPreRole(bankLinker)) {
             return;
         }
@@ -45,14 +45,18 @@ export class RoleBankLinker {
             return;
         }
 
-        this.creepLogic(bankLinker, room, creep, bank, link, transfer);
+        this.creepLogic(bankLinker, room, creep, bank, link, transfer, bankLinkerShouldStockLink);
     }
 
-    private static creepLogic(bankLinker: BankLinker, room: Room, creep: Creep, bank: StructureStorage, link: StructureLink, transfer: Transfer | null): void {
+    private static creepLogic(bankLinker: BankLinker, room: Room, creep: Creep, bank: StructureStorage, link: StructureLink, transfer: Transfer | null, bankLinkerShouldStockLink: boolean): void {
 
         if (bankLinker.state === "Default") {
             if (creep.store.getFreeCapacity() === 0) {
                 creep.transfer(bank, RESOURCE_ENERGY);
+            } else if (bankLinkerShouldStockLink &&
+                bank.store.energy > Constants.BANK_LINKER_CAPACITY) {
+                creep.withdraw(bank, RESOURCE_ENERGY);
+                bankLinker.state = "EnergyToLink";
             } else if (link.store.energy >= Constants.BANK_LINKER_CAPACITY) {
                 creep.withdraw(link, RESOURCE_ENERGY);
             } else if (this.terminalNeedsEnergy(room, transfer) &&
@@ -107,6 +111,10 @@ export class RoleBankLinker {
                 transfer.resource === resource) {
                 transfer.amountLeft -= Constants.BANK_LINKER_CAPACITY;
             }
+            bankLinker.state = "Default";
+        } else if (bankLinker.state === "EnergyToLink") {
+            console.log("Energy to link in " + LogHelper.roomNameAsLink(room.name));
+            creep.transfer(link, RESOURCE_ENERGY);
             bankLinker.state = "Default";
         }
     }
