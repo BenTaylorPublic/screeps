@@ -15,6 +15,16 @@ export class Stage3_6 {
         if (RoomHelper.amountOfStructure(room, STRUCTURE_STORAGE) >= 1) {
             myRoom.roomStage = 4;
             ReportController.email("STAGE+ 4 " + LogHelper.roomNameAsLink(myRoom.name) + " bank");
+
+            //Setting the bank object to null, so it's usable for the rest of the tick
+            const bankPos: RoomPosition = RoomHelper.myPosToRoomPos((myRoom.bank as Bank).bankPos);
+            const structures: Structure<StructureConstant>[] = bankPos.lookFor(LOOK_STRUCTURES);
+            for (let j = 0; j < structures.length; j++) {
+                if (structures[j].structureType === STRUCTURE_STORAGE) {
+                    (myRoom.bank as Bank).object = structures[j] as StructureStorage;
+                    break;
+                }
+            }
             return true;
         }
         return false;
