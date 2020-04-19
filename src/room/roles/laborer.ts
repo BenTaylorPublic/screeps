@@ -106,7 +106,7 @@ export class RoleLaborer {
 
     private static pickupBank(laborer: Laborer, myRoom: MyRoom, creep: Creep): void {
         if (myRoom.bank == null) {
-            ReportController.email("ERROR: Room's bank memory was null in " + LogHelper.roomNameAsLink(myRoom.name));
+            ReportController.email("ERROR: Room's bank memory was null in " + LogHelper.roomNameAsLink(myRoom.name) + " for laborer");
             return;
         }
 

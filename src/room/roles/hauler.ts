@@ -54,7 +54,7 @@ export class RoleHauler {
             //Deliver
 
             if (myRoom.bank == null) {
-                ReportController.email("ERROR: Room's bank memory was null in " + LogHelper.roomNameAsLink(myRoom.name));
+                ReportController.email("ERROR: Room's bank memory was null in " + LogHelper.roomNameAsLink(myRoom.name) + " for hauler");
                 return;
             }
 
