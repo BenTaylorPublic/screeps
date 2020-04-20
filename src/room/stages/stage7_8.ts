@@ -30,10 +30,11 @@ export class Stage7_8 {
     }
 
     private static step(myRoom: MyRoom, room: Room): void {
-        if (RoomHelper.amountOfStructure(room, STRUCTURE_LAB) < 10 &&
-            Game.rooms[myRoom.name].find(FIND_CONSTRUCTION_SITES).length === 0) {
-            ReportController.email("ATTENTION: Room " + LogHelper.roomNameAsLink(myRoom.name) + " needs more labs built, place manually",
-                ReportCooldownConstants.DAY);
+        if (RoomHelper.amountOfStructure(room, STRUCTURE_LAB) < 10) {
+            if (Game.rooms[myRoom.name].find(FIND_CONSTRUCTION_SITES).length === 0) {
+                ReportController.email("ATTENTION: Room " + LogHelper.roomNameAsLink(myRoom.name) + " needs more labs built, place manually",
+                    ReportCooldownConstants.DAY);
+            }
             return;
         }
         const labBufferFlag: Flag | null = FlagHelper.getFlag(["lab", "buffer"], myRoom.name);
