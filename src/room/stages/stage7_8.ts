@@ -13,7 +13,6 @@ export class Stage7_8 {
     public static up(myRoom: MyRoom, room: Room): boolean {
         this.step(myRoom, room);
         if (RoomHelper.amountOfStructure(room, STRUCTURE_LAB) >= 10) {
-            //Spawn has been made
             myRoom.roomStage = 7.9;
             ReportController.email("STAGE+ 7.9 " + LogHelper.roomNameAsLink(myRoom.name) + " 10 labs");
             return true;
@@ -23,7 +22,6 @@ export class Stage7_8 {
 
     public static down(myRoom: MyRoom, room: Room): boolean {
         if (RoomHelper.amountOfStructure(room, STRUCTURE_LAB) < 10) {
-            //Spawn has been made
             myRoom.roomStage = 7.8;
             ReportController.email("STAGE- 7.8 " + LogHelper.roomNameAsLink(myRoom.name) + " 10 labs");
             return true;
