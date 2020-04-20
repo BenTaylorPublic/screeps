@@ -61,6 +61,7 @@ export class MemoryController {
                     spawnQueue: [],
                     rampartsUp: true,
                     controllerLink: null,
+                    labs: null,
                     digging: {
                         active: false,
                         mineral: minerals[0].mineralType,

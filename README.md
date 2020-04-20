@@ -54,6 +54,7 @@ Attack
         Like another rally flag, but they wait until they're all there
         Once they're all there, they all renew and head to rally flag
         They wait again at the rally flag
+    Repeat attack target reticle
 
 PowerScav
     Use ScavengeController
@@ -115,6 +116,9 @@ power-spawn
 observer-set-{WIDTH}
 bank-linker-pos
 digger-cont
+lab-buffer
+lab-reagent-1
+lab-reagent-2
 
 sign
 sign-all

@@ -58,7 +58,7 @@ export class RoomHelper {
     }
 
     public static amountOfStructure(room: Room, structureConstant: StructureConstant): number {
-        const structures: StructureExtension[] = room.find<StructureExtension>(FIND_STRUCTURES, {
+        const structures: AnyStructure[] = room.find<AnyStructure>(FIND_STRUCTURES, {
             filter: (structure: Structure) => {
                 return structure.structureType === structureConstant;
             }

@@ -24,7 +24,9 @@ export class RoomTowerController {
             (room.controller as StructureController).safeMode == null &&
             !otherCreeps.healers) {
             const target: Creep = this.getBestCreepTarget(otherCreeps.hostileCreeps);
-            if (target.owner.username !== "Invader") {
+            if (target.owner.username !== "Invader" &&
+                //keep getting emails about this loser
+                target.owner.username !== "Patch") {
                 //Only let me know if they're hostile
                 if (CreepHelper.creepContainsBodyParts(target, [HEAL, CLAIM, ATTACK, RANGED_ATTACK])) {
                     ReportController.email("Tower attacking target with name " + target.name + " Owner: " + target.owner.username + " in " + LogHelper.roomNameAsLink(room.name),

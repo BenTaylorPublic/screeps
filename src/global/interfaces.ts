@@ -132,6 +132,19 @@ interface MyRoom {
     digging: Digging;
     bank: Bank | null;
     controllerLink: MyLink | null;
+    labs: LabMemory | null;
+}
+
+interface LabMemory {
+    buffingLab: Id<StructureLab>;
+    reagentLab1: Id<StructureLab>;
+    reagentLab2: Id<StructureLab>;
+    compundLabs: CompoundLabMemory[];
+}
+
+interface CompoundLabMemory {
+    id: Id<StructureLab>;
+    cooldownTill: number;
 }
 
 interface Bank {
