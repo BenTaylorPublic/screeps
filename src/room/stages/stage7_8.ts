@@ -22,7 +22,6 @@ export class Stage7_8 {
     }
 
     public static down(myRoom: MyRoom, room: Room): boolean {
-        return false; //TODO: Remove
         if (RoomHelper.amountOfStructure(room, STRUCTURE_LAB) < 10) {
             //Spawn has been made
             myRoom.roomStage = 7.8;
