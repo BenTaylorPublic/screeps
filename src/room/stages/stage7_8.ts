@@ -65,33 +65,40 @@ export class Stage7_8 {
             }
         });
         let bufferId: Id<StructureLab> | null = null;
-        let reagent1Id: Id<StructureLab> | null = null;
-        let reagent2Id: Id<StructureLab> | null = null;
+        let reagentLab1: ReagentLabMemory | null = null;
+        let reagentLab2: ReagentLabMemory | null = null;
         const compoundLabs: CompoundLabMemory[] = [];
         for (let i: number = 0; i < labs.length; i++) {
             const lab: StructureLab = labs[i];
             if (lab.pos.isEqualTo(labBufferFlag.pos)) {
                 bufferId = lab.id;
             } else if (lab.pos.isEqualTo(labReagent1Flag.pos)) {
-                reagent1Id = lab.id;
+                reagentLab1 = {
+                    id: lab.id,
+                    resource: null
+                };
             } else if (lab.pos.isEqualTo(labReagent2Flag.pos)) {
-                reagent2Id = lab.id;
+                reagentLab2 = {
+                    id: lab.id,
+                    resource: null
+                };
             } else {
                 compoundLabs.push({
                     id: lab.id,
-                    cooldownTill: 0
+                    cooldownTill: 0,
+                    resource: null
                 });
             }
         }
 
         if (compoundLabs.length === 7 &&
             bufferId != null &&
-            reagent1Id != null &&
-            reagent2Id != null) {
+            reagentLab1 != null &&
+            reagentLab2 != null) {
             myRoom.labs = {
                 buffingLab: bufferId,
-                reagentLab1: reagent1Id,
-                reagentLab2: reagent2Id,
+                reagentLab1: reagentLab1,
+                reagentLab2: reagentLab2,
                 compundLabs: compoundLabs
             };
         }

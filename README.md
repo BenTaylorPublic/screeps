@@ -5,6 +5,10 @@
 ### Working on
 ```
 Creating orders for a lab
+    Amount
+    Compound
+    ReagentOne
+    ReagentTwo
 ```
 ### Short term
 ```

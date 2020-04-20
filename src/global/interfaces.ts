@@ -137,14 +137,20 @@ interface MyRoom {
 
 interface LabMemory {
     buffingLab: Id<StructureLab>;
-    reagentLab1: Id<StructureLab>;
-    reagentLab2: Id<StructureLab>;
+    reagentLab1: ReagentLabMemory;
+    reagentLab2: ReagentLabMemory;
     compundLabs: CompoundLabMemory[];
+}
+
+interface ReagentLabMemory {
+    id: Id<StructureLab>;
+    resource: MineralsAndCompoundConstant | null;
 }
 
 interface CompoundLabMemory {
     id: Id<StructureLab>;
     cooldownTill: number;
+    resource: MineralsAndCompoundConstant | null;
 }
 
 interface Bank {
@@ -358,6 +364,8 @@ interface ScavengerTargetResult {
     resource: Resource | null;
     pos: RoomPosition;
 }
+
+type MineralsAndCompoundConstant = MineralConstant | MineralCompoundConstant;
 
 /*
 ====================
