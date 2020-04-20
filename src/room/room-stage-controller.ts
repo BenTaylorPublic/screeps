@@ -30,6 +30,7 @@ import {Stage7_4} from "./stages/stage7_4";
 import {Stage7_6} from "./stages/stage7_6";
 import {Stage7_9} from "./stages/stage7_9";
 import {Stage6_6} from "./stages/stage6_6";
+import {Stage7_8} from "./stages/stage7_8";
 
 export class RoomStageController {
     public static run(myRoom: MyRoom, room: Room): void {
@@ -134,6 +135,9 @@ export class RoomStageController {
         if (myRoom.roomStage === 7.6) {
             Stage7_6.up(myRoom, room);
         }
+        if (myRoom.roomStage === 7.8) {
+            Stage7_8.up(myRoom, room);
+        }
         if (myRoom.roomStage === 7.9) {
             Stage7_9.up(myRoom, room);
         }
@@ -141,6 +145,9 @@ export class RoomStageController {
         //Downs
         if (myRoom.roomStage > 7.9) {
             Stage7_9.down(myRoom, room);
+        }
+        if (myRoom.roomStage > 7.8) {
+            Stage7_8.down(myRoom, room);
         }
         if (myRoom.roomStage > 7.6) {
             Stage7_6.down(myRoom, room);
