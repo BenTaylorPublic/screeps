@@ -4,26 +4,11 @@
 ## TODO
 ### Working on
 ```
-Stage 7.9 -> 8, labs
-    Setting the lab memory
-    Lab Memory
-        MyRoom will have an id of a buffing one
-            Next to bank
-            BankLinker will be responsible for it
-        Rest will use the person format but 1 missing
-        Should be stored in MyRoom.Labs
-        Array of 2 for center ones
-            id
-        Array of 7 for outside ones
-            id
-            cooldownTill
-        Hopefully I can get it to assign the memory manually with 1 flag saying "lab-buffer"
+Creating orders for a lab
 ```
 ### Short term
 ```
 Lab logic
-    Stockers stocking labs with energy
-    Creating orders
     Stockers stocking labs resources
     Labs doing orders
     Stockers unloading labs
