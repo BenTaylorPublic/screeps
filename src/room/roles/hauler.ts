@@ -39,7 +39,8 @@ export class RoleHauler {
                 }
 
                 if (cacheToGrabFrom == null) {
-                    ReportController.email("Source cache is null for hauler: " + hauler.name + " in " + LogHelper.roomNameAsLink(myRoom.name));
+                    ReportController.email("Source cache is null for hauler: " + hauler.name + " in " + LogHelper.roomNameAsLink(myRoom.name) + ". Commiting suicide.");
+                    creep.suicide();
                     return;
                 } else if (cacheToGrabFrom.store.getUsedCapacity() >= creep.store.getFreeCapacity()) {
                     const resources: ResourceConstant[] = Object.keys(cacheToGrabFrom.store) as ResourceConstant[];

@@ -24,6 +24,8 @@ Upgrader role
 ```
 ### Long term:
 ```
+Towers sitting on 50% letting containers die
+
 Buffing
 
 Attack

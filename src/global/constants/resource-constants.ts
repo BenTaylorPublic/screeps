@@ -24,6 +24,10 @@ export class ResourceConstants {
             O: {
                 lower: 1_000,
                 upper: 3_000
+            },
+            X: {
+                lower: 1_000,
+                upper: 3_000
             }
         };
     }
