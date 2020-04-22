@@ -101,6 +101,9 @@ export class Stage7_8 {
                 reagentLab2: reagentLab2,
                 compundLabs: compoundLabs
             };
+            labBufferFlag.remove();
+            labReagent1Flag.remove();
+            labReagent2Flag.remove();
         }
     }
 }

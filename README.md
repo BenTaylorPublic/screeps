@@ -4,14 +4,18 @@
 ## TODO
 ### Working on
 ```
-Creating orders for a lab
-    Amount
-    Compound
-    ReagentOne
-    ReagentTwo
+The room that doesn't have any L
 ```
 ### Short term
 ```
+Creating orders for a lab
+    Amount: number
+    AmountLeftToLoad: number
+    Compound: MineralsAndCompoundConstant
+    ReagentOne: MineralsAndCompoundConstant
+    ReagentTwo: MineralsAndCompoundConstant
+    State: Queued | InitialLoading | Loading |  Running | Unloading
+
 Lab logic
     Stockers stocking labs resources
     Labs doing orders
