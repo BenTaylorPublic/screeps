@@ -69,7 +69,7 @@ export class SpawnLaborer {
             minersAliveOrSpawningCount < myRoom.mySources.length ||
             !stockerAliveOrSpawning) &&
             laborerAliveOrSpawningCount === 0 &&
-            forceLaborerQueuedCount >= 1) {
+            forceLaborerQueuedCount === 0) {
             forceSpawnlaborers = 1;
         }
 
