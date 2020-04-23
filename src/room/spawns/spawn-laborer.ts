@@ -9,9 +9,97 @@ import {MapHelper} from "../../global/helpers/map-helper";
 
 export class SpawnLaborer {
     public static laborerSpawnLogic(myRoom: MyRoom, room: Room): void {
+        if (myRoom.roomStage >= 5.4) {
+            //From 5.4, sources are linked
+            this.linkedRoomSpawnLogic(myRoom, room);
+        } else {
+            this.nonLinkedRoomSpawnLogic(myRoom, room);
+        }
+    }
+
+    public static getBody(myRoom: MyRoom): BodyPartConstant[] {
+        return CreepHelper.generateBody(
+            [MOVE, MOVE, CARRY, WORK],
+            [MOVE, MOVE, CARRY, WORK],
+            Game.rooms[myRoom.name],
+            true);
+    }
+
+    public static getForceBody(myRoom: MyRoom): BodyPartConstant[] {
+        return CreepHelper.generateBody(
+            [MOVE, MOVE, CARRY, WORK],
+            [MOVE, MOVE, CARRY, WORK],
+            Game.rooms[myRoom.name],
+            false);
+    }
+
+    private static linkedRoomSpawnLogic(myRoom: MyRoom, room: Room): void {
+        let bankLinkerAliveOrSpawning: boolean = false;
+        let minersAliveOrSpawningCount: number = 0;
+        let stockerAliveOrSpawning: boolean = false;
+        let laborerAliveOrSpawningCount: number = 0;
+        let forceLaborerQueuedCount: number = 0;
+        let laborerCount: number = 0;
+
+        for (let i = 0; i < myRoom.myCreeps.length; i++) {
+            const myCreep: MyCreep = myRoom.myCreeps[i];
+            if (myCreep.role === "Laborer") {
+                laborerCount++;
+                if (myCreep.spawningStatus !== "queued") {
+                    laborerAliveOrSpawningCount++;
+                } else {
+                    for (let j = 0; j < myRoom.spawnQueue.length; j++) {
+                        if (myRoom.spawnQueue[j].role === "ForceLaborer" &&
+                            myRoom.spawnQueue[j].name === myCreep.name) {
+                            forceLaborerQueuedCount++;
+                        }
+                    }
+                }
+            } else if (myCreep.role === "BankLinker") {
+                bankLinkerAliveOrSpawning = true;
+            } else if (myCreep.role === "Stocker") {
+                stockerAliveOrSpawning = true;
+            } else if (myCreep.role === "Miner") {
+                minersAliveOrSpawningCount++;
+            }
+        }
+
+        let forceSpawnlaborers: number = 0;
+        if ((!bankLinkerAliveOrSpawning ||
+            minersAliveOrSpawningCount < myRoom.mySources.length ||
+            !stockerAliveOrSpawning) &&
+            laborerAliveOrSpawningCount === 0 &&
+            forceLaborerQueuedCount >= 1) {
+            forceSpawnlaborers = 1;
+        }
+
+        //When stage 8, only spawn laborers when the controller is 50% on the way to downgrade
+        //Or, when a lot of energy (in trySpawnLaborer)
+        if (forceSpawnlaborers > 0 &&
+            myRoom.roomStage === 8 &&
+            room.find(FIND_CONSTRUCTION_SITES).length === 0 &&
+            (room.controller as StructureController).ticksToDowngrade > Constants.STAGE_8_SPAWN_LABORERS_WHEN_CONTROLLER_BENEATH) {
+            forceSpawnlaborers = 0;
+        }
+
+
+        if (forceSpawnlaborers > 0) {
+            SpawnLaborer.forceSpawnLaborers(myRoom, forceSpawnlaborers);
+        } else {
+            let maxLaborers: number = Constants.MAX_LABORERS;
+            if (myRoom.roomStage === 8 &&
+                room.find(FIND_CONSTRUCTION_SITES).length === 0) {
+                maxLaborers = Constants.MAX_LABORERS_STAGE_8;
+            }
+            SpawnLaborer.trySpawnLaborer(myRoom, laborerCount, maxLaborers);
+        }
+    }
+
+    private static nonLinkedRoomSpawnLogic(myRoom: MyRoom, room: Room): void {
         let laborerCount: number = 0;
         let laborerAliveOrSpawningCount: number = 0;
         let forceLaborerQueuedCount: number = 0;
+
         for (let i = 0; i < myRoom.myCreeps.length; i++) {
             const myCreep: MyCreep = myRoom.myCreeps[i];
             if (myCreep.role === "Laborer") {
@@ -40,16 +128,6 @@ export class SpawnLaborer {
             forceSpawnlaborers = Constants.MIN_LABORERS - laborerCount;
         }
 
-        //When stage 8, only spawn laborers when the controller is 50% on the way to downgrade
-        //Or, when a lot of energy (in trySpawnLaborer)
-        if (forceSpawnlaborers > 0 &&
-            myRoom.roomStage === 8 &&
-            room.find(FIND_CONSTRUCTION_SITES).length === 0 &&
-            (room.controller as StructureController).ticksToDowngrade > Constants.STAGE_8_SPAWN_LABORERS_WHEN_CONTROLLER_BENEATH) {
-            forceSpawnlaborers = 0;
-        }
-
-
         if (forceSpawnlaborers > 0) {
             SpawnLaborer.forceSpawnLaborers(myRoom, forceSpawnlaborers);
         } else {
@@ -60,22 +138,6 @@ export class SpawnLaborer {
             }
             SpawnLaborer.trySpawnLaborer(myRoom, laborerCount, maxLaborers);
         }
-    }
-
-    public static getBody(myRoom: MyRoom): BodyPartConstant[] {
-        return CreepHelper.generateBody(
-            [MOVE, MOVE, CARRY, WORK],
-            [MOVE, MOVE, CARRY, WORK],
-            Game.rooms[myRoom.name],
-            true);
-    }
-
-    public static getForceBody(myRoom: MyRoom): BodyPartConstant[] {
-        return CreepHelper.generateBody(
-            [MOVE, MOVE, CARRY, WORK],
-            [MOVE, MOVE, CARRY, WORK],
-            Game.rooms[myRoom.name],
-            false);
     }
 
     private static trySpawnLaborer(myRoom: MyRoom, laborerCount: number, maxLaborers: number): void {
