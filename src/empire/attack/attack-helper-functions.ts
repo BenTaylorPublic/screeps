@@ -182,7 +182,6 @@ export class AttackHelperFunctions {
         }
 
         //Nothing was found as pathable
-        ReportController.log("Nothing pathable in getAttackTarget");
         return null;
     }
 

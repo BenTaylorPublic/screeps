@@ -52,13 +52,20 @@ Buffing
 
 Make a ranged creep for dealing with other attack creeps
 
-Attack-Large
+Attack logic should be combined
+    Attacking is very similar logic, and the system I have complicates it
+    They should be combined and using the memory flag constants for settings
+    Example:
+        When sending the charge, it should check the memory to see if its going to repeat (attack-pressure)
+        
+
+Attack Large
     Very similar to AttackQuick
     Only attack when 1 of the attack creeps has < 300ish ticks to live
     Once the creep spawns, provide a time estimate of when it will begin (using tick time)
     Rooms should not make any other creeps until the attack is done (like AttackQuick)
 
-Attack-Healer-Drain
+Attack Healer Drain
     healer-drain
     Sends a bunch of healers (just HEAL + MOVE)
     They move in a tight ball
