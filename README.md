@@ -58,6 +58,10 @@ Attack logic should be combined
     Example:
         When sending the charge, it should check the memory to see if its going to repeat (attack-pressure)
         
+Attack Hold
+    Maintain 1 creep in the room
+    Spawn when they're about to die
+    Only use 1 room provider, and spawn it when the TTL < 150 + (travelDistance * 50) 
 
 Attack Large
     Very similar to AttackQuick
