@@ -43,7 +43,7 @@ export class SpawnMiner {
             if (mySource.link == null) {
                 maxBodyParts = 18;
             } else {
-                maxBodyParts = 42;
+                maxBodyParts = 28;
             }
         }
 
