@@ -19,13 +19,14 @@ export class RoleAttackCreep {
                 creep.say("Moving");
             }
         } else if (attackState === "Charge") {
-            this.attackLogic(creep, attackTarget, attackCreep);
+            this.attackLogic(creep, attackTarget, attackCreep, rallyOrRoomTargetFlag);
         }
     }
 
-    private static attackLogic(creep: Creep, attackTarget: AttackTarget | null, attackCreep: AttackPressureCreep | AttackQuickCreep): void {
+    private static attackLogic(creep: Creep, attackTarget: AttackTarget | null, attackCreep: AttackPressureCreep | AttackQuickCreep, roomTargetFlag: Flag): void {
         if (attackTarget == null) {
             creep.say("No target!");
+            MovementHelper.myMoveTo(creep, roomTargetFlag.pos, attackCreep);
         } else {
             creep.say("⚔️" + attackTarget.type);
             if (creep.pos.inRangeTo(attackTarget.roomObject.pos, 1)) {
