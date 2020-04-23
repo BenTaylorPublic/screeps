@@ -4,7 +4,6 @@
 ## TODO
 ### Working on
 ```
-The room that doesn't have any L
 ```
 ### Short term
 ```
@@ -20,6 +19,8 @@ Lab logic
     Stockers stocking labs resources
     Labs doing orders
     Stockers unloading labs
+
+Putting the mineral chart into README
 ```
 ### Mid term:
 ```

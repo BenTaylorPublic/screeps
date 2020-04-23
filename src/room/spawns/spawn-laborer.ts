@@ -69,7 +69,11 @@ export class SpawnLaborer {
             minersAliveOrSpawningCount < myRoom.mySources.length ||
             !stockerAliveOrSpawning) &&
             laborerAliveOrSpawningCount === 0 &&
-            forceLaborerQueuedCount === 0) {
+            forceLaborerQueuedCount === 0 &&
+            //4000 is a magical number I just made up
+            //For 4000 energy, the room should be able to spawn any of the economy dependent creeps
+            //Hopefully this magical number doesn't come back to bite me
+            room.energyAvailable < 4000) {
             forceSpawnlaborers = 1;
         }
 
