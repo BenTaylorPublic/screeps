@@ -102,6 +102,7 @@ export class MineralController {
         }
         //We have a room
         this.createTransfer(roomsToUse[highestFoundIndex].name, receivingRoom.name, resource, amountNeeded, resourceMap.myRoomMaps[roomsToUse[highestFoundIndex].name] as ResourceMap, transfers);
+        ReportController.email("Room " + LogHelper.roomNameAsLink(roomsToUse[highestFoundIndex].name) + " is donating energy to " + LogHelper.roomNameAsLink(receivingRoom.name) + " at " + Game.time);
     }
 
     private static createTransfer(sendingRoomName: string, receivingRoomName: string, resource: ResourceConstant, amount: number, sendingRoomResourceMap: ResourceMap, transfers: Transfer[]): void {
