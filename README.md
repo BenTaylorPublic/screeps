@@ -23,13 +23,26 @@ Lab logic
 ```
 ### Mid term:
 ```
+MyMemory.Settings
+    Settings I can change via flags (that directly match the settings key)
+    Constants are all numbers
+    eg:
+        set-CONSCRIPTION_RANGE-5
+        set-OBSERVER_WIDTH-5
+
 Upgrader role
     For 6.8+
+
+Towers sitting on 50% letting containers die
+
+Attack creeps to kill construction sites
+
+Signing controller with flag string
+    Flag limit is 60 characters
+    Sign limit is 100 characters
 ```
 ### Long term:
 ```
-Towers sitting on 50% letting containers die
-
 Buffing
 
 Attack
@@ -76,13 +89,6 @@ Downgrade controller creep
     Where X is how many CLAIM parts (matched by MOVE parts)
     It varies in claim parts because 1 would block it, but 25 would be reducing it a lot
     Maybe a repeat option, for when it dies
-
-MyMemory.Settings
-    Settings I can change via flags (that directly match the settings key)
-    Constants are all numbers
-    eg:
-        set-CONSCRIPTION_RANGE-5
-        set-OBSERVER_WIDTH-5
 
 Bank object shouldn't be nullable
     It should be stored as a different type
