@@ -2,10 +2,10 @@ export class Constants {
     public static PERCENT_OF_CACHE_ENERGY_TO_SPAWN_HAULER: number = 0.5;
     public static AMOUNT_OF_BANK_ENERGY_TO_SPAWN_LABORER: number = 100_000;
     public static AMOUNT_OF_BANK_ENERGY_TO_SPAWN_LABORER_STAGE_8: number = 200_000;
-    public static MAX_LABORERS: number = 6;
+    public static MAX_LABORERS: number = 3;
     public static MIN_LABORERS: number = 1;
     public static MAX_LABORERS_STAGE_8: number = 2;
-    public static LABORERS_BEFORE_BANK: number = 6;
+    public static LABORERS_BEFORE_BANK: number = 3;
     public static LINK_TRANSFER_AT: number = 400;
     public static LINK_CONTROLLER_GOAL_ENERGY: number = 600;
     public static WALL_AND_RAMPART_GOAL_HEALTH: number = 500_000;

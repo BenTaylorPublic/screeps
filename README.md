@@ -37,6 +37,11 @@ Towers sitting on 50% letting containers die
 
 Attack creeps to kill construction sites
 
+Attack creeps need to not update target every 5 ticks
+    Because when I indicate what to target, it just gets removed in 5 :(
+    Possibly leave a flag to set that
+    Maybe use the setting memory logic
+
 Signing controller with flag string
     Flag limit is 60 characters
     Sign limit is 100 characters
@@ -45,24 +50,28 @@ Signing controller with flag string
 ```
 Buffing
 
-Attack
-    Large
-        Very similar to AttackQuick
-        Only attack when 1 of the attack creeps has < 300ish ticks to live
-        Once the creep spawns, provide a time estimate of when it will begin (using tick time)
-        Rooms should not make any other creeps until the attack is done (like AttackQuick)
-    HealerDrain
-        healer-drain
-        Sends a bunch of healers (just HEAL + MOVE)
-        They move in a tight ball
-        They just get off the edge of the map and heal each other
-        Will be used to empty their towers before the attack
-    Put in an optional attack-renew flag
-        For all attacks, it'd be another state before rally
-        Like another rally flag, but they wait until they're all there
-        Once they're all there, they all renew and head to rally flag
-        They wait again at the rally flag
-    Repeat attack target reticle
+Make a ranged creep for dealing with other attack creeps
+
+Attack-Large
+    Very similar to AttackQuick
+    Only attack when 1 of the attack creeps has < 300ish ticks to live
+    Once the creep spawns, provide a time estimate of when it will begin (using tick time)
+    Rooms should not make any other creeps until the attack is done (like AttackQuick)
+
+Attack-Healer-Drain
+    healer-drain
+    Sends a bunch of healers (just HEAL + MOVE)
+    They move in a tight ball
+    They just get off the edge of the map and heal each other
+    Will be used to empty their towers before the attack
+
+Put in an optional attack-renew flag
+    For all attacks, it'd be another state before rally
+    Like another rally flag, but they wait until they're all there
+    Once they're all there, they all renew and head to rally flag
+    They wait again at the rally flag
+
+Repeat attack target reticle
 
 PowerScav
     Use ScavengeController
