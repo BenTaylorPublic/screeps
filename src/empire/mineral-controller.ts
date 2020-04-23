@@ -130,7 +130,6 @@ export class MineralController {
         for (let i: number = 0; i < resources.length; i++) {
             const mineral: MineralConstant = resources[i] as MineralConstant;
             const mineralLimit: ResourceLimitUpperLower = mineralLimits[mineral] as ResourceLimitUpperLower;
-            const mineralLimitLower: number = mineralLimit.lower * roomsToUse.length;
             const mineralLimitUpper: number = mineralLimit.upper * roomsToUse.length;
             let amountOfMineral: number;
             if (totalResourceMap[mineral] == null) {
@@ -138,12 +137,12 @@ export class MineralController {
             } else {
                 amountOfMineral = totalResourceMap[mineral] as number;
             }
-            if (amountOfMineral < mineralLimitLower) {
-                //Start digging
-                this.setDiggingActive(roomsToUse, mineral, true);
-            } else if (amountOfMineral > mineralLimitUpper) {
+            if (amountOfMineral > mineralLimitUpper) {
                 //Stop digging
                 this.setDiggingActive(roomsToUse, mineral, false);
+            } else {
+                //Start digging
+                this.setDiggingActive(roomsToUse, mineral, true);
             }
         }
     }
@@ -154,7 +153,7 @@ export class MineralController {
             if (myRoom.digging.mineral === mineral &&
                 myRoom.digging.active !== active) {
                 myRoom.digging.active = active;
-                ReportController.email("Set digging active to " + active + " in room " + LogHelper.roomNameAsLink(myRoom.name));
+                ReportController.email("Set digging active to " + active + " in room " + LogHelper.roomNameAsLink(myRoom.name) + " for mineral " + mineral);
             }
         }
     }
