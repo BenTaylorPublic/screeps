@@ -162,7 +162,9 @@ export class SpawnLaborer {
             const amountOfEnergyRequired: number = myRoom.roomStage === 8 ? Constants.AMOUNT_OF_BANK_ENERGY_TO_SPAWN_LABORER_STAGE_8 : Constants.AMOUNT_OF_BANK_ENERGY_TO_SPAWN_LABORER;
 
             spawn = (bank.store[RESOURCE_ENERGY] >= amountOfEnergyRequired &&
-                laborerCount < maxLaborers);
+                laborerCount < maxLaborers &&
+                //If constant is 100k, have 1 laborer until 200k, then 2 till 300k, then 3 (cap)
+                laborerCount < (bank.store[RESOURCE_ENERGY] / Constants.AMOUNT_OF_BANK_ENERGY_TO_SPAWN_LABORER));
         }
 
         if (spawn) {
