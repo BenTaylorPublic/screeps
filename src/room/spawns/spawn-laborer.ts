@@ -164,7 +164,7 @@ export class SpawnLaborer {
             spawn = (bank.store[RESOURCE_ENERGY] >= amountOfEnergyRequired &&
                 laborerCount < maxLaborers &&
                 //If constant is 100k, have 1 laborer until 200k, then 2 till 300k, then 3 (cap)
-                laborerCount < (bank.store[RESOURCE_ENERGY] / Constants.AMOUNT_OF_BANK_ENERGY_TO_SPAWN_LABORER));
+                laborerCount < Math.floor(bank.store[RESOURCE_ENERGY] / Constants.AMOUNT_OF_BANK_ENERGY_TO_SPAWN_LABORER));
         }
 
         if (spawn) {
