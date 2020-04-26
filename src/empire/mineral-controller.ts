@@ -52,7 +52,6 @@ export class MineralController {
 
                 //Otherwise, we're good to donate
                 this.createTransfer(donorRoom.name, roomsToUse[lowestEnergyIndex].name, "energy", Constants.STAGE_8_DONATE_AMOUNT, donorRoomResourceMap, transfers);
-                ReportController.email("Room " + LogHelper.roomNameAsLink(donorRoom.name) + " is donating energy to " + LogHelper.roomNameAsLink(roomsToUse[lowestEnergyIndex].name) + " at " + Game.time);
             }
         }
     }
