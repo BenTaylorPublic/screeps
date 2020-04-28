@@ -77,15 +77,21 @@ export class SpawnLaborer {
             forceSpawnlaborers = 1;
         }
 
+
         //When stage 8, only spawn laborers when the controller is 50% on the way to downgrade
         //Or, when a lot of energy (in trySpawnLaborer)
-        if (forceSpawnlaborers > 0 &&
+        if (forceSpawnlaborers === 0 &&
             myRoom.roomStage === 8 &&
-            room.find(FIND_CONSTRUCTION_SITES).length === 0 &&
-            (room.controller as StructureController).ticksToDowngrade > Constants.STAGE_8_SPAWN_LABORERS_WHEN_CONTROLLER_BENEATH) {
+            laborerAliveOrSpawningCount === 0 &&
+            (
+                (room.controller as StructureController).ticksToDowngrade < Constants.STAGE_8_SPAWN_LABORERS_WHEN_CONTROLLER_BENEATH ||
+                room.find(FIND_CONSTRUCTION_SITES).length === 0
+            )
+        ) {
+            forceSpawnlaborers = 1;
+        } else {
             forceSpawnlaborers = 0;
         }
-
 
         if (forceSpawnlaborers > 0) {
             SpawnLaborer.forceSpawnLaborers(myRoom, forceSpawnlaborers);
