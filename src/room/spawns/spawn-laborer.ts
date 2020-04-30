@@ -85,7 +85,7 @@ export class SpawnLaborer {
             laborerAliveOrSpawningCount === 0 &&
             (
                 (room.controller as StructureController).ticksToDowngrade < Constants.STAGE_8_SPAWN_LABORERS_WHEN_CONTROLLER_BENEATH ||
-                room.find(FIND_CONSTRUCTION_SITES).length === 0
+                room.find(FIND_CONSTRUCTION_SITES).length >= 0
             )
         ) {
             forceSpawnlaborers = 1;
@@ -230,4 +230,3 @@ export class SpawnLaborer {
     }
 
 }
-
