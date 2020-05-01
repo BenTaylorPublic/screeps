@@ -4,6 +4,9 @@
 ## TODO
 ### Working on
 ```
+1 Source rooms to participate in minerals
+    Make it so donating RCL 8 rooms will also consider low energy rooms that are RCL 8, 1 source
+    This has been prioritised because I need my U mineral
 ```
 ### Short term
 ```
@@ -52,10 +55,6 @@ Signing controller with flag string
 Monitor force laborer spawns in linked rooms
     They should only be used to get the room out of ruts
     I'm thinking that the ruts can be observed and fixed through this monitoring
-
-1 Source rooms to participate in minerals
-    Once I start getting more RCL 8 rooms
-    Make it so RCL 8 rooms will also consider low energy rooms that are RCL 8, 1 source
 
 Buffing
 
