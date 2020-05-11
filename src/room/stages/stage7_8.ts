@@ -38,6 +38,10 @@ export class Stage7_8 {
                     ReportCooldownConstants.DAY);
             }
             return;
+        } else if (myRoom.labs != null) {
+            //10 Labs
+            //It'll advance stage anyway
+            return;
         }
         const labBufferFlag: Flag | null = FlagHelper.getFlag(["lab", "buffer"], myRoom.name);
         if (labBufferFlag == null) {
