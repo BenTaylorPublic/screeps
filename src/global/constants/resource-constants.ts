@@ -2,8 +2,8 @@ export class ResourceConstants {
     public static getMineralLimits(): ResourceLimits {
         return {
             Z: {
-                lower: 1_000,
-                upper: 3_000
+                lower: 15_000,
+                upper: 16_000
             },
             K: {
                 lower: 1_000,
@@ -26,8 +26,8 @@ export class ResourceConstants {
                 upper: 3_000
             },
             X: {
-                lower: 1_000,
-                upper: 3_000
+                lower: 15_000,
+                upper: 16_000
             }
         };
     }
