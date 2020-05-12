@@ -4,13 +4,7 @@
 ## TODO
 ### Working on
 ```
-Creating orders for a lab
-    Amount: number
-    AmountLeftToLoad: number
-    Compound: MineralsAndCompoundConstant
-    ReagentOne: MineralsAndCompoundConstant
-    ReagentTwo: MineralsAndCompoundConstant
-    State: Queued | InitialLoading | Loading |  Running | Unloading
+Rooms shouldn't request minerals if they have the mineral source in their room
 ```
 ### Short term
 ```
