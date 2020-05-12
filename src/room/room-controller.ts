@@ -31,6 +31,8 @@ export class RoomController {
 
         const bankLinkerShouldStockLink: boolean = RoomLinkController.run(myRoom);
 
+        const labOrder: LabOrder | null = this.getLabOrder(myRoom);
+
         // Creep logic
         for (let i = 0; i < myRoom.myCreeps.length; i++) {
             const myCreep: MyCreep = myRoom.myCreeps[i];
@@ -48,10 +50,28 @@ export class RoomController {
                 RoleDigger.run(myCreep as Digger, myRoom);
             }
         }
+
         //Deleting the bank
         if (myRoom.bank != null) {
             myRoom.bank.object = null;
         }
+    }
+
+    private static getLabOrder(myRoom: MyRoom): LabOrder | null {
+        if (myRoom.labs == null ||
+            myRoom.labs.labOrders.length === 0) {
+            return null;
+        }
+
+        for (let i: number = 0; i < myRoom.labs.labOrders.length; i++) {
+            const labOrder: LabOrder = myRoom.labs.labOrders[i];
+            if (labOrder.state !== "Queued") {
+                return labOrder;
+            }
+        }
+        //If nothing has been taken from the queue, just grab the first one
+        myRoom.labs.labOrders[0].state = "InitialLoading";
+        return myRoom.labs.labOrders[0];
     }
 
     private static shouldLaborersStock(myRoom: MyRoom): boolean {

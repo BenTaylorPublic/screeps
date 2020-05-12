@@ -4,11 +4,11 @@
 ## TODO
 ### Working on
 ```
+Stockers stocking labs resources
 ```
 ### Short term
 ```
 Lab logic
-    Stockers stocking labs resources
     Labs doing orders
     Stockers unloading labs
 
