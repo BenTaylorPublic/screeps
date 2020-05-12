@@ -4,7 +4,7 @@
 ## TODO
 ### Working on
 ```
-Stockers stocking labs resources
+Testing stockers
 ```
 ### Short term
 ```
