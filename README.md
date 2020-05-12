@@ -4,12 +4,6 @@
 ## TODO
 ### Working on
 ```
-1 Source rooms to participate in minerals
-    Make it so donating RCL 8 rooms will also consider low energy rooms that are RCL 8, 1 source
-    This has been prioritised because I need my U mineral
-```
-### Short term
-```
 Creating orders for a lab
     Amount: number
     AmountLeftToLoad: number
@@ -17,7 +11,9 @@ Creating orders for a lab
     ReagentOne: MineralsAndCompoundConstant
     ReagentTwo: MineralsAndCompoundConstant
     State: Queued | InitialLoading | Loading |  Running | Unloading
-
+```
+### Short term
+```
 Lab logic
     Stockers stocking labs resources
     Labs doing orders
