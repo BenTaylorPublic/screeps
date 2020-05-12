@@ -70,8 +70,9 @@ export class MineralController {
 
                 //We can queue the order!
                 let amountNeeded: number = Math.ceil((resourceLimits.upper - amountOfResource) / Constants.LAB_REACTION_AMOUNT_TO_CEIL_TO) * Constants.LAB_REACTION_AMOUNT_TO_CEIL_TO;
-                if (amountNeeded > 2_500) {
-                    amountNeeded = 2_500;
+                //3k is the limit of the reagent labs
+                if (amountNeeded > 3_000) {
+                    amountNeeded = 3_000;
                 }
                 const newLabOrder: LabOrder = {
                     amount: amountNeeded,
