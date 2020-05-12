@@ -150,6 +150,7 @@ interface LabOrder {
     reagent1: MineralsAndCompoundConstant;
     reagent2: MineralsAndCompoundConstant;
     state: "Queued" | "InitialLoading" | "Loading" | "Running" | "Unloading";
+    priority: number;
 }
 
 interface ReagentLabMemory {

@@ -4,7 +4,7 @@
 ## TODO
 ### Working on
 ```
-Lab Orders should have a priority based on tier system
+Lab Orders should use the priority based on tier system
 ```
 ### Short term
 ```

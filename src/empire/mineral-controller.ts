@@ -37,11 +37,11 @@ export class MineralController {
                 continue;
             }
             const roomResourceMap: ResourceMap = resourceMap.myRoomMaps[myRoom.name];
-            this.tryQueueLabOrderForRoom(myRoom, roomResourceMap, baseCompoundLimits);
+            this.tryQueueLabOrderForRoom(myRoom, roomResourceMap, baseCompoundLimits, 0);
         }
     }
 
-    private static tryQueueLabOrderForRoom(myRoom: MyRoom, roomResourceMap: ResourceMap, tieredResourceLimits: ResourceLimitsWithReagents): void {
+    private static tryQueueLabOrderForRoom(myRoom: MyRoom, roomResourceMap: ResourceMap, tieredResourceLimits: ResourceLimitsWithReagents, priority: number): void {
         const resources: MineralsAndCompoundConstant[] = Object.keys(tieredResourceLimits) as MineralsAndCompoundConstant[];
         for (let i: number = 0; i < resources.length; i++) {
             const resource: MineralsAndCompoundConstant = resources[i];
@@ -86,7 +86,8 @@ export class MineralController {
                     compound: resource,
                     reagent1: resourceLimits.reagent1,
                     reagent2: resourceLimits.reagent2,
-                    state: "Queued"
+                    state: "Queued",
+                    priority: priority
                 };
                 (myRoom.labs as LabMemory).labOrders.push(newLabOrder);
                 ReportController.email("LOG: Queued a new reaction for room " + LogHelper.roomNameAsLink(myRoom.name) + " to create " + resource);
