@@ -4,7 +4,6 @@
 ## TODO
 ### Working on
 ```
-Testing stockers
 ```
 ### Short term
 ```

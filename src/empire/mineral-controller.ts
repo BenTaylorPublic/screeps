@@ -27,8 +27,7 @@ export class MineralController {
         const baseCompoundLimits: ResourceLimitsWithReagents = ResourceConstants.getBaseCompoundLimits();
         for (let i: number = 0; i < roomsToUse.length; i++) {
             const myRoom: MyRoom = roomsToUse[i];
-            if (myRoom.roomStage < 8 ||
-                myRoom.name !== "E16S18") {
+            if (myRoom.roomStage < 8) {
                 /*
                 While lower stages can participate in transfers and mining
                 Only stage 8 rooms will be doing reactions
