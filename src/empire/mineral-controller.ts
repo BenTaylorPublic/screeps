@@ -111,9 +111,7 @@ export class MineralController {
     private static donateEnergyToDevelopingRooms(roomsToUse: MyRoom[], resourceMap: GenerateResourceMapResult, transfers: Transfer[]): void {
         for (let i: number = 0; i < roomsToUse.length; i++) {
             const donorRoom: MyRoom = roomsToUse[i];
-            if (donorRoom.roomStage !== 8 ||
-                //1 Source rooms don't donate
-                donorRoom.mySources.length < 2) {
+            if (donorRoom.roomStage !== 8) {
                 continue;
             }
             const donorRoomResourceMap: ResourceMap = resourceMap.myRoomMaps[donorRoom.name];
@@ -127,7 +125,7 @@ export class MineralController {
                     if (doneeRoom.roomStage < 6 ||
                         (doneeRoom.roomStage > 7 &&
                             //Dont donate to 2 source RCL8s
-                            //They can get their own energy
+                            //They can get their own damn energy
                             doneeRoom.mySources.length >= 2)
                     ) {
                         continue;
