@@ -93,12 +93,11 @@ export class RoomHelper {
             myPos1.y === myPos2.y;
     }
 
-    public static getMyRoomsAtOrAboveStageWithXSources(stage: Stage, minSourceCount: number): MyRoom[] {
+    public static getMyRoomsAtOrAboveStage(stage: Stage): MyRoom[] {
         const result: MyRoom[] = [];
         for (let i: number = 0; i < Memory.myMemory.myRooms.length; i++) {
             const myRoom: MyRoom = Memory.myMemory.myRooms[i];
-            if (myRoom.roomStage >= stage &&
-                myRoom.mySources.length >= minSourceCount) {
+            if (myRoom.roomStage >= stage) {
                 result.push(myRoom);
             }
         }

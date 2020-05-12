@@ -10,7 +10,7 @@ export class MineralController {
             return;
         }
 
-        const roomsToUse: MyRoom[] = RoomHelper.getMyRoomsAtOrAboveStageWithXSources(Constants.MINERAL_START_STAGE, 2);
+        const roomsToUse: MyRoom[] = RoomHelper.getMyRoomsAtOrAboveStage(Constants.MINERAL_START_STAGE);
         const resourceMap: GenerateResourceMapResult = this.generateResourceMap(roomsToUse, myMemory.empire.transfers);
         const mineralLimits: ResourceLimits = ResourceConstants.getMineralLimits();
         this.startOrStopDigging(roomsToUse, resourceMap.totalResourceMap, mineralLimits);
@@ -21,7 +21,9 @@ export class MineralController {
     private static donateEnergyToDevelopingRooms(roomsToUse: MyRoom[], resourceMap: GenerateResourceMapResult, transfers: Transfer[]): void {
         for (let i: number = 0; i < roomsToUse.length; i++) {
             const donorRoom: MyRoom = roomsToUse[i];
-            if (donorRoom.roomStage !== 8) {
+            if (donorRoom.roomStage !== 8 ||
+                //1 Source rooms don't donate
+                donorRoom.mySources.length < 2) {
                 continue;
             }
             const donorRoomResourceMap: ResourceMap = resourceMap.myRoomMaps[donorRoom.name];
@@ -33,12 +35,24 @@ export class MineralController {
                 for (let j: number = 0; j < roomsToUse.length; j++) {
                     const doneeRoom: MyRoom = roomsToUse[j];
                     if (doneeRoom.roomStage < 6 ||
-                        doneeRoom.roomStage > 7) {
+                        (doneeRoom.roomStage > 7 &&
+                            //Dont donate to 2 source RCL8s
+                            //They can get their own energy
+                            doneeRoom.mySources.length >= 2)
+                    ) {
                         continue;
                     }
                     const doneeRoomResourceMap: ResourceMap = resourceMap.myRoomMaps[doneeRoom.name];
                     if (doneeRoomResourceMap.energy != null &&
                         doneeRoomResourceMap.energy < lowestEnergyAmount) {
+                        if (doneeRoom.mySources.length < 2 &&
+                            doneeRoom.roomStage === 8 &&
+                            doneeRoomResourceMap.energy >= Constants.STAGE_8_ONE_SOURCE_ENERGY_DONATE_TARGET) {
+                            //Stage 8, 1 source room, that has enough energy to function
+                            //Skip
+                            continue;
+                        }
+
                         lowestEnergyAmount = doneeRoomResourceMap.energy;
                         lowestEnergyIndex = j;
                     }

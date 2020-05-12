@@ -33,4 +33,5 @@ export class Constants {
     public static BANK_LINKER_CAPACITY: number = 100;
     public static STAGE_8_DONATE_AT: number = 100_000;
     public static STAGE_8_DONATE_AMOUNT: number = 50_000;
+    public static STAGE_8_ONE_SOURCE_ENERGY_DONATE_TARGET: number = 100_000;
 }
