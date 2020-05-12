@@ -86,19 +86,23 @@ export class MineralController {
                 //Inserting the lab order into the sorted array
                 if ((myRoom.labs as LabMemory).labOrders.length === 0) {
                     (myRoom.labs as LabMemory).labOrders.push(newLabOrder);
-                    return;
-                }
-
-                for (let j: number = 0; j < (myRoom.labs as LabMemory).labOrders.length; j++) {
-                    //Priority is backwards
-                    //0 is tier0, which is more important than tier 3
-                    if (newLabOrder.priority < (myRoom.labs as LabMemory).labOrders[i].priority) {
-                        (myRoom.labs as LabMemory).labOrders.splice(i, 0, newLabOrder);
-                        return;
+                } else {
+                    let inserted: boolean = false;
+                    for (let j: number = 0; j < (myRoom.labs as LabMemory).labOrders.length; j++) {
+                        //Priority is backwards
+                        //0 is tier0, which is more important than tier 3
+                        if (newLabOrder.priority < (myRoom.labs as LabMemory).labOrders[i].priority) {
+                            (myRoom.labs as LabMemory).labOrders.splice(i, 0, newLabOrder);
+                            inserted = true;
+                            break;
+                        }
+                    }
+                    if (!inserted) {
+                        //Still hasn't inserted yet
+                        //Put on the end
+                        (myRoom.labs as LabMemory).labOrders = (myRoom.labs as LabMemory).labOrders.concat(newLabOrder);
                     }
                 }
-                //Still hasn't inserted yet
-                (myRoom.labs as LabMemory).labOrders = (myRoom.labs as LabMemory).labOrders.concat(newLabOrder);
                 ReportController.email("LOG: Queued a new reaction for room " + LogHelper.roomNameAsLink(myRoom.name) + " to create " + resource);
             }
         }
