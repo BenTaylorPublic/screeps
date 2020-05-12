@@ -4,10 +4,12 @@
 ## TODO
 ### Working on
 ```
-Rooms shouldn't request minerals if they have the mineral source in their room
+Lab Orders should have a priority based on tier system
 ```
 ### Short term
 ```
+Rooms shouldn't request minerals if they have the mineral source in their room
+
 Lab logic
     Stockers stocking labs resources
     Labs doing orders
