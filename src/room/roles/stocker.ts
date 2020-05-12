@@ -22,6 +22,10 @@ export class RoleStocker {
             this.distributeEnergy(stocker, creep);
         } else if (stocker.state === "PickupResources") {
             this.pickupResources(stocker, creep);
+        } else if (stocker.state === "PickupReagents") {
+            //TODO
+        } else if (stocker.state === "DepositReagents") {
+            //TODO
         } else {
             this.depositResources(stocker, myRoom, creep);
         }

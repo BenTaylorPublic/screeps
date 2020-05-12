@@ -317,7 +317,12 @@ interface AttackHealerDrainCreep extends MyCreep {
 }
 
 interface Stocker extends MyCreep {
-    state: "PickupEnergy" | "DistributeEnergy" | "PickupResources" | "DepositResources";
+    state: "PickupEnergy" |
+        "DistributeEnergy" |
+        "PickupResources" |
+        "DepositResources" |
+        "PickupReagents" |
+        "DepositReagents";
 }
 
 interface Signer extends MyCreep {
