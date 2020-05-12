@@ -130,12 +130,9 @@ export class RoleStocker {
             }
             //Will divide later
             let amountToGrab: number = labOrder.amountLeftToLoad;
-            if (amountToGrab > creep.store.getCapacity()) {
-                amountToGrab = creep.store.getCapacity();
+            if (amountToGrab * 2 > creep.store.getCapacity()) {
+                amountToGrab = creep.store.getCapacity() / 2;
             }
-
-            //Half of each reagent
-            amountToGrab = amountToGrab / 2;
 
             //Grab reagent 2 if the creep store isn't empty
             const resourceToGrab: MineralsAndCompoundConstant = creep.store.getUsedCapacity() > 0 ? labOrder.reagent2 : labOrder.reagent1;
