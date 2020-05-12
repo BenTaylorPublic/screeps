@@ -140,6 +140,16 @@ interface LabMemory {
     reagentLab1: ReagentLabMemory;
     reagentLab2: ReagentLabMemory;
     compundLabs: CompoundLabMemory[];
+    labOrders: LabOrder[];
+}
+
+interface LabOrder {
+    amount: number;
+    amountLeftToLoad: number;
+    compound: MineralsAndCompoundConstant;
+    reagent1: MineralsAndCompoundConstant;
+    reagent2: MineralsAndCompoundConstant;
+    state: "Queued" | "InitialLoading" | "Loading" | "Running" | "Unloading";
 }
 
 interface ReagentLabMemory {
@@ -356,7 +366,15 @@ interface ResourceLimitUpperLower {
     lower: number;
 }
 
+interface ResourceLimitUpperLowerWithReagents {
+    upper: number;
+    lower: number;
+    reagent1: MineralsAndCompoundConstant;
+    reagent2: MineralsAndCompoundConstant;
+}
+
 type ResourceLimits = Partial<Record<ResourceConstant, ResourceLimitUpperLower>>;
+type ResourceLimitsWithReagents = Partial<Record<MineralsAndCompoundConstant, ResourceLimitUpperLowerWithReagents>>;
 
 interface ScavengerTargetResult {
     isResource: boolean;

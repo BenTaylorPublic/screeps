@@ -7,7 +7,11 @@ import {ResourceConstants} from "../global/constants/resource-constants";
 export class MineralController {
     public static run(myMemory: MyMemory): void {
         if (Game.time % 100 !== 0) {
-            return;
+            if (Game.flags["test-run-1"] != null) {
+                Game.flags["test-run-1"].remove();
+            } else {
+                return;
+            }
         }
 
         const roomsToUse: MyRoom[] = RoomHelper.getMyRoomsAtOrAboveStage(Constants.MINERAL_START_STAGE);
@@ -16,6 +20,73 @@ export class MineralController {
         this.startOrStopDigging(roomsToUse, resourceMap.totalResourceMap, mineralLimits);
         this.transferMineralsToLowRooms(roomsToUse, resourceMap, myMemory.empire.transfers, mineralLimits);
         this.donateEnergyToDevelopingRooms(roomsToUse, resourceMap, myMemory.empire.transfers);
+        this.queueLabOrders(roomsToUse, resourceMap);
+    }
+
+    private static queueLabOrders(roomsToUse: MyRoom[], resourceMap: GenerateResourceMapResult): void {
+        const baseCompoundLimits: ResourceLimitsWithReagents = ResourceConstants.getBaseCompoundLimits();
+        for (let i: number = 0; i < roomsToUse.length; i++) {
+            const myRoom: MyRoom = roomsToUse[i];
+            if (myRoom.roomStage < 8) {
+                /*
+                While lower stages can participate in transfers and mining
+                Only stage 8 rooms will be doing reactions
+                 */
+                continue;
+            }
+            const roomResourceMap: ResourceMap = resourceMap.myRoomMaps[myRoom.name];
+            this.tryQueueLabOrderForRoom(myRoom, roomResourceMap, baseCompoundLimits);
+        }
+    }
+
+    private static tryQueueLabOrderForRoom(myRoom: MyRoom, roomResourceMap: ResourceMap, tieredResourceLimits: ResourceLimitsWithReagents): void {
+        const resources: MineralsAndCompoundConstant[] = Object.keys(tieredResourceLimits) as MineralsAndCompoundConstant[];
+        for (let i: number = 0; i < resources.length; i++) {
+            const resource: MineralsAndCompoundConstant = resources[i];
+            const resourceLimits: ResourceLimitUpperLowerWithReagents = tieredResourceLimits[resource] as ResourceLimitUpperLowerWithReagents;
+            const amountOfResource: number = this.getAmountOfResource(roomResourceMap, resource);
+
+            if (amountOfResource < resourceLimits.lower) {
+                //The room needs more of this resource
+                //There could be another already existing order for this resource
+                let alreadyExistingOrderForThisResource: boolean = false;
+                for (let j: number = 0; j < (myRoom.labs as LabMemory).labOrders.length; j++) {
+                    const currentLabOrder: LabOrder = (myRoom.labs as LabMemory).labOrders[j];
+                    if (currentLabOrder.compound === resource) {
+                        alreadyExistingOrderForThisResource = true;
+                        break;
+                    }
+                }
+                if (alreadyExistingOrderForThisResource) {
+                    console.log("test log: alreadyExistingOrderForThisResource");
+                    continue;
+                }
+                //There might not be enough of the reagents to make this resource
+                const amountOfReagent1: number = this.getAmountOfResource(roomResourceMap, resourceLimits.reagent1);
+                if (amountOfReagent1 < 500) {
+                    ReportController.email("LOG: Can't create resource " + resource + " in room " + LogHelper.roomNameAsLink(myRoom.name) + " due to lack of r1 " + resourceLimits.reagent1 + " (" + amountOfReagent1 + ")");
+                    continue;
+                }
+                const amountOfReagent2: number = this.getAmountOfResource(roomResourceMap, resourceLimits.reagent2);
+                if (amountOfReagent2 < 500) {
+                    ReportController.email("LOG: Can't create resource " + resource + " in room " + LogHelper.roomNameAsLink(myRoom.name) + " due to lack of r2 " + resourceLimits.reagent2 + " (" + amountOfReagent2 + ")");
+                    continue;
+                }
+
+                //We can queue the order!
+                const amountNeeded: number = Math.ceil((resourceLimits.upper - amountOfResource) / Constants.LAB_REACTION_AMOUNT_TO_CEIL_TO) * Constants.LAB_REACTION_AMOUNT_TO_CEIL_TO;
+                const newLabOrder: LabOrder = {
+                    amount: amountNeeded,
+                    amountLeftToLoad: amountNeeded,
+                    compound: resource,
+                    reagent1: resourceLimits.reagent1,
+                    reagent2: resourceLimits.reagent2,
+                    state: "Queued"
+                };
+                (myRoom.labs as LabMemory).labOrders.push(newLabOrder);
+                ReportController.email("LOG: Queued a new reaction for room " + LogHelper.roomNameAsLink(myRoom.name) + " to create " + resource);
+            }
+        }
     }
 
     private static donateEnergyToDevelopingRooms(roomsToUse: MyRoom[], resourceMap: GenerateResourceMapResult, transfers: Transfer[]): void {
@@ -78,12 +149,7 @@ export class MineralController {
             for (let j: number = 0; j < resources.length; j++) {
                 const resource: ResourceConstant = resources[j];
                 const resourceLimits: ResourceLimitUpperLower = mineralLimits[resource] as ResourceLimitUpperLower;
-                let amountOfMineral: number;
-                if (roomResourceMap[resource] == null) {
-                    amountOfMineral = 0;
-                } else {
-                    amountOfMineral = roomResourceMap[resource] as number;
-                }
+                const amountOfMineral: number = this.getAmountOfResource(roomResourceMap, resource);
                 if (amountOfMineral < resourceLimits.lower) {
                     //Request transfer
                     const amountNeeded: number = Math.ceil((resourceLimits.upper - amountOfMineral) / Constants.BANK_LINKER_CAPACITY) * Constants.BANK_LINKER_CAPACITY;
@@ -144,12 +210,7 @@ export class MineralController {
             const mineral: MineralConstant = resources[i] as MineralConstant;
             const mineralLimit: ResourceLimitUpperLower = mineralLimits[mineral] as ResourceLimitUpperLower;
             const mineralLimitUpper: number = mineralLimit.upper * roomsToUse.length;
-            let amountOfMineral: number;
-            if (totalResourceMap[mineral] == null) {
-                amountOfMineral = 0;
-            } else {
-                amountOfMineral = totalResourceMap[mineral] as number;
-            }
+            const amountOfMineral: number = this.getAmountOfResource(totalResourceMap, mineral);
             if (amountOfMineral > mineralLimitUpper) {
                 //Stop digging
                 this.setDiggingActive(roomsToUse, mineral, false);
@@ -235,11 +296,19 @@ export class MineralController {
         return result;
     }
 
-    public static addToResourceMap(resourceMap: ResourceMap, resource: ResourceConstant, amount: number): void {
+    private static addToResourceMap(resourceMap: ResourceMap, resource: ResourceConstant, amount: number): void {
         if (resourceMap[resource] == null) {
             resourceMap[resource] = amount;
         } else {
             (resourceMap[resource] as number) += amount;
+        }
+    }
+
+    private static getAmountOfResource(resourceMap: ResourceMap, resource: ResourceConstant): number {
+        if (resourceMap[resource] == null) {
+            return 0;
+        } else {
+            return resourceMap[resource] as number;
         }
     }
 }

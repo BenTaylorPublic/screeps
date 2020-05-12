@@ -6,7 +6,7 @@ import {FunctionProfiler} from "./profiler/function-profiler/function-profiler";
 import {EmpireHelper} from "./global/helpers/empire-helper";
 
 console.log("Script reloaded");
-Memory.myMemory.empire.transfers = [];
+
 // for (let i: number = 0; i < Memory.myMemory.myRooms.length; i++) {
 //     const myRoom: MyRoom = Memory.myMemory.myRooms[i];
 //     for (let j: number = myRoom.myCreeps.length - 1; j >= 0; j--) {

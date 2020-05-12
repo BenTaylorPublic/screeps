@@ -103,7 +103,8 @@ export class Stage7_8 {
                 buffingLab: bufferId,
                 reagentLab1: reagentLab1,
                 reagentLab2: reagentLab2,
-                compundLabs: compoundLabs
+                compundLabs: compoundLabs,
+                labOrders: []
             };
             labBufferFlag.remove();
             labReagent1Flag.remove();
