@@ -23,7 +23,7 @@ export class RoleStocker {
         } else if (stocker.state === "PickupResources") {
             this.pickupResources(stocker, creep);
         } else if (stocker.state === "PickupReagents") {
-            //TODO
+            this.pickupReagents(stocker, myRoom, creep, labOrder as LabOrder);
         } else if (stocker.state === "DepositReagents") {
             //TODO
         } else {
@@ -88,6 +88,40 @@ export class RoleStocker {
                 stocker.state = "DepositResources";
                 creep.say("DepositRes");
             }
+        }
+    }
+
+    private static pickupReagents(stocker: Stocker, myRoom: MyRoom, creep: Creep, labOrder: LabOrder): void {
+        if (myRoom.bank == null) {
+            ReportController.email("ERROR: Room's bank pos was null in " + LogHelper.roomNameAsLink(myRoom.name));
+            return;
+        }
+
+        const bankPos: RoomPosition = RoomHelper.myPosToRoomPos(myRoom.bank.bankPos);
+
+        if (bankPos.isNearTo(creep)) {
+            const bank: StructureStorage | null = myRoom.bank.object;
+            if (bank == null) {
+                ReportController.email("ERROR: Room's bank was null in " + LogHelper.roomNameAsLink(myRoom.name));
+                return;
+            }
+            //Will divide later
+            let amountToGrab: number = labOrder.amountLeftToLoad;
+            if (amountToGrab > creep.store.getCapacity()) {
+                amountToGrab = creep.store.getCapacity();
+            }
+
+            //Half of each reagent
+            amountToGrab = amountToGrab / 2;
+
+            //Grab reagent 2 if the creep store isn't empty
+            const resourceToGrab: MineralsAndCompoundConstant = creep.store.getUsedCapacity() > 0 ? labOrder.reagent2 : labOrder.reagent1;
+            const withdrawResult: ScreepsReturnCode = creep.withdraw(bank, resourceToGrab, amountToGrab);
+            if (withdrawResult !== OK) {
+                ReportController.log("ERROR: Withdraw reagent " + resourceToGrab + " for stocker in room " + LogHelper.roomNameAsLink(myRoom.name) + " resulted in " + withdrawResult);
+            }
+        } else {
+            MovementHelper.myMoveTo(creep, bankPos, stocker);
         }
     }
 
