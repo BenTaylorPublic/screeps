@@ -4,7 +4,6 @@
 ## TODO
 ### Working on
 ```
-Rooms shouldn't request minerals if they have the mineral source in their room
 ```
 ### Short term
 ```

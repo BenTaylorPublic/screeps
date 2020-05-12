@@ -165,6 +165,11 @@ export class MineralController {
             const resources: ResourceConstant[] = Object.keys(mineralLimits) as ResourceConstant[];
             for (let j: number = 0; j < resources.length; j++) {
                 const resource: ResourceConstant = resources[j];
+                if (resource === myRoom.digging.mineral) {
+                    //Don't request transfers for a mineral that's already in the room
+                    //That'd be lazy
+                    continue;
+                }
                 const resourceLimits: ResourceLimitUpperLower = mineralLimits[resource] as ResourceLimitUpperLower;
                 const amountOfMineral: number = this.getAmountOfResource(roomResourceMap, resource);
                 if (amountOfMineral < resourceLimits.lower) {
