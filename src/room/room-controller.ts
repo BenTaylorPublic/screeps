@@ -62,16 +62,25 @@ export class RoomController {
             myRoom.labs.labOrders.length === 0) {
             return null;
         }
-
         for (let i: number = 0; i < myRoom.labs.labOrders.length; i++) {
             const labOrder: LabOrder = myRoom.labs.labOrders[i];
             if (labOrder.state !== "Queued") {
                 return labOrder;
             }
         }
-        //If nothing has been taken from the queue, just grab the first one
-        myRoom.labs.labOrders[0].state = "InitialLoading";
-        return myRoom.labs.labOrders[0];
+        //If nothing has been taken from the queue, just grab the first one that we still have resources for
+        const bank: StructureStorage = (myRoom.bank as Bank).object as StructureStorage;
+        for (let i: number = 0; i < myRoom.labs.labOrders.length; i++) {
+            const labOrder: LabOrder = myRoom.labs.labOrders[i];
+            if (bank.store[labOrder.reagent1] >= labOrder.amount &&
+                bank.store[labOrder.reagent2] >= labOrder.amount) {
+                labOrder.state = "InitialLoading";
+                return labOrder;
+            } else {
+                ReportController.email("BAD: Not enough resources for lab order " + labOrder.compound + " in room " + LogHelper.roomNameAsLink(myRoom.name));
+            }
+        }
+        return null;
     }
 
     private static shouldLaborersStock(myRoom: MyRoom): boolean {
