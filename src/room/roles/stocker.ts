@@ -25,7 +25,7 @@ export class RoleStocker {
         } else if (stocker.state === "PickupReagents") {
             this.pickupReagents(stocker, myRoom, creep, labOrder as LabOrder);
         } else if (stocker.state === "DepositReagents") {
-            //TODO
+            this.depositReagents(stocker, myRoom, creep, labOrder as LabOrder);
         } else {
             this.depositResources(stocker, myRoom, creep);
         }
@@ -88,6 +88,29 @@ export class RoleStocker {
                 stocker.state = "DepositResources";
                 creep.say("DepositRes");
             }
+        }
+    }
+
+    private static depositReagents(stocker: Stocker, myRoom: MyRoom, creep: Creep, labOrder: LabOrder): void {
+        const reagentLab1: StructureLab | null = Game.getObjectById<StructureLab>((myRoom.labs as LabMemory).reagentLab1.id);
+        const reagentLab2: StructureLab | null = Game.getObjectById<StructureLab>((myRoom.labs as LabMemory).reagentLab2.id);
+        if (reagentLab1 == null || reagentLab2 == null) {
+            ReportController.email("ERROR: A reagent lab was null in stocker.depositReagents in " + LogHelper.roomNameAsLink(myRoom.name));
+            return;
+        }
+        const depositingReagent1: boolean = Object.keys(creep.store).length === 2;
+        const targetLab: StructureLab = depositingReagent1 ? reagentLab1 : reagentLab2;
+        if (creep.pos.isNearTo(targetLab)) {
+            //Deposit
+            const resourceToDeposit: MineralsAndCompoundConstant = depositingReagent1 ? labOrder.reagent1 : labOrder.reagent2;
+            creep.transfer(targetLab, resourceToDeposit);
+            if (!depositingReagent1) {
+                //Just deposited reagent 2
+                //Reduce the amount left to load
+                labOrder.amountLeftToLoad -= creep.store.getUsedCapacity(resourceToDeposit);
+            }
+        } else {
+            MovementHelper.myMoveTo(creep, targetLab.pos, stocker);
         }
     }
 
