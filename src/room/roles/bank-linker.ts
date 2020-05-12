@@ -132,7 +132,7 @@ export class RoleBankLinker {
                 }
                 if (creep.withdraw(terminal, resources[i]) === OK) {
                     bankLinker.state = "ResourceToBank";
-                    ReportController.email("Creep is cleaning the terminal in " + LogHelper.roomNameAsLink(room.name), ReportCooldownConstants.HOUR);
+                    ReportController.email("BAD: Creep is cleaning the terminal in " + LogHelper.roomNameAsLink(room.name), ReportCooldownConstants.HOUR);
                     break;
                 }
             }
