@@ -6,7 +6,7 @@ import {MovementHelper} from "../../global/helpers/movement-helper";
 import {Constants} from "../../global/constants/constants";
 
 export class RoleStocker {
-    public static run(stocker: Stocker, myRoom: MyRoom): void {
+    public static run(stocker: Stocker, myRoom: MyRoom, labOrder: LabOrder | null): void {
         if (CreepHelper.handleCreepPreRole(stocker)) {
             return;
         }
@@ -14,7 +14,7 @@ export class RoleStocker {
         const room: Room = Game.rooms[myRoom.name];
         const creep: Creep = Game.creeps[stocker.name];
 
-        this.calculateCreepState(stocker, room, creep);
+        this.calculateCreepState(stocker, room, creep, labOrder);
 
         if (stocker.state === "PickupEnergy") {
             this.pickupEnergy(stocker, myRoom, creep);
@@ -31,15 +31,16 @@ export class RoleStocker {
         }
     }
 
-    private static calculateCreepState(stocker: Stocker, room: Room, creep: Creep): void {
+    private static calculateCreepState(stocker: Stocker, room: Room, creep: Creep, labOrder: LabOrder | null): void {
         if (stocker.state === "DistributeEnergy") {
             if (!this.structureNeedsEnergy(room) &&
-                this.resourcesToPickup(room)) {
+                (this.resourcesToPickup(room) ||
+                    this.labOrderToLoadFor(labOrder))) {
                 stocker.state = "DepositResources";
-                creep.say("Deposit R");
+                creep.say("DepositRes");
             } else if (creep.store.getUsedCapacity() === 0) {
                 stocker.state = "PickupEnergy";
-                creep.say("Pickup E");
+                creep.say("PickupEn");
             }
         } else if (stocker.state === "PickupEnergy") {
             if (creep.store.getFreeCapacity() === 0) {
@@ -48,24 +49,44 @@ export class RoleStocker {
                     creep.say("Distribute");
                 } else {
                     stocker.state = "DepositResources";
-                    creep.say("Deposit R");
+                    creep.say("DepositRes");
                 }
             }
         } else if (stocker.state === "DepositResources") {
             if (creep.store.getUsedCapacity() === 0) {
                 if (this.structureNeedsEnergy(room)) {
                     stocker.state = "PickupEnergy";
-                    creep.say("Pickup E");
+                    creep.say("PickupEn");
+                } else if (this.labOrderToLoadFor(labOrder)) {
+                    stocker.state = "PickupReagents";
+                    creep.say("P Reagents");
                 } else if (this.resourcesToPickup(room)) {
                     stocker.state = "PickupResources";
-                    creep.say("Pickup R");
+                    creep.say("PickupRes");
                 }
             }
         } else if (stocker.state === "PickupResources") {
             if (!this.resourcesToPickup(room) ||
                 creep.store.getFreeCapacity() === 0) {
                 stocker.state = "DepositResources";
-                creep.say("Deposit R");
+                creep.say("DepositRes");
+            }
+        } else if (stocker.state === "PickupReagents") {
+            if (labOrder == null) {
+                stocker.state = "DepositResources";
+                creep.say("DepositRes");
+            } else if (creep.store.getUsedCapacity(labOrder.reagent1) > 0 &&
+                creep.store.getUsedCapacity(labOrder.reagent2) > 0) {
+                stocker.state = "DepositReagents";
+                creep.say("D Reagents");
+            }
+        } else if (stocker.state === "DepositReagents") {
+            if (labOrder == null) {
+                stocker.state = "DepositResources";
+                creep.say("DepositRes");
+            } else if (creep.store.getUsedCapacity() === 0) {
+                stocker.state = "DepositResources";
+                creep.say("DepositRes");
             }
         }
     }
@@ -196,6 +217,11 @@ export class RoleStocker {
                 }
             }).length > 0 ||
             room.find(FIND_DROPPED_RESOURCES).length > 0;
+    }
 
+    private static labOrderToLoadFor(labOrder: LabOrder | null): boolean {
+        return labOrder != null &&
+            (labOrder.state === "InitialLoading" ||
+                labOrder.state === "Loading");
     }
 }

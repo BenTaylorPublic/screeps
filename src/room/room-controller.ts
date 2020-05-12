@@ -45,7 +45,7 @@ export class RoomController {
             } else if (myCreep.role === "BankLinker") {
                 RoleBankLinker.run(myCreep as BankLinker, myRoom, transfer, bankLinkerShouldStockLink);
             } else if (myCreep.role === "Stocker") {
-                RoleStocker.run(myCreep as Stocker, myRoom);
+                RoleStocker.run(myCreep as Stocker, myRoom, labOrder);
             } else if (myCreep.role === "Digger") {
                 RoleDigger.run(myCreep as Digger, myRoom);
             }
