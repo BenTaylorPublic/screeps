@@ -60,7 +60,6 @@ export class MineralController {
                     }
                 }
                 if (alreadyExistingOrderForThisResource) {
-                    console.log("test log: alreadyExistingOrderForThisResource");
                     continue;
                 }
                 //There might not be enough of the reagents to make this resource
