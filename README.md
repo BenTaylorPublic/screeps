@@ -4,6 +4,9 @@
 ## TODO
 ### Working on
 ```
+Clear old creeps
+    Some rooms have some creeps that aren't alive anymore
+    Weird
 ```
 ### Short term
 ```
@@ -47,6 +50,12 @@ Monitor force laborer spawns in linked rooms
     I'm thinking that the ruts can be observed and fixed through this monitoring
 
 Buffing
+
+Remote spawning for low stage rooms
+    If a room under stage 6 (no terminal)
+    Maybe a stage 8 room provides them creeps
+    Only if the stage 8 room is within ~2-3 rooms
+    Otherwise the TTL will make it pretty pointless
 
 Make a ranged creep for dealing with other attack creeps
 
