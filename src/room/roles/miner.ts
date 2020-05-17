@@ -44,6 +44,8 @@ export class RoleMiner {
                             creep.harvest(source);
                         }
                     } else {
+                        //Clear it
+                        mySource.cache.id = null;
                         ReportController.email("ERROR: Source cache returned null with get by ID in " + LogHelper.roomNameAsLink(myRoom.name));
                     }
                 }
