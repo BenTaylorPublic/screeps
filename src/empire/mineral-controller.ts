@@ -123,7 +123,7 @@ export class MineralController {
             if (donorRoomResourceMap.energy != null &&
                 donorRoomResourceMap.energy >= Constants.STAGE_8_DONATE_AT) {
                 //Want to donate
-                let lowestEnergyAmount: number = 1_000_000;
+                let lowestEnergyAmount: number = Constants.DONT_DONATE_TO_ROOMS_WITH_ABOVE_ENERGY;
                 let lowestEnergyIndex: number = -1;
                 for (let j: number = 0; j < roomsToUse.length; j++) {
                     const doneeRoom: MyRoom = roomsToUse[j];
@@ -137,7 +137,8 @@ export class MineralController {
                     }
                     const doneeRoomResourceMap: ResourceMap = resourceMap.myRoomMaps[doneeRoom.name];
                     if (doneeRoomResourceMap.energy != null &&
-                        doneeRoomResourceMap.energy < lowestEnergyAmount) {
+                        doneeRoomResourceMap.energy < lowestEnergyAmount &&
+                        doneeRoomResourceMap.energy < Constants.DONT_DONATE_TO_ROOMS_WITH_ABOVE_ENERGY) {
                         if (doneeRoom.mySources.length < 2 &&
                             doneeRoom.roomStage === 8 &&
                             doneeRoomResourceMap.energy >= Constants.STAGE_8_ONE_SOURCE_ENERGY_DONATE_TARGET) {
@@ -153,7 +154,7 @@ export class MineralController {
 
                 if (lowestEnergyIndex === -1) {
                     // No rooms need energy
-                    // Just return
+                    ReportController.log("No room wants energy");
                     return;
                 }
 
