@@ -4,14 +4,10 @@
 ## TODO
 ### Working on
 ```
-Clear old creeps
-    Some rooms have some creeps that aren't alive anymore
-    Weird
+Convert stocker state says into emotes
 ```
 ### Short term
 ```
-Convert stocker state says into emotes
-
 Lab logic
     Labs doing orders
     Stockers unloading labs
