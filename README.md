@@ -24,7 +24,12 @@ MyMemory.Settings
         set-OBSERVER_WIDTH-5
 
 Upgrader role
-    For 6.8+
+    Only uses the controller link for energy
+    Doesn't build or mine, just upgrades
+    For 6.8+ (6.6 -> 6.8 is having a controller linked)
+    This also will include removing the need for laborers unless:
+        Forced (for rut problems)
+        Construction sites
 
 Towers sitting on 50% letting containers die
 
@@ -54,6 +59,7 @@ Remote spawning for low stage rooms
     Otherwise the TTL will make it pretty pointless
 
 Make a ranged creep for dealing with other attack creeps
+    Call it legolas lol
 
 Attack logic should be combined
     Attacking is very similar logic, and the system I have complicates it
