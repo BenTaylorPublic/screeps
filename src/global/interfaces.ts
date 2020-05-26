@@ -139,7 +139,7 @@ interface LabMemory {
     buffingLab: Id<StructureLab>;
     reagentLab1: ReagentLabMemory;
     reagentLab2: ReagentLabMemory;
-    compundLabs: CompoundLabMemory[];
+    compoundLabs: CompoundLabMemory[];
     labOrders: LabOrder[];
 }
 
@@ -151,6 +151,7 @@ interface LabOrder {
     reagent2: MineralsAndCompoundConstant;
     state: "Queued" | "InitialLoading" | "Loading" | "Running" | "Unloading";
     priority: number;
+    cooldown: number;
 }
 
 interface ReagentLabMemory {
@@ -161,7 +162,6 @@ interface ReagentLabMemory {
 interface CompoundLabMemory {
     id: Id<StructureLab>;
     cooldownTill: number;
-    resource: MineralsAndCompoundConstant | null;
 }
 
 interface Bank {
@@ -378,6 +378,7 @@ interface ResourceLimitUpperLowerWithReagents {
     lower: number;
     reagent1: MineralsAndCompoundConstant;
     reagent2: MineralsAndCompoundConstant;
+    cooldown: number;
 }
 
 type ResourceLimits = Partial<Record<ResourceConstant, ResourceLimitUpperLower>>;

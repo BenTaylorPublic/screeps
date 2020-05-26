@@ -32,8 +32,8 @@ export class RoomLabController {
             ReportController.email("ERROR: A reagent lab was null in runReactions");
             return;
         }
-        for (let i: number = 0; i < labMemory.compundLabs.length; i++) {
-            const compoundLabMemory: CompoundLabMemory = labMemory.compundLabs[i];
+        for (let i: number = 0; i < labMemory.compoundLabs.length; i++) {
+            const compoundLabMemory: CompoundLabMemory = labMemory.compoundLabs[i];
             if (compoundLabMemory.cooldownTill > Game.time) {
                 continue;
             }
@@ -45,7 +45,7 @@ export class RoomLabController {
             }
             const result: ScreepsReturnCode = lab.runReaction(reagentLab1, reagentLab2);
             if (result === OK) {
-                compoundLabMemory.cooldownTill = Game.time + 5;
+                compoundLabMemory.cooldownTill = Game.time + labOrder.cooldown;
             } else {
                 console.log("Bad result for runReaction, " + LogHelper.logScreepsReturnCode(result));
             }
@@ -81,8 +81,8 @@ export class RoomLabController {
                 ReportController.email("LabOrder in " + LogHelper.roomNameAsLink(myRoom.name) + ": Running -> Unloading");
             }
         } else if (labOrder.state === "Unloading") {
-            for (let i: number = 0; i < labMemory.compundLabs.length; i++) {
-                const compoundLabMemory: CompoundLabMemory = labMemory.compundLabs[i];
+            for (let i: number = 0; i < labMemory.compoundLabs.length; i++) {
+                const compoundLabMemory: CompoundLabMemory = labMemory.compoundLabs[i];
                 const lab: StructureLab | null = Game.getObjectById<StructureLab>(compoundLabMemory.id);
                 if (lab == null) {
                     ReportController.email("ERROR: A compound lab was null in updateLabOrder");

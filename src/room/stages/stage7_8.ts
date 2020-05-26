@@ -89,8 +89,7 @@ export class Stage7_8 {
             } else {
                 compoundLabs.push({
                     id: lab.id,
-                    cooldownTill: 0,
-                    resource: null
+                    cooldownTill: 0
                 });
             }
         }
@@ -103,7 +102,7 @@ export class Stage7_8 {
                 buffingLab: bufferId,
                 reagentLab1: reagentLab1,
                 reagentLab2: reagentLab2,
-                compundLabs: compoundLabs,
+                compoundLabs: compoundLabs,
                 labOrders: []
             };
             labBufferFlag.remove();

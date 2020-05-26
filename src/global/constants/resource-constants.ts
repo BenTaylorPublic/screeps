@@ -38,7 +38,8 @@ export class ResourceConstants {
                 lower: 1_000,
                 upper: 3_000,
                 reagent1: "Z",
-                reagent2: "K"
+                reagent2: "K",
+                cooldown: 5
             }
         };
     }

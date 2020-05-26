@@ -106,8 +106,8 @@ export class RoleStocker {
         const labMemory: LabMemory = myRoom.labs as LabMemory;
         //Loop until successfully withdraw
         let moved: boolean = false;
-        for (let i: number = 0; i < labMemory.compundLabs.length; i++) {
-            const compoundLabMemory: CompoundLabMemory = labMemory.compundLabs[i];
+        for (let i: number = 0; i < labMemory.compoundLabs.length; i++) {
+            const compoundLabMemory: CompoundLabMemory = labMemory.compoundLabs[i];
             const lab: StructureLab | null = Game.getObjectById<StructureLab>(compoundLabMemory.id);
             if (lab == null) {
                 ReportController.email("ERROR: A compound lab was null in pickupCompounds in " + LogHelper.roomNameAsLink(myRoom.name));
