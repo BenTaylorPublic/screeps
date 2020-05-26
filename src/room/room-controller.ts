@@ -11,6 +11,7 @@ import {RoleStocker} from "./roles/stocker";
 import {LogHelper} from "../global/helpers/log-helper";
 import {RoomDefenseController} from "./room-defense-controller";
 import {RoleDigger} from "./roles/digger";
+import {RoomLabController} from "./structures/lab";
 
 export class RoomController {
     public static run(myRoom: MyRoom, transfer: Transfer | null): void {
@@ -31,10 +32,7 @@ export class RoomController {
 
         const bankLinkerShouldStockLink: boolean = RoomLinkController.run(myRoom);
 
-        const labOrder: LabOrder | null = this.getLabOrder(myRoom);
-        if (labOrder != null) {
-            this.updateLabOrder(myRoom, labOrder);
-        }
+        const labOrder: LabOrder | null = RoomLabController.run(myRoom);
 
         // Creep logic
         for (let i = 0; i < myRoom.myCreeps.length; i++) {
@@ -58,54 +56,6 @@ export class RoomController {
         if (myRoom.bank != null) {
             myRoom.bank.object = null;
         }
-    }
-
-    private static updateLabOrder(myRoom: MyRoom, labOrder: LabOrder): void {
-        const reagentLab1: StructureLab | null = Game.getObjectById<StructureLab>((myRoom.labs as LabMemory).reagentLab1.id);
-        const reagentLab2: StructureLab | null = Game.getObjectById<StructureLab>((myRoom.labs as LabMemory).reagentLab2.id);
-        if (reagentLab1 == null || reagentLab2 == null) {
-            ReportController.email("ERROR: A reagent lab was null in updateLabOrder in " + LogHelper.roomNameAsLink(myRoom.name));
-            return;
-        }
-        if (labOrder.state === "InitialLoading") {
-            if (reagentLab1.store[labOrder.reagent1] > 0 &&
-                reagentLab2.store[labOrder.reagent2] > 0) {
-                labOrder.state = "Loading";
-                ReportController.email("LabOrder in " + LogHelper.roomNameAsLink(myRoom.name) + ": InitialLoading -> Loading");
-            }
-        } else if (labOrder.state === "Loading") {
-            if (reagentLab1.store[labOrder.reagent1] === labOrder.amount &&
-                reagentLab2.store[labOrder.reagent2] === labOrder.amount) {
-                labOrder.state = "Running";
-                ReportController.email("LabOrder in " + LogHelper.roomNameAsLink(myRoom.name) + ": Loading -> Running");
-            }
-        }
-    }
-
-    private static getLabOrder(myRoom: MyRoom): LabOrder | null {
-        if (myRoom.labs == null ||
-            myRoom.labs.labOrders.length === 0) {
-            return null;
-        }
-        for (let i: number = 0; i < myRoom.labs.labOrders.length; i++) {
-            const labOrder: LabOrder = myRoom.labs.labOrders[i];
-            if (labOrder.state !== "Queued") {
-                return labOrder;
-            }
-        }
-        //If nothing has been taken from the queue, just grab the first one that we still have resources for
-        const bank: StructureStorage = (myRoom.bank as Bank).object as StructureStorage;
-        for (let i: number = 0; i < myRoom.labs.labOrders.length; i++) {
-            const labOrder: LabOrder = myRoom.labs.labOrders[i];
-            if (bank.store[labOrder.reagent1] >= labOrder.amount &&
-                bank.store[labOrder.reagent2] >= labOrder.amount) {
-                labOrder.state = "InitialLoading";
-                return labOrder;
-            } else {
-                ReportController.email("BAD: Not enough resources for lab order " + labOrder.compound + " in room " + LogHelper.roomNameAsLink(myRoom.name));
-            }
-        }
-        return null;
     }
 
     private static shouldLaborersStock(myRoom: MyRoom): boolean {

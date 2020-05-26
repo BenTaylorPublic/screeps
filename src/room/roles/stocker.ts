@@ -37,56 +37,56 @@ export class RoleStocker {
                 (this.resourcesToPickup(room) ||
                     this.labOrderToLoadFor(labOrder))) {
                 stocker.state = "DepositResources";
-                creep.say("DepositRes");
+                creep.say("💎/⚡ to 🏦");
             } else if (creep.store.getUsedCapacity() === 0) {
                 stocker.state = "PickupEnergy";
-                creep.say("PickupEn");
+                creep.say("⚡ from 🏦");
             }
         } else if (stocker.state === "PickupEnergy") {
             if (creep.store.getFreeCapacity() === 0) {
                 if (this.structureNeedsEnergy(room)) {
                     stocker.state = "DistributeEnergy";
-                    creep.say("Distribute");
+                    creep.say("Distribute ⚡");
                 } else {
                     stocker.state = "DepositResources";
-                    creep.say("DepositRes");
+                    creep.say("💎/⚡ to 🏦");
                 }
             }
         } else if (stocker.state === "DepositResources") {
             if (creep.store.getUsedCapacity() === 0) {
                 if (this.structureNeedsEnergy(room)) {
                     stocker.state = "PickupEnergy";
-                    creep.say("PickupEn");
+                    creep.say("⚡ from 🏦");
                 } else if (this.labOrderToLoadFor(labOrder)) {
                     stocker.state = "PickupReagents";
-                    creep.say("P Reagents");
+                    creep.say("🧪 from 🏦");
                 } else if (this.resourcesToPickup(room)) {
                     stocker.state = "PickupResources";
-                    creep.say("PickupRes");
+                    creep.say("💎 from 🏦");
                 }
             }
         } else if (stocker.state === "PickupResources") {
             if (!this.resourcesToPickup(room) ||
                 creep.store.getFreeCapacity() === 0) {
                 stocker.state = "DepositResources";
-                creep.say("DepositRes");
+                creep.say("💎/⚡ to 🏦");
             }
         } else if (stocker.state === "PickupReagents") {
             if (labOrder == null) {
                 stocker.state = "DepositResources";
-                creep.say("DepositRes");
+                creep.say("💎/⚡ to 🏦");
             } else if (creep.store.getUsedCapacity(labOrder.reagent1) > 0 &&
                 creep.store.getUsedCapacity(labOrder.reagent2) > 0) {
                 stocker.state = "DepositReagents";
-                creep.say("D Reagents");
+                creep.say("🧪 to 🔬");
             }
         } else if (stocker.state === "DepositReagents") {
             if (labOrder == null) {
                 stocker.state = "DepositResources";
-                creep.say("DepositRes");
+                creep.say("💎/⚡ to 🏦");
             } else if (creep.store.getUsedCapacity() === 0) {
                 stocker.state = "DepositResources";
-                creep.say("DepositRes");
+                creep.say("💎/⚡ to 🏦");
             }
         }
     }

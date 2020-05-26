@@ -4,13 +4,18 @@
 ## TODO
 ### Working on
 ```
-Convert stocker state says into emotes
+Lab logic
+    Test labs doing orders
 ```
 ### Short term
 ```
 Lab logic
-    Labs doing orders
     Stockers unloading labs
+
+Fix CompoundLabMemory typo
+    Also do resource
+    Set lab memorys to null for it
+    Only once all lab orders are empty
 
 Putting the mineral chart into README
 ```
@@ -163,6 +168,15 @@ attack-prio
 
 profile
 profile-function
+```
+## Creep Says
+```
+⚡ Energy
+🏦 Bank/Storage
+💎 Resource
+🧪 Reagent
+🔬 Lab
+⚗️ Compound
 ```
 
 ### Room controller levels in a nice format:
