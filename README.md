@@ -9,6 +9,10 @@ Instead of limiting lab orders to 3k
 ```
 ### Short term
 ```
+Reaction cooldown should be on the LabOrder
+    Not each individual CompoundLab
+    They always run in sync anyway
+
 Building nukers
 
 Loading nukers
