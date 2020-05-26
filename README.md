@@ -4,11 +4,13 @@
 ## TODO
 ### Working on
 ```
-Instead of limiting lab orders to 3k
-    It needs to split it into multiple orders of 3k
+TODO in runReactions
 ```
 ### Short term
 ```
+Instead of limiting lab orders to 3k
+    It needs to split it into multiple orders of 3k
+
 Reaction cooldown should be on the LabOrder
     Not each individual CompoundLab
     They always run in sync anyway

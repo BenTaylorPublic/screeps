@@ -52,7 +52,9 @@ export class RoomLabController {
             if (result === OK) {
                 compoundLabMemory.cooldownTill = Game.time + labOrder.cooldown;
             } else {
-                console.log("Bad result for runReaction, " + LogHelper.logScreepsReturnCode(result));
+                //TODO: Get this back in
+                //Check if amountLeftTOLoad is 0 if its "not enough resources"
+                // console.log("Bad result for runReaction, " + LogHelper.logScreepsReturnCode(result));
             }
         }
 
