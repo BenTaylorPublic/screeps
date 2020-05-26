@@ -5,7 +5,7 @@ export class RoomLabController {
 
     public static run(myRoom: MyRoom): LabOrder | null {
         const labOrder: LabOrder | null = this.getLabOrder(myRoom);
-        if (labOrder != null && myRoom.name === "E16S18") {
+        if (labOrder != null) {
             if (labOrder.state === "Loading" || labOrder.state === "Running") {
                 //Need to get the labs to try and run reactions
                 this.runReactions(myRoom.labs as LabMemory, labOrder);
