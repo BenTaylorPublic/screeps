@@ -102,6 +102,35 @@ export class RoleStocker {
     }
 
     private static pickupCompounds(stocker: Stocker, myRoom: MyRoom, creep: Creep, labOrder: LabOrder): void {
+        const labMemory: LabMemory = myRoom.labs as LabMemory;
+        //Loop until successfully withdraw
+        let moved: boolean = false;
+        for (let i: number = 0; i < labMemory.compundLabs.length; i++) {
+            const compoundLabMemory: CompoundLabMemory = labMemory.compundLabs[i];
+            const lab: StructureLab | null = Game.getObjectById<StructureLab>(compoundLabMemory.id);
+            if (lab == null) {
+                ReportController.email("ERROR: A compound lab was null in pickupCompounds in " + LogHelper.roomNameAsLink(myRoom.name));
+                continue;
+            }
+            if (lab.store.getUsedCapacity() === 0) {
+                continue;
+            }
+
+            const resources: ResourceConstant[] = Object.keys(lab.store) as ResourceConstant[];
+            if (resources.length > 0) {
+                const result: ScreepsReturnCode = creep.withdraw(lab, resources[0]);
+                if (result === OK) {
+                    if (moved) {
+                        creep.cancelOrder("move");
+                        return;
+                    }
+                } else if (result === ERR_NOT_IN_RANGE &&
+                    !moved) {
+                    moved = true;
+                    MovementHelper.myMoveTo(creep, lab.pos, stocker);
+                }
+            }
+        }
     }
 
     private static depositReagents(stocker: Stocker, myRoom: MyRoom, creep: Creep, labOrder: LabOrder): void {

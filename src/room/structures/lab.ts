@@ -6,13 +6,20 @@ export class RoomLabController {
     public static run(myRoom: MyRoom): LabOrder | null {
         const labOrder: LabOrder | null = this.getLabOrder(myRoom);
         if (labOrder != null) {
+            const labMemory: LabMemory = myRoom.labs as LabMemory;
             if (labOrder.state === "Loading" || labOrder.state === "Running") {
                 //Need to get the labs to try and run reactions
-                this.runReactions(myRoom.labs as LabMemory, labOrder);
+                this.runReactions(labMemory, labOrder);
             }
 
             if (this.updateLabOrder(myRoom, labOrder)) {
-                //TODO: Splice from lab order array
+                //Splice from lab order array
+                for (let i: number = labMemory.labOrders.length - 1; i >= 0; i--) {
+                    if (labMemory.labOrders[i].state === labOrder.state &&
+                        labMemory.labOrders[i].compound === labOrder.compound) {
+                        labMemory.labOrders.splice(i, 1);
+                    }
+                }
             }
         }
         return labOrder;
