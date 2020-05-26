@@ -25,6 +25,7 @@ export class MineralController {
 
     private static queueLabOrders(roomsToUse: MyRoom[], resourceMap: GenerateResourceMapResult): void {
         const baseCompoundLimits: ResourceLimitsWithReagents = ResourceConstants.getBaseCompoundLimits();
+        const gCompoundLimits: ResourceLimitsWithReagents = ResourceConstants.getGCompoundLimits();
         for (let i: number = 0; i < roomsToUse.length; i++) {
             const myRoom: MyRoom = roomsToUse[i];
             if (myRoom.roomStage < 8) {
@@ -36,6 +37,7 @@ export class MineralController {
             }
             const roomResourceMap: ResourceMap = resourceMap.myRoomMaps[myRoom.name];
             this.tryQueueLabOrderForRoom(myRoom, roomResourceMap, baseCompoundLimits, 0);
+            this.tryQueueLabOrderForRoom(myRoom, roomResourceMap, gCompoundLimits, 0.5);
         }
     }
 

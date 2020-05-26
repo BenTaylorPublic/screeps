@@ -8,6 +8,8 @@ Add all the resource contants so I get 5k G
 ```
 ### Short term
 ```
+Instead of limiting lab orders to 3k
+    It needs to split it into multiple orders of 3k
 ```
 ### Mid term:
 ```
