@@ -36,4 +36,5 @@ export class Constants {
     public static STAGE_8_ONE_SOURCE_ENERGY_DONATE_TARGET: number = 50_000;
     public static LAB_REACTION_AMOUNT_TO_CEIL_TO: number = 100;
     public static DONT_DONATE_TO_ROOMS_WITH_ABOVE_ENERGY: number = 250_000;
+    public static DONT_RUN_REACTIONS_WHEN_BUCKET_UNDER: number = 9900;
 }

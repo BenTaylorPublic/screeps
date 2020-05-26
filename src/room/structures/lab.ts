@@ -1,5 +1,6 @@
 import {ReportController} from "../../reporting/report-controller";
 import {LogHelper} from "../../global/helpers/log-helper";
+import {Constants} from "../../global/constants/constants";
 
 export class RoomLabController {
 
@@ -26,6 +27,10 @@ export class RoomLabController {
     }
 
     private static runReactions(labMemory: LabMemory, labOrder: LabOrder): void {
+        if (Game.cpu.bucket < Constants.DONT_RUN_REACTIONS_WHEN_BUCKET_UNDER) {
+            ReportController.log("Not running reactions because bucket is " + Game.cpu.bucket);
+            return;
+        }
         const reagentLab1: StructureLab | null = Game.getObjectById<StructureLab>(labMemory.reagentLab1.id);
         const reagentLab2: StructureLab | null = Game.getObjectById<StructureLab>(labMemory.reagentLab2.id);
         if (reagentLab1 == null || reagentLab2 == null) {

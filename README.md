@@ -4,13 +4,10 @@
 ## TODO
 ### Working on
 ```
+Add all the resource contants so I get 5k G
 ```
 ### Short term
 ```
-Running the reactions is expensive
-    Need to only run the reactions if the bucket is above ~9,900
-
-Add all the resource contants so I get 5k G
 ```
 ### Mid term:
 ```
