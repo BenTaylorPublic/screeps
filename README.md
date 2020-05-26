@@ -4,12 +4,17 @@
 ## TODO
 ### Working on
 ```
-Add all the resource contants so I get 5k G
+Instead of limiting lab orders to 3k
+    It needs to split it into multiple orders of 3k
 ```
 ### Short term
 ```
-Instead of limiting lab orders to 3k
-    It needs to split it into multiple orders of 3k
+Building nukers
+
+Loading nukers
+
+Nukes (Offence)
+    nuke-launch flag
 ```
 ### Mid term:
 ```
@@ -98,9 +103,6 @@ Power
 
 Watch-start/stop flag
     A 2nd observer to continuously watch a room
-
-Nukes (Offence)
-    nuke-launch flag
 
 Offload
     offload-start & offload-end
