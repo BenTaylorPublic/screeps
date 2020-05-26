@@ -11,7 +11,9 @@ export class RoomLabController {
                 this.runReactions(myRoom.labs as LabMemory, labOrder);
             }
 
-            this.updateLabOrder(myRoom, labOrder);
+            if (this.updateLabOrder(myRoom, labOrder)) {
+                //TODO: Splice from lab order array
+            }
         }
         return labOrder;
     }
@@ -44,12 +46,13 @@ export class RoomLabController {
 
     }
 
-    private static updateLabOrder(myRoom: MyRoom, labOrder: LabOrder): void {
-        const reagentLab1: StructureLab | null = Game.getObjectById<StructureLab>((myRoom.labs as LabMemory).reagentLab1.id);
-        const reagentLab2: StructureLab | null = Game.getObjectById<StructureLab>((myRoom.labs as LabMemory).reagentLab2.id);
+    private static updateLabOrder(myRoom: MyRoom, labOrder: LabOrder): boolean {
+        const labMemory: LabMemory = myRoom.labs as LabMemory;
+        const reagentLab1: StructureLab | null = Game.getObjectById<StructureLab>(labMemory.reagentLab1.id);
+        const reagentLab2: StructureLab | null = Game.getObjectById<StructureLab>(labMemory.reagentLab2.id);
         if (reagentLab1 == null || reagentLab2 == null) {
             ReportController.email("ERROR: A reagent lab was null in updateLabOrder in " + LogHelper.roomNameAsLink(myRoom.name));
-            return;
+            return false;
         }
         if (labOrder.state === "InitialLoading") {
             if (reagentLab1.store[labOrder.reagent1] > 0 &&
@@ -70,7 +73,25 @@ export class RoomLabController {
                 labOrder.state = "Unloading";
                 ReportController.email("LabOrder in " + LogHelper.roomNameAsLink(myRoom.name) + ": Running -> Unloading");
             }
+        } else if (labOrder.state === "Unloading") {
+            for (let i: number = 0; i < labMemory.compundLabs.length; i++) {
+                const compoundLabMemory: CompoundLabMemory = labMemory.compundLabs[i];
+                const lab: StructureLab | null = Game.getObjectById<StructureLab>(compoundLabMemory.id);
+                if (lab == null) {
+                    ReportController.email("ERROR: A compound lab was null in updateLabOrder");
+                    return false;
+                }
+                if (lab.store.getUsedCapacity() !== 0) {
+                    return false;
+                }
+            }
+            //If it gets here, all compound labs are empty
+            ReportController.email("LabOrder in " + LogHelper.roomNameAsLink(myRoom.name) + ": Unloading -> Completed");
+            //Return true to splice this lab order out of the queue
+            return true;
         }
+
+        return false;
     }
 
     private static getLabOrder(myRoom: MyRoom): LabOrder | null {

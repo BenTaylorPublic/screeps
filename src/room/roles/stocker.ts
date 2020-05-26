@@ -26,6 +26,8 @@ export class RoleStocker {
             this.pickupReagents(stocker, myRoom, creep, labOrder as LabOrder);
         } else if (stocker.state === "DepositReagents") {
             this.depositReagents(stocker, myRoom, creep, labOrder as LabOrder);
+        } else if (stocker.state === "PickupCompounds") {
+            this.pickupCompounds(stocker, myRoom, creep, labOrder as LabOrder);
         } else {
             this.depositResources(stocker, myRoom, creep);
         }
@@ -60,6 +62,9 @@ export class RoleStocker {
                 } else if (this.labOrderToLoadFor(labOrder)) {
                     stocker.state = "PickupReagents";
                     creep.say("🧪 from 🏦");
+                } else if (this.labOrderToUnloadFor(labOrder)) {
+                    stocker.state = "PickupCompounds";
+                    creep.say("Pickup ⚗");
                 } else if (this.resourcesToPickup(room)) {
                     stocker.state = "PickupResources";
                     creep.say("💎 from 🏦");
@@ -81,14 +86,22 @@ export class RoleStocker {
                 creep.say("🧪 to 🔬");
             }
         } else if (stocker.state === "DepositReagents") {
-            if (labOrder == null) {
+            if (labOrder == null ||
+                creep.store.getUsedCapacity() === 0) {
                 stocker.state = "DepositResources";
                 creep.say("💎/⚡ to 🏦");
-            } else if (creep.store.getUsedCapacity() === 0) {
+            }
+        } else if (stocker.state === "PickupCompounds") {
+            if (labOrder == null ||
+                creep.store.getFreeCapacity() === 0 ||
+                !this.labOrderToUnloadFor(labOrder)) {
                 stocker.state = "DepositResources";
                 creep.say("💎/⚡ to 🏦");
             }
         }
+    }
+
+    private static pickupCompounds(stocker: Stocker, myRoom: MyRoom, creep: Creep, labOrder: LabOrder): void {
     }
 
     private static depositReagents(stocker: Stocker, myRoom: MyRoom, creep: Creep, labOrder: LabOrder): void {
@@ -277,5 +290,10 @@ export class RoleStocker {
         return labOrder != null &&
             (labOrder.state === "InitialLoading" ||
                 labOrder.state === "Loading");
+    }
+
+    private static labOrderToUnloadFor(labOrder: LabOrder | null): boolean {
+        return labOrder != null &&
+            labOrder.state === "Unloading";
     }
 }

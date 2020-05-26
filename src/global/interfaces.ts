@@ -322,7 +322,8 @@ interface Stocker extends MyCreep {
         "PickupResources" |
         "DepositResources" |
         "PickupReagents" |
-        "DepositReagents";
+        "DepositReagents" |
+        "PickupCompounds";
 }
 
 interface Signer extends MyCreep {
