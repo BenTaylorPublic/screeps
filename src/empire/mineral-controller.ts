@@ -115,6 +115,7 @@ export class MineralController {
     }
 
     private static donateEnergyToDevelopingRooms(roomsToUse: MyRoom[], resourceMap: GenerateResourceMapResult, transfers: Transfer[]): void {
+        const alreadyDonatedToThisTick: string[] = [];
         for (let i: number = 0; i < roomsToUse.length; i++) {
             const donorRoom: MyRoom = roomsToUse[i];
             if (donorRoom.roomStage !== 8) {
@@ -136,6 +137,11 @@ export class MineralController {
                     ) {
                         continue;
                     }
+
+                    if (alreadyDonatedToThisTick.includes(doneeRoom.name)) {
+                        continue;
+                    }
+
                     const doneeRoomResourceMap: ResourceMap = resourceMap.myRoomMaps[doneeRoom.name];
                     if (doneeRoomResourceMap.energy != null &&
                         doneeRoomResourceMap.energy < lowestEnergyAmount &&
@@ -161,6 +167,7 @@ export class MineralController {
 
                 //Otherwise, we're good to donate
                 this.createTransfer(donorRoom.name, roomsToUse[lowestEnergyIndex].name, "energy", Constants.STAGE_8_DONATE_AMOUNT, donorRoomResourceMap, transfers);
+                alreadyDonatedToThisTick.push(roomsToUse[lowestEnergyIndex].name);
             }
         }
     }

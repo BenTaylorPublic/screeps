@@ -4,19 +4,9 @@
 ## TODO
 ### Working on
 ```
-Lab logic
-    Test labs doing orders
 ```
 ### Short term
 ```
-Lab logic
-    Stockers unloading labs
-
-Fix CompoundLabMemory typo
-    Also do resource
-    Set lab memorys to null for it
-    Only once all lab orders are empty
-
 Putting the mineral chart into README
 ```
 ### Mid term:
