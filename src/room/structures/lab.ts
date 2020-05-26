@@ -70,20 +70,20 @@ export class RoomLabController {
             if (reagentLab1.store[labOrder.reagent1] > 0 &&
                 reagentLab2.store[labOrder.reagent2] > 0) {
                 labOrder.state = "Loading";
-                ReportController.email("LabOrder in " + LogHelper.roomNameAsLink(myRoom.name) + ": InitialLoading -> Loading");
+                ReportController.log("LabOrder in " + LogHelper.roomNameAsLink(myRoom.name) + ": InitialLoading -> Loading");
             }
         } else if (labOrder.state === "Loading") {
             if (reagentLab1.store[labOrder.reagent1] > 0 &&
                 reagentLab2.store[labOrder.reagent2] > 0 &&
                 labOrder.amountLeftToLoad === 0) {
                 labOrder.state = "Running";
-                ReportController.email("LabOrder in " + LogHelper.roomNameAsLink(myRoom.name) + ": Loading -> Running");
+                ReportController.log("LabOrder in " + LogHelper.roomNameAsLink(myRoom.name) + ": Loading -> Running");
             }
         } else if (labOrder.state === "Running") {
             if (reagentLab1.store[labOrder.reagent1] === 0 &&
                 reagentLab2.store[labOrder.reagent2] === 0) {
                 labOrder.state = "Unloading";
-                ReportController.email("LabOrder in " + LogHelper.roomNameAsLink(myRoom.name) + ": Running -> Unloading");
+                ReportController.log("LabOrder in " + LogHelper.roomNameAsLink(myRoom.name) + ": Running -> Unloading");
             }
         } else if (labOrder.state === "Unloading") {
             for (let i: number = 0; i < labMemory.compoundLabs.length; i++) {
@@ -98,7 +98,7 @@ export class RoomLabController {
                 }
             }
             //If it gets here, all compound labs are empty
-            ReportController.email("LabOrder in " + LogHelper.roomNameAsLink(myRoom.name) + ": Unloading -> Completed");
+            ReportController.log("LabOrder in " + LogHelper.roomNameAsLink(myRoom.name) + ": Unloading -> Completed");
             //Return true to splice this lab order out of the queue
             return true;
         }
