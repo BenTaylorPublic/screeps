@@ -10,32 +10,57 @@ export class RoomLabController {
             const labMemory: LabMemory = myRoom.labs as LabMemory;
             if (labOrder.state === "Loading" || labOrder.state === "Running") {
                 //Need to get the labs to try and run reactions
-                this.runReactions(labMemory, labOrder);
+                if (this.runReactions(labMemory, labOrder, myRoom.name)) {
+                    this.removeLabOrder(labMemory, labOrder);
+                    return null;
+                }
             }
 
             if (this.updateLabOrder(myRoom, labOrder)) {
-                //Splice from lab order array
-                for (let i: number = labMemory.labOrders.length - 1; i >= 0; i--) {
-                    if (labMemory.labOrders[i].state === labOrder.state &&
-                        labMemory.labOrders[i].compound === labOrder.compound) {
-                        labMemory.labOrders.splice(i, 1);
-                    }
-                }
+                this.removeLabOrder(labMemory, labOrder);
             }
         }
         return labOrder;
     }
 
-    private static runReactions(labMemory: LabMemory, labOrder: LabOrder): void {
+    public static getNonBufferLabsThatAreNotEmpty(myRoom: MyRoom): StructureLab | null {
+        if (myRoom.labs == null) {
+            return null;
+        }
+
+        const room: Room = Game.rooms[myRoom.name] as Room;
+
+        const labs: StructureLab[] = room.find<StructureLab>(FIND_STRUCTURES, {
+                filter: (structure: Structure) => {
+                    return structure.structureType === STRUCTURE_LAB;
+                }
+            }
+        );
+
+        for (let i: number = 0; i < labs.length; i++) {
+            const lab: StructureLab = labs[i];
+            if (lab.id === myRoom.labs.buffingLab) {
+                continue;
+            }
+
+            if (lab.store.getUsedCapacity() !== 0) {
+                return lab;
+            }
+        }
+
+        return null;
+    }
+
+    private static runReactions(labMemory: LabMemory, labOrder: LabOrder, roomName: string): boolean {
         if (Game.cpu.bucket < Constants.DONT_RUN_REACTIONS_WHEN_BUCKET_UNDER) {
             ReportController.log("Not running reactions because bucket is " + Game.cpu.bucket);
-            return;
+            return false;
         }
         const reagentLab1: StructureLab | null = Game.getObjectById<StructureLab>(labMemory.reagentLab1.id);
         const reagentLab2: StructureLab | null = Game.getObjectById<StructureLab>(labMemory.reagentLab2.id);
         if (reagentLab1 == null || reagentLab2 == null) {
-            ReportController.email("ERROR: A reagent lab was null in runReactions");
-            return;
+            ReportController.email("ERROR: A reagent lab was null in runReactions in " + LogHelper.roomNameAsLink(roomName));
+            return false;
         }
         for (let i: number = 0; i < labMemory.compoundLabs.length; i++) {
             const compoundLabMemory: CompoundLabMemory = labMemory.compoundLabs[i];
@@ -45,19 +70,25 @@ export class RoomLabController {
 
             const lab: StructureLab | null = Game.getObjectById<StructureLab>(compoundLabMemory.id);
             if (lab == null) {
-                ReportController.email("ERROR: A compound lab was null in runReactions");
+                ReportController.email("ERROR: A compound lab was null in runReactions in " + LogHelper.roomNameAsLink(roomName));
                 continue;
             }
             const result: ScreepsReturnCode = lab.runReaction(reagentLab1, reagentLab2);
             if (result === OK) {
                 compoundLabMemory.cooldownTill = Game.time + labOrder.cooldown;
             } else {
-                //TODO: Get this back in
-                //Check if amountLeftTOLoad is 0 if its "not enough resources"
-                // console.log("Bad result for runReaction, " + LogHelper.logScreepsReturnCode(result));
+                if (labOrder.amountLeftToLoad === 0 &&
+                    result === ERR_NOT_ENOUGH_RESOURCES) {
+                    //This is bad
+                    ReportController.email("ERROR: Running reaction got 'ERR_NOT_ENOUGH_RESOURCES', but amountLeftToLoad === 0 in " + LogHelper.roomNameAsLink(roomName) + ", removing lab order");
+                    //Returning true kills the lab order
+                    return true;
+                } else {
+                    ReportController.log("BAD: Bad result for runReaction, in " + LogHelper.roomNameAsLink(roomName) + " result:" + LogHelper.logScreepsReturnCode(result));
+                }
             }
         }
-
+        return false;
     }
 
     private static updateLabOrder(myRoom: MyRoom, labOrder: LabOrder): boolean {
@@ -92,7 +123,7 @@ export class RoomLabController {
                 const compoundLabMemory: CompoundLabMemory = labMemory.compoundLabs[i];
                 const lab: StructureLab | null = Game.getObjectById<StructureLab>(compoundLabMemory.id);
                 if (lab == null) {
-                    ReportController.email("ERROR: A compound lab was null in updateLabOrder");
+                    ReportController.email("ERROR: A compound lab was null in updateLabOrder in " + LogHelper.roomNameAsLink(myRoom.name));
                     return false;
                 }
                 if (lab.store.getUsedCapacity() !== 0) {
@@ -119,6 +150,12 @@ export class RoomLabController {
                 return labOrder;
             }
         }
+
+        //Don't dequeue any lab orders if the labs aren't all empty
+        if (this.getNonBufferLabsThatAreNotEmpty(myRoom) != null) {
+            return null;
+        }
+
         //If nothing has been taken from the queue, just grab the first one that we still have resources for
         const bank: StructureStorage = (myRoom.bank as Bank).object as StructureStorage;
         for (let i: number = 0; i < myRoom.labs.labOrders.length; i++) {
@@ -128,9 +165,21 @@ export class RoomLabController {
                 labOrder.state = "InitialLoading";
                 return labOrder;
             } else {
-                ReportController.email("BAD: Not enough resources for lab order " + labOrder.compound + " in room " + LogHelper.roomNameAsLink(myRoom.name));
+                //Why was it queued then? ...
+                ReportController.email("BAD: Not enough resources for lab order " + labOrder.compound + " in room " + LogHelper.roomNameAsLink(myRoom.name) + ", removing lab order");
+                this.removeLabOrder(myRoom.labs, labOrder);
             }
         }
         return null;
+    }
+
+    private static removeLabOrder(labMemory: LabMemory, labOrder: LabOrder): void {
+        //Splice from lab order array
+        for (let i: number = labMemory.labOrders.length - 1; i >= 0; i--) {
+            if (labMemory.labOrders[i].state === labOrder.state &&
+                labMemory.labOrders[i].compound === labOrder.compound) {
+                labMemory.labOrders.splice(i, 1);
+            }
+        }
     }
 }

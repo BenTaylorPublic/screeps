@@ -62,24 +62,34 @@ export class MineralController {
                 if (alreadyExistingOrderForThisResource) {
                     continue;
                 }
-                //There might not be enough of the reagents to make this resource
-                const amountOfReagent1: number = this.getAmountOfResource(roomResourceMap, resourceLimits.reagent1);
-                if (amountOfReagent1 < 500) {
-                    ReportController.email("LOG: Can't create resource " + resource + " in room " + LogHelper.roomNameAsLink(myRoom.name) + " due to lack of r1 " + resourceLimits.reagent1 + " (" + amountOfReagent1 + ")");
-                    continue;
-                }
-                const amountOfReagent2: number = this.getAmountOfResource(roomResourceMap, resourceLimits.reagent2);
-                if (amountOfReagent2 < 500) {
-                    ReportController.email("LOG: Can't create resource " + resource + " in room " + LogHelper.roomNameAsLink(myRoom.name) + " due to lack of r2 " + resourceLimits.reagent2 + " (" + amountOfReagent2 + ")");
-                    continue;
-                }
 
-                //We can queue the order!
                 let amountNeeded: number = Math.ceil((resourceLimits.upper - amountOfResource) / Constants.LAB_REACTION_AMOUNT_TO_CEIL_TO) * Constants.LAB_REACTION_AMOUNT_TO_CEIL_TO;
                 //3k is the limit of the reagent labs
                 if (amountNeeded > 3_000) {
                     amountNeeded = 3_000;
                 }
+
+                if (myRoom.bank == null ||
+                    myRoom.bank.object == null) {
+                    ReportController.log("LOG: Can't create resource " + resource + " in room " + LogHelper.roomNameAsLink(myRoom.name) + " bank being null");
+                    continue;
+                }
+
+                //There might not be enough of the reagents to make this resource
+                const amountOfReagent1: number = this.getAmountOfResource(roomResourceMap, resourceLimits.reagent1);
+                if (amountOfReagent1 < amountNeeded ||
+                    myRoom.bank.object.store.getUsedCapacity(resourceLimits.reagent1) < amountNeeded) {
+                    ReportController.log("LOG: Can't create resource " + resource + " in room " + LogHelper.roomNameAsLink(myRoom.name) + " due to lack of r1 " + resourceLimits.reagent1 + " (" + amountOfReagent1 + ")");
+                    continue;
+                }
+                const amountOfReagent2: number = this.getAmountOfResource(roomResourceMap, resourceLimits.reagent2);
+                if (amountOfReagent2 < amountNeeded ||
+                    myRoom.bank.object.store.getUsedCapacity(resourceLimits.reagent2) < amountNeeded) {
+                    ReportController.log("LOG: Can't create resource " + resource + " in room " + LogHelper.roomNameAsLink(myRoom.name) + " due to lack of r2 " + resourceLimits.reagent2 + " (" + amountOfReagent2 + ")");
+                    continue;
+                }
+
+                //We can queue the order!
                 const newLabOrder: LabOrder = {
                     amount: amountNeeded,
                     amountLeftToLoad: amountNeeded,
@@ -99,8 +109,8 @@ export class MineralController {
                     for (let j: number = 0; j < (myRoom.labs as LabMemory).labOrders.length; j++) {
                         //Priority is backwards
                         //0 is tier0, which is more important than tier 3
-                        if (newLabOrder.priority < (myRoom.labs as LabMemory).labOrders[i].priority) {
-                            (myRoom.labs as LabMemory).labOrders.splice(i, 0, newLabOrder);
+                        if (newLabOrder.priority < (myRoom.labs as LabMemory).labOrders[j].priority) {
+                            (myRoom.labs as LabMemory).labOrders.splice(j, 0, newLabOrder);
                             inserted = true;
                             break;
                         }
@@ -110,6 +120,13 @@ export class MineralController {
                         //Put on the end
                         (myRoom.labs as LabMemory).labOrders = (myRoom.labs as LabMemory).labOrders.concat(newLabOrder);
                     }
+                }
+                //It can't be null, but ohwell
+                if (roomResourceMap[resourceLimits.reagent1] != null) {
+                    (roomResourceMap[resourceLimits.reagent1] as number) -= amountNeeded;
+                }
+                if (roomResourceMap[resourceLimits.reagent2] != null) {
+                    (roomResourceMap[resourceLimits.reagent2] as number) -= amountNeeded;
                 }
                 ReportController.email("LOG: Queued a new reaction for room " + LogHelper.roomNameAsLink(myRoom.name) + " to create " + resource);
             }
@@ -181,17 +198,21 @@ export class MineralController {
             const resources: ResourceConstant[] = Object.keys(mineralLimits) as ResourceConstant[];
             for (let j: number = 0; j < resources.length; j++) {
                 const resource: ResourceConstant = resources[j];
-                if (resource === myRoom.digging.mineral) {
-                    //Don't request transfers for a mineral that's already in the room
-                    //That'd be lazy
-                    continue;
-                }
                 const resourceLimits: ResourceLimitUpperLower = mineralLimits[resource] as ResourceLimitUpperLower;
                 const amountOfMineral: number = this.getAmountOfResource(roomResourceMap, resource);
                 if (amountOfMineral < resourceLimits.lower) {
-                    //Request transfer
-                    const amountNeeded: number = Math.ceil((resourceLimits.upper - amountOfMineral) / Constants.BANK_LINKER_CAPACITY) * Constants.BANK_LINKER_CAPACITY;
-                    this.requestTransfer(myRoom, resource, amountNeeded, roomsToUse, resourceMap, transfers, resourceLimits.lower);
+
+                    if (resource === myRoom.digging.mineral &&
+                        !myRoom.digging.active) {
+                        //Don't request transfers for a mineral that's already in the room
+                        //That'd be lazy
+                        myRoom.digging.active = true;
+                        ReportController.log("Room " + LogHelper.roomNameAsLink(myRoom.name) + " is low on its own mineral (" + myRoom.digging.mineral + "), setting digging to true");
+                    } else {
+                        //Request transfer
+                        const amountNeeded: number = Math.ceil((resourceLimits.upper - amountOfMineral) / Constants.BANK_LINKER_CAPACITY) * Constants.BANK_LINKER_CAPACITY;
+                        this.requestTransfer(myRoom, resource, amountNeeded, roomsToUse, resourceMap, transfers, resourceLimits.lower);
+                    }
                 }
             }
         }
@@ -265,7 +286,7 @@ export class MineralController {
             if (myRoom.digging.mineral === mineral &&
                 myRoom.digging.active !== active) {
                 myRoom.digging.active = active;
-                ReportController.email("Set digging active to " + active + " in room " + LogHelper.roomNameAsLink(myRoom.name) + " for mineral " + mineral);
+                ReportController.log("Set digging active to " + active + " in room " + LogHelper.roomNameAsLink(myRoom.name) + " for mineral " + mineral);
             }
         }
     }

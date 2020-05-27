@@ -4,7 +4,7 @@
 ## TODO
 ### Working on
 ```
-TODO in runReactions
+Reaction running fixes
 ```
 ### Short term
 ```

@@ -4,6 +4,7 @@ import {RoomHelper} from "../../global/helpers/room-helper";
 import {LogHelper} from "../../global/helpers/log-helper";
 import {MovementHelper} from "../../global/helpers/movement-helper";
 import {Constants} from "../../global/constants/constants";
+import {RoomLabController} from "../structures/lab";
 
 export class RoleStocker {
     public static run(stocker: Stocker, myRoom: MyRoom, labOrder: LabOrder | null): void {
@@ -14,7 +15,7 @@ export class RoleStocker {
         const room: Room = Game.rooms[myRoom.name];
         const creep: Creep = Game.creeps[stocker.name];
 
-        this.calculateCreepState(stocker, room, creep, labOrder);
+        this.calculateCreepState(stocker, room, creep, labOrder, myRoom);
 
         if (stocker.state === "PickupEnergy") {
             this.pickupEnergy(stocker, myRoom, creep);
@@ -28,12 +29,14 @@ export class RoleStocker {
             this.depositReagents(stocker, myRoom, creep, labOrder as LabOrder);
         } else if (stocker.state === "PickupCompounds") {
             this.pickupCompounds(stocker, myRoom, creep, labOrder as LabOrder);
+        } else if (stocker.state === "CleanLabs") {
+            this.cleanLabs(stocker, myRoom, creep);
         } else {
             this.depositResources(stocker, myRoom, creep);
         }
     }
 
-    private static calculateCreepState(stocker: Stocker, room: Room, creep: Creep, labOrder: LabOrder | null): void {
+    private static calculateCreepState(stocker: Stocker, room: Room, creep: Creep, labOrder: LabOrder | null, myRoom: MyRoom): void {
         if (stocker.state === "DistributeEnergy") {
             if (!this.structureNeedsEnergy(room) &&
                 (this.resourcesToPickup(room) ||
@@ -66,6 +69,10 @@ export class RoleStocker {
                 } else if (this.labOrderToUnloadFor(labOrder)) {
                     stocker.state = "PickupCompounds";
                     creep.say("Pickup ⚗");
+                } else if (this.labsNeedCleaning(myRoom)) {
+                    ReportController.email("BAD: Creep is cleaning the labs in " + LogHelper.roomNameAsLink(myRoom.name));
+                    stocker.state = "CleanLabs";
+                    creep.say("CleanLabs");
                 } else if (this.resourcesToPickup(room)) {
                     stocker.state = "PickupResources";
                     creep.say("💎 from 🏦");
@@ -98,6 +105,27 @@ export class RoleStocker {
                 !this.labOrderToUnloadFor(labOrder)) {
                 stocker.state = "DepositResources";
                 creep.say("💎/⚡ to 🏦");
+            }
+        } else if (stocker.state === "CleanLabs") {
+            if (creep.store.getFreeCapacity() === 0 ||
+                !this.labsNeedCleaning(myRoom)) {
+                stocker.state = "DepositResources";
+                creep.say("💎/⚡ to 🏦");
+            }
+        }
+    }
+
+    private static cleanLabs(stocker: Stocker, myRoom: MyRoom, creep: Creep): void {
+        const lab: StructureLab | null = RoomLabController.getNonBufferLabsThatAreNotEmpty(myRoom);
+        if (lab == null) {
+            //Weird
+            return;
+        }
+
+        const resources: ResourceConstant[] = Object.keys(lab.store) as ResourceConstant[];
+        if (resources.length > 0) {
+            if (creep.withdraw(lab, resources[0]) === ERR_NOT_IN_RANGE) {
+                MovementHelper.myMoveTo(creep, lab.pos, stocker);
             }
         }
     }
@@ -325,5 +353,21 @@ export class RoleStocker {
     private static labOrderToUnloadFor(labOrder: LabOrder | null): boolean {
         return labOrder != null &&
             labOrder.state === "Unloading";
+    }
+
+    private static labsNeedCleaning(myRoom: MyRoom): boolean {
+        if (myRoom.labs == null) {
+            return false;
+        }
+        for (let i: number = 0; i < myRoom.labs.labOrders.length; i++) {
+            if (myRoom.labs.labOrders[i].state !== "Queued") {
+                //Order is currently active, so dont clean
+                return false;
+            }
+        }
+        if (RoomLabController.getNonBufferLabsThatAreNotEmpty(myRoom) != null) {
+            return true;
+        }
+        return false;
     }
 }

@@ -118,6 +118,7 @@ type Stage =
     | 7.2
     | 7.4
     | 7.6
+    | 7.7
     | 7.8
     | 7.9
     | 8;
@@ -323,7 +324,8 @@ interface Stocker extends MyCreep {
         "DepositResources" |
         "PickupReagents" |
         "DepositReagents" |
-        "PickupCompounds";
+        "PickupCompounds" |
+        "CleanLabs";
 }
 
 interface Signer extends MyCreep {
