@@ -5,6 +5,9 @@
 ### Working on
 ```
 Reaction running fixes
+    There's a bunch of things that seem to be going wrong
+    Need to monitor it break
+    Cleanup logic on stockers seem to be working, and are fixing the issues caused
 ```
 ### Short term
 ```
@@ -14,8 +17,6 @@ Instead of limiting lab orders to 3k
 Reaction cooldown should be on the LabOrder
     Not each individual CompoundLab
     They always run in sync anyway
-
-Building nukers
 
 Loading nukers
 
