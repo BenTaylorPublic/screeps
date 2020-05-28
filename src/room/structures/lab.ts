@@ -162,6 +162,7 @@ export class RoomLabController {
             const labOrder: LabOrder = myRoom.labs.labOrders[i];
             if (bank.store[labOrder.reagent1] >= labOrder.amount &&
                 bank.store[labOrder.reagent2] >= labOrder.amount) {
+                ReportController.log("LabOrder in " + LogHelper.roomNameAsLink(myRoom.name) + ": Queued -> InitialLoading");
                 labOrder.state = "InitialLoading";
                 return labOrder;
             } else {
