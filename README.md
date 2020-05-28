@@ -17,6 +17,7 @@ Instead of limiting lab orders to 3k
 Reaction cooldown should be on the LabOrder
     Not each individual CompoundLab
     They always run in sync anyway
+    Get the current cooldown from the last laborder, by getting one of the compound labs
 
 Loading nukers
 
