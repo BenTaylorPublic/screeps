@@ -131,7 +131,7 @@ export class RoomLabController {
                 }
             }
             //If it gets here, all compound labs are empty
-            ReportController.log("LabOrder in " + LogHelper.roomNameAsLink(myRoom.name) + ": Unloading -> Completed");
+            ReportController.email("LabOrder in " + LogHelper.roomNameAsLink(myRoom.name) + ": Unloading -> Completed");
             //Return true to splice this lab order out of the queue
             return true;
         }
