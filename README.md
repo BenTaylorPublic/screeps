@@ -7,7 +7,7 @@
 Loading nukers
     Set a state on the room
     Calculate it every 100 ticks in the room controller
-    States are "NeedsEnergy" | "NeedsG" | "Full"
+    States are "NeedsEnergy" | "NeedsG" | "Full" | null
 ```
 ### Short term
 ```
