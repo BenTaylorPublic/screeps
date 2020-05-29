@@ -26,6 +26,10 @@ Nukes (Offence)
 ```
 ### Mid term:
 ```
+On 29/05 I saw that there was a rut with transfers
+    There was 100 amountLeft on a transfer of 1400 Z
+    There was no Z left in the terminal
+
 MyMemory.Settings
     Settings I can change via flags (that directly match the settings key)
     Constants are all numbers
