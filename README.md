@@ -4,13 +4,16 @@
 ## TODO
 ### Working on
 ```
-Reaction running fixes
-    There's a bunch of things that seem to be going wrong
-    Need to monitor it break
-    Cleanup logic on stockers seem to be working, and are fixing the issues caused
+Loading nukers
+    Set a state on the room
+    Calculate it every 100 ticks in the room controller
+    States are "NeedsEnergy" | "NeedsG" | "Full"
 ```
 ### Short term
 ```
+Nukes (Offence)
+    nuke-launch flag
+
 Instead of limiting lab orders to 3k
     It needs to split it into multiple orders of 3k
 
@@ -18,17 +21,18 @@ Reaction cooldown should be on the LabOrder
     Not each individual CompoundLab
     They always run in sync anyway
     Get the current cooldown from the last laborder, by getting one of the compound labs
-
-Loading nukers
-
-Nukes (Offence)
-    nuke-launch flag
 ```
 ### Mid term:
 ```
-On 29/05 I saw that there was a rut with transfers
-    There was 100 amountLeft on a transfer of 1400 Z
-    There was no Z left in the terminal
+Transfer rut
+    On 29/05 I saw that there was a rut with transfers
+        There was 100 amountLeft on a transfer of 1400 Z
+        There was no Z left in the terminal
+    I think a simpler solution to fixing this, is reworking the tranfer system
+        Rooms should have a transfer ID, of which one they're working on
+        Each tick it tries to get that transfer
+        If that transfer is gone, the function returns the rooms next one
+        The room then updates its ID
 
 MyMemory.Settings
     Settings I can change via flags (that directly match the settings key)
@@ -122,7 +126,7 @@ Offload
     Just pushes everything out via the terminal
 
 Scavenger shouldn't check state every tick
-    Only when they get to their target    
+    Only when they get to their target 
 
 Downgrade controller creep
     Flag name "downgrade-{X}"
@@ -141,6 +145,11 @@ Scrubs to wreck message
         https://docs.screeps.com/api/#Game.map.getRoomStatus
 
 Link pos and storage pos might not need to be stored
+
+Need to remove the cleaning logic
+    Only after its been a few months at full running, with no errors
+    Need to wait until buffing is working for the stockers cleaning labs
+    Need to wait until the transfers work by Id, for the banklinkers cleaning terminal
 ```
 
 ## Flag Names

@@ -106,9 +106,7 @@ export class RoomLabController {
                 ReportController.log("LabOrder in " + LogHelper.roomNameAsLink(myRoom.name) + ": InitialLoading -> Loading");
             }
         } else if (labOrder.state === "Loading") {
-            if (reagentLab1.store[labOrder.reagent1] > 0 &&
-                reagentLab2.store[labOrder.reagent2] > 0 &&
-                labOrder.amountLeftToLoad === 0) {
+            if (labOrder.amountLeftToLoad === 0) {
                 labOrder.state = "Running";
                 ReportController.log("LabOrder in " + LogHelper.roomNameAsLink(myRoom.name) + ": Loading -> Running");
             }
