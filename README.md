@@ -6,8 +6,12 @@
 ```
 Loading nukers
     Set a state on the room
-    Calculate it every 100 ticks in the room controller
-    States are "NeedsEnergy" | "NeedsG" | "Full" | null
+        Calculate it every 100 ticks in the room controller
+        States are "NeedsEnergy" | "NeedsG" | "Full" | null
+    Stocker needs 3 new states to load it
+        LoadNukeEnergy
+        LoadNukeG
+        PickupG
 ```
 ### Short term
 ```
