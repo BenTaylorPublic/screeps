@@ -31,6 +31,8 @@ export class RoleStocker {
             this.pickupCompounds(stocker, myRoom, creep, labOrder as LabOrder);
         } else if (stocker.state === "CleanLabs") {
             this.cleanLabs(stocker, myRoom, creep);
+        } else if (stocker.state === "EnergyToNuker") {
+            this.energyToNuker(stocker, myRoom, creep);
         } else {
             this.depositResources(stocker, myRoom, creep);
         }
@@ -54,6 +56,10 @@ export class RoleStocker {
                 if (this.structureNeedsEnergy(room)) {
                     stocker.state = "DistributeEnergy";
                     creep.say("Distribute ⚡");
+                } else if (this.nukerNeedsEnergy(myRoom, room)) {
+                    stocker.state = "EnergyToNuker";
+                    creep.say("⚡ to ☢");
+                    ReportController.log("Stocker in " + LogHelper.roomNameAsLink(myRoom.name) + " is stocking the nuker with energy");
                 } else {
                     stocker.state = "DepositResources";
                     creep.say("💎/⚡ to 🏦");
@@ -117,8 +123,15 @@ export class RoleStocker {
             } else if (this.resourcesToPickup(room)) {
                 stocker.state = "PickupResources";
                 creep.say("💎 from 🏦");
+            } else if (this.nukerNeedsEnergy(myRoom, room)) {
+                stocker.state = "PickupEnergy";
+                creep.say("⚡ from 🏦");
             }
         }
+    }
+
+    private static energyToNuker(stocker: Stocker, myRoom: MyRoom, creep: Creep): void {
+        //TODO:
     }
 
     private static cleanLabs(stocker: Stocker, myRoom: MyRoom, creep: Creep): void {
@@ -375,5 +388,37 @@ export class RoleStocker {
             return true;
         }
         return false;
+    }
+
+    private static nukerNeedsEnergy(myRoom: MyRoom, room: Room): boolean {
+        if (myRoom.bank == null ||
+            myRoom.bank.object == null) {
+            ReportController.email("ERROR: Room's bank object was null in " + LogHelper.roomNameAsLink(myRoom.name));
+            return false;
+        }
+        if (myRoom.nukerStatus !== "NeedsEnergy") {
+            return false;
+        }
+
+        const nukers: StructureNuker[] = room.find<StructureNuker>(FIND_MY_STRUCTURES, {
+            filter(structure: AnyStructure): boolean {
+                return structure.structureType === STRUCTURE_NUKER;
+            }
+        });
+
+        if (nukers.length !== 1) {
+            myRoom.nukerStatus = null;
+            return false;
+        }
+        const nuker: StructureNuker = nukers[0];
+        if (nuker.store.getFreeCapacity(RESOURCE_ENERGY) === 0) {
+            return false;
+        }
+
+        if (myRoom.bank.object.store.getUsedCapacity(RESOURCE_ENERGY) < Constants.DONT_STOCK_NUKER_IF_ENERGY_UNDER) {
+            return false;
+        }
+
+        return true;
     }
 }

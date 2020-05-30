@@ -196,6 +196,7 @@ profile-function
 🧪 Reagent
 🔬 Lab
 ⚗️ Compound
+☢ Nuker
 ```
 
 ### Room controller levels in a nice format:
