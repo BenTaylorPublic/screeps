@@ -37,6 +37,7 @@ export class RoleStocker {
     }
 
     private static calculateCreepState(stocker: Stocker, room: Room, creep: Creep, labOrder: LabOrder | null, myRoom: MyRoom): void {
+        let emptyAndNeedNewJob: boolean = false;
         if (stocker.state === "DistributeEnergy") {
             if (!this.structureNeedsEnergy(room) &&
                 (this.resourcesToPickup(room) ||
@@ -60,23 +61,7 @@ export class RoleStocker {
             }
         } else if (stocker.state === "DepositResources") {
             if (creep.store.getUsedCapacity() === 0) {
-                if (this.structureNeedsEnergy(room)) {
-                    stocker.state = "PickupEnergy";
-                    creep.say("⚡ from 🏦");
-                } else if (this.labOrderToLoadFor(labOrder)) {
-                    stocker.state = "PickupReagents";
-                    creep.say("🧪 from 🏦");
-                } else if (this.labOrderToUnloadFor(labOrder)) {
-                    stocker.state = "PickupCompounds";
-                    creep.say("Pickup ⚗");
-                } else if (this.labsNeedCleaning(myRoom)) {
-                    ReportController.email("BAD: Creep is cleaning the labs in " + LogHelper.roomNameAsLink(myRoom.name));
-                    stocker.state = "CleanLabs";
-                    creep.say("CleanLabs");
-                } else if (this.resourcesToPickup(room)) {
-                    stocker.state = "PickupResources";
-                    creep.say("💎 from 🏦");
-                }
+                emptyAndNeedNewJob = true;
             }
         } else if (stocker.state === "PickupResources") {
             if (!this.resourcesToPickup(room) ||
@@ -94,10 +79,11 @@ export class RoleStocker {
                 creep.say("🧪 to 🔬");
             }
         } else if (stocker.state === "DepositReagents") {
-            if (labOrder == null ||
-                creep.store.getUsedCapacity() === 0) {
+            if (labOrder == null) {
                 stocker.state = "DepositResources";
                 creep.say("💎/⚡ to 🏦");
+            } else if (creep.store.getUsedCapacity() === 0) {
+                emptyAndNeedNewJob = true;
             }
         } else if (stocker.state === "PickupCompounds") {
             if (labOrder == null ||
@@ -111,6 +97,26 @@ export class RoleStocker {
                 !this.labsNeedCleaning(myRoom)) {
                 stocker.state = "DepositResources";
                 creep.say("💎/⚡ to 🏦");
+            }
+        }
+
+        if (emptyAndNeedNewJob) {
+            if (this.structureNeedsEnergy(room)) {
+                stocker.state = "PickupEnergy";
+                creep.say("⚡ from 🏦");
+            } else if (this.labOrderToLoadFor(labOrder)) {
+                stocker.state = "PickupReagents";
+                creep.say("🧪 from 🏦");
+            } else if (this.labOrderToUnloadFor(labOrder)) {
+                stocker.state = "PickupCompounds";
+                creep.say("Pickup ⚗");
+            } else if (this.labsNeedCleaning(myRoom)) {
+                ReportController.email("BAD: Creep is cleaning the labs in " + LogHelper.roomNameAsLink(myRoom.name));
+                stocker.state = "CleanLabs";
+                creep.say("CleanLabs");
+            } else if (this.resourcesToPickup(room)) {
+                stocker.state = "PickupResources";
+                creep.say("💎 from 🏦");
             }
         }
     }
