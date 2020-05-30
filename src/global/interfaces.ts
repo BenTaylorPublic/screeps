@@ -134,6 +134,7 @@ interface MyRoom {
     bank: Bank | null;
     controllerLink: MyLink | null;
     labs: LabMemory | null;
+    nukerStatus: "NeedsEnergy" | "NeedsG" | "Full" | null;
 }
 
 interface LabMemory {
