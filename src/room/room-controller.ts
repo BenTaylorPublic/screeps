@@ -12,6 +12,7 @@ import {LogHelper} from "../global/helpers/log-helper";
 import {RoomDefenseController} from "./room-defense-controller";
 import {RoleDigger} from "./roles/digger";
 import {RoomLabController} from "./structures/lab";
+import {RoomNukerController} from "./structures/nuker";
 
 export class RoomController {
     public static run(myRoom: MyRoom, transfer: Transfer | null): void {
@@ -27,6 +28,7 @@ export class RoomController {
         RoomSpawnController.run(myRoom, room);
         RoomTowerController.run(myRoom, room);
         RoomDefenseController.run(myRoom, room);
+        RoomNukerController.run(myRoom, room);
 
         const laborersStock: boolean = this.shouldLaborersStock(myRoom);
 
