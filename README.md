@@ -150,6 +150,9 @@ Scrubs to wreck message
 
 Link pos and storage pos might not need to be stored
 
+Stocker states could be optimised
+    By not just blindly going back to DespositResources
+
 Need to remove the cleaning logic
     Only after its been a few months at full running, with no errors
     Need to wait until buffing is working for the stockers cleaning labs

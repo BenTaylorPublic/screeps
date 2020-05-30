@@ -32,7 +32,7 @@ export class RoleStocker {
         } else if (stocker.state === "CleanLabs") {
             this.cleanLabs(stocker, myRoom, creep);
         } else if (stocker.state === "EnergyToNuker") {
-            this.energyToNuker(stocker, myRoom, creep);
+            this.energyToNuker(stocker, creep, room);
         } else {
             this.depositResources(stocker, myRoom, creep);
         }
@@ -104,6 +104,12 @@ export class RoleStocker {
                 stocker.state = "DepositResources";
                 creep.say("💎/⚡ to 🏦");
             }
+        } else if (stocker.state === "EnergyToNuker") {
+            if (creep.store.getUsedCapacity() === 0 ||
+                !this.nukerNeedsEnergy(myRoom, room)) {
+                stocker.state = "DepositResources";
+                creep.say("💎/⚡ to 🏦");
+            }
         }
 
         if (emptyAndNeedNewJob) {
@@ -130,8 +136,14 @@ export class RoleStocker {
         }
     }
 
-    private static energyToNuker(stocker: Stocker, myRoom: MyRoom, creep: Creep): void {
-        //TODO:
+    private static energyToNuker(stocker: Stocker, creep: Creep, room: Room): void {
+        const nuker: StructureNuker | null = this.getNuker(room);
+        if (nuker == null) {
+            return;
+        }
+        if (creep.transfer(nuker, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+            MovementHelper.myMoveTo(creep, nuker.pos, stocker);
+        }
     }
 
     private static cleanLabs(stocker: Stocker, myRoom: MyRoom, creep: Creep): void {
@@ -399,19 +411,9 @@ export class RoleStocker {
         if (myRoom.nukerStatus !== "NeedsEnergy") {
             return false;
         }
-
-        const nukers: StructureNuker[] = room.find<StructureNuker>(FIND_MY_STRUCTURES, {
-            filter(structure: AnyStructure): boolean {
-                return structure.structureType === STRUCTURE_NUKER;
-            }
-        });
-
-        if (nukers.length !== 1) {
-            myRoom.nukerStatus = null;
-            return false;
-        }
-        const nuker: StructureNuker = nukers[0];
-        if (nuker.store.getFreeCapacity(RESOURCE_ENERGY) === 0) {
+        const nuker: StructureNuker | null = this.getNuker(room);
+        if (nuker == null ||
+            nuker.store.getFreeCapacity(RESOURCE_ENERGY) === 0) {
             return false;
         }
 
@@ -420,5 +422,18 @@ export class RoleStocker {
         }
 
         return true;
+    }
+
+    private static getNuker(room: Room): StructureNuker | null {
+        const nukers: StructureNuker[] = room.find<StructureNuker>(FIND_MY_STRUCTURES, {
+            filter(structure: AnyStructure): boolean {
+                return structure.structureType === STRUCTURE_NUKER;
+            }
+        });
+
+        if (nukers.length !== 1) {
+            return null;
+        }
+        return nukers[0];
     }
 }
