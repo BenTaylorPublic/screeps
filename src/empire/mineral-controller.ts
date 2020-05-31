@@ -26,6 +26,10 @@ export class MineralController {
     private static queueLabOrders(roomsToUse: MyRoom[], resourceMap: GenerateResourceMapResult): void {
         const baseCompoundLimits: ResourceLimitsWithReagents = ResourceConstants.getBaseCompoundLimits();
         const gCompoundLimits: ResourceLimitsWithReagents = ResourceConstants.getGCompoundLimits();
+
+        let newLabOrders: number = 0;
+        let labOrdersThatFailedToQueue: number = 0;
+        let totalLabOrders: number = 0;
         for (let i: number = 0; i < roomsToUse.length; i++) {
             const myRoom: MyRoom = roomsToUse[i];
             if (myRoom.roomStage < 8) {
@@ -36,12 +40,29 @@ export class MineralController {
                 continue;
             }
             const roomResourceMap: ResourceMap = resourceMap.myRoomMaps[myRoom.name];
-            this.tryQueueLabOrderForRoom(myRoom, roomResourceMap, baseCompoundLimits, 0);
-            this.tryQueueLabOrderForRoom(myRoom, roomResourceMap, gCompoundLimits, 0.5);
+            const statsFromBaseQueuing: LabOrderQueueingStats =
+                this.tryQueueLabOrderForRoom(myRoom, roomResourceMap, baseCompoundLimits, 0);
+            const statsFromGQueuing: LabOrderQueueingStats =
+                this.tryQueueLabOrderForRoom(myRoom, roomResourceMap, gCompoundLimits, 0.5);
+
+            //Stats
+            newLabOrders += statsFromBaseQueuing.newLabOrders + statsFromGQueuing.newLabOrders;
+            labOrdersThatFailedToQueue += statsFromBaseQueuing.labOrdersThatFailedToQueue + statsFromGQueuing.labOrdersThatFailedToQueue;
+            totalLabOrders += (myRoom.labs as LabMemory).labOrders.length;
         }
+
+        ReportController.log("New lab orders: " + newLabOrders);
+        ReportController.log("Lab orders that failed to queue: " + labOrdersThatFailedToQueue);
+        ReportController.log("Total lab orders: " + totalLabOrders);
     }
 
-    private static tryQueueLabOrderForRoom(myRoom: MyRoom, roomResourceMap: ResourceMap, tieredResourceLimits: ResourceLimitsWithReagents, priority: number): void {
+    private static tryQueueLabOrderForRoom(myRoom: MyRoom, roomResourceMap: ResourceMap, tieredResourceLimits: ResourceLimitsWithReagents, priority: number): LabOrderQueueingStats {
+
+        const statsResults: LabOrderQueueingStats = {
+            newLabOrders: 0,
+            labOrdersThatFailedToQueue: 0
+        };
+
         const resources: MineralsAndCompoundConstant[] = Object.keys(tieredResourceLimits) as MineralsAndCompoundConstant[];
         for (let i: number = 0; i < resources.length; i++) {
             const resource: MineralsAndCompoundConstant = resources[i];
@@ -80,6 +101,7 @@ export class MineralController {
                 if (myRoom.bank == null ||
                     myRoom.bank.object == null) {
                     ReportController.log("LOG: Can't create resource " + resource + " in room " + LogHelper.roomNameAsLink(myRoom.name) + " bank being null");
+                    statsResults.labOrdersThatFailedToQueue += 1;
                     continue;
                 }
 
@@ -88,12 +110,14 @@ export class MineralController {
                 if (amountOfReagent1 < amountNeeded ||
                     myRoom.bank.object.store.getUsedCapacity(resourceLimits.reagent1) < amountNeeded) {
                     ReportController.log("LOG: Can't create resource " + resource + " in room " + LogHelper.roomNameAsLink(myRoom.name) + " due to lack of r1 " + resourceLimits.reagent1 + " (" + amountOfReagent1 + ")");
+                    statsResults.labOrdersThatFailedToQueue += 1;
                     continue;
                 }
                 const amountOfReagent2: number = this.getAmountOfResource(roomResourceMap, resourceLimits.reagent2);
                 if (amountOfReagent2 < amountNeeded ||
                     myRoom.bank.object.store.getUsedCapacity(resourceLimits.reagent2) < amountNeeded) {
                     ReportController.log("LOG: Can't create resource " + resource + " in room " + LogHelper.roomNameAsLink(myRoom.name) + " due to lack of r2 " + resourceLimits.reagent2 + " (" + amountOfReagent2 + ")");
+                    statsResults.labOrdersThatFailedToQueue += 1;
                     continue;
                 }
 
@@ -108,9 +132,13 @@ export class MineralController {
                 if (roomResourceMap[resourceLimits.reagent2] != null) {
                     (roomResourceMap[resourceLimits.reagent2] as number) -= amountNeeded;
                 }
+
                 ReportController.email("LOG: Queued a new reaction for room " + LogHelper.roomNameAsLink(myRoom.name) + " to create " + resource);
+                statsResults.newLabOrders += amounts.length;
             }
         }
+
+        return statsResults;
     }
 
     private static queueLabOrder(myRoom: MyRoom, resource: MineralsAndCompoundConstant, amountNeeded: number, resourceLimits: ResourceLimitUpperLowerWithReagents, priority: number): void {
@@ -386,4 +414,9 @@ export class MineralController {
             return resourceMap[resource] as number;
         }
     }
+}
+
+interface LabOrderQueueingStats {
+    newLabOrders: number;
+    labOrdersThatFailedToQueue: number;
 }
