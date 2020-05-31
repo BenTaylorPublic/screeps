@@ -63,10 +63,18 @@ export class MineralController {
                     continue;
                 }
 
-                let amountNeeded: number = Math.ceil((resourceLimits.upper - amountOfResource) / Constants.LAB_REACTION_AMOUNT_TO_CEIL_TO) * Constants.LAB_REACTION_AMOUNT_TO_CEIL_TO;
+                const amountNeeded: number = Math.ceil((resourceLimits.upper - amountOfResource) / Constants.LAB_REACTION_AMOUNT_TO_CEIL_TO) * Constants.LAB_REACTION_AMOUNT_TO_CEIL_TO;
+                const amounts: number[] = [];
                 //3k is the limit of the reagent labs
                 if (amountNeeded > 3_000) {
-                    amountNeeded = 3_000;
+                    const lots: number = Math.floor(amountNeeded / 3_000);
+                    for (let j: number = 0; j < lots; j++) {
+                        amounts.push(3_000);
+                    }
+                    const leftOver: number = amountNeeded - (lots * 3_000);
+                    amounts.push(leftOver);
+                } else {
+                    amounts.push(amountNeeded);
                 }
 
                 if (myRoom.bank == null ||
@@ -89,38 +97,10 @@ export class MineralController {
                     continue;
                 }
 
-                //We can queue the order!
-                const newLabOrder: LabOrder = {
-                    amount: amountNeeded,
-                    amountLeftToLoad: amountNeeded,
-                    compound: resource,
-                    reagent1: resourceLimits.reagent1,
-                    reagent2: resourceLimits.reagent2,
-                    state: "Queued",
-                    priority: priority,
-                    cooldown: resourceLimits.cooldown
-                };
-
-                //Inserting the lab order into the sorted array
-                if ((myRoom.labs as LabMemory).labOrders.length === 0) {
-                    (myRoom.labs as LabMemory).labOrders.push(newLabOrder);
-                } else {
-                    let inserted: boolean = false;
-                    for (let j: number = 0; j < (myRoom.labs as LabMemory).labOrders.length; j++) {
-                        //Priority is backwards
-                        //0 is tier0, which is more important than tier 3
-                        if (newLabOrder.priority < (myRoom.labs as LabMemory).labOrders[j].priority) {
-                            (myRoom.labs as LabMemory).labOrders.splice(j, 0, newLabOrder);
-                            inserted = true;
-                            break;
-                        }
-                    }
-                    if (!inserted) {
-                        //Still hasn't inserted yet
-                        //Put on the end
-                        (myRoom.labs as LabMemory).labOrders = (myRoom.labs as LabMemory).labOrders.concat(newLabOrder);
-                    }
+                for (let j: number = 0; j < amounts.length; j++) {
+                    this.queueLabOrder(myRoom, resource, amounts[j], resourceLimits, priority);
                 }
+
                 //It can't be null, but ohwell
                 if (roomResourceMap[resourceLimits.reagent1] != null) {
                     (roomResourceMap[resourceLimits.reagent1] as number) -= amountNeeded;
@@ -129,6 +109,42 @@ export class MineralController {
                     (roomResourceMap[resourceLimits.reagent2] as number) -= amountNeeded;
                 }
                 ReportController.email("LOG: Queued a new reaction for room " + LogHelper.roomNameAsLink(myRoom.name) + " to create " + resource);
+            }
+        }
+    }
+
+    private static queueLabOrder(myRoom: MyRoom, resource: MineralsAndCompoundConstant, amountNeeded: number, resourceLimits: ResourceLimitUpperLowerWithReagents, priority: number): void {
+
+        //We can queue the order!
+        const newLabOrder: LabOrder = {
+            amount: amountNeeded,
+            amountLeftToLoad: amountNeeded,
+            compound: resource,
+            reagent1: resourceLimits.reagent1,
+            reagent2: resourceLimits.reagent2,
+            state: "Queued",
+            priority: priority,
+            cooldown: resourceLimits.cooldown
+        };
+
+        //Inserting the lab order into the sorted array
+        if ((myRoom.labs as LabMemory).labOrders.length === 0) {
+            (myRoom.labs as LabMemory).labOrders.push(newLabOrder);
+        } else {
+            let inserted: boolean = false;
+            for (let j: number = 0; j < (myRoom.labs as LabMemory).labOrders.length; j++) {
+                //Priority is backwards
+                //0 is tier0, which is more important than tier 3
+                if (newLabOrder.priority < (myRoom.labs as LabMemory).labOrders[j].priority) {
+                    (myRoom.labs as LabMemory).labOrders.splice(j, 0, newLabOrder);
+                    inserted = true;
+                    break;
+                }
+            }
+            if (!inserted) {
+                //Still hasn't inserted yet
+                //Put on the end
+                (myRoom.labs as LabMemory).labOrders = (myRoom.labs as LabMemory).labOrders.concat(newLabOrder);
             }
         }
     }
