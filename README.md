@@ -138,6 +138,13 @@ Need to remove the cleaning logic
     Only after its been a few months at full running, with no errors
     Need to wait until buffing is working for the stockers cleaning labs
     Need to wait until the transfers work by Id, for the banklinkers cleaning terminal
+
+Need a way to determine what minerals are bottlenecked
+    Every 100 loops, check which rooms having mining active and the resource is empty
+    Need a way to clear it too, for when I get a new room to mining level
+    Not sure how to store that information
+    Not sure if it should be historic to last clear, or only have a timeframe of a few weeks
+    Make sure this logic is done after the mineral controller has set active to true/false
 ```
 
 ## Flag Names
