@@ -9,6 +9,7 @@ import {SignController} from "./sign/sign-controller";
 import {ScavengeController} from "./scavenge-controller";
 import {RoleScavenger} from "./role/scavenger";
 import {MineralController} from "./mineral-controller";
+import {RoomNukerController} from "../room/structures/nuker";
 
 export class EmpireController {
     public static run(myMemory: MyMemory): void {
@@ -24,6 +25,7 @@ export class EmpireController {
 
         PowerScavController.run(myMemory);
         ScavengeController.run(myMemory);
+        RoomNukerController.checkForNukeLaunchFlags(myMemory.myRooms);
 
         //Controlling claimers and power scav haulers
         for (let i = 0; i < myMemory.empire.creeps.length; i++) {

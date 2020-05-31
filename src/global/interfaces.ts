@@ -369,6 +369,11 @@ type MoveByPathResult = CreepMoveReturnCode | ERR_NOT_FOUND | ERR_INVALID_ARGS;
 
 type ResourceMap = Partial<Record<ResourceConstant, number>>;
 
+interface NukerWithTarget {
+    target: Flag;
+    nuker: StructureNuker;
+}
+
 interface GenerateResourceMapResult {
     myRoomMaps: Record<string, ResourceMap>;
     totalResourceMap: ResourceMap;

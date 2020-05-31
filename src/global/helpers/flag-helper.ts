@@ -87,4 +87,29 @@ export class FlagHelper {
         return result;
     }
 
+    public static getFlags3(nameArray: string[]): Flag[] {
+        const result: Flag[] = [];
+        const flagNames: string[] = Object.keys(Game.flags);
+        for (let i = 0; i < flagNames.length; i++) {
+            const flag: Flag = Game.flags[flagNames[i]];
+
+            const flagNameSplit: string[] = flag.name.split("-");
+            if (flagNameSplit.length < nameArray.length) {
+                continue;
+            }
+            let noMatch: boolean = false;
+            for (let j = 0; j < nameArray.length; j++) {
+                if (flagNameSplit[j] !== nameArray[j]) {
+                    noMatch = true;
+                    break;
+                }
+            }
+            if (noMatch) {
+                continue;
+            }
+            result.push(flag);
+        }
+        return result;
+    }
+
 }

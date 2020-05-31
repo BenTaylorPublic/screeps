@@ -182,6 +182,11 @@ sign-all
 claim
 scavenge-{RESOURCE_AMOUNT}
 
+//Holds the launching of nukes until the flag is removed
+//Use this to queue launches on the same tick
+nuke-hold 
+nuke-launch
+
 attack-quick-rally
 attack-quick-room-target
 attack-pressure-rally
