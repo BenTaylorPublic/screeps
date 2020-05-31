@@ -4,12 +4,6 @@
 ## TODO
 ### Working on
 ```
-```
-### Short term
-```
-```
-### Mid term:
-```
 Transfer rut
     On 29/05 I saw that there was a rut with transfers
         There was 100 amountLeft on a transfer of 1400 Z
@@ -19,7 +13,12 @@ Transfer rut
         Each tick it tries to get that transfer
         If that transfer is gone, the function returns the rooms next one
         The room then updates its ID
-
+```
+### Short term
+```
+```
+### Mid term:
+```
 MyMemory.Settings
     Settings I can change via flags (that directly match the settings key)
     Constants are all numbers

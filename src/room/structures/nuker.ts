@@ -59,18 +59,26 @@ export class RoomNukerController {
                 for (let k: number = 0; k < nukerWithTargetArray.length; k++) {
                     if (nukerWithTargetArray[k].nuker.id === nuker.id) {
                         nukerBeenTakenByPreviousTarget = true;
+                        break;
                     }
                 }
 
-                if (!nukerBeenTakenByPreviousTarget) {
-                    //This target will take it
-                    nukerWithTargetArray.push({
-                        target: target,
-                        nuker: nuker
-                    });
-                    foundNuker = true;
-                    break;
+                if (nukerBeenTakenByPreviousTarget) {
+                    continue;
                 }
+
+                if (Game.map.getRoomLinearDistance(nuker.pos.roomName, target.pos.roomName) > 10) {
+                    //Out of range
+                    continue;
+                }
+
+                //This target will use this nuker
+                nukerWithTargetArray.push({
+                    target: target,
+                    nuker: nuker
+                });
+                foundNuker = true;
+                break;
 
             }
 
