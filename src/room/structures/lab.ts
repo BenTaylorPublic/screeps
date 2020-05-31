@@ -64,7 +64,7 @@ export class RoomLabController {
         }
         for (let i: number = 0; i < labMemory.compoundLabs.length; i++) {
             const compoundLabMemory: CompoundLabMemory = labMemory.compoundLabs[i];
-            if (compoundLabMemory.cooldownTill > Game.time) {
+            if (labOrder.cooldownTill > Game.time) {
                 continue;
             }
 
@@ -75,7 +75,7 @@ export class RoomLabController {
             }
             const result: ScreepsReturnCode = lab.runReaction(reagentLab1, reagentLab2);
             if (result === OK) {
-                compoundLabMemory.cooldownTill = Game.time + labOrder.cooldown;
+                labOrder.cooldownTill = Game.time + labOrder.cooldown;
             } else {
                 if (labOrder.amountLeftToLoad === 0 &&
                     result === ERR_NOT_ENOUGH_RESOURCES) {
@@ -160,6 +160,16 @@ export class RoomLabController {
             const labOrder: LabOrder = myRoom.labs.labOrders[i];
             if (bank.store[labOrder.reagent1] >= labOrder.amount &&
                 bank.store[labOrder.reagent2] >= labOrder.amount) {
+
+                //Here we're going to grab a compound lab and copy its cooldown to the laborder
+                //Just in case we ran a lab order previous to this, that had a huge cooldown
+                const lab: StructureLab = Game.getObjectById<StructureLab>(myRoom.labs.compoundLabs[0].id) as StructureLab;
+                //If it doesn't have a cooldown, its fine, laborders cooldown is default to tick 0
+                if (lab.cooldown != null &&
+                    lab.cooldown > 0) {
+                    lab.cooldown = Game.time + lab.cooldown;
+                }
+
                 ReportController.log("LabOrder in " + LogHelper.roomNameAsLink(myRoom.name) + ": Queued -> InitialLoading");
                 labOrder.state = "InitialLoading";
                 return labOrder;

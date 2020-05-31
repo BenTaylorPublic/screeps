@@ -88,8 +88,7 @@ export class Stage7_8 {
                 };
             } else {
                 compoundLabs.push({
-                    id: lab.id,
-                    cooldownTill: 0
+                    id: lab.id
                 });
             }
         }

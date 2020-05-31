@@ -152,7 +152,8 @@ export class MineralController {
             reagent2: resourceLimits.reagent2,
             state: "Queued",
             priority: priority,
-            cooldown: resourceLimits.cooldown
+            cooldown: resourceLimits.cooldown,
+            cooldownTill: 0
         };
 
         //Inserting the lab order into the sorted array

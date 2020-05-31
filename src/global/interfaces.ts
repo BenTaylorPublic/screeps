@@ -154,6 +154,7 @@ interface LabOrder {
     state: "Queued" | "InitialLoading" | "Loading" | "Running" | "Unloading";
     priority: number;
     cooldown: number;
+    cooldownTill: number;
 }
 
 interface ReagentLabMemory {
@@ -163,7 +164,6 @@ interface ReagentLabMemory {
 
 interface CompoundLabMemory {
     id: Id<StructureLab>;
-    cooldownTill: number;
 }
 
 interface Bank {
