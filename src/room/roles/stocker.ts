@@ -59,7 +59,6 @@ export class RoleStocker {
                 } else if (this.nukerNeedsEnergy(myRoom, room)) {
                     stocker.state = "EnergyToNuker";
                     creep.say("⚡ to ☢");
-                    ReportController.log("Stocker in " + LogHelper.roomNameAsLink(myRoom.name) + " is stocking the nuker with energy");
                 } else {
                     stocker.state = "DepositResources";
                     creep.say("💎/⚡ to 🏦");
