@@ -4,20 +4,9 @@
 ## TODO
 ### Working on
 ```
-Loading nukers
-    Set a state on the room
-        Calculate it every 100 ticks in the room controller
-        States are "NeedsEnergy" | "NeedsG" | "Full" | null
-    Stocker needs 3 new states to load it
-        LoadNukeEnergy
-        LoadNukeG
-        PickupG
 ```
 ### Short term
 ```
-Nukes (Offence)
-    nuke-launch flag
-
 Instead of limiting lab orders to 3k
     It needs to split it into multiple orders of 3k
 
