@@ -18,7 +18,7 @@ export class RoleStocker {
         this.calculateCreepState(stocker, room, creep, labOrder, myRoom);
 
         if (stocker.state === "PickupEnergy") {
-            this.pickupEnergy(stocker, myRoom, creep);
+            this.pickupResourceFromBank(stocker, myRoom, creep, RESOURCE_ENERGY);
         } else if (stocker.state === "DistributeEnergy") {
             this.distributeEnergy(stocker, creep);
         } else if (stocker.state === "PickupResources") {
@@ -32,9 +32,13 @@ export class RoleStocker {
         } else if (stocker.state === "CleanLabs") {
             this.cleanLabs(stocker, myRoom, creep);
         } else if (stocker.state === "EnergyToNuker") {
-            this.energyToNuker(stocker, creep, room);
-        } else {
+            this.resourceToNuker(stocker, creep, room, RESOURCE_ENERGY);
+        } else if (stocker.state === "DepositResources") {
             this.depositResources(stocker, myRoom, creep);
+        } else if (stocker.state === "PickupG") {
+            this.pickupResourceFromBank(stocker, myRoom, creep, RESOURCE_GHODIUM);
+        } else if (stocker.state === "GToNuker") {
+            this.resourceToNuker(stocker, creep, room, RESOURCE_GHODIUM);
         }
     }
 
@@ -109,6 +113,22 @@ export class RoleStocker {
                 stocker.state = "DepositResources";
                 creep.say("💎/⚡ to 🏦");
             }
+        } else if (stocker.state === "PickupG") {
+            if (creep.store.getUsedCapacity(RESOURCE_GHODIUM) > 0) {
+                if (this.nukerNeedsG(myRoom, room)) {
+                    stocker.state = "GToNuker";
+                    creep.say("G to ☢");
+                } else {
+                    stocker.state = "DepositResources";
+                    creep.say("💎/⚡ to 🏦");
+                }
+            }
+        } else if (stocker.state === "GToNuker") {
+            if (creep.store.getUsedCapacity(RESOURCE_GHODIUM) === 0 ||
+                !this.nukerNeedsG(myRoom, room)) {
+                stocker.state = "DepositResources";
+                creep.say("💎/⚡ to 🏦");
+            }
         }
 
         if (emptyAndNeedNewJob) {
@@ -131,16 +151,19 @@ export class RoleStocker {
             } else if (this.nukerNeedsEnergy(myRoom, room)) {
                 stocker.state = "PickupEnergy";
                 creep.say("⚡ from 🏦");
+            } else if (this.nukerNeedsG(myRoom, room)) {
+                stocker.state = "PickupG";
+                creep.say("G from 🏦");
             }
         }
     }
 
-    private static energyToNuker(stocker: Stocker, creep: Creep, room: Room): void {
+    private static resourceToNuker(stocker: Stocker, creep: Creep, room: Room, resource: ResourceConstant): void {
         const nuker: StructureNuker | null = this.getNuker(room);
         if (nuker == null) {
             return;
         }
-        if (creep.transfer(nuker, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+        if (creep.transfer(nuker, resource) === ERR_NOT_IN_RANGE) {
             MovementHelper.myMoveTo(creep, nuker.pos, stocker);
         }
     }
@@ -246,7 +269,7 @@ export class RoleStocker {
         }
     }
 
-    private static pickupEnergy(stocker: Stocker, myRoom: MyRoom, creep: Creep): void {
+    private static pickupResourceFromBank(stocker: Stocker, myRoom: MyRoom, creep: Creep, resource: ResourceConstant): void {
         if (myRoom.bank == null) {
             ReportController.email("ERROR: Room's bank pos was null in " + LogHelper.roomNameAsLink(myRoom.name));
             return;
@@ -260,8 +283,8 @@ export class RoleStocker {
                 ReportController.email("ERROR: Room's bank was null in " + LogHelper.roomNameAsLink(myRoom.name));
                 return;
             }
-            if (bank.store.energy > 0) {
-                creep.withdraw(bank, RESOURCE_ENERGY);
+            if (bank.store.getUsedCapacity(resource) > 0) {
+                creep.withdraw(bank, resource);
             }
         } else {
             MovementHelper.myMoveTo(creep, bankPos, stocker);
@@ -417,6 +440,28 @@ export class RoleStocker {
         }
 
         if (myRoom.bank.object.store.getUsedCapacity(RESOURCE_ENERGY) < Constants.DONT_STOCK_NUKER_IF_ENERGY_UNDER) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private static nukerNeedsG(myRoom: MyRoom, room: Room): boolean {
+        if (myRoom.bank == null ||
+            myRoom.bank.object == null) {
+            ReportController.email("ERROR: Room's bank object was null in " + LogHelper.roomNameAsLink(myRoom.name));
+            return false;
+        }
+        if (myRoom.nukerStatus !== "NeedsG") {
+            return false;
+        }
+        const nuker: StructureNuker | null = this.getNuker(room);
+        if (nuker == null ||
+            nuker.store.getFreeCapacity(RESOURCE_GHODIUM) === 0) {
+            return false;
+        }
+
+        if (myRoom.bank.object.store.getUsedCapacity(RESOURCE_GHODIUM) < 1250) {
             return false;
         }
 
