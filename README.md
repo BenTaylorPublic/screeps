@@ -4,12 +4,18 @@
 ## TODO
 ### Working on
 ```
-Energy donor room order should shuffled
-    Rooms early in the list are being used up
-    This means they're not loading their nuker with energy
+amountLeftToLoad went to -700
+    Combining U + L
+    450 L left in reagent lab
+    250 UL left in compound lab
+    Stocker trying to withdraw more constantly
 ```
 ### Short term
 ```
+Energy donor room order should shuffled
+    Rooms early in the list are being used up
+    This means they're not loading their nuker with energy
+
 Transfer rut
     On 29/05 I saw that there was a rut with transfers
         There was 100 amountLeft on a transfer of 1400 Z

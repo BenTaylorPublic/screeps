@@ -9,6 +9,8 @@ console.log("Script reloaded");
 
 // for (let i: number = 0; i < Memory.myMemory.myRooms.length; i++) {
 //     const myRoom: MyRoom = Memory.myMemory.myRooms[i];
+//     if (myRoom.labs != null) {
+//     }
 //     for (let j: number = myRoom.myCreeps.length - 1; j >= 0; j--) {
 //         const myCreep: MyCreep = myRoom.myCreeps[j];
 //     }
