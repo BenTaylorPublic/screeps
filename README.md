@@ -4,7 +4,8 @@
 ## TODO
 ### Working on
 ```
-amountLeftToLoad went to -700
+Lab rut
+    amountLeftToLoad went to -700
     Combining U + L
     450 L left in reagent lab
     250 UL left in compound lab
