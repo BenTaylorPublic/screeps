@@ -3,6 +3,7 @@ import {Constants} from "../global/constants/constants";
 import {LogHelper} from "../global/helpers/log-helper";
 import {ReportController} from "../reporting/report-controller";
 import {ResourceConstants} from "../global/constants/resource-constants";
+import {ReportCooldownConstants} from "../global/report-cooldown-constants";
 
 export class MineralController {
     public static run(myMemory: MyMemory): void {
@@ -17,8 +18,8 @@ export class MineralController {
         const roomsToUse: MyRoom[] = RoomHelper.getMyRoomsAtOrAboveStage(Constants.MINERAL_START_STAGE);
         const resourceMap: GenerateResourceMapResult = this.generateResourceMap(roomsToUse, myMemory.empire.transfers);
         const mineralLimits: ResourceLimits = ResourceConstants.getMineralLimits();
-        this.startOrStopDigging(roomsToUse, resourceMap.totalResourceMap, mineralLimits);
-        this.transferMineralsToLowRooms(roomsToUse, resourceMap, myMemory.empire.transfers, mineralLimits);
+        const forceDigResource: ResourceConstant[] = this.transferMineralsToLowRooms(roomsToUse, resourceMap, myMemory.empire.transfers, mineralLimits);
+        this.startOrStopDigging(roomsToUse, resourceMap.totalResourceMap, mineralLimits, forceDigResource);
         this.donateEnergyToDevelopingRooms(roomsToUse, resourceMap, myMemory.empire.transfers);
         this.queueLabOrders(roomsToUse, resourceMap);
     }
@@ -54,6 +55,10 @@ export class MineralController {
         ReportController.log("New lab orders: " + newLabOrders);
         ReportController.log("Lab orders that failed to queue: " + labOrdersThatFailedToQueue);
         ReportController.log("Total lab orders: " + totalLabOrders);
+        if (totalLabOrders === 0 &&
+            labOrdersThatFailedToQueue === 0) {
+            ReportController.email("Rooms are content with current compounds", ReportCooldownConstants.DAY);
+        }
     }
 
     private static tryQueueLabOrderForRoom(myRoom: MyRoom, roomResourceMap: ResourceMap, tieredResourceLimits: ResourceLimitsWithReagents, priority: number): LabOrderQueueingStats {
@@ -236,7 +241,8 @@ export class MineralController {
         }
     }
 
-    private static transferMineralsToLowRooms(roomsToUse: MyRoom[], resourceMap: GenerateResourceMapResult, transfers: Transfer[], mineralLimits: ResourceLimits): void {
+    private static transferMineralsToLowRooms(roomsToUse: MyRoom[], resourceMap: GenerateResourceMapResult, transfers: Transfer[], mineralLimits: ResourceLimits): ResourceConstant[] {
+        const forceDigResources: ResourceConstant[] = [];
         for (let i: number = 0; i < roomsToUse.length; i++) {
             const myRoom: MyRoom = roomsToUse[i];
             const roomResourceMap: ResourceMap = resourceMap.myRoomMaps[myRoom.name];
@@ -256,18 +262,31 @@ export class MineralController {
                     } else {
                         //Request transfer
                         const amountNeeded: number = Math.ceil((resourceLimits.upper - amountOfMineral) / Constants.BANK_LINKER_CAPACITY) * Constants.BANK_LINKER_CAPACITY;
-                        this.requestTransfer(myRoom, resource, amountNeeded, roomsToUse, resourceMap, transfers, resourceLimits.lower);
+                        if (!this.requestTransfer(myRoom, resource, amountNeeded, roomsToUse, resourceMap, transfers, resourceLimits.lower)) {
+                            //Failed to find a room to transfer from
+                            //Add it to the list, which will force these diggings to active
+                            if (!forceDigResources.includes(resource)) {
+                                forceDigResources.push(resource);
+                            }
+                        }
                     }
                 }
             }
         }
+        return forceDigResources;
     }
 
-    private static requestTransfer(receivingRoom: MyRoom, resource: ResourceConstant, amountNeeded: number, roomsToUse: MyRoom[], resourceMap: GenerateResourceMapResult, transfers: Transfer[], resourceLimitLower: number): void {
+    private static requestTransfer(receivingRoom: MyRoom, resource: ResourceConstant, amountNeeded: number, roomsToUse: MyRoom[], resourceMap: GenerateResourceMapResult, transfers: Transfer[], resourceLimitLower: number): boolean {
         let highestFoundAmount: number = -1;
         let highestFoundIndex: number = -1;
         for (let i: number = 0; i < roomsToUse.length; i++) {
             const potentialRoomToTransferFrom: MyRoom = roomsToUse[i];
+            if (potentialRoomToTransferFrom.digging == null ||
+                potentialRoomToTransferFrom.digging.mineral !== resource) {
+                //Don't get a mineral, off a room that doesn't have it as a source
+                continue;
+            }
+
             const potentialRoomToTransferFromResourceMap: ResourceMap = resourceMap.myRoomMaps[potentialRoomToTransferFrom.name];
             if (potentialRoomToTransferFrom.name === receivingRoom.name ||
                 potentialRoomToTransferFromResourceMap[resource] == null ||
@@ -282,10 +301,11 @@ export class MineralController {
         }
 
         if (highestFoundIndex === -1) {
-            return;
+            return false;
         }
         //We have a room
         this.createTransfer(roomsToUse[highestFoundIndex].name, receivingRoom.name, resource, amountNeeded, resourceMap.myRoomMaps[roomsToUse[highestFoundIndex].name] as ResourceMap, transfers);
+        return true;
     }
 
     private static createTransfer(sendingRoomName: string, receivingRoomName: string, resource: ResourceConstant, amount: number, sendingRoomResourceMap: ResourceMap, transfers: Transfer[]): void {
@@ -307,11 +327,18 @@ export class MineralController {
         //But it wont affect the totalMap, which would affect digging
     }
 
-    private static startOrStopDigging(roomsToUse: MyRoom[], totalResourceMap: ResourceMap, mineralLimits: ResourceLimits): void {
+    private static startOrStopDigging(roomsToUse: MyRoom[], totalResourceMap: ResourceMap, mineralLimits: ResourceLimits, forceDigResource: ResourceConstant[]): void {
+        //This isn't the only place where digging is set to true
+        //It's also set if a transfer is needed
 
         const resources: ResourceConstant[] = Object.keys(mineralLimits) as ResourceConstant[];
         for (let i: number = 0; i < resources.length; i++) {
             const mineral: MineralConstant = resources[i] as MineralConstant;
+            if (forceDigResource.includes(mineral)) {
+                this.setDiggingActive(roomsToUse, mineral, true);
+                continue;
+            }
+            //Otherwise, dig until the empire has more than UpperLimit*Rooms
             const mineralLimit: ResourceLimitUpperLower = mineralLimits[mineral] as ResourceLimitUpperLower;
             const mineralLimitUpper: number = mineralLimit.upper * roomsToUse.length;
             const amountOfMineral: number = this.getAmountOfResource(totalResourceMap, mineral);

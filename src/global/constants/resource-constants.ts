@@ -2,32 +2,32 @@ export class ResourceConstants {
     public static getMineralLimits(): ResourceLimits {
         return {
             Z: {
-                lower: 3_000,
-                upper: 6_000
+                lower: 5_000,
+                upper: 10_000
             },
             K: {
-                lower: 3_000,
-                upper: 6_000
+                lower: 5_000,
+                upper: 10_000
             },
             U: {
-                lower: 3_000,
-                upper: 6_000
+                lower: 5_000,
+                upper: 10_000
             },
             L: {
-                lower: 3_000,
-                upper: 6_000
+                lower: 5_000,
+                upper: 10_000
             },
             H: {
-                lower: 3_000,
-                upper: 6_000
+                lower: 5_000,
+                upper: 10_000
             },
             O: {
-                lower: 3_000,
-                upper: 6_000
+                lower: 5_000,
+                upper: 10_000
             },
             X: {
-                lower: 3_000,
-                upper: 6_000
+                lower: 5_000,
+                upper: 10_000
             }
         };
     }
@@ -36,14 +36,14 @@ export class ResourceConstants {
         return {
             ZK: {
                 lower: 5_000,
-                upper: 6_000,
+                upper: 10_000,
                 reagent1: "Z",
                 reagent2: "K",
                 cooldown: 5
             },
             UL: {
                 lower: 5_000,
-                upper: 6_000,
+                upper: 10_000,
                 reagent1: "U",
                 reagent2: "L",
                 cooldown: 5
