@@ -1,4 +1,4 @@
-import {Profiler, ProfilerRawData, ProfilerRawDataClass} from "./profiler";
+import {Profiler, ProfilerRawDataClass} from "./profiler";
 import {RoleLaborer} from "../room/roles/laborer";
 import {RoleAttackCreep} from "../empire/role/attack-creep";
 import {RoleClaimer} from "../empire/role/claimer";

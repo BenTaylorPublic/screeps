@@ -8,7 +8,7 @@ export class RoomNukerController {
     }
 
     public static checkForNukeLaunchFlags(myRooms: MyRoom[]): void {
-        if (Game.time % 10 !== 0 &&
+        if (Game.time % 10 !== 0 ||
             Game.flags["nuke-hold"] != null) {
             return;
         }

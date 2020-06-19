@@ -1,8 +1,26 @@
+interface Memory {
+    myMemory: MyMemory;
+    profiler: ProfilerRawData;
+    functionProfiler: FunctionProfilerRawData;
+}
+
+interface FunctionProfilerRawData {
+    startTick: number;
+
+    [key: string]: any; //FunctionProfilerRawDataFunction
+}
+
 interface MyMemory {
     globalId: number;
     myRooms: MyRoom[];
     empire: Empire;
     reports: ReportLog;
+}
+
+interface ProfilerRawData {
+    startTick: number;
+
+    [key: string]: any;
 }
 
 /*

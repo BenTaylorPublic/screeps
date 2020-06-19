@@ -179,12 +179,6 @@ interface FunctionProfilerProcessedDataSection {
     callCount: number;
 }
 
-export interface FunctionProfilerRawData {
-    startTick: number;
-
-    [key: string]: any; //FunctionProfilerRawDataFunction
-}
-
 export interface FunctionProfilerRawDataFunction {
     callCount: number;
     average: number;

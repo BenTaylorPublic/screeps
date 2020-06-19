@@ -114,10 +114,14 @@ export class RoomHelper {
         } else if (structure.structureType === STRUCTURE_LINK) {
             return structure.store.getUsedCapacity(RESOURCE_ENERGY) > 0;
         } else if (structure.structureType === STRUCTURE_NUKER) {
-            return structure.store.getUsedCapacity(RESOURCE_ENERGY) > 0 &&
-                structure.store.getUsedCapacity(RESOURCE_GHODIUM_OXIDE) > 0;
+            if (structure.store.getUsedCapacity(RESOURCE_ENERGY) > 0) {
+                return true;
+            }
+            //Not sure why, but it says it can number or null, but oh well
+            const ghodiumOxide: number | null = structure.store.getUsedCapacity(RESOURCE_GHODIUM_OXIDE);
+            return (ghodiumOxide != null && ghodiumOxide > 0);
         } else if (structure.structureType === STRUCTURE_POWER_SPAWN) {
-            return structure.store.getUsedCapacity(RESOURCE_ENERGY) > 0 &&
+            return structure.store.getUsedCapacity(RESOURCE_ENERGY) > 0 ||
                 structure.store.getUsedCapacity(RESOURCE_POWER) > 0;
         } else if (structure.structureType === STRUCTURE_SPAWN) {
             return structure.store.getUsedCapacity(RESOURCE_ENERGY) > 0;

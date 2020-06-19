@@ -4,6 +4,8 @@ import {EmpireController} from "./empire/empire-controller";
 import {ProfilerWrapper} from "./profiler/profiler-wrapper";
 import {FunctionProfiler} from "./profiler/function-profiler/function-profiler";
 import {EmpireHelper} from "./global/helpers/empire-helper";
+import {ReportController} from "./reporting/report-controller";
+import {ReportCooldownConstants} from "./global/report-cooldown-constants";
 
 console.log("Script reloaded");
 
@@ -44,6 +46,12 @@ export let loop: any = function (): void {
 
     if (Game.cpu.getUsed() > 20) {
         console.log(Game.time + ": Used " + Game.cpu.getUsed() + ", bucket: " + Game.cpu.bucket);
+    } else if (Game.cpu.bucket >= 9_900) {
+        //@ts-ignore: TODO, update once types is there
+        Game.cpu.generatePixel();
+        if (Game.resources.pixel >= 500) {
+            ReportController.email("More than 500 pixels", ReportCooldownConstants.DAY);
+        }
     }
 };
 
@@ -69,8 +77,7 @@ function setupMyMemory(): void {
                 },
                 observer: null,
                 transfers: []
-            },
-            scheduledCommands: []
-        } as MyMemory;
+            }
+        };
     }
 }

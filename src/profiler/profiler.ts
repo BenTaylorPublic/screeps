@@ -57,13 +57,6 @@ export class Profiler {
 
 const excludeList: string[] = ["prototype", "length", "name"];
 
-export interface ProfilerRawData {
-    startTick: number;
-
-    [key: string]: any;
-}
-
-
 export interface ProfilerRawDataClass {
     [key: string]: ProfilerRawDataFunction;
 }
