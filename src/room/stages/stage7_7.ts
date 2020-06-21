@@ -11,8 +11,7 @@ export class Stage7_7 {
     */
     public static up(myRoom: MyRoom, room: Room): boolean {
         this.step(room);
-        if (RoomHelper.amountOfStructure(room, STRUCTURE_NUKER) === 1 &&
-            myRoom.labs != null) {
+        if (RoomHelper.amountOfStructure(room, STRUCTURE_NUKER) === 1) {
             myRoom.roomStage = 7.8;
             ReportController.email("STAGE+ 7.8 " + LogHelper.roomNameAsLink(myRoom.name) + " nuker");
             return true;
@@ -21,8 +20,7 @@ export class Stage7_7 {
     }
 
     public static down(myRoom: MyRoom, room: Room): boolean {
-        if (RoomHelper.amountOfStructure(room, STRUCTURE_NUKER) === 0 ||
-            myRoom.labs == null) {
+        if (RoomHelper.amountOfStructure(room, STRUCTURE_NUKER) === 0) {
             myRoom.roomStage = 7.7;
             ReportController.email("STAGE- 7.7 " + LogHelper.roomNameAsLink(myRoom.name) + " nuker");
             return true;
