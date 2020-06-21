@@ -90,7 +90,7 @@ export class MineralController {
                 }
 
                 const amountNeeded: number = Math.ceil((resourceLimits.upper - amountOfResource) / Constants.LAB_REACTION_AMOUNT_TO_CEIL_TO) * Constants.LAB_REACTION_AMOUNT_TO_CEIL_TO;
-                const amounts: number[] = [];
+                let amounts: number[] = [];
                 //3k is the limit of the reagent labs
                 if (amountNeeded > 3_000) {
                     const lots: number = Math.floor(amountNeeded / 3_000);
@@ -114,16 +114,29 @@ export class MineralController {
                 const amountOfReagent1: number = this.getAmountOfResource(roomResourceMap, resourceLimits.reagent1);
                 if (amountOfReagent1 < amountNeeded ||
                     myRoom.bank.object.store.getUsedCapacity(resourceLimits.reagent1) < amountNeeded) {
-                    ReportController.log("LOG: Can't create resource " + resource + " in room " + LogHelper.roomNameAsLink(myRoom.name) + " due to lack of r1 " + resourceLimits.reagent1 + " (" + amountOfReagent1 + ")");
-                    statsResults.labOrdersThatFailedToQueue += 1;
-                    continue;
+                    if (amounts.length > 1 &&
+                        amountOfReagent1 >= 3_000 &&
+                        myRoom.bank.object.store.getUsedCapacity(resourceLimits.reagent1) >= 3_000) {
+                        amounts = [3_000];
+                    } else {
+                        ReportController.log("LOG: Can't create resource " + resource + " in room " + LogHelper.roomNameAsLink(myRoom.name) + " due to lack of r1 " + resourceLimits.reagent1 + " (" + amountOfReagent1 + ")");
+                        statsResults.labOrdersThatFailedToQueue += 1;
+                        continue;
+                    }
                 }
                 const amountOfReagent2: number = this.getAmountOfResource(roomResourceMap, resourceLimits.reagent2);
                 if (amountOfReagent2 < amountNeeded ||
                     myRoom.bank.object.store.getUsedCapacity(resourceLimits.reagent2) < amountNeeded) {
-                    ReportController.log("LOG: Can't create resource " + resource + " in room " + LogHelper.roomNameAsLink(myRoom.name) + " due to lack of r2 " + resourceLimits.reagent2 + " (" + amountOfReagent2 + ")");
-                    statsResults.labOrdersThatFailedToQueue += 1;
-                    continue;
+                    if (amounts.length > 1 &&
+                        amountOfReagent2 >= 3_000 &&
+                        myRoom.bank.object.store.getUsedCapacity(resourceLimits.reagent2) >= 3_000) {
+                        amounts = [3_000];
+
+                    } else {
+                        ReportController.log("LOG: Can't create resource " + resource + " in room " + LogHelper.roomNameAsLink(myRoom.name) + " due to lack of r2 " + resourceLimits.reagent2 + " (" + amountOfReagent2 + ")");
+                        statsResults.labOrdersThatFailedToQueue += 1;
+                        continue;
+                    }
                 }
 
                 for (let j: number = 0; j < amounts.length; j++) {
