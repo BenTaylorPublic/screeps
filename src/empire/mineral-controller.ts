@@ -153,7 +153,7 @@ export class MineralController {
                     (roomResourceMap[resourceLimits.reagent2] as number) -= amountNeeded;
                 }
 
-                ReportController.email("LOG: Queued a new reaction for room " + LogHelper.roomNameAsLink(myRoom.name) + " to create " + resource);
+                ReportController.log("LOG: Queued a new reaction for room " + LogHelper.roomNameAsLink(myRoom.name) + " to create " + resource);
                 statsResults.newLabOrders += amounts.length;
             }
         }
