@@ -3,7 +3,6 @@ import {Constants} from "../global/constants/constants";
 import {LogHelper} from "../global/helpers/log-helper";
 import {ReportController} from "../reporting/report-controller";
 import {ResourceConstants} from "../global/constants/resource-constants";
-import {ReportCooldownConstants} from "../global/report-cooldown-constants";
 
 export class MineralController {
     public static run(myMemory: MyMemory): void {
@@ -57,7 +56,7 @@ export class MineralController {
         ReportController.log("Total lab orders: " + totalLabOrders);
         if (totalLabOrders === 0 &&
             labOrdersThatFailedToQueue === 0) {
-            ReportController.email("Rooms are content with current compounds", ReportCooldownConstants.DAY);
+            ReportController.log("Rooms are content with current compounds");
         }
     }
 
