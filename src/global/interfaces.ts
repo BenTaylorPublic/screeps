@@ -371,6 +371,16 @@ interface Digger extends MyCreep {
     digInTick: number;
 }
 
+interface MultishardClaimer extends Partial<MyCreep> {
+    multishardClaimCreep: true;
+    roomNameInTargetShard: string;
+    portalPos: MyRoomPos;
+    startingShardName: string;
+    interRoomTravelCurrentTarget?: MyRoomPos;
+    roomMoveTarget: CreepRoomMoveTarget;
+    lastPos?: MyRoomPos | null;
+}
+
 /*
 ====================
     REPORTS:

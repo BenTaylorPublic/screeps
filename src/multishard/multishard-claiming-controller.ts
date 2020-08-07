@@ -3,27 +3,37 @@ import {RoomHelper} from "../global/helpers/room-helper";
 import {MapHelper} from "../global/helpers/map-helper";
 import {CreepHelper} from "../global/helpers/creep-helper";
 import {LogHelper} from "../global/helpers/log-helper";
+import {MovementHelper} from "../global/helpers/movement-helper";
 
 export class MultishardClaimingController {
     public static run(): void {
         this.startClaimingProcessIfRequested();
-        this.runMultishardClaimingCreeps();
-    }
-
-    private static runMultishardClaimingCreeps(): void {
-        if (Game.flags["test-run-2"] != null) {
-            Game.flags["test-run-2"].remove();
-        } else {
-            return;
-        }
 
         for (const i in Game.creeps) {
             const creep: Creep = Game.creeps[i];
             if (creep.memory.multishardClaimCreep === true) {
-                creep.suicide();
+                this.runMultishardClaimingCreep(creep);
             }
         }
     }
+
+    private static runMultishardClaimingCreep(creep: Creep): void {
+        //Okay here we go
+        const creepMemory: MultishardClaimer = creep.memory as MultishardClaimer;
+
+        if (creep.ticksToLive == null) {
+            //Creep still spawning
+            return;
+        }
+
+        if (creep.room.name !== creepMemory.portalPos.roomName) {
+            //Still need to travel to the portal room
+            creep.say("Traveling");
+            MovementHelper.getCreepToRoom(creep, creepMemory as MyCreep, creepMemory.portalPos.roomName);
+        }
+
+    }
+
 
     private static startClaimingProcessIfRequested(): void {
         const flag: Flag | null = FlagHelper.getFlag2(["multishard", "claim"]);
@@ -82,15 +92,16 @@ export class MultishardClaimingController {
         const name: string = CreepHelper.getName();
 
         //Flag will be "multishard-claim-E5S30", where the roomcode is the room on the other shard to claim
-        const roomTarget: string = flag.name.split("-")[2];
-        const flagPos: MyRoomPos = RoomHelper.roomPosToMyPos(flag.pos);
+        const roomNameInTargetShard: string = flag.name.split("-")[2];
+        const portalPos: MyRoomPos = RoomHelper.roomPosToMyPos(flag.pos);
 
         const result: ScreepsReturnCode = spawn.spawnCreep(body, name, {
             memory: {
                 multishardClaimCreep: true,
-                roomTarget: roomTarget,
-                flagPos: flagPos,
-            }
+                roomNameInTargetShard: roomNameInTargetShard,
+                portalPos: portalPos,
+                startingShardName: Game.shard.name,
+            } as MultishardClaimer
         });
 
         if (result === OK) {
