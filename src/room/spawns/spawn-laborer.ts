@@ -6,6 +6,7 @@ import {CreepHelper} from "../../global/helpers/creep-helper";
 import {RoomHelper} from "../../global/helpers/room-helper";
 import {LogHelper} from "../../global/helpers/log-helper";
 import {MapHelper} from "../../global/helpers/map-helper";
+import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
 
 export class SpawnLaborer {
     public static laborerSpawnLogic(myRoom: MyRoom, room: Room): void {
@@ -175,7 +176,10 @@ export class SpawnLaborer {
 
         if (spawn) {
             //If the bank is capped, spawn another laborer
-            const newCreep: Laborer = this.spawnLaborer(myRoom, false);
+            const newCreep: Laborer | null = this.spawnLaborer(myRoom, false);
+            if (newCreep == null) {
+                return;
+            }
             myRoom.myCreeps.push(newCreep);
             ReportController.log("Queued a new Laborer in " + LogHelper.roomNameAsLink(myRoom.name));
         }
@@ -184,12 +188,15 @@ export class SpawnLaborer {
     private static forceSpawnLaborers(myRoom: MyRoom, amount: number): void {
         for (let i: number = 0; i < amount; i++) {
             const newCreep: Laborer | null = this.spawnLaborer(myRoom, true);
+            if (newCreep == null) {
+                return;
+            }
             myRoom.myCreeps.push(newCreep);
             ReportController.log("Force queued a new Laborer in " + LogHelper.roomNameAsLink(myRoom.name));
         }
     }
 
-    private static spawnLaborer(myRoom: MyRoom, forceSpawn: boolean): Laborer {
+    private static spawnLaborer(myRoom: MyRoom, forceSpawn: boolean): Laborer | null {
 
         let roomToSpawnFromName: string | null;
 
@@ -203,8 +210,9 @@ export class SpawnLaborer {
             // Going to use the nearest room's spawn instead
             roomToSpawnFromName = MapHelper.findClosestSpawnRoomName(new RoomPosition(25, 25, myRoom.name), 4);
             if (roomToSpawnFromName == null) {
-                ReportController.email("ERROR: Couldn't find any spawns to make a laborer for " + LogHelper.roomNameAsLink(myRoom.name));
-                throw Error("Couldn't find any spawns to make a laborer for room " + myRoom.name);
+                ReportController.email("ERROR: Couldn't find any spawns to make a laborer for " + LogHelper.roomNameAsLink(myRoom.name),
+                    ReportCooldownConstants.DAY);
+                return null;
             }
             roomToSpawnFrom = RoomHelper.getMyRoomByName(roomToSpawnFromName) as MyRoom;
         } else {
