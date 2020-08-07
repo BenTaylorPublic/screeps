@@ -26,10 +26,17 @@ export class MultishardClaimingController {
             return;
         }
 
-        if (creep.room.name !== creepMemory.portalPos.roomName) {
-            //Still need to travel to the portal room
-            creep.say("Traveling");
-            MovementHelper.getCreepToRoom(creep, creepMemory as MyCreep, creepMemory.portalPos.roomName);
+        if (Game.shard.name === creepMemory.startingShardName) {
+            if (creep.room.name !== creepMemory.portalPos.roomName) {
+                //Still need to travel to the portal room
+                creep.say("Traveling");
+                MovementHelper.getCreepToRoom(creep, creepMemory as MyCreep, creepMemory.portalPos.roomName);
+            } else {
+                //Head to the portal
+                MovementHelper.myMoveTo(creep, RoomHelper.myPosToRoomPos(creepMemory.portalPos), creepMemory as MyCreep);
+            }
+        } else {
+            console.log("MADE IT");
         }
 
     }
