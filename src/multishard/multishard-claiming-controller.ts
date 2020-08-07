@@ -101,6 +101,10 @@ export class MultishardClaimingController {
                 roomNameInTargetShard: roomNameInTargetShard,
                 portalPos: portalPos,
                 startingShardName: Game.shard.name,
+                roomMoveTarget: {
+                    pos: null,
+                    path: []
+                }
             } as MultishardClaimer
         });
 
