@@ -88,7 +88,7 @@ export class MultishardClaimingController {
 
 
     private static startClaimingProcessIfRequested(): void {
-        const flag: Flag | null = FlagHelper.getFlag2(["multishard", "claim"]);
+        const flag: Flag | null = FlagHelper.getFlag2(["multishard", "claim", "portal"]);
         if (flag != null) {
             flag.remove();
         } else {

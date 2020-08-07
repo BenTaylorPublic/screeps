@@ -5,6 +5,7 @@
 ### Working on
 ```
 Claiming other shard
+    Multishard laborers logic
 ```
 ### Short term
 ```
@@ -178,6 +179,9 @@ sign
 sign-all
 claim
 scavenge-{RESOURCE_AMOUNT}
+
+multishard-claim-portal
+multishard-claim-target
 
 //Holds the launching of nukes until the flag is removed
 //Use this to queue launches on the same tick

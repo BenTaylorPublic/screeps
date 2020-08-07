@@ -58,6 +58,8 @@ export let loop: any = function (): void {
             ReportController.email("More than 500 pixels", ReportCooldownConstants.DAY);
         }
     }
+
+    console.log(Game.shard.name + " bucket " + Game.cpu.bucket);
 };
 
 function setupMyMemory(): void {
