@@ -53,6 +53,7 @@ export let loop: any = function (): void {
     } else if (Game.cpu.bucket >= 9_900) {
         //@ts-ignore: TODO, update once types is there
         Game.cpu.generatePixel();
+        ReportController.log("Generated a pixel on " + Game.shard.name);
         if (Game.resources.pixel >= 500) {
             ReportController.email("More than 500 pixels", ReportCooldownConstants.DAY);
         }
