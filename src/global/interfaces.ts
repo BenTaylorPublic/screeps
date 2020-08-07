@@ -373,9 +373,8 @@ interface Digger extends MyCreep {
 
 interface MultishardClaimer extends Partial<MyCreep> {
     multishardClaimCreep: true;
-    roomNameInTargetShard: string;
-    portalPos: MyRoomPos;
-    startingShardName: string;
+    waypoint: MyRoomPos;
+    inSecondShard: boolean;
     interRoomTravelCurrentTarget?: MyRoomPos;
     roomMoveTarget: CreepRoomMoveTarget;
     lastPos?: MyRoomPos | null;

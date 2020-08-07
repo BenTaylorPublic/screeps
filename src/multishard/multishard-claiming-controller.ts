@@ -9,15 +9,63 @@ export class MultishardClaimingController {
     public static run(): void {
         this.startClaimingProcessIfRequested();
 
+        //The creeps go into the second shard with a blank memory
+        //Detect this, and give them a new memory
+        const secondShardFlag: Flag | null = FlagHelper.getFlag2(["multishard", "claim", "target"]);
+        if (secondShardFlag != null) {
+            secondShardFlag.remove();
+            //Flag will be "multishard-claim-target-E5S30", where the roomcode is the room on the other shard to claim
+            const roomNameInTargetShard: string = secondShardFlag.name.split("-")[3];
+            for (const i in Game.creeps) {
+                const creep: Creep = Game.creeps[i];
+                creep.memory = {
+                    multishardClaimCreep: true,
+                    inSecondShard: true,
+                    waypoint: {
+                        x: 25,
+                        y: 25,
+                        roomName: roomNameInTargetShard
+                    },
+                    roomMoveTarget: {
+                        pos: null,
+                        path: []
+                    }
+                } as MultishardClaimer;
+            }
+        }
         for (const i in Game.creeps) {
             const creep: Creep = Game.creeps[i];
             if (creep.memory.multishardClaimCreep === true) {
-                this.runMultishardClaimingCreep(creep);
+                if (creep.memory.inSecondShard === true) {
+                    this.runMultishardClaimingCreepSecondShard(creep);
+                } else {
+                    this.runMultishardClaimingCreepFirstShard(creep);
+                }
             }
         }
     }
 
-    private static runMultishardClaimingCreep(creep: Creep): void {
+    private static runMultishardClaimingCreepSecondShard(creep: Creep): void {
+        const creepMemory: MultishardClaimer = creep.memory as MultishardClaimer;
+        if (creep.room.name !== creepMemory.waypoint.roomName) {
+            //Still need to travel to the claimable room
+            creep.say("Traveling");
+            MovementHelper.getCreepToRoom(creep, creepMemory as MyCreep, creepMemory.waypoint.roomName);
+        } else {
+            //In the room
+            const controller: StructureController = creep.room.controller as StructureController;
+            const result: ScreepsReturnCode = creep.claimController(controller);
+            if (result === ERR_NOT_IN_RANGE) {
+                MovementHelper.myMoveTo(creep, controller.pos, creepMemory as MyCreep);
+            } else if (result === OK) {
+                creep.suicide();
+            } else {
+                console.log(LogHelper.logScreepsReturnCode(result));
+            }
+        }
+    }
+
+    private static runMultishardClaimingCreepFirstShard(creep: Creep): void {
         //Okay here we go
         const creepMemory: MultishardClaimer = creep.memory as MultishardClaimer;
 
@@ -26,17 +74,13 @@ export class MultishardClaimingController {
             return;
         }
 
-        if (Game.shard.name === creepMemory.startingShardName) {
-            if (creep.room.name !== creepMemory.portalPos.roomName) {
-                //Still need to travel to the portal room
-                creep.say("Traveling");
-                MovementHelper.getCreepToRoom(creep, creepMemory as MyCreep, creepMemory.portalPos.roomName);
-            } else {
-                //Head to the portal
-                MovementHelper.myMoveTo(creep, RoomHelper.myPosToRoomPos(creepMemory.portalPos), creepMemory as MyCreep);
-            }
+        if (creep.room.name !== creepMemory.waypoint.roomName) {
+            //Still need to travel to the portal room
+            creep.say("Traveling");
+            MovementHelper.getCreepToRoom(creep, creepMemory as MyCreep, creepMemory.waypoint.roomName);
         } else {
-            console.log("MADE IT");
+            //Head to the portal
+            MovementHelper.myMoveTo(creep, RoomHelper.myPosToRoomPos(creepMemory.waypoint), creepMemory as MyCreep);
         }
 
     }
@@ -98,16 +142,13 @@ export class MultishardClaimingController {
 
         const name: string = CreepHelper.getName();
 
-        //Flag will be "multishard-claim-E5S30", where the roomcode is the room on the other shard to claim
-        const roomNameInTargetShard: string = flag.name.split("-")[2];
         const portalPos: MyRoomPos = RoomHelper.roomPosToMyPos(flag.pos);
 
         const result: ScreepsReturnCode = spawn.spawnCreep(body, name, {
             memory: {
                 multishardClaimCreep: true,
-                roomNameInTargetShard: roomNameInTargetShard,
-                portalPos: portalPos,
-                startingShardName: Game.shard.name,
+                waypoint: portalPos,
+                inSecondShard: false,
                 roomMoveTarget: {
                     pos: null,
                     path: []
