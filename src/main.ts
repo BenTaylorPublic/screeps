@@ -59,7 +59,12 @@ export let loop: any = function (): void {
         }
     }
 
-    console.log(Game.shard.name + " bucket " + Game.cpu.bucket);
+    if (Game.shard.name === "shard3") {
+        console.log(Game.cpu.getUsed() + "ms/" + Game.cpu.limit + "ms, bucket: " + Game.cpu.bucket);
+        if (Game.time % 10 === 0) {
+            console.log(JSON.stringify(Game.cpu.shardLimits));
+        }
+    }
 };
 
 function setupMyMemory(): void {
