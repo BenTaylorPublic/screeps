@@ -1,4 +1,3 @@
-import {FlagHelper} from "../global/helpers/flag-helper";
 import {RoomHelper} from "../global/helpers/room-helper";
 import {MapHelper} from "../global/helpers/map-helper";
 import {CreepHelper} from "../global/helpers/creep-helper";
@@ -12,7 +11,7 @@ export class MultishardClaimingController {
 
         //The creeps go into the second shard with a blank memory
         //Detect this, and give them a new memory
-        const secondShardFlag: Flag | null = FlagHelper.getFlag2(["multishard", "claim", "target"]);
+        const secondShardFlag: Flag | null = Game.flags["multishard-claim-target"];
         if (secondShardFlag != null) {
             secondShardFlag.remove();
             //Flag will be "multishard-claim-target" in the room to claim
@@ -88,7 +87,7 @@ export class MultishardClaimingController {
 
 
     private static startClaimingProcessIfRequested(): void {
-        const flag: Flag | null = FlagHelper.getFlag2(["multishard", "claim", "portal"]);
+        const flag: Flag | null = Game.flags["multishard-claim-portal"];
         if (flag != null) {
             flag.remove();
         } else {

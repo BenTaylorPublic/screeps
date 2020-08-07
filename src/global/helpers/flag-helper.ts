@@ -26,30 +26,6 @@ export class FlagHelper {
         return null;
     }
 
-    public static getFlag2(nameArray: string[]): Flag | null {
-        const flagNames: string[] = Object.keys(Game.flags);
-        for (let i = 0; i < flagNames.length; i++) {
-            const flag: Flag = Game.flags[flagNames[i]];
-
-            const flagNameSplit: string[] = flag.name.split("-");
-            if (flagNameSplit.length < nameArray.length) {
-                continue;
-            }
-            let noMatch: boolean = false;
-            for (let j = 0; j < nameArray.length; j++) {
-                if (flagNameSplit[j] !== nameArray[j]) {
-                    noMatch = true;
-                    break;
-                }
-            }
-            if (noMatch) {
-                continue;
-            }
-            return flag;
-        }
-        return null;
-    }
-
     public static getFlags1(nameArray: string[], roomName: string): Flag[] {
         const result: Flag[] = [];
         const flagNames: string[] = Object.keys(Game.flags);
