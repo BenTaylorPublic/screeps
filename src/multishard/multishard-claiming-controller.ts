@@ -4,6 +4,7 @@ import {MapHelper} from "../global/helpers/map-helper";
 import {CreepHelper} from "../global/helpers/creep-helper";
 import {LogHelper} from "../global/helpers/log-helper";
 import {MovementHelper} from "../global/helpers/movement-helper";
+import {ReportController} from "../reporting/report-controller";
 
 export class MultishardClaimingController {
     public static run(): void {
@@ -60,7 +61,7 @@ export class MultishardClaimingController {
             } else if (result === OK) {
                 creep.suicide();
             } else {
-                console.log(LogHelper.logScreepsReturnCode(result));
+                ReportController.log(LogHelper.logScreepsReturnCode(result));
             }
         }
     }
@@ -97,20 +98,20 @@ export class MultishardClaimingController {
         const closestRoomName: string | null = MapHelper.findClosestSpawnRoomName(flag.pos);
         if (closestRoomName == null) {
             //Uh oh
-            console.log("Unable to spawn a multishard claimer because findClosestSpawnRoomName couldn't find a spawn");
+            ReportController.log("Unable to spawn a multishard claimer because findClosestSpawnRoomName couldn't find a spawn");
             return;
         }
 
         const room: Room | null = Game.rooms[closestRoomName];
         if (room == null) {
             //Uh oh
-            console.log("Unable to spawn a multishard claimer because the room given was null");
+            ReportController.log("Unable to spawn a multishard claimer because the room given was null");
             return;
         }
 
         if (room.energyAvailable < 650) {
             //Uh oh
-            console.log("Unable to spawn a multishard claimer because the room given didn't have enough energy");
+            ReportController.log("Unable to spawn a multishard claimer because the room given didn't have enough energy");
             return;
         }
 
@@ -128,17 +129,12 @@ export class MultishardClaimingController {
         }
         if (spawn == null) {
             //Uh oh
-            console.log("Unable to spawn a multishard claimer because all the spawns were busy");
+            ReportController.log("Unable to spawn a multishard claimer because all the spawns were busy");
             return;
         }
 
         //Okay now we have a spawn and enough energy. Let's do it!
-        const body: BodyPartConstant[] = CreepHelper.generateBody([CLAIM, MOVE],
-            [MOVE],
-            room,
-            false,
-            //TODO: Change to 6 for final release (quicker spawn time for dev)
-            2);
+        const body: BodyPartConstant[] = [CLAIM, MOVE];
 
         const name: string = CreepHelper.getName();
 
@@ -157,9 +153,9 @@ export class MultishardClaimingController {
         });
 
         if (result === OK) {
-            console.log("Successfully spawned multishard claimer in " + closestRoomName);
+            ReportController.log("Successfully spawned multishard claimer in " + LogHelper.roomNameAsLink(closestRoomName));
         } else {
-            console.log(LogHelper.logScreepsReturnCode(result));
+            ReportController.log(LogHelper.logScreepsReturnCode(result));
         }
     }
 }
