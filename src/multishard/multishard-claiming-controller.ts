@@ -2,6 +2,7 @@ import {FlagHelper} from "../global/helpers/flag-helper";
 import {RoomHelper} from "../global/helpers/room-helper";
 import {MapHelper} from "../global/helpers/map-helper";
 import {CreepHelper} from "../global/helpers/creep-helper";
+import {LogHelper} from "../global/helpers/log-helper";
 
 export class MultishardClaimingController {
     public static run(): void {
@@ -84,7 +85,7 @@ export class MultishardClaimingController {
         const roomTarget: string = flag.name.split("-")[2];
         const flagPos: MyRoomPos = RoomHelper.roomPosToMyPos(flag.pos);
 
-        spawn.spawnCreep(body, name, {
+        const result: ScreepsReturnCode = spawn.spawnCreep(body, name, {
             memory: {
                 multishardClaimCreep: true,
                 roomTarget: roomTarget,
@@ -92,5 +93,10 @@ export class MultishardClaimingController {
             }
         });
 
+        if (result === OK) {
+            console.log("Successfully spawned creep in " + closestRoomName);
+        } else {
+            console.log(LogHelper.logScreepsReturnCode(result));
+        }
     }
 }
