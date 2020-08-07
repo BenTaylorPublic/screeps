@@ -116,7 +116,7 @@ export class MultishardClaimingController {
         });
 
         if (result === OK) {
-            console.log("Successfully spawned creep in " + closestRoomName);
+            console.log("Successfully spawned multishard claimer in " + closestRoomName);
         } else {
             console.log(LogHelper.logScreepsReturnCode(result));
         }
