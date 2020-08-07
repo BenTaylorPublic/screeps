@@ -32,7 +32,7 @@ export class Stage7_9 {
     }
 
     private static step(myRoom: MyRoom, room: Room): void {
-        const flag: Flag | null = FlagHelper.getFlag(["power", "spawn"], myRoom.name);
+        const flag: Flag | null = FlagHelper.getFlag1(["power", "spawn"], myRoom.name);
         let placedPowerSpawn: boolean = false;
         if (flag != null) {
             const result: ScreepsReturnCode = flag.pos.createConstructionSite(STRUCTURE_POWER_SPAWN);

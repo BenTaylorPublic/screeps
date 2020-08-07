@@ -30,7 +30,7 @@ export class Stage6_6 {
     }
 
     private static step(myRoom: MyRoom, room: Room): void {
-        const flag: Flag | null = FlagHelper.getFlag(["link", "controller"], myRoom.name);
+        const flag: Flag | null = FlagHelper.getFlag1(["link", "controller"], myRoom.name);
 
         let placedControllerLink: boolean = false;
 

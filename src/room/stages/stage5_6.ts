@@ -42,7 +42,7 @@ export class Stage5_6 {
             }
         }
 
-        const flag: Flag | null = FlagHelper.getFlag(["digger", "cont"], myRoom.name);
+        const flag: Flag | null = FlagHelper.getFlag1(["digger", "cont"], myRoom.name);
         if (flag != null) {
             flag.remove();
             const result: ScreepsReturnCode = flag.pos.createConstructionSite(STRUCTURE_CONTAINER);

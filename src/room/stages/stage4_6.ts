@@ -33,7 +33,7 @@ export class Stage4_6 {
     private static step(myRoom: MyRoom, room: Room): void {
 
         //Bank link logic
-        const flag: Flag | null = FlagHelper.getFlag(["link", "bank"], myRoom.name);
+        const flag: Flag | null = FlagHelper.getFlag1(["link", "bank"], myRoom.name);
 
         let placedBankLink: boolean = false;
 

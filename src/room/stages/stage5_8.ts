@@ -30,7 +30,7 @@ export class Stage5_8 {
     }
 
     private static step(myRoom: MyRoom, room: Room): void {
-        const flag: Flag | null = FlagHelper.getFlag(["terminal"], myRoom.name);
+        const flag: Flag | null = FlagHelper.getFlag1(["terminal"], myRoom.name);
 
         let placedTerminal: boolean = false;
         if (flag != null) {

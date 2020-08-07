@@ -43,19 +43,19 @@ export class Stage7_8 {
             //It'll advance stage anyway
             return;
         }
-        const labBufferFlag: Flag | null = FlagHelper.getFlag(["lab", "buffer"], myRoom.name);
+        const labBufferFlag: Flag | null = FlagHelper.getFlag1(["lab", "buffer"], myRoom.name);
         if (labBufferFlag == null) {
             ReportController.email("ATTENTION: Room " + LogHelper.roomNameAsLink(myRoom.name) + " needs a buffer lab flag (lab-buffer)",
                 ReportCooldownConstants.DAY);
             return;
         }
-        const labReagent1Flag: Flag | null = FlagHelper.getFlag(["lab", "reagent", "1"], myRoom.name);
+        const labReagent1Flag: Flag | null = FlagHelper.getFlag1(["lab", "reagent", "1"], myRoom.name);
         if (labReagent1Flag == null) {
             ReportController.email("ATTENTION: Room " + LogHelper.roomNameAsLink(myRoom.name) + " needs a lab reagent 1 flag (lab-reagent-1)",
                 ReportCooldownConstants.DAY);
             return;
         }
-        const labReagent2Flag: Flag | null = FlagHelper.getFlag(["lab", "reagent", "2"], myRoom.name);
+        const labReagent2Flag: Flag | null = FlagHelper.getFlag1(["lab", "reagent", "2"], myRoom.name);
         if (labReagent2Flag == null) {
             ReportController.email("ATTENTION: Room " + LogHelper.roomNameAsLink(myRoom.name) + " needs a lab reagent 2 flag (lab-reagent-2)",
                 ReportCooldownConstants.DAY);

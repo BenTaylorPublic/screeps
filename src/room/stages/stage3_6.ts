@@ -32,7 +32,7 @@ export class Stage3_6 {
     }
 
     private static step(myRoom: MyRoom, room: Room): void {
-        const storageFlag: Flag | null = FlagHelper.getFlag(["storage"], myRoom.name);
+        const storageFlag: Flag | null = FlagHelper.getFlag1(["storage"], myRoom.name);
         let placedBank: boolean = false;
         if (storageFlag != null) {
             const result: ScreepsReturnCode = Game.rooms[myRoom.name].createConstructionSite(storageFlag.pos, STRUCTURE_STORAGE);
@@ -44,7 +44,7 @@ export class Stage3_6 {
                 ReportController.email("ERROR: Placing a storage bank construction site errored in " + LogHelper.roomNameAsLink(room.name));
             }
         }
-        const bankLinkerPosFlag: Flag | null = FlagHelper.getFlag(["bank", "linker", "pos"], myRoom.name);
+        const bankLinkerPosFlag: Flag | null = FlagHelper.getFlag1(["bank", "linker", "pos"], myRoom.name);
         const storage: StructureStorage[] = room.find<StructureStorage>(FIND_STRUCTURES, {
             filter: (structure: Structure) => {
                 return structure.structureType === STRUCTURE_STORAGE;
