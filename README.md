@@ -4,8 +4,14 @@
 ## TODO
 ### Working on
 ```
-Claiming other shard
-    Multishard laborers logic
+Multishard laborers logic
+    Need to spawn 1, path them to 'multishard-claim-portal-spawned' flag
+    Use its memory to remember that its spawned one
+    Once it gets to the other shard, 
+        If the 'multishard-claim-target' flag is there
+        And there's only one room in MyMemory
+        Any creeps with 'WORK' in their body, it generates a Laborer memory and assigns them to the rooms creep list
+        At that point, they'll behave like a regular laborer!
 ```
 ### Short term
 ```

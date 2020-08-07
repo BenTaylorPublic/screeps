@@ -89,7 +89,7 @@ export class MultishardClaimingController {
     private static startClaimingProcessIfRequested(): void {
         const flag: Flag | null = Game.flags["multishard-claim-portal"];
         if (flag != null) {
-            flag.remove();
+            flag.name = "multishard-claim-portal-spawned";
         } else {
             return;
         }
