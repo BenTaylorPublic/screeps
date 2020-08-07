@@ -14,8 +14,8 @@ export class MultishardClaimingController {
         const secondShardFlag: Flag | null = FlagHelper.getFlag2(["multishard", "claim", "target"]);
         if (secondShardFlag != null) {
             secondShardFlag.remove();
-            //Flag will be "multishard-claim-target-E5S30", where the roomcode is the room on the other shard to claim
-            const roomNameInTargetShard: string = secondShardFlag.name.split("-")[3];
+            //Flag will be "multishard-claim-target" in the room to claim
+            const roomNameInTargetShard: string = secondShardFlag.pos.roomName;
             for (const i in Game.creeps) {
                 const creep: Creep = Game.creeps[i];
                 creep.memory = {
