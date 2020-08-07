@@ -50,19 +50,12 @@ export let loop: any = function (): void {
 
     if (Game.cpu.getUsed() > 20) {
         console.log(Game.time + ": Used " + Game.cpu.getUsed() + ", bucket: " + Game.cpu.bucket);
-    } else if (Game.cpu.bucket >= 9_900) {
+    } else if (Game.cpu.bucket >= 9_800) {
         //@ts-ignore: TODO, update once types is there
         Game.cpu.generatePixel();
         ReportController.log("Generated a pixel on " + Game.shard.name);
         if (Game.resources.pixel >= 500) {
             ReportController.email("More than 500 pixels", ReportCooldownConstants.DAY);
-        }
-    }
-
-    if (Game.shard.name === "shard2") {
-        console.log(Game.cpu.getUsed() + "ms/" + Game.cpu.limit + "ms, bucket: " + Game.cpu.bucket);
-        if (Game.time % 10 === 0) {
-            console.log(JSON.stringify(Game.cpu.shardLimits));
         }
     }
 };
