@@ -41,7 +41,7 @@ export let loop: any = function (): void {
     }
 
     //Comment this out when not running
-    MultishardClaimingController.run(myMemory);
+    MultishardClaimingController.run();
 
     if (Game.time % 10 === 0) {
         ProfilerWrapper.detectProfileReport();

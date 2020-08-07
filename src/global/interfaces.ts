@@ -4,6 +4,10 @@ interface Memory {
     functionProfiler: FunctionProfilerRawData;
 }
 
+interface CreepMemory {
+    [key: string]: any;
+}
+
 interface FunctionProfilerRawData {
     startTick: number;
 
