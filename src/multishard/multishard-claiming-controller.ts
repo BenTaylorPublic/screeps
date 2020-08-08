@@ -23,28 +23,33 @@ export class MultishardClaimingController {
             const myRoom: MyRoom = Memory.myMemory.myRooms[0];
             for (const i in Game.creeps) {
                 const creep: Creep = Game.creeps[i];
-                let found: boolean = false;
-                for (let j: number = 0; j < myRoom.myCreeps.length; j++) {
-                    if (myRoom.myCreeps[j].name === creep.name) {
-                        found = true;
-                        break;
-                    }
-                }
 
-                if (!found) {
-                    //Need to add them
-                    const laborer: Laborer = {
-                        name: name,
-                        role: "Laborer",
-                        assignedRoomName: myRoom.name,
-                        spawningStatus: "alive",
-                        roomMoveTarget: {
-                            pos: null,
-                            path: []
-                        },
-                        state: "Labor"
-                    };
-                    myRoom.myCreeps.push(laborer);
+                if (CreepHelper.creepContainsBodyPart(creep, WORK) &&
+                    Object.keys(creep.memory).length === 0) {
+                    let found: boolean = false;
+                    for (let j: number = 0; j < myRoom.myCreeps.length; j++) {
+                        if (myRoom.myCreeps[j].name === creep.name) {
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (!found) {
+                        //Need to add them
+                        const laborer: Laborer = {
+                            name: creep.name,
+                            role: "Laborer",
+                            assignedRoomName: myRoom.name,
+                            spawningStatus: "alive",
+                            roomMoveTarget: {
+                                pos: null,
+                                path: []
+                            },
+                            state: "Labor"
+                        };
+                        myRoom.myCreeps.push(laborer);
+                        ReportController.log("Laborer creep assigned to room in target shard");
+                    }
                 }
             }
         } else {
@@ -177,6 +182,7 @@ export class MultishardClaimingController {
                             path: []
                         }
                     } as MultishardClaimer;
+                    ReportController.log("Multishard claimer made it to the target shard");
 
                 }
             }
