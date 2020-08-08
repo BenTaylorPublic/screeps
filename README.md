@@ -58,6 +58,9 @@ Signing controller with flag string
 ```
 ### Long term:
 ```
+Cache containers shouldn't be built until towers
+    Will require moving a stage
+
 Monitor force laborer spawns in linked rooms
     They should only be used to get the room out of ruts
     I'm thinking that the ruts can be observed and fixed through this monitoring
