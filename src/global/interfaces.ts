@@ -380,6 +380,14 @@ interface MultishardClaimer extends Partial<MyCreep> {
     lastPos?: MyRoomPos | null;
 }
 
+interface MultishardLaborer extends Partial<MyCreep> {
+    multishardLaborerCreep: true;
+    waypoint: MyRoomPos;
+    interRoomTravelCurrentTarget?: MyRoomPos;
+    roomMoveTarget: CreepRoomMoveTarget;
+    lastPos?: MyRoomPos | null;
+}
+
 /*
 ====================
     REPORTS:
