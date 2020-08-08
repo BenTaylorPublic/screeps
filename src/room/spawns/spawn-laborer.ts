@@ -208,14 +208,6 @@ export class SpawnLaborer {
         }).length === 0) {
             // A room needs a laborer, but it has no spawns yet
             // Going to use the nearest room's spawn instead
-            // Just need to ensure that it isn't a room on a new shard first
-            const flag: Flag | null = Game.flags["multishard-claim-target"];
-            if (flag != null &&
-                flag.pos.roomName === myRoom.name) {
-                //A different script will provide this room with a laborer to build the spawn
-                //See MultishardClaimingController
-                return null;
-            }
             roomToSpawnFromName = MapHelper.findClosestSpawnRoomName(new RoomPosition(25, 25, myRoom.name), 4);
             if (roomToSpawnFromName == null) {
                 ReportController.email("ERROR: Couldn't find any spawns to make a laborer for " + LogHelper.roomNameAsLink(myRoom.name),

@@ -6,7 +6,6 @@ import {FunctionProfiler} from "./profiler/function-profiler/function-profiler";
 import {EmpireHelper} from "./global/helpers/empire-helper";
 import {ReportController} from "./reporting/report-controller";
 import {ReportCooldownConstants} from "./global/report-cooldown-constants";
-import {MultishardClaimingController} from "./multishard/multishard-claiming-controller";
 
 console.log("Script reloaded");
 
@@ -39,9 +38,6 @@ export let loop: any = function (): void {
         const transfer: Transfer | null = EmpireHelper.getValidResourceTransfer(myMemory.empire, myMemory.myRooms[i].name);
         RoomController.run(myMemory.myRooms[i], transfer);
     }
-
-    //Comment this out when not running
-    MultishardClaimingController.run();
 
     if (Game.time % 10 === 0) {
         ProfilerWrapper.detectProfileReport();
