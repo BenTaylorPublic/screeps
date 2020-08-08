@@ -8,7 +8,10 @@ import {ReportController} from "../reporting/report-controller";
 export class MultishardClaimingController {
     public static run(): void {
         this.startClaimingProcessIfRequested();
+        this.claimingCreepLogic();
+    }
 
+    private static claimingCreepLogic(): void {
         //The creeps go into the second shard with a blank memory
         //Detect this, and give them a new memory
         const secondShardFlag: Flag | null = Game.flags["multishard-claim-target"];
