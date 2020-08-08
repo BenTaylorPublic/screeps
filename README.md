@@ -4,14 +4,13 @@
 ## TODO
 ### Working on
 ```
-Multishard laborers logic
-    Need to spawn 1, path them to 'multishard-claim-portal-spawned' flag
-    Use its memory to remember that its spawned one
-    Once it gets to the other shard, 
-        If the 'multishard-claim-target' flag is there
-        And there's only one room in MyMemory
-        Any creeps with 'WORK' in their body, it generates a Laborer memory and assigns them to the rooms creep list
-        At that point, they'll behave like a regular laborer!
+Upgrader role
+    Only uses the controller link for energy
+    Doesn't build or mine, just upgrades
+    For 6.8+ (6.6 -> 6.8 is having a controller linked)
+    This also will include removing the need for laborers unless:
+        Forced (for rut problems)
+        Construction sites
 ```
 ### Short term
 ```
@@ -41,14 +40,6 @@ MyMemory.Settings
     eg:
         set-CONSCRIPTION_RANGE-5
         set-OBSERVER_WIDTH-5
-
-Upgrader role
-    Only uses the controller link for energy
-    Doesn't build or mine, just upgrades
-    For 6.8+ (6.6 -> 6.8 is having a controller linked)
-    This also will include removing the need for laborers unless:
-        Forced (for rut problems)
-        Construction sites
 
 Towers sitting on 50% letting containers die
 
@@ -188,6 +179,7 @@ scavenge-{RESOURCE_AMOUNT}
 
 multishard-claim-portal
 multishard-claim-target
+multishard-claim-laborer
 
 //Holds the launching of nukes until the flag is removed
 //Use this to queue launches on the same tick
