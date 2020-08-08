@@ -4,10 +4,6 @@
 ## TODO
 ### Working on
 ```
-Disable the multishard code when the room is up and running
-```
-### Short term
-```
 Upgrader role
     Only uses the controller link for energy
     Doesn't build or mine, just upgrades
@@ -15,7 +11,9 @@ Upgrader role
     This also will include removing the need for laborers unless:
         Forced (for rut problems)
         Construction sites
-
+```
+### Short term
+```
 Transfer rut
     Rooms should have a transfer ID, of which one they're working on
     Each tick it tries to get that transfer
