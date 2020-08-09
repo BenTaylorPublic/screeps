@@ -15,7 +15,7 @@ To do this, I'll need to:
     - Neaten the constants into sections                                            FINISHED     
     - Upgrader spawn logic                                                          FINISHED
     - Upgrader running logic                                                        FINISHED
-    - Edit SpawnLaborer logic to not spawn laborers when upgraders are succifient   NOT STARTED  
+    - Edit SpawnLaborer logic to not spawn laborers when upgraders are succifient   FINISHED  
     - Pre-emptive spawning upgraders                                                NOT STARTED
 ```
 ### Short term

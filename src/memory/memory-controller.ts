@@ -141,6 +141,7 @@ export class MemoryController {
         } else if (myCreep.role === "Stocker") {
         } else if (myCreep.role === "Digger") {
             myRoom.digging.diggerName = null;
+        } else if (myCreep.role === "Upgrader") {
         } else {
             ReportController.email("ERROR: A Creep with a weird role has died: " + myCreep.role + " in " + LogHelper.roomNameAsLink(myRoom.name));
         }

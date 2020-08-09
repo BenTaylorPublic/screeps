@@ -26,7 +26,8 @@ export class SpawnUpgrader {
             return;
         }
 
-        if (bank.store.energy < Constants.AMOUNT_OF_BANK_ENERGY_REQUIRED_TO_SPAWN_UPGRADER) {
+        if (bank.store.energy < Constants.AMOUNT_OF_BANK_ENERGY_REQUIRED_TO_SPAWN_UPGRADER &&
+            (Game.rooms[myRoom.name].controller as StructureController).ticksToDowngrade >= Constants.STAGE_8_SPAWN_UPGRADERS_WHEN_CONTROLLER_BENEATH) {
             return;
         }
 

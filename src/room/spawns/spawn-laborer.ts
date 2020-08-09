@@ -10,7 +10,9 @@ import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
 
 export class SpawnLaborer {
     public static laborerSpawnLogic(myRoom: MyRoom, room: Room): void {
-        if (myRoom.roomStage >= Constants.BANK_LINKED_STAGE) {
+        if (myRoom.roomStage >= Constants.CONTROLLER_LINKED_STAGE) {
+            this.linkedControllerSpawnLogic(myRoom, room);
+        } else if (myRoom.roomStage >= Constants.BANK_LINKED_STAGE) {
             this.linkedRoomSpawnLogic(myRoom, room);
         } else {
             this.nonLinkedRoomSpawnLogic(myRoom, room);
@@ -31,6 +33,25 @@ export class SpawnLaborer {
             [MOVE, MOVE, CARRY, WORK],
             Game.rooms[myRoom.name],
             false);
+    }
+
+    private static linkedControllerSpawnLogic(myRoom: MyRoom, room: Room): void {
+        if (room.find(FIND_CONSTRUCTION_SITES).length === 0 &&
+            (room.controller as StructureController).ticksToDowngrade >= Constants.STAGE_8_SPAWN_LABORERS_WHEN_CONTROLLER_BENEATH) {
+            return;
+        }
+
+        for (let i = 0; i < myRoom.myCreeps.length; i++) {
+            const myCreep: MyCreep = myRoom.myCreeps[i];
+            if (myCreep.role === "Laborer") {
+                //Happy with 1 for construction/controller downgrade
+                return;
+            }
+        }
+
+        //We have a reason to spawn one
+        SpawnLaborer.forceSpawnLaborers(myRoom, 1);
+
     }
 
     private static linkedRoomSpawnLogic(myRoom: MyRoom, room: Room): void {
