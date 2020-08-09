@@ -11,6 +11,12 @@ Upgrader role
     This also will include removing the need for laborers unless:
         Forced (for rut problems)
         Construction sites
+To do this, I'll need to:
+    - Neaten the constants into sections                                            STARTING     
+    - Upgrader spawn logic                                                          NOT STARTED
+    - Upgrader running logic                                                        NOT STARTED
+    - Edit SpawnLaborer logic to not spawn laborers when upgraders are succifient   NOT STARTED  
+    - Pre-emptive spawning upgraders                                                NOT STARTED
 ```
 ### Short term
 ```
