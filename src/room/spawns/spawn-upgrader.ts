@@ -37,6 +37,14 @@ export class SpawnUpgrader {
         ReportController.log("Queued a new Upgraders in " + LogHelper.roomNameAsLink(myRoom.name));
     }
 
+    public static getBody(myRoom: MyRoom): BodyPartConstant[] {
+        return CreepHelper.generateBody([MOVE, CARRY, WORK],
+            [WORK],
+            Game.rooms[myRoom.name],
+            true,
+            17);
+    }
+
     private static spawnUpgrader(myRoom: MyRoom): Upgrader {
         const name: string = CreepHelper.getName();
         const priority: number = SpawnConstants.UPGRADER;

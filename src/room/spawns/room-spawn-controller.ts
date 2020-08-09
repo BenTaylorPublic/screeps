@@ -73,6 +73,8 @@ export class RoomSpawnController {
             }
         } else if (queuedCreep.role === "Hauler") {
             return SpawnHauler.getBody(myRoom);
+        } else if (queuedCreep.role === "Upgrader") {
+            return SpawnUpgrader.getBody(myRoom);
         } else if (queuedCreep.role === "BankLinker") {
             return SpawnBankLinker.getBody();
         } else if (queuedCreep.role === "Laborer") {
