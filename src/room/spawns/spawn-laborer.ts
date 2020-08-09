@@ -10,8 +10,7 @@ import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
 
 export class SpawnLaborer {
     public static laborerSpawnLogic(myRoom: MyRoom, room: Room): void {
-        if (myRoom.roomStage >= 5.4) {
-            //From 5.4, sources are linked
+        if (myRoom.roomStage >= Constants.BANK_LINKED_STAGE) {
             this.linkedRoomSpawnLogic(myRoom, room);
         } else {
             this.nonLinkedRoomSpawnLogic(myRoom, room);

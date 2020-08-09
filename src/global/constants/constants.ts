@@ -5,14 +5,17 @@ export class Constants {
     //STAGES
     public static CONSCRIPTION_QUICK_MINIMUM_STAGE: Stage = 1;
     public static SCAVENGE_MIN_STAGE: Stage = 4;
+    public static BANK_LINKED_STAGE: Stage = 5.4;
     public static CONSCRIPTION_PRESSURE_MINIMUM_STAGE: Stage = 6;
     public static MINERAL_START_STAGE: Stage = 6;
+    public static CONTROLLER_LINKED_STAGE: Stage = 6.8;
     public static POWER_SCAV_ROOM_STAGE: Stage = 8;
     //BANK ENERGY
     public static STAGE_8_ONE_SOURCE_ENERGY_DONATE_TARGET: number = 50_000;
     public static STAGE_8_DONATE_AMOUNT: number = 50_000;
     public static STAGE_8_DONATE_AT: number = 100_000;
     public static AMOUNT_OF_BANK_ENERGY_TO_SPAWN_LABORER: number = 100_000;
+    public static AMOUNT_OF_BANK_ENERGY_REQUIRED_TO_SPAWN_UPGRADER: number = 100_000;
     public static DONT_STOCK_NUKER_IF_ENERGY_UNDER: number = 100_000;
     public static AMOUNT_OF_BANK_ENERGY_TO_SPAWN_LABORER_STAGE_8: number = 200_000;
     public static DONT_DONATE_TO_ROOMS_WITH_ABOVE_ENERGY: number = 250_000;

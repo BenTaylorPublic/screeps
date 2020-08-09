@@ -5,11 +5,11 @@ import {SpawnMiner} from "./spawn-miner";
 import {SpawnClaimerController} from "../../empire/spawn-claimer-controller";
 import {SpawnBankLinker} from "./spawn-bank-linker";
 import {ReportController} from "../../reporting/report-controller";
-
 import {AttackHelperFunctions} from "../../empire/attack/attack-helper-functions";
 import {CreepHelper} from "../../global/helpers/creep-helper";
 import {ScavengeController} from "../../empire/scavenge-controller";
 import {SpawnDigger} from "./spawn-digger";
+import {SpawnUpgrader} from "./spawn-upgrader";
 
 export class RoomSpawnController {
     public static run(myRoom: MyRoom, room: Room): void {
@@ -20,6 +20,7 @@ export class RoomSpawnController {
             SpawnMiner.minerSpawnLogic(myRoom);
             SpawnBankLinker.spawnBankLinker(myRoom);
             SpawnDigger.spawnDigger(myRoom);
+            SpawnUpgrader.spawnUpgraderLogic(myRoom);
         }
 
         if (myRoom.spawnQueue.length === 0) {

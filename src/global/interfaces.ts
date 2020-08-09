@@ -276,7 +276,8 @@ type CreepRoles =
     | "Signer"
     | "AttackHealerDrainCreep"
     | "Scavenger"
-    | "Digger";
+    | "Digger"
+    | "Upgrader";
 
 /*
 ====================
@@ -370,6 +371,15 @@ interface Digger extends MyCreep {
     cachePosToDigOn: MyRoomPos;
     digInTick: number;
 }
+
+interface Upgrader extends MyCreep {
+}
+
+/*
+====================
+    MULTISHARD CREEPS:
+====================
+*/
 
 interface MultishardClaimer extends Partial<MyCreep> {
     multishardClaimCreep: true;

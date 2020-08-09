@@ -10,6 +10,7 @@ export class SpawnConstants {
     public static POWER_SCAV_ATTACK: number = 2.5;
     public static POWER_SCAV_HAUL: number = 2.5;
     public static ATTACK_PRESSURE: number = 2.5;
+    public static UPGRADER: number = 2;
     public static HAULER: number = 2;
     public static LABORER: number = 1;
     public static SCAVENGER: number = 0.5;
