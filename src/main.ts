@@ -46,7 +46,6 @@ export let loop: any = function (): void {
     if (Game.cpu.getUsed() > 20) {
         console.log(Game.time + ": Used " + Game.cpu.getUsed() + ", bucket: " + Game.cpu.bucket);
     } else if (Game.cpu.bucket >= 9_800) {
-        //@ts-ignore: TODO, update once types is there
         Game.cpu.generatePixel();
         ReportController.log("Generated a pixel on " + Game.shard.name);
     }
