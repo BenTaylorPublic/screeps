@@ -14,7 +14,7 @@ Upgrader role
 To do this, I'll need to:
     - Neaten the constants into sections                                            FINISHED     
     - Upgrader spawn logic                                                          FINISHED
-    - Upgrader running logic                                                        NOT STARTED
+    - Upgrader running logic                                                        FINISHED
     - Edit SpawnLaborer logic to not spawn laborers when upgraders are succifient   NOT STARTED  
     - Pre-emptive spawning upgraders                                                NOT STARTED
 ```

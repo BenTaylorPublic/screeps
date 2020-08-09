@@ -13,6 +13,7 @@ import {RoomDefenseController} from "./room-defense-controller";
 import {RoleDigger} from "./roles/digger";
 import {RoomLabController} from "./structures/lab";
 import {RoomNukerController} from "./structures/nuker";
+import {RoleUpgrader} from "./roles/upgrader";
 
 export class RoomController {
     public static run(myRoom: MyRoom, transfer: Transfer | null): void {
@@ -41,16 +42,18 @@ export class RoomController {
             const myCreep: MyCreep = myRoom.myCreeps[i];
             if (myCreep.role === "Miner") {
                 RoleMiner.run(myCreep as Miner, myRoom);
-            } else if (myCreep.role === "Hauler") {
-                RoleHauler.run(myCreep as Hauler, myRoom);
-            } else if (myCreep.role === "Laborer") {
-                RoleLaborer.run(myCreep as Laborer, myRoom, laborersStock);
             } else if (myCreep.role === "BankLinker") {
                 RoleBankLinker.run(myCreep as BankLinker, myRoom, transfer, bankLinkerShouldStockLink);
             } else if (myCreep.role === "Stocker") {
                 RoleStocker.run(myCreep as Stocker, myRoom, labOrder);
+            } else if (myCreep.role === "Laborer") {
+                RoleLaborer.run(myCreep as Laborer, myRoom, laborersStock);
+            } else if (myCreep.role === "Upgrader") {
+                RoleUpgrader.run(myCreep as Upgrader, myRoom);
             } else if (myCreep.role === "Digger") {
                 RoleDigger.run(myCreep as Digger, myRoom);
+            } else if (myCreep.role === "Hauler") {
+                RoleHauler.run(myCreep as Hauler, myRoom);
             }
         }
 
