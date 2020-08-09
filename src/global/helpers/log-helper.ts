@@ -31,7 +31,7 @@ export class LogHelper {
     }
 
     public static roomNameAsLink(roomName: string): string {
-        return "<a href='#!/room/shard3/" + roomName + "'>" + roomName + "</a>";
+        return "<a href='#!/room/" + Game.shard.name + "/" + roomName + "'>" + roomName + "</a>";
     }
 
     public static markTarget(pos: RoomPosition): void {
