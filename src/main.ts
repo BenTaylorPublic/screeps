@@ -5,7 +5,6 @@ import {ProfilerWrapper} from "./profiler/profiler-wrapper";
 import {FunctionProfiler} from "./profiler/function-profiler/function-profiler";
 import {EmpireHelper} from "./global/helpers/empire-helper";
 import {ReportController} from "./reporting/report-controller";
-import {ReportCooldownConstants} from "./global/report-cooldown-constants";
 
 console.log("Script reloaded");
 
@@ -50,9 +49,6 @@ export let loop: any = function (): void {
         //@ts-ignore: TODO, update once types is there
         Game.cpu.generatePixel();
         ReportController.log("Generated a pixel on " + Game.shard.name);
-        if (Game.resources.pixel >= 500) {
-            ReportController.email("More than 500 pixels", ReportCooldownConstants.DAY);
-        }
     }
 };
 
