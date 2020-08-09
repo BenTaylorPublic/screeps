@@ -39,7 +39,7 @@ export class SpawnUpgrader {
 
     public static getBody(myRoom: MyRoom): BodyPartConstant[] {
         return [CARRY,
-            MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE,
+            MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE,
             //15 work is controllers cap
             WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK];
     }

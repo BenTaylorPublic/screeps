@@ -4,19 +4,10 @@
 ## TODO
 ### Working on
 ```
-Upgrader role
-    Only uses the controller link for energy
-    Doesn't build or mine, just upgrades
-    For 6.8+ (6.6 -> 6.8 is having a controller linked)
-    This also will include removing the need for laborers unless:
-        Forced (for rut problems)
-        Construction sites
-To do this, I'll need to:
-    - Neaten the constants into sections                                            FINISHED     
-    - Upgrader spawn logic                                                          FINISHED
-    - Upgrader running logic                                                        FINISHED
-    - Edit SpawnLaborer logic to not spawn laborers when upgraders are succifient   FINISHED  
-    - Pre-emptive spawning upgraders                                                NOT STARTED
+Pre-emptive spawning upgraders
+    Will have to store in the upgraders memory a "number | null" of the ticks taken to travel
+    Set the number = 1500 - TTL, when the first upgrade controller returns success
+    Spawning the next one will occur when TTL <= thatNumber + ticksToSpawn
 ```
 ### Short term
 ```
