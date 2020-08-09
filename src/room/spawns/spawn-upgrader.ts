@@ -38,11 +38,10 @@ export class SpawnUpgrader {
     }
 
     public static getBody(myRoom: MyRoom): BodyPartConstant[] {
-        return CreepHelper.generateBody([MOVE, CARRY, WORK],
-            [WORK],
-            Game.rooms[myRoom.name],
-            true,
-            17);
+        return [CARRY,
+            MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE,
+            //15 work is controllers cap
+            WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK];
     }
 
     private static spawnUpgrader(myRoom: MyRoom): Upgrader {
