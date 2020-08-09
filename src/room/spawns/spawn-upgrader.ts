@@ -34,6 +34,7 @@ export class SpawnUpgrader {
         //We can spawn one!
         const upgrader: Upgrader = this.spawnUpgrader(myRoom);
         myRoom.myCreeps.push(upgrader);
+        ReportController.log("Queued a new Upgraders in " + LogHelper.roomNameAsLink(myRoom.name));
     }
 
     private static spawnUpgrader(myRoom: MyRoom): Upgrader {
