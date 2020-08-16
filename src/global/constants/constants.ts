@@ -32,8 +32,7 @@ export class Constants {
     //BUILDING HEALTH
     public static WALL_AND_RAMPART_GOAL_HEALTH: number = 500_000;
     //MAP RANGES
-    public static CONSCRIPTION_RANGE: number = 3;
-    public static RALLY_FLAG_RANGE: number = 3;
+    public static CONSCRIPTION_RANGE: number = 8;
     public static POWER_SCAV_RANGE_MAX: number = 5;
     public static SCAVENGE_MAX_DISTANCE: number = 10;
     //BUILDING CONTENTS
@@ -52,4 +51,5 @@ export class Constants {
     public static REPAIR_ONLY_ON_ODD_THOUSAND: boolean = true;
     public static BANK_LINKER_CAPACITY: number = 100;
     public static LAB_REACTION_AMOUNT_TO_CEIL_TO: number = 100;
+    public static RALLY_FLAG_RANGE: number = 3;
 }
