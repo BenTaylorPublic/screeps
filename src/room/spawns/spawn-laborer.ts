@@ -36,8 +36,48 @@ export class SpawnLaborer {
     }
 
     private static linkedControllerSpawnLogic(myRoom: MyRoom, room: Room): void {
+        let roomLooksStable: boolean = false;
+        if (room.energyAvailable === 300) {
+            let minerAlive: boolean = false;
+            let stockerAlive: boolean = false;
+            let bankLinkerAlive: boolean = false;
+            for (let i: number = 0; i < myRoom.myCreeps.length; i++) {
+                const myCreep: MyCreep = myRoom.myCreeps[i];
+                if (myCreep.role === "Laborer") {
+                    if (myCreep.spawningStatus === "alive") {
+                        roomLooksStable = true;
+                        break;
+                    } else {
+                        //Already forced a spawning of a laborer
+                        for (let j = 0; j < myRoom.spawnQueue.length; j++) {
+                            if (myRoom.spawnQueue[j].role === "ForceLaborer" &&
+                                myRoom.spawnQueue[j].name === myCreep.name) {
+                                roomLooksStable = true;
+                            }
+                        }
+                    }
+                } else if (myCreep.spawningStatus === "alive") {
+                    if (myCreep.role === "Miner") {
+                        minerAlive = true;
+                    } else if (myCreep.role === "Stocker") {
+                        stockerAlive = true;
+                    } else if (myCreep.role === "BankLinker") {
+                        bankLinkerAlive = true;
+                    }
+                }
+            }
+            if (minerAlive && stockerAlive && bankLinkerAlive) {
+                roomLooksStable = true;
+            }
+            if (!roomLooksStable) {
+                ReportController.email("RUT: Fixing a 300 energy room by spawning a forced laborer " + LogHelper.roomNameAsLink(myRoom.name));
+            }
+        } else {
+            roomLooksStable = true;
+        }
         if (room.find(FIND_CONSTRUCTION_SITES).length === 0 &&
-            (room.controller as StructureController).ticksToDowngrade >= Constants.STAGE_8_SPAWN_LABORERS_WHEN_CONTROLLER_BENEATH) {
+            (room.controller as StructureController).ticksToDowngrade >= Constants.STAGE_8_SPAWN_LABORERS_WHEN_CONTROLLER_BENEATH &&
+            roomLooksStable) {
             return;
         }
 
