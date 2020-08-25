@@ -98,7 +98,7 @@ export class MemoryController {
             if (room == null ||
                 room.controller == null ||
                 room.controller.my === false) {
-                ReportController.log("Removing room from memory" + LogHelper.roomNameAsLink(myRoom.name));
+                ReportController.log("Removing room from memory " + LogHelper.roomNameAsLink(myRoom.name));
                 Memory.myMemory.myRooms.splice(i, 1);
                 continue;
             }

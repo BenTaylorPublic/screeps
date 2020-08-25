@@ -4,7 +4,6 @@
 ## TODO
 ### Working on
 ```
-Fixing last spawn getting destroyed, it not clearing the spawn queue
 ```
 ### Short term
 ```
