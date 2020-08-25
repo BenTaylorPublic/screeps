@@ -113,7 +113,7 @@ export class MemoryController {
         }
     }
 
-    private static handleCreepDying(myRoom: MyRoom, myCreep: MyCreep): void {
+    public static handleCreepDying(myRoom: MyRoom, myCreep: MyCreep): void {
         //Creep is dead
         if (myCreep.role === "Miner") {
             //Need to check what source it was on
