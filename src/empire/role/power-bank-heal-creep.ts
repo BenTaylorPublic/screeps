@@ -1,5 +1,5 @@
 export class RolePowerBankHealCreep {
-    public static run(powerScavHeal: PowerBankHealCreep, myPowerBank: PowerBankDetails, powerBank: StructurePowerBank | null): void {
+    public static run(powerBankHeal: PowerBankHealCreep, myPowerBank: PowerBankDetails, powerBank: StructurePowerBank | null): void {
 
     }
 }
