@@ -16,8 +16,15 @@ export class SpawnUpgrader {
         for (let i = 0; i < myRoom.myCreeps.length; i++) {
             const myCreep: MyCreep = myRoom.myCreeps[i];
             if (myCreep.role === "Upgrader") {
-                //Only want 1
-                return;
+
+                const ticksToTravel: number | null = (myCreep as Upgrader).ticksToTravel;
+                const creep: Creep = Game.creeps[myCreep.name];
+                if (ticksToTravel == null ||
+                    creep.ticksToLive == null ||
+                    creep.ticksToLive >= ticksToTravel + Constants.UPGRADER_TICKS_TO_SPAWN) {
+                    //This one is still healthy enough
+                    return;
+                }
             }
         }
         const bank: StructureStorage | null = myRoom.bank.object;

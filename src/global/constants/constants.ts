@@ -52,4 +52,5 @@ export class Constants {
     public static BANK_LINKER_CAPACITY: number = 100;
     public static LAB_REACTION_AMOUNT_TO_CEIL_TO: number = 100;
     public static RALLY_FLAG_RANGE: number = 3;
+    public static UPGRADER_TICKS_TO_SPAWN: number = 72;
 }
