@@ -4,10 +4,7 @@
 ## TODO
 ### Working on
 ```
-Pre-emptive spawning upgraders
-    Will have to store in the upgraders memory a "number | null" of the ticks taken to travel
-    Set the number = 1500 - TTL, when the first upgrade controller returns success
-    Spawning the next one will occur when TTL <= thatNumber + ticksToSpawn
+Get power scavenging working
 ```
 ### Short term
 ```
@@ -102,9 +99,6 @@ Put in an optional attack-renew flag
     They wait again at the rally flag
 
 Repeat attack target reticle
-
-PowerScav
-    Use ScavengeController
 
 Power
     Power creeps control
