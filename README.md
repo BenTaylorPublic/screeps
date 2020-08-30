@@ -5,8 +5,8 @@
 ### Working on
 ```
 PowerBanks
-    Healer logic
     Attacker logic
+    Healer logic
     Hauler logic
 
 Notes:
