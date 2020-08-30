@@ -149,16 +149,30 @@ export class PowerBankController {
         const powerBank: StructurePowerBank | null = Game.getObjectById<StructurePowerBank>(powerBankTarget.id);
 
         for (let i: number = 0; i < powerBankTarget.creeps.length; i++) {
-            this.runCreepDuo(powerBankTarget.creeps[i], powerBankTarget, powerBank);
+            this.runCreepDuo(powerBankTarget.creeps[i], powerBankTarget, powerBank, powerBankTargets);
         }
     }
 
-    private static runCreepDuo(creepDuo: PowerBankCreepDuo, powerBankTarget: PowerBankDetails, powerBank: StructurePowerBank | null): void {
+    private static runCreepDuo(creepDuo: PowerBankCreepDuo, powerBankTarget: PowerBankDetails, powerBank: StructurePowerBank | null, powerBankTargets: PowerBankTargets): void {
         if (creepDuo.attack != null) {
             RolePowerBankAttackCreep.run(creepDuo.attack, powerBankTarget, powerBank);
         }
         if (creepDuo.heal != null) {
             RolePowerBankHealCreep.run(creepDuo.heal, powerBankTarget, powerBank);
+        }
+
+        if (!creepDuo.averagesAdded &&
+            creepDuo.attack != null &&
+            creepDuo.attack.reachedPowerBank &&
+            creepDuo.heal != null &&
+            creepDuo.heal.reachedPowerBank) {
+            //Add the average
+            //NewAverage = ((oldAverage * oldCount) + newValue) / newCount
+            const highestTtl: number = Math.max(Game.creeps[creepDuo.attack.name].ticksToLive as number, Game.creeps[creepDuo.heal.name].ticksToLive as number);
+            const newValue: number = 1500 - highestTtl;
+            powerBankTargets.averageDuoTravelTicksPerRoom = ((powerBankTargets.averageDuoTravelTicksPerRoom * powerBankTargets.countDuoTravelTicksPerRoom) + newValue) / (powerBankTargets.countDuoTravelTicksPerRoom + 1);
+            powerBankTargets.countDuoTravelTicksPerRoom += 1;
+            creepDuo.averagesAdded = true;
         }
     }
 
@@ -209,7 +223,8 @@ export class PowerBankController {
             attack: newAttackCreep,
             heal: newHealCreep,
             beenReplaced: false,
-            replaceAtTick: replaceAtTick
+            replaceAtTick: replaceAtTick,
+            averagesAdded: false
         };
         bank.creeps.push(newCreepDuo);
         ReportController.log("Queued a new Power Bank Creep Duo in " + LogHelper.roomNameAsLink(myRoom.name));

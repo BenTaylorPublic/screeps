@@ -483,6 +483,7 @@ interface PowerBankCreepDuo {
     heal: PowerBankHealCreep | null;
     beenReplaced: boolean;
     replaceAtTick: number;
+    averagesAdded: boolean;
 }
 
 /*
