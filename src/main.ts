@@ -70,7 +70,11 @@ function setupMyMemory(): void {
                 creeps: [],
                 avoidRooms: [],
                 powerBanks: {
-                    targetBanks: []
+                    targetBanks: [],
+                    averageAttackTravelPerRoom: 0,
+                    averageHealTravelPerRoom: 0,
+                    countAttackTravelPerRoom: 0,
+                    countHealerTravelPerRoom: 0
                 },
                 observer: null,
                 transfers: []

@@ -271,6 +271,7 @@ type CreepRoles =
     | "AttackQuickCreep"
     | "AttackPressureCreep"
     | "PowerBankAttackCreep"
+    | "PowerBankHealCreep"
     | "Stocker"
     | "Signer"
     | "AttackHealerDrainCreep"
@@ -328,8 +329,9 @@ interface AttackPressureCreep extends MyCreep {
 }
 
 interface PowerBankAttackCreep extends MyCreep {
-    powerBankId: Id<StructurePowerBank>;
-    beenReplaced: boolean;
+}
+
+interface PowerBankHealCreep extends MyCreep {
 }
 
 interface AttackHealerDrainCreep extends MyCreep {
@@ -456,6 +458,10 @@ type MineralsAndCompoundConstant = MineralConstant | MineralCompoundConstant;
 
 interface PowerBankTargets {
     targetBanks: PowerBankDetails[];
+    averageHealTravelPerRoom: number;
+    countHealerTravelPerRoom: number;
+    averageAttackTravelPerRoom: number;
+    countAttackTravelPerRoom: number;
 }
 
 interface PowerBankDetails {
@@ -464,15 +470,19 @@ interface PowerBankDetails {
     roomsToGetCreepsFrom: string[];
     roomsToGetCreepsFromIndex: number;
     eol: number;
-    attackCreeps: PowerBankAttackCreep[];
-    attackCreepsStillNeeded: number;
-    amountOfCarryBodyStillNeeded: number;
+    creeps: PowerBankCreepDuo[];
+    creepsDuosStillNeeded: number;
     roomDistanceToBank: number;
     amountOfPositionsAroundBank: number;
     power: number;
     replaceAtTTL: number;
-    spawnHaulersAtHP: number;
-    state: "high_hp" | "spawn_haulers" | "dead";
+}
+
+interface PowerBankCreepDuo {
+    attack: PowerBankAttackCreep | null;
+    heal: PowerBankHealCreep | null;
+    beenReplaced: boolean;
+    replaceAtTick: number;
 }
 
 /*

@@ -13,6 +13,9 @@ PowerBanks
     Heal creeps stand next to their assigned attacker and only heal them
     It should give me more damage per slot around the power bank
     Will probably need a similar TicksToTravel logic as upgraders
+
+Notes:
+    Revisit POWER_BANK_AREA_AROUND_BANK_MIN
 ```
 ### Short term
 ```

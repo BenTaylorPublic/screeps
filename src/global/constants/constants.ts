@@ -42,12 +42,11 @@ export class Constants {
     public static TERMINAL_GOAL_ENERGY: number = 20_000;
     //OTHER
     public static PERCENT_OF_CACHE_ENERGY_TO_SPAWN_HAULER: number = 0.5;
-    public static POWER_BANK_TTL_MIN: number = 4_500;
+    public static POWER_BANK_TTL_MIN: number = 4_800;
     public static POWER_BANK_MAX_BANKS_AT_ONE_TIME: number = 0;
-    public static POWER_BANK_MAX_DAMAGE_PER_TICK_PER_AREA: number = 240;
-    public static POWER_BANK_MAX_DAMAGE_TRAVEL_TICKS_PER_ROOM: number = 150;
-    public static POWER_BANK_MAX_HAUL_TRAVEL_TICKS_PER_ROOM: number = 50;
+    public static POWER_BANK_MAX_DAMAGE_PER_TICK_PER_AREA: number = 840;
     public static POWER_BANK_AREA_AROUND_BANK_MIN: number = 2;
+    public static POWER_BANK_DUO_TICKS_TO_SPAWN: number = 141;
     public static REPAIR_ONLY_ON_ODD_THOUSAND: boolean = true;
     public static BANK_LINKER_CAPACITY: number = 100;
     public static LAB_REACTION_AMOUNT_TO_CEIL_TO: number = 100;

@@ -3,18 +3,17 @@ import {MovementHelper} from "../../global/helpers/movement-helper";
 import {ReportController} from "../../reporting/report-controller";
 
 export class RolePowerBankAttackCreep {
-    public static run(powerScavAttack: PowerBankAttackCreep, myPowerBank: PowerBankDetails, powerBank: StructurePowerBank | null): void {
+    public static run(powerBankAttack: PowerBankAttackCreep, myPowerBank: PowerBankDetails, powerBank: StructurePowerBank | null): void {
 
-        if (CreepHelper.handleCreepPreRole(powerScavAttack)) {
+        if (CreepHelper.handleCreepPreRole(powerBankAttack)) {
             return;
         }
 
-        const creep: Creep = Game.creeps[powerScavAttack.name];
+        const creep: Creep = Game.creeps[powerBankAttack.name];
 
         if (powerBank == null) {
             //Kill the creep
             if (Game.time < myPowerBank.eol - 1) {
-                myPowerBank.state = "dead";
                 ReportController.email("Power bank destroyed at " + Game.time);
             } else {
                 ReportController.email("Power bank EOL died at " + Game.time);
@@ -32,7 +31,7 @@ export class RolePowerBankAttackCreep {
                 creep.heal(creep);
             }
         } else {
-            MovementHelper.myMoveTo(creep, powerBank.pos, powerScavAttack);
+            MovementHelper.myMoveTo(creep, powerBank.pos, powerBankAttack);
         }
     }
 }

@@ -10,6 +10,7 @@ import {CreepHelper} from "../../global/helpers/creep-helper";
 import {ScavengeController} from "../../empire/scavenge-controller";
 import {SpawnDigger} from "./spawn-digger";
 import {SpawnUpgrader} from "./spawn-upgrader";
+import {PowerBankController} from "../../empire/power-bank-controller";
 
 export class RoomSpawnController {
     public static run(myRoom: MyRoom, room: Room): void {
@@ -81,6 +82,10 @@ export class RoomSpawnController {
             return SpawnLaborer.getBody(myRoom);
         } else if (queuedCreep.role === "Digger") {
             return SpawnDigger.getBody(myRoom);
+        } else if (queuedCreep.role === "PowerBankAttackCreep") {
+            return PowerBankController.getAttackerBody();
+        } else if (queuedCreep.role === "PowerBankHealCreep") {
+            return PowerBankController.getHealerBody();
         } else if (queuedCreep.role === "Scavenger") {
             return ScavengeController.getBody(myRoom);
         } else if (queuedCreep.role === "AttackQuickCreep" || queuedCreep.role === "AttackPressureCreep") {
