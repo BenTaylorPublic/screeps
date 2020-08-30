@@ -6,7 +6,7 @@
 ```
 PowerBanks
     Healer logic
-    Travel time averages logic
+    Attacker logic
     Hauler logic
 
 Notes:
