@@ -12,7 +12,7 @@ export class PowerbankController {
 
     public static observedPowerBank(powerBank: StructurePowerBank): void {
         const myMemory: MyMemory = Memory.myMemory;
-        if (powerBank.ticksToDecay < Constants.POWER_SCAV_TTL_MIN) {
+        if (powerBank.ticksToDecay < Constants.POWERBANK_TTL_MIN) {
             //TTL not long enough
             return;
         }
@@ -21,7 +21,7 @@ export class PowerbankController {
         let closestRooms: MyRoom[] = [];
         for (let i: number = 0; i < myMemory.myRooms.length; i++) {
             const myRoom: MyRoom = myMemory.myRooms[i];
-            if (myRoom.roomStage < Constants.POWER_SCAV_ROOM_STAGE) {
+            if (myRoom.roomStage < Constants.POWERBANK_ROOM_STAGE) {
                 continue;
             }
             const roomDistance = MapHelper.getRoomDistance(powerBank.room.name, myRoom.name);
@@ -33,7 +33,7 @@ export class PowerbankController {
             }
         }
 
-        if (closestDistance > Constants.POWER_SCAV_RANGE_MAX) {
+        if (closestDistance > Constants.POWERBANK_RANGE_MAX) {
             //Too far
             return;
         }
@@ -46,12 +46,12 @@ export class PowerbankController {
             }
         }
 
-        if (myMemory.empire.powerScav.targetBanks.length >= Constants.POWER_SCAV_MAX_BANKS_AT_ONE_TIME) {
+        if (myMemory.empire.powerScav.targetBanks.length >= Constants.POWERBANK_MAX_BANKS_AT_ONE_TIME) {
             return;
         }
 
         const amountOfPositionsAroundBank: number = RoomHelper.areaAroundPos(powerBank.pos, powerBank.room);
-        if (amountOfPositionsAroundBank < Constants.POWER_SCAV_AREA_AROUND_BANK_MIN) {
+        if (amountOfPositionsAroundBank < Constants.POWERBANK_AREA_AROUND_BANK_MIN) {
             return;
         }
 
@@ -65,12 +65,12 @@ export class PowerbankController {
         }
 
         //Working out how many creeps we'll need
-        const damageTravelTime: number = closestDistance * Constants.POWER_SCAV_MAX_DAMAGE_TRAVEL_TICKS_PER_ROOM;
-        const damagePerTick: number = amountOfPositionsAroundBank * Constants.POWER_SCAV_MAX_DAMAGE_PER_TICK_PER_AREA;
-        const damageDonePerCreep: number = (1500 - damageTravelTime) * Constants.POWER_SCAV_MAX_DAMAGE_PER_TICK_PER_AREA;
+        const damageTravelTime: number = closestDistance * Constants.POWERBANK_MAX_DAMAGE_TRAVEL_TICKS_PER_ROOM;
+        const damagePerTick: number = amountOfPositionsAroundBank * Constants.POWERBANK_MAX_DAMAGE_PER_TICK_PER_AREA;
+        const damageDonePerCreep: number = (1500 - damageTravelTime) * Constants.POWERBANK_MAX_DAMAGE_PER_TICK_PER_AREA;
         const amountOfAttackCreepsNeeded: number = Math.ceil(2000000 / damageDonePerCreep);
 
-        const haulerTravelTime: number = closestDistance * Constants.POWER_SCAV_MAX_HAUL_TRAVEL_TICKS_PER_ROOM;
+        const haulerTravelTime: number = closestDistance * Constants.POWERBANK_MAX_HAUL_TRAVEL_TICKS_PER_ROOM;
         const spawnHaulersAtHp: number = haulerTravelTime * damagePerTick;
 
         const amountOfCarryBody: number = powerBank.power / 50;
@@ -88,7 +88,7 @@ export class PowerbankController {
             "spawnHaulersAtHp: " + spawnHaulersAtHp + "\n" +
             "amountOfCarryBody: " + amountOfCarryBody + "\n";
 
-        Game.notify(email);
+        ReportController.email(email);
 
         myMemory.empire.powerScav.targetBanks.push({
             id: powerBank.id,
@@ -195,7 +195,7 @@ export class PowerbankController {
         ReportController.log("Queued a new PowerScavHaulCreep in " + LogHelper.roomNameAsLink(myRoom.name));
         bank.amountOfCarryBodyStillNeeded -= (sectionsNeeded * carryPerSection);
         if (bank.amountOfCarryBodyStillNeeded <= 0) {
-            Game.notify("PowerScav: Queued all the haul creeps needed in " + LogHelper.roomNameAsLink(myRoom.name));
+            ReportController.email("PowerScav: Queued all the haul creeps needed in " + LogHelper.roomNameAsLink(myRoom.name));
         }
 
         return;
@@ -259,7 +259,7 @@ export class PowerbankController {
 
     private static spawnAttackCreep(powerScav: PowerScavBank, myRoom: MyRoom): PowerbankAttackCreep {
         const name: string = CreepHelper.getName();
-        SpawnQueueController.queueCreepSpawn(myRoom, SpawnConstants.POWER_SCAV_ATTACK, name, "PowerbankAttackCreep");
+        SpawnQueueController.queueCreepSpawn(myRoom, SpawnConstants.POWERBANK_ATTACK, name, "PowerbankAttackCreep");
         return {
             name: name,
             role: "PowerbankAttackCreep",

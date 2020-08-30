@@ -1,5 +1,6 @@
 import {CreepHelper} from "../../global/helpers/creep-helper";
 import {MovementHelper} from "../../global/helpers/movement-helper";
+import {ReportController} from "../../reporting/report-controller";
 
 export class RolePowerbankAttackCreep {
     public static run(powerScavAttack: PowerbankAttackCreep, myPowerBank: PowerScavBank, powerBank: StructurePowerBank | null): void {
@@ -14,9 +15,9 @@ export class RolePowerbankAttackCreep {
             //Kill the creep
             if (Game.time < myPowerBank.eol - 1) {
                 myPowerBank.state = "dead";
-                Game.notify("Power bank destroyed at " + Game.time);
+                ReportController.email("Power bank destroyed at " + Game.time);
             } else {
-                Game.notify("Power bank EOL died at " + Game.time);
+                ReportController.email("Power bank EOL died at " + Game.time);
             }
             creep.say("dthb4dshnr");
             creep.suicide();
