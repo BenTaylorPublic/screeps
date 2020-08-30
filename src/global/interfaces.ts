@@ -270,8 +270,7 @@ type CreepRoles =
     | "BankLinker"
     | "AttackQuickCreep"
     | "AttackPressureCreep"
-    | "PowerScavAttackCreep"
-    | "PowerScavHaulCreep"
+    | "PowerbankAttackCreep"
     | "Stocker"
     | "Signer"
     | "AttackHealerDrainCreep"
@@ -328,14 +327,9 @@ interface AttackPressureCreep extends MyCreep {
     batchNumber: number;
 }
 
-interface PowerScavAttackCreep extends MyCreep {
+interface PowerbankAttackCreep extends MyCreep {
     powerBankId: Id<StructurePowerBank>;
     beenReplaced: boolean;
-}
-
-interface PowerScavHaulCreep extends MyCreep {
-    state: "grabbing" | "depositing";
-    roomToDepositTo: string;
 }
 
 interface AttackHealerDrainCreep extends MyCreep {
@@ -470,7 +464,7 @@ interface PowerScavBank {
     roomsToGetCreepsFrom: string[];
     roomsToGetCreepsFromIndex: number;
     eol: number;
-    attackCreeps: PowerScavAttackCreep[];
+    attackCreeps: PowerbankAttackCreep[];
     attackCreepsStillNeeded: number;
     amountOfCarryBodyStillNeeded: number;
     roomDistanceToBank: number;

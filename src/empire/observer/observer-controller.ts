@@ -1,4 +1,4 @@
-import {PowerScavController} from "../power-scav-controller";
+import {PowerbankController} from "../powerbank-controller";
 import {ReportController} from "../../reporting/report-controller";
 import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
 import {MapHelper} from "../../global/helpers/map-helper";
@@ -65,7 +65,7 @@ export class ObserverController {
                 );
                 if (powerBanks.length === 1) {
                     //Found one
-                    PowerScavController.observedPowerBank(powerBanks[0]);
+                    PowerbankController.observedPowerBank(powerBanks[0]);
                 }
             }
         }

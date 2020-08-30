@@ -1,8 +1,8 @@
 import {CreepHelper} from "../../global/helpers/creep-helper";
 import {MovementHelper} from "../../global/helpers/movement-helper";
 
-export class RolePowerScavAttackCreep {
-    public static run(powerScavAttack: PowerScavAttackCreep, myPowerBank: PowerScavBank, powerBank: StructurePowerBank | null): void {
+export class RolePowerbankAttackCreep {
+    public static run(powerScavAttack: PowerbankAttackCreep, myPowerBank: PowerScavBank, powerBank: StructurePowerBank | null): void {
 
         if (CreepHelper.handleCreepPreRole(powerScavAttack)) {
             return;

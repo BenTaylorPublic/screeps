@@ -1,5 +1,4 @@
 import {Constants} from "../global/constants/constants";
-import {RolePowerScavAttackCreep} from "./role/power-scav-attack-creep";
 import {SpawnQueueController} from "../global/spawn-queue-controller";
 import {SpawnConstants} from "../global/constants/spawn-constants";
 import {ReportController} from "../reporting/report-controller";
@@ -7,8 +6,9 @@ import {MapHelper} from "../global/helpers/map-helper";
 import {RoomHelper} from "../global/helpers/room-helper";
 import {LogHelper} from "../global/helpers/log-helper";
 import {CreepHelper} from "../global/helpers/creep-helper";
+import {RolePowerbankAttackCreep} from "./role/powerbank-attack-creep";
 
-export class PowerScavController {
+export class PowerbankController {
 
     public static observedPowerBank(powerBank: StructurePowerBank): void {
         const myMemory: MyMemory = Memory.myMemory;
@@ -148,7 +148,7 @@ export class PowerScavController {
         const powerBank: StructurePowerBank | null = Game.getObjectById<StructurePowerBank>(bankScavengingFrom.id);
 
         for (let i: number = 0; i < bankScavengingFrom.attackCreeps.length; i++) {
-            RolePowerScavAttackCreep.run(bankScavengingFrom.attackCreeps[i] as PowerScavAttackCreep, bankScavengingFrom, powerBank);
+            RolePowerbankAttackCreep.run(bankScavengingFrom.attackCreeps[i] as PowerbankAttackCreep, bankScavengingFrom, powerBank);
         }
 
         if (powerBank != null &&
@@ -189,8 +189,9 @@ export class PowerScavController {
             return;
         }
 
-        const newCreep: PowerScavHaulCreep = this.spawnHaulCreep(bank, myRoom as MyRoom);
-        myMemory.empire.creeps.push(newCreep);
+        //OLD
+        // const newCreep: PowerScavHaulCreep = this.spawnHaulCreep(bank, myRoom as MyRoom);
+        // myMemory.empire.creeps.push(newCreep);
         ReportController.log("Queued a new PowerScavHaulCreep in " + LogHelper.roomNameAsLink(myRoom.name));
         bank.amountOfCarryBodyStillNeeded -= (sectionsNeeded * carryPerSection);
         if (bank.amountOfCarryBodyStillNeeded <= 0) {
@@ -199,23 +200,6 @@ export class PowerScavController {
 
         return;
 
-    }
-
-    private static spawnHaulCreep(powerScav: PowerScavBank, myRoom: MyRoom): PowerScavHaulCreep {
-        const name: string = CreepHelper.getName();
-        SpawnQueueController.queueCreepSpawn(myRoom, SpawnConstants.POWER_SCAV_HAUL, name, "PowerScavHaulCreep");
-        return {
-            name: name,
-            role: "PowerScavHaulCreep",
-            assignedRoomName: powerScav.pos.roomName,
-            spawningStatus: "queued",
-            roomMoveTarget: {
-                pos: null,
-                path: []
-            },
-            state: "grabbing",
-            roomToDepositTo: myRoom.name
-        };
     }
 
     private static trySpawnAttackCreepIfNeeded(bank: PowerScavBank, myMemory: MyMemory): void {
@@ -254,7 +238,7 @@ export class PowerScavController {
             return;
         }
 
-        const newCreep: PowerScavAttackCreep = this.spawnAttackCreep(bank, myRoom);
+        const newCreep: PowerbankAttackCreep = this.spawnAttackCreep(bank, myRoom);
         bank.attackCreeps.push(newCreep);
         ReportController.log("Queued a new PowerScavAttackCreep in " + LogHelper.roomNameAsLink(myRoom.name));
         bank.attackCreepsStillNeeded--;
@@ -273,12 +257,12 @@ export class PowerScavController {
 
     }
 
-    private static spawnAttackCreep(powerScav: PowerScavBank, myRoom: MyRoom): PowerScavAttackCreep {
+    private static spawnAttackCreep(powerScav: PowerScavBank, myRoom: MyRoom): PowerbankAttackCreep {
         const name: string = CreepHelper.getName();
-        SpawnQueueController.queueCreepSpawn(myRoom, SpawnConstants.POWER_SCAV_ATTACK, name, "PowerScavAttackCreep");
+        SpawnQueueController.queueCreepSpawn(myRoom, SpawnConstants.POWER_SCAV_ATTACK, name, "PowerbankAttackCreep");
         return {
             name: name,
-            role: "PowerScavAttackCreep",
+            role: "PowerbankAttackCreep",
             assignedRoomName: powerScav.pos.roomName,
             spawningStatus: "queued",
             roomMoveTarget: {
