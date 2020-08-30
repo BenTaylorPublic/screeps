@@ -56,6 +56,8 @@ Signing controller with flag string
 ```
 ### Long term:
 ```
+Auto safe mode when < stage 2.6, and hostile creep enters 
+
 Cache containers shouldn't be built until towers
     Will require moving a stage
 
