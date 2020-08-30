@@ -4,14 +4,13 @@
 ## TODO
 ### Working on
 ```
-```
-### Short term
-```
 Pre-emptive spawning upgraders
     Will have to store in the upgraders memory a "number | null" of the ticks taken to travel
     Set the number = 1500 - TTL, when the first upgrade controller returns success
     Spawning the next one will occur when TTL <= thatNumber + ticksToSpawn
-
+```
+### Short term
+```
 Transfer rut
     Rooms should have a transfer ID, of which one they're working on
     Each tick it tries to get that transfer
