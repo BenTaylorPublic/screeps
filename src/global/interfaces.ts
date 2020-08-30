@@ -41,7 +41,7 @@ interface Empire {
     creeps: MyCreep[];
     observer: ObserverMemory | null;
     avoidRooms: string[];
-    powerScav: PowerScav;
+    powerBanks: PowerBankTargets;
     transfers: Transfer[];
 }
 
@@ -270,7 +270,7 @@ type CreepRoles =
     | "BankLinker"
     | "AttackQuickCreep"
     | "AttackPressureCreep"
-    | "PowerbankAttackCreep"
+    | "PowerBankAttackCreep"
     | "Stocker"
     | "Signer"
     | "AttackHealerDrainCreep"
@@ -327,7 +327,7 @@ interface AttackPressureCreep extends MyCreep {
     batchNumber: number;
 }
 
-interface PowerbankAttackCreep extends MyCreep {
+interface PowerBankAttackCreep extends MyCreep {
     powerBankId: Id<StructurePowerBank>;
     beenReplaced: boolean;
 }
@@ -454,17 +454,17 @@ type MineralsAndCompoundConstant = MineralConstant | MineralCompoundConstant;
 ====================
 */
 
-interface PowerScav {
-    targetBanks: PowerScavBank[];
+interface PowerBankTargets {
+    targetBanks: PowerBankDetails[];
 }
 
-interface PowerScavBank {
+interface PowerBankDetails {
     id: Id<StructurePowerBank>;
     pos: MyRoomPos;
     roomsToGetCreepsFrom: string[];
     roomsToGetCreepsFromIndex: number;
     eol: number;
-    attackCreeps: PowerbankAttackCreep[];
+    attackCreeps: PowerBankAttackCreep[];
     attackCreepsStillNeeded: number;
     amountOfCarryBodyStillNeeded: number;
     roomDistanceToBank: number;

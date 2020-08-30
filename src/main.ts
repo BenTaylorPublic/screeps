@@ -69,7 +69,7 @@ function setupMyMemory(): void {
                 attackHealerDrain: null,
                 creeps: [],
                 avoidRooms: [],
-                powerScav: {
+                powerBanks: {
                     targetBanks: []
                 },
                 observer: null,

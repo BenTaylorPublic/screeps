@@ -3,7 +3,7 @@ import {SpawnClaimerController} from "./spawn-claimer-controller";
 import {AttackController} from "./attack/attack-controller";
 import {BuildObserverController} from "./observer/build-observer-controller";
 import {ObserverController} from "./observer/observer-controller";
-import {PowerbankController} from "./powerbank-controller";
+import {PowerBankController} from "./powerBank-controller";
 import {SignController} from "./sign/sign-controller";
 import {ScavengeController} from "./scavenge-controller";
 import {RoleScavenger} from "./role/scavenger";
@@ -22,11 +22,10 @@ export class EmpireController {
 
         MineralController.run(myMemory);
 
-        PowerbankController.run(myMemory);
+        PowerBankController.run(myMemory);
         ScavengeController.run(myMemory);
         RoomNukerController.checkForNukeLaunchFlags(myMemory.myRooms);
 
-        //Controlling claimers and power scav haulers
         for (let i = 0; i < myMemory.empire.creeps.length; i++) {
             const creep: MyCreep = myMemory.empire.creeps[i];
             if (creep.role === "Claimer") {

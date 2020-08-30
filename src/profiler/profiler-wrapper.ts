@@ -54,7 +54,7 @@ import {Stage7_4} from "../room/stages/stage7_4";
 import {Stage6_2} from "../room/stages/stage6_2";
 import {Stage7} from "../room/stages/stage7";
 import {BuildObserverController} from "../empire/observer/build-observer-controller";
-import {PowerbankController} from "../empire/powerbank-controller";
+import {PowerBankController} from "../empire/powerBank-controller";
 import {ObserverController} from "../empire/observer/observer-controller";
 import {MemoryController} from "../memory/memory-controller";
 import {SpawnQueueController} from "../global/spawn-queue-controller";
@@ -73,7 +73,7 @@ import {RoleStocker} from "../room/roles/stocker";
 import {SpawnStocker} from "../room/spawns/spawn-stocker";
 import {RoomDefenseController} from "../room/room-defense-controller";
 import {RoomLinkController} from "../room/structures/link";
-import {RolePowerbankAttackCreep} from "../empire/role/powerbank-attack-creep";
+import {RolePowerBankAttackCreep} from "../empire/role/powerBank-attack-creep";
 
 export class ProfilerWrapper {
     public static setup(): void {
@@ -88,13 +88,13 @@ export class ProfilerWrapper {
 
         Profiler.setup(RoleAttackCreep, "RoleAttackCreep");
         Profiler.setup(RoleClaimer, "RoleClaimer");
-        Profiler.setup(RolePowerbankAttackCreep, "PowerbankAttackCreep");
+        Profiler.setup(RolePowerBankAttackCreep, "PowerBankAttackCreep");
         Profiler.setup(RoleScavenger, "RoleScavenger");
 
         Profiler.setup(SignController, "SignController");
 
         Profiler.setup(EmpireController, "EmpireController");
-        Profiler.setup(PowerbankController, "PowerScavController");
+        Profiler.setup(PowerBankController, "PowerScavController");
         Profiler.setup(ScavengeController, "ScavengeController");
         Profiler.setup(SpawnClaimerController, "SpawnClaimerController");
 

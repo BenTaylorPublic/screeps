@@ -10,7 +10,7 @@ export class Constants {
     public static CONSCRIPTION_PRESSURE_MINIMUM_STAGE: Stage = 6;
     public static MINERAL_START_STAGE: Stage = 6;
     public static CONTROLLER_LINKED_STAGE: Stage = 6.8;
-    public static POWERBANK_ROOM_STAGE: Stage = 8;
+    public static POWER_BANK_ROOM_STAGE: Stage = 8;
     //BANK ENERGY
     public static STAGE_8_ONE_SOURCE_ENERGY_DONATE_TARGET: number = 50_000;
     public static STAGE_8_DONATE_AMOUNT: number = 50_000;
@@ -33,7 +33,7 @@ export class Constants {
     public static WALL_AND_RAMPART_GOAL_HEALTH: number = 500_000;
     //MAP RANGES
     public static CONSCRIPTION_RANGE: number = 8;
-    public static POWERBANK_RANGE_MAX: number = 5;
+    public static POWER_BANK_RANGE_MAX: number = 5;
     public static SCAVENGE_MAX_DISTANCE: number = 10;
     //BUILDING CONTENTS
     public static LINK_TRANSFER_AT: number = 400;
@@ -42,12 +42,12 @@ export class Constants {
     public static TERMINAL_GOAL_ENERGY: number = 20_000;
     //OTHER
     public static PERCENT_OF_CACHE_ENERGY_TO_SPAWN_HAULER: number = 0.5;
-    public static POWERBANK_TTL_MIN: number = 4_500;
-    public static POWERBANK_MAX_BANKS_AT_ONE_TIME: number = 0;
-    public static POWERBANK_MAX_DAMAGE_PER_TICK_PER_AREA: number = 240;
-    public static POWERBANK_MAX_DAMAGE_TRAVEL_TICKS_PER_ROOM: number = 150;
-    public static POWERBANK_MAX_HAUL_TRAVEL_TICKS_PER_ROOM: number = 50;
-    public static POWERBANK_AREA_AROUND_BANK_MIN: number = 2;
+    public static POWER_BANK_TTL_MIN: number = 4_500;
+    public static POWER_BANK_MAX_BANKS_AT_ONE_TIME: number = 0;
+    public static POWER_BANK_MAX_DAMAGE_PER_TICK_PER_AREA: number = 240;
+    public static POWER_BANK_MAX_DAMAGE_TRAVEL_TICKS_PER_ROOM: number = 150;
+    public static POWER_BANK_MAX_HAUL_TRAVEL_TICKS_PER_ROOM: number = 50;
+    public static POWER_BANK_AREA_AROUND_BANK_MIN: number = 2;
     public static REPAIR_ONLY_ON_ODD_THOUSAND: boolean = true;
     public static BANK_LINKER_CAPACITY: number = 100;
     public static LAB_REACTION_AMOUNT_TO_CEIL_TO: number = 100;
