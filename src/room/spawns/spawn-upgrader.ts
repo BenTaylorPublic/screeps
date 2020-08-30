@@ -45,6 +45,7 @@ export class SpawnUpgrader {
     }
 
     public static getBody(myRoom: MyRoom): BodyPartConstant[] {
+        //If modifying this, update Constants.UPGRADER_TICKS_TO_SPAWN
         return [CARRY,
             MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE,
             //15 work is controllers cap
