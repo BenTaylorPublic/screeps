@@ -4,7 +4,15 @@
 ## TODO
 ### Working on
 ```
-Get power scavenging working
+PowerBanks
+    Review logic from start to end
+    Going to use healer creeps as well this time
+    Current rations are 5 heal to 4 dps, keep that ratio but in 2 different creeps
+    They should be queued at the same time from the same room
+    Attack creep only attacks if they're above a certain hp, so it will never affect their Attack parks
+    Heal creeps stand next to their assigned attacker and only heal them
+    It should give me more damage per slot around the power bank
+    Will probably need a similar TicksToTravel logic as upgraders
 ```
 ### Short term
 ```
