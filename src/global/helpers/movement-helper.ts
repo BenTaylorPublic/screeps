@@ -22,20 +22,8 @@ export class MovementHelper {
 
         //Calculate path again
         myCreep.roomMoveTarget.pos = RoomHelper.roomPosToMyPos(moveTo);
-        myCreep.roomMoveTarget.path = creep.pos.findPathTo(moveTo,
-            {
-                // costCallback(roomNamee: string, costMatrix: CostMatrix): boolean | CostMatrix {
-                //     if (roomNamee !== creep.room.name) {
-                //         return false;
-                //     }
-                //     MovementHelper.avoidEdges(costMatrix, creep.room);
-                //     return costMatrix;
-                // },
-                maxRooms: 1
-            });
-
-        const result: MoveByPathResult = creep.moveByPath(myCreep.roomMoveTarget.path);
-        return result;
+        myCreep.roomMoveTarget.path = creep.pos.findPathTo(moveTo, {maxRooms: 1});
+        return creep.moveByPath(myCreep.roomMoveTarget.path);
     }
 
     public static getCreepToRoom(creep: Creep, creepMemory: MyCreep, roomName: string): void {

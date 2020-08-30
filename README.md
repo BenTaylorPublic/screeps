@@ -5,7 +5,7 @@
 ### Working on
 ```
 PowerBanks
-    Healer logic
+    Test it on a power bank
     Hauler logic
 
 Notes:
@@ -43,6 +43,8 @@ MyMemory.Settings
 Towers sitting on 50% letting containers die
 
 Attack creeps to kill construction sites
+
+Need to neaten up the spawn constants
 
 Attack creeps need to not update target every 5 ticks
     Because when I indicate what to target, it just gets removed in 5 :(

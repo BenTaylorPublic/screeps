@@ -85,8 +85,7 @@ export class PowerBankController {
             creeps: [],
             creepsDuosStillNeeded: amountOfAttackCreepsNeeded,
             amountOfPositionsAroundBank: amountOfPositionsAroundBank,
-            power: powerBank.power,
-            replaceAtTTL: damageTravelTime
+            power: powerBank.power
         });
     }
 
@@ -158,7 +157,7 @@ export class PowerBankController {
             RolePowerBankAttackCreep.run(creepDuo.attack, powerBankTarget, powerBank);
         }
         if (creepDuo.heal != null) {
-            RolePowerBankHealCreep.run(creepDuo.heal, powerBankTarget, powerBank);
+            RolePowerBankHealCreep.run(creepDuo.heal, powerBankTarget, powerBank, creepDuo.attack);
         }
 
         if (!creepDuo.averagesAdded &&
@@ -183,7 +182,7 @@ export class PowerBankController {
         }
 
         let creepDuosToReplace: number = 0;
-        let creepDuosStilGood: number = 0;
+        let creepDuosStillGood: number = 0;
         let creepDuoToReplaceIndex: number = -1;
         for (let i: number = 0; i < bank.creeps.length; i++) {
             const creepDuo: PowerBankCreepDuo = bank.creeps[i];
@@ -193,11 +192,11 @@ export class PowerBankController {
                 creepDuoToReplaceIndex = i;
             } else {
                 //Still good
-                creepDuosStilGood++;
+                creepDuosStillGood++;
             }
         }
 
-        const shouldSpawnOne = (creepDuosStilGood < bank.amountOfPositionsAroundBank) || creepDuosToReplace > 0;
+        const shouldSpawnOne = (creepDuosStillGood < bank.amountOfPositionsAroundBank) || creepDuosToReplace > 0;
         if (!shouldSpawnOne) {
             return;
         }

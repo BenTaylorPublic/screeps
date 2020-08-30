@@ -475,7 +475,6 @@ interface PowerBankDetails {
     roomDistanceToBank: number;
     amountOfPositionsAroundBank: number;
     power: number;
-    replaceAtTTL: number;
 }
 
 interface PowerBankCreepDuo {

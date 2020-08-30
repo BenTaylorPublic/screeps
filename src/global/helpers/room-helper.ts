@@ -93,6 +93,14 @@ export class RoomHelper {
             myPos1.y === myPos2.y;
     }
 
+    public static posMatches3(pos1: RoomPosition, pos2: RoomPosition): boolean {
+        return pos1 != null &&
+            pos2 != null &&
+            pos1.roomName === pos2.roomName &&
+            pos1.x === pos2.x &&
+            pos1.y === pos2.y;
+    }
+
     public static getMyRoomsAtOrAboveStage(stage: Stage): MyRoom[] {
         const result: MyRoom[] = [];
         for (let i: number = 0; i < Memory.myMemory.myRooms.length; i++) {
@@ -136,5 +144,28 @@ export class RoomHelper {
         } else {
             return false;
         }
+    }
+
+    public static getPosOnOtherSide(pos1: RoomPosition, middlePos: RoomPosition): RoomPosition {
+        let resultX: number;
+        let resultY: number;
+        if (pos1.x === middlePos.x) { //Match on X
+            resultX = pos1.x;
+            if (pos1.y > middlePos.y) {
+                resultY = middlePos.y - 1;
+            } else {
+                resultY = middlePos.y + 1;
+            }
+
+        } else {//Match on Y
+            resultY = pos1.y;
+            if (pos1.x > middlePos.x) {
+                resultX = middlePos.x - 1;
+            } else {
+                resultX = middlePos.x + 1;
+            }
+        }
+
+        return new RoomPosition(resultX, resultY, pos1.roomName);
     }
 }
