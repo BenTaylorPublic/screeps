@@ -36,6 +36,11 @@ export class RoleUpgrader {
                 if (creep.upgradeController(controller) === ERR_NOT_IN_RANGE) {
                     MovementHelper.myMoveTo(creep, (controller).pos, upgrader);
                 }
+                if (upgrader.ticksToTravel == null) {
+                    upgrader.ticksToTravel = 1500 - (creep.ticksToLive as number);
+                    //Temporary log
+                    ReportController.log("Upgrader ticks to travel " + upgrader.ticksToTravel + " in " + LogHelper.roomNameAsLink(myRoom.name));
+                }
             }
         } else if (creep.upgradeController(controller) === ERR_NOT_IN_RANGE) {
             MovementHelper.myMoveTo(creep, (controller).pos, upgrader);

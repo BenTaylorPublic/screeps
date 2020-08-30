@@ -373,6 +373,7 @@ interface Digger extends MyCreep {
 }
 
 interface Upgrader extends MyCreep {
+    ticksToTravel: number | null;
 }
 
 /*

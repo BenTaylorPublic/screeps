@@ -57,7 +57,8 @@ export class SpawnUpgrader {
             roomMoveTarget: {
                 pos: null,
                 path: []
-            }
+            },
+            ticksToTravel: null
         };
     }
 }
