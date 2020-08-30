@@ -14,7 +14,8 @@ export class MapHelper {
         if (result === ERR_NO_PATH) {
             return Infinity;
         }
-        return result.length;
+        //Includes start and end rooms
+        return result.length + 1;
     }
 
     public static isMiddle3x3(roomName: string): boolean {
