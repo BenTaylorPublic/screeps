@@ -12,20 +12,20 @@ import {RolePowerBankHealCreep} from "./role/power-bank-heal-creep";
 export class PowerBankController {
 
     public static observedPowerBank(powerBank: StructurePowerBank): void {
-        const myMemory: MyMemory = Memory.myMemory;
+        const powerBankTargets: PowerBankTargets = Memory.myMemory.empire.powerBanks;
 
         if (powerBank.ticksToDecay < Constants.POWER_BANK_TTL_MIN) {
             //TTL not long enough
             return;
         }
 
-        if (myMemory.empire.powerBanks.targetBanks.length >= Constants.POWER_BANK_MAX_BANKS_AT_ONE_TIME) {
+        if (powerBankTargets.targetBanks.length >= Constants.POWER_BANK_MAX_BANKS_AT_ONE_TIME) {
             //Don't want to be targeting too many banks at a time
             return;
         }
 
-        for (let i: number = 0; i < myMemory.empire.powerBanks.targetBanks.length; i++) {
-            const powerBankTarget = myMemory.empire.powerBanks.targetBanks[i];
+        for (let i: number = 0; i < powerBankTargets.targetBanks.length; i++) {
+            const powerBankTarget = powerBankTargets.targetBanks[i];
             if (powerBankTarget.id === powerBank.id) {
                 //Already setup this bank
                 return;
@@ -58,7 +58,7 @@ export class PowerBankController {
         }
 
         //Working out how many creeps we'll need
-        const damageTravelTime: number = closestDistance * myMemory.empire.powerBanks.averageAttackTravelPerRoom;
+        const damageTravelTime: number = closestDistance * powerBankTargets.averageAttackTravelPerRoom;
         const damagePerTick: number = amountOfPositionsAroundBank * Constants.POWER_BANK_MAX_DAMAGE_PER_TICK_PER_AREA;
         const damageDonePerCreep: number = (1500 - damageTravelTime) * Constants.POWER_BANK_MAX_DAMAGE_PER_TICK_PER_AREA;
         const amountOfAttackCreepsNeeded: number = Math.ceil(2000000 / damageDonePerCreep);
@@ -75,7 +75,7 @@ export class PowerBankController {
 
         ReportController.email(email);
 
-        myMemory.empire.powerBanks.targetBanks.push({
+        powerBankTargets.targetBanks.push({
             id: powerBank.id,
             pos: RoomHelper.roomPosToMyPos(powerBank.pos),
             roomsToGetCreepsFrom: roomsToSpawnThrough,
@@ -90,15 +90,15 @@ export class PowerBankController {
         });
     }
 
-    public static run(myMemory: MyMemory): void {
-        for (let i: number = myMemory.empire.powerBanks.targetBanks.length - 1; i >= 0; i--) {
-            const powerBankTarget: PowerBankDetails = myMemory.empire.powerBanks.targetBanks[i];
+    public static run(powerBankTargets: PowerBankTargets): void {
+        for (let i: number = powerBankTargets.targetBanks.length - 1; i >= 0; i--) {
+            const powerBankTarget: PowerBankDetails = powerBankTargets.targetBanks[i];
 
             if (Game.time > powerBankTarget.eol) {
                 //It gone
-                myMemory.empire.powerBanks.targetBanks.splice(i, 1);
+                powerBankTargets.targetBanks.splice(i, 1);
             } else {
-                this.handleBank(powerBankTarget, myMemory);
+                this.handleBank(powerBankTarget, powerBankTargets);
             }
         }
     }
@@ -128,7 +128,7 @@ export class PowerBankController {
         ];
     }
 
-    private static handleBank(powerBankTarget: PowerBankDetails, myMemory: MyMemory): void {
+    private static handleBank(powerBankTarget: PowerBankDetails, powerBankTargets: PowerBankTargets): void {
         for (let i: number = powerBankTarget.creeps.length - 1; i >= 0; i--) {
             const creepDuo: PowerBankCreepDuo = powerBankTarget.creeps[i];
             if (creepDuo.attack != null &&
@@ -143,7 +143,7 @@ export class PowerBankController {
                 powerBankTarget.creeps.splice(i, 1);
             }
         }
-        this.trySpawnCreepDuoIfNeeded(powerBankTarget, myMemory);
+        this.trySpawnCreepDuoIfNeeded(powerBankTarget, powerBankTargets);
 
         const powerBank: StructurePowerBank | null = Game.getObjectById<StructurePowerBank>(powerBankTarget.id);
 
@@ -158,7 +158,7 @@ export class PowerBankController {
         }
     }
 
-    private static trySpawnCreepDuoIfNeeded(bank: PowerBankDetails, myMemory: MyMemory): void {
+    private static trySpawnCreepDuoIfNeeded(bank: PowerBankDetails, powerBankTargets: PowerBankTargets): void {
 
         if (bank.creepsDuosStillNeeded <= 0) {
             return;
@@ -199,10 +199,10 @@ export class PowerBankController {
         const newAttackCreep: PowerBankAttackCreep = this.spawnAttackCreep(bank, myRoom);
 
         let maxTravelTime: number;
-        if (myMemory.empire.powerBanks.averageAttackTravelPerRoom > myMemory.empire.powerBanks.averageHealTravelPerRoom) {
-            maxTravelTime = myMemory.empire.powerBanks.averageAttackTravelPerRoom * bank.roomDistanceToBank;
+        if (powerBankTargets.averageAttackTravelPerRoom > powerBankTargets.averageHealTravelPerRoom) {
+            maxTravelTime = powerBankTargets.averageAttackTravelPerRoom * bank.roomDistanceToBank;
         } else {
-            maxTravelTime = myMemory.empire.powerBanks.averageHealTravelPerRoom * bank.roomDistanceToBank;
+            maxTravelTime = powerBankTargets.averageHealTravelPerRoom * bank.roomDistanceToBank;
         }
         const replaceAtTick: number = Game.time + 1500 - maxTravelTime - Constants.POWER_BANK_DUO_TICKS_TO_SPAWN;
 

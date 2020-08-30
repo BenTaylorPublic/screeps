@@ -22,7 +22,7 @@ export class EmpireController {
 
         MineralController.run(myMemory);
 
-        PowerBankController.run(myMemory);
+        PowerBankController.run(myMemory.empire.powerBanks);
         ScavengeController.run(myMemory);
         RoomNukerController.checkForNukeLaunchFlags(myMemory.myRooms);
 
