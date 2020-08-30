@@ -3,7 +3,7 @@ import {SpawnClaimerController} from "./spawn-claimer-controller";
 import {AttackController} from "./attack/attack-controller";
 import {BuildObserverController} from "./observer/build-observer-controller";
 import {ObserverController} from "./observer/observer-controller";
-import {PowerBankController} from "./powerBank-controller";
+import {PowerBankController} from "./power-bank-controller";
 import {SignController} from "./sign/sign-controller";
 import {ScavengeController} from "./scavenge-controller";
 import {RoleScavenger} from "./role/scavenger";

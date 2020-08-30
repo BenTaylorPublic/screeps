@@ -1,4 +1,4 @@
-import {PowerBankController} from "../powerBank-controller";
+import {PowerBankController} from "../power-bank-controller";
 import {ReportController} from "../../reporting/report-controller";
 import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
 import {MapHelper} from "../../global/helpers/map-helper";

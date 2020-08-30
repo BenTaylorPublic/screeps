@@ -6,7 +6,7 @@ import {MapHelper} from "../global/helpers/map-helper";
 import {RoomHelper} from "../global/helpers/room-helper";
 import {LogHelper} from "../global/helpers/log-helper";
 import {CreepHelper} from "../global/helpers/creep-helper";
-import {RolePowerBankAttackCreep} from "./role/powerBank-attack-creep";
+import {RolePowerBankAttackCreep} from "./role/power-bank-attack-creep";
 
 export class PowerBankController {
 
