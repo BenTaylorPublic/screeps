@@ -329,9 +329,11 @@ interface AttackPressureCreep extends MyCreep {
 }
 
 interface PowerBankAttackCreep extends MyCreep {
+    reachedPowerBank: boolean;
 }
 
 interface PowerBankHealCreep extends MyCreep {
+    reachedPowerBank: boolean;
 }
 
 interface AttackHealerDrainCreep extends MyCreep {
@@ -458,10 +460,8 @@ type MineralsAndCompoundConstant = MineralConstant | MineralCompoundConstant;
 
 interface PowerBankTargets {
     targetBanks: PowerBankDetails[];
-    averageHealTravelPerRoom: number;
-    countHealerTravelPerRoom: number;
-    averageAttackTravelPerRoom: number;
-    countAttackTravelPerRoom: number;
+    averageDuoTravelTicksPerRoom: number;
+    countDuoTravelTicksPerRoom: number;
 }
 
 interface PowerBankDetails {

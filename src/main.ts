@@ -71,10 +71,8 @@ function setupMyMemory(): void {
                 avoidRooms: [],
                 powerBanks: {
                     targetBanks: [],
-                    averageAttackTravelPerRoom: 0,
-                    averageHealTravelPerRoom: 0,
-                    countAttackTravelPerRoom: 0,
-                    countHealerTravelPerRoom: 0
+                    averageDuoTravelTicksPerRoom: 0,
+                    countDuoTravelTicksPerRoom: 0
                 },
                 observer: null,
                 transfers: []

@@ -58,7 +58,7 @@ export class PowerBankController {
         }
 
         //Working out how many creeps we'll need
-        const damageTravelTime: number = closestDistance * powerBankTargets.averageAttackTravelPerRoom;
+        const damageTravelTime: number = closestDistance * powerBankTargets.averageDuoTravelTicksPerRoom;
         const damagePerTick: number = amountOfPositionsAroundBank * Constants.POWER_BANK_MAX_DAMAGE_PER_TICK_PER_AREA;
         const damageDonePerCreep: number = (1500 - damageTravelTime) * Constants.POWER_BANK_MAX_DAMAGE_PER_TICK_PER_AREA;
         const amountOfAttackCreepsNeeded: number = Math.ceil(2000000 / damageDonePerCreep);
@@ -129,6 +129,7 @@ export class PowerBankController {
     }
 
     private static handleBank(powerBankTarget: PowerBankDetails, powerBankTargets: PowerBankTargets): void {
+        //Need to do our own memory management here, for dying creeps
         for (let i: number = powerBankTarget.creeps.length - 1; i >= 0; i--) {
             const creepDuo: PowerBankCreepDuo = powerBankTarget.creeps[i];
             if (creepDuo.attack != null &&
@@ -148,13 +149,16 @@ export class PowerBankController {
         const powerBank: StructurePowerBank | null = Game.getObjectById<StructurePowerBank>(powerBankTarget.id);
 
         for (let i: number = 0; i < powerBankTarget.creeps.length; i++) {
-            const creepDuo: PowerBankCreepDuo = powerBankTarget.creeps[i];
-            if (creepDuo.attack != null) {
-                RolePowerBankAttackCreep.run(creepDuo.attack, powerBankTarget, powerBank);
-            }
-            if (creepDuo.heal != null) {
-                RolePowerBankHealCreep.run(creepDuo.heal, powerBankTarget, powerBank);
-            }
+            this.runCreepDuo(powerBankTarget.creeps[i], powerBankTarget, powerBank);
+        }
+    }
+
+    private static runCreepDuo(creepDuo: PowerBankCreepDuo, powerBankTarget: PowerBankDetails, powerBank: StructurePowerBank | null): void {
+        if (creepDuo.attack != null) {
+            RolePowerBankAttackCreep.run(creepDuo.attack, powerBankTarget, powerBank);
+        }
+        if (creepDuo.heal != null) {
+            RolePowerBankHealCreep.run(creepDuo.heal, powerBankTarget, powerBank);
         }
     }
 
@@ -198,12 +202,7 @@ export class PowerBankController {
         const newHealCreep: PowerBankAttackCreep = this.spawnHealCreep(bank, myRoom);
         const newAttackCreep: PowerBankAttackCreep = this.spawnAttackCreep(bank, myRoom);
 
-        let maxTravelTime: number;
-        if (powerBankTargets.averageAttackTravelPerRoom > powerBankTargets.averageHealTravelPerRoom) {
-            maxTravelTime = powerBankTargets.averageAttackTravelPerRoom * bank.roomDistanceToBank;
-        } else {
-            maxTravelTime = powerBankTargets.averageHealTravelPerRoom * bank.roomDistanceToBank;
-        }
+        const maxTravelTime: number = powerBankTargets.averageDuoTravelTicksPerRoom * bank.roomDistanceToBank;
         const replaceAtTick: number = Game.time + 1500 - maxTravelTime - Constants.POWER_BANK_DUO_TICKS_TO_SPAWN;
 
         const newCreepDuo: PowerBankCreepDuo = {
@@ -232,7 +231,8 @@ export class PowerBankController {
             roomMoveTarget: {
                 pos: null,
                 path: []
-            }
+            },
+            reachedPowerBank: false
         };
     }
 
@@ -247,7 +247,8 @@ export class PowerBankController {
             roomMoveTarget: {
                 pos: null,
                 path: []
-            }
+            },
+            reachedPowerBank: false
         };
     }
 }
