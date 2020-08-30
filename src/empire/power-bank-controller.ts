@@ -32,22 +32,12 @@ export class PowerBankController {
             }
         }
 
-        let closestDistance: number = 999;
-        let closestRooms: MyRoom[] = [];
-        for (let i: number = 0; i < myMemory.myRooms.length; i++) {
-            const myRoom: MyRoom = myMemory.myRooms[i];
-            if (myRoom.roomStage < Constants.POWER_BANK_ROOM_STAGE) {
-                continue;
-            }
-            const roomDistance = MapHelper.getRoomDistance(powerBank.room.name, myRoom.name);
-            if (roomDistance === closestDistance) {
-                closestRooms.push(myRoom);
-            } else if (roomDistance < closestDistance) {
-                closestRooms = [myRoom];
-                closestDistance = roomDistance;
-            }
+        const closestRoomNames: string[] = MapHelper.getClosestRooms(powerBank.pos, Constants.POWER_BANK_ROOM_STAGE);
+        if (closestRoomNames.length === 0) {
+            return;
         }
 
+        const closestDistance: number = MapHelper.getRoomDistance(closestRoomNames[0], powerBank.pos.roomName);
         if (closestDistance > Constants.POWER_BANK_RANGE_MAX) {
             //Too far from any room
             return;
@@ -63,8 +53,8 @@ export class PowerBankController {
 
         //This should reuse the rooms
         const roomsToSpawnThrough: string[] = [];
-        for (let i: number = 0; i < closestRooms.length; i++) {
-            roomsToSpawnThrough.push(closestRooms[i].name);
+        for (let i: number = 0; i < closestRoomNames.length; i++) {
+            roomsToSpawnThrough.push(closestRoomNames[i]);
         }
 
         //Working out how many creeps we'll need

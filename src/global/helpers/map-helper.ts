@@ -65,4 +65,23 @@ export class MapHelper {
         }
         return bankToReturn;
     }
+
+    public static getClosestRooms(roomPos: RoomPosition, minimumStage: number = 1): string[] {
+        let closestDistance: number = 999;
+        let closestRooms: string[] = [];
+        for (let i: number = 0; i < Memory.myMemory.myRooms.length; i++) {
+            const myRoom: MyRoom = Memory.myMemory.myRooms[i];
+            if (myRoom.roomStage < minimumStage) {
+                continue;
+            }
+            const roomDistance = MapHelper.getRoomDistance(roomPos.roomName, myRoom.name);
+            if (roomDistance === closestDistance) {
+                closestRooms.push(myRoom.name);
+            } else if (roomDistance < closestDistance) {
+                closestRooms = [myRoom.name];
+                closestDistance = roomDistance;
+            }
+        }
+        return closestRooms;
+    }
 }
