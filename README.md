@@ -12,6 +12,8 @@ Processing power
 ```
 ### Mid term:
 ```
+Add all the reactions I want to run
+
 Transfer rut
     Rooms should have a transfer ID, of which one they're working on
     Each tick it tries to get that transfer
