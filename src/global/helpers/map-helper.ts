@@ -66,12 +66,18 @@ export class MapHelper {
         return bankToReturn;
     }
 
-    public static getClosestRooms(roomPos: RoomPosition, minimumStage: number = 1): string[] {
+    public static getClosestRooms(roomPos: RoomPosition, minimumStage: number = 1, minimumEnergyInBank: number = -1): string[] {
         let closestDistance: number = 999;
         let closestRooms: string[] = [];
         for (let i: number = 0; i < Memory.myMemory.myRooms.length; i++) {
             const myRoom: MyRoom = Memory.myMemory.myRooms[i];
             if (myRoom.roomStage < minimumStage) {
+                continue;
+            }
+            if (minimumEnergyInBank >= 1 &&
+                (myRoom.bank == null ||
+                    myRoom.bank.object == null ||
+                    myRoom.bank.object.store.energy < minimumEnergyInBank)) {
                 continue;
             }
             const roomDistance = MapHelper.getRoomDistance(roomPos.roomName, myRoom.name);

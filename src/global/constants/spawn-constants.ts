@@ -10,9 +10,9 @@ export class SpawnConstants {
     public static POWER_BANK_HEAL: number = 2.55;
     public static POWER_BANK_ATTACK: number = 2.5;
     public static ATTACK_PRESSURE: number = 2.5;
+    public static SCAVENGER: number = 2.25;
     public static UPGRADER: number = 2;
     public static HAULER: number = 2;
     public static LABORER: number = 1;
-    public static SCAVENGER: number = 0.5;
     public static SIGNER: number = 0.5;
 }

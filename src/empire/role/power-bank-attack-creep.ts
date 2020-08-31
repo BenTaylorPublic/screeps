@@ -1,8 +1,9 @@
 import {CreepHelper} from "../../global/helpers/creep-helper";
 import {MovementHelper} from "../../global/helpers/movement-helper";
+import {ReportController} from "../../reporting/report-controller";
 
 export class RolePowerBankAttackCreep {
-    public static run(powerBankAttack: PowerBankAttackCreep, myPowerBank: PowerBankDetails, powerBank: StructurePowerBank | null): void {
+    public static run(powerBankAttack: PowerBankAttackCreep, myPowerBank: PowerBankDetails, powerBank: StructurePowerBank | null, powerBankHeal: PowerBankHealCreep | null): void {
 
         if (CreepHelper.handleCreepPreRole(powerBankAttack)) {
             return;
@@ -18,10 +19,13 @@ export class RolePowerBankAttackCreep {
         }
 
         if (creep.pos.isNearTo(powerBank)) {
-            if (creep.hits === creep.hitsMax) {
+            //Attack when full health or the healer is dead
+            if (creep.hits === creep.hitsMax ||
+                powerBankHeal == null) {
                 creep.attack(powerBank);
 
                 if (!powerBankAttack.reachedPowerBank) {
+                    ReportController.log("Power Bank Attack Creep reached power bank");
                     powerBankAttack.reachedPowerBank = true;
                 }
             }

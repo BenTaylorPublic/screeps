@@ -4,14 +4,13 @@
 ## TODO
 ### Working on
 ```
-PowerBanks
-    Test it on a power bank
-    Hauler logic
-
-Notes:
-    Revisit POWER_BANK_AREA_AROUND_BANK_MIN
+Testing power banks
 ```
 ### Short term
+```
+Processing power
+```
+### Mid term:
 ```
 Transfer rut
     Rooms should have a transfer ID, of which one they're working on
@@ -30,9 +29,7 @@ Lab rut
     450 L left in reagent lab
     250 UL left in compound lab
     Stocker trying to withdraw more constantly
-```
-### Mid term:
-```
+
 MyMemory.Settings
     Settings I can change via flags (that directly match the settings key)
     Constants are all numbers
@@ -54,6 +51,8 @@ Attack creeps need to not update target every 5 ticks
 Signing controller with flag string
     Flag limit is 60 characters
     Sign limit is 100 characters
+
+Gaps between donate and spawn laborer/upgrader amounts
 ```
 ### Long term:
 ```

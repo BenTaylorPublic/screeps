@@ -27,40 +27,27 @@ export class ScavengeController {
         }
         const flag: Flag = Game.flags[flagNames[0]];
         const amountOfResources: number = Number(flag.name.split("-")[1]);
-        this.startScavenge(flag.pos.roomName, amountOfResources, myMemory);
+        this.startScavenge(flag.pos.roomName, amountOfResources, myMemory, true);
         flag.remove();
     }
 
-    public static startScavenge(roomName: string, amountOfResources: number, myMemory: MyMemory): void {
+    public static generateTickQuoteForPowerBanks(roomName: string, amountOfResources: number): number {
+        const myRooms: ScavengeMyRoom[] = this.generateRoomListForScavengerSpawning(roomName, amountOfResources, Memory.myMemory, false);
+        if (myRooms.length === 0) {
+            ReportController.email("ERROR: generateTickQuoteForPowerBanks gave 0 rooms");
+            return -1;
+        }
+        const amountOfRoomsNeeded: number = Math.ceil(amountOfResources / 1250);
+        const index: number = Math.min(myRooms.length - 1, amountOfRoomsNeeded - 1);
+        const furtherestAwayRoom: ScavengeMyRoom = myRooms[index];
+        const spawnTime: number = 50 * 3;
+        return spawnTime + (furtherestAwayRoom.roomDistance * 50);
+    }
+
+    public static startScavenge(roomName: string, amountOfResources: number, myMemory: MyMemory, allowReturnTrips: boolean): void {
         //All spawn logic in the one tick
 
-        const myRooms: ScavengeMyRoom[] = [];
-        for (let i = 0; i < myMemory.myRooms.length; i++) {
-            const myRoom: MyRoom = myMemory.myRooms[i];
-            if (myRoom.roomStage < Constants.SCAVENGE_MIN_STAGE) {
-                continue;
-            }
-            const roomDistance: number = MapHelper.getRoomDistance(roomName, myRoom.name);
-            if (MapHelper.getRoomDistance(roomName, myRoom.name) > Constants.SCAVENGE_MAX_DISTANCE) {
-                continue;
-            }
-            //Room is good
-            const amountOfCarryPerCreep: number = Game.rooms[myRoom.name].energyCapacityAvailable / 100;
-            const ttlForOneTrip: number = (roomDistance + 1) * 50 * 2;
-            const amountOfTripsOneCreepCanDo: number = Math.floor(1500 / ttlForOneTrip);
-            const repeatedCarryPerCreep: number = amountOfTripsOneCreepCanDo * amountOfCarryPerCreep;
-
-            ReportController.log(LogHelper.roomNameAsLink(myRoom.name) + ": amountOfCarryPerCreep: " + amountOfCarryPerCreep);
-            ReportController.log(LogHelper.roomNameAsLink(myRoom.name) + ": ttlForOneTrip: " + ttlForOneTrip);
-            ReportController.log(LogHelper.roomNameAsLink(myRoom.name) + ": amountOfTripsOneCreepCanDo: " + amountOfTripsOneCreepCanDo);
-            ReportController.log(LogHelper.roomNameAsLink(myRoom.name) + ": repeatedCarryPerCreep: " + repeatedCarryPerCreep);
-
-            myRooms.push({
-                amountOfCarryPerCreep: repeatedCarryPerCreep,
-                myRoom: myRoom,
-                scavengeAgainWhenTtlAbove: ttlForOneTrip
-            });
-        }
+        const myRooms: ScavengeMyRoom[] = this.generateRoomListForScavengerSpawning(roomName, amountOfResources, myMemory, allowReturnTrips);
 
         if (myRooms.length === 0) {
             return;
@@ -114,6 +101,60 @@ export class ScavengeController {
             scavengeAgainWhenTtlAbove: scavengeMyRoom.scavengeAgainWhenTtlAbove,
             scavengeTargetPos: null
         } as Scavenger);
+    }
+
+    private static generateRoomListForScavengerSpawning(roomName: string, amountOfResources: number, myMemory: MyMemory, allowReturnTrips: boolean): ScavengeMyRoom[] {
+        const myRooms: ScavengeMyRoom[] = [];
+
+        const closestBank: StructureStorage | null = MapHelper.findClosestBank(roomName, amountOfResources);
+        if (closestBank == null) {
+            ReportController.email("ERROR: closestBank is null while trying to scavenge");
+            return [];
+        }
+        const distanceToBank: number = MapHelper.getRoomDistance(roomName, closestBank.room.name);
+
+        for (let i = 0; i < myMemory.myRooms.length; i++) {
+            const myRoom: MyRoom = myMemory.myRooms[i];
+            if (myRoom.roomStage < Constants.SCAVENGE_MIN_STAGE) {
+                continue;
+            }
+            const spawnToScavengeRoom: number = MapHelper.getRoomDistance(roomName, myRoom.name);
+            if (MapHelper.getRoomDistance(roomName, myRoom.name) > Constants.SCAVENGE_MAX_DISTANCE) {
+                continue;
+            }
+            const ticksWastedGettingToScavengeRoom: number = 50 * spawnToScavengeRoom;
+            const oneWayTripToBank: number = 50 * distanceToBank;
+            const ttlAfterFirstTrip: number = (1500 - ticksWastedGettingToScavengeRoom - oneWayTripToBank);
+            if (ttlAfterFirstTrip < 0) {
+                //Wont even get to the room and then to a bank
+                continue;
+            }
+            const amountOfTripsOneCreepCanDo: number = 1 + Math.floor(ttlAfterFirstTrip / (oneWayTripToBank * 2));
+
+            let scavengeAgainWhenTtlAbove: number;
+            let repeatedCarryPerCreep: number;
+            if (allowReturnTrips) {
+                scavengeAgainWhenTtlAbove = oneWayTripToBank * 2;
+                repeatedCarryPerCreep = amountOfTripsOneCreepCanDo * Constants.SCAVENGE_CARRY_PER_CREEP;
+            } else {
+                //This will make it so they never scavenge again
+                scavengeAgainWhenTtlAbove = 1500 + 1;
+                repeatedCarryPerCreep = Constants.SCAVENGE_CARRY_PER_CREEP;
+            }
+
+            myRooms.push({
+                amountOfCarryPerCreep: repeatedCarryPerCreep,
+                myRoom: myRoom,
+                scavengeAgainWhenTtlAbove: scavengeAgainWhenTtlAbove,
+                roomDistance: spawnToScavengeRoom
+            });
+        }
+
+        myRooms.sort((a: ScavengeMyRoom, b: ScavengeMyRoom) => {
+            return a.roomDistance - b.roomDistance;
+        });
+
+        return myRooms;
     }
 
 }

@@ -46,7 +46,16 @@ export class RoleScavenger {
                             });
 
                             if (structures.length === 0) {
-                                returning = true;
+                                const powerBanks: StructurePowerBank[] = creep.room.find<StructurePowerBank>(FIND_STRUCTURES, {
+                                        filter: (structure: Structure) => {
+                                            return structure.structureType === STRUCTURE_POWER_BANK;
+                                        }
+                                    }
+                                );
+                                //Only return if there's no power banks here
+                                if (powerBanks.length === 0) {
+                                    returning = true;
+                                }
                             }
                         }
                     }
@@ -78,6 +87,16 @@ export class RoleScavenger {
         if (scavenger.scavengeTargetPos == null) {
             const scavengerTargetResult: ScavengerTargetResult | null = this.getTarget(creep);
             if (scavengerTargetResult == null) {
+                const powerBanks: StructurePowerBank[] = creep.room.find<StructurePowerBank>(FIND_STRUCTURES, {
+                        filter: (structure: Structure) => {
+                            return structure.structureType === STRUCTURE_POWER_BANK;
+                        }
+                    }
+                );
+                if (powerBanks.length > 0 &&
+                    !creep.pos.inRangeTo(powerBanks[0], 5)) {
+                    MovementHelper.myMoveTo(creep, powerBanks[0].pos, scavenger);
+                }
                 return;
             }
             scavenger.scavengeTargetPos = RoomHelper.roomPosToMyPos(scavengerTargetResult.pos);

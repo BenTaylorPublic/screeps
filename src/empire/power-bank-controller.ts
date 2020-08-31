@@ -8,6 +8,7 @@ import {LogHelper} from "../global/helpers/log-helper";
 import {CreepHelper} from "../global/helpers/creep-helper";
 import {RolePowerBankAttackCreep} from "./role/power-bank-attack-creep";
 import {RolePowerBankHealCreep} from "./role/power-bank-heal-creep";
+import {ScavengeController} from "./scavenge-controller";
 
 export class PowerBankController {
 
@@ -32,7 +33,7 @@ export class PowerBankController {
             }
         }
 
-        const closestRoomNames: string[] = MapHelper.getClosestRooms(powerBank.pos, Constants.POWER_BANK_ROOM_STAGE);
+        const closestRoomNames: string[] = MapHelper.getClosestRooms(powerBank.pos, Constants.POWER_BANK_ROOM_STAGE, Constants.POWER_BANK_MIN_ENERGY);
         if (closestRoomNames.length === 0) {
             return;
         }
@@ -49,7 +50,7 @@ export class PowerBankController {
         }
 
         //WE'RE GOOD, LET'S GO BOIZ
-        ReportController.log("Power scavenging power bank in room " + LogHelper.roomNameAsLink(powerBank.room.name));
+        ReportController.email("Power scavenging power bank in room " + LogHelper.roomNameAsLink(powerBank.room.name));
 
         //This should reuse the rooms
         const roomsToSpawnThrough: string[] = [];
@@ -61,7 +62,8 @@ export class PowerBankController {
         const damageTravelTime: number = closestDistance * powerBankTargets.averageDuoTravelTicksPerRoom;
         const damagePerTick: number = amountOfPositionsAroundBank * Constants.POWER_BANK_MAX_DAMAGE_PER_TICK_PER_AREA;
         const damageDonePerCreep: number = (1500 - damageTravelTime) * Constants.POWER_BANK_MAX_DAMAGE_PER_TICK_PER_AREA;
-        const amountOfAttackCreepsNeeded: number = Math.ceil(2000000 / damageDonePerCreep);
+        const creepsDuosStillNeeded: number = Math.ceil(2000000 / damageDonePerCreep);
+        const scavengeTicksQuote: number = ScavengeController.generateTickQuoteForPowerBanks(powerBank.room.name, powerBank.power);
 
         const email: string = "Scavenging power bank at " + powerBank.room.name + "\n" +
             "Game.time: " + Game.time + "\n" +
@@ -71,7 +73,8 @@ export class PowerBankController {
             "damagePerTick: " + damagePerTick + "\n" +
             "damageDonePerCreep: " + damageDonePerCreep + "\n" +
             "amountOfPositionsAroundBank: " + amountOfPositionsAroundBank + "\n" +
-            "amountOfAttackCreepsNeeded: " + amountOfAttackCreepsNeeded;
+            "scavengeTicksQuote: " + scavengeTicksQuote + "\n" +
+            "creepsDuosStillNeeded: " + creepsDuosStillNeeded;
 
         ReportController.email(email);
 
@@ -83,9 +86,11 @@ export class PowerBankController {
             eol: Game.time + powerBank.ticksToDecay,
             roomDistanceToBank: closestDistance,
             creeps: [],
-            creepsDuosStillNeeded: amountOfAttackCreepsNeeded,
+            creepsDuosStillNeeded: creepsDuosStillNeeded,
             amountOfPositionsAroundBank: amountOfPositionsAroundBank,
-            power: powerBank.power
+            power: powerBank.power,
+            queuedHaulers: false,
+            scavengeTicksQuote: scavengeTicksQuote
         });
     }
 
@@ -93,9 +98,12 @@ export class PowerBankController {
         for (let i: number = powerBankTargets.targetBanks.length - 1; i >= 0; i--) {
             const powerBankTarget: PowerBankDetails = powerBankTargets.targetBanks[i];
 
-            if (Game.time > powerBankTarget.eol) {
+            if (Game.time > powerBankTarget.eol ||
+                (powerBankTarget.creepsDuosStillNeeded === 0 &&
+                    powerBankTarget.creeps.length === 0)) {
                 //It gone
                 powerBankTargets.targetBanks.splice(i, 1);
+                ReportController.email("Splicing out a bank");
             } else {
                 this.handleBank(powerBankTarget, powerBankTargets);
             }
@@ -132,20 +140,61 @@ export class PowerBankController {
         for (let i: number = powerBankTarget.creeps.length - 1; i >= 0; i--) {
             const creepDuo: PowerBankCreepDuo = powerBankTarget.creeps[i];
             if (creepDuo.attack != null &&
+                creepDuo.attack.spawningStatus === "alive" &&
                 Game.creeps[creepDuo.attack.name] == null) {
                 creepDuo.attack = null;
             }
             if (creepDuo.heal != null &&
+                creepDuo.heal.spawningStatus === "alive" &&
                 Game.creeps[creepDuo.heal.name] == null) {
                 creepDuo.heal = null;
             }
             if (creepDuo.heal == null && creepDuo.attack == null) {
+                ReportController.email("Splicing out a duo");
                 powerBankTarget.creeps.splice(i, 1);
             }
         }
         this.trySpawnCreepDuoIfNeeded(powerBankTarget, powerBankTargets);
 
         const powerBank: StructurePowerBank | null = Game.getObjectById<StructurePowerBank>(powerBankTarget.id);
+
+        if (powerBank != null &&
+            !powerBankTarget.queuedHaulers &&
+            Game.time % 10 === 0) {
+            //There's potential...
+            const damagePerTick: number = powerBankTarget.creeps.length * Constants.POWER_BANK_MAX_DAMAGE_PER_TICK_PER_AREA;
+            const amountOfTicksLeftInaccurate: number = powerBank.hits / damagePerTick;
+            if (amountOfTicksLeftInaccurate < powerBankTarget.scavengeTicksQuote) {
+                //High potential
+                //Lets get an accurate number...
+                let damageInQuoteTime: number = 0;
+                for (let i: number = 0; i < powerBankTarget.creeps.length; i++) {
+                    const creepDuo: PowerBankCreepDuo = powerBankTarget.creeps[i];
+                    //Averages added means they're there and actively damaging
+                    if (creepDuo.averagesAdded) {
+                        let maxDamageTicks: number;
+                        if (creepDuo.heal == null) {
+                            maxDamageTicks = 0;
+                        } else if (creepDuo.attack == null) {
+                            maxDamageTicks = 0;
+                        } else {
+                            maxDamageTicks = Math.min(powerBankTarget.scavengeTicksQuote,
+                                Game.creeps[creepDuo.attack.name].ticksToLive as number,
+                                Game.creeps[creepDuo.heal.name].ticksToLive as number);
+                        }
+                        damageInQuoteTime += maxDamageTicks * Constants.POWER_BANK_MAX_DAMAGE_PER_TICK_PER_AREA;
+                    }
+                }
+
+                if (damageInQuoteTime > powerBank.hits) {
+                    //We should queue
+                    powerBankTarget.queuedHaulers = true;
+                    ReportController.email("Starting haulers for a power bank that is low in hits");
+                    ScavengeController.startScavenge(powerBank.room.name, powerBankTarget.power, Memory.myMemory, false);
+                }
+            }
+        }
+
 
         for (let i: number = 0; i < powerBankTarget.creeps.length; i++) {
             this.runCreepDuo(powerBankTarget.creeps[i], powerBankTarget, powerBank, powerBankTargets);
@@ -154,7 +203,7 @@ export class PowerBankController {
 
     private static runCreepDuo(creepDuo: PowerBankCreepDuo, powerBankTarget: PowerBankDetails, powerBank: StructurePowerBank | null, powerBankTargets: PowerBankTargets): void {
         if (creepDuo.attack != null) {
-            RolePowerBankAttackCreep.run(creepDuo.attack, powerBankTarget, powerBank);
+            RolePowerBankAttackCreep.run(creepDuo.attack, powerBankTarget, powerBank, creepDuo.heal);
         }
         if (creepDuo.heal != null) {
             RolePowerBankHealCreep.run(creepDuo.heal, powerBankTarget, powerBank, creepDuo.attack);
@@ -168,7 +217,7 @@ export class PowerBankController {
             //Add the average
             //NewAverage = ((oldAverage * oldCount) + newValue) / newCount
             const highestTtl: number = Math.max(Game.creeps[creepDuo.attack.name].ticksToLive as number, Game.creeps[creepDuo.heal.name].ticksToLive as number);
-            const newValue: number = 1500 - highestTtl;
+            const newValue: number = (1500 - highestTtl) / powerBankTarget.roomDistanceToBank;
             powerBankTargets.averageDuoTravelTicksPerRoom = ((powerBankTargets.averageDuoTravelTicksPerRoom * powerBankTargets.countDuoTravelTicksPerRoom) + newValue) / (powerBankTargets.countDuoTravelTicksPerRoom + 1);
             powerBankTargets.countDuoTravelTicksPerRoom += 1;
             creepDuo.averagesAdded = true;
@@ -181,35 +230,44 @@ export class PowerBankController {
             return;
         }
 
-        let creepDuosToReplace: number = 0;
         let creepDuosStillGood: number = 0;
         let creepDuoToReplaceIndex: number = -1;
         for (let i: number = 0; i < bank.creeps.length; i++) {
             const creepDuo: PowerBankCreepDuo = bank.creeps[i];
             if (!bank.creeps[i].beenReplaced &&
                 Game.time >= creepDuo.replaceAtTick) {
-                creepDuosToReplace++;
                 creepDuoToReplaceIndex = i;
+                break;
             } else {
                 //Still good
                 creepDuosStillGood++;
             }
         }
 
-        const shouldSpawnOne = (creepDuosStillGood < bank.amountOfPositionsAroundBank) || creepDuosToReplace > 0;
+        const shouldSpawnOne = (creepDuosStillGood < bank.amountOfPositionsAroundBank) || creepDuoToReplaceIndex >= 0;
         if (!shouldSpawnOne) {
             return;
         }
 
 
+        bank.roomsToGetCreepsFromIndex++;
         if (bank.roomsToGetCreepsFromIndex >= bank.roomsToGetCreepsFrom.length) {
             bank.roomsToGetCreepsFromIndex = 0;
         }
-        bank.roomsToGetCreepsFromIndex++;
         const roomName: string = bank.roomsToGetCreepsFrom[bank.roomsToGetCreepsFromIndex];
         const myRoom: MyRoom | null = RoomHelper.getMyRoomByName(roomName);
         if (myRoom == null) {
             return;
+        }
+
+        for (let i: number = 0; myRoom.spawnQueue.length; i++) {
+            const queuedCreep: QueuedCreep = myRoom.spawnQueue[i];
+            if (queuedCreep.role === "PowerBankAttackCreep" ||
+                queuedCreep.role === "PowerBankHealCreep") {
+                //Not going to add a duo to the spawn queue, as there's already one in it
+                bank.roomsToGetCreepsFromIndex--;
+                return;
+            }
         }
 
         const newHealCreep: PowerBankAttackCreep = this.spawnHealCreep(bank, myRoom);
@@ -226,10 +284,11 @@ export class PowerBankController {
             averagesAdded: false
         };
         bank.creeps.push(newCreepDuo);
-        ReportController.log("Queued a new Power Bank Creep Duo in " + LogHelper.roomNameAsLink(myRoom.name));
+        ReportController.email("Queued a new Power Bank Creep Duo in " + LogHelper.roomNameAsLink(myRoom.name));
         bank.creepsDuosStillNeeded--;
 
         if (creepDuoToReplaceIndex !== -1) {
+            ReportController.email("Duo was a replacement team");
             bank.creeps[creepDuoToReplaceIndex].beenReplaced = true;
         }
     }

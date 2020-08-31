@@ -475,6 +475,8 @@ interface PowerBankDetails {
     roomDistanceToBank: number;
     amountOfPositionsAroundBank: number;
     power: number;
+    queuedHaulers: boolean;
+    scavengeTicksQuote: number;
 }
 
 interface PowerBankCreepDuo {
@@ -495,4 +497,5 @@ interface ScavengeMyRoom {
     myRoom: MyRoom;
     amountOfCarryPerCreep: number;
     scavengeAgainWhenTtlAbove: number;
+    roomDistance: number;
 }

@@ -157,8 +157,19 @@ export class RoomHelper {
                 resultY = middlePos.y + 1;
             }
 
-        } else {//Match on Y
+        } else if (pos1.y === middlePos.y) {//Match on Y
             resultY = pos1.y;
+            if (pos1.x > middlePos.x) {
+                resultX = middlePos.x - 1;
+            } else {
+                resultX = middlePos.x + 1;
+            }
+        } else { //It's a diagonal
+            if (pos1.y > middlePos.y) {
+                resultY = middlePos.y - 1;
+            } else {
+                resultY = middlePos.y + 1;
+            }
             if (pos1.x > middlePos.x) {
                 resultX = middlePos.x - 1;
             } else {
