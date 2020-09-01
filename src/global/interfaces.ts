@@ -157,6 +157,13 @@ interface MyRoom {
     controllerLink: MyLink | null;
     labs: LabMemory | null;
     nukerStatus: "NeedsEnergy" | "NeedsG" | "Full" | null;
+    powerSpawn: PowerSpawnMemory | null;
+}
+
+interface PowerSpawnMemory {
+    energy: "NeedsEnergy" | "Good";
+    power: "NeedsPower" | "Good";
+    id: Id<StructurePowerSpawn>;
 }
 
 interface LabMemory {

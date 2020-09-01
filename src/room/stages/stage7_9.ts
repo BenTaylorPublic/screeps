@@ -12,7 +12,8 @@ export class Stage7_9 {
     */
     public static up(myRoom: MyRoom, room: Room): boolean {
         this.step(myRoom, room);
-        if (RoomHelper.amountOfStructure(room, STRUCTURE_POWER_SPAWN) === 1) {
+        if (RoomHelper.amountOfStructure(room, STRUCTURE_POWER_SPAWN) === 1 &&
+            myRoom.powerSpawn != null) {
             //Power spawn has been made
             myRoom.roomStage = 8;
             ReportController.email("STAGE+ 8 " + LogHelper.roomNameAsLink(myRoom.name) + " 1 power spawn");
@@ -22,7 +23,9 @@ export class Stage7_9 {
     }
 
     public static down(myRoom: MyRoom, room: Room): boolean {
-        if (RoomHelper.amountOfStructure(room, STRUCTURE_POWER_SPAWN) < 1) {
+        if (RoomHelper.amountOfStructure(room, STRUCTURE_POWER_SPAWN) < 1 ||
+            myRoom.powerSpawn == null) {
+            myRoom.powerSpawn = null;
             //Power spawn has been made
             myRoom.roomStage = 7.9;
             ReportController.email("STAGE- 7.9 " + LogHelper.roomNameAsLink(myRoom.name) + " 1 power spawn");
@@ -41,8 +44,19 @@ export class Stage7_9 {
                 flag.remove();
             }
         }
-
-        if (!placedPowerSpawn &&
+        if (RoomHelper.amountOfStructure(room, STRUCTURE_POWER_SPAWN) === 1) {
+            const powerSpawn: StructurePowerSpawn = room.find<StructurePowerSpawn>(FIND_STRUCTURES, {
+                    filter: (structure: Structure) => {
+                        return structure.structureType === STRUCTURE_POWER_SPAWN;
+                    }
+                }
+            )[0];
+            myRoom.powerSpawn = {
+                id: powerSpawn.id,
+                energy: "NeedsEnergy",
+                power: "NeedsPower"
+            };
+        } else if (!placedPowerSpawn &&
             room.find(FIND_CONSTRUCTION_SITES).length === 0 &&
             RoomHelper.amountOfStructure(room, STRUCTURE_POWER_SPAWN) < 1) {
             ReportController.email("ATTENTION: Room " + LogHelper.roomNameAsLink(room.name) + " needs a power spawn flag (power-spawn)",
