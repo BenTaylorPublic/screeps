@@ -52,7 +52,8 @@ export class RoleStocker {
             if (!this.structureNeedsEnergy(room) &&
                 (this.resourcesToPickup(room) ||
                     this.labOrderToLoadFor(labOrder) ||
-                    this.labOrderToUnloadFor(labOrder))) {
+                    this.labOrderToUnloadFor(labOrder) ||
+                    this.canStockPowerSpawn(myRoom, room))) {
                 stocker.state = "DepositResources";
                 creep.say("💎/⚡ to 🏦");
             } else if (creep.store.getUsedCapacity() === 0) {
