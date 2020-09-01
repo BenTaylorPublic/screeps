@@ -4,7 +4,7 @@
 ## TODO
 ### Working on
 ```
-Processing power
+Testing proccessing power logic
 ```
 ### Short term
 ```
@@ -208,6 +208,7 @@ profile-function
 🔬 Lab
 ⚗️ Compound
 ☢ Nuker
+💪 Power
 ```
 
 ### Room controller levels in a nice format:

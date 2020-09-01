@@ -15,6 +15,7 @@ export class Constants {
     public static STAGE_8_ONE_SOURCE_ENERGY_DONATE_TARGET: number = 50_000;
     public static STAGE_8_DONATE_AMOUNT: number = 50_000;
     public static POWER_BANK_MIN_ENERGY: number = 50_000;
+    public static POWER_SPAWN_MIN_ENERGY: number = 50_000;
     public static STAGE_8_DONATE_AT: number = 100_000;
     public static AMOUNT_OF_BANK_ENERGY_TO_SPAWN_LABORER: number = 100_000;
     public static AMOUNT_OF_BANK_ENERGY_REQUIRED_TO_SPAWN_UPGRADER: number = 100_000;

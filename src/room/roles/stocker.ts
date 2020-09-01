@@ -39,6 +39,10 @@ export class RoleStocker {
             this.pickupResourceFromBank(stocker, myRoom, creep, RESOURCE_GHODIUM);
         } else if (stocker.state === "GToNuker") {
             this.resourceToNuker(stocker, creep, room, RESOURCE_GHODIUM);
+        } else if (stocker.state === "PickupPowerSpawnResoures") {
+            this.pickupPowerSpawnResources(stocker, myRoom, creep);
+        } else if (stocker.state === "StockPowerSpawn") {
+            this.stockPowerSpawn(stocker, myRoom, creep, room);
         }
     }
 
@@ -129,6 +133,16 @@ export class RoleStocker {
                 stocker.state = "DepositResources";
                 creep.say("💎/⚡ to 🏦");
             }
+        } else if (stocker.state === "PickupPowerSpawnResoures") {
+            if (creep.store.power > 0 &&
+                creep.store.energy > 0) {
+                stocker.state = "StockPowerSpawn";
+                creep.say("💪⚡ to PS");
+            }
+        } else if (stocker.state === "StockPowerSpawn") {
+            if (creep.store.getUsedCapacity() === 0) {
+                emptyAndNeedNewJob = true;
+            }
         }
 
         if (emptyAndNeedNewJob) {
@@ -154,7 +168,78 @@ export class RoleStocker {
             } else if (this.nukerNeedsG(myRoom, room)) {
                 stocker.state = "PickupG";
                 creep.say("G from 🏦");
+            } else if (this.canStockPowerSpawn(myRoom, room)) {
+                stocker.state = "PickupPowerSpawnResoures";
+                creep.say("💪⚡ from 🏦");
             }
+        }
+    }
+
+    private static pickupPowerSpawnResources(stocker: Stocker, myRoom: MyRoom, creep: Creep): void {
+        if (myRoom.bank == null) {
+            ReportController.email("ERROR: Room's bank pos was null in " + LogHelper.roomNameAsLink(myRoom.name));
+            return;
+        }
+
+        const bankPos: RoomPosition = RoomHelper.myPosToRoomPos(myRoom.bank.bankPos);
+
+        if (bankPos.isNearTo(creep)) {
+            const bank: StructureStorage | null = myRoom.bank.object;
+            if (bank == null) {
+                ReportController.email("ERROR: Room's bank was null in " + LogHelper.roomNameAsLink(myRoom.name));
+                return;
+            }
+            const capacity: number = creep.store.getCapacity();
+            const powerWanted: number = (Math.floor(capacity / 50) - 1);
+            const energyWanted: number = powerWanted * 50;
+
+            let resource: ResourceConstant | null = null;
+            let amountToGrab: number | null = null;
+            if (creep.store.energy === 0) {
+                resource = RESOURCE_ENERGY;
+                amountToGrab = energyWanted;
+            } else if (creep.store.power === 0) {
+                resource = RESOURCE_POWER;
+                amountToGrab = powerWanted;
+            }
+            if (resource == null ||
+                amountToGrab == null) {
+                ReportController.email("ERROR: resource/amountToGrab null in stocker logic " + LogHelper.roomNameAsLink(myRoom.name));
+                return;
+            }
+
+            const withdrawResult: ScreepsReturnCode = creep.withdraw(bank, resource, amountToGrab);
+            if (withdrawResult !== OK) {
+                ReportController.email("ERROR: Withdraw reagent " + resource + " for stocker in room " + LogHelper.roomNameAsLink(myRoom.name) + " resulted in " + LogHelper.logScreepsReturnCode(withdrawResult));
+            }
+        } else {
+            MovementHelper.myMoveTo(creep, bankPos, stocker);
+        }
+    }
+
+    private static stockPowerSpawn(stocker: Stocker, myRoom: MyRoom, creep: Creep, room: Room): void {
+        const powerSpawns: StructurePowerSpawn[] = room.find<StructurePowerSpawn>(FIND_STRUCTURES, {
+                filter: (structure: Structure) => {
+                    return structure.structureType === STRUCTURE_POWER_SPAWN;
+                }
+            }
+        );
+
+        if (powerSpawns.length !== 1) {
+            return;
+        }
+
+        const powerSpawn: StructurePowerSpawn = powerSpawns[0];
+        if (creep.pos.isNearTo(powerSpawn)) {
+            const resources: ResourceConstant[] = Object.keys(creep.store) as ResourceConstant[];
+            if (resources.length > 0) {
+                const result: ScreepsReturnCode = creep.transfer(powerSpawn, resources[0]);
+                if (result !== OK) {
+                    ReportController.email("ERROR: Bad result from stocking powerspawn, error " + LogHelper.logScreepsReturnCode(result));
+                }
+            }
+        } else {
+            MovementHelper.myMoveTo(creep, powerSpawn.pos, stocker);
         }
     }
 
@@ -443,6 +528,43 @@ export class RoleStocker {
             return false;
         }
 
+        return true;
+    }
+
+    private static canStockPowerSpawn(myRoom: MyRoom, room: Room): boolean {
+
+        if (myRoom.powerSpawn == null ||
+            myRoom.powerSpawn.resources === "Good" ||
+            myRoom.bank == null ||
+            myRoom.bank.object == null) {
+            return false;
+        }
+
+        const powerSpawns: StructurePowerSpawn[] = room.find<StructurePowerSpawn>(FIND_STRUCTURES, {
+                filter: (structure: Structure) => {
+                    return structure.structureType === STRUCTURE_POWER_SPAWN;
+                }
+            }
+        );
+
+        if (powerSpawns.length !== 1) {
+            return false;
+        }
+
+        const powerSpawn: StructurePowerSpawn = powerSpawns[0];
+
+        //Just in case it's already good
+        if (powerSpawn.store.energy > Constants.POWER_SPAWN_RESTOCK_WHEN_ENERGY_BELOW ||
+            powerSpawn.store.power > (Constants.POWER_SPAWN_RESTOCK_WHEN_ENERGY_BELOW / 50)) {
+            return false;
+        }
+
+        if (myRoom.bank.object.store.power < 24 ||
+            myRoom.bank.object.store.energy < Constants.POWER_SPAWN_MIN_ENERGY) {
+            return false;
+        }
+
+        //Otherwise, we're good!
         return true;
     }
 
