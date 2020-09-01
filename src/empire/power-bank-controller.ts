@@ -49,8 +49,23 @@ export class PowerBankController {
             return;
         }
 
+        if (powerBank.power < Constants.POWER_BANK_MIN_POWER) {
+            return;
+        }
+
+        const walls: StructureWall[] = powerBank.room.find<StructureWall>(FIND_STRUCTURES, {
+                filter: (structure: Structure) => {
+                    return structure.structureType === STRUCTURE_WALL;
+                }
+            }
+        );
+        if (walls.length > 0) {
+            ReportController.email("Ignoring power bank in " + LogHelper.roomNameAsLink(powerBank.room.name) + " because it has walls");
+            return;
+        }
+
         //WE'RE GOOD, LET'S GO BOIZ
-        ReportController.email("Power scavenging power bank in room " + LogHelper.roomNameAsLink(powerBank.room.name));
+        ReportController.email("Power Bank Attack starting for room " + LogHelper.roomNameAsLink(powerBank.room.name));
 
         //This should reuse the rooms
         const roomsToSpawnThrough: string[] = [];
@@ -60,23 +75,9 @@ export class PowerBankController {
 
         //Working out how many creeps we'll need
         const damageTravelTime: number = closestDistance * powerBankTargets.averageDuoTravelTicksPerRoom;
-        const damagePerTick: number = amountOfPositionsAroundBank * Constants.POWER_BANK_MAX_DAMAGE_PER_TICK_PER_AREA;
         const damageDonePerCreep: number = (1500 - damageTravelTime) * Constants.POWER_BANK_MAX_DAMAGE_PER_TICK_PER_AREA;
         const creepsDuosStillNeeded: number = Math.ceil(2000000 / damageDonePerCreep);
         const scavengeTicksQuote: number = ScavengeController.generateTickQuoteForPowerBanks(powerBank.room.name, powerBank.power);
-
-        const email: string = "Scavenging power bank at " + powerBank.room.name + "\n" +
-            "Game.time: " + Game.time + "\n" +
-            "EOL: " + (Game.time + powerBank.ticksToDecay) + "\n" +
-            "closestDistance: " + closestDistance + "\n" +
-            "damageTravelTime: " + damageTravelTime + "\n" +
-            "damagePerTick: " + damagePerTick + "\n" +
-            "damageDonePerCreep: " + damageDonePerCreep + "\n" +
-            "amountOfPositionsAroundBank: " + amountOfPositionsAroundBank + "\n" +
-            "scavengeTicksQuote: " + scavengeTicksQuote + "\n" +
-            "creepsDuosStillNeeded: " + creepsDuosStillNeeded;
-
-        ReportController.email(email);
 
         powerBankTargets.targetBanks.push({
             id: powerBank.id,
@@ -98,12 +99,18 @@ export class PowerBankController {
         for (let i: number = powerBankTargets.targetBanks.length - 1; i >= 0; i--) {
             const powerBankTarget: PowerBankDetails = powerBankTargets.targetBanks[i];
 
-            if (Game.time > powerBankTarget.eol ||
-                (powerBankTarget.creepsDuosStillNeeded === 0 &&
-                    powerBankTarget.creeps.length === 0)) {
-                //It gone
+            if (Game.time > powerBankTarget.eol) {
                 powerBankTargets.targetBanks.splice(i, 1);
-                ReportController.email("Splicing out a bank");
+                ReportController.email("BAD: Power Bank died from EOL in " + LogHelper.roomNameAsLink(powerBankTarget.pos.roomName));
+            } else if (powerBankTarget.creepsDuosStillNeeded === 0 &&
+                powerBankTarget.creeps.length === 0) {
+                powerBankTargets.targetBanks.splice(i, 1);
+                const powerBank: StructurePowerBank | null = Game.getObjectById<StructurePowerBank>(powerBankTarget.id);
+                if (powerBank == null) {
+                    ReportController.email("Power Bank killed in " + LogHelper.roomNameAsLink(powerBankTarget.pos.roomName));
+                } else {
+                    ReportController.email("BAD: Power Bank attack failed, all creeps dead, bank alive in " + LogHelper.roomNameAsLink(powerBankTarget.pos.roomName));
+                }
             } else {
                 this.handleBank(powerBankTarget, powerBankTargets);
             }
@@ -150,7 +157,7 @@ export class PowerBankController {
                 creepDuo.heal = null;
             }
             if (creepDuo.heal == null && creepDuo.attack == null) {
-                ReportController.email("Splicing out a duo");
+                ReportController.log("Power Bank duo died for bank " + LogHelper.roomNameAsLink(powerBankTarget.pos.roomName));
                 powerBankTarget.creeps.splice(i, 1);
             }
         }
@@ -189,7 +196,7 @@ export class PowerBankController {
                 if (damageInQuoteTime > powerBank.hits) {
                     //We should queue
                     powerBankTarget.queuedHaulers = true;
-                    ReportController.email("Starting haulers for a power bank that is low in hits");
+                    ReportController.email("Starting haulers for a power bank in " + LogHelper.roomNameAsLink(powerBankTarget.pos.roomName));
                     ScavengeController.startScavenge(powerBank.room.name, powerBankTarget.power, Memory.myMemory, false);
                 }
             }
@@ -284,11 +291,11 @@ export class PowerBankController {
             averagesAdded: false
         };
         bank.creeps.push(newCreepDuo);
-        ReportController.email("Queued a new Power Bank Creep Duo in " + LogHelper.roomNameAsLink(myRoom.name));
+        ReportController.log("Queued a new Power Bank Creep Duo in " + LogHelper.roomNameAsLink(myRoom.name) + " for power bank in " + LogHelper.roomNameAsLink(bank.pos.roomName));
         bank.creepsDuosStillNeeded--;
 
         if (creepDuoToReplaceIndex !== -1) {
-            ReportController.email("Duo was a replacement team");
+            ReportController.log("Duo just queued was a replacement team");
             bank.creeps[creepDuoToReplaceIndex].beenReplaced = true;
         }
     }

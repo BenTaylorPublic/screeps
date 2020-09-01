@@ -26,8 +26,8 @@ export class LogHelper {
         }
     }
 
-    public static logPos(myRoomPos: MyRoomPos | RoomPosition): void {
-        console.log("[room " + myRoomPos.roomName + " pos " + myRoomPos.x + "," + myRoomPos.y + "]");
+    public static logPos(myRoomPos: MyRoomPos | RoomPosition): string {
+        return "[room " + myRoomPos.roomName + " pos " + myRoomPos.x + "," + myRoomPos.y + "]";
     }
 
     public static roomNameAsLink(roomName: string): string {

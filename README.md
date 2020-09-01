@@ -4,16 +4,22 @@
 ## TODO
 ### Working on
 ```
-Testing power banks
+Processing power
 ```
 ### Short term
 ```
-Processing power
+Add all the reactions I want to run
+
+Reduce lab logging amount if it's all 0's
+
+Power
+    Power creeps control
+
+Cache containers shouldn't be built until towers
+    Will require moving a stage
 ```
 ### Mid term:
 ```
-Add all the reactions I want to run
-
 Transfer rut
     Rooms should have a transfer ID, of which one they're working on
     Each tick it tries to get that transfer
@@ -59,9 +65,6 @@ Gaps between donate and spawn laborer/upgrader amounts
 ### Long term:
 ```
 Auto safe mode when < stage 2.6, and hostile creep enters 
-
-Cache containers shouldn't be built until towers
-    Will require moving a stage
 
 Monitor force laborer spawns in linked rooms
     They should only be used to get the room out of ruts
@@ -109,9 +112,6 @@ Put in an optional attack-renew flag
     They wait again at the rally flag
 
 Repeat attack target reticle
-
-Power
-    Power creeps control
 
 Watch-start/stop flag
     A 2nd observer to continuously watch a room
