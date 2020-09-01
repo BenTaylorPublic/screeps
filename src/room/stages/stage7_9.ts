@@ -45,16 +45,8 @@ export class Stage7_9 {
             }
         }
         if (RoomHelper.amountOfStructure(room, STRUCTURE_POWER_SPAWN) === 1) {
-            const powerSpawn: StructurePowerSpawn = room.find<StructurePowerSpawn>(FIND_STRUCTURES, {
-                    filter: (structure: Structure) => {
-                        return structure.structureType === STRUCTURE_POWER_SPAWN;
-                    }
-                }
-            )[0];
             myRoom.powerSpawn = {
-                id: powerSpawn.id,
-                energy: "NeedsEnergy",
-                power: "NeedsPower"
+                resources: "Restock"
             };
         } else if (!placedPowerSpawn &&
             room.find(FIND_CONSTRUCTION_SITES).length === 0 &&

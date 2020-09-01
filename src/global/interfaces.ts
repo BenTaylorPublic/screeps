@@ -161,9 +161,7 @@ interface MyRoom {
 }
 
 interface PowerSpawnMemory {
-    energy: "NeedsEnergy" | "Good";
-    power: "NeedsPower" | "Good";
-    id: Id<StructurePowerSpawn>;
+    resources: "Restock" | "Good";
 }
 
 interface LabMemory {

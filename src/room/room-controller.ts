@@ -14,6 +14,7 @@ import {RoleDigger} from "./roles/digger";
 import {RoomLabController} from "./structures/lab";
 import {RoomNukerController} from "./structures/nuker";
 import {RoleUpgrader} from "./roles/upgrader";
+import {RoomPowerSpawnController} from "./structures/power-spawn";
 
 export class RoomController {
     public static run(myRoom: MyRoom, transfer: Transfer | null): void {
@@ -30,6 +31,7 @@ export class RoomController {
         RoomTowerController.run(myRoom, room);
         RoomDefenseController.run(myRoom, room);
         RoomNukerController.run(myRoom, room);
+        RoomPowerSpawnController.run(myRoom, room);
 
         const laborersStock: boolean = this.shouldLaborersStock(myRoom);
 

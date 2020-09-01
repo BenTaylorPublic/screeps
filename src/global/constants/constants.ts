@@ -41,6 +41,7 @@ export class Constants {
     public static LINK_CONTROLLER_GOAL_ENERGY: number = 600;
     public static STOCK_TOWER_TO: number = 900;
     public static TERMINAL_GOAL_ENERGY: number = 20_000;
+    public static POWER_SPAWN_RESTOCK_WHEN_ENERGY_BELOW: number = 3_800;
     //OTHER
     public static PERCENT_OF_CACHE_ENERGY_TO_SPAWN_HAULER: number = 0.5;
     public static POWER_BANK_TTL_MIN: number = 4_800;
