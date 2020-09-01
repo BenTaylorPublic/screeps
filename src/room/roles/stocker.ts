@@ -138,7 +138,7 @@ export class RoleStocker {
             if (creep.store.power > 0 &&
                 creep.store.energy > 0) {
                 stocker.state = "StockPowerSpawn";
-                creep.say("💪⚡ to PS");
+                creep.say("💪+⚡ to PS");
             }
         } else if (stocker.state === "StockPowerSpawn") {
             if (creep.store.getUsedCapacity() === 0) {
@@ -171,7 +171,7 @@ export class RoleStocker {
                 creep.say("G from 🏦");
             } else if (this.canStockPowerSpawn(myRoom, room)) {
                 stocker.state = "PickupPowerSpawnResoures";
-                creep.say("💪⚡ from 🏦");
+                creep.say("💪+⚡ from 🏦");
             }
         }
     }

@@ -11,10 +11,6 @@ export class RoomPowerSpawnController {
             return;
         }
 
-        if (Game.time % 10 !== 0) {
-            return;
-        }
-
         const powerSpawns: StructurePowerSpawn[] = room.find<StructurePowerSpawn>(FIND_STRUCTURES, {
                 filter: (structure: Structure) => {
                     return structure.structureType === STRUCTURE_POWER_SPAWN;
