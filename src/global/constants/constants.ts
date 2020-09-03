@@ -35,7 +35,7 @@ export class Constants {
     public static WALL_AND_RAMPART_GOAL_HEALTH: number = 500_000;
     //MAP RANGES
     public static CONSCRIPTION_RANGE: number = 9;
-    public static POWER_BANK_RANGE_MAX: number = 6;
+    public static POWER_BANK_RANGE_MAX: number = 5;
     public static SCAVENGE_MAX_DISTANCE: number = 11;
     //BUILDING CONTENTS
     public static LINK_TRANSFER_AT: number = 400;

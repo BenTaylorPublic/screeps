@@ -4,13 +4,14 @@
 ## TODO
 ### Working on
 ```
-Testing proccessing power logic
 ```
 ### Short term
 ```
 Add all the reactions I want to run
 
 Reduce lab logging amount if it's all 0's
+
+Remove Queued Creep logs
 
 Power
     Power creeps control

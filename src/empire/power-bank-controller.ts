@@ -60,13 +60,10 @@ export class PowerBankController {
             }
         );
         if (walls.length > 0) {
-            ReportController.email("Ignoring power bank in " + LogHelper.roomNameAsLink(powerBank.room.name) + " because it has walls");
             return;
         }
 
         //WE'RE GOOD, LET'S GO BOIZ
-        ReportController.email("Power Bank Attack starting for room " + LogHelper.roomNameAsLink(powerBank.room.name));
-
         //This should reuse the rooms
         const roomsToSpawnThrough: string[] = [];
         for (let i: number = 0; i < closestRoomNames.length; i++) {
@@ -196,7 +193,6 @@ export class PowerBankController {
                 if (damageInQuoteTime > powerBank.hits) {
                     //We should queue
                     powerBankTarget.queuedHaulers = true;
-                    ReportController.email("Starting haulers for a power bank in " + LogHelper.roomNameAsLink(powerBankTarget.pos.roomName));
                     ScavengeController.startScavenge(powerBank.room.name, powerBankTarget.power, Memory.myMemory, false);
                 }
             }
