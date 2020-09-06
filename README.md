@@ -7,7 +7,10 @@
 ```
 ### Short term
 ```
-Add all the reactions I want to run
+Add all the reactions I want to
+
+Remove the replacement/waves logic from power banks
+    Replace it with "finishing it off" logic on a failure
 
 Reduce lab logging amount if it's all 0's
 
