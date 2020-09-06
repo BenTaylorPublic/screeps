@@ -157,6 +157,8 @@ Need a way to determine what minerals are bottlenecked
     Not sure how to store that information
     Not sure if it should be historic to last clear, or only have a timeframe of a few weeks
     Make sure this logic is done after the mineral controller has set active to true/false
+
+New map visuals for avoiding/power banks
 ```
 
 ## Flag Names

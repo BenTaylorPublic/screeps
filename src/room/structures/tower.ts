@@ -4,6 +4,7 @@ import {ReportController} from "../../reporting/report-controller";
 import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
 import {EmpireHelper} from "../../global/helpers/empire-helper";
 import {CreepHelper} from "../../global/helpers/creep-helper";
+import {FlagHelper} from "../../global/helpers/flag-helper";
 
 export class RoomTowerController {
     public static run(myRoom: MyRoom, room: Room): void {
@@ -19,6 +20,20 @@ export class RoomTowerController {
         }
         const otherCreeps: FindOtherCreepsResult = this.findOtherCreeps(room);
         this.handleRamparts(myRoom, room, otherCreeps);
+
+        if (otherCreeps.hostileCreeps.length > 0) {
+            const flag: Flag | null = FlagHelper.getFlag1(["safemode"], myRoom.name);
+            if (flag != null &&
+                flag.name.toLowerCase().includes(otherCreeps.hostileCreeps[0].owner.username.toLowerCase())) {
+                const controller: StructureController = room.controller as StructureController;
+                if (controller.safeMode == null &&
+                    controller.safeModeCooldown == null &&
+                    controller.safeModeAvailable > 0) {
+                    ReportController.email("Auto activated safemode in " + LogHelper.roomNameAsLink(room.name));
+                    controller.activateSafeMode();
+                }
+            }
+        }
 
         if (otherCreeps.hostileCreeps.length > 0 &&
             (room.controller as StructureController).safeMode == null &&
