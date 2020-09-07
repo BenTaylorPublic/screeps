@@ -7,6 +7,7 @@ import {RoomHelper} from "../../global/helpers/room-helper";
 import {LogHelper} from "../../global/helpers/log-helper";
 import {MapHelper} from "../../global/helpers/map-helper";
 import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
+import {FlagHelper} from "../../global/helpers/flag-helper";
 
 export class SpawnLaborer {
     public static laborerSpawnLogic(myRoom: MyRoom, room: Room): void {
@@ -14,8 +15,10 @@ export class SpawnLaborer {
             this.linkedControllerSpawnLogic(myRoom, room);
         } else if (myRoom.roomStage >= Constants.BANK_LINKED_STAGE) {
             this.linkedRoomSpawnLogic(myRoom, room);
-        } else {
+        } else if (myRoom.roomStage >= 1) {
             this.nonLinkedRoomSpawnLogic(myRoom, room);
+        } else {
+            this.noSpawnLogic(myRoom, room);
         }
     }
 
@@ -148,6 +151,34 @@ export class SpawnLaborer {
                 maxLaborers = Constants.MAX_LABORERS_STAGE_8;
             }
             SpawnLaborer.trySpawnLaborer(myRoom, laborerCount, maxLaborers);
+        }
+    }
+
+    private static noSpawnLogic(myRoom: MyRoom, room: Room): void {
+        let laborerCount: number = 0;
+
+        for (let i = 0; i < myRoom.myCreeps.length; i++) {
+            const myCreep: MyCreep = myRoom.myCreeps[i];
+            if (myCreep.role === "Laborer") {
+                laborerCount++;
+            }
+        }
+
+        let forceSpawnlaborers: number = 0;
+
+        if (laborerCount < Constants.MIN_LABORERS) {
+            forceSpawnlaborers = Constants.MIN_LABORERS - laborerCount;
+        }
+
+        if (forceSpawnlaborers >= 1 &&
+            laborerCount > 0 &&
+            FlagHelper.getFlag1(["life", "support"], myRoom.name) != null) {
+            //Only have laborer for rooms on life support
+            return;
+        }
+
+        if (forceSpawnlaborers > 0) {
+            SpawnLaborer.forceSpawnLaborers(myRoom, forceSpawnlaborers);
         }
     }
 
