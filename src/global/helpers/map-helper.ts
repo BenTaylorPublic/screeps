@@ -49,7 +49,7 @@ export class MapHelper {
         return result;
     }
 
-    public static findClosestBank(roomName: string, spareCapacity: number): StructureStorage | null {
+    public static findClosestBank(roomName: string, spareCapacity: number = -1): StructureStorage | null {
         let bankToReturn: StructureStorage | null = null;
         let closestDistance: number = 9999;
         for (let i = 0; i < Memory.myMemory.myRooms.length; i++) {

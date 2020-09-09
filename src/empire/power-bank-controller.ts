@@ -9,6 +9,7 @@ import {CreepHelper} from "../global/helpers/creep-helper";
 import {RolePowerBankAttackCreep} from "./role/power-bank-attack-creep";
 import {RolePowerBankHealCreep} from "./role/power-bank-heal-creep";
 import {ScavengeController} from "./scavenge-controller";
+import {ReportCooldownConstants} from "../global/report-cooldown-constants";
 
 export class PowerBankController {
 
@@ -50,6 +51,13 @@ export class PowerBankController {
         }
 
         if (powerBank.power < Constants.POWER_BANK_MIN_POWER) {
+            return;
+        }
+
+        const storage: StructureStorage | null = MapHelper.findClosestBank(powerBank.room.name);
+        if (storage == null ||
+            storage.store.power > Constants.POWER_BANK_CLOSEST_STORAGE_POWER_BELOW) {
+            ReportController.email("Ignoring power bank because closest room has too much power", ReportCooldownConstants.DAY);
             return;
         }
 
