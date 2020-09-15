@@ -4,6 +4,10 @@
 ## TODO
 ### Working on
 ```
+Power Spawn rut
+    Only allow stocking the power spawn if the creep has > 50 TTL
+    Because if it dies... it breaks the "go in evenly" logic
+    This probably affects lab logic too :/
 ```
 ### Short term
 ```

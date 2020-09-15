@@ -1,8 +1,8 @@
 export class Constants {
     //CONTROLLER DEGRADE
     public static LABORERS_UPGRADE_WHEN_CONTROLLER_BENEATH: number = 5_000;
-    public static STAGE_8_SPAWN_LABORERS_WHEN_CONTROLLER_BENEATH: number = 100_000;
-    public static STAGE_8_SPAWN_UPGRADERS_WHEN_CONTROLLER_BENEATH: number = 150_000;
+    public static STAGE_8_SPAWN_LABORERS_WHEN_CONTROLLER_BENEATH: number = 25_000;
+    public static STAGE_8_SPAWN_UPGRADERS_WHEN_CONTROLLER_BENEATH: number = 50_000;
     //STAGES
     public static CONSCRIPTION_QUICK_MINIMUM_STAGE: Stage = 1;
     public static SCAVENGE_MIN_STAGE: Stage = 8;
