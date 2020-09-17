@@ -41,9 +41,7 @@ export class SpawnLaborer {
     private static linkedControllerSpawnLogic(myRoom: MyRoom, room: Room): void {
         let roomLooksStable: boolean = false;
         if (room.energyAvailable === 300) {
-            let minerAlive: boolean = false;
-            let stockerAlive: boolean = false;
-            let bankLinkerAlive: boolean = false;
+            let minerAliveOrSpawning: boolean = false;
             for (let i: number = 0; i < myRoom.myCreeps.length; i++) {
                 const myCreep: MyCreep = myRoom.myCreeps[i];
                 if (myCreep.role === "Laborer") {
@@ -59,17 +57,13 @@ export class SpawnLaborer {
                             }
                         }
                     }
-                } else if (myCreep.spawningStatus === "alive") {
+                } else if (myCreep.spawningStatus === "alive" || myCreep.spawningStatus === "spawning") {
                     if (myCreep.role === "Miner") {
-                        minerAlive = true;
-                    } else if (myCreep.role === "Stocker") {
-                        stockerAlive = true;
-                    } else if (myCreep.role === "BankLinker") {
-                        bankLinkerAlive = true;
+                        minerAliveOrSpawning = true;
                     }
                 }
             }
-            if (minerAlive && stockerAlive && bankLinkerAlive) {
+            if (minerAliveOrSpawning) {
                 roomLooksStable = true;
             }
             if (!roomLooksStable) {
