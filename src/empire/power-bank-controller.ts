@@ -112,7 +112,7 @@ export class PowerBankController {
                 powerBankTargets.targetBanks.splice(i, 1);
                 const powerBank: StructurePowerBank | null = Game.getObjectById<StructurePowerBank>(powerBankTarget.id);
                 if (powerBank == null) {
-                    ReportController.email("Power Bank killed in " + LogHelper.roomNameAsLink(powerBankTarget.pos.roomName));
+                    ReportController.log("Power Bank killed in " + LogHelper.roomNameAsLink(powerBankTarget.pos.roomName));
                 } else {
                     ReportController.email("BAD: Power Bank attack failed, all creeps dead, bank alive in " + LogHelper.roomNameAsLink(powerBankTarget.pos.roomName));
                 }
