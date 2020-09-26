@@ -9,7 +9,6 @@ import {CreepHelper} from "../global/helpers/creep-helper";
 import {RolePowerBankAttackCreep} from "./role/power-bank-attack-creep";
 import {RolePowerBankHealCreep} from "./role/power-bank-heal-creep";
 import {ScavengeController} from "./scavenge-controller";
-import {ReportCooldownConstants} from "../global/report-cooldown-constants";
 
 export class PowerBankController {
 
@@ -57,7 +56,6 @@ export class PowerBankController {
         const storage: StructureStorage | null = MapHelper.findClosestBank(powerBank.room.name);
         if (storage == null ||
             storage.store.power > Constants.POWER_BANK_CLOSEST_STORAGE_POWER_BELOW) {
-            ReportController.email("Ignoring power bank because closest room has too much power", ReportCooldownConstants.DAY);
             return;
         }
 
@@ -106,7 +104,7 @@ export class PowerBankController {
 
             if (Game.time > powerBankTarget.eol) {
                 powerBankTargets.targetBanks.splice(i, 1);
-                ReportController.email("BAD: Power Bank died from EOL in " + LogHelper.roomNameAsLink(powerBankTarget.pos.roomName));
+                ReportController.log("BAD: Power Bank died from EOL in " + LogHelper.roomNameAsLink(powerBankTarget.pos.roomName));
             } else if (powerBankTarget.creepsDuosStillNeeded === 0 &&
                 powerBankTarget.creeps.length === 0) {
                 powerBankTargets.targetBanks.splice(i, 1);
@@ -114,7 +112,7 @@ export class PowerBankController {
                 if (powerBank == null) {
                     ReportController.log("Power Bank killed in " + LogHelper.roomNameAsLink(powerBankTarget.pos.roomName));
                 } else {
-                    ReportController.email("BAD: Power Bank attack failed, all creeps dead, bank alive in " + LogHelper.roomNameAsLink(powerBankTarget.pos.roomName));
+                    ReportController.log("BAD: Power Bank attack failed, all creeps dead, bank alive in " + LogHelper.roomNameAsLink(powerBankTarget.pos.roomName));
                 }
             } else {
                 this.handleBank(powerBankTarget, powerBankTargets);
