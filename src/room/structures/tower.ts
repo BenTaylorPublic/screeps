@@ -25,7 +25,8 @@ export class RoomTowerController {
             (room.controller as StructureController).safeMode == null &&
             (!otherCreeps.healers ||
                 FlagHelper.getFlag1(["tower", "aggressive"], room.name) != null)) {
-            const target: Creep = this.getBestCreepTarget(otherCreeps.hostileCreeps);
+            //Just using the first tower in the array because I'm lazy
+            const target: Creep = this.getBestCreepTarget(otherCreeps.hostileCreeps, room.name, towers[0].pos);
             if (target.owner.username !== "Invader") {
                 //Only let me know if they're hostile
                 if (CreepHelper.creepContainsBodyParts(target, [HEAL, CLAIM, ATTACK, RANGED_ATTACK])) {
@@ -128,26 +129,39 @@ export class RoomTowerController {
         tower.attack(target);
     }
 
-    private static getBestCreepTarget(hostileCreeps: Creep[]): Creep {
+    private static getBestCreepTarget(hostileCreeps: Creep[], roomName: string, roomPosition: RoomPosition): Creep {
         if (hostileCreeps.length === 0) {
             return hostileCreeps[0];
         }
 
+        let towerAlgorithm: TowerAlgorithm = "Healer";
+        if (FlagHelper.getFlag1(["flag", "algorithm", "closest"], roomName)) {
+            towerAlgorithm = "Closest";
+        }
+
         let target: Creep | null = null;
+        let closestDistance: number = 50;
         for (let i = 0; i < hostileCreeps.length; i++) {
             const hostileCreep: Creep = hostileCreeps[i];
-            let healer: boolean = false;
+            let isHealer: boolean = false;
             for (let j = 0; j < hostileCreep.body.length; j++) {
                 const bodyPart: BodyPartDefinition = hostileCreep.body[j];
                 if (bodyPart.type === HEAL) {
-                    healer = true;
+                    isHealer = true;
                     break;
                 }
             }
 
-            if (!healer) {
+            const distance: number = roomPosition.getRangeTo(hostileCreep);
+
+            if (towerAlgorithm === "Healer" &&
+                isHealer) {
                 target = hostileCreep;
                 break;
+            } else if (towerAlgorithm === "Closest" &&
+                distance < closestDistance) {
+                closestDistance = distance;
+                target = hostileCreep;
             } else if (target == null) {
                 target = hostileCreep;
             }

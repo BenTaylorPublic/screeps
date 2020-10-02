@@ -4,7 +4,6 @@
 ## TODO
 ### Working on
 ```
-More tower controls
 ```
 ### Short term
 ```

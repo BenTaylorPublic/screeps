@@ -419,6 +419,8 @@ interface ReportLog {
 ====================
 */
 
+type TowerAlgorithm = "Closest" | "Healer";
+
 type FindRouteResult = Array<{ exit: ExitConstant; room: string; }> | ERR_NO_PATH;
 type MoveByPathResult = CreepMoveReturnCode | ERR_NOT_FOUND | ERR_INVALID_ARGS;
 
