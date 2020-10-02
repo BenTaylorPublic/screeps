@@ -4,13 +4,15 @@
 ## TODO
 ### Working on
 ```
+More tower controls
+```
+### Short term
+```
 Power Spawn rut
     Only allow stocking the power spawn if the creep has > 50 TTL
     Because if it dies... it breaks the "go in evenly" logic
     This probably affects lab logic too :/
-```
-### Short term
-```
+
 Add all the reactions I want to
 
 Remove the replacement/waves logic from power banks
@@ -195,7 +197,6 @@ multishard-claim-portal
 multishard-claim-target
 multishard-claim-laborer
 
-safemode-{USERNAME}
 life-support
 
 //Holds the launching of nukes until the flag is removed
