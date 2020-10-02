@@ -4,6 +4,7 @@ import {ReportController} from "../../reporting/report-controller";
 import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
 import {EmpireHelper} from "../../global/helpers/empire-helper";
 import {CreepHelper} from "../../global/helpers/creep-helper";
+import {FlagHelper} from "../../global/helpers/flag-helper";
 
 export class RoomTowerController {
     public static run(myRoom: MyRoom, room: Room): void {
@@ -22,7 +23,8 @@ export class RoomTowerController {
 
         if (otherCreeps.hostileCreeps.length > 0 &&
             (room.controller as StructureController).safeMode == null &&
-            !otherCreeps.healers) {
+            (!otherCreeps.healers ||
+                FlagHelper.getFlag1(["tower", "aggressive"], room.name) != null)) {
             const target: Creep = this.getBestCreepTarget(otherCreeps.hostileCreeps);
             if (target.owner.username !== "Invader") {
                 //Only let me know if they're hostile

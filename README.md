@@ -192,12 +192,13 @@ sign
 sign-all
 claim
 scavenge-{RESOURCE_AMOUNT}
+life-support
+tower-aggressive
 
 multishard-claim-portal
 multishard-claim-target
 multishard-claim-laborer
 
-life-support
 
 //Holds the launching of nukes until the flag is removed
 //Use this to queue launches on the same tick
