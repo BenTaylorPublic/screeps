@@ -160,8 +160,8 @@ export class SpawnLaborer {
 
         let forceSpawnlaborers: number = 0;
 
-        if (laborerCount < Constants.MIN_LABORERS) {
-            forceSpawnlaborers = Constants.MIN_LABORERS - laborerCount;
+        if (laborerCount < Constants.LABORERS_NO_SPAWN) {
+            forceSpawnlaborers = Constants.LABORERS_NO_SPAWN - laborerCount;
         }
 
         if (forceSpawnlaborers >= 1 &&

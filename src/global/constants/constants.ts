@@ -28,6 +28,7 @@ export class Constants {
     //SPAWN COUNTS
     public static MAX_STOCKERS: number = 1;
     public static MIN_LABORERS: number = 1;
+    public static LABORERS_NO_SPAWN: number = 3;
     public static MAX_LABORERS_STAGE_8: number = 2;
     public static MAX_LABORERS: number = 3;
     public static LABORERS_BEFORE_BANK: number = 3;
