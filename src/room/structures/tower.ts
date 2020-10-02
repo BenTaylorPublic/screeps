@@ -143,7 +143,7 @@ export class RoomTowerController {
                 }
             }
 
-            if (healer) {
+            if (!healer) {
                 target = hostileCreep;
                 break;
             } else if (target == null) {
