@@ -4,7 +4,6 @@ import {EmpireController} from "./empire/empire-controller";
 import {ProfilerWrapper} from "./profiler/profiler-wrapper";
 import {FunctionProfiler} from "./profiler/function-profiler/function-profiler";
 import {EmpireHelper} from "./global/helpers/empire-helper";
-import {ReportController} from "./reporting/report-controller";
 import {Constants} from "./global/constants/constants";
 
 console.log("Script reloaded");
@@ -48,7 +47,6 @@ export let loop: any = function (): void {
         console.log(Game.time + ": Used " + Game.cpu.getUsed() + ", bucket: " + Game.cpu.bucket);
     } else if (Game.cpu.bucket >= Constants.GENERATE_PIXEL_WHEN_BUCKET_OVER) {
         Game.cpu.generatePixel();
-        ReportController.log("Generated a pixel on " + Game.shard.name);
     }
 };
 
