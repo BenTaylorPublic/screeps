@@ -43,6 +43,8 @@ export class RoleStocker {
             this.pickupPowerSpawnResources(stocker, myRoom, creep);
         } else if (stocker.state === "StockPowerSpawn") {
             this.stockPowerSpawn(stocker, myRoom, creep, room);
+        } else if (stocker.state === "CleanPowerSpawn") {
+            this.cleanPowerSpawn(stocker, myRoom, creep, room);
         }
     }
 
@@ -53,7 +55,8 @@ export class RoleStocker {
                 (this.resourcesToPickup(room) ||
                     this.labOrderToLoadFor(labOrder) ||
                     this.labOrderToUnloadFor(labOrder) ||
-                    this.canStockPowerSpawn(myRoom, room))) {
+                    this.canStockPowerSpawn(myRoom, room) ||
+                    this.canCleanPowerSpawn(myRoom, room))) {
                 stocker.state = "DepositResources";
                 creep.say("💎/⚡ to 🏦");
             } else if (creep.store.getUsedCapacity() === 0) {
@@ -144,6 +147,12 @@ export class RoleStocker {
             if (creep.store.getUsedCapacity() === 0) {
                 emptyAndNeedNewJob = true;
             }
+        } else if (stocker.state === "CleanPowerSpawn") {
+            if (creep.store.getFreeCapacity() === 0 ||
+                !this.canCleanPowerSpawn(myRoom, room)) {
+                stocker.state = "DepositResources";
+                creep.say("💪+⚡ to 🏦");
+            }
         }
 
         if (emptyAndNeedNewJob) {
@@ -172,6 +181,10 @@ export class RoleStocker {
             } else if (this.nukerNeedsG(myRoom, room)) {
                 stocker.state = "PickupG";
                 creep.say("G from 🏦");
+            } else if (this.canCleanPowerSpawn(myRoom, room)) {
+                ReportController.email("BAD: Creep is cleaning the power spawn in " + LogHelper.roomNameAsLink(myRoom.name));
+                stocker.state = "CleanPowerSpawn";
+                creep.say("Clean PS");
             } else if (this.canStockPowerSpawn(myRoom, room)) {
                 stocker.state = "PickupPowerSpawnResoures";
                 creep.say("💪+⚡ from 🏦");
@@ -268,6 +281,28 @@ export class RoleStocker {
         if (resources.length > 0) {
             if (creep.withdraw(lab, resources[0]) === ERR_NOT_IN_RANGE) {
                 MovementHelper.myMoveTo(creep, lab.pos, stocker);
+            }
+        }
+    }
+
+    private static cleanPowerSpawn(stocker: Stocker, myRoom: MyRoom, creep: Creep, room: Room): void {
+        const powerSpawns: StructurePowerSpawn[] = room.find<StructurePowerSpawn>(FIND_STRUCTURES, {
+                filter: (structure: Structure) => {
+                    return structure.structureType === STRUCTURE_POWER_SPAWN;
+                }
+            }
+        );
+
+        if (powerSpawns.length !== 1) {
+            return;
+        }
+
+        const powerSpawn: StructurePowerSpawn = powerSpawns[0];
+
+        const resources: ResourceConstant[] = Object.keys(powerSpawn.store) as ResourceConstant[];
+        if (resources.length > 0) {
+            if (creep.withdraw(powerSpawn, resources[0]) === ERR_NOT_IN_RANGE) {
+                MovementHelper.myMoveTo(creep, powerSpawn.pos, stocker);
             }
         }
     }
@@ -533,6 +568,28 @@ export class RoleStocker {
         }
 
         return true;
+    }
+
+    private static canCleanPowerSpawn(myRoom: MyRoom, room: Room): boolean {
+        if (myRoom.powerSpawn == null ||
+            myRoom.bank == null ||
+            myRoom.bank.object == null) {
+            return false;
+        }
+
+        const powerSpawns: StructurePowerSpawn[] = room.find<StructurePowerSpawn>(FIND_STRUCTURES, {
+                filter: (structure: Structure) => {
+                    return structure.structureType === STRUCTURE_POWER_SPAWN;
+                }
+            }
+        );
+
+        if (powerSpawns.length !== 1) {
+            return false;
+        }
+
+        const powerSpawn: StructurePowerSpawn = powerSpawns[0];
+        return powerSpawn.store.energy !== 50 * powerSpawn.store.power;
     }
 
     private static canStockPowerSpawn(myRoom: MyRoom, room: Room): boolean {

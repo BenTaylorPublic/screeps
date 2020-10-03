@@ -355,9 +355,10 @@ interface Stocker extends MyCreep {
         "CleanLabs" |
         "EnergyToNuker" |
         "PickupG" |
-        "GToNuker"|
-        "PickupPowerSpawnResoures"|
-        "StockPowerSpawn";
+        "GToNuker" |
+        "PickupPowerSpawnResoures" |
+        "StockPowerSpawn" |
+        "CleanPowerSpawn";
 }
 
 interface Signer extends MyCreep {
