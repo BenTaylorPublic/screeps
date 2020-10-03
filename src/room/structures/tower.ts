@@ -104,6 +104,11 @@ export class RoomTowerController {
                     //Only repair when the odd thousand is true
                     return;
                 }
+
+                if (FlagHelper.getFlag1(["tower", "no", "repair"], room.name) != null) {
+                    return;
+                }
+
                 const minimumEnergyToRepair: number = (otherCreeps.hostileCreeps.length === 0) ? 500 : 10;
 
                 for (let i = 0; i < towers.length; i++) {
