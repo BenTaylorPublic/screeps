@@ -13,8 +13,8 @@ export class SpawnMiner {
     }
 
     public static spawnMiner(myRoom: MyRoom, mySource: MySource): void {
-        if (myRoom.roomStage < 2) {
-            //At stage 2, the caches are built, and 5 extensions
+        if (myRoom.roomStage < 3) {
+            //At stage 3, the caches are built, and 5 extensions
             return;
         }
 
