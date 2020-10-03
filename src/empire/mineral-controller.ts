@@ -7,11 +7,7 @@ import {ResourceConstants} from "../global/constants/resource-constants";
 export class MineralController {
     public static run(myMemory: MyMemory): void {
         if (Game.time % 100 !== 0) {
-            if (Game.flags["test-run-1"] != null) {
-                Game.flags["test-run-1"].remove();
-            } else {
-                return;
-            }
+            return;
         }
 
         const roomsToUse: MyRoom[] = RoomHelper.getMyRoomsAtOrAboveStage(Constants.MINERAL_START_STAGE);
