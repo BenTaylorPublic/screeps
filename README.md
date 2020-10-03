@@ -4,13 +4,11 @@
 ## TODO
 ### Working on
 ```
-Cache containers shouldn't be built until towers
-    Will require moving a stage
+Make a ranged creep for dealing with other attack creeps
+    Call it legolas lol
 ```
 ### Short term
 ```
-Make a ranged creep for dealing with other attack creeps
-    Call it legolas lol
 ```
 ### Mid term:
 ```

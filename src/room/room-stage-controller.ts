@@ -2,11 +2,10 @@ import {StageDefault} from "./stages/stage-default";
 import {Stage0} from "./stages/stage0";
 import {Stage0_5} from "./stages/stage0_5";
 import {Stage1} from "./stages/stage1";
-import {Stage1_3} from "./stages/stage1_3";
-import {Stage1_6} from "./stages/stage1_6";
+import {Stage1_5} from "./stages/stage1_5";
+import {Stage2_8} from "./stages/stage2_8";
 import {Stage2} from "./stages/stage2";
-import {Stage2_3} from "./stages/stage2_3";
-import {Stage2_6} from "./stages/stage2_6";
+import {Stage2_5} from "./stages/stage2_5";
 import {Stage3} from "./stages/stage3";
 import {Stage3_3} from "./stages/stage3_3";
 import {Stage3_6} from "./stages/stage3_6";
@@ -32,6 +31,7 @@ import {Stage7_9} from "./stages/stage7_9";
 import {Stage6_6} from "./stages/stage6_6";
 import {Stage7_8} from "./stages/stage7_8";
 import {Stage7_7} from "./stages/stage7_7";
+import {Stage2_2} from "./stages/stage2_2";
 
 export class RoomStageController {
     public static run(myRoom: MyRoom, room: Room): void {
@@ -55,20 +55,20 @@ export class RoomStageController {
         if (myRoom.roomStage === 1) {
             Stage1.up(myRoom, room);
         }
-        if (myRoom.roomStage === 1.3) {
-            Stage1_3.up(myRoom, room);
-        }
-        if (myRoom.roomStage === 1.6) {
-            Stage1_6.up(myRoom, room);
+        if (myRoom.roomStage === 1.5) {
+            Stage1_5.up(myRoom, room);
         }
         if (myRoom.roomStage === 2) {
             Stage2.up(myRoom, room);
         }
-        if (myRoom.roomStage === 2.3) {
-            Stage2_3.up(myRoom, room);
+        if (myRoom.roomStage === 2.2) {
+            Stage2_2.up(myRoom, room);
         }
-        if (myRoom.roomStage === 2.6) {
-            Stage2_6.up(myRoom, room);
+        if (myRoom.roomStage === 2.5) {
+            Stage2_5.up(myRoom, room);
+        }
+        if (myRoom.roomStage === 2.8) {
+            Stage2_8.up(myRoom, room);
         }
         if (myRoom.roomStage === 3) {
             Stage3.up(myRoom, room);
@@ -222,20 +222,20 @@ export class RoomStageController {
         if (myRoom.roomStage > 3) {
             Stage3.down(myRoom, room);
         }
+        if (myRoom.roomStage > 1.6) {
+            Stage2_8.down(myRoom, room);
+        }
         if (myRoom.roomStage > 2.6) {
-            Stage2_6.down(myRoom, room);
+            Stage2_5.down(myRoom, room);
         }
         if (myRoom.roomStage > 2.3) {
-            Stage2_3.down(myRoom, room);
+            Stage2_2.down(myRoom, room);
         }
         if (myRoom.roomStage > 2) {
             Stage2.down(myRoom, room);
         }
-        if (myRoom.roomStage > 1.6) {
-            Stage1_6.down(myRoom, room);
-        }
         if (myRoom.roomStage > 1.3) {
-            Stage1_3.down(myRoom, room);
+            Stage1_5.down(myRoom, room);
         }
         if (myRoom.roomStage > 1) {
             Stage1.down(myRoom, room);

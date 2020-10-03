@@ -4,16 +4,16 @@ import {RoomHelper} from "../../global/helpers/room-helper";
 import {LogHelper} from "../../global/helpers/log-helper";
 
 // tslint:disable-next-line: class-name
-export class Stage2_3 {
+export class Stage2_2 {
     /*
-    2.3 ->  2.6 : Room has >= 1 tower
-    2.3 <-  2.6 : Room has < 1 tower
+    2.2 ->  2.5 : Room has >= 1 tower
+    2.2 <-  2.5 : Room has < 1 tower
     */
     public static up(myRoom: MyRoom, room: Room): boolean {
         this.step(myRoom, room);
         if (RoomHelper.amountOfStructure(room, STRUCTURE_TOWER) >= 1) {
-            myRoom.roomStage = 2.6;
-            ReportController.email("STAGE+ 2.6 " + LogHelper.roomNameAsLink(myRoom.name) + " 1 tower");
+            myRoom.roomStage = 2.5;
+            ReportController.email("STAGE+ 2.5 " + LogHelper.roomNameAsLink(myRoom.name) + " 1 tower");
             return true;
         }
         return false;
@@ -21,8 +21,8 @@ export class Stage2_3 {
 
     public static down(myRoom: MyRoom, room: Room): boolean {
         if (RoomHelper.amountOfStructure(room, STRUCTURE_TOWER) < 1) {
-            myRoom.roomStage = 2.3;
-            ReportController.email("STAGE- 2.3 " + LogHelper.roomNameAsLink(myRoom.name) + " 1 tower");
+            myRoom.roomStage = 2.2;
+            ReportController.email("STAGE- 2.2 " + LogHelper.roomNameAsLink(myRoom.name) + " 1 tower");
             return true;
         }
         return false;

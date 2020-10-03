@@ -21,11 +21,10 @@ import {SpawnMiner} from "../room/spawns/spawn-miner";
 import {Stage0} from "../room/stages/stage0";
 import {Stage0_5} from "../room/stages/stage0_5";
 import {Stage1} from "../room/stages/stage1";
-import {Stage1_3} from "../room/stages/stage1_3";
-import {Stage1_6} from "../room/stages/stage1_6";
+import {Stage1_5} from "../room/stages/stage1_5";
+import {Stage2_8} from "../room/stages/stage2_8";
 import {Stage2} from "../room/stages/stage2";
-import {Stage2_3} from "../room/stages/stage2_3";
-import {Stage2_6} from "../room/stages/stage2_6";
+import {Stage2_5} from "../room/stages/stage2_5";
 import {Stage3} from "../room/stages/stage3";
 import {Stage3_3} from "../room/stages/stage3_3";
 import {Stage3_6} from "../room/stages/stage3_6";
@@ -74,6 +73,7 @@ import {SpawnStocker} from "../room/spawns/spawn-stocker";
 import {RoomDefenseController} from "../room/room-defense-controller";
 import {RoomLinkController} from "../room/structures/link";
 import {RolePowerBankAttackCreep} from "../empire/role/power-bank-attack-creep";
+import {Stage2_2} from "../room/stages/stage2_2";
 
 export class ProfilerWrapper {
     public static setup(): void {
@@ -128,11 +128,11 @@ export class ProfilerWrapper {
         Profiler.setup(Stage0, "Stage0");
         Profiler.setup(Stage0_5, "Stage0_5");
         Profiler.setup(Stage1, "Stage1");
-        Profiler.setup(Stage1_3, "Stage1_3");
-        Profiler.setup(Stage1_6, "Stage1_6");
+        Profiler.setup(Stage1_5, "Stage1_5");
         Profiler.setup(Stage2, "Stage2");
-        Profiler.setup(Stage2_3, "Stage2_3");
-        Profiler.setup(Stage2_6, "Stage2_6");
+        Profiler.setup(Stage2_2, "Stage2_2");
+        Profiler.setup(Stage2_5, "Stage2_5");
+        Profiler.setup(Stage2_8, "Stage2_8");
         Profiler.setup(Stage3, "Stage3");
         Profiler.setup(Stage3_3, "Stage3_3");
         Profiler.setup(Stage3_6, "Stage3_6");

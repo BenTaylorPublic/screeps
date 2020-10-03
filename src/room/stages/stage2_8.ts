@@ -5,10 +5,10 @@ import {LogHelper} from "../../global/helpers/log-helper";
 import {FlagHelper} from "../../global/helpers/flag-helper";
 
 // tslint:disable-next-line: class-name
-export class Stage1_6 {
+export class Stage2_8 {
     /*
-    1.6 ->  2   : Room has caches length >= source amount
-    1.6 <-  2   : Room has caches length < source amount
+    2.8 ->  3   : Room has caches length >= source amount
+    2.8 <-  3   : Room has caches length < source amount
     */
     public static up(myRoom: MyRoom, room: Room): boolean {
         this.step(myRoom, room);
@@ -21,8 +21,8 @@ export class Stage1_6 {
                 return false;
             }
         }
-        myRoom.roomStage = 2;
-        ReportController.email("STAGE+ 2 " + LogHelper.roomNameAsLink(myRoom.name) + " caches");
+        myRoom.roomStage = 3;
+        ReportController.email("STAGE+ 3 " + LogHelper.roomNameAsLink(myRoom.name) + " caches");
         return true;
     }
 
@@ -33,8 +33,8 @@ export class Stage1_6 {
                 mySource.cache.id == null) &&
                 (mySource.link == null ||
                     mySource.link.id == null)) {
-                myRoom.roomStage = 1.6;
-                ReportController.email("STAGE- 1.6 " + LogHelper.roomNameAsLink(myRoom.name) + " caches");
+                myRoom.roomStage = 2.8;
+                ReportController.email("STAGE- 2.8 " + LogHelper.roomNameAsLink(myRoom.name) + " caches");
                 return true;
             }
         }
