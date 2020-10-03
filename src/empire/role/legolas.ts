@@ -15,8 +15,16 @@ export class RoleLegolas {
         if (standOnFlag != null &&
             !RoomHelper.posMatches3(creep.pos, standOnFlag.pos)) {
             MovementHelper.myMoveTo(creep, standOnFlag.pos, legolas);
-        } else {
+        }
+
+        const hostileCreeps: Creep[] = creep.room.find(FIND_HOSTILE_CREEPS);
+        if (hostileCreeps.length === 0) {
             return;
+        }
+
+        //Okay, Creeps in the room
+        if (Game.flags["test-distance-to"] != null) {
+            console.log(creep.pos.getRangeTo(Game.flags["test-distance-to"]));
         }
     }
 }
