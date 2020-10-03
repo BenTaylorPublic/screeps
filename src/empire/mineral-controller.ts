@@ -51,12 +51,14 @@ export class MineralController {
             totalLabOrders += (myRoom.labs as LabMemory).labOrders.length;
         }
 
-        ReportController.log("New lab orders: " + newLabOrders);
-        ReportController.log("Lab orders that failed to queue: " + labOrdersThatFailedToQueue);
-        ReportController.log("Total lab orders: " + totalLabOrders);
         if (totalLabOrders === 0 &&
-            labOrdersThatFailedToQueue === 0) {
+            labOrdersThatFailedToQueue === 0 &&
+            newLabOrders === 0) {
             ReportController.log("Rooms are content with current compounds");
+        } else {
+            ReportController.log("New lab orders: " + newLabOrders);
+            ReportController.log("Lab orders that failed to queue: " + labOrdersThatFailedToQueue);
+            ReportController.log("Total lab orders: " + totalLabOrders);
         }
     }
 

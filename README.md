@@ -7,8 +7,6 @@
 ```
 ### Short term
 ```
-Reduce lab logging amount if it's all 0's
-
 Remove Queued Creep logs
 
 Cache containers shouldn't be built until towers
