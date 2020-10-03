@@ -222,7 +222,7 @@ export class RoomStageController {
         if (myRoom.roomStage > 3) {
             Stage3.down(myRoom, room);
         }
-        if (myRoom.roomStage > 1.6) {
+        if (myRoom.roomStage > 2.8) {
             Stage2_8.down(myRoom, room);
         }
         if (myRoom.roomStage > 2.6) {
