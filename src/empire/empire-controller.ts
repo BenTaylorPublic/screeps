@@ -9,6 +9,7 @@ import {ScavengeController} from "./scavenge-controller";
 import {RoleScavenger} from "./role/scavenger";
 import {MineralController} from "./mineral-controller";
 import {RoomNukerController} from "../room/structures/nuker";
+import {RoleLegolas} from "./role/legolas";
 
 export class EmpireController {
     public static run(myMemory: MyMemory): void {
@@ -34,6 +35,8 @@ export class EmpireController {
                 RoleScavenger.run(creep as Scavenger);
             } else if (creep.role === "Signer") {
                 SignController.runCreep(creep as Signer);
+            } else if (creep.role === "Legolas") {
+                RoleLegolas.run(creep as Legolas);
             }
         }
     }

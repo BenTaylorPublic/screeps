@@ -4,8 +4,7 @@
 ## TODO
 ### Working on
 ```
-Make a ranged creep for dealing with other attack creeps
-    Call it legolas lol
+Legolas
 ```
 ### Short term
 ```

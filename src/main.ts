@@ -5,8 +5,11 @@ import {ProfilerWrapper} from "./profiler/profiler-wrapper";
 import {FunctionProfiler} from "./profiler/function-profiler/function-profiler";
 import {EmpireHelper} from "./global/helpers/empire-helper";
 import {Constants} from "./global/constants/constants";
+import {SpawnQueueController} from "./global/spawn-queue-controller";
 
-console.log("Script reloaded");
+if (Game.shard.name !== "sim") {
+    console.log("Script reloaded");
+}
 
 // for (let i: number = 0; i < Memory.myMemory.myRooms.length; i++) {
 //     const myRoom: MyRoom = Memory.myMemory.myRooms[i];
@@ -32,6 +35,24 @@ export let loop: any = function (): void {
     MemoryController.run();
 
     EmpireController.run(myMemory);
+
+    if (Game.flags["test-run-1"] != null &&
+        myMemory.myRooms.length === 1) {
+        Game.flags["test-run-1"].remove();
+        const myRoom: MyRoom = myMemory.myRooms[0];
+        const legolas: Legolas = {
+            name: "Legolas" + Game.time,
+            role: "Legolas",
+            assignedRoomName: myRoom.name,
+            spawningStatus: "queued",
+            roomMoveTarget: {
+                pos: null,
+                path: []
+            }
+        };
+        myMemory.empire.creeps.push(legolas);
+        SpawnQueueController.queueCreepSpawn(myRoom, 1, "Legolas" + Game.time, "Legolas");
+    }
 
     for (let i = 0; i < myMemory.myRooms.length; i++) {
         const transfer: Transfer | null = EmpireHelper.getValidResourceTransfer(myMemory.empire, myMemory.myRooms[i].name);

@@ -282,7 +282,8 @@ type CreepRoles =
     | "AttackHealerDrainCreep"
     | "Scavenger"
     | "Digger"
-    | "Upgrader";
+    | "Upgrader"
+    | "Legolas";
 
 /*
 ====================
@@ -319,6 +320,9 @@ interface Laborer extends MyCreep {
 
 interface Claimer extends MyCreep {
     flagName: string;
+}
+
+interface Legolas extends MyCreep {
 }
 
 interface BankLinker extends MyCreep {

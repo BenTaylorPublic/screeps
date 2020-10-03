@@ -90,6 +90,12 @@ export class RoomSpawnController {
             return ScavengeController.getBody(myRoom);
         } else if (queuedCreep.role === "AttackQuickCreep" || queuedCreep.role === "AttackPressureCreep") {
             return AttackHelperFunctions.getBody(myRoom);
+        } else if (queuedCreep.role === "Legolas") {
+            return CreepHelper.generateBody(
+                [RANGED_ATTACK, MOVE],
+                [RANGED_ATTACK, MOVE],
+                Game.rooms[myRoom.name],
+                true);
         } else if (queuedCreep.role === "Signer") {
             return [MOVE];
         }
