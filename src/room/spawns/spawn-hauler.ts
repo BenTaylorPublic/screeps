@@ -1,9 +1,7 @@
 import {Constants} from "../../global/constants/constants";
 import {SpawnQueueController} from "../../global/spawn-queue-controller";
 import {SpawnConstants} from "../../global/constants/spawn-constants";
-import {ReportController} from "../../reporting/report-controller";
 import {CreepHelper} from "../../global/helpers/creep-helper";
-import {LogHelper} from "../../global/helpers/log-helper";
 
 export class SpawnHauler {
     public static spawnHaulerLogic(myRoom: MyRoom): void {
@@ -43,7 +41,6 @@ export class SpawnHauler {
         const hauler: Hauler = this.spawnHaulerInternalForDigging(myRoom);
         myRoom.myCreeps.push(hauler);
         myRoom.digging.haulerName = hauler.name;
-        ReportController.log("Queued a Digging Hauler in " + LogHelper.roomNameAsLink(myRoom.name));
     }
 
     private static sourceLogic(myRoom: MyRoom): void {
@@ -62,7 +59,6 @@ export class SpawnHauler {
                 const newCreep: Hauler = this.spawnHaulerInternalForSource(myRoom, mySource);
                 myRoom.myCreeps.push(newCreep);
                 mySource.haulerName = newCreep.name;
-                ReportController.log("Queued a new hauler in " + LogHelper.roomNameAsLink(myRoom.name));
 
             }
         }

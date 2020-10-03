@@ -1,8 +1,6 @@
 import {SpawnQueueController} from "../../global/spawn-queue-controller";
 import {SpawnConstants} from "../../global/constants/spawn-constants";
-import {ReportController} from "../../reporting/report-controller";
 import {CreepHelper} from "../../global/helpers/creep-helper";
-import {LogHelper} from "../../global/helpers/log-helper";
 
 export class SpawnMiner {
     public static minerSpawnLogic(myRoom: MyRoom): void {
@@ -24,7 +22,6 @@ export class SpawnMiner {
             //Needs a new miner
             const newCreep: Miner = this.spawnMinerInternal(myRoom, mySource);
             myRoom.myCreeps.push(newCreep);
-            ReportController.log("Queued a new Miner in " + LogHelper.roomNameAsLink(myRoom.name));
             return;
         }
     }

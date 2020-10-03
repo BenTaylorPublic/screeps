@@ -41,7 +41,6 @@ export class SpawnUpgrader {
         //We can spawn one!
         const upgrader: Upgrader = this.spawnUpgrader(myRoom);
         myRoom.myCreeps.push(upgrader);
-        ReportController.log("Queued a new Upgrader in " + LogHelper.roomNameAsLink(myRoom.name));
     }
 
     public static getBody(myRoom: MyRoom): BodyPartConstant[] {

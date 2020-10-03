@@ -1,7 +1,5 @@
 import {SpawnQueueController} from "../../global/spawn-queue-controller";
 import {SpawnConstants} from "../../global/constants/spawn-constants";
-import {ReportController} from "../../reporting/report-controller";
-import {LogHelper} from "../../global/helpers/log-helper";
 import {CreepHelper} from "../../global/helpers/creep-helper";
 import {Constants} from "../../global/constants/constants";
 
@@ -26,7 +24,6 @@ export class SpawnDigger {
         const digger: Digger = this.spawnDiggerInternal(myRoom, myRoom.digging.cache.pos);
         myRoom.myCreeps.push(digger);
         myRoom.digging.diggerName = digger.name;
-        ReportController.log("Queued a Digger in " + LogHelper.roomNameAsLink(myRoom.name));
     }
 
     public static getBody(myRoom: MyRoom): BodyPartConstant[] {

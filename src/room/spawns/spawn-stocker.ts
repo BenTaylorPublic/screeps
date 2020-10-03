@@ -2,9 +2,7 @@ import {Constants} from "../../global/constants/constants";
 
 import {SpawnQueueController} from "../../global/spawn-queue-controller";
 import {SpawnConstants} from "../../global/constants/spawn-constants";
-import {ReportController} from "../../reporting/report-controller";
 import {CreepHelper} from "../../global/helpers/creep-helper";
-import {LogHelper} from "../../global/helpers/log-helper";
 
 export class SpawnStocker {
     public static spawnStocker(myRoom: MyRoom): void {
@@ -28,7 +26,6 @@ export class SpawnStocker {
             for (let i: number = 0; i < Constants.MAX_STOCKERS - amountOfStockers; i++) {
                 const newCreep: Stocker = this.spawnStockerInternal(myRoom);
                 myRoom.myCreeps.push(newCreep);
-                ReportController.log("Queued a new Stocker in " + LogHelper.roomNameAsLink(myRoom.name));
             }
         }
     }

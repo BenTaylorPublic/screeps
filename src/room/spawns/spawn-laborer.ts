@@ -251,7 +251,6 @@ export class SpawnLaborer {
                 return;
             }
             myRoom.myCreeps.push(newCreep);
-            ReportController.log("Queued a new Laborer in " + LogHelper.roomNameAsLink(myRoom.name));
         }
     }
 
