@@ -147,7 +147,10 @@ export class RoleStocker {
         }
 
         if (emptyAndNeedNewJob) {
-            if (this.structureNeedsEnergy(room)) {
+            if (creep.ticksToLive != null &&
+                creep.ticksToLive < Constants.SUICIDE_STOCKER_WHEN_TTL_BELOW) {
+                creep.suicide();
+            } else if (this.structureNeedsEnergy(room)) {
                 stocker.state = "PickupEnergy";
                 creep.say("⚡ from 🏦");
             } else if (this.labOrderToLoadFor(labOrder)) {

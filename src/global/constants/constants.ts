@@ -59,4 +59,5 @@ export class Constants {
     public static RALLY_FLAG_RANGE: number = 3;
     public static UPGRADER_TICKS_TO_SPAWN: number = 72;
     public static SCAVENGE_CARRY_PER_CREEP: number = 25;
+    public static SUICIDE_STOCKER_WHEN_TTL_BELOW: number = 50;
 }
