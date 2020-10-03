@@ -26,5 +26,15 @@ export class RoleLegolas {
         if (Game.flags["test-distance-to"] != null) {
             console.log(creep.pos.getRangeTo(Game.flags["test-distance-to"]));
         }
+
+        /*
+         * Every tick:
+         * If creeps are >= 4, move towards target
+         * Else
+         * For each of the 9 directions (staying still is an option):
+         *      If its 2 from a creep, -5 score
+         *      If its closer to target using path, +1 score
+         *      If I'm able to attack something from that square, +2 score
+         */
     }
 }
