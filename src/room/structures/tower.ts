@@ -140,7 +140,7 @@ export class RoomTowerController {
         }
 
         let towerAlgorithm: TowerAlgorithm = "Healer";
-        if (FlagHelper.getFlag1(["flag", "algorithm", "closest"], roomName)) {
+        if (FlagHelper.getFlag1(["tower", "closest"], roomName)) {
             towerAlgorithm = "Closest";
         }
 

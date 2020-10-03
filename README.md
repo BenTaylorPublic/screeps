@@ -7,28 +7,23 @@
 ```
 ### Short term
 ```
-Power Spawn rut
-    Only allow stocking the power spawn if the creep has > 50 TTL
-    Because if it dies... it breaks the "go in evenly" logic
-    This probably affects lab logic too :/
-
-Add all the reactions I want to
-
-Remove the replacement/waves logic from power banks
-    Replace it with "finishing it off" logic on a failure
-
 Reduce lab logging amount if it's all 0's
 
 Remove Queued Creep logs
 
-Power
-    Power creeps control
-
 Cache containers shouldn't be built until towers
     Will require moving a stage
+
+Make a ranged creep for dealing with other attack creeps
+    Call it legolas lol
 ```
 ### Mid term:
 ```
+Add all the reactions I want to
+
+Power
+    Power creeps control
+
 Transfer rut
     Rooms should have a transfer ID, of which one they're working on
     Each tick it tries to get that transfer
@@ -39,22 +34,12 @@ Energy donor room order should shuffled
     Rooms early in the list are being used up
     This means they're not loading their nuker with energy
 
-Lab rut
-    Not sure what to do about it... but this is the rut:
-    amountLeftToLoad went to -700
-    Combining U + L
-    450 L left in reagent lab
-    250 UL left in compound lab
-    Stocker trying to withdraw more constantly
-
 MyMemory.Settings
     Settings I can change via flags (that directly match the settings key)
     Constants are all numbers
     eg:
         set-CONSCRIPTION_RANGE-5
         set-OBSERVER_WIDTH-5
-
-Towers sitting on 50% letting containers die
 
 Attack creeps to kill construction sites
 
@@ -73,6 +58,9 @@ Gaps between donate and spawn laborer/upgrader amounts
 ```
 ### Long term:
 ```
+Remove the replacement/waves logic from power banks
+    Replace it with "finishing it off" logic on a failure
+
 Auto safe mode when < stage 2.6, and hostile creep enters 
 
 Monitor force laborer spawns in linked rooms
@@ -86,9 +74,6 @@ Remote spawning for low stage rooms
     Maybe a stage 8 room provides them creeps
     Only if the stage 8 room is within ~2-3 rooms
     Otherwise the TTL will make it pretty pointless
-
-Make a ranged creep for dealing with other attack creeps
-    Call it legolas lol
 
 Attack logic should be combined
     Attacking is very similar logic, and the system I have complicates it
@@ -192,7 +177,10 @@ sign-all
 claim
 scavenge-{RESOURCE_AMOUNT}
 life-support
+
 tower-aggressive
+tower-closest
+tower-no-repair
 
 multishard-claim-portal
 multishard-claim-target
