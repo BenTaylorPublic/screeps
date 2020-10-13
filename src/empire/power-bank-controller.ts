@@ -269,7 +269,7 @@ export class PowerBankController {
             return;
         }
 
-        for (let i: number = 0; myRoom.spawnQueue.length; i++) {
+        for (let i: number = 0; i < myRoom.spawnQueue.length; i++) {
             const queuedCreep: QueuedCreep = myRoom.spawnQueue[i];
             if (queuedCreep.role === "PowerBankAttackCreep" ||
                 queuedCreep.role === "PowerBankHealCreep") {
