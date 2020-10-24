@@ -28,7 +28,7 @@ export class StageFunctions {
         if (!placedAtleastOne &&
             Game.rooms[myRoom.name].find(FIND_CONSTRUCTION_SITES).length === 0 &&
             RoomHelper.amountOfStructure(room, STRUCTURE_EXTENSION) < numberOfExtensionsToBuild) {
-            ReportController.email("ATTENTION: Room " + LogHelper.roomNameAsLink(myRoom.name) + " needs more extension flags (up to ex-" + numberOfExtensionsToBuild.toString() + ")",
+            ReportController.email("ATTENTION: Room " + LogHelper.roomNameAsLink(myRoom.name) + " needs more extensions (optional flag, up to ex-{1-40})",
                 ReportCooldownConstants.DAY);
         }
     }
@@ -52,7 +52,7 @@ export class StageFunctions {
         if (Game.rooms[myRoom.name].find(FIND_CONSTRUCTION_SITES).length === 0 &&
             (RoomHelper.amountOfStructure(room, STRUCTURE_TOWER) < numberOfTowersToBuild) &&
             !placedOne) {
-            ReportController.email("ATTENTION: Room " + LogHelper.roomNameAsLink(myRoom.name) + " needs more tower flags (up to tower-" + numberOfTowersToBuild + ")",
+            ReportController.email("ATTENTION: Room " + LogHelper.roomNameAsLink(myRoom.name) + " needs more towers (optional flag, tower-{1-6})",
                 ReportCooldownConstants.DAY);
         }
     }
@@ -170,7 +170,7 @@ export class StageFunctions {
         if (!placedSpawn &&
             room.find(FIND_CONSTRUCTION_SITES).length === 0 &&
             RoomHelper.amountOfStructure(room, STRUCTURE_SPAWN) < amount) {
-            ReportController.email("ATTENTION: Room " + LogHelper.roomNameAsLink(room.name) + " needs a spawn flag (spawn)",
+            ReportController.email("ATTENTION: Room " + LogHelper.roomNameAsLink(room.name) + " needs a spawn (optional flag, spawn)",
                 ReportCooldownConstants.DAY);
         }
     }
