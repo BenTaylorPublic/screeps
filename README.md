@@ -4,9 +4,6 @@
 ## TODO
 ### Working on
 ```
-Energy donor room order should shuffled
-    Rooms early in the list are being used up
-    This means they're not loading their nuker with energy
 ```
 ### Short term
 ```
