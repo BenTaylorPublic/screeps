@@ -4,14 +4,26 @@
 ## TODO
 ### Working on
 ```
-Legolas
+Scrubs to wreck message
+    If it's a respawn or novice area, include the time it wears off
+    Give the message a cooldown of the ending time - 5 minutes so if they're low level still it'll re-email
+    Api is Game.map.getRoomStatus(roomName)
+        https://docs.screeps.com/api/#Game.map.getRoomStatus
 ```
 ### Short term
 ```
+Need to neaten up the spawn constants
+
+Energy donor room order should shuffled
+    Rooms early in the list are being used up
+    This means they're not loading their nuker with energy
+
+Add all the reactions I want to
+
+Legolas
 ```
 ### Mid term:
 ```
-Add all the reactions I want to
 
 Power
     Power creeps control
@@ -22,10 +34,6 @@ Transfer rut
     If that transfer is gone, the function returns the rooms next one
     The room then updates its ID
 
-Energy donor room order should shuffled
-    Rooms early in the list are being used up
-    This means they're not loading their nuker with energy
-
 MyMemory.Settings
     Settings I can change via flags (that directly match the settings key)
     Constants are all numbers
@@ -34,8 +42,6 @@ MyMemory.Settings
         set-OBSERVER_WIDTH-5
 
 Attack creeps to kill construction sites
-
-Need to neaten up the spawn constants
 
 Attack creeps need to not update target every 5 ticks
     Because when I indicate what to target, it just gets removed in 5 :(
@@ -46,14 +52,14 @@ Signing controller with flag string
     Flag limit is 60 characters
     Sign limit is 100 characters
 
-Gaps between donate and spawn laborer/upgrader amounts
+Evaluate energy amounts for donating and when laborers/upgraders spawn
 ```
 ### Long term:
 ```
 Remove the replacement/waves logic from power banks
     Replace it with "finishing it off" logic on a failure
 
-Auto safe mode when < stage 2.6, and hostile creep enters 
+Auto safe mode when < stage 2.6, and hostile creep enters
 
 Monitor force laborer spawns in linked rooms
     They should only be used to get the room out of ruts
@@ -99,9 +105,6 @@ Put in an optional attack-renew flag
 
 Repeat attack target reticle
 
-Watch-start/stop flag
-    A 2nd observer to continuously watch a room
-
 Offload
     offload-start & offload-end
     Used when abandoning a room or being nuked
@@ -120,13 +123,7 @@ Bank object shouldn't be nullable
     It should be stored as a different type
     But pulled out as type MyRoom
 
-Scrubs to wreck message
-    If it's a respawn or novice area, include the time it wears off
-    Give the message a cooldown of the ending time - 5 minutes so if they're low level still it'll re-email
-    Api is Game.map.getRoomStatus(roomName)
-        https://docs.screeps.com/api/#Game.map.getRoomStatus
-
-Link pos and storage pos might not need to be stored
+Error testing when buildings get killed in an attack
 
 Stocker states could be optimised
     By not just blindly going back to DespositResources
