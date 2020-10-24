@@ -4,16 +4,10 @@
 ## TODO
 ### Working on
 ```
-Scrubs to wreck message
-    If it's a respawn or novice area, include the time it wears off
-    Give the message a cooldown of the ending time - 5 minutes so if they're low level still it'll re-email
-    Api is Game.map.getRoomStatus(roomName)
-        https://docs.screeps.com/api/#Game.map.getRoomStatus
+Need to neaten up the spawn constants
 ```
 ### Short term
 ```
-Need to neaten up the spawn constants
-
 Energy donor room order should shuffled
     Rooms early in the list are being used up
     This means they're not loading their nuker with energy

@@ -4,6 +4,7 @@ import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
 import {MapHelper} from "../../global/helpers/map-helper";
 import {LogHelper} from "../../global/helpers/log-helper";
 import {RoomHelper} from "../../global/helpers/room-helper";
+import {EmpireHelper} from "../../global/helpers/empire-helper";
 
 export class ObserverController {
     public static run(myMemory: MyMemory): void {
@@ -25,17 +26,18 @@ export class ObserverController {
 
         if ((room.controller != null &&
             room.controller.my === false &&
-            room.controller.owner != null
-            //TODO: Enable this when allies do ramparts logic
-            // && !EmpireHelper.isAllyUsername(room.controller.owner.username)
+            room.controller.owner != null &&
+            !EmpireHelper.isAllyUsername(room.controller.owner.username)
         )) {
-            if (room.controller.level >= 3) {
+            if (RoomHelper.amountOfStructure(room, STRUCTURE_TOWER) > 0) {
                 avoid = true;
             } else {
-                //Low level (no towers)
-                ReportController.email("Scrubs in your local area want to get wrecked " + LogHelper.roomNameAsLink(room.name) +
+                //No towers
+                const status: RoomStatus = Game.map.getRoomStatus(room.name);
+                ReportController.email("Scrubs to wreck in " + LogHelper.roomNameAsLink(room.name) +
                     " Owner: " + room.controller.owner.username +
-                    " Safemode: " + (room.controller.safeMode != null),
+                    " Safemode: " + (room.controller.safeMode != null) +
+                    " Status: " + status.status,
                     ReportCooldownConstants.DAY);
             }
         } else if (MapHelper.isMiddle3x3(room.name)) {
