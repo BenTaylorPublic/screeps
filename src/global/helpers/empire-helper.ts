@@ -3,7 +3,7 @@ import {LogHelper} from "./log-helper";
 
 export class EmpireHelper {
     public static isAllyUsername(username: string): boolean {
-        return ["james1652"].indexOf(username.toLowerCase()) !== -1;
+        return ["no-allies"].indexOf(username.toLowerCase()) !== -1;
     }
 
     public static getValidResourceTransfer(empire: Empire, roomName: string): Transfer | null {
