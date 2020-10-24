@@ -4,14 +4,12 @@
 ## TODO
 ### Working on
 ```
-Need to neaten up the spawn constants
-```
-### Short term
-```
 Energy donor room order should shuffled
     Rooms early in the list are being used up
     This means they're not loading their nuker with energy
-
+```
+### Short term
+```
 Add all the reactions I want to
 
 Legolas
