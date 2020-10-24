@@ -29,10 +29,10 @@ export class ObserverController {
             room.controller.owner != null &&
             !EmpireHelper.isAllyUsername(room.controller.owner.username)
         )) {
-            if (room.controller.level >= 3) {
+            if (RoomHelper.amountOfStructure(room, STRUCTURE_TOWER) > 0) {
                 avoid = true;
             } else {
-                //Low level (no towers)
+                //No towers
                 ReportController.email("Scrubs in your local area want to get wrecked " + LogHelper.roomNameAsLink(room.name) +
                     " Owner: " + room.controller.owner.username +
                     " Safemode: " + (room.controller.safeMode != null),
