@@ -11,6 +11,13 @@ export class MineralController {
         }
 
         const roomsToUse: MyRoom[] = RoomHelper.getMyRoomsAtOrAboveStage(Constants.MINERAL_START_STAGE);
+
+        //Shuffling roomsToUse
+        for (let i = roomsToUse.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [roomsToUse[i], roomsToUse[j]] = [roomsToUse[j], roomsToUse[i]];
+        }
+
         const resourceMap: GenerateResourceMapResult = this.generateResourceMap(roomsToUse, myMemory.empire.transfers);
         const mineralLimits: ResourceLimits = ResourceConstants.getMineralLimits();
         const forceDigResource: ResourceConstant[] = this.transferMineralsToLowRooms(roomsToUse, resourceMap, myMemory.empire.transfers, mineralLimits);
