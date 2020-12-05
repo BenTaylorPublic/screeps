@@ -13,7 +13,6 @@ Legolas
 ```
 ### Mid term:
 ```
-
 Power
     Power creeps control
 

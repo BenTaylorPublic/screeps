@@ -67,6 +67,7 @@ export class CreepHelper {
         } else if (myCreep.spawningStatus === "queued" &&
             Game.creeps[myCreep.name] != null) {
             myCreep.spawningStatus = "spawning";
+            Game.creeps[myCreep.name].notifyWhenAttacked(this.creepShouldNotifyWhenAttacked(myCreep.role));
             return true;
         } else if (myCreep.spawningStatus === "spawning" &&
             Game.creeps[myCreep.name].ticksToLive != null) {
@@ -112,5 +113,10 @@ export class CreepHelper {
             }
         }
         return false;
+    }
+
+    private static creepShouldNotifyWhenAttacked(creepRole: CreepRoles): boolean {
+        const creepRolesThatShouldNotNotify: CreepRoles[] = ["PowerBankHealCreep", "PowerBankAttackCreep"];
+        return !creepRolesThatShouldNotNotify.includes(creepRole);
     }
 }
