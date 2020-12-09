@@ -116,7 +116,7 @@ export class CreepHelper {
     }
 
     private static creepShouldNotifyWhenAttacked(creepRole: CreepRoles): boolean {
-        const creepRolesThatShouldNotNotify: CreepRoles[] = ["PowerBankHealCreep", "PowerBankAttackCreep"];
+        const creepRolesThatShouldNotNotify: CreepRoles[] = ["PowerBankHealCreep", "PowerBankAttackCreep", "Scavenger"];
         return !creepRolesThatShouldNotNotify.includes(creepRole);
     }
 }
