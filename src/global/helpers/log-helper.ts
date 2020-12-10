@@ -85,6 +85,8 @@ export class LogHelper {
                 return "ERR_RCL_NOT_ENOUGH";
             case ERR_GCL_NOT_ENOUGH:
                 return "ERR_GCL_NOT_ENOUGH";
+            default:
+                return "RETURN_NOT_HANDLED";
         }
     }
 }
