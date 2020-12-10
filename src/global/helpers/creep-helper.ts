@@ -1,5 +1,4 @@
 import {MovementHelper} from "./movement-helper";
-import {LogHelper} from "./log-helper";
 
 export class CreepHelper {
 
@@ -72,8 +71,7 @@ export class CreepHelper {
         } else if (myCreep.spawningStatus === "spawning" &&
             Game.creeps[myCreep.name].ticksToLive != null) {
             myCreep.spawningStatus = "alive";
-            const returnCode: ScreepsReturnCode = Game.creeps[myCreep.name].notifyWhenAttacked(this.creepShouldNotifyWhenAttacked(myCreep.role));
-            console.log("notifyWhenAttacked result " + LogHelper.logScreepsReturnCode(returnCode));
+            Game.creeps[myCreep.name].notifyWhenAttacked(this.creepShouldNotifyWhenAttacked(myCreep.role));
             if (myCreep.role === "Miner") {
                 const creep: Creep = Game.creeps[myCreep.name];
                 let workCount = 0;
@@ -119,10 +117,6 @@ export class CreepHelper {
 
     private static creepShouldNotifyWhenAttacked(creepRole: CreepRoles): boolean {
         const creepRolesThatShouldNotNotify: CreepRoles[] = ["PowerBankHealCreep", "PowerBankAttackCreep", "Scavenger"];
-        const result: boolean = !creepRolesThatShouldNotNotify.includes(creepRole);
-        if (!result) {
-            console.log("NOT NOTIFYING FOR ROLE " + creepRole);
-        }
-        return result;
+        return !creepRolesThatShouldNotNotify.includes(creepRole);
     }
 }
