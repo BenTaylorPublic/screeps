@@ -34,11 +34,13 @@ export class ObserverController {
             } else {
                 //No towers
                 const status: RoomStatus = Game.map.getRoomStatus(room.name);
-                ReportController.email("Scrubs to wreck in " + LogHelper.roomNameAsLink(room.name) +
-                    " Owner: " + room.controller.owner.username +
-                    " Safemode: " + (room.controller.safeMode != null) +
-                    " Status: " + status.status,
-                    ReportCooldownConstants.DAY);
+                if (status.status !== "novice") {
+                    ReportController.email("Scrubs to wreck in " + LogHelper.roomNameAsLink(room.name) +
+                        " Owner: " + room.controller.owner.username +
+                        " Safemode: " + (room.controller.safeMode != null) +
+                        " Status: " + status.status,
+                        ReportCooldownConstants.DAY);
+                }
             }
         } else if (MapHelper.isMiddle3x3(room.name)) {
             avoid = true;
