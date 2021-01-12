@@ -26,7 +26,7 @@ export class Stage0_5 {
             //Okay this is bad
             //But we need to clear the spawn queue
             //And handle them dying
-            for (let i: number = myRoom.spawnQueue.length; i > 0; i--) {
+            for (let i: number = myRoom.spawnQueue.length - 1; i >= 0; i--) {
                 const queuedCreep: QueuedCreep = myRoom.spawnQueue[i];
                 for (let j: number = 0; j < myRoom.myCreeps.length; j++) {
                     if (myRoom.myCreeps[j].name === queuedCreep.name) {
