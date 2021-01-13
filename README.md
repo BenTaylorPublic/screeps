@@ -154,6 +154,7 @@ sign-all
 claim
 scavenge-{RESOURCE_AMOUNT}
 life-support
+no-attack-notify
 
 tower-aggressive
 tower-closest

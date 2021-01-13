@@ -1,4 +1,5 @@
 import {MovementHelper} from "./movement-helper";
+import {FlagHelper} from "./flag-helper";
 
 export class CreepHelper {
 
@@ -71,7 +72,7 @@ export class CreepHelper {
         } else if (myCreep.spawningStatus === "spawning" &&
             Game.creeps[myCreep.name].ticksToLive != null) {
             myCreep.spawningStatus = "alive";
-            Game.creeps[myCreep.name].notifyWhenAttacked(this.creepShouldNotifyWhenAttacked(myCreep.role));
+            Game.creeps[myCreep.name].notifyWhenAttacked(this.creepShouldNotifyWhenAttacked(myCreep));
             if (myCreep.role === "Miner") {
                 const creep: Creep = Game.creeps[myCreep.name];
                 let workCount = 0;
@@ -115,8 +116,14 @@ export class CreepHelper {
         return false;
     }
 
-    private static creepShouldNotifyWhenAttacked(creepRole: CreepRoles): boolean {
+    private static creepShouldNotifyWhenAttacked(myCreep: MyCreep): boolean {
+        const ignoreCreepsForRooms: Flag[] = FlagHelper.getFlags3(["no", "attack", "notify"]);
+        for (let i: number = 0; i < ignoreCreepsForRooms.length; i++) {
+            if (myCreep.assignedRoomName === ignoreCreepsForRooms[i].pos.roomName) {
+                return false;
+            }
+        }
         const creepRolesThatShouldNotNotify: CreepRoles[] = ["PowerBankHealCreep", "PowerBankAttackCreep", "Scavenger"];
-        return !creepRolesThatShouldNotNotify.includes(creepRole);
+        return !creepRolesThatShouldNotNotify.includes(myCreep.role);
     }
 }
