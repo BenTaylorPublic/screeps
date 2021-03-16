@@ -1,18 +1,40 @@
-# My screeps AI
 ![](https://screeps.com/images/logotype-animated.svg)
 
-## TODO
-### Working on
-```
-```
+# My screeps AI
+
+<p align="center">
+    <a href="https://david-dm.org/bentaylorpublic/screeps"><img src="https://david-dm.org/bentaylorpublic/screeps.svg" alt="Dependencies"></a>
+</p>
+
+
+## Working on
 ### Short term
+```
+Script execution timed out: CPU time limit reached
+at filter (main:2:6778)
+at arrayFilter (<runtime>:2171:13)
+at filter (<runtime>:7096:14)
+
+Script execution timed out: CPU time limit reached
+at new <anonymous> (<runtime>:53857:16)
+at _storeGetter (<runtime>:51004:12)
+at get ([eval]:7:61)
+at runSourceLink (main:2:142025)
+at run (main:2:141027)
+at run (main:2:58411)
+at exports.loop (main:2:199173)
+at __mainLoop:1:52
+
+Package updates
+
+tslint to eslint
+```
+### Mid term:
 ```
 Add all the reactions I want to
 
 Legolas
-```
-### Mid term:
-```
+
 Power
     Power creeps control
 
