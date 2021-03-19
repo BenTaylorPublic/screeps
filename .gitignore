@@ -1,4 +1,4 @@
 node_modules/*
 ts-dist/*
 .idea/*
-dist/*.TXT
+dist/*.txt

@@ -18,6 +18,8 @@ tslint to eslint
 ```
 Add all the reactions I want to
 
+Fix all ts-ignores
+
 Legolas
 
 Power

@@ -4,6 +4,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
     entry: './ts-dist/main.js',
+    mode: "production",
     output: {
         pathinfo: true,
         libraryTarget: "commonjs2",
@@ -11,10 +12,7 @@ module.exports = {
     },
     target: "node",
     node: {
-        console: true,
         global: true,
-        process: false,
-        Buffer: false,
         __filename: false,
         __dirname: false,
     },
@@ -26,6 +24,7 @@ module.exports = {
                     compress: {},
                     mangle: false
                 },
+                extractComments: true
             }),
         ],
     },

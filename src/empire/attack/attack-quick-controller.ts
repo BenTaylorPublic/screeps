@@ -116,6 +116,7 @@ export class AttackQuickController {
 
         if (attackQuick.attackTarget != null) {
             //Clear this so it doesn't have to be serialized
+            //@ts-ignore:
             delete attackQuick.attackTarget.roomObject;
         }
     }
