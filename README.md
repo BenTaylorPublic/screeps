@@ -10,8 +10,6 @@
 ## Working on
 ### Short term
 ```
-Package updates
-
 tslint to eslint
 ```
 ### Mid term:
@@ -295,9 +293,6 @@ No affect, just for hit points
 
 ## Setup
 Run `npm install` to get packages
-
-Replace `declare const Memory: Memory;` with `declare const Memory: any;`    
-Because that causes issues with my memory system
 
 Run `npm start` to compile
 
