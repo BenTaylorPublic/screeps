@@ -38,7 +38,9 @@ export class RoomTowerController {
                 FlagHelper.getFlag1(["tower", "aggressive"], room.name) != null)) {
             //Just using the first tower in the array because I'm lazy
             const target: Creep = this.getBestCreepTarget(otherCreeps.hostileCreeps, room.name, towers[0].pos);
-
+            if (target.owner.username !== "Invader") {
+                ReportController.log(`Tower attacking target ${target.name}, owner: ${target.owner.username} in ${LogHelper.roomNameAsLink(room.name)}`);
+            }
             //Fire them all
             for (let i = 0; i < towers.length; i++) {
                 this.attackIfEnoughEnergy(towers[i], target);
