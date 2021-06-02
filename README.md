@@ -10,18 +10,11 @@
 ## Working on
 ### Short term
 ```
-tslint to eslint
+Add all the reactions I want to
 ```
 ### Mid term:
 ```
-Add all the reactions I want to
-
-Fix all ts-ignores
-
 Legolas
-
-Power
-    Power creeps control
 
 Transfer rut
     Rooms should have a transfer ID, of which one they're working on
@@ -35,6 +28,8 @@ MyMemory.Settings
     eg:
         set-CONSCRIPTION_RANGE-5
         set-OBSERVER_WIDTH-5
+        set-REPAIR_ON_ODD_THOUSAND-true
+        etc
 
 Attack creeps to kill construction sites
 
@@ -51,6 +46,12 @@ Evaluate energy amounts for donating and when laborers/upgraders spawn
 ```
 ### Long term:
 ```
+tslint to eslint
+    Also fix all ts-ignores
+
+Power
+    Power creeps control
+
 Remove the replacement/waves logic from power banks
     Replace it with "finishing it off" logic on a failure
 
