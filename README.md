@@ -162,6 +162,7 @@ claim
 scavenge-{RESOURCE_AMOUNT}
 life-support
 no-attack-notify
+ignore-scrub
 
 tower-aggressive
 tower-closest
