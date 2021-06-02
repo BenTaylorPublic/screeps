@@ -5,6 +5,7 @@ import {MapHelper} from "../../global/helpers/map-helper";
 import {LogHelper} from "../../global/helpers/log-helper";
 import {RoomHelper} from "../../global/helpers/room-helper";
 import {EmpireHelper} from "../../global/helpers/empire-helper";
+import {FlagHelper} from "../../global/helpers/flag-helper";
 
 export class ObserverController {
     public static run(myMemory: MyMemory): void {
@@ -35,11 +36,16 @@ export class ObserverController {
                 //No towers
                 const status: RoomStatus = Game.map.getRoomStatus(room.name);
                 if (status.status !== "novice") {
-                    ReportController.email("Scrubs to wreck in " + LogHelper.roomNameAsLink(room.name) +
-                        " Owner: " + room.controller.owner.username +
-                        " Safemode: " + (room.controller.safeMode != null) +
-                        " Status: " + status.status,
-                        ReportCooldownConstants.DAY);
+                    //Some scrubs can't be attacked because of positioning
+                    //Check to make sure I haven't manually ignored them
+                    const ignoreScrubFlag: Flag | null = FlagHelper.getFlag1(["ignore", "scrub"], room.name);
+                    if (ignoreScrubFlag == null) {
+                        ReportController.email("Scrubs to wreck in " + LogHelper.roomNameAsLink(room.name) +
+                            " Owner: " + room.controller.owner.username +
+                            " Safemode: " + (room.controller.safeMode != null) +
+                            " Status: " + status.status,
+                            ReportCooldownConstants.DAY);
+                    }
                 }
             }
         } else if (MapHelper.isMiddle3x3(room.name)) {
