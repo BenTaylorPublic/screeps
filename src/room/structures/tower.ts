@@ -19,6 +19,17 @@ export class RoomTowerController {
             return;
         }
         const otherCreeps: FindOtherCreepsResult = this.findOtherCreeps(room);
+        let threatLevel: number = 0;
+        for (const hostileCreep of otherCreeps.hostileCreeps) {
+            threatLevel += CreepHelper.creepThreatLevel(hostileCreep);
+        }
+        if (otherCreeps.hostileCreeps.length > 0 &&
+            threatLevel >= Constants.TOWER_EMAIL_WHEN_THREAT_LEVEL_OVER) {
+            const username: string = otherCreeps.hostileCreeps[0].owner.username;
+            ReportController.email(`Threat level of ${threatLevel}, from ${username}, in ${LogHelper.roomNameAsLink(room.name)}`,
+                ReportCooldownConstants.FIVE_MINUTE);
+        }
+
         this.handleRamparts(myRoom, room, otherCreeps);
 
         if (otherCreeps.hostileCreeps.length > 0 &&
@@ -27,13 +38,6 @@ export class RoomTowerController {
                 FlagHelper.getFlag1(["tower", "aggressive"], room.name) != null)) {
             //Just using the first tower in the array because I'm lazy
             const target: Creep = this.getBestCreepTarget(otherCreeps.hostileCreeps, room.name, towers[0].pos);
-            if (target.owner.username !== "Invader") {
-                //Only let me know if they're hostile
-                if (CreepHelper.creepContainsBodyParts(target, [HEAL, CLAIM, ATTACK, RANGED_ATTACK])) {
-                    ReportController.email("Tower attacking target with name " + target.name + " Owner: " + target.owner.username + " in " + LogHelper.roomNameAsLink(room.name),
-                        ReportCooldownConstants.FIVE_MINUTE);
-                }
-            }
 
             //Fire them all
             for (let i = 0; i < towers.length; i++) {

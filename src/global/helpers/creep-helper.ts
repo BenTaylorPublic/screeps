@@ -116,6 +116,41 @@ export class CreepHelper {
         return false;
     }
 
+    public static creepThreatLevel(creep: Creep): number {
+        if (creep.owner.username === "Invader") {
+            return 0;
+        }
+
+        const badBodyParts: BodyPartToThreatLevel[] = [
+            {
+                bodyPart: CLAIM,
+                threat: 1
+            },
+            {
+                bodyPart: ATTACK,
+                threat: 5
+            },
+            {
+                bodyPart: RANGED_ATTACK,
+                threat: 5
+            },
+            {
+                bodyPart: HEAL,
+                threat: 5
+            }
+        ];
+
+        let result: number = 0;
+        for (const creepBodyPart of creep.body) {
+            for (const badBodyPart of badBodyParts) {
+                if (creepBodyPart.type === badBodyPart.bodyPart) {
+                    result += badBodyPart.threat;
+                }
+            }
+        }
+        return result;
+    }
+
     private static creepShouldNotifyWhenAttacked(myCreep: MyCreep): boolean {
         const ignoreCreepsForRooms: Flag[] = FlagHelper.getFlags3(["no", "attack", "notify"]);
         for (let i: number = 0; i < ignoreCreepsForRooms.length; i++) {

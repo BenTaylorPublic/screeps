@@ -255,6 +255,11 @@ interface FindOtherCreepsResult {
     alliedCreeps: Creep[];
 }
 
+interface BodyPartToThreatLevel {
+    bodyPart: BodyPartConstant;
+    threat: number;
+}
+
 /*
 ====================
     CREEP THINGS:
