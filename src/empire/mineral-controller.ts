@@ -90,10 +90,11 @@ export class MineralController {
             newLabOrders: 0,
             labOrdersThatFailedToQueue: 0
         };
+        const cantCreateList: string[] = [];
+        const needMoreOfList: string[] = [];
 
         const resources: MineralsAndCompoundConstant[] = Object.keys(tieredResourceLimits) as MineralsAndCompoundConstant[];
-        for (let i: number = 0; i < resources.length; i++) {
-            const resource: MineralsAndCompoundConstant = resources[i];
+        for (const resource of resources) {
             const resourceLimits: ResourceLimitUpperLowerWithReagents = tieredResourceLimits[resource] as ResourceLimitUpperLowerWithReagents;
             const amountOfResource: number = this.getAmountOfResource(roomResourceMap, resource);
 
@@ -128,7 +129,8 @@ export class MineralController {
 
                 if (myRoom.bank == null ||
                     myRoom.bank.object == null) {
-                    ReportController.log("LOG: Can't create resource " + resource + " in room " + LogHelper.roomNameAsLink(myRoom.name) + " bank being null");
+                    ReportController.email("BAD: Can't create resource " + resource + " in room " + LogHelper.roomNameAsLink(myRoom.name) + " bank being null",
+                        ReportCooldownConstants.FIVE_MINUTE);
                     statsResults.labOrdersThatFailedToQueue += 1;
                     continue;
                 }
@@ -143,7 +145,8 @@ export class MineralController {
                         amounts = [3_000];
                         amountNeeded = 3_000;
                     } else {
-                        ReportController.log("LOG: Can't create resource " + resource + " in room " + LogHelper.roomNameAsLink(myRoom.name) + " due to lack of r1 " + resourceLimits.reagent1 + " (" + amountOfReagent1 + ")");
+                        cantCreateList.push(resource);
+                        needMoreOfList.push(resourceLimits.reagent1);
                         statsResults.labOrdersThatFailedToQueue += 1;
                         continue;
                     }
@@ -156,9 +159,9 @@ export class MineralController {
                         myRoom.bank.object.store.getUsedCapacity(resourceLimits.reagent2) >= 3_000) {
                         amounts = [3_000];
                         amountNeeded = 3_000;
-
                     } else {
-                        ReportController.log("LOG: Can't create resource " + resource + " in room " + LogHelper.roomNameAsLink(myRoom.name) + " due to lack of r2 " + resourceLimits.reagent2 + " (" + amountOfReagent2 + ")");
+                        cantCreateList.push(resource);
+                        needMoreOfList.push(resourceLimits.reagent2);
                         statsResults.labOrdersThatFailedToQueue += 1;
                         continue;
                     }
@@ -176,11 +179,28 @@ export class MineralController {
                     (roomResourceMap[resourceLimits.reagent2] as number) -= amountNeeded;
                 }
 
-                ReportController.log("LOG: Queued a new reaction for room " + LogHelper.roomNameAsLink(myRoom.name) + " to create " + resource);
+                ReportController.log("Queued a new reaction for room " + LogHelper.roomNameAsLink(myRoom.name) + " to create " + resource);
                 statsResults.newLabOrders += amounts.length;
             }
         }
 
+        if (cantCreateList.length > 0 && needMoreOfList.length > 0) {
+            let cantCreateMessage: string = "";
+            for (const cantCreate of cantCreateList) {
+                cantCreateMessage += `${cantCreate}, `;
+            }
+            //Remove last comma
+            cantCreateMessage = cantCreateMessage.slice(0, cantCreateMessage.length - 2);
+
+            let needMoreMessage: string = "";
+            for (const needMore of needMoreOfList) {
+                needMoreMessage += `${needMore}, `;
+            }
+            //Remove last comma
+            needMoreMessage = needMoreMessage.slice(0, needMoreMessage.length - 2);
+
+            ReportController.log(`${LogHelper.roomNameAsLink(myRoom.name)} can't create ${cantCreateMessage}. Need more: ${needMoreMessage}`);
+        }
         return statsResults;
     }
 
