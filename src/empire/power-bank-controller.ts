@@ -104,7 +104,7 @@ export class PowerBankController {
 
             if (Game.time > powerBankTarget.eol) {
                 powerBankTargets.targetBanks.splice(i, 1);
-                ReportController.log("BAD: Power Bank died from EOL in " + LogHelper.roomNameAsLink(powerBankTarget.pos.roomName));
+                ReportController.email("Power Bank died from EOL in " + LogHelper.roomNameAsLink(powerBankTarget.pos.roomName));
             } else if (powerBankTarget.creepsDuosStillNeeded === 0 &&
                 powerBankTarget.creeps.length === 0) {
                 powerBankTargets.targetBanks.splice(i, 1);
@@ -112,7 +112,7 @@ export class PowerBankController {
                 if (powerBank == null) {
                     ReportController.log("Power Bank killed in " + LogHelper.roomNameAsLink(powerBankTarget.pos.roomName));
                 } else {
-                    ReportController.log("BAD: Power Bank attack failed, all creeps dead, bank alive in " + LogHelper.roomNameAsLink(powerBankTarget.pos.roomName));
+                    ReportController.email("Power Bank attack failed, all creeps dead, bank alive in " + LogHelper.roomNameAsLink(powerBankTarget.pos.roomName));
                 }
             } else {
                 this.handleBank(powerBankTarget, powerBankTargets);
