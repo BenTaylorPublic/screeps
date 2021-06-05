@@ -10,7 +10,7 @@
 ## Working on
 ### Short term
 ```
-Add all the reactions I want to
+Monitoring reactions
 ```
 ### Mid term:
 ```

@@ -56,18 +56,16 @@ export class RoomLabController {
             ReportController.log("Not running reactions because bucket is " + Game.cpu.bucket);
             return false;
         }
+        if (labOrder.cooldownTill > Game.time) {
+            return false;
+        }
         const reagentLab1: StructureLab | null = Game.getObjectById<StructureLab>(labMemory.reagentLab1.id);
         const reagentLab2: StructureLab | null = Game.getObjectById<StructureLab>(labMemory.reagentLab2.id);
         if (reagentLab1 == null || reagentLab2 == null) {
             ReportController.email("ERROR: A reagent lab was null in runReactions in " + LogHelper.roomNameAsLink(roomName));
             return false;
         }
-        for (let i: number = 0; i < labMemory.compoundLabs.length; i++) {
-            const compoundLabMemory: CompoundLabMemory = labMemory.compoundLabs[i];
-            if (labOrder.cooldownTill > Game.time) {
-                continue;
-            }
-
+        for (const compoundLabMemory of labMemory.compoundLabs) {
             const lab: StructureLab | null = Game.getObjectById<StructureLab>(compoundLabMemory.id);
             if (lab == null) {
                 ReportController.email("ERROR: A compound lab was null in runReactions in " + LogHelper.roomNameAsLink(roomName));
