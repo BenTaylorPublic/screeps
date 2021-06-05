@@ -4,6 +4,7 @@ import {LogHelper} from "../global/helpers/log-helper";
 import {ReportController} from "../reporting/report-controller";
 import {ResourceConstants} from "../global/constants/resource-constants";
 import {EmpireHelper} from "../global/helpers/empire-helper";
+import {ReportCooldownConstants} from "../global/report-cooldown-constants";
 
 export class MineralController {
     public static run(myMemory: MyMemory): void {
@@ -75,7 +76,7 @@ export class MineralController {
         if (totalLabOrders === 0 &&
             labOrdersThatFailedToQueue === 0 &&
             newLabOrders === 0) {
-            ReportController.log("Rooms are content with current compounds");
+            ReportController.email("Rooms are content with current compounds", ReportCooldownConstants.DAY);
         } else {
             ReportController.log("New lab orders: " + newLabOrders);
             ReportController.log("Lab orders that failed to queue: " + labOrdersThatFailedToQueue);
