@@ -1,6 +1,7 @@
 import {ReportController} from "../../reporting/report-controller";
 import {LogHelper} from "../../global/helpers/log-helper";
 import {Constants} from "../../global/constants/constants";
+import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
 
 export class RoomLabController {
 
@@ -81,8 +82,10 @@ export class RoomLabController {
                     ReportController.email("ERROR: Running reaction got 'ERR_NOT_ENOUGH_RESOURCES', but amountLeftToLoad === 0 in " + LogHelper.roomNameAsLink(roomName) + ", removing lab order");
                     //Returning true kills the lab order
                     return true;
+                } else if (result === ERR_TIRED) {
+                    ReportController.email(`BAD: runReaction result was ERR_TIRED, in ${LogHelper.roomNameAsLink(roomName)} which probably means a bad cooldown was set`, ReportCooldownConstants.FIVE_MINUTE);
                 } else {
-                    ReportController.log("BAD: Bad result for runReaction, in " + LogHelper.roomNameAsLink(roomName) + " result:" + LogHelper.logScreepsReturnCode(result));
+                    ReportController.email("BAD: Bad result for runReaction, in " + LogHelper.roomNameAsLink(roomName) + " result:" + LogHelper.logScreepsReturnCode(result), ReportCooldownConstants.FIVE_MINUTE);
                 }
             }
         }

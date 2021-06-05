@@ -117,7 +117,7 @@ export class ResourceConstants {
                 upper: 4_000,
                 reagent1: "GH",
                 reagent2: "OH",
-                cooldown: 5
+                cooldown: 15
             },
             LHO2: {
                 lower: 3_000,
