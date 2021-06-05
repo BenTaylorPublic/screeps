@@ -101,7 +101,6 @@ interface Transfer {
     amount: number;
     amountLeft: number;
     resource: ResourceConstant;
-    actionStarted: boolean;
 }
 
 /*

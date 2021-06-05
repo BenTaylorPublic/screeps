@@ -336,7 +336,6 @@ export class MineralController {
             roomFrom: sendingRoomName,
             roomTo: receivingRoomName,
             state: "Loading",
-            actionStarted: false,
             id: EmpireHelper.getNewTransferId()
         };
         transfers.push(transfer);

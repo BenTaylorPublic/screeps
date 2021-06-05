@@ -54,6 +54,7 @@ export let loop: any = function (): void {
         SpawnQueueController.queueCreepSpawn(myRoom, 1, "Legolas" + Game.time, "Legolas");
     }
 
+    EmpireHelper.cleanUpFinishedTransfers(myMemory.empire);
     for (const myRoom of myMemory.myRooms) {
         const transfer: Transfer | null = EmpireHelper.getValidResourceTransfer(myMemory.empire, myRoom);
         RoomController.run(myRoom, transfer);
