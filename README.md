@@ -10,16 +10,10 @@
 ## Working on
 ### Short term
 ```
-Transfer rut
-    Rooms should have a transfer ID, of which one they're working on
-    Each tick it tries to get that transfer
-    If that transfer is gone, the function returns the rooms next one
-    The room then updates its ID
+Add all the reactions I want to
 ```
 ### Mid term:
 ```
-Add all the reactions I want to
-
 Legolas
 
 MyMemory.Settings
