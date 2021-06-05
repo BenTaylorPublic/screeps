@@ -186,7 +186,7 @@ export class MineralController {
 
         if (cantCreateList.length > 0 && needMoreOfList.length > 0) {
             const messages: string[] = [];
-            for (let i: number = 0; 0 < cantCreateList.length; i++) {
+            for (let i: number = 0; i < cantCreateList.length; i++) {
                 messages.push(`${cantCreateList[i]} (${needMoreOfList[i]})`);
             }
             ReportController.log(`${LogHelper.roomNameAsLink(myRoom.name)} can't create ${LogHelper.commaSeperateList(messages)}`);
