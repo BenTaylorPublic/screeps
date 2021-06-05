@@ -30,6 +30,9 @@ export class MineralController {
     private static queueLabOrders(roomsToUse: MyRoom[], resourceMap: GenerateResourceMapResult): void {
         const baseCompoundLimits: ResourceLimitsWithReagents = ResourceConstants.getBaseCompoundLimits();
         const gCompoundLimits: ResourceLimitsWithReagents = ResourceConstants.getGCompoundLimits();
+        const tier1CompoundLimits: ResourceLimitsWithReagents = ResourceConstants.getTier1CompoundLimits();
+        const tier2CompoundLimits: ResourceLimitsWithReagents = ResourceConstants.getTier2CompoundLimits();
+        const tier3CompoundLimits: ResourceLimitsWithReagents = ResourceConstants.getTier3CompoundLimits();
 
         let newLabOrders: number = 0;
         let labOrdersThatFailedToQueue: number = 0;
@@ -48,10 +51,24 @@ export class MineralController {
                 this.tryQueueLabOrderForRoom(myRoom, roomResourceMap, baseCompoundLimits, 0);
             const statsFromGQueuing: LabOrderQueueingStats =
                 this.tryQueueLabOrderForRoom(myRoom, roomResourceMap, gCompoundLimits, 0.5);
+            const statsTier1Queuing: LabOrderQueueingStats =
+                this.tryQueueLabOrderForRoom(myRoom, roomResourceMap, tier1CompoundLimits, 1);
+            const statsTier2Queuing: LabOrderQueueingStats =
+                this.tryQueueLabOrderForRoom(myRoom, roomResourceMap, tier2CompoundLimits, 2);
+            const statsTier3Queuing: LabOrderQueueingStats =
+                this.tryQueueLabOrderForRoom(myRoom, roomResourceMap, tier3CompoundLimits, 3);
 
             //Stats
-            newLabOrders += statsFromBaseQueuing.newLabOrders + statsFromGQueuing.newLabOrders;
-            labOrdersThatFailedToQueue += statsFromBaseQueuing.labOrdersThatFailedToQueue + statsFromGQueuing.labOrdersThatFailedToQueue;
+            newLabOrders += statsFromBaseQueuing.newLabOrders +
+                statsFromGQueuing.newLabOrders +
+                statsTier1Queuing.newLabOrders +
+                statsTier2Queuing.newLabOrders +
+                statsTier3Queuing.newLabOrders;
+            labOrdersThatFailedToQueue += statsFromBaseQueuing.labOrdersThatFailedToQueue +
+                statsFromGQueuing.labOrdersThatFailedToQueue +
+                statsTier1Queuing.labOrdersThatFailedToQueue +
+                statsTier2Queuing.labOrdersThatFailedToQueue +
+                statsTier3Queuing.labOrdersThatFailedToQueue;
             totalLabOrders += (myRoom.labs as LabMemory).labOrders.length;
         }
 
