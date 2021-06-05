@@ -185,21 +185,11 @@ export class MineralController {
         }
 
         if (cantCreateList.length > 0 && needMoreOfList.length > 0) {
-            let cantCreateMessage: string = "";
-            for (const cantCreate of cantCreateList) {
-                cantCreateMessage += `${cantCreate}, `;
+            const messages: string[] = [];
+            for (let i: number = 0; 0 < cantCreateList.length; i++) {
+                messages.push(`${cantCreateList[i]} (${needMoreOfList[i]})`);
             }
-            //Remove last comma
-            cantCreateMessage = cantCreateMessage.slice(0, cantCreateMessage.length - 2);
-
-            let needMoreMessage: string = "";
-            for (const needMore of needMoreOfList) {
-                needMoreMessage += `${needMore}, `;
-            }
-            //Remove last comma
-            needMoreMessage = needMoreMessage.slice(0, needMoreMessage.length - 2);
-
-            ReportController.log(`${LogHelper.roomNameAsLink(myRoom.name)} can't create ${cantCreateMessage}. Need more: ${needMoreMessage}`);
+            ReportController.log(`${LogHelper.roomNameAsLink(myRoom.name)} can't create ${LogHelper.commaSeperateList(messages)}`);
         }
         return statsResults;
     }

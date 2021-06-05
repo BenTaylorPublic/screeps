@@ -49,6 +49,16 @@ export class LogHelper {
 
     }
 
+    public static commaSeperateList(list: string[]): string {
+        let result: string = "";
+        for (const item of list) {
+            result += `${item}, `;
+        }
+        //Remove last comma
+        result = result.slice(0, result.length - 2);
+        return result;
+    }
+
     public static logScreepsReturnCode(screepsReturnCode: ScreepsReturnCode): string {
         switch (screepsReturnCode) {
             case OK:
