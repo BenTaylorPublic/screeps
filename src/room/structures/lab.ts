@@ -83,7 +83,8 @@ export class RoomLabController {
                     //Returning true kills the lab order
                     return true;
                 } else if (result === ERR_TIRED) {
-                    ReportController.email(`BAD: runReaction result was ERR_TIRED, in ${LogHelper.roomNameAsLink(roomName)} which probably means a bad cooldown was set`, ReportCooldownConstants.FIVE_MINUTE);
+                    //Temporarily commented out because I just queued 100 with bad cooldowns
+                    // ReportController.email(`BAD: runReaction result was ERR_TIRED, in ${LogHelper.roomNameAsLink(roomName)} which probably means a bad cooldown was set`, ReportCooldownConstants.FIVE_MINUTE);
                 } else {
                     ReportController.email("BAD: Bad result for runReaction, in " + LogHelper.roomNameAsLink(roomName) + " result:" + LogHelper.logScreepsReturnCode(result), ReportCooldownConstants.FIVE_MINUTE);
                 }
