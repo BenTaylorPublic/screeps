@@ -58,32 +58,37 @@ export class EmpireHelper {
         if (result == null) {
             return null;
         }
+
+        //Save for next time
+        myRoom.transferId = result.id;
+
         if (result.roomFrom === myRoom.name) {
-            if (result.state === "Loading") {
-                if (result.amountLeft === 0) {
-                    //In the case of the loading being done, this just transfers it then returns null
-                    //As nothing in the room needs to change
-                    const terminals: StructureTerminal[] = Game.rooms[myRoom.name].find<StructureTerminal>(FIND_MY_STRUCTURES, {
-                        filter(structure: AnyStructure): boolean {
-                            return structure.structureType === STRUCTURE_TERMINAL;
-                        }
-                    });
-                    if (terminals.length === 1) {
-                        const terminal: StructureTerminal = terminals[0];
-                        if (terminal.store.getUsedCapacity(result.resource) >= result.amount) {
-                            const transferResult: ScreepsReturnCode = terminal.send(result.resource, result.amount, result.roomTo);
-                            if (transferResult === OK) {
-                                ReportController.log("Sending " + result.amount + " " + result.resource + " from " + LogHelper.roomNameAsLink(result.roomFrom) + " to " + LogHelper.roomNameAsLink(result.roomTo));
-                                result.state = "Sending";
-                                result.amountLeft = result.amount;
-                            }
+            if (result.state === "Loading" &&
+                result.amountLeft === 0) {
+                //In the case of the loading being done, this just transfers it then returns null
+                //As nothing in the room needs to change
+                const terminals: StructureTerminal[] = Game.rooms[myRoom.name].find<StructureTerminal>(FIND_MY_STRUCTURES, {
+                    filter(structure: AnyStructure): boolean {
+                        return structure.structureType === STRUCTURE_TERMINAL;
+                    }
+                });
+                if (terminals.length === 1) {
+                    const terminal: StructureTerminal = terminals[0];
+                    if (terminal.store.getUsedCapacity(result.resource) >= result.amount) {
+                        const transferResult: ScreepsReturnCode = terminal.send(result.resource, result.amount, result.roomTo);
+                        if (transferResult === OK) {
+                            ReportController.log("Sending " + result.amount + " " + result.resource + " from " + LogHelper.roomNameAsLink(result.roomFrom) + " to " + LogHelper.roomNameAsLink(result.roomTo));
+                            result.state = "Sending";
+                            result.amountLeft = result.amount;
                         }
                     }
-                    return null;
                 }
+                return null;
             } else if (result.state === "Sending") {
                 ReportController.log("Unloading " + result.amount + " " + result.resource + " from " + LogHelper.roomNameAsLink(result.roomFrom) + " to " + LogHelper.roomNameAsLink(result.roomTo));
                 result.state = "Unloading";
+                //This room doesn't have to deal with this transfer anymore
+                myRoom.transferId = null;
                 return null;
             }
         }
