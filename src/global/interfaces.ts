@@ -94,6 +94,7 @@ interface BestPathFindRoomObjectResult<T extends RoomObject> {
 }
 
 interface Transfer {
+    id: number;
     roomTo: string;
     roomFrom: string;
     state: "Loading" | "Sending" | "Unloading";
@@ -158,6 +159,7 @@ interface MyRoom {
     labs: LabMemory | null;
     nukerStatus: "NeedsEnergy" | "NeedsG" | "Full" | null;
     powerSpawn: PowerSpawnMemory | null;
+    transferId: number | null;
 }
 
 interface PowerSpawnMemory {

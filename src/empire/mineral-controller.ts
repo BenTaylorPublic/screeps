@@ -3,6 +3,7 @@ import {Constants} from "../global/constants/constants";
 import {LogHelper} from "../global/helpers/log-helper";
 import {ReportController} from "../reporting/report-controller";
 import {ResourceConstants} from "../global/constants/resource-constants";
+import {EmpireHelper} from "../global/helpers/empire-helper";
 
 export class MineralController {
     public static run(myMemory: MyMemory): void {
@@ -335,7 +336,8 @@ export class MineralController {
             roomFrom: sendingRoomName,
             roomTo: receivingRoomName,
             state: "Loading",
-            actionStarted: false
+            actionStarted: false,
+            id: EmpireHelper.getNewTransferId()
         };
         transfers.push(transfer);
         (sendingRoomResourceMap[resource] as number) -= amount;
