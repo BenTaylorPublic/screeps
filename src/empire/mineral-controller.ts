@@ -98,90 +98,79 @@ export class MineralController {
             const resourceLimits: ResourceLimitUpperLowerWithReagents = tieredResourceLimits[resource] as ResourceLimitUpperLowerWithReagents;
             const amountOfResource: number = this.getAmountOfResource(roomResourceMap, resource);
 
-            if (amountOfResource < resourceLimits.lower) {
-                //The room needs more of this resource
-                //There could be another already existing order for this resource
-                let alreadyExistingOrderForThisResource: boolean = false;
-                for (let j: number = 0; j < (myRoom.labs as LabMemory).labOrders.length; j++) {
-                    const currentLabOrder: LabOrder = (myRoom.labs as LabMemory).labOrders[j];
-                    if (currentLabOrder.compound === resource) {
-                        alreadyExistingOrderForThisResource = true;
-                        break;
-                    }
+            if (amountOfResource >= resourceLimits.lower) {
+                continue;
+            }
+            let alreadyExistingOrderForThisResource: boolean = false;
+            for (const currentLabOrder of (myRoom.labs as LabMemory).labOrders) {
+                if (currentLabOrder.compound === resource) {
+                    alreadyExistingOrderForThisResource = true;
+                    break;
                 }
-                if (alreadyExistingOrderForThisResource) {
-                    continue;
+            }
+            if (alreadyExistingOrderForThisResource) {
+                continue;
+            }
+            let amountNeeded: number = Math.ceil((resourceLimits.upper - amountOfResource) / Constants.LAB_REACTION_AMOUNT_TO_CEIL_TO) * Constants.LAB_REACTION_AMOUNT_TO_CEIL_TO;
+            let amounts: number[] = [];
+            if (amountNeeded > 3_000) {
+                const lots: number = Math.floor(amountNeeded / 3_000);
+                for (let j: number = 0; j < lots; j++) {
+                    amounts.push(3_000);
                 }
-
-                let amountNeeded: number = Math.ceil((resourceLimits.upper - amountOfResource) / Constants.LAB_REACTION_AMOUNT_TO_CEIL_TO) * Constants.LAB_REACTION_AMOUNT_TO_CEIL_TO;
-                let amounts: number[] = [];
-                //3k is the limit of the reagent labs
-                if (amountNeeded > 3_000) {
-                    const lots: number = Math.floor(amountNeeded / 3_000);
-                    for (let j: number = 0; j < lots; j++) {
-                        amounts.push(3_000);
-                    }
-                    const leftOver: number = amountNeeded - (lots * 3_000);
-                    amounts.push(leftOver);
+                const leftOver: number = amountNeeded - (lots * 3_000);
+                amounts.push(leftOver);
+            } else {
+                amounts.push(amountNeeded);
+            }
+            if (myRoom.bank == null ||
+                myRoom.bank.object == null) {
+                ReportController.email("BAD: Can't create resource " + resource + " in room " + LogHelper.roomNameAsLink(myRoom.name) + " bank being null",
+                    ReportCooldownConstants.FIVE_MINUTE);
+                statsResults.labOrdersThatFailedToQueue += 1;
+                continue;
+            }
+            const amountOfReagent1: number = this.getAmountOfResource(roomResourceMap, resourceLimits.reagent1);
+            if (amountOfReagent1 < amountNeeded ||
+                myRoom.bank.object.store.getUsedCapacity(resourceLimits.reagent1) < amountNeeded) {
+                if (amounts.length > 1 &&
+                    amountOfReagent1 >= 3_000 &&
+                    myRoom.bank.object.store.getUsedCapacity(resourceLimits.reagent1) >= 3_000) {
+                    amounts = [3_000];
+                    amountNeeded = 3_000;
                 } else {
-                    amounts.push(amountNeeded);
-                }
-
-                if (myRoom.bank == null ||
-                    myRoom.bank.object == null) {
-                    ReportController.email("BAD: Can't create resource " + resource + " in room " + LogHelper.roomNameAsLink(myRoom.name) + " bank being null",
-                        ReportCooldownConstants.FIVE_MINUTE);
+                    cantCreateList.push(resource);
+                    needMoreOfList.push(resourceLimits.reagent1);
                     statsResults.labOrdersThatFailedToQueue += 1;
                     continue;
                 }
-
-                //There might not be enough of the reagents to make this resource
-                const amountOfReagent1: number = this.getAmountOfResource(roomResourceMap, resourceLimits.reagent1);
-                if (amountOfReagent1 < amountNeeded ||
-                    myRoom.bank.object.store.getUsedCapacity(resourceLimits.reagent1) < amountNeeded) {
-                    if (amounts.length > 1 &&
-                        amountOfReagent1 >= 3_000 &&
-                        myRoom.bank.object.store.getUsedCapacity(resourceLimits.reagent1) >= 3_000) {
-                        amounts = [3_000];
-                        amountNeeded = 3_000;
-                    } else {
-                        cantCreateList.push(resource);
-                        needMoreOfList.push(resourceLimits.reagent1);
-                        statsResults.labOrdersThatFailedToQueue += 1;
-                        continue;
-                    }
-                }
-                const amountOfReagent2: number = this.getAmountOfResource(roomResourceMap, resourceLimits.reagent2);
-                if (amountOfReagent2 < amountNeeded ||
-                    myRoom.bank.object.store.getUsedCapacity(resourceLimits.reagent2) < amountNeeded) {
-                    if (amounts.length > 1 &&
-                        amountOfReagent2 >= 3_000 &&
-                        myRoom.bank.object.store.getUsedCapacity(resourceLimits.reagent2) >= 3_000) {
-                        amounts = [3_000];
-                        amountNeeded = 3_000;
-                    } else {
-                        cantCreateList.push(resource);
-                        needMoreOfList.push(resourceLimits.reagent2);
-                        statsResults.labOrdersThatFailedToQueue += 1;
-                        continue;
-                    }
-                }
-
-                for (let j: number = 0; j < amounts.length; j++) {
-                    this.queueLabOrder(myRoom, resource, amounts[j], resourceLimits, priority);
-                }
-
-                //It can't be null, but ohwell
-                if (roomResourceMap[resourceLimits.reagent1] != null) {
-                    (roomResourceMap[resourceLimits.reagent1] as number) -= amountNeeded;
-                }
-                if (roomResourceMap[resourceLimits.reagent2] != null) {
-                    (roomResourceMap[resourceLimits.reagent2] as number) -= amountNeeded;
-                }
-
-                ReportController.log("Queued a new reaction for room " + LogHelper.roomNameAsLink(myRoom.name) + " to create " + resource);
-                statsResults.newLabOrders += amounts.length;
             }
+            const amountOfReagent2: number = this.getAmountOfResource(roomResourceMap, resourceLimits.reagent2);
+            if (amountOfReagent2 < amountNeeded ||
+                myRoom.bank.object.store.getUsedCapacity(resourceLimits.reagent2) < amountNeeded) {
+                if (amounts.length > 1 &&
+                    amountOfReagent2 >= 3_000 &&
+                    myRoom.bank.object.store.getUsedCapacity(resourceLimits.reagent2) >= 3_000) {
+                    amounts = [3_000];
+                    amountNeeded = 3_000;
+                } else {
+                    cantCreateList.push(resource);
+                    needMoreOfList.push(resourceLimits.reagent2);
+                    statsResults.labOrdersThatFailedToQueue += 1;
+                    continue;
+                }
+            }
+            for (let j: number = 0; j < amounts.length; j++) {
+                this.queueLabOrder(myRoom, resource, amounts[j], resourceLimits, priority);
+            }
+            if (roomResourceMap[resourceLimits.reagent1] != null) {
+                (roomResourceMap[resourceLimits.reagent1] as number) -= amountNeeded;
+            }
+            if (roomResourceMap[resourceLimits.reagent2] != null) {
+                (roomResourceMap[resourceLimits.reagent2] as number) -= amountNeeded;
+            }
+            ReportController.log("Queued a new reaction for room " + LogHelper.roomNameAsLink(myRoom.name) + " to create " + resource);
+            statsResults.newLabOrders += amounts.length;
         }
 
         if (cantCreateList.length > 0 && needMoreOfList.length > 0) {

@@ -10,7 +10,8 @@
 ## Working on
 ### Short term
 ```
-Monitoring reactions
+Buffing
+    Just upgraders to start with
 ```
 ### Mid term:
 ```
@@ -54,8 +55,6 @@ Auto safe mode when < stage 2.6, and hostile creep enters
 Monitor force laborer spawns in linked rooms
     They should only be used to get the room out of ruts
     I'm thinking that the ruts can be observed and fixed through this monitoring
-
-Buffing
 
 Remote spawning for low stage rooms
     If a room under stage 6 (no terminal)
