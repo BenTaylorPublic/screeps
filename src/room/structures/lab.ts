@@ -54,7 +54,9 @@ export class RoomLabController {
 
     private static runReactions(labMemory: LabMemory, labOrder: LabOrder, roomName: string): boolean {
         if (Game.cpu.bucket < Constants.DONT_RUN_REACTIONS_WHEN_BUCKET_UNDER) {
-            ReportController.log("Not running reactions because bucket is " + Game.cpu.bucket);
+            if (Game.time % 10 === 0) {
+                ReportController.log(`Not running reactions because bucket is ${Game.cpu.bucket}/${Constants.DONT_RUN_REACTIONS_WHEN_BUCKET_UNDER}`);
+            }
             return false;
         }
         if (labOrder.cooldownTill > Game.time) {
