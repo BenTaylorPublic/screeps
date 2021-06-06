@@ -171,7 +171,7 @@ export class RoomLabController {
                 //If it doesn't have a cooldown, its fine, laborders cooldown is default to tick 0
                 if (lab.cooldown != null &&
                     lab.cooldown > 0) {
-                    lab.cooldown = Game.time + lab.cooldown;
+                    labOrder.cooldown = Game.time + lab.cooldown;
                 }
 
                 ReportController.log("LabOrder in " + LogHelper.roomNameAsLink(myRoom.name) + ": Queued -> InitialLoading");
