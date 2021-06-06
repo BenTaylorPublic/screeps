@@ -469,6 +469,14 @@ export class MineralController {
                 }
             }
 
+            if (myRoom.labs != null) {
+                //Reduce from room, resources that will be used in queued lab orders
+                for (const labOrder of myRoom.labs.labOrders) {
+                    MineralController.addToResourceMap(roomResourceMap, labOrder.reagent1, -labOrder.amount);
+                    MineralController.addToResourceMap(roomResourceMap, labOrder.reagent2, -labOrder.amount);
+                }
+            }
+
             result.myRoomMaps[myRoom.name] = roomResourceMap;
         }
 
