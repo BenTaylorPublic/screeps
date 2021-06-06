@@ -232,6 +232,7 @@ export class SpawnLaborer {
 
             const bank: StructureStorage | null = myRoom.bank.object;
             if (bank == null) {
+                myRoom.bank = null;
                 ReportController.email("ERROR: Bank is null when checking if it's full in " + LogHelper.roomNameAsLink(myRoom.name));
                 return;
             }
