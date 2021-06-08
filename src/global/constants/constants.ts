@@ -23,7 +23,7 @@ export class Constants {
     public static AMOUNT_OF_BANK_ENERGY_TO_SPAWN_LABORER_STAGE_8: number = 200_000;
     public static DONT_DONATE_TO_ROOMS_WITH_ABOVE_ENERGY: number = 250_000;
     //CPU BUCKET
-    public static DONT_RUN_REACTIONS_WHEN_BUCKET_UNDER: number = 4_000;
+    public static DONT_RUN_REACTIONS_WHEN_BUCKET_UNDER: number = 50;
     public static GENERATE_PIXEL_WHEN_BUCKET_OVER: number = 9_500;
     //SPAWN COUNTS
     public static MAX_STOCKERS: number = 1;
