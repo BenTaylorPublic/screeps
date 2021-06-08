@@ -44,11 +44,15 @@ export class RoleBankLinker {
             ReportController.email("ERROR: Bank Link was null for a bank linker in " + LogHelper.roomNameAsLink(myRoom.name));
             return;
         }
+        let buffer: StructureLab | null = null;
+        if (myRoom.labs != null) {
+            buffer = Game.getObjectById(myRoom.labs.buffingLab);
+        }
 
-        this.creepLogic(bankLinker, room, creep, bank, link, transfer, bankLinkerShouldStockLink);
+        this.creepLogic(bankLinker, room, creep, bank, link, transfer, bankLinkerShouldStockLink, buffer);
     }
 
-    private static creepLogic(bankLinker: BankLinker, room: Room, creep: Creep, bank: StructureStorage, link: StructureLink, transfer: Transfer | null, bankLinkerShouldStockLink: boolean): void {
+    private static creepLogic(bankLinker: BankLinker, room: Room, creep: Creep, bank: StructureStorage, link: StructureLink, transfer: Transfer | null, bankLinkerShouldStockLink: boolean, buffer: StructureLab | null): void {
 
         if (bankLinker.state === "Default") {
             if (creep.store.getFreeCapacity() === 0) {
@@ -63,6 +67,10 @@ export class RoleBankLinker {
                 bank.store.energy >= Constants.BANK_LINKER_CAPACITY) {
                 creep.withdraw(bank, RESOURCE_ENERGY);
                 bankLinker.state = "ResourceToTerminal";
+            } else if (this.bufferNeedsEnergy(buffer) &&
+                bank.store.energy >= Constants.BANK_LINKER_CAPACITY) {
+                creep.withdraw(bank, RESOURCE_ENERGY);
+                bankLinker.state = "EnergyToBuffer";
             } else if (transfer != null) {
                 this.tryHandleTransfer(bankLinker, room, creep, bank, transfer);
             } else {
@@ -76,6 +84,13 @@ export class RoleBankLinker {
             });
             if (terminals.length === 1) {
                 creep.transfer(terminals[0], RESOURCE_ENERGY);
+            }
+            bankLinker.state = "Default";
+        } else if (bankLinker.state === "EnergyToBuffer") {
+            if (buffer == null) {
+                creep.transfer(bank, RESOURCE_ENERGY);
+            } else {
+                creep.transfer(buffer, RESOURCE_ENERGY);
             }
             bankLinker.state = "Default";
         } else if (bankLinker.state === "ResourceToTerminal") {
@@ -165,6 +180,11 @@ export class RoleBankLinker {
         } else {
             return terminal.store.getUsedCapacity(RESOURCE_ENERGY) < Constants.TERMINAL_GOAL_ENERGY;
         }
+    }
+
+    private static bufferNeedsEnergy(buffer: StructureLab | null): boolean {
+        return buffer != null &&
+            buffer.store.getFreeCapacity(RESOURCE_ENERGY) >= Constants.BANK_LINKER_CAPACITY;
     }
 
     private static getTerminal(room: Room): StructureTerminal | null {

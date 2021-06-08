@@ -333,7 +333,7 @@ interface Legolas extends MyCreep {
 
 interface BankLinker extends MyCreep {
     inPos: boolean;
-    state: "Default" | "EnergyToTerminal" | "ResourceToTerminal" | "ResourceToBank" | "EnergyToLink";
+    state: "Default" | "EnergyToTerminal" | "EnergyToBuffer" | "ResourceToTerminal" | "ResourceToBank" | "EnergyToLink";
 }
 
 interface AttackQuickCreep extends MyCreep {
