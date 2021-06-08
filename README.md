@@ -12,8 +12,6 @@
 ```
 Buffing
     Just upgraders to start with
-
-Enable the ERR_TIRED error for labs once the labs are done
 ```
 ### Mid term:
 ```
