@@ -5,7 +5,38 @@ import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
 
 export class RoomLabController {
 
-    public static run(myRoom: MyRoom): LabOrder | null {
+    public static run(myRoom: MyRoom, buffOrder: BuffOrder | null): LabOrder | null {
+        if (myRoom.labs == null) {
+            return null;
+        }
+
+        if (buffOrder != null &&
+            buffOrder.status === "Ready"
+        ) {
+            const lab: StructureLab | null = Game.getObjectById<StructureLab>(myRoom.labs.buffingLab);
+            if (lab == null) {
+                ReportController.email(`ERROR: buffingLab was null when trying to buff in ${LogHelper.roomNameAsLink(myRoom.name)}`);
+            } else {
+                const creep: Creep | null = Game.creeps[buffOrder.creepName];
+                if (creep == null) {
+                    ReportController.email(`ERROR: creep was null when trying to buff in ${LogHelper.roomNameAsLink(myRoom.name)}`);
+                    //Going to delete the buff order
+                    myRoom.labs.buffOrders.splice(0, 1);
+                } else {
+                    const buffResult: ScreepsReturnCode = lab.boostCreep(creep);
+                    ReportController.log(`Buff result: ${buffResult}`);
+                    if (buffResult === OK) {
+                        //Going to delete the buff order
+                        myRoom.labs.buffOrders.splice(0, 1);
+                    } else if (buffResult !== ERR_NOT_IN_RANGE) {
+                        ReportController.email(`BAD: bad buff result '${buffResult}' in ${LogHelper.roomNameAsLink(myRoom.name)}`);
+                        //Going to delete the buff order
+                        myRoom.labs.buffOrders.splice(0, 1);
+                    }
+                }
+            }
+        }
+
         const labOrder: LabOrder | null = this.getLabOrder(myRoom);
         if (labOrder != null) {
             const labMemory: LabMemory = myRoom.labs as LabMemory;

@@ -37,9 +37,8 @@ export class RoomController {
 
         const bankLinkerShouldStockLink: boolean = RoomLinkController.run(myRoom);
 
-        const labOrder: LabOrder | null = RoomLabController.run(myRoom);
-
         const buffOrder: BuffOrder | null = RoomLabController.getBuffOrder(myRoom);
+        const labOrder: LabOrder | null = RoomLabController.run(myRoom, buffOrder);
 
         // Creep logic
         for (const myCreep of myRoom.myCreeps) {
