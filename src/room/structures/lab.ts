@@ -52,6 +52,21 @@ export class RoomLabController {
         return null;
     }
 
+    public static getBuffOrder(myRoom: MyRoom): BuffOrder | null {
+        let result: BuffOrder | null = null;
+        if (myRoom.labs != null &&
+            myRoom.labs.buffOrders.length > 0) {
+            result = myRoom.labs.buffOrders[0];
+            if (result.status === "Queued") {
+                result.status = "Loading";
+            } else if (result.status === "Loading" &&
+                result.amountLeftToLoad <= 0) {
+                result.status = "Ready";
+            }
+        }
+        return result;
+    }
+
     private static runReactions(labMemory: LabMemory, labOrder: LabOrder, roomName: string): boolean {
         if (Game.cpu.bucket < Constants.DONT_RUN_REACTIONS_WHEN_BUCKET_UNDER) {
             if (Game.time % 10 === 0) {

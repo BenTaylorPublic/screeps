@@ -171,6 +171,15 @@ interface LabMemory {
     reagentLab2: ReagentLabMemory;
     compoundLabs: CompoundLabMemory[];
     labOrders: LabOrder[];
+    buffOrders: BuffOrder[];
+}
+
+interface BuffOrder {
+    amount: number;
+    amountLeftToLoad: number;
+    compound: MineralBoostConstant;
+    creepName: string;
+    status: "Queued" | "Loading" | "Ready";
 }
 
 interface LabOrder {
@@ -333,7 +342,7 @@ interface Legolas extends MyCreep {
 
 interface BankLinker extends MyCreep {
     inPos: boolean;
-    state: "Default" | "EnergyToTerminal" | "EnergyToBuffer" | "ResourceToTerminal" | "ResourceToBank" | "EnergyToLink";
+    state: "Default" | "EnergyToTerminal" | "EnergyToBuffer" | "ResourceToTerminal" | "ResourceToBank" | "EnergyToLink" | "ResourceToBuffer";
 }
 
 interface AttackQuickCreep extends MyCreep {

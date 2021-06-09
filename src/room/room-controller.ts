@@ -39,13 +39,14 @@ export class RoomController {
 
         const labOrder: LabOrder | null = RoomLabController.run(myRoom);
 
+        const buffOrder: BuffOrder | null = RoomLabController.getBuffOrder(myRoom);
+
         // Creep logic
-        for (let i = 0; i < myRoom.myCreeps.length; i++) {
-            const myCreep: MyCreep = myRoom.myCreeps[i];
+        for (const myCreep of myRoom.myCreeps) {
             if (myCreep.role === "Miner") {
                 RoleMiner.run(myCreep as Miner, myRoom);
             } else if (myCreep.role === "BankLinker") {
-                RoleBankLinker.run(myCreep as BankLinker, myRoom, transfer, bankLinkerShouldStockLink);
+                RoleBankLinker.run(myCreep as BankLinker, myRoom, transfer, bankLinkerShouldStockLink, buffOrder);
             } else if (myCreep.role === "Stocker") {
                 RoleStocker.run(myCreep as Stocker, myRoom, labOrder);
             } else if (myCreep.role === "Laborer") {
