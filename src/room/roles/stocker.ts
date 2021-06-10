@@ -386,7 +386,7 @@ export class RoleStocker {
             const resourceToGrab: MineralsAndCompoundConstant = creep.store.getUsedCapacity() > 0 ? labOrder.reagent2 : labOrder.reagent1;
             const withdrawResult: ScreepsReturnCode = creep.withdraw(bank, resourceToGrab, amountToGrab);
             if (withdrawResult !== OK) {
-                ReportController.log("ERROR: Withdraw reagent " + resourceToGrab + " for stocker in room " + LogHelper.roomNameAsLink(myRoom.name) + " resulted in " + withdrawResult);
+                ReportController.email(`ERROR: Withdraw reagent ${resourceToGrab} for stocker in room ${LogHelper.roomNameAsLink(myRoom.name)} resulted in ${LogHelper.logScreepsReturnCode(withdrawResult)}`);
             }
         } else {
             MovementHelper.myMoveTo(creep, bankPos, stocker);
