@@ -160,8 +160,11 @@ export class MineralController {
                     continue;
                 }
             }
-            for (let j: number = 0; j < amounts.length; j++) {
-                this.queueLabOrder(myRoom, resource, amounts[j], resourceLimits, priority);
+            for (const amount of amounts) {
+                if (amount === 0) {
+                    continue;
+                }
+                this.queueLabOrder(myRoom, resource, amount, resourceLimits, priority);
             }
             if (roomResourceMap[resourceLimits.reagent1] != null) {
                 (roomResourceMap[resourceLimits.reagent1] as number) -= amountNeeded;
