@@ -69,7 +69,6 @@ export class EmpireHelper {
             }
             if (result == null) {
                 //The transfer must have been finished and sliced out
-                ReportController.log("Transfer not found. Not sure if there's a better way to handle this yet.");
                 //It'll try get a new transfer next tick
                 myRoom.transferId = null;
             }
