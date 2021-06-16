@@ -66,7 +66,8 @@ export let loop: any = function (): void {
 
     if (Game.cpu.getUsed() > 20) {
         console.log(Game.time + ": Used " + Game.cpu.getUsed() + ", bucket: " + Game.cpu.bucket);
-    } else if (Game.cpu.bucket >= Constants.GENERATE_PIXEL_WHEN_BUCKET_OVER) {
+    } else if (Game.cpu.bucket >= Constants.GENERATE_PIXEL_WHEN_BUCKET_OVER &&
+        Game.shard.name === "shard3") {
         Game.cpu.generatePixel();
     }
 };

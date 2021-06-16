@@ -6,7 +6,6 @@ import {RoomHelper} from "../../global/helpers/room-helper";
 import {Constants} from "../../global/constants/constants";
 import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
 
-
 export class RoleBankLinker {
     public static run(bankLinker: BankLinker, myRoom: MyRoom, transfer: Transfer | null, bankLinkerShouldStockLink: boolean): void {
         if (CreepHelper.handleCreepPreRole(bankLinker)) {
@@ -94,7 +93,7 @@ export class RoleBankLinker {
             }
             bankLinker.state = "Default";
         } else if (bankLinker.state === "ResourceToTerminal") {
-            const terminal: StructureTerminal | null = this.getTerminal(room);
+            const terminal: StructureTerminal | null = RoomHelper.getTerminal(room);
             let resource: ResourceConstant | null = null;
             if (terminal != null) {
                 const resources: ResourceConstant[] = Object.keys(creep.store) as ResourceConstant[];
@@ -111,7 +110,7 @@ export class RoleBankLinker {
             }
             bankLinker.state = "Default";
         } else if (bankLinker.state === "ResourceToBank") {
-            const terminal: StructureTerminal | null = this.getTerminal(room);
+            const terminal: StructureTerminal | null = RoomHelper.getTerminal(room);
             let resource: ResourceConstant | null = null;
             if (terminal != null) {
                 const resources: ResourceConstant[] = Object.keys(creep.store) as ResourceConstant[];
@@ -138,7 +137,7 @@ export class RoleBankLinker {
         if (Memory.myMemory.empire.transfers.length !== 0) {
             return;
         }
-        const terminal: StructureTerminal | null = this.getTerminal(room);
+        const terminal: StructureTerminal | null = RoomHelper.getTerminal(room);
         if (terminal != null) {
             const resources: ResourceConstant[] = Object.keys(terminal.store) as ResourceConstant[];
             for (let i: number = 0; i < resources.length; i++) {
@@ -159,7 +158,7 @@ export class RoleBankLinker {
             creep.withdraw(bank, transfer.resource);
             bankLinker.state = "ResourceToTerminal";
         } else if (transfer.state === "Unloading") {
-            const terminal: StructureTerminal | null = this.getTerminal(room);
+            const terminal: StructureTerminal | null = RoomHelper.getTerminal(room);
             if (terminal != null) {
                 creep.withdraw(terminal, transfer.resource);
                 bankLinker.state = "ResourceToBank";
@@ -168,7 +167,7 @@ export class RoleBankLinker {
     }
 
     private static terminalNeedsEnergy(room: Room, transfer: Transfer | null): boolean {
-        const terminal: StructureTerminal | null = this.getTerminal(room);
+        const terminal: StructureTerminal | null = RoomHelper.getTerminal(room);
         if (terminal == null) {
             return false;
         }
@@ -185,17 +184,5 @@ export class RoleBankLinker {
     private static bufferNeedsEnergy(buffer: StructureLab | null): boolean {
         return buffer != null &&
             buffer.store.getFreeCapacity(RESOURCE_ENERGY) >= Constants.BANK_LINKER_CAPACITY;
-    }
-
-    private static getTerminal(room: Room): StructureTerminal | null {
-        const terminals: StructureTerminal[] = room.find<StructureTerminal>(FIND_MY_STRUCTURES, {
-            filter(structure: AnyStructure): boolean {
-                return structure.structureType === STRUCTURE_TERMINAL;
-            }
-        });
-        if (terminals.length === 1) {
-            return terminals[0];
-        }
-        return null;
     }
 }

@@ -179,4 +179,16 @@ export class RoomHelper {
 
         return new RoomPosition(resultX, resultY, pos1.roomName);
     }
+
+    public static getTerminal(room: Room): StructureTerminal | null {
+        const terminals: StructureTerminal[] = room.find<StructureTerminal>(FIND_MY_STRUCTURES, {
+            filter(structure: AnyStructure): boolean {
+                return structure.structureType === STRUCTURE_TERMINAL;
+            }
+        });
+        if (terminals.length === 1) {
+            return terminals[0];
+        }
+        return null;
+    }
 }

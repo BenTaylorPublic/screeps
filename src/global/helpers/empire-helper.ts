@@ -1,5 +1,6 @@
 import {ReportController} from "../../reporting/report-controller";
 import {LogHelper} from "./log-helper";
+import {RoomHelper} from "./room-helper";
 
 export class EmpireHelper {
     public static getNewTransferId(): number {
@@ -17,12 +18,31 @@ export class EmpireHelper {
         //Deleting finished transfers
         for (let i: number = empire.transfers.length - 1; i >= 0; i--) {
             const transfer: Transfer = empire.transfers[i];
-            if (transfer.state === "Unloading" &&
-                transfer.amountLeft === 0) {
-                ReportController.log("Unloaded " + transfer.amount + " " + transfer.resource + " from " + LogHelper.roomNameAsLink(transfer.roomFrom) + " to " + LogHelper.roomNameAsLink(transfer.roomTo));
-                empire.transfers.splice(i, 1);
-                if (empire.transfers.length === 0) {
-                    ReportController.log("No more transfers");
+            if (transfer.state === "Unloading") {
+                if (transfer.amountLeft === 0) {
+                    ReportController.log("Unloaded " + transfer.amount + " " + transfer.resource + " from " + LogHelper.roomNameAsLink(transfer.roomFrom) + " to " + LogHelper.roomNameAsLink(transfer.roomTo));
+                    empire.transfers.splice(i, 1);
+                    if (empire.transfers.length === 0) {
+                        ReportController.log("No more transfers");
+                    }
+                } else {
+                    const room: Room | null = Game.rooms[transfer.roomTo];
+                    if (room == null) {
+                        ReportController.email("ERROR: Room is null when trying to cleanup transfers");
+                        continue;
+                    }
+
+                    const terminal: StructureTerminal | null = RoomHelper.getTerminal(room);
+                    if (terminal == null) {
+                        ReportController.email("ERROR: Terminal is null when trying to cleanup transfers");
+                        continue;
+                    }
+
+                    if (terminal.store.getUsedCapacity(transfer.resource) === 0) {
+                        ReportController.email(`BAD: Terminal in ${LogHelper.roomNameAsLink(room.name)} is short on resource ${transfer.resource} while unloading (${transfer.amountLeft} short)`);
+                        empire.transfers.splice(i, 1);
+                    }
+
                 }
             }
         }
