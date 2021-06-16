@@ -112,7 +112,7 @@ export class PowerBankController {
                 if (powerBank == null) {
                     ReportController.log("Power Bank killed in " + LogHelper.roomNameAsLink(powerBankTarget.pos.roomName));
                 } else {
-                    ReportController.email("Power Bank attack failed, all creeps dead, bank alive in " + LogHelper.roomNameAsLink(powerBankTarget.pos.roomName));
+                    ReportController.log("Power Bank attack failed, all creeps dead, bank alive in " + LogHelper.roomNameAsLink(powerBankTarget.pos.roomName));
                 }
             } else {
                 this.handleBank(powerBankTarget, powerBankTargets);
