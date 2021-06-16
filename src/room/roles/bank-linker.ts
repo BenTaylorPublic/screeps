@@ -94,36 +94,21 @@ export class RoleBankLinker {
             bankLinker.state = "Default";
         } else if (bankLinker.state === "ResourceToTerminal") {
             const terminal: StructureTerminal | null = RoomHelper.getTerminal(room);
-            let resource: ResourceConstant | null = null;
             if (terminal != null) {
                 const resources: ResourceConstant[] = Object.keys(creep.store) as ResourceConstant[];
                 for (let i: number = 0; i < resources.length; i++) {
                     if (creep.transfer(terminal, resources[i]) === OK) {
-                        resource = resources[i];
                         break;
                     }
                 }
-            }
-            if (transfer != null &&
-                transfer.resource === resource) {
-                transfer.amountLeft -= Constants.BANK_LINKER_CAPACITY;
             }
             bankLinker.state = "Default";
         } else if (bankLinker.state === "ResourceToBank") {
-            const terminal: StructureTerminal | null = RoomHelper.getTerminal(room);
-            let resource: ResourceConstant | null = null;
-            if (terminal != null) {
-                const resources: ResourceConstant[] = Object.keys(creep.store) as ResourceConstant[];
-                for (let i: number = 0; i < resources.length; i++) {
-                    if (creep.transfer(bank, resources[i]) === OK) {
-                        resource = resources[i];
-                        break;
-                    }
+            const resources: ResourceConstant[] = Object.keys(creep.store) as ResourceConstant[];
+            for (let i: number = 0; i < resources.length; i++) {
+                if (creep.transfer(bank, resources[i]) === OK) {
+                    break;
                 }
-            }
-            if (transfer != null &&
-                transfer.resource === resource) {
-                transfer.amountLeft -= Constants.BANK_LINKER_CAPACITY;
             }
             bankLinker.state = "Default";
         } else if (bankLinker.state === "EnergyToLink") {
@@ -155,13 +140,23 @@ export class RoleBankLinker {
 
     private static tryHandleTransfer(bankLinker: BankLinker, room: Room, creep: Creep, bank: StructureStorage, transfer: Transfer): void {
         if (transfer.state === "Loading") {
-            creep.withdraw(bank, transfer.resource);
-            bankLinker.state = "ResourceToTerminal";
+            const result: ScreepsReturnCode = creep.withdraw(bank, transfer.resource);
+            if (result === OK) {
+                transfer.amountLeft -= Constants.BANK_LINKER_CAPACITY;
+                bankLinker.state = "ResourceToTerminal";
+            } else {
+                ReportController.email(`BAD: Load withdraw result ${LogHelper.logScreepsReturnCode(result)} in ${LogHelper.roomNameAsLink(room.name)}`, ReportCooldownConstants.FIVE_MINUTE);
+            }
         } else if (transfer.state === "Unloading") {
             const terminal: StructureTerminal | null = RoomHelper.getTerminal(room);
             if (terminal != null) {
-                creep.withdraw(terminal, transfer.resource);
-                bankLinker.state = "ResourceToBank";
+                const result: ScreepsReturnCode = creep.withdraw(terminal, transfer.resource);
+                if (result === OK) {
+                    transfer.amountLeft -= Constants.BANK_LINKER_CAPACITY;
+                    bankLinker.state = "ResourceToBank";
+                } else {
+                    ReportController.email(`BAD: Unload withdraw result ${LogHelper.logScreepsReturnCode(result)} in ${LogHelper.roomNameAsLink(room.name)}`, ReportCooldownConstants.FIVE_MINUTE);
+                }
             }
         }
     }

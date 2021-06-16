@@ -88,6 +88,8 @@ export class RoomLabController {
                     ReportController.email(`BAD: runReaction result was ERR_TIRED, in ${LogHelper.roomNameAsLink(roomName)} which probably means a bad cooldown was set`, ReportCooldownConstants.FIVE_MINUTE);
                 } else {
                     ReportController.email("BAD: Bad result for runReaction, in " + LogHelper.roomNameAsLink(roomName) + " result:" + LogHelper.logScreepsReturnCode(result), ReportCooldownConstants.FIVE_MINUTE);
+                    //Returning true kills the lab order
+                    return true;
                 }
             }
         }
@@ -109,7 +111,7 @@ export class RoomLabController {
                 ReportController.log("LabOrder in " + LogHelper.roomNameAsLink(myRoom.name) + ": InitialLoading -> Loading");
             }
         } else if (labOrder.state === "Loading") {
-            if (labOrder.amountLeftToLoad === 0) {
+            if (labOrder.amountLeftToLoad <= 0) {
                 labOrder.state = "Running";
                 ReportController.log("LabOrder in " + LogHelper.roomNameAsLink(myRoom.name) + ": Loading -> Running");
             }
