@@ -60,5 +60,6 @@ export class Constants {
     public static UPGRADER_TICKS_TO_SPAWN: number = 72;
     public static SCAVENGE_CARRY_PER_CREEP: number = 25;
     public static SUICIDE_STOCKER_WHEN_TTL_BELOW: number = 50;
+    public static SUICIDE_BANK_LINKER_WHEN_TTL_BELOW: number = 10;
     public static TOWER_EMAIL_WHEN_THREAT_LEVEL_OVER: number = 100;
 }

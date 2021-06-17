@@ -56,6 +56,9 @@ export class RoleBankLinker {
         if (bankLinker.state === "Default") {
             if (creep.store.getFreeCapacity() === 0) {
                 creep.transfer(bank, RESOURCE_ENERGY);
+            } else if (creep.ticksToLive != null &&
+                creep.ticksToLive < Constants.SUICIDE_BANK_LINKER_WHEN_TTL_BELOW) {
+                creep.suicide();
             } else if (bankLinkerShouldStockLink &&
                 bank.store.energy > Constants.BANK_LINKER_CAPACITY) {
                 creep.withdraw(bank, RESOURCE_ENERGY);
