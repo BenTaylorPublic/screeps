@@ -1,6 +1,7 @@
 import {ReportController} from "../../reporting/report-controller";
 import {LogHelper} from "./log-helper";
 import {RoomHelper} from "./room-helper";
+import {Constants} from "../constants/constants";
 
 export class EmpireHelper {
     public static getNewTransferId(): number {
@@ -82,18 +83,17 @@ export class EmpireHelper {
         myRoom.transferId = result.id;
 
         if (result.roomFrom === myRoom.name) {
-            if (result.state === "Loading" &&
-                result.amountLeft === 0) {
+            if (result.state === "Loading") {
                 //In the case of the loading being done, this just transfers it then returns null
                 //As nothing in the room needs to change
-                const terminals: StructureTerminal[] = Game.rooms[myRoom.name].find<StructureTerminal>(FIND_MY_STRUCTURES, {
-                    filter(structure: AnyStructure): boolean {
-                        return structure.structureType === STRUCTURE_TERMINAL;
-                    }
-                });
-                if (terminals.length === 1) {
-                    const terminal: StructureTerminal = terminals[0];
-                    if (terminal.store.getUsedCapacity(result.resource) >= result.amount) {
+                const terminal: StructureTerminal | null = RoomHelper.getTerminal(Game.rooms[myRoom.name]);
+                if (terminal != null) {
+                    const amountInTerminal: number = terminal.store.getUsedCapacity(result.resource);
+                    const shouldSend: boolean = amountInTerminal >= result.amount &&
+                        (result.amountLeft <= 0 ||
+                            (result.resource === "energy" &&
+                                amountInTerminal > Constants.TERMINAL_GOAL_ENERGY + result.amount));
+                    if (shouldSend) {
                         const transferResult: ScreepsReturnCode = terminal.send(result.resource, result.amount, result.roomTo);
                         if (transferResult === OK) {
                             ReportController.log("Sending " + result.amount + " " + result.resource + " from " + LogHelper.roomNameAsLink(result.roomFrom) + " to " + LogHelper.roomNameAsLink(result.roomTo));
@@ -101,6 +101,8 @@ export class EmpireHelper {
                             result.amountLeft = result.amount;
                         }
                     }
+                } else {
+                    ReportController.email(`ERROR: terminal is null in ${LogHelper.roomNameAsLink(myRoom.name)} when loading should occur`);
                 }
                 return null;
             } else if (result.state === "Sending") {
