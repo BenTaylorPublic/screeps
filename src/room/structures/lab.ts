@@ -78,16 +78,20 @@ export class RoomLabController {
             if (result === OK) {
                 labOrder.cooldownTill = Game.time + labOrder.cooldown;
             } else {
-                if (labOrder.amountLeftToLoad === 0 &&
+                if (labOrder.amountLeftToLoad <= 0 &&
                     result === ERR_NOT_ENOUGH_RESOURCES) {
                     //This is bad
                     ReportController.email("ERROR: Running reaction got 'ERR_NOT_ENOUGH_RESOURCES', but amountLeftToLoad === 0 in " + LogHelper.roomNameAsLink(roomName) + ", removing lab order");
+                    const labOrderJson: string = JSON.stringify(labOrder);
+                    ReportController.email(labOrderJson);
                     //Returning true kills the lab order
                     return true;
                 } else if (result === ERR_TIRED) {
                     ReportController.email(`BAD: runReaction result was ERR_TIRED, in ${LogHelper.roomNameAsLink(roomName)} which probably means a bad cooldown was set`, ReportCooldownConstants.FIVE_MINUTE);
                 } else {
-                    ReportController.email("BAD: Bad result for runReaction, in " + LogHelper.roomNameAsLink(roomName) + " result:" + LogHelper.logScreepsReturnCode(result), ReportCooldownConstants.FIVE_MINUTE);
+                    ReportController.email("BAD: Bad result for runReaction, in " + LogHelper.roomNameAsLink(roomName) + " result:" + LogHelper.logScreepsReturnCode(result));
+                    const labOrderJson: string = JSON.stringify(labOrder);
+                    ReportController.email(labOrderJson);
                     //Returning true kills the lab order
                     return true;
                 }
