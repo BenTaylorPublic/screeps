@@ -224,9 +224,41 @@ export class MineralController {
     }
 
     private static donateEnergyToDevelopingRooms(roomsToUse: MyRoom[], resourceMap: GenerateResourceMapResult, transfers: Transfer[]): void {
-        const alreadyDonatedToThisTick: string[] = [];
-        for (let i: number = 0; i < roomsToUse.length; i++) {
-            const donorRoom: MyRoom = roomsToUse[i];
+        let roomToDonateTo: MyRoom | null = null;
+        let lowestEnergyAmount: number = Constants.DONT_DONATE_TO_ROOMS_WITH_ABOVE_ENERGY;
+        for (const potentialRoomToDonateTo of roomsToUse) {
+            if (potentialRoomToDonateTo.roomStage < 6 ||
+                (potentialRoomToDonateTo.roomStage > 7 &&
+                    //Dont donate to 2 source RCL8s
+                    //They can get their own damn energy
+                    potentialRoomToDonateTo.mySources.length >= 2)
+            ) {
+                continue;
+            }
+
+            const potentialRoomToDonateToResourceMap: ResourceMap = resourceMap.myRoomMaps[potentialRoomToDonateTo.name];
+            if (potentialRoomToDonateToResourceMap.energy != null &&
+                potentialRoomToDonateToResourceMap.energy < lowestEnergyAmount &&
+                potentialRoomToDonateToResourceMap.energy < Constants.DONT_DONATE_TO_ROOMS_WITH_ABOVE_ENERGY) {
+                if (potentialRoomToDonateTo.mySources.length < 2 &&
+                    potentialRoomToDonateTo.roomStage === 8 &&
+                    potentialRoomToDonateToResourceMap.energy >= Constants.STAGE_8_ONE_SOURCE_ENERGY_DONATE_TARGET) {
+                    //Stage 8, 1 source room, that has enough energy to function
+                    //Skip
+                    continue;
+                }
+
+                lowestEnergyAmount = potentialRoomToDonateToResourceMap.energy;
+                roomToDonateTo = potentialRoomToDonateTo;
+            }
+        }
+
+        if (roomToDonateTo == null) {
+            // No rooms need energy
+            ReportController.log("No room wants energy");
+            return;
+        }
+        for (const donorRoom of roomsToUse) {
             if (donorRoom.roomStage !== 8) {
                 continue;
             }
@@ -234,49 +266,10 @@ export class MineralController {
             if (donorRoomResourceMap.energy != null &&
                 donorRoomResourceMap.energy >= Constants.STAGE_8_DONATE_AT) {
                 //Want to donate
-                let lowestEnergyAmount: number = Constants.DONT_DONATE_TO_ROOMS_WITH_ABOVE_ENERGY;
-                let lowestEnergyIndex: number = -1;
-                for (let j: number = 0; j < roomsToUse.length; j++) {
-                    const doneeRoom: MyRoom = roomsToUse[j];
-                    if (doneeRoom.roomStage < 6 ||
-                        (doneeRoom.roomStage > 7 &&
-                            //Dont donate to 2 source RCL8s
-                            //They can get their own damn energy
-                            doneeRoom.mySources.length >= 2)
-                    ) {
-                        continue;
-                    }
-
-                    if (alreadyDonatedToThisTick.includes(doneeRoom.name)) {
-                        continue;
-                    }
-
-                    const doneeRoomResourceMap: ResourceMap = resourceMap.myRoomMaps[doneeRoom.name];
-                    if (doneeRoomResourceMap.energy != null &&
-                        doneeRoomResourceMap.energy < lowestEnergyAmount &&
-                        doneeRoomResourceMap.energy < Constants.DONT_DONATE_TO_ROOMS_WITH_ABOVE_ENERGY) {
-                        if (doneeRoom.mySources.length < 2 &&
-                            doneeRoom.roomStage === 8 &&
-                            doneeRoomResourceMap.energy >= Constants.STAGE_8_ONE_SOURCE_ENERGY_DONATE_TARGET) {
-                            //Stage 8, 1 source room, that has enough energy to function
-                            //Skip
-                            continue;
-                        }
-
-                        lowestEnergyAmount = doneeRoomResourceMap.energy;
-                        lowestEnergyIndex = j;
-                    }
-                }
-
-                if (lowestEnergyIndex === -1) {
-                    // No rooms need energy
-                    ReportController.log("No room wants energy");
-                    return;
-                }
 
                 //Otherwise, we're good to donate
-                this.createTransfer(donorRoom.name, roomsToUse[lowestEnergyIndex].name, "energy", Constants.STAGE_8_DONATE_AMOUNT, donorRoomResourceMap, transfers);
-                alreadyDonatedToThisTick.push(roomsToUse[lowestEnergyIndex].name);
+                this.createTransfer(donorRoom.name, roomToDonateTo.name, "energy", Constants.STAGE_8_DONATE_AMOUNT, donorRoomResourceMap, transfers);
+                return;
             }
         }
     }
