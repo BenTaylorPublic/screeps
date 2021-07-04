@@ -529,7 +529,10 @@ export class MineralController {
                 }
             }
 
-            line += ` (${count}): ${LogHelper.commaSeperateList(roomMessages)}. FROM: ${LogHelper.commaSeperateList(roomNamesThatProvide)}`;
+            line += ` (${count}): ${LogHelper.commaSeperateList(roomMessages)}`;
+            if (roomNamesThatProvide.length > 0) {
+                line += `. FROM: ${LogHelper.commaSeperateList(roomNamesThatProvide)}`;
+            }
             ReportController.log(line);
         }
     }
