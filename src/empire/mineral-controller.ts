@@ -38,6 +38,7 @@ export class MineralController {
         let newLabOrders: number = 0;
         let labOrdersThatFailedToQueue: number = 0;
         let totalLabOrders: number = 0;
+        const stats: LabOrderStats[] = [];
         for (let i: number = 0; i < roomsToUse.length; i++) {
             const myRoom: MyRoom = roomsToUse[i];
             if (myRoom.roomStage < 8) {
@@ -49,15 +50,15 @@ export class MineralController {
             }
             const roomResourceMap: ResourceMap = resourceMap.myRoomMaps[myRoom.name];
             const statsFromBaseQueuing: LabOrderQueueingStats =
-                this.tryQueueLabOrderForRoom(myRoom, roomResourceMap, baseCompoundLimits, 0);
+                this.tryQueueLabOrderForRoom(myRoom, roomResourceMap, baseCompoundLimits, 0, stats);
             const statsFromGQueuing: LabOrderQueueingStats =
-                this.tryQueueLabOrderForRoom(myRoom, roomResourceMap, gCompoundLimits, 0.5);
+                this.tryQueueLabOrderForRoom(myRoom, roomResourceMap, gCompoundLimits, 0.5, stats);
             const statsTier1Queuing: LabOrderQueueingStats =
-                this.tryQueueLabOrderForRoom(myRoom, roomResourceMap, tier1CompoundLimits, 1);
+                this.tryQueueLabOrderForRoom(myRoom, roomResourceMap, tier1CompoundLimits, 1, stats);
             const statsTier2Queuing: LabOrderQueueingStats =
-                this.tryQueueLabOrderForRoom(myRoom, roomResourceMap, tier2CompoundLimits, 2);
+                this.tryQueueLabOrderForRoom(myRoom, roomResourceMap, tier2CompoundLimits, 2, stats);
             const statsTier3Queuing: LabOrderQueueingStats =
-                this.tryQueueLabOrderForRoom(myRoom, roomResourceMap, tier3CompoundLimits, 3);
+                this.tryQueueLabOrderForRoom(myRoom, roomResourceMap, tier3CompoundLimits, 3, stats);
 
             //Stats
             newLabOrders += statsFromBaseQueuing.newLabOrders +
@@ -78,13 +79,14 @@ export class MineralController {
             newLabOrders === 0) {
             ReportController.email("Rooms are content with current compounds", ReportCooldownConstants.DAY);
         } else {
+            this.logStats(stats);
             ReportController.log("New lab orders: " + newLabOrders);
             ReportController.log("Lab orders that failed to queue: " + labOrdersThatFailedToQueue);
             ReportController.log("Total lab orders: " + totalLabOrders);
         }
     }
 
-    private static tryQueueLabOrderForRoom(myRoom: MyRoom, roomResourceMap: ResourceMap, tieredResourceLimits: ResourceLimitsWithReagents, priority: number): LabOrderQueueingStats {
+    private static tryQueueLabOrderForRoom(myRoom: MyRoom, roomResourceMap: ResourceMap, tieredResourceLimits: ResourceLimitsWithReagents, priority: number, stats: LabOrderStats[]): LabOrderQueueingStats {
 
         const statsResults: LabOrderQueueingStats = {
             newLabOrders: 0,
@@ -139,8 +141,7 @@ export class MineralController {
                     amounts = [3_000];
                     amountNeeded = 3_000;
                 } else {
-                    cantCreateList.push(resource);
-                    needMoreOfList.push(resourceLimits.reagent1);
+                    this.addToStats(stats, resourceLimits.reagent1, myRoom.name, resource);
                     statsResults.labOrdersThatFailedToQueue += 1;
                     continue;
                 }
@@ -154,8 +155,7 @@ export class MineralController {
                     amounts = [3_000];
                     amountNeeded = 3_000;
                 } else {
-                    cantCreateList.push(resource);
-                    needMoreOfList.push(resourceLimits.reagent2);
+                    this.addToStats(stats, resourceLimits.reagent2, myRoom.name, resource);
                     statsResults.labOrdersThatFailedToQueue += 1;
                     continue;
                 }
@@ -181,7 +181,7 @@ export class MineralController {
             for (let i: number = 0; i < cantCreateList.length; i++) {
                 messages.push(`${cantCreateList[i]} (${needMoreOfList[i]})`);
             }
-            ReportController.log(`${LogHelper.roomNameAsLink(myRoom.name)} can't create ${LogHelper.commaSeperateList(messages)}`);
+            // ReportController.log(`${LogHelper.roomNameAsLink(myRoom.name)} can't create ${LogHelper.commaSeperateList(messages)}`);
         }
         return statsResults;
     }
@@ -483,9 +483,58 @@ export class MineralController {
             return resourceMap[resource] as number;
         }
     }
+
+    private static addToStats(stats: LabOrderStats[], resource: MineralsAndCompoundConstant, roomName: string, compound: MineralsAndCompoundConstant): void {
+        for (const stat of stats) {
+            if (stat.resource === resource) {
+                for (const room of stat.requiredBy) {
+                    if (room.roomName === roomName) {
+                        room.compounds.push(compound);
+                        return;
+                    }
+                }
+                //Room not added yet
+                stat.requiredBy.push({
+                    roomName: roomName,
+                    compounds: [compound]
+                });
+                return;
+            }
+        }
+        //Resource not added yet
+        stats.push({
+            resource: resource,
+            requiredBy: [{
+                roomName: roomName,
+                compounds: [compound]
+            }]
+        });
+    }
+
+    private static logStats(stats: LabOrderStats[]): void {
+        for (const stat of stats) {
+            let line: string = `${stat.resource}: `;
+            const roomMessages: string[] = [];
+            for (const room of stat.requiredBy) {
+                roomMessages.push(`LogHelper.roomNameAsLink(room.roomName) (${LogHelper.commaSeperateList(room.compounds)})`);
+            }
+            line += LogHelper.commaSeperateList(roomMessages);
+            ReportController.log(line);
+        }
+    }
 }
 
 interface LabOrderQueueingStats {
     newLabOrders: number;
     labOrdersThatFailedToQueue: number;
+}
+
+interface LabOrderStats {
+    resource: MineralsAndCompoundConstant;
+    requiredBy: LabOrderStatsRoom[];
+}
+
+interface LabOrderStatsRoom {
+    roomName: string;
+    compounds: MineralsAndCompoundConstant[];
 }
