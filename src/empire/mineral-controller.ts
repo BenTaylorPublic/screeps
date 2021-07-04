@@ -74,15 +74,18 @@ export class MineralController {
             totalLabOrders += (myRoom.labs as LabMemory).labOrders.length;
         }
 
-        if (totalLabOrders === 0 &&
-            labOrdersThatFailedToQueue === 0 &&
-            newLabOrders === 0) {
-            ReportController.email("Rooms are content with current compounds", ReportCooldownConstants.DAY);
-        } else {
-            this.logStats(stats, roomsToUse);
-            ReportController.log("New lab orders: " + newLabOrders);
-            ReportController.log("Lab orders that failed to queue: " + labOrdersThatFailedToQueue);
-            ReportController.log("Total lab orders: " + totalLabOrders);
+        //No point logging stats on shard 2
+        if (Game.shard.name === "shard3") {
+            if (totalLabOrders === 0 &&
+                labOrdersThatFailedToQueue === 0 &&
+                newLabOrders === 0) {
+                ReportController.email("Rooms are content with current compounds", ReportCooldownConstants.DAY);
+            } else {
+                this.logStats(stats, roomsToUse);
+                ReportController.log("New lab orders: " + newLabOrders);
+                ReportController.log("Lab orders that failed to queue: " + labOrdersThatFailedToQueue);
+                ReportController.log("Total lab orders: " + totalLabOrders);
+            }
         }
     }
 
@@ -527,19 +530,4 @@ export class MineralController {
             ReportController.log(line);
         }
     }
-}
-
-interface LabOrderQueueingStats {
-    newLabOrders: number;
-    labOrdersThatFailedToQueue: number;
-}
-
-interface LabOrderStats {
-    resource: MineralsAndCompoundConstant;
-    requiredBy: LabOrderStatsRoom[];
-}
-
-interface LabOrderStatsRoom {
-    roomName: string;
-    compounds: MineralsAndCompoundConstant[];
 }

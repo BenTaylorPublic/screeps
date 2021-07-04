@@ -472,6 +472,21 @@ interface ScavengerTargetResult {
 
 type MineralsAndCompoundConstant = MineralConstant | MineralCompoundConstant;
 
+interface LabOrderQueueingStats {
+    newLabOrders: number;
+    labOrdersThatFailedToQueue: number;
+}
+
+interface LabOrderStats {
+    resource: MineralsAndCompoundConstant;
+    requiredBy: LabOrderStatsRoom[];
+}
+
+interface LabOrderStatsRoom {
+    roomName: string;
+    compounds: MineralsAndCompoundConstant[];
+}
+
 /*
 ====================
     POWER SCAVENGING:
