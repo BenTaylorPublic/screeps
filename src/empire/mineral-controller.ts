@@ -79,7 +79,7 @@ export class MineralController {
             newLabOrders === 0) {
             ReportController.email("Rooms are content with current compounds", ReportCooldownConstants.DAY);
         } else {
-            this.logStats(stats);
+            this.logStats(stats, roomsToUse);
             ReportController.log("New lab orders: " + newLabOrders);
             ReportController.log("Lab orders that failed to queue: " + labOrdersThatFailedToQueue);
             ReportController.log("Total lab orders: " + totalLabOrders);
@@ -511,7 +511,7 @@ export class MineralController {
         });
     }
 
-    private static logStats(stats: LabOrderStats[]): void {
+    private static logStats(stats: LabOrderStats[], roomsToUse: MyRoom[]): void {
         for (const stat of stats) {
             let line: string = stat.resource;
             const roomMessages: string[] = [];
@@ -520,7 +520,16 @@ export class MineralController {
                 roomMessages.push(`${LogHelper.roomNameAsLink(room.roomName)} (${LogHelper.commaSeperateList(room.compounds)})`);
                 count += room.compounds.length;
             }
-            line += `(${count}): ${LogHelper.commaSeperateList(roomMessages)}`;
+
+            //Find the rooms that have this mineral
+            const roomNamesThatProvide: string[] = [];
+            for (const myRoom of roomsToUse) {
+                if (myRoom.digging.mineral === stat.resource) {
+                    roomNamesThatProvide.push(LogHelper.roomNameAsLink(myRoom.name));
+                }
+            }
+
+            line += ` (${count}): ${LogHelper.commaSeperateList(roomMessages)}. FROM: ${LogHelper.commaSeperateList(roomNamesThatProvide)}`;
             ReportController.log(line);
         }
     }
