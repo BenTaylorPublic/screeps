@@ -100,6 +100,9 @@ export class EmpireHelper {
                             result.state = "Sending";
                             result.amountLeft = result.amount;
                         }
+                    } else {
+                        //Keep loading
+                        return result;
                     }
                 } else {
                     ReportController.email(`ERROR: terminal is null in ${LogHelper.roomNameAsLink(myRoom.name)} when loading should occur`);
