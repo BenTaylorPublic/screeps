@@ -513,12 +513,14 @@ export class MineralController {
 
     private static logStats(stats: LabOrderStats[]): void {
         for (const stat of stats) {
-            let line: string = `${stat.resource}: `;
+            let line: string = stat.resource;
             const roomMessages: string[] = [];
+            let count: number = 0;
             for (const room of stat.requiredBy) {
-                roomMessages.push(`LogHelper.roomNameAsLink(room.roomName) (${LogHelper.commaSeperateList(room.compounds)})`);
+                roomMessages.push(`${LogHelper.roomNameAsLink(room.roomName)} (${LogHelper.commaSeperateList(room.compounds)})`);
+                count += room.compounds.length;
             }
-            line += LogHelper.commaSeperateList(roomMessages);
+            line += `(${count}): ${LogHelper.commaSeperateList(roomMessages)}`;
             ReportController.log(line);
         }
     }
