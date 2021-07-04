@@ -92,8 +92,6 @@ export class MineralController {
             newLabOrders: 0,
             labOrdersThatFailedToQueue: 0
         };
-        const cantCreateList: string[] = [];
-        const needMoreOfList: string[] = [];
 
         const resources: MineralsAndCompoundConstant[] = Object.keys(tieredResourceLimits) as MineralsAndCompoundConstant[];
         for (const resource of resources) {
@@ -176,13 +174,6 @@ export class MineralController {
             statsResults.newLabOrders += amounts.length;
         }
 
-        if (cantCreateList.length > 0 && needMoreOfList.length > 0) {
-            const messages: string[] = [];
-            for (let i: number = 0; i < cantCreateList.length; i++) {
-                messages.push(`${cantCreateList[i]} (${needMoreOfList[i]})`);
-            }
-            // ReportController.log(`${LogHelper.roomNameAsLink(myRoom.name)} can't create ${LogHelper.commaSeperateList(messages)}`);
-        }
         return statsResults;
     }
 
