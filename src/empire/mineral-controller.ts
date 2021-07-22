@@ -79,7 +79,7 @@ export class MineralController {
             if (totalLabOrders === 0 &&
                 labOrdersThatFailedToQueue === 0 &&
                 newLabOrders === 0) {
-                ReportController.email("Rooms are content with current compounds", ReportCooldownConstants.DAY);
+                ReportController.log("Rooms are content with current compounds");
             } else {
                 this.logStats(stats, roomsToUse);
                 ReportController.log("New lab orders: " + newLabOrders);

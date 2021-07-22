@@ -55,14 +55,12 @@ export class ObserverController {
 
         if (avoid) {
             if (!empireMemory.avoidRooms.includes(room.name)) {
-                ReportController.email("Added " + LogHelper.roomNameAsLink(room.name) + " to avoid list",
-                    ReportCooldownConstants.DAY);
+                ReportController.log("Added " + LogHelper.roomNameAsLink(room.name) + " to avoid list");
                 empireMemory.avoidRooms.push(room.name);
             }
         } else {
             if (empireMemory.avoidRooms.includes(room.name)) {
-                ReportController.email("Removing " + LogHelper.roomNameAsLink(room.name) + " from avoid list",
-                    ReportCooldownConstants.DAY);
+                ReportController.log("Removing " + LogHelper.roomNameAsLink(room.name) + " from avoid list");
                 empireMemory.avoidRooms.splice(empireMemory.avoidRooms.indexOf(room.name), 1);
             }
             //Check if is highway
