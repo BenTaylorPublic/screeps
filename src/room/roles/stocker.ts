@@ -386,7 +386,8 @@ export class RoleStocker {
             const resourceToGrab: MineralsAndCompoundConstant = creep.store.getUsedCapacity() > 0 ? labOrder.reagent2 : labOrder.reagent1;
             const withdrawResult: ScreepsReturnCode = creep.withdraw(bank, resourceToGrab, amountToGrab);
             if (withdrawResult !== OK) {
-                ReportController.email(`ERROR: Withdraw reagent ${resourceToGrab} for stocker in room ${LogHelper.roomNameAsLink(myRoom.name)} resulted in ${LogHelper.logScreepsReturnCode(withdrawResult)}`);
+                ReportController.email(`BAD: Withdraw reagent ${resourceToGrab} for stocker in room ${LogHelper.roomNameAsLink(myRoom.name)} resulted in ${LogHelper.logScreepsReturnCode(withdrawResult)}`);
+                stocker.state = "DepositResources";
             }
         } else {
             MovementHelper.myMoveTo(creep, bankPos, stocker);
@@ -522,9 +523,16 @@ export class RoleStocker {
     }
 
     private static labOrderToLoadFor(labOrder: LabOrder | null): boolean {
-        return labOrder != null &&
-            (labOrder.state === "InitialLoading" ||
-                labOrder.state === "Loading");
+        if (labOrder == null) {
+            return false;
+        }
+        if (labOrder.state === "Loading" &&
+            labOrder.amountLeftToLoad <= 0) {
+            ReportController.email(`BAD: labOrder.amountLeftToLoad is less than or equal to 0 (${labOrder.amountLeftToLoad})`);
+            return false;
+        }
+        return labOrder.state === "InitialLoading" ||
+            labOrder.state === "Loading";
     }
 
     private static labOrderToUnloadFor(labOrder: LabOrder | null): boolean {
