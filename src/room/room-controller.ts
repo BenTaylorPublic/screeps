@@ -15,6 +15,7 @@ import {RoomLabController} from "./structures/lab";
 import {RoomNukerController} from "./structures/nuker";
 import {RoleUpgrader} from "./roles/upgrader";
 import {RoomPowerSpawnController} from "./structures/power-spawn";
+import {FlagHelper} from "../global/helpers/flag-helper";
 
 export class RoomController {
     public static run(myRoom: MyRoom, transfer: Transfer | null): void {
@@ -59,6 +60,8 @@ export class RoomController {
             }
         }
 
+        this.checkForRampartAttackNotifyFlag(room);
+
         //Deleting the bank
         if (myRoom.bank != null) {
             myRoom.bank.object = null;
@@ -100,5 +103,22 @@ export class RoomController {
             return !foundMinerWhosAlive;
         }
         return true;
+    }
+
+    private static checkForRampartAttackNotifyFlag(room: Room): void {
+        const flag: Flag | null = FlagHelper.getFlag1(["mute", "notify"], room.name);
+        if (flag != null) {
+            flag.remove();
+            const ramparts: StructureRampart[] = room.find<StructureRampart>(FIND_STRUCTURES, {
+                    filter: (structure: Structure) => {
+                        return structure.structureType === STRUCTURE_RAMPART;
+                    }
+                }
+            );
+
+            for (const rampart of ramparts) {
+                rampart.notifyWhenAttacked(false);
+            }
+        }
     }
 }
