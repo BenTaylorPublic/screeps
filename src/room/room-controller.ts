@@ -106,6 +106,10 @@ export class RoomController {
     }
 
     private static checkForRampartAttackNotifyFlag(room: Room): void {
+        if (Game.time % 1000 !== 0) {
+            return;
+        }
+
         const flag: Flag | null = FlagHelper.getFlag1(["mute", "notify"], room.name);
         if (flag != null) {
             flag.remove();
