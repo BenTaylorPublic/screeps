@@ -5,6 +5,7 @@ import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
 import {EmpireHelper} from "../../global/helpers/empire-helper";
 import {CreepHelper} from "../../global/helpers/creep-helper";
 import {FlagHelper} from "../../global/helpers/flag-helper";
+import {RoomHelper} from "../../global/helpers/room-helper";
 
 export class RoomTowerController {
     public static run(myRoom: MyRoom, room: Room): void {
@@ -29,6 +30,8 @@ export class RoomTowerController {
             ReportController.email(`Threat level of ${threatLevel}, from ${username}, in ${LogHelper.roomNameAsLink(room.name)}`,
                 ReportCooldownConstants.FIVE_MINUTE);
         }
+
+        this.defenceMemoryLogic(myRoom, room, threatLevel);
 
         this.handleRamparts(myRoom, room, otherCreeps);
 
@@ -125,6 +128,30 @@ export class RoomTowerController {
                     }
                 }
             }
+        }
+    }
+
+    private static defenceMemoryLogic(myRoom: MyRoom, room: Room, threatLevel: number): void {
+        if (myRoom.defence.threatActive) {
+            if (RoomHelper.amountOfStructure(room, STRUCTURE_WALL) < myRoom.defence.amountOfWalls) {
+                ReportController.email(`${LogHelper.roomNameAsLink(room.name)}: Wall may have been destroyed`,
+                    ReportCooldownConstants.MINUTE);
+            }
+            if (RoomHelper.amountOfStructure(room, STRUCTURE_RAMPART) < myRoom.defence.amountOfRamparts) {
+                ReportController.email(`${LogHelper.roomNameAsLink(room.name)}: Rampart may have been destroyed`,
+                    ReportCooldownConstants.MINUTE);
+            }
+            if (threatLevel === 0) {
+                myRoom.defence.threatActive = false;
+                ReportController.email(`${LogHelper.roomNameAsLink(room.name)}: Threat ended`,
+                    ReportCooldownConstants.MINUTE);
+            }
+        } else if (threatLevel > 0) {
+            myRoom.defence.threatActive = true;
+            myRoom.defence.amountOfWalls = RoomHelper.amountOfStructure(room, STRUCTURE_WALL);
+            myRoom.defence.amountOfRamparts = RoomHelper.amountOfStructure(room, STRUCTURE_RAMPART);
+            ReportController.email(`${LogHelper.roomNameAsLink(room.name)}: Threat level ${threatLevel}, walls: ${myRoom.defence.amountOfWalls}, ramparts: ${myRoom.defence.amountOfRamparts}`,
+                ReportCooldownConstants.MINUTE);
         }
     }
 

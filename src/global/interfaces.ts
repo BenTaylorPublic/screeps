@@ -159,6 +159,13 @@ interface MyRoom {
     nukerStatus: "NeedsEnergy" | "NeedsG" | "Full" | null;
     powerSpawn: PowerSpawnMemory | null;
     transferId: number | null;
+    defence: MyRoomDefence;
+}
+
+interface MyRoomDefence {
+    threatActive: boolean;
+    amountOfWalls: number;
+    amountOfRamparts: number;
 }
 
 interface PowerSpawnMemory {
