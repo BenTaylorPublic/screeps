@@ -163,8 +163,6 @@ export class RoomTowerController {
             myRoom.defence.threatActive = true;
             myRoom.defence.amountOfWalls = RoomHelper.amountOfStructure(room, STRUCTURE_WALL);
             myRoom.defence.amountOfRamparts = RoomHelper.amountOfStructure(room, STRUCTURE_RAMPART);
-            ReportController.email(`${LogHelper.roomNameAsLink(room.name)}: Threat level ${threatLevel}, walls: ${myRoom.defence.amountOfWalls}, ramparts: ${myRoom.defence.amountOfRamparts}`,
-                ReportCooldownConstants.MINUTE);
         }
     }
 
