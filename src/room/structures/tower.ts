@@ -133,18 +133,31 @@ export class RoomTowerController {
 
     private static defenceMemoryLogic(myRoom: MyRoom, room: Room, threatLevel: number): void {
         if (myRoom.defence.threatActive) {
+            let shouldSafemode: boolean = false;
             if (RoomHelper.amountOfStructure(room, STRUCTURE_WALL) < myRoom.defence.amountOfWalls) {
-                ReportController.email(`${LogHelper.roomNameAsLink(room.name)}: Wall may have been destroyed`,
-                    ReportCooldownConstants.MINUTE);
+                ReportController.email(`MAYDAY ${LogHelper.roomNameAsLink(room.name)}: Wall was destroyed`);
+                shouldSafemode = true;
             }
             if (RoomHelper.amountOfStructure(room, STRUCTURE_RAMPART) < myRoom.defence.amountOfRamparts) {
-                ReportController.email(`${LogHelper.roomNameAsLink(room.name)}: Rampart may have been destroyed`,
-                    ReportCooldownConstants.MINUTE);
+                ReportController.email(`MAYDAY ${LogHelper.roomNameAsLink(room.name)}: Rampart was destroyed`);
+                shouldSafemode = true;
             }
             if (threatLevel === 0) {
                 myRoom.defence.threatActive = false;
-                ReportController.email(`${LogHelper.roomNameAsLink(room.name)}: Threat ended`,
-                    ReportCooldownConstants.MINUTE);
+            } else if (shouldSafemode) {
+                if (room.controller == null ||
+                    room.controller.safeModeAvailable === 0 ||
+                    (room.controller.safeModeCooldown != null &&
+                        room.controller.safeModeCooldown > 0)) {
+                    ReportController.email(`MAYDAY ${LogHelper.roomNameAsLink(room.name)}: Can't safemode`);
+                } else {
+                    const safemodeResult: ScreepsReturnCode = room.controller.activateSafeMode();
+                    if (safemodeResult === OK) {
+                        ReportController.email(`MAYDAY ${LogHelper.roomNameAsLink(room.name)}: Activated safemode`);
+                    } else {
+                        ReportController.email(`MAYDAY ${LogHelper.roomNameAsLink(room.name)}: Failed to activate safemode. Result ${LogHelper.logScreepsReturnCode(safemodeResult)}`);
+                    }
+                }
             }
         } else if (threatLevel > 0) {
             myRoom.defence.threatActive = true;
