@@ -13,8 +13,9 @@
         "webpack-dev-server": "^3.11.2"
     },
     "scripts": {
-        "start": "echo \"Attempting to build...\" && tslint --project tslint.json && tsc && npm run pack && echo \"SUCCESS\"",
-        "pack": "./node_modules/.bin/webpack --config webpack.config.js"
+        "start": "echo \"Attempting to build...\" && tslint --project tslint.json && tsc && npm run pack && npm run set-build-timestamp && echo \"SUCCESS\"",
+        "pack": "./node_modules/.bin/webpack --config webpack.config.js",
+        "set-build-timestamp": "node ./set-build-timestamp.js"
     },
     "repository": {
         "type": "git",

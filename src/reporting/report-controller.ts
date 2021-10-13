@@ -16,7 +16,7 @@ export class ReportController {
             Memory.myMemory.reports[message] = new Date().getTime() + cooldown;
         }
         //Send it
-        Game.notify(Game.time + ": " + message);
+        Game.notify(`${message} T${Game.time}`);
     }
 
     //@ts-ignore
