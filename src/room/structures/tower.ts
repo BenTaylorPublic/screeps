@@ -28,7 +28,7 @@ export class RoomTowerController {
             threatLevel >= Constants.TOWER_EMAIL_WHEN_THREAT_LEVEL_OVER) {
             const username: string = otherCreeps.hostileCreeps[0].owner.username;
             ReportController.email(`Threat level of ${threatLevel}, from ${username}, in ${LogHelper.roomNameAsLink(room.name)}`,
-                ReportCooldownConstants.FIVE_MINUTE);
+                ReportCooldownConstants.DAY);
         }
 
         this.defenceMemoryLogic(myRoom, room, threatLevel);

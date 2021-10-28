@@ -2,10 +2,6 @@
 
 # My screeps AI
 
-<p align="center">
-    <a href="https://david-dm.org/bentaylorpublic/screeps"><img src="https://david-dm.org/bentaylorpublic/screeps.svg" alt="Dependencies"></a>
-</p>
-
 ## Flag Names
 ```
 ex-1 to 60

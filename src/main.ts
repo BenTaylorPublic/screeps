@@ -9,7 +9,7 @@ import {SpawnQueueController} from "./global/spawn-queue-controller";
 
 if (Game.shard.name !== "sim") {
     console.log("Script reloaded %%BUILDTIME%%");
-    Game.notify("Script reloaded %%BUILDTIME%%");
+    // Game.notify("Script reloaded %%BUILDTIME%%");
 }
 
 // for (const myRoom of Memory.myMemory.myRooms) {
