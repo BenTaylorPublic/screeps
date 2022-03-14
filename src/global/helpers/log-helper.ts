@@ -27,7 +27,11 @@ export class LogHelper {
     }
 
     public static logPos(myRoomPos: MyRoomPos | RoomPosition): string {
-        return "[room " + myRoomPos.roomName + " pos " + myRoomPos.x + "," + myRoomPos.y + "]";
+        return `[room ${myRoomPos.roomName} pos ${myRoomPos.x},${myRoomPos.y}]`;
+    }
+
+    public static logFlag(flag: Flag): string {
+        return `[flag  ${flag.name} in ${flag.pos.roomName} pos ${flag.pos.x},${flag.pos.y}]`;
     }
 
     public static roomNameAsLink(roomName: string): string {

@@ -28,6 +28,7 @@ life-support
 no-attack-notify
 mute-notify //Mutes rampart attack notificaitons. No way to unmute yet
 ignore-scrub
+ff-{string} //Console logs all flags with the string in the name
 
 tower-aggressive
 tower-closest

@@ -6,10 +6,10 @@ import {FunctionProfiler} from "./profiler/function-profiler/function-profiler";
 import {EmpireHelper} from "./global/helpers/empire-helper";
 import {Constants} from "./global/constants/constants";
 import {SpawnQueueController} from "./global/spawn-queue-controller";
+import {FlagFinderController} from "./reporting/flag-finder-controller";
 
 if (Game.shard.name !== "sim") {
     console.log("Script reloaded %%BUILDTIME%%");
-    // Game.notify("Script reloaded %%BUILDTIME%%");
 }
 
 // for (const myRoom of Memory.myMemory.myRooms) {
@@ -63,6 +63,7 @@ export let loop: any = function (): void {
     if (Game.time % 10 === 0) {
         ProfilerWrapper.detectProfileReport();
         FunctionProfiler.detectProfileReport();
+        FlagFinderController.findFlags();
     }
 
     if (Game.cpu.getUsed() > 20) {

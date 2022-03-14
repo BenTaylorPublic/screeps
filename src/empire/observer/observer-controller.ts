@@ -44,7 +44,7 @@ export class ObserverController {
                             " Owner: " + room.controller.owner.username +
                             " Safemode: " + (room.controller.safeMode != null) +
                             " Status: " + status.status,
-                            ReportCooldownConstants.DAY);
+                            ReportCooldownConstants.WEEK);
                     }
                 }
             }
