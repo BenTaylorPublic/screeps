@@ -1,6 +1,7 @@
 import {FlagHelper} from "../global/helpers/flag-helper";
 import {LogHelper} from "../global/helpers/log-helper";
 import {ReportController} from "../reporting/report-controller";
+import {EditableConstantsController} from "./constants/editable-constants-controller";
 
 export class InputFlagController {
 
@@ -8,6 +9,7 @@ export class InputFlagController {
         this.findFlags();
         this.avoidRoomFlags(myMemory.empire);
         this.clearAvoidRoomFlags(myMemory.empire);
+        EditableConstantsController.checkForInputFlags();
     }
 
     private static avoidRoomFlags(empireMemory: Empire): void {

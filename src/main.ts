@@ -84,6 +84,9 @@ function setupMyMemory(): void {
             globalId: 0,
             myRooms: [],
             reports: {},
+            constants: {
+                REPAIR_ONLY_ON_ODD_THOUSAND: true
+            },
             empire: {
                 oddThousand: false,
                 attackQuick: null,

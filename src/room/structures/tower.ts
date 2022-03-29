@@ -6,6 +6,7 @@ import {EmpireHelper} from "../../global/helpers/empire-helper";
 import {CreepHelper} from "../../global/helpers/creep-helper";
 import {FlagHelper} from "../../global/helpers/flag-helper";
 import {RoomHelper} from "../../global/helpers/room-helper";
+import {EditableConstantsController} from "../../global/constants/editable-constants-controller";
 
 export class RoomTowerController {
     public static run(myRoom: MyRoom, room: Room): void {
@@ -35,6 +36,8 @@ export class RoomTowerController {
 
         this.handleRamparts(myRoom, room, otherCreeps);
 
+        const repairOnlyInOddThousand: boolean = EditableConstantsController.REPAIR_ONLY_ON_ODD_THOUSAND();
+
         if (otherCreeps.hostileCreeps.length > 0 &&
             (room.controller as StructureController).safeMode == null &&
             (!otherCreeps.healers ||
@@ -57,7 +60,7 @@ export class RoomTowerController {
                     }
 
                     if (structure.structureType === STRUCTURE_WALL) {
-                        if (Constants.REPAIR_ONLY_ON_ODD_THOUSAND) {
+                        if (repairOnlyInOddThousand) {
                             if (!oddThousand &&
                                 !otherCreeps.healers) {
                                 return false;
@@ -69,7 +72,7 @@ export class RoomTowerController {
                         }
                     } else if (structure.structureType === STRUCTURE_RAMPART) {
 
-                        if (Constants.REPAIR_ONLY_ON_ODD_THOUSAND) {
+                        if (repairOnlyInOddThousand) {
                             if (structure.hits < 5_000 ||
                                 otherCreeps.healers) {
                                 return true;
@@ -104,7 +107,7 @@ export class RoomTowerController {
                     }
                 }
 
-                if (Constants.REPAIR_ONLY_ON_ODD_THOUSAND &&
+                if (repairOnlyInOddThousand &&
                     otherCreeps.hostileCreeps.length === 0 &&
                     !oddThousand &&
                     //If the lowest structure is a rampart below 5K, repair regardless of oddThousand

@@ -18,7 +18,12 @@ interface MyMemory {
     globalId: number;
     myRooms: MyRoom[];
     empire: Empire;
+    constants: Constants;
     reports: ReportLog;
+}
+
+interface Constants {
+    REPAIR_ONLY_ON_ODD_THOUSAND: boolean;
 }
 
 interface ProfilerRawData {

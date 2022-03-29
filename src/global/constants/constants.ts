@@ -53,7 +53,6 @@ export class Constants {
     public static POWER_BANK_AREA_AROUND_BANK_MIN: number = 2;
     public static POWER_BANK_MIN_POWER: number = 1_500;
     public static POWER_BANK_DUO_TICKS_TO_SPAWN: number = 141;
-    public static REPAIR_ONLY_ON_ODD_THOUSAND: boolean = true;
     public static BANK_LINKER_CAPACITY: number = 100;
     public static LAB_REACTION_AMOUNT_TO_CEIL_TO: number = 100;
     public static RALLY_FLAG_RANGE: number = 3;
