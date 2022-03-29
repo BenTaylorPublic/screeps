@@ -31,6 +31,7 @@ ignore-scrub
 ff-{string} //Console logs all flags with the string in the name
 avoid
 clear-avoid
+set-otr-{1 | 0} //Sets odd thousand repair
 
 tower-aggressive
 tower-closest
