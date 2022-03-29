@@ -25,7 +25,7 @@ export class InputFlagController {
     }
 
     private static clearAvoidRoomFlags(empireMemory: Empire): void {
-        const avoidRoomFlags: Flag[] = FlagHelper.getFlags3(["avoid"]);
+        const avoidRoomFlags: Flag[] = FlagHelper.getFlags3(["clear", "avoid"]);
         if (avoidRoomFlags.length === 0) {
             return;
         }
