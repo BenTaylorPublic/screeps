@@ -13,7 +13,7 @@
         "webpack-dev-server": "^4.15.0"
     },
     "scripts": {
-        "start": "echo \"Attempting to build...\" && tslint --project tslint.json && tsc && npm run pack && npm run set-build-timestamp && echo \"SUCCESS\"",
+        "start": "echo \"Attempting to build...\" && tslint --project tslint.json && tsc && npm run pack && npm run set-build-timestamp && rm -r ./ts-dist/ && echo \"SUCCESS\"",
         "pack": "./node_modules/.bin/webpack --config webpack.config.js",
         "set-build-timestamp": "node ./set-build-timestamp.js"
     },

@@ -14,6 +14,8 @@ if (Game.shard.name !== "sim") {
     ReportController.email("Script reloaded %%BUILDTIME%%");
 }
 
+Memory.myMemory.empire.avoidRoomsManual = [];
+
 // for (const myRoom of Memory.myMemory.myRooms) {
 //     if (myRoom.labs != null) {
 //     }
@@ -96,6 +98,7 @@ function setupMyMemory(): void {
                 attackHealerDrain: null,
                 creeps: [],
                 avoidRooms: [],
+                avoidRoomsManual: [],
                 powerBanks: {
                     targetBanks: [],
                     averageDuoTravelTicksPerRoom: 50,

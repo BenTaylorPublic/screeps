@@ -4,7 +4,8 @@ export class MapHelper {
     public static getRoomDistance(roomOneName: string, roomTwoName: string): number {
         const result: FindRouteResult = Game.map.findRoute(roomOneName, roomTwoName, {
             routeCallback(room2: string, room1: string): number {
-                if (Memory.myMemory.empire.avoidRooms.includes(room2)) {
+                if (Memory.myMemory.empire.avoidRooms.includes(room2) ||
+                    Memory.myMemory.empire.avoidRoomsManual.includes(room2)) {
                     // avoid this room
                     return Infinity;
                 }

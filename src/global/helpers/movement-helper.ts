@@ -50,7 +50,8 @@ export class MovementHelper {
         const fromRoomName: string = currentPos.roomName;
         const result1: FindRouteResult = Game.map.findRoute(fromRoomName, toRoomName, {
             routeCallback(room2: string, room1: string): number {
-                if (Memory.myMemory.empire.avoidRooms.includes(room2) &&
+                if (Memory.myMemory.empire.avoidRooms.includes(room2) ||
+                    Memory.myMemory.empire.avoidRoomsManual.includes(room2) &&
                     toRoomName !== room2) {
                     // avoid this room
                     return Infinity;

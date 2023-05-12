@@ -46,6 +46,7 @@ interface Empire {
     creeps: MyCreep[];
     observer: ObserverMemory | null;
     avoidRooms: string[];
+    avoidRoomsManual: string[];
     powerBanks: PowerBankTargets;
     transfers: Transfer[];
 }

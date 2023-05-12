@@ -18,9 +18,9 @@ export class InputFlagController {
             return;
         }
         for (const avoidRoomFlag of avoidRoomFlags) {
-            if (!empireMemory.avoidRooms.includes(avoidRoomFlag.pos.roomName)) {
+            if (!empireMemory.avoidRoomsManual.includes(avoidRoomFlag.pos.roomName)) {
                 ReportController.log("Added " + LogHelper.roomNameAsLink(avoidRoomFlag.pos.roomName) + " to avoid list");
-                empireMemory.avoidRooms.push(avoidRoomFlag.pos.roomName);
+                empireMemory.avoidRoomsManual.push(avoidRoomFlag.pos.roomName);
             }
             avoidRoomFlag.remove();
         }
@@ -31,7 +31,7 @@ export class InputFlagController {
         if (avoidRoomFlags.length === 0) {
             return;
         }
-        empireMemory.avoidRooms = [];
+        empireMemory.avoidRoomsManual = [];
         for (const avoidRoomFlag of avoidRoomFlags) {
             avoidRoomFlag.remove();
         }
