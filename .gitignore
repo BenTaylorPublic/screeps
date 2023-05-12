@@ -2,3 +2,4 @@ node_modules/*
 ts-dist/*
 .idea/*
 dist/*.txt
+.DS_Store
