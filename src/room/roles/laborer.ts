@@ -4,6 +4,8 @@ import {CreepHelper} from "../../global/helpers/creep-helper";
 import {RoomHelper} from "../../global/helpers/room-helper";
 import {LogHelper} from "../../global/helpers/log-helper";
 import {MovementHelper} from "../../global/helpers/movement-helper";
+import {MapHelper} from "../../global/helpers/map-helper";
+import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
 
 export class RoleLaborer {
     public static run(laborer: Laborer, myRoom: MyRoom, laborersStock: boolean): void {
@@ -74,6 +76,13 @@ export class RoleLaborer {
                 creep.say("Mining");
                 return;
             } else {
+                const closestRoom: string | null = MapHelper.findClosestSpawnRoomName(creep.pos, 4);
+                if (closestRoom != null &&
+                    MapHelper.getRoomDistance(myRoom.name, closestRoom) === 1) {
+                    ReportController.email(`Laborer in room ${LogHelper.roomNameAsLink(myRoom.name)} can visit ${LogHelper.roomNameAsLink(closestRoom)} for energy`,
+                        ReportCooldownConstants.WEEK);
+                }
+
                 laborer.state = "Mining";
                 creep.say("Mining");
                 return;
@@ -165,7 +174,7 @@ export class RoleLaborer {
             let structureToAddTo: Structure | null = creep.pos.findClosestByPath(FIND_STRUCTURES, {
                 filter: (structure: any) => {
                     return (structure.structureType === STRUCTURE_EXTENSION ||
-                        structure.structureType === STRUCTURE_SPAWN) &&
+                            structure.structureType === STRUCTURE_SPAWN) &&
                         structure.energy < structure.energyCapacity;
                 }
             });
