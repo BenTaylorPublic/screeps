@@ -115,7 +115,7 @@ export class RoomController {
             flag.remove();
             const ramparts: StructureRampart[] = room.find<StructureRampart>(FIND_STRUCTURES, {
                     filter: (structure: Structure) => {
-                        return structure.structureType === STRUCTURE_RAMPART;
+                        return structure.structureType === STRUCTURE_RAMPART || structure.structureType === STRUCTURE_WALL;
                     }
                 }
             );
