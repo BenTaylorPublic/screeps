@@ -7,14 +7,10 @@ import {EmpireHelper} from "./global/helpers/empire-helper";
 import {Constants} from "./global/constants/constants";
 import {SpawnQueueController} from "./global/spawn-queue-controller";
 import {InputFlagController} from "./global/input-flag-controller";
-import {ReportController} from "./reporting/report-controller";
 
 if (Game.shard.name !== "sim") {
-    // console.log("Script reloaded %%BUILDTIME%%");
-    ReportController.email("Script reloaded %%BUILDTIME%%");
+    console.log("Script reloaded %%BUILDTIME%%");
 }
-
-Memory.myMemory.empire.avoidRoomsManual = [];
 
 // for (const myRoom of Memory.myMemory.myRooms) {
 //     if (myRoom.labs != null) {
