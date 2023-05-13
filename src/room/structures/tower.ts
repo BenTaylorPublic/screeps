@@ -41,7 +41,8 @@ export class RoomTowerController {
         if (otherCreeps.hostileCreeps.length > 0 &&
             (room.controller as StructureController).safeMode == null &&
             (!otherCreeps.healers ||
-                FlagHelper.getFlag1(["tower", "aggressive"], room.name) != null)) {
+                FlagHelper.getFlag1(["tower", "aggressive"], room.name) != null) &&
+            FlagHelper.getFlag1(["tower", "defensive"], room.name) == null) {
             //Just using the first tower in the array because I'm lazy
             const target: Creep = this.getBestCreepTarget(otherCreeps.hostileCreeps, room.name, towers[0].pos);
             if (target.owner.username !== "Invader") {
