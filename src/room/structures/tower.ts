@@ -17,9 +17,6 @@ export class RoomTowerController {
             }
         });
 
-        if (towers.length === 0) {
-            return;
-        }
         const otherCreeps: FindOtherCreepsResult = this.findOtherCreeps(room);
         let threatLevel: number = 0;
         for (const hostileCreep of otherCreeps.hostileCreeps) {
@@ -32,9 +29,13 @@ export class RoomTowerController {
                 ReportCooldownConstants.DAY);
         }
 
-        this.defenceMemoryLogic(myRoom, room, threatLevel);
+        this.defenceMemoryLogic(myRoom, room, threatLevel, towers);
 
         this.handleRamparts(myRoom, room, otherCreeps);
+
+        if (towers.length === 0) {
+            return;
+        }
 
         const repairOnlyInOddThousand: boolean = EditableConstantsController.REPAIR_ONLY_ON_ODD_THOUSAND();
 
@@ -135,15 +136,19 @@ export class RoomTowerController {
         }
     }
 
-    private static defenceMemoryLogic(myRoom: MyRoom, room: Room, threatLevel: number): void {
+    private static defenceMemoryLogic(myRoom: MyRoom, room: Room, threatLevel: number, towers: StructureTower[]): void {
         if (myRoom.defence.threatActive) {
             let shouldSafemode: boolean = false;
             if (RoomHelper.amountOfStructure(room, STRUCTURE_WALL) < myRoom.defence.amountOfWalls) {
-                ReportController.email(`MAYDAY ${LogHelper.roomNameAsLink(room.name)}: Wall was destroyed`);
+                ReportController.email(`MAYDAY ${LogHelper.roomNameAsLink(room.name)}: Wall was destroyed`, ReportCooldownConstants.DAY);
                 shouldSafemode = true;
             }
             if (RoomHelper.amountOfStructure(room, STRUCTURE_RAMPART) < myRoom.defence.amountOfRamparts) {
-                ReportController.email(`MAYDAY ${LogHelper.roomNameAsLink(room.name)}: Rampart was destroyed`);
+                ReportController.email(`MAYDAY ${LogHelper.roomNameAsLink(room.name)}: Rampart was destroyed`, ReportCooldownConstants.DAY);
+                shouldSafemode = true;
+            }
+            if (towers.length === 0) {
+                ReportController.email(`MAYDAY ${LogHelper.roomNameAsLink(room.name)}: Threat with no towers`, ReportCooldownConstants.DAY);
                 shouldSafemode = true;
             }
             if (threatLevel === 0) {
