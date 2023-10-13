@@ -72,6 +72,14 @@ export class RoomSpawnController {
                     return SpawnMiner.getBody(myRoom, mySource);
                 }
             }
+            ReportController.email("BAD: Unable to find queued miner in sources");
+            return CreepHelper.generateBody(
+                [MOVE, CARRY, WORK, WORK, WORK, WORK, WORK],
+                [MOVE, CARRY, WORK, WORK, WORK, WORK, WORK],
+                Game.rooms[myRoom.name],
+                false,
+                12
+            );
         } else if (queuedCreep.role === "Hauler") {
             return SpawnHauler.getBody(myRoom);
         } else if (queuedCreep.role === "Upgrader") {
