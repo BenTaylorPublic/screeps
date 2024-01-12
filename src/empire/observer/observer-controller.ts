@@ -1,6 +1,5 @@
 import {PowerBankController} from "../power-bank-controller";
 import {ReportController} from "../../reporting/report-controller";
-import {ReportCooldownConstants} from "../../global/report-cooldown-constants";
 import {MapHelper} from "../../global/helpers/map-helper";
 import {LogHelper} from "../../global/helpers/log-helper";
 import {RoomHelper} from "../../global/helpers/room-helper";
@@ -40,11 +39,11 @@ export class ObserverController {
                     //Check to make sure I haven't manually ignored them
                     const ignoreScrubFlag: Flag | null = FlagHelper.getFlag1(["ignore", "scrub"], room.name);
                     if (ignoreScrubFlag == null) {
-                        ReportController.email("Scrubs to wreck in " + LogHelper.roomNameAsLink(room.name) +
-                            " Owner: " + room.controller.owner.username +
-                            " Safemode: " + (room.controller.safeMode != null) +
-                            " Status: " + status.status,
-                            ReportCooldownConstants.WEEK);
+                        // ReportController.email("Scrubs to wreck in " + LogHelper.roomNameAsLink(room.name) +
+                        //     " Owner: " + room.controller.owner.username +
+                        //     " Safemode: " + (room.controller.safeMode != null) +
+                        //     " Status: " + status.status,
+                        //     ReportCooldownConstants.WEEK);
                     }
                 }
             }

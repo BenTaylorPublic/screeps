@@ -164,7 +164,7 @@ export class RoomTowerController {
                     if (safemodeResult === OK) {
                         ReportController.email(`MAYDAY ${LogHelper.roomNameAsLink(room.name)}: Activated safemode`);
                     } else {
-                        ReportController.email(`MAYDAY ${LogHelper.roomNameAsLink(room.name)}: Failed to activate safemode. Result ${LogHelper.logScreepsReturnCode(safemodeResult)}`);
+                        ReportController.email(`MAYDAY ${LogHelper.roomNameAsLink(room.name)}: Failed to activate safemode. Result ${LogHelper.logScreepsReturnCode(safemodeResult)}`, ReportCooldownConstants.HOUR);
                     }
                 }
             }
