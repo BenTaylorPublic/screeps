@@ -276,6 +276,7 @@ export class SpawnLaborer {
                 return structure.structureType === STRUCTURE_SPAWN;
             }
         }).length === 0) {
+            return null;
             // A room needs a laborer, but it has no spawns yet
             // Going to use the nearest room's spawn instead
             roomToSpawnFromName = MapHelper.findClosestSpawnRoomName(new RoomPosition(25, 25, myRoom.name), 4);
@@ -284,6 +285,7 @@ export class SpawnLaborer {
                     ReportCooldownConstants.DAY);
                 return null;
             }
+            //@ts-ignore
             roomToSpawnFrom = RoomHelper.getMyRoomByName(roomToSpawnFromName) as MyRoom;
         } else {
             roomToSpawnFrom = myRoom;
