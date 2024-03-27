@@ -245,7 +245,6 @@ export class AttackHelperFunctions {
     private static attackPrio(attackPrioFlag: Flag): AttackTarget | null {
         const structures: Structure<StructureConstant>[] = attackPrioFlag.pos.lookFor(LOOK_STRUCTURES);
         LogHelper.markTarget(attackPrioFlag.pos);
-        attackPrioFlag.remove();
         if (structures.length === 0) {
             return null;
         }
