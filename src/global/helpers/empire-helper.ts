@@ -11,7 +11,7 @@ export class EmpireHelper {
     }
 
     public static isAllyUsername(username: string): boolean {
-        return ["thetopcat84"].indexOf(username.toLowerCase()) !== -1;
+        return ["no-allies"].indexOf(username.toLowerCase()) !== -1;
     }
 
 
