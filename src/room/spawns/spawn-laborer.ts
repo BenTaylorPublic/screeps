@@ -123,6 +123,8 @@ export class SpawnLaborer {
             }
         }
 
+        const constructionSites: number = room.find(FIND_CONSTRUCTION_SITES).length;
+
         let forceSpawnlaborers: number = 0;
         if ((!bankLinkerAliveOrSpawning ||
             minersAliveOrSpawningCount < myRoom.mySources.length ||
@@ -136,12 +138,18 @@ export class SpawnLaborer {
             forceSpawnlaborers = 1;
         }
 
+        if (forceSpawnlaborers === 0 &&
+            laborerAliveOrSpawningCount === 0 &&
+            constructionSites > 0) {
+            forceSpawnlaborers = 1;
+        }
+
         if (forceSpawnlaborers > 0) {
             SpawnLaborer.forceSpawnLaborers(myRoom, forceSpawnlaborers);
         } else {
             let maxLaborers: number = Constants.MAX_LABORERS;
             if (myRoom.roomStage === 8 &&
-                room.find(FIND_CONSTRUCTION_SITES).length === 0) {
+                constructionSites === 0) {
                 maxLaborers = Constants.MAX_LABORERS_STAGE_8;
             }
             SpawnLaborer.trySpawnLaborer(myRoom, laborerCount, maxLaborers);
