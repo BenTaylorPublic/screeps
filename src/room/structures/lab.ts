@@ -172,7 +172,12 @@ export class RoomLabController {
 
                 //Here we're going to grab a compound lab and copy its cooldown to the laborder
                 //Just in case we ran a lab order previous to this, that had a huge cooldown
-                const lab: StructureLab = Game.getObjectById<StructureLab>(myRoom.labs.compoundLabs[0].id) as StructureLab;
+                const lab: StructureLab | null = Game.getObjectById<StructureLab>(myRoom.labs.compoundLabs[0].id);
+                if (lab == null) {
+                    ReportController.email("BAD: Lab not found in " + LogHelper.roomNameAsLink(myRoom.name) + ", clearing lab memory");
+                    myRoom.labs = null;
+                    return null;
+                }
                 //If it doesn't have a cooldown, its fine, laborders cooldown is default to tick 0
                 if (lab.cooldown != null &&
                     lab.cooldown > 0) {
