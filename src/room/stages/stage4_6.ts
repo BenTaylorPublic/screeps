@@ -50,7 +50,12 @@ export class Stage4_6 {
                 placedBankLink = true;
                 ReportController.log("Placed a bank link construction site in " + LogHelper.roomNameAsLink(room.name));
             } else {
-                ReportController.email("ERROR: Placing a bank link construction site errored in " + LogHelper.roomNameAsLink(myRoom.name));
+                (myRoom.bank as Bank).bankLink = {
+                    pos: RoomHelper.roomPosToMyPos(flag.pos),
+                    id: null
+                };
+                flag.remove();
+                placedBankLink = true;
             }
         }
         if ((myRoom.bank as Bank).bankLink != null) {
