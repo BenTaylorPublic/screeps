@@ -40,6 +40,7 @@ export class RoleBankLinker {
         }
         const link: StructureLink | null = Game.getObjectById(myRoom.bank.bankLink.id);
         if (link == null) {
+            myRoom.bank.bankLink = null;
             ReportController.email("ERROR: Bank Link was null for a bank linker in " + LogHelper.roomNameAsLink(myRoom.name));
             return;
         }
