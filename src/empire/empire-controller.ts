@@ -13,7 +13,6 @@ import {RoleLegolas} from "./role/legolas";
 
 export class EmpireController {
     public static run(myMemory: MyMemory): void {
-        this.oddThousandLogic(myMemory);
         SpawnClaimerController.run(myMemory);
         AttackController.run(myMemory);
 
@@ -37,12 +36,6 @@ export class EmpireController {
             } else if (creep.role === "Legolas") {
                 RoleLegolas.run(creep as Legolas);
             }
-        }
-    }
-
-    private static oddThousandLogic(myMemory: MyMemory): void {
-        if (Game.time % 1000 === 0) {
-            myMemory.empire.oddThousand = !myMemory.empire.oddThousand;
         }
     }
 }

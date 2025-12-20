@@ -12,7 +12,10 @@ if (Game.shard.name !== "sim") {
     console.log("Script reloaded %%BUILDTIME%%");
 }
 
-// for (const myRoom of Memory.myMemory.myRooms) {
+// @ts-ignore
+delete Memory.myMemory.empire["oddThousand"];
+for (const myRoom of Memory.myMemory.myRooms) {
+    myRoom.defence = null;
 //     if (myRoom.labs != null) {
 //     }
 //     for (let j: number = myRoom.myCreeps.length - 1; j >= 0; j--) {
@@ -24,7 +27,7 @@ if (Game.shard.name !== "sim") {
 //     for (let j: number = 0; j < myRoom.mySources.length; j++) {
 //         const mySource: MySource = myRoom.mySources[j];
 //     }
-// }
+}
 
 setupMyMemory();
 // ProfilerWrapper.setup();
@@ -88,7 +91,6 @@ function setupMyMemory(): void {
                 REPAIR_ONLY_ON_ODD_THOUSAND: true
             },
             empire: {
-                oddThousand: false,
                 attackQuick: null,
                 attackPressure: null,
                 attackHealerDrain: null,

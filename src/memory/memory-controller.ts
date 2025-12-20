@@ -73,11 +73,7 @@ export class MemoryController {
                         diggerName: null,
                         haulerName: null
                     },
-                    defence: {
-                        threatActive: false,
-                        amountOfWalls: 0,
-                        amountOfRamparts: 0
-                    }
+                    defence: null
                 };
                 const sources: Source[] = room.find(FIND_SOURCES);
                 for (let i = 0; i < sources.length; i++) {

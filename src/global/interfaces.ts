@@ -39,7 +39,6 @@ interface ProfilerRawData {
 */
 
 interface Empire {
-    oddThousand: boolean;
     attackQuick: AttackQuick | null;
     attackPressure: AttackPressure | null;
     attackHealerDrain: AttackHealerDrain | null;
@@ -165,13 +164,17 @@ interface MyRoom {
     nukerStatus: "NeedsEnergy" | "NeedsG" | "Full" | null;
     powerSpawn: PowerSpawnMemory | null;
     transferId: number | null;
-    defence: MyRoomDefence;
+    defence: MyRoomDefence | null;
 }
 
 interface MyRoomDefence {
-    threatActive: boolean;
     amountOfWalls: number;
     amountOfRamparts: number;
+    ticks: number;
+    creepNames: string[];
+    creepTargetIndex: number;
+    totalCreepsHealth: number;
+    strategy: "attack" | "repair";
 }
 
 interface PowerSpawnMemory {
