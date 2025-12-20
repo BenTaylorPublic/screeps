@@ -145,6 +145,7 @@ export class CreepHelper {
             for (const badBodyPart of badBodyParts) {
                 if (creepBodyPart.type === badBodyPart.bodyPart) {
                     result += badBodyPart.threat;
+                    break;
                 }
             }
         }

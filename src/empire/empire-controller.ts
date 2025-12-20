@@ -27,8 +27,7 @@ export class EmpireController {
         ScavengeController.run(myMemory);
         RoomNukerController.checkForNukeLaunchFlags(myMemory.myRooms);
 
-        for (let i = 0; i < myMemory.empire.creeps.length; i++) {
-            const creep: MyCreep = myMemory.empire.creeps[i];
+        for (const creep of myMemory.empire.creeps) {
             if (creep.role === "Claimer") {
                 RoleClaimer.run(creep as Claimer);
             } else if (creep.role === "Scavenger") {

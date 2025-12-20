@@ -199,11 +199,9 @@ export class RoomTowerController {
 
         let target: Creep | null = null;
         let closestDistance: number = 50;
-        for (let i = 0; i < hostileCreeps.length; i++) {
-            const hostileCreep: Creep = hostileCreeps[i];
+        for (const hostileCreep of hostileCreeps) {
             let isHealer: boolean = false;
-            for (let j = 0; j < hostileCreep.body.length; j++) {
-                const bodyPart: BodyPartDefinition = hostileCreep.body[j];
+            for (const bodyPart of hostileCreep.body) {
                 if (bodyPart.type === HEAL) {
                     isHealer = true;
                     break;
@@ -235,16 +233,14 @@ export class RoomTowerController {
             healers: false
         };
         const otherCreeps: Creep[] = room.find(FIND_HOSTILE_CREEPS);
-        for (let i: number = 0; i < otherCreeps.length; i++) {
-            const possibleHostileCreep: Creep = otherCreeps[i];
-            if (EmpireHelper.isAllyUsername(possibleHostileCreep.owner.username)) {
-                result.alliedCreeps.push(possibleHostileCreep);
+        for (const otherCreep of otherCreeps) {
+            if (EmpireHelper.isAllyUsername(otherCreep.owner.username)) {
+                result.alliedCreeps.push(otherCreep);
             } else {
-                result.hostileCreeps.push(possibleHostileCreep);
-                if (!result.healers) {
-                    if (CreepHelper.creepContainsBodyPart(possibleHostileCreep, HEAL)) {
-                        result.healers = true;
-                    }
+                result.hostileCreeps.push(otherCreep);
+                if (!result.healers &&
+                    CreepHelper.creepContainsBodyPart(otherCreep, HEAL)) {
+                    result.healers = true;
                 }
             }
         }

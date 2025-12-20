@@ -39,8 +39,7 @@ export class MineralController {
         let labOrdersThatFailedToQueue: number = 0;
         let totalLabOrders: number = 0;
         const stats: LabOrderStats[] = [];
-        for (let i: number = 0; i < roomsToUse.length; i++) {
-            const myRoom: MyRoom = roomsToUse[i];
+        for (const myRoom of roomsToUse) {
             if (myRoom.roomStage < 8) {
                 /*
                 While lower stages can participate in transfers and mining
@@ -270,12 +269,10 @@ export class MineralController {
 
     private static transferMineralsToLowRooms(roomsToUse: MyRoom[], resourceMap: GenerateResourceMapResult, transfers: Transfer[], mineralLimits: ResourceLimits): ResourceConstant[] {
         const forceDigResources: ResourceConstant[] = [];
-        for (let i: number = 0; i < roomsToUse.length; i++) {
-            const myRoom: MyRoom = roomsToUse[i];
+        for (const myRoom of roomsToUse) {
             const roomResourceMap: ResourceMap = resourceMap.myRoomMaps[myRoom.name];
             const resources: ResourceConstant[] = Object.keys(mineralLimits) as ResourceConstant[];
-            for (let j: number = 0; j < resources.length; j++) {
-                const resource: ResourceConstant = resources[j];
+            for (const resource of resources) {
                 const resourceLimits: ResourceLimitUpperLower = mineralLimits[resource] as ResourceLimitUpperLower;
                 const amountOfMineral: number = this.getAmountOfResource(roomResourceMap, resource);
                 if (amountOfMineral < resourceLimits.lower) {
@@ -359,8 +356,8 @@ export class MineralController {
         //It's also set if a transfer is needed
 
         const resources: ResourceConstant[] = Object.keys(mineralLimits) as ResourceConstant[];
-        for (let i: number = 0; i < resources.length; i++) {
-            const mineral: MineralConstant = resources[i] as MineralConstant;
+        for (const resource of resources) {
+            const mineral: MineralConstant = resource as MineralConstant;
             if (forceDigResource.includes(mineral)) {
                 this.setDiggingActive(roomsToUse, mineral, true);
                 continue;
@@ -380,8 +377,7 @@ export class MineralController {
     }
 
     private static setDiggingActive(roomsToUse: MyRoom[], mineral: MineralConstant, active: boolean): void {
-        for (let i: number = 0; i < roomsToUse.length; i++) {
-            const myRoom: MyRoom = roomsToUse[i];
+        for (const myRoom of roomsToUse) {
             if (myRoom.digging.mineral === mineral &&
                 myRoom.digging.active !== active) {
                 myRoom.digging.active = active;
@@ -396,8 +392,7 @@ export class MineralController {
             totalResourceMap: {}
         };
 
-        for (let i: number = 0; i < roomsToUse.length; i++) {
-            const myRoom: MyRoom = roomsToUse[i];
+        for (const myRoom of roomsToUse) {
             const roomResourceMap: ResourceMap = {};
             const room: Room = Game.rooms[myRoom.name];
             room.find(FIND_MY_CREEPS, {

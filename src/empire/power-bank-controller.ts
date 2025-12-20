@@ -25,8 +25,7 @@ export class PowerBankController {
             return;
         }
 
-        for (let i: number = 0; i < powerBankTargets.targetBanks.length; i++) {
-            const powerBankTarget = powerBankTargets.targetBanks[i];
+        for (const powerBankTarget of powerBankTargets.targetBanks) {
             if (powerBankTarget.id === powerBank.id) {
                 //Already setup this bank
                 return;
@@ -72,8 +71,8 @@ export class PowerBankController {
         //WE'RE GOOD, LET'S GO BOIZ
         //This should reuse the rooms
         const roomsToSpawnThrough: string[] = [];
-        for (let i: number = 0; i < closestRoomNames.length; i++) {
-            roomsToSpawnThrough.push(closestRoomNames[i]);
+        for (const closestRoomName of closestRoomNames) {
+            roomsToSpawnThrough.push(closestRoomName);
         }
 
         //Working out how many creeps we'll need
@@ -178,8 +177,7 @@ export class PowerBankController {
                 //High potential
                 //Lets get an accurate number...
                 let damageInQuoteTime: number = 0;
-                for (let i: number = 0; i < powerBankTarget.creeps.length; i++) {
-                    const creepDuo: PowerBankCreepDuo = powerBankTarget.creeps[i];
+                for (const creepDuo of powerBankTarget.creeps) {
                     //Averages added means they're there and actively damaging
                     if (creepDuo.averagesAdded) {
                         let maxDamageTicks: number;
@@ -205,8 +203,8 @@ export class PowerBankController {
         }
 
 
-        for (let i: number = 0; i < powerBankTarget.creeps.length; i++) {
-            this.runCreepDuo(powerBankTarget.creeps[i], powerBankTarget, powerBank, powerBankTargets);
+        for (const creep of powerBankTarget.creeps) {
+            this.runCreepDuo(creep, powerBankTarget, powerBank, powerBankTargets);
         }
     }
 
@@ -243,7 +241,7 @@ export class PowerBankController {
         let creepDuoToReplaceIndex: number = -1;
         for (let i: number = 0; i < bank.creeps.length; i++) {
             const creepDuo: PowerBankCreepDuo = bank.creeps[i];
-            if (!bank.creeps[i].beenReplaced &&
+            if (!creepDuo.beenReplaced &&
                 Game.time >= creepDuo.replaceAtTick) {
                 creepDuoToReplaceIndex = i;
                 break;
@@ -269,8 +267,7 @@ export class PowerBankController {
             return;
         }
 
-        for (let i: number = 0; i < myRoom.spawnQueue.length; i++) {
-            const queuedCreep: QueuedCreep = myRoom.spawnQueue[i];
+        for (const queuedCreep of myRoom.spawnQueue) {
             if (queuedCreep.role === "PowerBankAttackCreep" ||
                 queuedCreep.role === "PowerBankHealCreep") {
                 //Not going to add a duo to the spawn queue, as there's already one in it
