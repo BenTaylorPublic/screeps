@@ -171,10 +171,10 @@ interface MyRoomDefence {
     amountOfWalls: number;
     amountOfRamparts: number;
     ticks: number;
-    creepNames: string[];
     creepTargetIndex: number;
-    totalCreepsHealth: number;
-    strategy: "attack" | "repair";
+    //How much damage my towers have done to the attackers as a whole
+    totalDamageDone: number;
+    strategy: "attack" | "attack2" | "repair";
 }
 
 interface PowerSpawnMemory {

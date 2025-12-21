@@ -78,39 +78,36 @@ export class RoomTowerController {
         const defence: MyRoomDefence = myRoom.defence as MyRoomDefence;
         defence.ticks++;
 
-        if (defence.strategy === "attack") {
+        //Updates to defence strategy
+        if (defence.strategy === "attack" || defence.strategy === "attack2") {
             //Re evaluate every 5 ticks
             if (defence.ticks % 10 === 0) {
-                const newlyEnteredCreeps: string[] = [];
-                let offsetHealthOfNewlyEnteredCreeps: number = 0;
-                for (const creep of otherCreeps.hostileCreeps) {
-                    if (!defence.creepNames.includes(creep.name)) {
-                        newlyEnteredCreeps.push(creep.name);
-                        offsetHealthOfNewlyEnteredCreeps += creep.hits;
-                    }
-                }
                 //Check if strategy works
-                const newTotalHealth: number = this.totalCreepsHealth(otherCreeps.hostileCreeps);
+                const totalDamageDone: number = this.calculateTotalDamageDone(otherCreeps.hostileCreeps);
 
-                if ((newTotalHealth - offsetHealthOfNewlyEnteredCreeps) >= defence.totalCreepsHealth) {
+                if (totalDamageDone <= defence.totalDamageDone) {
                     //Health hasn't gone down
                     //Strategy isn't working, try a different target
                     defence.creepTargetIndex++;
-                    if (defence.creepTargetIndex >= defence.creepNames.length) {
+                    if (defence.creepTargetIndex >= otherCreeps.hostileCreeps.length) {
                         //Tried all the targets
-                        //Swap to repairing
-                        defence.strategy = "repair";
+                        if (defence.strategy === "attack") {
+                            //Try all targets again
+                            defence.strategy = "attack2";
+                        } else {
+                            //Swap to repairing
+                            defence.strategy = "repair";
+                        }
+                        ReportController.log(`Changing defence strategy to ${defence.strategy}`);
                         defence.creepTargetIndex = 0;
                     }
                 } //Else it's working
-                defence.totalCreepsHealth = newTotalHealth;
-                defence.creepNames.push(...newlyEnteredCreeps);
+                defence.totalDamageDone = totalDamageDone;
             }
         }
 
         if (defence.strategy === "attack") {
-            const targetName: string = defence.creepNames[defence.creepTargetIndex];
-            const target: Creep = otherCreeps.hostileCreeps.find(creep => creep.name === targetName) ?? otherCreeps.hostileCreeps[0];
+            const target: Creep = otherCreeps.hostileCreeps[defence.creepTargetIndex] ?? otherCreeps.hostileCreeps[0];
             if (target.owner.username !== "Invader") {
                 ReportController.log(`Tower attacking target ${target.name}, owner: ${target.owner.username} in ${LogHelper.roomNameAsLink(room.name)}`);
             }
@@ -210,16 +207,15 @@ export class RoomTowerController {
     private static startDefenceIfNeeded(myRoom: MyRoom, room: Room, threatLevel: number, otherCreeps: FindOtherCreepsResult): void {
         if (myRoom.defence == null &&
             threatLevel > 0) {
-            const creepNames: string[] = otherCreeps.hostileCreeps.map(x => x.name);
-            const totalCreepsHealth: number = this.totalCreepsHealth(otherCreeps.hostileCreeps);
+            //Probably 0, but just in case one comes in damaged
+            const totalDamageDone: number = this.calculateTotalDamageDone(otherCreeps.hostileCreeps);
             myRoom.defence = {
                 amountOfWalls: RoomHelper.amountOfStructure(room, STRUCTURE_WALL),
                 amountOfRamparts: RoomHelper.amountOfStructure(room, STRUCTURE_RAMPART),
                 ticks: 0,
-                creepNames: creepNames,
                 creepTargetIndex: 0,
                 strategy: "attack",
-                totalCreepsHealth: totalCreepsHealth,
+                totalDamageDone: totalDamageDone,
             };
         }
     }
@@ -286,10 +282,10 @@ export class RoomTowerController {
         myRoom.rampartsUp = up;
     }
 
-    private static totalCreepsHealth(creeps: Creep[]): number {
+    private static calculateTotalDamageDone(creeps: Creep[]): number {
         let result: number = 0;
         for (const creep of creeps) {
-            result += creep.hits;
+            result += creep.hitsMax - creep.hits;
         }
         return result;
     }
