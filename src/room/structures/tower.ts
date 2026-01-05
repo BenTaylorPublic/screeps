@@ -205,6 +205,9 @@ export class RoomTowerController {
     }
 
     private static startDefenceIfNeeded(myRoom: MyRoom, room: Room, threatLevel: number, otherCreeps: FindOtherCreepsResult): void {
+        if (FlagHelper.getFlag1(["debugtower"], myRoom.name) != null) {
+            console.log(otherCreeps);
+        }
         if (myRoom.defence == null &&
             threatLevel > 0) {
             //Probably 0, but just in case one comes in damaged
