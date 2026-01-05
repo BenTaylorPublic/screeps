@@ -16,29 +16,31 @@ export class RoomTowerController {
             }
         });
 
-        const otherCreeps: FindOtherCreepsResult = this.findOtherCreeps(room);
+        const findOtherCreepsResult: FindOtherCreepsResult = this.findOtherCreeps(room);
         let threatLevel: number = 0;
-        for (const hostileCreep of otherCreeps.hostileCreeps) {
+        for (const hostileCreep of findOtherCreepsResult.hostileCreeps) {
             threatLevel += CreepHelper.creepThreatLevel(hostileCreep);
         }
-        if (otherCreeps.hostileCreeps.length > 0 &&
+        if (findOtherCreepsResult.hostileCreeps.length > 0 &&
             threatLevel >= Constants.TOWER_EMAIL_WHEN_THREAT_LEVEL_OVER) {
-            const username: string = otherCreeps.hostileCreeps[0].owner.username;
-            ReportController.email(`Threat level of ${threatLevel}, from ${username}, in ${LogHelper.roomNameAsLink(room.name)}`,
-                ReportCooldownConstants.DAY);
+            const username: string = findOtherCreepsResult.hostileCreeps[0].owner.username;
+            if (username !== "Invader") {
+                ReportController.email(`Threat level of ${threatLevel}, from ${username}, in ${LogHelper.roomNameAsLink(room.name)}`,
+                    ReportCooldownConstants.DAY);
+            }
         }
 
-        this.handleRamparts(myRoom, room, otherCreeps);
+        this.handleRamparts(myRoom, room, findOtherCreepsResult);
 
-        this.startDefenceIfNeeded(myRoom, room, threatLevel, otherCreeps);
+        this.startDefenceIfNeeded(myRoom, room, threatLevel, findOtherCreepsResult);
         if (myRoom.defence != null) {
-            this.defenceLogic(myRoom, room, towers, otherCreeps);
+            this.defenceLogic(myRoom, room, towers, findOtherCreepsResult);
         } else {
             this.repairLogic(myRoom, room, towers);
         }
     }
 
-    private static defenceLogic(myRoom: MyRoom, room: Room, towers: StructureTower[], otherCreeps: FindOtherCreepsResult): void {
+    private static defenceLogic(myRoom: MyRoom, room: Room, towers: StructureTower[], findOtherCreepsResult: FindOtherCreepsResult): void {
         if (myRoom.defence != null) {
             let shouldSafemode: boolean = false;
             if (RoomHelper.amountOfStructure(room, STRUCTURE_WALL) < myRoom.defence.amountOfWalls) {
@@ -53,7 +55,7 @@ export class RoomTowerController {
                 ReportController.email(`MAYDAY ${LogHelper.roomNameAsLink(room.name)}: Threat with no towers`, ReportCooldownConstants.DAY);
                 shouldSafemode = true;
             }
-            if (otherCreeps.hostileCreeps.length === 0) {
+            if (findOtherCreepsResult.hostileCreeps.length === 0) {
                 myRoom.defence = null;
             } else if (shouldSafemode) {
                 if (room.controller == null ||
@@ -79,17 +81,18 @@ export class RoomTowerController {
         defence.ticks++;
 
         //Updates to defence strategy
+        ReportController.log(`Current defence strategy: ${defence.strategy}`);
         if (defence.strategy === "attack" || defence.strategy === "attack2") {
             //Re evaluate every 5 ticks
             if (defence.ticks % 10 === 0) {
                 //Check if strategy works
-                const totalDamageDone: number = this.calculateTotalDamageDone(otherCreeps.hostileCreeps);
+                const totalDamageDone: number = this.calculateTotalDamageDone(findOtherCreepsResult.hostileCreeps);
 
                 if (totalDamageDone <= defence.totalDamageDone) {
                     //Health hasn't gone down
                     //Strategy isn't working, try a different target
                     defence.creepTargetIndex++;
-                    if (defence.creepTargetIndex >= otherCreeps.hostileCreeps.length) {
+                    if (defence.creepTargetIndex >= findOtherCreepsResult.hostileCreeps.length) {
                         //Tried all the targets
                         if (defence.strategy === "attack") {
                             //Try all targets again
@@ -98,7 +101,7 @@ export class RoomTowerController {
                             //Swap to repairing
                             defence.strategy = "repair";
                         }
-                        ReportController.log(`Changing defence strategy to ${defence.strategy}`);
+                        ReportController.log(`New defence strategy: ${defence.strategy}`);
                         defence.creepTargetIndex = 0;
                     }
                 } //Else it's working
@@ -107,10 +110,8 @@ export class RoomTowerController {
         }
 
         if (defence.strategy === "attack") {
-            const target: Creep = otherCreeps.hostileCreeps[defence.creepTargetIndex] ?? otherCreeps.hostileCreeps[0];
-            if (target.owner.username !== "Invader") {
-                ReportController.log(`Tower attacking target ${target.name}, owner: ${target.owner.username} in ${LogHelper.roomNameAsLink(room.name)}`);
-            }
+            const target: Creep = findOtherCreepsResult.hostileCreeps[defence.creepTargetIndex] ?? findOtherCreepsResult.hostileCreeps[0];
+            ReportController.log(`Towers attacking target ${target.name}, owner: ${target.owner.username} in ${LogHelper.roomNameAsLink(room.name)}`);
             //Fire them all
             for (const tower of towers) {
                 this.attackIfEnoughEnergy(tower, target);
@@ -204,19 +205,11 @@ export class RoomTowerController {
         }
     }
 
-    private static startDefenceIfNeeded(myRoom: MyRoom, room: Room, threatLevel: number, otherCreeps: FindOtherCreepsResult): void {
-        if (FlagHelper.getFlag1(["debugtower"], myRoom.name) != null) {
-            console.log(typeof otherCreeps);
-            const stringPlease: string = JSON.stringify(otherCreeps);
-            console.log(typeof stringPlease);
-            console.log(stringPlease);
-            console.log(otherCreeps.hostileCreeps.length);
-            console.log(threatLevel);
-        }
+    private static startDefenceIfNeeded(myRoom: MyRoom, room: Room, threatLevel: number, findOtherCreepsResult: FindOtherCreepsResult): void {
         if (myRoom.defence == null &&
             threatLevel > 0) {
             //Probably 0, but just in case one comes in damaged
-            const totalDamageDone: number = this.calculateTotalDamageDone(otherCreeps.hostileCreeps);
+            const totalDamageDone: number = this.calculateTotalDamageDone(findOtherCreepsResult.hostileCreeps);
             myRoom.defence = {
                 amountOfWalls: RoomHelper.amountOfStructure(room, STRUCTURE_WALL),
                 amountOfRamparts: RoomHelper.amountOfStructure(room, STRUCTURE_RAMPART),

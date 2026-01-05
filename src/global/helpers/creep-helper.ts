@@ -117,10 +117,6 @@ export class CreepHelper {
     }
 
     public static creepThreatLevel(creep: Creep): number {
-        if (creep.owner.username === "Invader") {
-            return 0;
-        }
-
         const badBodyParts: BodyPartToThreatLevel[] = [
             {
                 bodyPart: CLAIM,
