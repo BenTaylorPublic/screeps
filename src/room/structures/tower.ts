@@ -206,7 +206,12 @@ export class RoomTowerController {
 
     private static startDefenceIfNeeded(myRoom: MyRoom, room: Room, threatLevel: number, otherCreeps: FindOtherCreepsResult): void {
         if (FlagHelper.getFlag1(["debugtower"], myRoom.name) != null) {
-            console.log(JSON.stringify(otherCreeps));
+            console.log(typeof otherCreeps);
+            const stringPlease: string = JSON.stringify(otherCreeps);
+            console.log(typeof stringPlease);
+            console.log(stringPlease);
+            console.log(otherCreeps.hostileCreeps.length);
+            console.log(threatLevel);
         }
         if (myRoom.defence == null &&
             threatLevel > 0) {
