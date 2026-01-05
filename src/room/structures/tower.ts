@@ -41,35 +41,36 @@ export class RoomTowerController {
     }
 
     private static defenceLogic(myRoom: MyRoom, room: Room, towers: StructureTower[], findOtherCreepsResult: FindOtherCreepsResult): void {
-        if (myRoom.defence != null) {
-            let shouldSafemode: boolean = false;
-            if (RoomHelper.amountOfStructure(room, STRUCTURE_WALL) < myRoom.defence.amountOfWalls) {
-                ReportController.email(`MAYDAY ${LogHelper.roomNameAsLink(room.name)}: Wall was destroyed`, ReportCooldownConstants.DAY);
-                shouldSafemode = true;
-            }
-            if (RoomHelper.amountOfStructure(room, STRUCTURE_RAMPART) < myRoom.defence.amountOfRamparts) {
-                ReportController.email(`MAYDAY ${LogHelper.roomNameAsLink(room.name)}: Rampart was destroyed`, ReportCooldownConstants.DAY);
-                shouldSafemode = true;
-            }
-            if (towers.length === 0) {
-                ReportController.email(`MAYDAY ${LogHelper.roomNameAsLink(room.name)}: Threat with no towers`, ReportCooldownConstants.DAY);
-                shouldSafemode = true;
-            }
-            if (findOtherCreepsResult.hostileCreeps.length === 0) {
-                myRoom.defence = null;
-            } else if (shouldSafemode) {
-                if (room.controller == null ||
-                    room.controller.safeModeAvailable === 0 ||
-                    (room.controller.safeModeCooldown != null &&
-                        room.controller.safeModeCooldown > 0)) {
-                    ReportController.email(`MAYDAY ${LogHelper.roomNameAsLink(room.name)}: Can't safemode`);
+        const defence: MyRoomDefence = myRoom.defence as MyRoomDefence;
+
+        let shouldSafemode: boolean = false;
+        if (RoomHelper.amountOfStructure(room, STRUCTURE_WALL) < defence.amountOfWalls) {
+            ReportController.email(`MAYDAY ${LogHelper.roomNameAsLink(room.name)}: Wall was destroyed`, ReportCooldownConstants.DAY);
+            shouldSafemode = true;
+        }
+        if (RoomHelper.amountOfStructure(room, STRUCTURE_RAMPART) < defence.amountOfRamparts) {
+            ReportController.email(`MAYDAY ${LogHelper.roomNameAsLink(room.name)}: Rampart was destroyed`, ReportCooldownConstants.DAY);
+            shouldSafemode = true;
+        }
+        if (towers.length === 0) {
+            ReportController.email(`MAYDAY ${LogHelper.roomNameAsLink(room.name)}: Threat with no towers`, ReportCooldownConstants.DAY);
+            shouldSafemode = true;
+        }
+        if (findOtherCreepsResult.hostileCreeps.length === 0) {
+            myRoom.defence = null;
+            return;
+        } else if (shouldSafemode) {
+            if (room.controller == null ||
+                room.controller.safeModeAvailable === 0 ||
+                (room.controller.safeModeCooldown != null &&
+                    room.controller.safeModeCooldown > 0)) {
+                ReportController.email(`MAYDAY ${LogHelper.roomNameAsLink(room.name)}: Can't safemode`);
+            } else {
+                const safemodeResult: ScreepsReturnCode = room.controller.activateSafeMode();
+                if (safemodeResult === OK) {
+                    ReportController.email(`MAYDAY ${LogHelper.roomNameAsLink(room.name)}: Activated safemode`);
                 } else {
-                    const safemodeResult: ScreepsReturnCode = room.controller.activateSafeMode();
-                    if (safemodeResult === OK) {
-                        ReportController.email(`MAYDAY ${LogHelper.roomNameAsLink(room.name)}: Activated safemode`);
-                    } else {
-                        ReportController.email(`MAYDAY ${LogHelper.roomNameAsLink(room.name)}: Failed to activate safemode. Result ${LogHelper.logScreepsReturnCode(safemodeResult)}`, ReportCooldownConstants.HOUR);
-                    }
+                    ReportController.email(`MAYDAY ${LogHelper.roomNameAsLink(room.name)}: Failed to activate safemode. Result ${LogHelper.logScreepsReturnCode(safemodeResult)}`, ReportCooldownConstants.HOUR);
                 }
             }
         }
@@ -77,7 +78,6 @@ export class RoomTowerController {
         if (towers.length === 0) {
             return;
         }
-        const defence: MyRoomDefence = myRoom.defence as MyRoomDefence;
         defence.ticks++;
 
         //Updates to defence strategy
