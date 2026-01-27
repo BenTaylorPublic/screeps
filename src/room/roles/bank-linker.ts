@@ -35,6 +35,7 @@ export class RoleBankLinker {
         }
         if (myRoom.bank.bankLink == null ||
             myRoom.bank.bankLink.id == null) {
+            myRoom.bank.bankLink = null;
             ReportController.email("ERROR: Bank Link was null for a bank linker in " + LogHelper.roomNameAsLink(myRoom.name));
             return;
         }
