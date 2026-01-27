@@ -1,11 +1,13 @@
 export class ReportController {
 
     public static log(message: string): void {
-        console.log(message);
+        //@ts-ignore
+        console.logUnsafe(message);
     }
 
     public static email(message: string, cooldown: number = 0): void {
-        console.log(message);
+        //@ts-ignore
+        console.logUnsafe(message);
 
         if (Memory.myMemory.reports[message] != null &&
             new Date().getTime() < Memory.myMemory.reports[message]) {
