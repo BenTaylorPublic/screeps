@@ -8,15 +8,15 @@ import {FlagHelper} from "../../global/helpers/flag-helper";
 // tslint:disable-next-line: class-name
 export class Stage4_6 {
     /*
-    4.6 ->  4.8 : Room has 2 links, and bank link != null
-    4.6 <-  4.8 : Room has < 2 links, or bank link == null
+    4.6 ->  4.7 : Room has 2 links, and bank link != null
+    4.6 <-  4.7 : Room has < 2 links, or bank link == null
     */
     public static up(myRoom: MyRoom, room: Room): boolean {
         this.step(myRoom, room);
         if (RoomHelper.amountOfStructure(room, STRUCTURE_LINK) >= 2 &&
             myRoom.bank?.bankLink != null) {
-            myRoom.roomStage = 4.8;
-            ReportController.email("STAGE+ 4.8 " + LogHelper.roomNameAsLink(myRoom.name) + " 2 links");
+            myRoom.roomStage = 4.7;
+            ReportController.email("STAGE+ 4.7 " + LogHelper.roomNameAsLink(myRoom.name) + " 2 links");
             return true;
         }
         return false;

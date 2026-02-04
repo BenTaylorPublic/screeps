@@ -148,15 +148,22 @@ export class RoomTowerController {
         const damagedStructures: AnyStructure[] = [];
         const structures: AnyStructure[] = room.find(FIND_STRUCTURES);
         for (const structure of structures) {
-            const hitsMax: number = (structure.structureType === STRUCTURE_WALL ||
-                structure.structureType === STRUCTURE_RAMPART) ? Constants.WALL_AND_RAMPART_GOAL_HEALTH :
-                structure.hitsMax;
-            if (structure.hits >= hitsMax) {
+
+            let goalHitpoints: number = structure.hitsMax;
+            if (structure.structureType === STRUCTURE_WALL || structure.structureType === STRUCTURE_RAMPART) {
+                if (myRoom.roomStage >= 8) {
+                    goalHitpoints = Constants.WALL_AND_RAMPART_GOAL_HEALTH_STAGE_8;
+                } else {
+                    goalHitpoints = Constants.WALL_AND_RAMPART_GOAL_HEALTH_BELOW_STAGE_8;
+                }
+            }
+
+            if (structure.hits >= goalHitpoints) {
                 continue;
             }
 
             damagedStructures.push(structure);
-            const healthPercentage: number = structure.hits / hitsMax;
+            const healthPercentage: number = structure.hits / goalHitpoints;
             if (healthPercentage < Constants.STRUCTURES_CRITICAL_HEALTH_PERCENTAGE) {
                 criticalStructures.push(structure);
             }

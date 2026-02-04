@@ -33,7 +33,8 @@ export class Constants {
     public static MAX_LABORERS: number = 3;
     public static LABORERS_BEFORE_BANK: number = 3;
     //BUILDING HEALTH
-    public static WALL_AND_RAMPART_GOAL_HEALTH: number = 500_000;
+    public static WALL_AND_RAMPART_GOAL_HEALTH_BELOW_STAGE_8: number = 500_000;
+    public static WALL_AND_RAMPART_GOAL_HEALTH_STAGE_8: number = 10_500_000;
     public static STRUCTURES_CRITICAL_HEALTH_PERCENTAGE: number = 0.25;
     //MAP RANGES
     public static CONSCRIPTION_RANGE: number = 9;
