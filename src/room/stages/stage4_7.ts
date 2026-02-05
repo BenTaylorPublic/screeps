@@ -3,7 +3,7 @@ import {RoomHelper} from "../../global/helpers/room-helper";
 import {LogHelper} from "../../global/helpers/log-helper";
 
 // tslint:disable-next-line: class-name
-export class Stage4_6 {
+export class Stage4_7 {
     /*
     4.7 ->  4.8 : Room has a rampart over the bank and bank link
     4.7 <-  4.8 : Room doesn't have a rampart over the bank or bank link
