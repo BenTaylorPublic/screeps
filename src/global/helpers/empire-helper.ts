@@ -36,6 +36,7 @@ export class EmpireHelper {
                     const terminal: StructureTerminal | null = RoomHelper.getTerminal(room);
                     if (terminal == null) {
                         ReportController.log(`BAD: Terminal is null in ${LogHelper.roomNameAsLink(room.name)} when trying to cleanup transfers`);
+                        empire.transfers.splice(i, 1);
                         continue;
                     }
 

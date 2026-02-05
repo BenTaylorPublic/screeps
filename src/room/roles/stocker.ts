@@ -195,6 +195,7 @@ export class RoleStocker {
     private static pickupPowerSpawnResources(stocker: Stocker, myRoom: MyRoom, creep: Creep): void {
         if (myRoom.bank == null) {
             ReportController.email("ERROR: Room's bank pos was null in " + LogHelper.roomNameAsLink(myRoom.name));
+            creep.suicide();
             return;
         }
 
@@ -365,6 +366,7 @@ export class RoleStocker {
     private static pickupReagents(stocker: Stocker, myRoom: MyRoom, creep: Creep, labOrder: LabOrder): void {
         if (myRoom.bank == null) {
             ReportController.email("ERROR: Room's bank pos was null in " + LogHelper.roomNameAsLink(myRoom.name));
+            creep.suicide();
             return;
         }
 
@@ -397,6 +399,7 @@ export class RoleStocker {
     private static pickupResourceFromBank(stocker: Stocker, myRoom: MyRoom, creep: Creep, resource: ResourceConstant): void {
         if (myRoom.bank == null) {
             ReportController.email("ERROR: Room's bank pos was null in " + LogHelper.roomNameAsLink(myRoom.name));
+            creep.suicide();
             return;
         }
 
@@ -474,6 +477,7 @@ export class RoleStocker {
         if (myRoom.bank == null ||
             myRoom.bank.bankPos == null) {
             ReportController.email("ERROR: Room's bank pos was null in " + LogHelper.roomNameAsLink(myRoom.name));
+            creep.suicide();
             return;
         }
 
