@@ -53,9 +53,14 @@ export class RoleMiner {
                 creep.store.energy > (creep.store.getCapacity() - miner.amountOfWork * 2)) {
                 const link: StructureLink | null = Game.getObjectById<StructureLink>(miner.linkIdToDepositTo);
                 if (link == null) {
-                    //Setting it to null, so it doesn't do this every loop
-                    miner.linkIdToDepositTo = null;
-                    ReportController.email("ERROR: A miner's link ID to deposit in was null in " + LogHelper.roomNameAsLink(myRoom.name));
+                    ReportController.email("ERROR: A miner's link to deposit in was null in " + LogHelper.roomNameAsLink(myRoom.name));
+                    for (const mySource of myRoom.mySources) {
+                        if (mySource.link?.id === miner.linkIdToDepositTo) {
+                            mySource.state = "NoCache";
+                            mySource.link = null;
+                        }
+                    }
+                    creep.suicide();
                     return;
                 }
                 creep.transfer(link, RESOURCE_ENERGY);

@@ -4,10 +4,12 @@
 
 ## Flag Names
 ```
+//Building
 ex-1 to 60
 cont
 tower-1 to 6
 storage
+terminal
 link-source
 link-bank
 link-controller
@@ -20,6 +22,7 @@ lab-buffer
 lab-reagent-1
 lab-reagent-2
 
+//Other
 sign
 sign-all
 claim
@@ -31,16 +34,10 @@ ignore-scrub
 ff-{string} //Console logs all flags with the string in the name
 avoid
 clear-avoid
-set-otr-{1 | 0} //Sets odd thousand repair
-
-tower-aggressive
-tower-closest
-tower-no-repair
 
 multishard-claim-portal
 multishard-claim-target
 multishard-claim-laborer
-
 
 //Holds the launching of nukes until the flag is removed
 //Use this to queue launches on the same tick
