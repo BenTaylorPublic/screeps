@@ -210,8 +210,12 @@ export class RoomTowerController {
         if (FlagHelper.getFlag1(["tower", "no", "repair"], room.name) != null) {
             return;
         }
+        const breakAfterFirstRepair: boolean = Game.cpu.bucket < Constants.DONT_REPAIR_WITH_ALL_TOWERS_WHEN_BUCKET_UNDER;
         for (const tower of towers) {
-            this.repairIfEnoughEnergy(tower, lowestStructure, 500);
+            if (this.repairIfEnoughEnergy(tower, lowestStructure, 500) &&
+                breakAfterFirstRepair) {
+                break;
+            }
         }
     }
 
