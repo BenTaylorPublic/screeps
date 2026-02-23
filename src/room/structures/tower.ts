@@ -205,10 +205,7 @@ export class RoomTowerController {
             return;
         }
         for (const tower of towers) {
-            if (this.repairIfEnoughEnergy(tower, lowestStructure, 500)) {
-                //Only use 1 tower to repair
-                break;
-            }
+            this.repairIfEnoughEnergy(tower, lowestStructure, 500);
         }
     }
 
