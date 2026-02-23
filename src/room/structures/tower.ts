@@ -152,7 +152,13 @@ export class RoomTowerController {
             let goalHitpoints: number = structure.hitsMax;
             if (structure.structureType === STRUCTURE_WALL || structure.structureType === STRUCTURE_RAMPART) {
                 if (myRoom.roomStage >= 8) {
-                    goalHitpoints = Constants.WALL_AND_RAMPART_GOAL_HEALTH_STAGE_8;
+                    if (RoomHelper.posMatches(structure.pos, myRoom.bank?.bankPos ?? null) ||
+                        RoomHelper.posMatches(structure.pos, myRoom.bank?.bankLink?.pos ?? null)) {
+                        goalHitpoints = Constants.CRITICAL_INFRASTRUCTURE_RAMPART_GOAL_HEALTH_STAGE_8;
+                    } else {
+                        goalHitpoints = Constants.WALL_AND_RAMPART_GOAL_HEALTH_STAGE_8;
+
+                    }
                 } else {
                     goalHitpoints = Constants.WALL_AND_RAMPART_GOAL_HEALTH_BELOW_STAGE_8;
                 }
